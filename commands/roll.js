@@ -91,7 +91,7 @@ module.exports = {
       "",
       oneLine`
         ${command_name} is the basic dice rolling command in Roll It. Use ${command_name} to roll one or more
-        dice, add them together, and add a modifier to the result. Use the ${inlineCode(rolls)} option to roll
+        dice, add them together, and add a modifier to the result. Use the ${inlineCode("rolls")} option to roll
         the same pool (and modifier) multiple times, like for multiple attacks in D&D.
       `,
     ].join("\n")
