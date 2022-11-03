@@ -18,7 +18,7 @@ describe("execute", () => {
     it("displays the help for the topic", async () => {
       const result = await roll_it_help_command.execute(interaction)
 
-      expect(result).toMatch("passion project")
+      expect(result.content).toMatch("passion project")
     })
 
     it("warns the user if the topic isn't found", async () => {
@@ -26,7 +26,7 @@ describe("execute", () => {
 
       const result = await roll_it_help_command.execute(interaction)
 
-      expect(result).toMatch("No help is available")
+      expect(result.content).toMatch("No help is available")
     })
   })
 
@@ -43,7 +43,7 @@ describe("execute", () => {
     it("displays the help for the command", async () => {
       const result = await roll_it_help_command.execute(interaction)
 
-      expect(result).toMatch("test help")
+      expect(result.content).toMatch("test help")
     })
 
     it("warns the user if the command isn't found", async () => {
@@ -51,7 +51,7 @@ describe("execute", () => {
 
       const result = await roll_it_help_command.execute(interaction)
 
-      expect(result).toMatch("No help is available")
+      expect(result.content).toMatch("No help is available")
     })
   })
 
@@ -68,7 +68,7 @@ describe("execute", () => {
     it("displays the help for the topic", async () => {
       const result = await roll_it_help_command.execute(interaction)
 
-      expect(result).toMatch("passion project")
+      expect(result.content).toMatch("passion project")
     })
   })
 
@@ -85,7 +85,7 @@ describe("execute", () => {
     it("displays its own help text", async () => {
       const result = await roll_it_help_command.execute(interaction)
 
-      expect(result).toMatch("test help")
+      expect(result.content).toMatch("test help")
     })
   })
 })

@@ -34,23 +34,25 @@ module.exports = {
     if (topic_name) {
       const topic = Topics.get(topic_name)
       if (!topic)
-        return interaction.reply(
-          `No help is available for the topic "${topic_name}"`
-        )
+        return interaction.reply({
+          content: `No help is available for the topic "${topic_name}"`,
+          ephemeral: true
+        })
 
-      return interaction.reply(topic.help())
+      return interaction.reply({content: topic.help(), ephemeral: true})
     }
 
     const command_name = command_name_arg || module.exports.name
     const command = interaction.client.commands.get(command_name)
 
     if (!command?.help)
-      return interaction.reply(
-        `No help is available for the command "${command_name}"`
-      )
+      return interaction.reply({
+        content: `No help is available for the command "${command_name}"`,
+        ephemeral: true
+      })
 
     // return reply with the command's help text
-    return interaction.reply(CommandHelpPresenter.present(command))
+    return interaction.reply({content: CommandHelpPresenter.present(command), ephemeral: true})
   },
   help({ command_name }) {
     return [
