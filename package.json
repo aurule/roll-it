@@ -6,7 +6,7 @@
     "dotenv": "^16.0.3",
     "minimist": "^1.2.7",
     "pino": "^8.7.0",
-    "pino-papertrail": "^2.1.0",
+    "pino-papertrail": "^2.1.0"
   },
   "devDependencies": {
     "dev-null": "^0.1.1",
@@ -14,7 +14,7 @@
     "pino-pretty": "^9.1.1",
     "prettier": "^2.7.1",
     "prompts": "^2.4.2",
-    "simpleflakes": "^2.2.2",
+    "simpleflakes": "^2.2.2"
   },
   "name": "roll-it",
   "description": "Discord bot for rolling dice",
