@@ -1,0 +1,51 @@
+{
+  "dependencies": {
+    "common-tags": "^1.8.2",
+    "discord-api-types": "^0.37.16",
+    "discord.js": "^14.6.0",
+    "dotenv": "^16.0.3",
+    "minimist": "^1.2.7",
+    "pino": "^8.7.0",
+    "pino-papertrail": "^2.1.0",
+  },
+  "devDependencies": {
+    "dev-null": "^0.1.1",
+    "jest": "^29.2.2",
+    "pino-pretty": "^9.1.1",
+    "prettier": "^2.7.1",
+    "prompts": "^2.4.2",
+    "simpleflakes": "^2.2.2",
+  },
+  "name": "roll-it",
+  "description": "Discord bot for rolling dice",
+  "version": "0.0.1-alpha.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch",
+    "test:ci": "NODE_ENV=ci jest --ci",
+    "commands:hash-globals": "node scripts/hash-global-commands",
+    "commands:deploy-globals": "node scripts/deploy-global-commands.js",
+    "commands:deploy-dev": "node scripts/deploy-dev-commands.js",
+    "deploy": "bash scripts/deploy-bot.sh",
+    "changelog:build": "node scripts/build-changelog.js",
+    "changelog:add": "node scripts/add-changelog-snippet.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aurule/roll-it.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "roll",
+    "dice"
+  ],
+  "author": "Paige Andrews",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aurule/roll-it/issues"
+  },
+  "homepage": "https://github.com/aurule/roll-it#readme"
+}
