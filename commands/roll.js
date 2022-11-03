@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, userMention, bold } = require("discord.js")
+const { SlashCommandBuilder, userMention, bold, inlineCode } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
 const { logger } = require("../util/logger")
@@ -30,12 +30,12 @@ module.exports = {
       .addIntegerOption((option) =>
         option
           .setName("modifier")
-          .setDescription("A number to add to the total rolled on the dice")
+          .setDescription("A number to add to the result after adding up the rolled dice")
       )
       .addIntegerOption((option) =>
         option
           .setName("rolls")
-          .setDescription("Roll the dice this many times (default 1)")
+          .setDescription("Roll the entire dice pool this many times (default 1)")
           .setMinValue(1)
       )
       .addStringOption((option) =>
@@ -83,10 +83,16 @@ module.exports = {
         Args:
             \`pool\`: (required) The number of dice to roll
             \`sides\`: (required) The number of sides the dice have
+            \`modifier\`: A number to add to the result after adding up the rolled dice
+            \`rolls\`: Number of times to roll this dice pool (defaults to 1)
+            \`description\`: A word or two about the roll
+            \`secret\`: Whether to hide the roll results from everyone but you
       `,
       "",
       oneLine`
-        Description!
+        ${command_name} is the basic dice rolling command in Roll It. Use ${command_name} to roll one or more
+        dice, add them together, and add a modifier to the result. Use the ${inlineCode(rolls)} option to roll
+        the same pool (and modifier) multiple times, like for multiple attacks in D&D.
       `,
     ].join("\n")
   },
