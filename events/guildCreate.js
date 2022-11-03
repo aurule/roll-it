@@ -1,5 +1,3 @@
-const { Guilds, Games, DefaultGames } = require("../models")
-
 module.exports = {
   name: "guildCreate",
   async execute(discord_guild) {
