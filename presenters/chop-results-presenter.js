@@ -1,9 +1,20 @@
 const { inlineCode, userMention } = require("@discordjs/builders")
 
-const emojiFlat = [":rock: rock", ":scroll: paper", ":scissors: scissors"]
-const emojiStatic = [inlineCode("pass"), inlineCode("tie"), inlineCode("fail")]
-const emojiBomb = [":rock: rock", ":firecracker: bomb", ":scissors: scissors"]
+const emojiFlat = [null, ":rock: rock", ":scroll: paper", ":scissors: scissors"]
+const emojiStatic = [
+  null,
+  inlineCode("pass"),
+  inlineCode("tie"),
+  inlineCode("fail"),
+]
+const emojiBomb = [
+  null,
+  ":rock: rock",
+  ":firecracker: bomb",
+  ":scissors: scissors",
+]
 const emojiStaticBomb = [
+  null,
   inlineCode("pass"),
   inlineCode("pass"),
   inlineCode("fail"),
@@ -41,11 +52,9 @@ module.exports = {
    * @return {String}           String containing an emoji and/or word describing the number
    */
   rollToEmoji: (num, static_test, bomb) => {
-    const index = num - 1
-
-    if (static_test && bomb) return emojiStaticBomb[index]
-    if (static_test) return emojiStatic[index]
-    if (bomb) return emojiBomb[index]
-    return emojiFlat[index]
+    if (static_test && bomb) return emojiStaticBomb[num]
+    if (static_test) return emojiStatic[num]
+    if (bomb) return emojiBomb[num]
+    return emojiFlat[num]
   },
 }
