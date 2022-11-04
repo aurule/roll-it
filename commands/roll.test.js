@@ -1,5 +1,4 @@
 const roll_command = require('./roll')
-const baseRoller = require('../services/base-roller')
 
 const { Interaction } = require("../testing/interaction")
 
