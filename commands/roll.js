@@ -1,10 +1,14 @@
-const { SlashCommandBuilder, userMention, bold, inlineCode } = require("discord.js")
+const {
+  SlashCommandBuilder,
+  userMention,
+  bold,
+  inlineCode,
+} = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
-const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
-const {present} = require("../presenters/roll-results-presenter")
+const { present } = require("../presenters/roll-results-presenter")
 
 module.exports = {
   name: "roll",
@@ -30,12 +34,16 @@ module.exports = {
       .addIntegerOption((option) =>
         option
           .setName("modifier")
-          .setDescription("A number to add to the result after adding up the rolled dice")
+          .setDescription(
+            "A number to add to the result after adding up the rolled dice"
+          )
       )
       .addIntegerOption((option) =>
         option
           .setName("rolls")
-          .setDescription("Roll the entire dice pool this many times (default 1)")
+          .setDescription(
+            "Roll the entire dice pool this many times (default 1)"
+          )
           .setMinValue(1)
       )
       .addStringOption((option) =>
@@ -68,7 +76,7 @@ module.exports = {
         raw: raw_results,
         summed: summed_results,
         modifier,
-        userFlake: interaction.user.id
+        userFlake: interaction.user.id,
       }),
       ephemeral: secret,
     })
@@ -91,7 +99,9 @@ module.exports = {
       "",
       oneLine`
         ${command_name} is the basic dice rolling command in Roll It. Use ${command_name} to roll one or more
-        dice, add them together, and add a modifier to the result. Use the ${inlineCode("rolls")} option to roll
+        dice, add them together, and add a modifier to the result. Use the ${inlineCode(
+          "rolls"
+        )} option to roll
         the same pool (and modifier) multiple times, like for multiple attacks in D&D.
       `,
     ].join("\n")
