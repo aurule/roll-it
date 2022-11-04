@@ -7,8 +7,8 @@ module.exports = {
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
    * @return {String}                         String describing the roll results
    */
-  present: ({rolls, ...rollOptions}) => {
-    if(rolls == 1) {
+  present: ({ rolls, ...rollOptions }) => {
+    if (rolls == 1) {
       return module.exports.presentOne(rollOptions)
     }
     return module.exports.presentMany(rollOptions)
@@ -31,19 +31,22 @@ module.exports = {
    * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentOne: ({ pool, sides, description, raw, summed, modifier, userFlake }) => {
-    let content = [
-      userMention(userFlake),
-      "rolled",
-      bold(summed[0] + modifier),
-    ]
+  presentOne: ({
+    pool,
+    sides,
+    description,
+    raw,
+    summed,
+    modifier,
+    userFlake,
+  }) => {
+    let content = [userMention(userFlake), "rolled", bold(summed[0] + modifier)]
     if (description) {
       content.push(`"${description}"`)
     }
-    content.push(module.exports.detail({pool, sides, raw: raw[0], modifier}))
+    content.push(module.exports.detail({ pool, sides, raw: raw[0], modifier }))
     return content.join(" ")
   },
-
 
   /**
    * Describe the results of multiple rolls
@@ -63,11 +66,16 @@ module.exports = {
    * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentMany: ({ pool, sides, description, raw, summed, modifier, userFlake }) => {
-    let content = [
-      userMention(userFlake),
-      "rolled",
-    ]
+  presentMany: ({
+    pool,
+    sides,
+    description,
+    raw,
+    summed,
+    modifier,
+    userFlake,
+  }) => {
+    let content = [userMention(userFlake), "rolled"]
     if (description) {
       content.push(`"${description}"`)
     }
@@ -78,7 +86,7 @@ module.exports = {
         raw.map((result, index) => {
           return [
             `\n\t${bold(summed[index] + modifier)}`,
-            module.exports.detail({pool, sides, raw: result, modifier})
+            module.exports.detail({ pool, sides, raw: result, modifier }),
           ].join(" ")
         })
       )
@@ -94,12 +102,12 @@ module.exports = {
    * @param  {Int}    options.modifier Number to add to the roll's summed result
    * @return {String}                  String detailing a single roll
    */
-  detail: ({pool, sides, raw, modifier}) => {
+  detail: ({ pool, sides, raw, modifier }) => {
     let detail = [`(${pool}d${sides}: [${raw}]`]
     if (modifier) {
       detail.push(` + ${modifier}`)
     }
-    detail.push(')')
+    detail.push(")")
 
     return detail.join("")
   },
