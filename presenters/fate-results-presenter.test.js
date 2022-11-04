@@ -87,7 +87,7 @@ describe("detail", () => {
   it("shows the modifier if non-zero", () => {
     const result = FateResultsPresenter.detail(defaultArgs)
 
-    expect(result).toMatch(" + 2)")
+    expect(result).toMatch(" + 2")
   })
 
   it("excludes modifier if zero", () => {

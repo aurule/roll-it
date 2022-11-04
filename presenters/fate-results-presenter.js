@@ -51,15 +51,13 @@ module.exports = {
    * @return {String}                         String describing the roll results
    */
   presentOne: ({ description, raw, summed, modifier, userFlake }) => {
-    let content = [
-      userMention(userFlake),
-      "rolled a",
-      module.exports.toLadder(summed[0] + modifier),
-      "result",
-    ]
+    let content = [userMention(userFlake), "rolled"]
     if (description) {
       content.push(`"${description}"`)
+      content.push("and got")
     }
+    content.push(module.exports.toLadder(summed[0] + modifier))
+    content.push("result:")
     content.push(module.exports.detail({ raw: raw[0], modifier }))
     return content.join(" ")
   },
@@ -92,6 +90,7 @@ module.exports = {
         raw.map((result, index) => {
           return [
             `\n\t${module.exports.toLadder(summed[index] + modifier)}`,
+            "result:",
             module.exports.detail({ raw: result, modifier }),
           ].join(" ")
         })
@@ -126,16 +125,13 @@ module.exports = {
    * @return {String}                  String detailing a single roll
    */
   detail: ({ raw, modifier }) => {
-    let detail = ["("].concat(
-      raw.map((face) => {
-        return emoji[face]
-      })
-    )
+    let detail = raw.map((face) => {
+      return emoji[face]
+    })
 
     if (modifier) {
       detail.push(` + ${modifier}`)
     }
-    detail.push(")")
 
     return detail.join("")
   },
