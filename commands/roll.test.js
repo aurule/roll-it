@@ -1,4 +1,4 @@
-const roll_command = require('./roll')
+const roll_command = require("./roll")
 
 const { Interaction } = require("../testing/interaction")
 
@@ -109,7 +109,7 @@ describe("data", () => {
 
 describe("help", () => {
   it("includes the command name in the output", () => {
-    const help_text = roll_command.help({command_name: "sillyness"})
+    const help_text = roll_command.help({ command_name: "sillyness" })
 
     expect(help_text).toMatch("sillyness")
   })
