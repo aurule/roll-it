@@ -9,13 +9,50 @@ beforeEach(() => {
 })
 
 describe("execute", () => {
-  it("displays the description if present", async () => {
-    const description_text = "this is a test"
-    interaction.command_options.description = description_text
+  describe("with one roll", () => {
+    beforeEach(() => {
+      interaction.command_options.rolls = 1
+    })
 
-    const result = await fate_command.execute(interaction)
+    it("displays the description if present", async () => {
+      const description_text = "this is a test"
+      interaction.command_options.description = description_text
 
-    expect(result.content).toMatch(description_text)
+      const result = await fate_command.execute(interaction)
+
+      expect(result.content).toMatch(description_text)
+    })
+
+    it("displays the modifier", async () => {
+      interaction.command_options.modifier = 8
+
+      const result = await fate_command.execute(interaction)
+
+      expect(result.content).toMatch("8")
+    })
+  })
+
+  describe("with multiple rolls", () => {
+    beforeEach(() => {
+      interaction.command_options.rolls = 2
+    })
+
+    it("displays the description if present", async () => {
+      const description_text = "this is a test"
+      interaction.command_options.description = description_text
+
+      const result = await fate_command.execute(interaction)
+
+      expect(result.content).toMatch(description_text)
+    })
+
+    it("displays the modifier", async () => {
+      interaction.command_options.modifier = 8
+
+      const result = await fate_command.execute(interaction)
+
+      expect(result.content).toMatch("8")
+    })
   })
 
   describe("secret", () => {
