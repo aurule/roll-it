@@ -109,10 +109,10 @@ module.exports = {
   toLadder: (num) => {
     const index = num + 5
 
-    let content = [ladder[index], " ("]
+    let content = ["**", ladder[index], " ("]
     if (num > 0) content.push("+")
     content.push(num)
-    content.push(")")
+    content.push(")**")
 
     return content.join("")
   },
