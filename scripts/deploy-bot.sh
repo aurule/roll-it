@@ -6,5 +6,4 @@
 . ~/.bashrc
 
 npm install
-npm run migrate
-pm2 reload qyf-bot
+pm2 reload roll-it
