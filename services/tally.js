@@ -6,6 +6,9 @@ module.exports = {
   },
 
   fate(resultSets) {
-    return resultSets.map((set) => set.reduce((prev, curr) => prev + curr - 2, 0))
+    return resultSets.map((set) =>
+      set.reduce((prev, curr) => prev + curr - 2, 0)
+    )
+  },
   },
 }
