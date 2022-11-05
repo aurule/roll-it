@@ -1,4 +1,4 @@
-const roll_it_help_command = require("./roll-it-help")
+const roll_help_command = require("./roll-help")
 
 const { Interaction } = require("../testing/interaction")
 
@@ -16,7 +16,7 @@ describe("execute", () => {
     })
 
     it("displays the help for the topic", async () => {
-      const result = await roll_it_help_command.execute(interaction)
+      const result = await roll_help_command.execute(interaction)
 
       expect(result.content).toMatch("passion project")
     })
@@ -24,7 +24,7 @@ describe("execute", () => {
     it("warns the user if the topic isn't found", async () => {
       interaction.command_options.topic = "unknown"
 
-      const result = await roll_it_help_command.execute(interaction)
+      const result = await roll_help_command.execute(interaction)
 
       expect(result.content).toMatch("No help is available")
     })
@@ -41,7 +41,7 @@ describe("execute", () => {
     })
 
     it("displays the help for the command", async () => {
-      const result = await roll_it_help_command.execute(interaction)
+      const result = await roll_help_command.execute(interaction)
 
       expect(result.content).toMatch("test help")
     })
@@ -49,7 +49,7 @@ describe("execute", () => {
     it("warns the user if the command isn't found", async () => {
       interaction.command_options.command = "unknown"
 
-      const result = await roll_it_help_command.execute(interaction)
+      const result = await roll_help_command.execute(interaction)
 
       expect(result.content).toMatch("No help is available")
     })
@@ -66,7 +66,7 @@ describe("execute", () => {
     })
 
     it("displays the help for the topic", async () => {
-      const result = await roll_it_help_command.execute(interaction)
+      const result = await roll_help_command.execute(interaction)
 
       expect(result.content).toMatch("passion project")
     })
@@ -83,7 +83,7 @@ describe("execute", () => {
     })
 
     it("displays its own help text", async () => {
-      const result = await roll_it_help_command.execute(interaction)
+      const result = await roll_help_command.execute(interaction)
 
       expect(result.content).toMatch("test help")
     })
@@ -95,21 +95,21 @@ describe("data", () => {
   // testing that the various calls to discord.js functions
   // were executed properly.
   it("returns something", () => {
-    const command_data = roll_it_help_command.data()
+    const command_data = roll_help_command.data()
 
     expect(command_data).toBeTruthy()
   })
 
   it("uses the command's name", () => {
-    const command_data = roll_it_help_command.data()
+    const command_data = roll_help_command.data()
 
-    expect(command_data.name).toEqual(roll_it_help_command.name)
+    expect(command_data.name).toEqual(roll_help_command.name)
   })
 })
 
 describe("help", () => {
   it("includes the command name in the output", () => {
-    const help_text = roll_it_help_command.help({command_name: "sillyness"})
+    const help_text = roll_help_command.help({command_name: "sillyness"})
 
     expect(help_text).toMatch("sillyness")
   })

@@ -7,7 +7,7 @@ const CommandHelpPresenter = require("../presenters/command-help-presenter")
 const Topics = require("../help")
 
 module.exports = {
-  name: "roll-it-help",
+  name: "roll-help",
   description: "Get help with Roll It and its commands",
   data() {
     return new SlashCommandBuilder()
