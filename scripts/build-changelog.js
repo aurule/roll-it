@@ -10,7 +10,7 @@ function buildSection(bucket) {
 
 (async () => {
   const lines = [
-    `# Changelog for qyf-bot v${version}`,
+    `# Changelog for Roll It v${version}`,
   ]
 
   if (changes.added.length) {
