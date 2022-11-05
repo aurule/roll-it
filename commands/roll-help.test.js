@@ -76,8 +76,8 @@ describe("execute", () => {
     beforeEach(() => {
       interaction.command_options.command = undefined
       interaction.command_options.topic = undefined
-      interaction.client.commands.set("roll-it-help", {
-        name: "roll-it-help",
+      interaction.client.commands.set("roll-help", {
+        name: "roll-help",
         help: () => "test help",
       })
     })
