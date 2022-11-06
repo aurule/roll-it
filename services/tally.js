@@ -28,12 +28,6 @@ module.exports = {
     )
   },
 
-  successes(resultSets, threshold) {
-    return resultSets.map((set) =>
-      set.reduce((prev, curr) => prev + (curr >= threshold), 0)
-    )
-  },
-
   /**
    * Count successes using World of Darkness 20th Anniversary rules
    *
