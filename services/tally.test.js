@@ -81,3 +81,61 @@ describe("successes", () => {
     expect(successSums[0]).toEqual(2)
   })
 })
+
+describe("wod20", () => {
+  it("generates one number per array of the result set", () => {
+    const resultSets = [[1,3,5,7], [2,4,6,8], [3,6,9,10]]
+
+    const successSums = tallyService.wod20(resultSets, 6)
+
+    expect(successSums.length).toEqual(3)
+  })
+
+  it("adds a success for a number that meets threshold", () => {
+    const resultSets = [[5,6,7]]
+
+    const successSums = tallyService.wod20(resultSets, 7)
+
+    expect(successSums[0]).toEqual(1)
+  })
+
+  it("adds a success for a number that exceeds threshold", () => {
+    const resultSets = [[5,6,7]]
+
+    const successSums = tallyService.wod20(resultSets, 6)
+
+    expect(successSums[0]).toEqual(2)
+  })
+
+  it("subtracts a success for every 1", () => {
+    const resultSets = [[1,5,6,7]]
+
+    const successSums = tallyService.wod20(resultSets, 6)
+
+    expect(successSums[0]).toEqual(1)
+  })
+
+  it("rounds to 0 if negative and any 1s", () => {
+    const resultSets = [[1,1,1,7]]
+
+    const successSums = tallyService.wod20(resultSets, 6)
+
+    expect(successSums[0]).toEqual(0)
+  })
+
+  it("returns negative if no successes and any 1s", () => {
+    const resultSets = [[1,1,1,3]]
+
+    const successSums = tallyService.wod20(resultSets, 6)
+
+    expect(successSums[0]).toEqual(-3)
+  })
+
+  it("counts tens twice if asked", () => {
+    const resultSets = [[2,3,4,10]]
+
+    const successSums = tallyService.wod20(resultSets, 6, true)
+
+    expect(successSums[0]).toEqual(2)
+  })
+})
