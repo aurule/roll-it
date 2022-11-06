@@ -121,7 +121,10 @@ module.exports = {
             \`secret\`: Whether to hide the roll results from everyone but you
       `,
       "",
-      `The dice mechanics break down like this:`,
+      oneLine`
+        ${command_name} rolls a number of d10s using the World of Darkness 20th Anniversary edition rules. The
+        dice mechanics break down like this:
+      `,
       `* A die that rolls at or above the ${inlineCode("difficulty")} value adds a success`,
       `* A die that rolls a 1 subtracts a success`,
       oneLine`
