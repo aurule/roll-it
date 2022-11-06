@@ -113,3 +113,21 @@ describe("wod20", () => {
     expect(successSums[0]).toEqual(2)
   })
 })
+
+describe("successes", () => {
+  it("generates one number per array of the result set", () => {
+    const resultSets = [[1,3,5,7], [2,4,6,8], [3,6,9,10]]
+
+    const successSums = tallyService.successes(resultSets, 6)
+
+    expect(successSums.length).toEqual(3)
+  })
+
+  it("adds a success for a number that meets threshold", () => {
+    const resultSets = [[5,6,7]]
+
+    const successSums = tallyService.successes(resultSets, 7)
+
+    expect(successSums[0]).toEqual(1)
+  })
+})

@@ -61,4 +61,17 @@ module.exports = {
       return successes
     })
   },
+
+  /**
+   * Count successes using simple threshold mechanic
+   *
+   * @param  {Array<Array<Int>>} resultSets Nested array representing one or more sets of dice rolls
+   * @param  {Int}               threshold  Number a die must meet or exceed to add one success
+   * @return {Array<Int>}                   Array of ints representing the success tallies of each resultSet
+   */
+  successes(resultSets, threshold) {
+    return resultSets.map((set) =>
+      set.reduce((prev, curr) => prev + (curr >= threshold), 0)
+    )
+  },
 }
