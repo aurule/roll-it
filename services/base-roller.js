@@ -13,14 +13,9 @@ module.exports = {
    * @return {Array<Array<Int>>} Array of arrays of random numbers
    */
   roll(pool, sides, rolls = 1) {
-    return Array.from(
-      {length: rolls},
-      () =>
-        Array.from(
-          {length: pool},
-          () => Math.floor(Math.random() * sides)+1
-        )
-      )
+    return Array.from({ length: rolls }, () =>
+      Array.from({ length: pool }, () => Math.floor(Math.random() * sides) + 1)
+    )
   },
 
   /**
@@ -38,24 +33,21 @@ module.exports = {
    * @return {Array<Array<Int>>} Array of arrays of random numbers
    */
   rollExplode(pool, sides, explode, rolls = 1) {
-    if(explode === 1) throw new RangeError("explode must be greater than 1")
+    if (explode === 1) throw new RangeError("explode must be greater than 1")
 
-    return Array.from(
-      {length: rolls},
-      () => {
-        let dice = pool
-        let result = []
-        let currentRoll
+    return Array.from({ length: rolls }, () => {
+      let dice = pool
+      let result = []
+      let currentRoll
 
-        while(dice) {
-          currentRoll = Math.floor(Math.random() * sides)+1
-          dice += (currentRoll >= explode)
-          result.push(currentRoll)
-          dice--
-        }
-
-        return result
+      while (dice) {
+        currentRoll = Math.floor(Math.random() * sides) + 1
+        dice += currentRoll >= explode
+        result.push(currentRoll)
+        dice--
       }
-      )
-  }
+
+      return result
+    })
+  },
 }
