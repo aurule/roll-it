@@ -55,7 +55,7 @@ module.exports = {
       `,
       "",
       oneLine`
-        ${command_name} flisp a single coin and displays the result as heads or tails.
+        ${command_name} flips a single coin and displays the result as heads or tails.
       `,
     ].join("\n")
   },
