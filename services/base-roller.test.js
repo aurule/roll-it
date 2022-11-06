@@ -31,3 +31,36 @@ describe("roll", () => {
     })
   })
 })
+
+describe("rollExplode", () => {
+  describe("pool", () => {
+    it("result set has a length of at least pool", () => {
+      const allResults = rollService.rollExplode(5, 6, 6)
+
+      expect(allResults[0].length).toBeGreaterThan(4)
+    })
+  })
+
+  describe("explode", () => {
+    it("throws an error if explode is one", () => {
+      expect(() => {
+        rollService.rollExplode(5, 6, 1)
+      }).toThrow("explode must be greater than 1")
+
+    })
+
+    it("adds dice as threshold is met", () => {
+      const allResults = rollService.rollExplode(5, 6, 2)
+
+      expect(allResults[0].length).toBeGreaterThan(5)
+    })
+  })
+
+  describe("rolls", () => {
+    it("generates number of result sets equal to rolls", () => {
+      const allResults = rollService.rollExplode(5, 6, 6, 3)
+
+      expect(allResults.length).toEqual(3)
+    })
+  })
+})
