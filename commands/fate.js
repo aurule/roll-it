@@ -10,7 +10,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/fate-results-presenter")
-const { fate } = require("../services/tally")
+const { fudge } = require("../services/tally")
 
 module.exports = {
   name: "fate",
@@ -51,7 +51,7 @@ module.exports = {
     const secret = interaction.options.getBoolean("secret") ?? false
 
     const raw_results = roll(4, 3, rolls)
-    const summed_results = fate(raw_results)
+    const summed_results = fudge(raw_results)
 
     return interaction.reply({
       content: present({

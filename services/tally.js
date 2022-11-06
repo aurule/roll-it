@@ -22,7 +22,7 @@ module.exports = {
    * @param  {Array<Array<Int>>} resultSets Nested array representing one or more sets of dice rolls
    * @return {Array<Int>}                   Array of sums from each result set
    */
-  fate(resultSets) {
+  fudge(resultSets) {
     return resultSets.map((set) =>
       set.reduce((prev, curr) => prev + curr - 2, 0)
     )
