@@ -30,14 +30,6 @@ describe("execute", () => {
 
       expect(result.content).toMatch(/\*\*\-?\d\*\*/)
     })
-
-    it("displays the modifier", async () => {
-      interaction.command_options.modifier = 8
-
-      const result = await wod_command.execute(interaction)
-
-      expect(result.content).toMatch("8")
-    })
   })
 
   describe("with multiple rolls", () => {
@@ -60,14 +52,6 @@ describe("execute", () => {
       const result = await wod_command.execute(interaction)
 
       expect(result.content).toMatch(/\*\*\d\*\*/)
-    })
-
-    it("displays the modifier", async () => {
-      interaction.command_options.modifier = 8
-
-      const result = await wod_command.execute(interaction)
-
-      expect(result.content).toMatch("8")
     })
   })
 
