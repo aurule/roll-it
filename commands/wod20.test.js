@@ -13,7 +13,6 @@ describe("execute", () => {
     beforeEach(() => {
       interaction.command_options.rolls = 1
       interaction.command_options.pool = 1
-      interaction.command_options.sides = 2
     })
 
     it("displays the description if present", async () => {
@@ -36,7 +35,29 @@ describe("execute", () => {
     beforeEach(() => {
       interaction.command_options.rolls = 2
       interaction.command_options.pool = 1
-      interaction.command_options.sides = 2
+    })
+
+    it("displays the description if present", async () => {
+      const description_text = "this is a test"
+      interaction.command_options.description = description_text
+
+      const result = await wod_command.execute(interaction)
+
+      expect(result.content).toMatch(description_text)
+    })
+
+    it("displays the result", async () => {
+      const result = await wod_command.execute(interaction)
+
+      expect(result.content).toMatch(/\*\*\d\*\*/)
+    })
+  })
+
+  describe("with until", () => {
+    beforeEach(() => {
+      interaction.command_options.rolls = 2
+      interaction.command_options.pool = 1
+      interaction.command_options.until = 1
     })
 
     it("displays the description if present", async () => {
