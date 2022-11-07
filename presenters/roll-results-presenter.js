@@ -3,6 +3,7 @@ const { bold, userMention } = require("@discordjs/builders")
 module.exports = {
   /**
    * Present one or more results from the roll command
+   *
    * @param  {Int}        options.rolls       Total number of rolls to show
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
    * @return {String}                         String describing the roll results
@@ -16,11 +17,6 @@ module.exports = {
 
   /**
    * Describe the results of a single roll
-   *
-   * Examples:
-   * <user mention> rolled *22* "craft knife" (1d20: [18] + 4)
-   * <user mention> rolled *13* "greatsword" (2d6: [2,5] + 6)
-   * <user mention> rolled *16* (3d10: [6,2,9])
    *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.sides           Max value of each die
@@ -50,12 +46,6 @@ module.exports = {
 
   /**
    * Describe the results of multiple rolls
-   *
-   * Example:
-   *    <user mention> rolled "baddie damage" 3 times:
-   *      *13* (3d6: [3, 2, 4] + 4)
-   *      *15* (3d6: [1, 6, 4] + 4)
-   *      *11* (3d6: [2, 2, 3] + 4)
    *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.sides           Max value of each die

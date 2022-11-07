@@ -26,6 +26,7 @@ const ladder = [
 module.exports = {
   /**
    * Present one or more results from the fate command
+   *
    * @param  {Int}        options.rolls       Total number of rolls to show
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
    * @return {String}                         String describing the roll results
@@ -39,9 +40,6 @@ module.exports = {
 
   /**
    * Describe the results of a single fate roll
-   *
-   * Examples:
-   * <user mention> rolled a **Great (+4)** result "craft knife" (-+00 + 4)
    *
    * @param  {String} options.description     Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
@@ -64,12 +62,6 @@ module.exports = {
 
   /**
    * Describe the results of multiple fate rolls
-   *
-   * Example:
-   *    <user mention> rolled "baddie stabbin" 3 times:
-   *      **Mediocre (+0)** (-+00 + 4)
-   *      **Fair (+2)** (-+++ + 4)
-   *      **Epic (+7)** (+0++ + 4)
    *
    * @param  {String} options.description     Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
@@ -100,8 +92,6 @@ module.exports = {
 
   /**
    * Show a fate result on the ladder with signed number
-   *
-   * Example: Great (+4)
    *
    * @param  {Int}    num Roll result
    * @return {String}     String with the ladder name and signed result

@@ -3,6 +3,7 @@ const { bold, strikethrough, userMention } = require("@discordjs/builders")
 module.exports = {
   /**
    * Present one or more results from the roll command
+   *
    * @param  {Int}        options.rolls       Total number of rolls to show
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
    * @return {String}                         String describing the roll results
@@ -19,10 +20,6 @@ module.exports = {
 
   /**
    * Describe the results of a single roll
-   *
-   * Examples:
-   * <user mention> rolled **2** "greatsword" (8 diff 6: [~~1~~,~~1~~,**7**,**7**,**7**,5,**10**,3])
-   * <user mention> rolled **3** "greatsword" (8 diff 6 specialty: [~~1~~,~~1~~,**7**,**7**,**7**,5,**10!**,3])
    *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.threshold       Threshold for success
@@ -121,12 +118,6 @@ module.exports = {
   /**
    * Describe the results of multiple rolls
    *
-   * Example:
-   *    <user mention> rolled 3 diff 6 "baddie attack" 3 times:
-   *      **0** (3, 2, 4)
-   *      **1** (1, **9**, 4)
-   *      **1** (**8**, 2, 5)
-   *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.threshold       Threshold for success
    * @param  {Bool}   options.explode         Whether 10s were re-rolled
@@ -204,13 +195,6 @@ module.exports = {
 
   /**
    * Describe the results of multiple rolls
-   *
-   * Example:
-   *    <user mention> rolled "crafting" until 4 successes at 3 diff 6:
-   *      **2** (**7**, **7**, 4)
-   *      **1** (2, **6**, 4)
-   *      **2** (**8**, 2, **6**)
-   *    **5** total in 3 rolls
    *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.threshold       Threshold for success
