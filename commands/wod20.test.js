@@ -27,7 +27,7 @@ describe("execute", () => {
     it("displays the result", async () => {
       const result = await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*\-?\d\*\*/)
+      expect(result.content).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
@@ -49,7 +49,7 @@ describe("execute", () => {
     it("displays the result", async () => {
       const result = await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*\d\*\*/)
+      expect(result.content).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
@@ -72,7 +72,7 @@ describe("execute", () => {
     it("displays the result", async () => {
       const result = await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*\d\*\*/)
+      expect(result.content).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 

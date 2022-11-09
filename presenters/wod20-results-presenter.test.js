@@ -50,6 +50,14 @@ describe("presentOne", () => {
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
   })
+
+  it("displays botches specially", () => {
+    let args = defaultArgs
+    args.summed = [-1]
+    const result = WodResultsPresenter.presentOne(args)
+
+    expect(result).toMatch("**botch**")
+  })
 })
 
 describe("detailOne", () => {

@@ -9,7 +9,7 @@ module.exports = {
    * @return {String}                         String describing the roll results
    */
   present: ({ rolls, ...rollOptions }) => {
-    if(rollOptions.until) {
+    if (rollOptions.until) {
       return module.exports.presentUntil(rollOptions)
     }
     if (rolls == 1) {
@@ -25,7 +25,7 @@ module.exports = {
    * @return {String}        The number or "botch"
    */
   formatSuccesses(successes) {
-    if(successes < 0) return "botch"
+    if (successes < 0) return "botch"
     return successes.toString()
   },
 
@@ -52,7 +52,11 @@ module.exports = {
     summed,
     userFlake,
   }) => {
-    let content = [userMention(userFlake), "rolled", bold(summed[0])]
+    let content = [
+      userMention(userFlake),
+      "rolled",
+      bold(module.exports.formatSuccesses(summed[0])),
+    ]
     if (description) {
       content.push(`"${description}"`)
     }
@@ -81,9 +85,9 @@ module.exports = {
     detail = detail.concat(
       raw
         .map((die) => {
-          if(die == 1) return strikethrough(die)
-          if(specialty && die == 10) return bold(`${die}!`)
-          if(die >= difficulty) return bold(die)
+          if (die == 1) return strikethrough(die)
+          if (specialty && die == 10) return bold(`${die}!`)
+          if (die >= difficulty) return bold(die)
           return die
         })
         .join(", ")
@@ -128,8 +132,13 @@ module.exports = {
       .concat(
         raw.map((result, index) => {
           return [
-            `\n\t${bold(summed[index])} `,
-            module.exports.detailMany({ pool, difficulty, specialty, raw: result }),
+            `\n\t${bold(module.exports.formatSuccesses(summed[index]))} `,
+            module.exports.detailMany({
+              pool,
+              difficulty,
+              specialty,
+              raw: result,
+            }),
           ].join(" ")
         })
       )
@@ -150,9 +159,9 @@ module.exports = {
     detail = detail.concat(
       raw
         .map((die) => {
-          if(die == 1) return strikethrough(die)
-          if(specialty && die == 10) return bold(`${die}!`)
-          if(die >= difficulty) return bold(die)
+          if (die == 1) return strikethrough(die)
+          if (specialty && die == 10) return bold(`${die}!`)
+          if (die >= difficulty) return bold(die)
           return die
         })
         .join(", ")
@@ -194,15 +203,19 @@ module.exports = {
     content.push(` until ${until} successes`)
     content.push(` at ${pool} diff ${difficulty}${specialNote}`)
     content.push(":")
-    content = content
-      .concat(
-        raw.map((result, index) => {
-          return [
-            `\n\t${bold(summed[index])} `,
-            module.exports.detailMany({ pool, difficulty, specialty, raw: result }),
-          ].join(" ")
-        })
-      )
+    content = content.concat(
+      raw.map((result, index) => {
+        return [
+          `\n\t${bold(module.exports.formatSuccesses(summed[index]))} `,
+          module.exports.detailMany({
+            pool,
+            difficulty,
+            specialty,
+            raw: result,
+          }),
+        ].join(" ")
+      })
+    )
     content.push(`\n${bold(finalSum)} of ${until}`)
     content.push(` in ${raw.length} rolls`)
 
