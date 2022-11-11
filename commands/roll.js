@@ -12,7 +12,7 @@ const { present } = require("../presenters/roll-results-presenter")
 
 module.exports = {
   name: "roll",
-  description: "Roll a set of dice",
+  description: "Roll a set of plain dice",
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
