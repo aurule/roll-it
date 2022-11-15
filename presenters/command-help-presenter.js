@@ -1,4 +1,5 @@
 const CommandNamePresenter = require("./command-name-presenter")
+const { inlineCode } = require("discord.js")
 
 module.exports = {
   /**
@@ -8,14 +9,28 @@ module.exports = {
    * @return {String}           Markdown-formatted string of the command's name and help text
    */
   present: (command) => {
-    const lines = []
-
+    const command_data = command.data()
     const command_name = CommandNamePresenter.present(command)
 
-    lines.push(`Showing help for ${command_name}:`)
+    let lines = [
+      `Showing help for ${command_name}: ${command.description}`,
+      "",
+      "Args:",
+    ]
 
-    lines.push(command.help({command_name: command_name}))
+    lines = lines.concat(
+      command_data.options.map((opt) => {
+        let opt_lines = [`\t${inlineCode(opt.name)}:`]
+        if (opt.required) opt_lines.push("(required)")
+        opt_lines.push(opt.description)
+
+        return opt_lines.join(" ")
+      })
+    )
+
+    lines.push("")
+    lines.push(command.help({ command_name }))
 
     return lines.join("\n")
-  }
+  },
 }

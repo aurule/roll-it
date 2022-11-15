@@ -1,4 +1,5 @@
 const roll_help_command = require("./roll-help")
+const { SlashCommandBuilder } = require("discord.js")
 
 const { Interaction } = require("../testing/interaction")
 
@@ -7,6 +8,25 @@ var interaction
 beforeEach(() => {
   interaction = new Interaction()
 })
+
+const test_command = {
+  name: "test-command",
+  description: "A fake command for testing",
+  data: () =>
+    new SlashCommandBuilder()
+      .setName("test-command")
+      .setDescription("A fake command for testing")
+      .addStringOption((option) =>
+        option
+          .setName("title")
+          .setDescription("Title description")
+          .setRequired(true)
+      )
+      .addStringOption((option) =>
+        option.setName("subtitle").setDescription("Subtitle description")
+      ),
+  help: ({ command_name }) => "test help output",
+}
 
 describe("execute", () => {
   describe("with a topic", () => {
@@ -34,10 +54,7 @@ describe("execute", () => {
     beforeEach(() => {
       interaction.command_options.command = "test-command"
       interaction.command_options.topic = undefined
-      interaction.client.commands.set("test-command", {
-        name: "test-command",
-        help: () => "test help",
-      })
+      interaction.client.commands.set("test-command", test_command)
     })
 
     it("displays the help for the command", async () => {
@@ -59,10 +76,7 @@ describe("execute", () => {
     beforeEach(() => {
       interaction.command_options.command = "test-command"
       interaction.command_options.topic = "about"
-      interaction.client.commands.set("test-command", {
-        name: "test-command",
-        help: () => "test help",
-      })
+      interaction.client.commands.set("test-command", test_command)
     })
 
     it("displays the help for the topic", async () => {
@@ -78,6 +92,17 @@ describe("execute", () => {
       interaction.command_options.topic = undefined
       interaction.client.commands.set("roll-help", {
         name: "roll-help",
+        description: "Get help",
+        data: () =>
+          new SlashCommandBuilder()
+            .setName("roll-help")
+            .setDescription("A fake command for testing")
+            .addStringOption((option) =>
+              option
+                .setName("title")
+                .setDescription("Title description")
+                .setRequired(true)
+            ),
         help: () => "test help",
       })
     })
