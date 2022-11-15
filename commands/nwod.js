@@ -108,20 +108,7 @@ module.exports = {
   },
   help({ command_name }) {
     return [
-      `${command_name} rolls a number of d10s using the New World of Darkness rules.`,
-      "",
-      stripIndent`
-        Args:
-            \`pool\`: (required) The number of dice to roll
-            \`explode\`: Add another die to the pool for every die that rolls at or above this number (default 10)
-            \`threshold\`: The number a die has to meet or exceed to count as a success (default 8)
-            \`rolls\`: Number of times to roll this dice pool (defaults to 1)
-            \`until\`: Roll the entire dice pool multiple times until this many successes are accrued
-            \`description\`: A word or two about the roll
-            \`secret\`: Whether to hide the roll results from everyone but you
-      `,
-      "",
-      `The dice mechanics break down like this:`,
+      `The dice mechanics for ${command_name} break down like this:`,
       `* A die that rolls at or above the ${inlineCode("threshold")} value adds a success`,
       `* A die that rolls at or above the ${inlineCode("explode")} value adds another die to the roll`,
       "",

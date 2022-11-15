@@ -68,27 +68,7 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    const cmd = module.exports.data()
-    let help_lines = [
-      oneLine`
-        ${command_name}: ${module.exports.description}
-      `,
-      "",
-      "Args:",
-    ]
-
-    help_lines = help_lines.concat(
-      cmd.options.map((opt) => {
-        let opt_lines = [`\t${inlineCode(opt.name)}:`]
-        if (opt.required) opt_lines.push("(required)")
-        opt_lines.push(opt.description)
-
-        return opt_lines.join(" ")
-      })
-    )
-
-    help_lines.push("")
-    help_lines.push(
+    return [
       oneLine`
         ${command_name} rolls multiple pools of dice at once and can apply complex modifiers to the die results.
         Each formula should include at least one set of dice, written as ${inlineCode("pool")}d${inlineCode("sides")}.
@@ -115,7 +95,6 @@ module.exports = {
         hood to do the calculations, so it respects proper order of operations and can do all sorts of fancy
         math.
       `,
-    )
-    return help_lines.join("\n")
+    ].join("\n")
   },
 }

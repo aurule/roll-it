@@ -56,14 +56,6 @@ module.exports = {
   },
   help({ command_name }) {
     return [
-      `${command_name} shows helpful information about a command or topic.`,
-      "",
-      stripIndent`
-        Args:
-            \`topic\`: The topic you want help with
-            \`command\`: The command you want help with
-      `,
-      "",
       oneLine`
         Both args let you pick from a list, so you don't need to memorize command or topic names. If you give
         both a command and a topic, ${command_name} will only show help for the topic.

@@ -106,23 +106,7 @@ module.exports = {
   },
   help({ command_name }) {
     return [
-      `${command_name} rolls a number of d10s using the World of Darkness 20th Anniversary edition rules.`,
-      "",
-      stripIndent`
-        Args:
-            \`pool\`: (required) The number of dice to roll
-            \`difficulty\`: The number a die has to meet or exceed to count as a success (defaults to 6)
-            \`specialty\`: Whether to count 10s as two successes
-            \`rolls\`: Number of times to roll this dice pool (defaults to 1)
-            \`until\`: Roll the entire dice pool multiple times until this many successes are accrued
-            \`description\`: A word or two about the roll
-            \`secret\`: Whether to hide the roll results from everyone but you
-      `,
-      "",
-      oneLine`
-        ${command_name} rolls a number of d10s using the World of Darkness 20th Anniversary edition rules. The
-        dice mechanics break down like this:
-      `,
+      `The dice mechanics for ${command_name} break down like this:`,
       `* A die that rolls at or above the ${inlineCode("difficulty")} value adds a success`,
       `* A die that rolls a 1 subtracts a success`,
       oneLine`

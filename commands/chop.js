@@ -58,28 +58,14 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    return [
-      oneLine`
-        ${command_name} rolls one result of rock-paper-scissors.
-      `,
-      "",
-      stripIndent`
-        Args:
-            \`static\`: Whether to display the result as pass-tie-fail, like for a static challenge
-            \`bomb\`: Whether to replace paper with bomb
-            \`description\`: A word or two about the roll
-            \`secret\`: Whether to hide the roll results from everyone but you
-      `,
-      "",
-      oneLine`
-        ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
-        emoji and a word describing the outcome, like "\:rock: rock". The ${inlineCode("static")} option
-        changes this to display pass, tie, or fail, to make it easier to interpret the result of an uncontested
-        challenge. The ${inlineCode("bomb")} option replaces the paper result with bomb, which wins against
-        rock and paper. Setting both ${inlineCode("static")} and ${inlineCode("bomb")} will display the result
-        as pass, ${italic("pass")}, or fail, as the bomb result wins against the assumed paper result of the
-        static opponent.
-      `,
-    ].join("\n")
+    return oneLine`
+      ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
+      emoji and a word describing the outcome, like "\:rock: rock". The ${inlineCode("static")} option
+      changes this to display pass, tie, or fail, to make it easier to interpret the result of an uncontested
+      challenge. The ${inlineCode("bomb")} option replaces the paper result with bomb, which wins against
+      rock and paper. Setting both ${inlineCode("static")} and ${inlineCode("bomb")} will display the result
+      as pass, ${italic("pass")}, or fail, as the bomb result wins against the assumed paper result of the
+      static opponent.
+    `
   },
 }

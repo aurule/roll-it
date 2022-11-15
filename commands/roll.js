@@ -80,26 +80,10 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    return [
-      oneLine`
-        ${command_name} rolls a pool of dice.
-      `,
-      "",
-      stripIndent`
-        Args:
-            \`pool\`: (required) The number of dice to roll
-            \`sides\`: (required) The number of sides the dice have
-            \`modifier\`: A number to add to the result after adding up the rolled dice
-            \`rolls\`: Number of times to roll this dice pool (defaults to 1)
-            \`description\`: A word or two about the roll
-            \`secret\`: Whether to hide the roll results from everyone but you
-      `,
-      "",
-      oneLine`
-        ${command_name} is the basic dice rolling command in Roll It. Use ${command_name} to roll one or more
-        dice, add them together, and add a modifier to the result. Use the ${inlineCode("rolls")} option to
-        roll the same pool (and modifier) multiple times, like for multiple attacks in D&D.
-      `,
-    ].join("\n")
+    return oneLine`
+      ${command_name} is the basic dice rolling command in Roll It. Use ${command_name} to roll one or more
+      dice, add them together, and add a modifier to the result. Use the ${inlineCode("rolls")} option to
+      roll the same pool (and modifier) multiple times, like for multiple attacks in D&D.
+    `
   },
 }

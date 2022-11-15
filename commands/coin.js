@@ -40,20 +40,6 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    return [
-      oneLine`
-        ${command_name} flips a coin
-      `,
-      "",
-      stripIndent`
-        Args:
-            \`description\`: A word or two about the coin flip
-            \`secret\`: Whether to hide the coin flip result from everyone but you
-      `,
-      "",
-      oneLine`
-        ${command_name} flips a single coin and displays the result as heads or tails.
-      `,
-    ].join("\n")
+    return `${command_name} flips a single coin and displays the result as heads or tails.`
   },
 }

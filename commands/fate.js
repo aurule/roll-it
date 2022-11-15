@@ -64,29 +64,15 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    return [
-      oneLine`
-        ${command_name} rolls four fudge dice for the FATE system
-      `,
-      "",
-      stripIndent`
-        Args:
-            \`modifier\`: A number to add to the result after adding up the rolled dice
-            \`rolls\`: Number of times to roll this dice pool (defaults to 1)
-            \`description\`: A word or two about the roll
-            \`secret\`: Whether to hide the roll results from everyone but you
-      `,
-      "",
-      oneLine`
-        ${command_name} rolls four fudge dice whose sides are -1, 0, and +1, then adds them up. The result
-        is displayed using the FATE
-        ${hyperlink(
-          "ladder",
-          hideLinkEmbed(
-            "https://fate-srd.com/fate-core/taking-action-dice-ladder#the-ladder"
-          )
-        )}.
-      `,
-    ].join("\n")
+    return oneLine`
+      ${command_name} rolls four fudge dice whose sides are -1, 0, and +1, then adds them up. The result is
+      displayed using the FATE
+      ${hyperlink(
+        "ladder",
+        hideLinkEmbed(
+          "https://fate-srd.com/fate-core/taking-action-dice-ladder#the-ladder"
+        )
+      )}.
+    `
   },
 }
