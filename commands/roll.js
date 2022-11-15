@@ -1,7 +1,5 @@
 const {
   SlashCommandBuilder,
-  userMention,
-  bold,
   inlineCode,
 } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")

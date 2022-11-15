@@ -1,6 +1,5 @@
 const {
   SlashCommandBuilder,
-  userMention,
   inlineCode,
   italic,
 } = require("discord.js")

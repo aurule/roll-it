@@ -1,4 +1,4 @@
-const { bold, userMention } = require("@discordjs/builders")
+const { userMention } = require("@discordjs/builders")
 
 const faces = [null, "heads", "tails"]
 

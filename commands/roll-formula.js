@@ -1,6 +1,5 @@
 const {
   SlashCommandBuilder,
-  bold,
   inlineCode,
   hideLinkEmbed,
   hyperlink,

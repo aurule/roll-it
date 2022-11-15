@@ -1,5 +1,5 @@
-const { inlineCode, italic } = require('@discordjs/builders');
-const { stripIndent, oneLine } = require("common-tags")
+const { inlineCode } = require('@discordjs/builders');
+const { oneLine } = require("common-tags")
 const commandFetch = require("../services/command-fetch")
 const commandNamePresenter = require("../presenters/command-name-presenter")
 

@@ -1,7 +1,5 @@
 const {
   SlashCommandBuilder,
-  userMention,
-  inlineCode,
   hideLinkEmbed,
   hyperlink,
 } = require("discord.js")

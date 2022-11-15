@@ -1,5 +1,4 @@
 const { hideLinkEmbed } = require("@discordjs/builders")
-const { stripIndent, oneLine } = require("common-tags")
 const fs = require("fs")
 const path = require("path")
 
