@@ -4,6 +4,7 @@
     "discord-api-types": "^0.37.17",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
+    "mathjs": "^11.3.3",
     "minimist": "^1.2.7",
     "pino": "^8.7.0",
     "pino-papertrail": "^2.1.0"
