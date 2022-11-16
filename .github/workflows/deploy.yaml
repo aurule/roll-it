@@ -19,11 +19,11 @@ jobs:
     - name: Adding known hosts
       run: ssh-keyscan -H ${{ secrets.PROD_IP }} >> ~/.ssh/known_hosts
     - name: Get old command json hash
-      run: echo '::set-output name=HASH::ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "cd roll-it && ~/.nvm/nvm-exec node scripts/hash-global-commands.js"'
+      run: echo 'HASH="ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "cd roll-it && ~/.nvm/nvm-exec node scripts/hash-global-commands.js" >> $GITHUB_OUTPUT'
       id: old-hash
     - name: Push files with rsync
       run: rsync -avzh --delete --exclude='/.git' --filter=':- .gitignore' ./ ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }}:/home/qyf/roll-it/
     - name: Setup and restart
       run: ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "cd roll-it && ~/.nvm/nvm-exec npm run deploy"
     - name: Deploy new commands
-      run: ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "cd roll-it && ~/.nvm/nvm-exec npm run commands:deploy-globals -- --hash ${{ steps.old-hash.HASH }}"
+      run: ssh ${{ secrets.PROD_USER }}@${{ secrets.PROD_IP }} "cd roll-it && ~/.nvm/nvm-exec npm run commands:deploy-globals -- --hash ${{ steps.old-hash.outputs.HASH }}"
