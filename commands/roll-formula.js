@@ -44,7 +44,7 @@ module.exports = {
 
     const rolled_formula = formula.replace(
       /(\d+)d(\d+)/g,
-      (match, pool, sides, offset, wholeString) => {
+      (match, pool, sides, _offset, _wholeString) => {
         raw_pools.push(match)
         let raw = roll(pool, sides)
         raw_results.push(raw[0])
