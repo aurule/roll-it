@@ -9,13 +9,13 @@ beforeEach(() => {
 })
 
 describe("execute", () => {
-  it("displays the description if present", async () => {
-    const description_text = "this is a test"
-    interaction.command_options.description = description_text
+  it("displays the question", async () => {
+    const question_text = "this is a test"
+    interaction.command_options.question = question_text
 
     const result = await eightball_command.execute(interaction)
 
-    expect(result.content).toMatch(description_text)
+    expect(result.content).toMatch(question_text)
   })
 
   describe("secret", () => {

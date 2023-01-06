@@ -39,7 +39,7 @@ module.exports = {
 
     return interaction.reply({
       content: present({
-        description: question,
+        question: question,
         doit: doit,
         raw: raw_results,
         userFlake: interaction.user.id,
