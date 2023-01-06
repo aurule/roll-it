@@ -48,6 +48,6 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    return `${command_name} flips a single coin and displays the result as heads or tails.`
+    return `${command_name} asks a question of the Magic 8 Ball`
   },
 }
