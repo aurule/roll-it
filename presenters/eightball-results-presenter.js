@@ -37,10 +37,9 @@ module.exports = {
   present: ({ question, doit, raw, userFlake }) => {
     const num = raw[0][0]
     let result = faces[num]
-    if (doit) result = italic("Do it")
+    if (doit) result = ("Do it")
 
-    let content = [userMention(userFlake), `asked "${question}": `, bold(faces[num])]
-    if (description) content.push(`"${description}"`)
+    let content = [userMention(userFlake), `asked "${question}"`, ":8ball:" , italic(result)]
     return content.join(" ")
   },
 }
