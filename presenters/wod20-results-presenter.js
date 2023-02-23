@@ -58,7 +58,7 @@ module.exports = {
       bold(module.exports.formatSuccesses(summed[0])),
     ]
     if (description) {
-      content.push(`"${description}"`)
+      content.push(`for "${description}"`)
     }
     content.push(
       module.exports.detailOne({ pool, difficulty, specialty, raw: raw[0] })

@@ -43,7 +43,7 @@ module.exports = {
   }) => {
     let content = [userMention(userFlake), "rolled", bold(summed[0])]
     if (description) {
-      content.push(`"${description}"`)
+      content.push(`for "${description}"`)
     }
     content.push(
       module.exports.detailOne({ pool, threshold, explode, raw: raw[0] })
@@ -143,7 +143,7 @@ module.exports = {
     if (description) {
       content.push(` "${description}"`)
     }
-    content.push(` ${raw.length} times at`)
+    content.push(` ${raw.length} times with`)
 
     content.push(` ${pool} dice`)
     content.push(module.exports.explainThreshold(threshold))

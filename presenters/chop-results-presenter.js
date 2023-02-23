@@ -39,7 +39,7 @@ module.exports = {
       "rolled",
       module.exports.rollToEmoji(raw[0][0], static_test, bomb),
     ]
-    if (description) content.push(`"${description}"`)
+    if (description) content.push(`for "${description}"`)
     return content.join(" ")
   },
 

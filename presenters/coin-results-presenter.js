@@ -15,7 +15,7 @@ module.exports = {
     const num = raw[0][0]
 
     let content = [userMention(userFlake), "flipped a coin and got", faces[num]]
-    if (description) content.push(`"${description}"`)
+    if (description) content.push(`for "${description}"`)
     return content.join(" ")
   },
 }
