@@ -50,12 +50,12 @@ module.exports = {
    */
   presentOne: ({ description, raw, summed, modifier, userFlake }) => {
     let content = [userMention(userFlake), "rolled"]
-    if (description) {
-      content.push(`"${description}"`)
-      content.push("and got")
-    }
     content.push(module.exports.toLadder(summed[0] + modifier))
-    content.push("result:")
+    if (description) {
+      content.push("for")
+      content.push(`"${description}"`)
+    }
+    content.push(":")
     content.push(module.exports.detail({ raw: raw[0], modifier }))
     return content.join(" ")
   },
