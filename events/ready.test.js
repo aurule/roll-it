@@ -1,7 +1,6 @@
 const ready = require("./ready")
 
 const { logger } = require("../util/logger")
-const { Client } = require("discord.js")
 jest.mock("discord.js")
 
 describe("properties", () => {
@@ -15,20 +14,15 @@ describe("properties", () => {
 })
 
 describe("execute", () => {
-  beforeAll(() => {
-    Client.mockImplementation(() => {
-      return {
-        user: {
-          tag: "test-bot",
-        },
-      }
-    })
-  })
-
   it("logs a ready notice", () => {
     const spy = jest.spyOn(logger, "info")
+    const client = {
+      user: {
+        tag: 'test'
+      }
+    }
 
-    ready.execute(new Client())
+    ready.execute(client)
 
     expect(spy).toHaveBeenCalled()
   })
