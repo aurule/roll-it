@@ -22,6 +22,20 @@ const emojiStaticBomb = [
 
 module.exports = {
   /**
+   * Present one or more results from the chop command
+   *
+   * @param  {Int}        options.rolls       Total number of rolls to show
+   * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
+   * @return {String}                         String describing the roll results
+   */
+  present: ({ rolls, ...rollOptions }) => {
+    if (rolls == 1) {
+      return module.exports.presentOne(rollOptions)
+    }
+    return module.exports.presentMany(rollOptions)
+  },
+
+  /**
    * Create a string describing the results of a rock-paper-scissors roll
    *
    * @param  {Bool}     options.static_test   Whether the roll should be interpreted as pass-tie-fail
@@ -31,9 +45,7 @@ module.exports = {
    * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
    * @return {String}                         String describing this roll
    */
-  present: ({ static_test, bomb, description, raw, userFlake }) => {
-    const num = raw[0][0]
-
+  presentOne: ({ static_test, bomb, description, raw, userFlake }) => {
     let content = [
       userMention(userFlake),
       "rolled",
@@ -41,6 +53,33 @@ module.exports = {
     ]
     if (description) content.push(`for "${description}"`)
     return content.join(" ")
+  },
+
+  /**
+   * Create a string describing the results of many rock-paper-scissors rolls
+   *
+   * @param  {Bool}     options.static_test   Whether the roll should be interpreted as pass-tie-fail
+   * @param  {Bool}     options.bomb          Whether paper is replaced with bomb
+   * @param  {String}   options.description   Text describing the roll
+   * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
+   * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
+   * @return {String}                         String describing this roll
+   */
+  presentMany: ({ static_test, bomb, description, raw, userFlake }) => {
+    let content = [
+      userMention(userFlake),
+      "rolled",
+    ]
+    if (description) {
+      content.push(`"${description}"`)
+    }
+    content.push(raw.length)
+    content.push("times:")
+    return content
+      .concat(
+        raw.map(result => `\n\t${module.exports.rollToEmoji(result, static_test, bomb)}`)
+      )
+      .join(" ")
   },
 
   /**

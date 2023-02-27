@@ -2,7 +2,7 @@ const ChopResultsPresenter = require("./chop-results-presenter")
 
 const { simpleflake } = require("simpleflakes")
 
-describe("present", () => {
+describe("presentOne", () => {
   const defaultArgs = {
     static_test: false,
     bomb: false,
@@ -12,13 +12,35 @@ describe("present", () => {
   }
 
   it("mentions the user", () => {
-    const result = ChopResultsPresenter.present(defaultArgs)
+    const result = ChopResultsPresenter.presentOne(defaultArgs)
 
     expect(result).toMatch(defaultArgs.userFlake.toString())
   })
 
   it("includes description if present", () => {
-    const result = ChopResultsPresenter.present(defaultArgs)
+    const result = ChopResultsPresenter.presentOne(defaultArgs)
+
+    expect(result).toMatch(`"${defaultArgs.description}"`)
+  })
+})
+
+describe("presentMany", () => {
+  const defaultArgs = {
+    static_test: false,
+    bomb: false,
+    description: "test roll",
+    raw: [[1], [2]],
+    userFlake: simpleflake(),
+  }
+
+  it("mentions the user", () => {
+    const result = ChopResultsPresenter.presentMany(defaultArgs)
+
+    expect(result).toMatch(defaultArgs.userFlake.toString())
+  })
+
+  it("includes description if present", () => {
+    const result = ChopResultsPresenter.presentMany(defaultArgs)
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
   })

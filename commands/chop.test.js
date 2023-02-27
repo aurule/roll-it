@@ -9,30 +9,51 @@ beforeEach(() => {
 })
 
 describe("execute", () => {
-  it("displays the description if present", async () => {
-    const description_text = "this is a test"
-    interaction.command_options.description = description_text
-
-    const result = await chop_command.execute(interaction)
-
-    expect(result.content).toMatch(description_text)
-  })
-
-  describe("secret", () => {
-    it("when secret is true, reply is ephemeral", async () => {
-      interaction.command_options.secret = true
-
-      const result = await chop_command.execute(interaction)
-
-      expect(result.ephemeral).toBeTruthy()
+  describe("with one roll", () => {
+    beforeEach(() => {
+      interaction.command_options.rolls = 1
     })
 
-    it("when secret is false, reply is not ephemeral", async () => {
-      interaction.command_options.secret = false
+    it("displays the description if present", async () => {
+      const description_text = "this is a test"
+      interaction.command_options.description = description_text
 
       const result = await chop_command.execute(interaction)
 
-      expect(result.ephemeral).toBeFalsy()
+      expect(result.content).toMatch(description_text)
+    })
+
+    describe("secret", () => {
+      it("when secret is true, reply is ephemeral", async () => {
+        interaction.command_options.secret = true
+
+        const result = await chop_command.execute(interaction)
+
+        expect(result.ephemeral).toBeTruthy()
+      })
+
+      it("when secret is false, reply is not ephemeral", async () => {
+        interaction.command_options.secret = false
+
+        const result = await chop_command.execute(interaction)
+
+        expect(result.ephemeral).toBeFalsy()
+      })
+    })
+  })
+
+  describe("with multiple rolls", () => {
+    beforeEach(() => {
+      interaction.command_options.rolls = 2
+    })
+
+    it("displays the description if present", async () => {
+      const description_text = "this is a test"
+      interaction.command_options.description = description_text
+
+      const result = await chop_command.execute(interaction)
+
+      expect(result.content).toMatch(description_text)
     })
   })
 })

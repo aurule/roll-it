@@ -28,6 +28,14 @@ module.exports = {
           .setName("bomb")
           .setDescription("Replace paper with the special bomb result")
       )
+      .addIntegerOption((option) =>
+        option
+          .setName("rolls")
+          .setDescription(
+            "Roll rock-paper-scissors this many times (default 1)"
+          )
+          .setMinValue(1)
+      )
       .addStringOption((option) =>
         option
           .setName("description")
@@ -41,13 +49,15 @@ module.exports = {
   async execute(interaction) {
     const static_test = interaction.options.getBoolean("static") ?? false
     const bomb = interaction.options.getBoolean("bomb") ?? false
+    const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(1, 3, 1)
+    const raw_results = roll(1, 3, rolls)
 
     return interaction.reply({
       content: present({
+        rolls,
         static_test,
         bomb,
         description: roll_description,
