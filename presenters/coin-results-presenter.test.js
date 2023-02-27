@@ -1,4 +1,4 @@
-const ChopResultsPresenter = require("./chop-results-presenter")
+const CoinResultsPresenter = require("./coin-results-presenter")
 
 const { simpleflake } = require("simpleflakes")
 
@@ -12,13 +12,13 @@ describe("present", () => {
   }
 
   it("mentions the user", () => {
-    const result = ChopResultsPresenter.present(defaultArgs)
+    const result = CoinResultsPresenter.present(defaultArgs)
 
     expect(result).toMatch(defaultArgs.userFlake.toString())
   })
 
   it("includes description if present", () => {
-    const result = ChopResultsPresenter.present(defaultArgs)
+    const result = CoinResultsPresenter.present(defaultArgs)
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
   })
