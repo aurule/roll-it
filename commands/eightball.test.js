@@ -34,6 +34,12 @@ describe("execute", () => {
 
       expect(result.ephemeral).toBeFalsy()
     })
+
+    it("secret defaults to false", async () => {
+      const result = await eightball_command.execute(interaction)
+
+      expect(result.ephemeral).toBeFalsy()
+    })
   })
 })
 

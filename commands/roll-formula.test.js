@@ -50,6 +50,12 @@ describe("execute", () => {
 
       expect(result.ephemeral).toBeFalsy()
     })
+
+    it("secret defaults to false", async () => {
+      const result = await roll_formula_command.execute(interaction)
+
+      expect(result.ephemeral).toBeFalsy()
+    })
   })
 })
 

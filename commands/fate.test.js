@@ -71,6 +71,12 @@ describe("execute", () => {
 
       expect(result.ephemeral).toBeFalsy()
     })
+
+    it("secret defaults to false", async () => {
+      const result = await fate_command.execute(interaction)
+
+      expect(result.ephemeral).toBeFalsy()
+    })
   })
 })
 

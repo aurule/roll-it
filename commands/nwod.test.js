@@ -69,6 +69,12 @@ describe("execute", () => {
 
       expect(result.ephemeral).toBeFalsy()
     })
+
+    it("secret defaults to false", async () => {
+      const result = await nwod_command.execute(interaction)
+
+      expect(result.ephemeral).toBeFalsy()
+    })
   })
 
   describe("with until", () => {

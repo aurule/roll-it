@@ -39,6 +39,12 @@ describe("execute", () => {
 
         expect(result.ephemeral).toBeFalsy()
       })
+
+      it("secret defaults to false", async () => {
+        const result = await d20_command.execute(interaction)
+
+        expect(result.ephemeral).toBeFalsy()
+      })
     })
   })
 
