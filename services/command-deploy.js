@@ -3,8 +3,7 @@
 require("dotenv").config()
 
 const { logger } = require("../util/logger")
-const { REST } = require("@discordjs/rest")
-const { Routes } = require("discord-api-types/v9")
+const { REST, Routes } = require("discord.js")
 
 const commandFetch = require("./command-fetch")
 
@@ -16,7 +15,7 @@ const clientId = process.env.CLIENT_ID
  */
 function restClient() {
   const token = process.env.BOT_TOKEN
-  return new REST({ version: "10" }).setToken(token)
+  return new REST().setToken(token)
 }
 
 /**

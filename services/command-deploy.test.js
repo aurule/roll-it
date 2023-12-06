@@ -1,7 +1,7 @@
 "use strict"
 
 const commandService = require("./command-deploy")
-const { Routes } = require("discord-api-types/v9")
+const { Routes } = require("discord.js")
 
 describe("buildGlobalCommandJSON", () => {
   it("returns valid json", () => {
