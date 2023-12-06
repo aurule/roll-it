@@ -9,6 +9,7 @@ const Topics = require("../help")
 module.exports = {
   name: "roll-help",
   description: "Get help with Roll It and its commands",
+  global: true,
   data() {
     return new SlashCommandBuilder()
       .setName(module.exports.name)
