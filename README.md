@@ -8,6 +8,8 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 
 [Add Roll It](https://discord.com/api/oauth2/authorize?client_id=1037522511509848136&permissions=2147745792&scope=applications.commands%20bot) to your server using this link! It will request the absolute minimum permissions needed in order to work.
 
+Once added, you'll automatically have access to all of its commands. You can see what's available with the help system through `/roll-help topic:Commands`. If you only want to keep a few roll commands, you can use `/roll-chooser` to pick which ones are available on your server.
+
 ## Features
 
 Roll dice pools for a number of game systems:
