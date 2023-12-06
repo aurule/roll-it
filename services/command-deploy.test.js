@@ -11,6 +11,37 @@ describe("buildGlobalCommandJSON", () => {
   })
 })
 
+describe("buildGuildCommandJSON", () => {
+  describe("with no args", () => {
+    it("returns valid json", () => {
+      const result = commandService.buildGuildCommandJSON()
+
+      expect(result).toBeTruthy()
+    })
+
+    it("includes all guild commands", () => {
+      const result = commandService.buildGuildCommandJSON()
+
+      expect(result[0].name).toEqual("chop")
+    })
+  })
+
+  describe("with args", () => {
+    it("returns valid json", () => {
+      const result = commandService.buildGuildCommandJSON(["d20"])
+
+      expect(result).toBeTruthy()
+    })
+
+    it("includes chosen guild commands", () => {
+      const result = commandService.buildGuildCommandJSON(["d20"])
+
+      expect(result[0].name).toEqual("d20")
+    })
+  })
+
+})
+
 describe("hashGlobalCommandJSON", () => {
   it("returns a string hash", () => {
     const result = commandService.hashGlobalCommandJSON()
@@ -51,5 +82,21 @@ describe("deployGlobals", () => {
     const result = await commandService.deployGlobals("testhash")
 
     expect(routeSpy).not.toHaveBeenCalled()
+  })
+})
+
+describe("deployGuild", () => {
+  beforeEach(() => {
+    jest
+      .spyOn(commandService, "restClient")
+      .mockReturnValue({ put: (route, body) => new Promise.resolve(true) })
+  })
+
+  it("sends the commands", async () => {
+    const routeSpy = jest.spyOn(Routes, "applicationGuildCommands").mockReturnValue("/")
+
+    const result = await commandService.deployGuild("fakeFlake")
+
+    expect(routeSpy).toHaveBeenCalled()
   })
 })

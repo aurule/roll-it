@@ -27,6 +27,20 @@ function buildGlobalCommandJSON() {
 }
 
 /**
+ * Build a guild's command json to send to Discord
+ *
+ * @param  {Array[str]}  command_names  Optional list of guild command names
+ * @return {string}                     JSON data about the guild's commands
+ */
+function buildGuildCommandJSON(command_names = null) {
+  let guild_commands = commandFetch.guild()
+  if(command_names !== null) {
+    guild_commands = guild_commands.filter(c => command_names.includes(c.name))
+  }
+  return guild_commands.map(c => c.data().toJSON())
+}
+
+/**
  * Generate a unique hash for the global command JSON structure
  * @return {string} Hash of the JSON data about global slash commands
  */
@@ -81,6 +95,31 @@ async function deployGlobals(hash = null) {
 }
 
 /**
+ * Push a guild's command JSON
+ *
+ * Without command_names, this will push all available guild commands. With
+ * command_names, only the listed commands will be pushed.
+ *
+ * @param  {string}     guildFlake    Snowflake ID of the guild
+ * @param  {Array[str]} command_names Array of command names
+ * @return {string}                   Promise for the http call
+ */
+async function deployGuild(guildFlake, command_names = null) {
+  logger.info(`Deploying commands to guild ${guildFlake}`)
+
+  return restClient()
+    .put(Routes.applicationGuildCommands(clientId, guildFlake), {
+      body: buildGuildCommandJSON(command_names),
+    })
+    .catch((error) => {
+      logger.warn(`Error deploying guild commands to ${guildFlake}: ${error}`)
+    })
+    .finally(() => {
+      logger.info(`Done with guild ${guildFlake}`)
+    })
+}
+
+/**
  * Build global commands as though they're guild commands and push to the dev servers
  * @return {Promise}      Promise for the http call
  */
@@ -109,8 +148,10 @@ async function deployDev() {
 
 module.exports = {
   buildGlobalCommandJSON,
+  buildGuildCommandJSON,
   hashGlobalCommandJSON,
   restClient,
   deployGlobals,
   deployDev,
+  deployGuild,
 }
