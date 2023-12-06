@@ -6,7 +6,7 @@ const fs = require("fs")
 const path = require("path")
 const basename = path.basename(__filename)
 
-const globalCommandsDir = `${__dirname}/../commands`
+const commandsDir = `${__dirname}/../commands`
 
 function getCommands(target_dir) {
   const commands = []
@@ -22,12 +22,21 @@ function getCommands(target_dir) {
   return commands
 }
 
+function all() {
+  return getCommands(commandsDir)
+}
+
+function global() {
+  return all().filter(c => c.global ?? false)
+}
+
+function guild() {
+  return all().filter(c => !(c.global ?? false))
+}
+
 module.exports = {
   getCommands,
-  global: () => getCommands(globalCommandsDir),
-  all: () => {
-    return [
-      ...module.exports.global(),
-    ]
-  }
+  all,
+  global,
+  guild
 }
