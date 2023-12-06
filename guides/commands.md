@@ -10,6 +10,7 @@ The command object looks like this:
     description: string,                // "user visible description"
     type?: string,                      // "slash"
     policy?: Object|Array<Object>,      // ManagerPolicy
+    global?: bool,                      // Whether the command is a global command or a guild command
     data(options?): Builder,            // SlashCommandBuilder
     autocomplete?: Collection,          // new Collection([['game', GameNameCompleter]])
     async execute(interaction): Promise,
