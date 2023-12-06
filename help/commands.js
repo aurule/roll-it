@@ -26,6 +26,11 @@ module.exports = {
         the argument name to begin filling it in.
       `,
       "",
+      oneLine`
+        Server managers can set which roll commands are available. See the help for the
+        ${inlineCode("/roll-chooser")} command for more.
+      `,
+      "",
       "Here are all of the slash commands that Roll It knows:",
       commands
         .filter(c => c.type !== "menu")

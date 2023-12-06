@@ -47,7 +47,7 @@ module.exports = {
       await commandService.deployGuild(guildFlake, selection)
       await interaction.editReply({
         content: oneLine`
-          Updated server commands to: ${selection}
+          Updated server commands to: ${selection.join(", ")}
         `,
         components: [],
         ephemeral: true})
@@ -60,11 +60,13 @@ module.exports = {
     const commands = commandFetch.guild()
     return [
       oneLine`
-        ${command_name} AAAAAAAAAAA
-        Only available to server managers.
+        ${command_name} sets which roll commands are available on the server.
+        Since Roll It supports so many specific systems, it can be nice to remove the unneeded commands.
       `,
       "",
-      "Here are the available roll commands:",
+      `${command_name} can only be used by server managers.`,
+      "",
+      "These are the commands which you can add or remove:",
       commands
         .filter(c => c.type !== "menu")
         .map(c => `• ${commandNamePresenter.present(c)} - ${c.description}`)
