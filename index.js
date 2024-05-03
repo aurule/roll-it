@@ -8,7 +8,13 @@ const { jsNoTests } = require("./util/filters")
 const CommandFetch = require("./services/command-fetch")
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] })
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+    ]
+})
 const token = process.env.BOT_TOKEN
 
 // Store commands (slash commands, context menu commands)

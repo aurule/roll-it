@@ -8,6 +8,7 @@ const { rollUntil } = require("../services/until-roller")
 const { rollExplode } = require("../services/base-roller")
 const { successes } = require("../services/tally")
 const { present } = require("../presenters/nwod-results-presenter")
+const { handleTeamwork } = require("../services/teamwork")
 
 module.exports = {
   name: "nwod",
@@ -40,6 +41,13 @@ module.exports = {
           )
           .setMinValue(2)
           .setMaxValue(10)
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("teamwork")
+          .setDescription(
+            "Begin a teamwork roll where others can contribute dice"
+          )
       )
       .addIntegerOption((option) =>
         option
@@ -75,6 +83,41 @@ module.exports = {
     const until = interaction.options.getInteger("until") ?? 0
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
+    const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
+
+    const userFlake = interaction.user.id
+
+    if (is_teamwork) {
+      if (rolls > 1 || until > 0 || secret) {
+        return interaction.reply({
+          content: oneLine`
+            You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("until")}, or
+            ${inlineCode("secret")} options.
+          `,
+          ephemeral: true,
+        })
+      }
+
+      return handleTeamwork({
+        interaction,
+        userFlake,
+        description: roll_description,
+        initialPool: pool,
+        roller: (final_pool) => rollExplode(final_pool, 10, explode, rolls),
+        summer: (raw_results) => successes(raw_results, threshold),
+        presenter: (final_pool, raw_results, summed_results) => present({
+          rolls,
+          pool: final_pool,
+          explode,
+          threshold,
+          until,
+          description: roll_description,
+          raw: raw_results,
+          summed: summed_results,
+          userFlake
+        })
+      })
+    }
 
     let raw_results
     let summed_results
@@ -101,7 +144,7 @@ module.exports = {
         description: roll_description,
         raw: raw_results,
         summed: summed_results,
-        userFlake: interaction.user.id,
+        userFlake,
       }),
       ephemeral: secret,
     })
