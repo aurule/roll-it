@@ -105,5 +105,5 @@ class Interaction {
 }
 
 module.exports = {
-  Interaction: Interaction,
+  Interaction
 }
