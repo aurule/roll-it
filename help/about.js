@@ -1,4 +1,4 @@
-const { inlineCode, hideLinkEmbed } = require("@discordjs/builders")
+const { inlineCode, hideLinkEmbed } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 module.exports = {

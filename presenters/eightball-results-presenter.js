@@ -1,4 +1,4 @@
-const { italic, bold, userMention } = require("@discordjs/builders")
+const { italic, bold, userMention } = require("discord.js")
 
 const faces = [
   null,

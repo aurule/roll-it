@@ -1,4 +1,4 @@
-const { bold, strikethrough, userMention } = require("@discordjs/builders")
+const { bold, strikethrough, userMention } = require("discord.js")
 
 module.exports = {
   /**

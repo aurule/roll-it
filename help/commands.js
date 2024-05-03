@@ -1,4 +1,4 @@
-const { inlineCode } = require('@discordjs/builders');
+const { inlineCode } = require('discord.js');
 const { oneLine } = require("common-tags")
 const commandFetch = require("../services/command-fetch")
 const commandNamePresenter = require("../presenters/command-name-presenter")

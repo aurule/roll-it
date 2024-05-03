@@ -1,4 +1,4 @@
-const { inlineCode, italic } = require('@discordjs/builders');
+const { inlineCode, italic } = require('discord.js');
 
 module.exports = {
   /**

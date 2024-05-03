@@ -1,4 +1,4 @@
-const { inlineCode, userMention } = require("@discordjs/builders")
+const { inlineCode, userMention } = require("discord.js")
 
 const emojiFlat = [null, ":rock: rock", ":scroll: paper", ":scissors: scissors"]
 const emojiStatic = [

@@ -1,4 +1,4 @@
-const { hideLinkEmbed } = require("@discordjs/builders")
+const { hideLinkEmbed } = require("discord.js")
 const fs = require("fs")
 const path = require("path")
 
