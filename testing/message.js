@@ -6,6 +6,11 @@ class Message {
     this.guildId = simpleflake()
     this.channelId = simpleflake()
     this.content = content
+    this.reactions = []
+  }
+
+  async react(emoji) {
+    this.reactions.push(emoji)
   }
 }
 

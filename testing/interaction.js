@@ -2,10 +2,14 @@
 
 const { simpleflake } = require("simpleflakes")
 const { PermissionFlagsBits, Collection } = require("discord.js")
+const { User } = require("./user")
 
 class Interaction {
-  constructor(snowflake = null) {
-    const member_snowflake = simpleflake()
+  constructor(snowflake = null, member_flake = null) {
+    let member_snowflake = member_flake
+    if (!member_snowflake) {
+      member_snowflake = simpleflake()
+    }
 
     this.id = simpleflake()
     this.command_options = {}
@@ -42,17 +46,11 @@ class Interaction {
       messages: {},
     }
     this.message = {}
+    this.user = new User(member_snowflake)
     this.member = {
       id: member_snowflake,
       permissions: PermissionFlagsBits.Defaults,
-      user: {
-        id: member_snowflake,
-        username: "Test User",
-      },
-    }
-    this.user = {
-      id: member_snowflake,
-      username: "Test User",
+      user: this.user,
     }
     this.client = {
       commands: new Collection(),

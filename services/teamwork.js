@@ -27,11 +27,19 @@ function buttonFilter(interaction, userFlake) {
   return interaction.user.id == userFlake
 }
 
+function seedReactions(message) {
+  for (emoji of allowedEmoji) {
+    message.react(emoji).catch(err => console.log(err))
+  }
+}
+
 module.exports = {
   allowedEmoji,
   increasePool,
   makeLeaderResults,
   reactionFilter,
+  buttonFilter,
+  seedReactions,
   async handleTeamwork({
     interaction,
     userFlake,
@@ -100,7 +108,6 @@ module.exports = {
           })
           .then(summaryMessage => {
             teamworkPresenter.contributorEmbed(userFlake, initialPool, data.collected_reactions)
-              // .then(embed => console.log(embed.data.fields[0]))
               .then(embed => summaryMessage.edit({embeds: [embed]}))
             return summaryMessage
           })
@@ -112,9 +119,7 @@ module.exports = {
         console.log(err)
       })
 
-    for (emoji of allowedEmoji) {
-      assisterPrompt.react(emoji).catch(err => console.log(err))
-    }
+    seedReactions(assisterPrompt)
 
     return reactionPromise
   }

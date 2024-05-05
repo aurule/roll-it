@@ -60,7 +60,7 @@ module.exports = {
     ]
     return lines.join("\n")
   },
-  contributorEmbed(userFlake, initialPool, reactions) {
+  async contributorEmbed(userFlake, initialPool, reactions) {
     const userPromises = reactions.map((reaction, emoji) => {
       const bonus = allowedEmoji.indexOf(emoji)
       return reaction.users.fetch()
@@ -75,16 +75,15 @@ module.exports = {
         const helpers = data.map(d => d.helpers)
         const bonuses = data.map(d => d.bonuses)
         return new EmbedBuilder()
-          .setTitle("Contributors")
           .addFields(
             {
               name: "Helper",
-              value: helpers.join("\n"),
+              value: userMention(userFlake) + "\n" + helpers.join("\n"),
               inline: true
             },
             {
               name: "Contribution",
-              value: bonuses.join("\n"),
+              value: initialPool.toString() + "\n" + bonuses.join("\n"),
               inline: true
             },
           )

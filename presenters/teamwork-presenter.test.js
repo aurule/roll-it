@@ -1,5 +1,8 @@
 const { Collection } = require("discord.js")
 const { Message } = require('../testing/message')
+const { ReactionsUserManager } = require("../testing/reactions-user-manager")
+const { User } = require('../testing/user')
+const { simpleflake } = require("simpleflakes")
 
 const teamworkPresenter = require("./teamwork-presenter")
 
@@ -54,12 +57,7 @@ describe("teamworkPresenter", () => {
       const message = new Message()
       const reactions = new Collection()
 
-      const result = teamworkPresenter.finalSummary({
-        leaderRollSummary: "leader summary",
-        initialPool: 3,
-        contributions: reactions,
-        leaderMessage: message,
-      })
+      const result = teamworkPresenter.finalSummary("leader summary", message)
 
       expect(result).toMatch("leader summary")
     })
@@ -67,30 +65,33 @@ describe("teamworkPresenter", () => {
       const message = new Message()
       const reactions = new Collection()
 
-      const result = teamworkPresenter.finalSummary({
-        leaderRollSummary: "leader summary",
-        initialPool: 3,
-        contributions: reactions,
-        leaderMessage: message,
-      })
+      const result = teamworkPresenter.finalSummary("leader summary", message)
 
       expect(result).toMatch(message.id.toString())
     })
-    describe("contributor breakdown", () => {
-      it("includes the leader", () => {
-        const message = new Message()
-        const reactions = new Collection()
+  })
 
-        const result = teamworkPresenter.finalSummary({
-          leaderRollSummary: "leader summary",
-          initialPool: 3,
-          contributions: reactions,
-          leaderMessage: message,
-        })
+  describe("contributorEmbed", () => {
+    it("includes the leader", async () => {
+      const userFlake = simpleflake()
+      const reactions = new Collection()
 
-        expect(result).toMatch("3 dice")
-      })
-      it.todo("includes each helper")
+      result = await teamworkPresenter.contributorEmbed(userFlake, 3, reactions)
+
+      expect(result.data.fields[0].value).toMatch(userFlake.toString())
+    })
+    it("includes each helper", async () => {
+      const userFlake = simpleflake()
+      const helperUser = new User()
+      const reactions = new Collection([
+        ["🔟", {
+          users: new ReactionsUserManager([helperUser])
+        }]
+      ])
+
+      result = await teamworkPresenter.contributorEmbed(userFlake, 3, reactions)
+
+      expect(result.data.fields[0].value).toMatch(helperUser.id)
     })
   })
 })
