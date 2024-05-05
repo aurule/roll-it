@@ -1,14 +1,53 @@
-const teamwork = require("./teamwork")
-const { Message } = require("../testing/message")
 const { simpleflake } = require("simpleflakes")
+const { Collection } = require("discord.js")
+const { Message } = require("../testing/message")
 const { Interaction } = require('../testing/interaction')
+const { Reaction } = require('../testing/reaction')
+const { User } = require('../testing/user')
+
+const teamwork = require("./teamwork")
 
 describe("teamwork", () => {
   describe("increasePool", () => {
-    it.todo("skips bot reactions")
-    it.todo("adds dice for each reaction")
-    it.todo("returns the new pool")
-    it.todo("returns the reactions")
+    it("skips bot reactions", () => {
+      const reactions = new Collection([
+        ["🔟", new Reaction("🔟", 2)]
+      ])
+
+      const result = teamwork.increasePool(1, reactions)
+
+      expect(result.final_pool).toEqual(11)
+    })
+    it.each(
+      teamwork.allowedEmoji
+    )("adds dice for each reaction", (emoji) => {
+      const reactions = new Collection([
+        [emoji, new Reaction(emoji, 2)]
+      ])
+
+      const result = teamwork.increasePool(1, reactions)
+
+      const expected = 1 + teamwork.allowedEmoji.indexOf(emoji)
+      expect(result.final_pool).toEqual(expected)
+    })
+    it("returns the new pool", () => {
+      const reactions = new Collection([
+        ["🔟", new Reaction("🔟", 3)]
+      ])
+
+      const result = teamwork.increasePool(1, reactions)
+
+      expect(result.final_pool).toEqual(21)
+    })
+    it("returns the reactions", () => {
+      const reactions = new Collection([
+        ["🔟", new Reaction("🔟", 3)]
+      ])
+
+      const result = teamwork.increasePool(1, reactions)
+
+      expect(result.collected_reactions).toEqual(reactions)
+    })
   })
 
   describe("makeLeaderResults", () => {
@@ -49,11 +88,53 @@ describe("teamwork", () => {
   })
 
   describe("reactionFilter", () => {
-    it.todo("rejects leader's reactions")
-    it.todo("rejects bot reactions")
-    it.todo("accepts user reactions")
-    it.todo("rejects unknown emoji")
-    it.todo("accepts allowed emoji")
+    const OLD_ENV = process.env
+
+    beforeEach(() => {
+      process.env = { ...OLD_ENV }
+    })
+
+    afterAll(() => {
+      process.env = OLD_ENV
+    })
+
+    it("rejects bot's reactions", () => {
+      bot_flake = simpleflake()
+      process.env.CLIENT_ID = bot_flake
+      const user = new User(bot_flake)
+      const reaction = new Reaction("🔟")
+
+      const result = teamwork.reactionFilter(reaction, user)
+
+      expect(result).toBeFalsy()
+    })
+    it("accepts user reactions", () => {
+      bot_flake = simpleflake()
+      process.env.CLIENT_ID = bot_flake
+      user_flake = simpleflake()
+      const user = new User(user_flake)
+      const reaction = new Reaction("🔟")
+
+      const result = teamwork.reactionFilter(reaction, user)
+
+      expect(result).toBeTruthy()
+    })
+    it("rejects unknown emoji", () => {
+      const user = new User()
+      const reaction = new Reaction("😇")
+
+      const result = teamwork.reactionFilter(reaction, user)
+
+      expect(result).toBeFalsy()
+    })
+    it("accepts allowed emoji", () => {
+      const user = new User()
+      const reaction = new Reaction("🔟")
+
+      const result = teamwork.reactionFilter(reaction, user)
+
+      expect(result).toBeTruthy()
+    })
   })
 
   describe("buttonFilter", () => {
@@ -95,20 +176,6 @@ describe("teamwork", () => {
       teamwork.allowedEmoji
     )("adds a reaction for each allowed emoji", (emoji) => {
       expect(message.reactions).toContain(emoji)
-    })
-  })
-
-  describe("handleTeamwork", () => {
-    it.todo("replies with the assister prompt")
-    it.todo("collects assister reactions")
-    it.todo("shows the leader prompt")
-    it.todo("gives the leader a button")
-
-    describe("when collector finishes", () => {
-      it.todo("removes the leader prompt")
-      it.todo("shows the summary")
-      it.todo("edits the assister prompt")
-      it.todo("adds an embed to the summary")
     })
   })
 })
