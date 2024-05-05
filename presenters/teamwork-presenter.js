@@ -74,20 +74,30 @@ module.exports = {
       .then(data => {
         const helpers = data.map(d => d.helpers)
         const bonuses = data.map(d => d.bonuses)
-        return new EmbedBuilder()
+        const embed = new EmbedBuilder()
           .addFields(
             {
+              name: "Leader",
+              value: `${userMention(userFlake)} with ${initialPool} dice`,
+              inline: false
+            }
+          )
+          .setColor("#03b199")
+        if (helpers.length) {
+          embed.addFields(
+            {
               name: "Helper",
-              value: userMention(userFlake) + "\n" + helpers.join("\n"),
+              value: helpers.join("\n"),
               inline: true
             },
             {
               name: "Contribution",
-              value: initialPool.toString() + "\n" + bonuses.join("\n"),
+              value: bonuses.join("\n"),
               inline: true
             },
           )
-          .setColor("#03b199")
+        }
+        return embed
       })
   }
 }

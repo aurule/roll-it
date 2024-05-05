@@ -91,7 +91,7 @@ describe("teamworkPresenter", () => {
 
       result = await teamworkPresenter.contributorEmbed(userFlake, 3, reactions)
 
-      expect(result.data.fields[0].value).toMatch(helperUser.id)
+      expect(result.data.fields[1].value).toMatch(helperUser.id)
     })
   })
 })
