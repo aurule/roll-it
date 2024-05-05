@@ -4,10 +4,13 @@ const { ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } = require(
 const { allowedEmoji, timeout_ms } = require("../util/teamwork-settings")
 
 function increasePool(initial_pool, collected_reactions) {
-  const final_pool = collected_reactions.reduce(
+  let final_pool = collected_reactions.reduce(
     (acc, curr) => acc + (allowedEmoji.indexOf(curr.emoji.name) * (curr.count - 1)),
     initial_pool,
   )
+  if (!final_pool) {
+    final_pool = initial_pool
+  }
   return {collected_reactions, final_pool}
 }
 
@@ -19,7 +22,7 @@ function makeLeaderResults(final_pool, roller, summer, presenter) {
 }
 
 function reactionFilter(reaction, user) {
-  return user.id != process.env.CLIENT_ID && allowedEmoji.includes(reaction.emoji.name) //&& user.id != message.user.id
+  return user.id != process.env.CLIENT_ID && allowedEmoji.includes(reaction.emoji.name)
 }
 
 function buttonFilter(interaction, userFlake) {
