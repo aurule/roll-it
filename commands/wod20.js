@@ -9,6 +9,7 @@ const { rollUntil } = require("../services/until-roller")
 const { roll } = require("../services/base-roller")
 const { wod20 } = require("../services/tally")
 const { present } = require("../presenters/wod20-results-presenter")
+const { handleTeamwork } = require("../services/teamwork")
 
 module.exports = {
   name: "wod20",
@@ -38,6 +39,13 @@ module.exports = {
         option
           .setName("specialty")
           .setDescription("Whether to count 10s as two successes")
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("teamwork")
+          .setDescription(
+            "Begin a teamwork roll where others can contribute dice"
+          )
       )
       .addIntegerOption((option) =>
         option
@@ -73,6 +81,41 @@ module.exports = {
     const until = interaction.options.getInteger("until") ?? 0
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
+    const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
+
+    const userFlake = interaction.user.id
+
+    if (is_teamwork) {
+      if (rolls > 1 || until > 0 || secret) {
+        return interaction.reply({
+          content: oneLine`
+            You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("until")}, or
+            ${inlineCode("secret")} options.
+          `,
+          ephemeral: true,
+        })
+      }
+
+      return handleTeamwork({
+        interaction,
+        userFlake,
+        description: roll_description,
+        initialPool: pool,
+        roller: (final_pool) => roll(final_pool, 10, rolls),
+        summer: (raw_results) => wod20(raw_results, difficulty, specialty),
+        presenter: (final_pool, raw_results, summed_results) => present({
+          rolls,
+          pool: final_pool,
+          difficulty,
+          specialty,
+          until,
+          description: roll_description,
+          raw: raw_results,
+          summed: summed_results,
+          userFlake
+        })
+      })
+    }
 
     let raw_results
     let summed_results
@@ -99,7 +142,7 @@ module.exports = {
         description: roll_description,
         raw: raw_results,
         summed: summed_results,
-        userFlake: interaction.user.id,
+        userFlake
       }),
       ephemeral: secret,
     })
@@ -123,6 +166,11 @@ module.exports = {
         The ${inlineCode("until")} option tells Roll It to continue rolling the same pool and difficulty until the total
         successes meet or exceed the number supplied. When the ${inlineCode("rolls")} option is also present,
         it caps the number of attempted rolls.
+      `,
+      oneLine`
+        The ${inlineCode("teamwork")} option starts a special teamwork roll that lets other people add dice by
+        reacting to a prompt. This is not compatible with the ${inlineCode("rolls")}, ${inlineCode("until")},
+        or ${inlineCode("secret")} options.
       `
     ].join("\n")
   },
