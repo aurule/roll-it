@@ -6,7 +6,7 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 
 ## Get Roll It
 
-[Add Roll It](https://discord.com/api/oauth2/authorize?client_id=1037522511509848136&permissions=2147745792&scope=applications.commands%20bot) to your server using this link! It will request the absolute minimum permissions needed in order to work.
+[Add Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136) to your server using this link! It will request the absolute minimum permissions needed in order to work.
 
 Once added, you'll automatically have access to all of its commands. You can see what's available with the help system through `/roll-help topic:Commands`. If you only want to keep a few roll commands, you can use `/roll-chooser` to pick which ones are available on your server.
 
@@ -52,26 +52,29 @@ I take privacy pretty dang seriously! Roll It does not request permission to do 
 
 I'm open to pull requests, but please be aware that this is mostly a personal project for fun.
 
+If you want to make a PR, please make sure that the new code has 100% test coverage (you can run `npm test` to find out) and clearly state what it adds or fixes. If you can't get 100% test coverage, explain in detail why that is.
+
 ## Requirements
 
 Node 18+
 
 ## Dev Installation
 
-run `npm install`
-ensure DEV_GUILDS is correct
+1. run `npm install`
+2. ensure the file `.env` has the correct environment variables
+3. run `npm run live`
+4. add Roll It to the discord server that you can spam for testing
 
 ## ENVVARS
 
-* BOT_TOKEN: discord bot application token 
-* REDIS_URL: URL of the redis instance to use 
+* BOT_TOKEN: discord bot application token
 * NODE_ENV: one of "development", "test", "ci", or "production"
-* CLIENT_ID: ID of the bot's discord user 
-* DEV_GUILDS: [ "guild_snowflake" ] 
+* CLIENT_ID: ID of the bot's discord user
+* DEV_GUILDS: a list of discord server IDs that should respond to the bot when you run it locally (like `[ "guild_snowflake" ]`). It's important that these servers are private, or at least don't mind you spamming bot messages and breaking things.
 
 ## Versioning
 
-Roll It uses [semantic versioning](https://semver.org/). In addition to the standard version increment rules, the minor version may be bumped for new commands and database changes.
+Roll It uses [semantic versioning](https://semver.org/). In addition to the standard version increment rules, the minor version may be bumped for new commands.
 
 ## Deployment
 
