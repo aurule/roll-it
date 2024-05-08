@@ -1,17 +1,20 @@
-const { Collection } = require('discord.js');
+const {
+  Collection,
+  StringSelectMenuBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+  ComponentType
+} = require('discord.js');
 const teamworkPresenter = require("../presenters/teamwork-presenter")
-const { ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType } = require("discord.js")
-const { allowedEmoji, timeout_ms } = require("../util/teamwork-settings")
+const { bonusOptions, timeout_ms } = require("../util/teamwork-settings")
 
-function increasePool(initial_pool, collected_reactions) {
-  let final_pool = collected_reactions.reduce(
-    (acc, curr) => acc + (allowedEmoji.indexOf(curr.emoji.name) * (curr.count - 1)),
+function increasePool(initial_pool, bonuses) {
+  let final_pool = bonuses.reduce(
+    (acc, curr) => acc + curr,
     initial_pool,
   )
-  if (!final_pool) {
-    final_pool = initial_pool
-  }
-  return {collected_reactions, final_pool}
+  return final_pool
 }
 
 function makeLeaderResults(final_pool, roller, summer, presenter) {
@@ -21,28 +24,14 @@ function makeLeaderResults(final_pool, roller, summer, presenter) {
   return presented_roll
 }
 
-function reactionFilter(reaction, user) {
-  return user.id != process.env.CLIENT_ID && allowedEmoji.includes(reaction.emoji.name)
-}
-
-function buttonFilter(interaction, userFlake) {
-  interaction.deferUpdate()
-  return interaction.user.id == userFlake
-}
-
-function seedReactions(message) {
-  for (emoji of allowedEmoji) {
-    message.react(emoji).catch(err => console.log(err))
-  }
+function bonusesFromSelections(selections) {
+  return selections.mapValues(v => v.reduce((a, n) => a + (+n), 0))
 }
 
 module.exports = {
-  allowedEmoji,
   increasePool,
   makeLeaderResults,
-  reactionFilter,
-  buttonFilter,
-  seedReactions,
+  bonusesFromSelections,
   async handleTeamwork({
     interaction,
     userFlake,
@@ -52,78 +41,89 @@ module.exports = {
     summer,
     presenter,
   }) {
-    const assisterPrompt = await interaction.reply({
-      content: teamworkPresenter.promptAssisters(userFlake, description),
-      fetchReply: true
-    })
-    const reactionCollector = assisterPrompt.createReactionCollector({
-      filter: reactionFilter,
-      time: timeout_ms,
-    })
-
     const go_button = new ButtonBuilder()
-      .setCustomId("go_teamwork")
+      .setCustomId("go_button")
       .setLabel("Roll It!")
       .setStyle(ButtonStyle.Primary)
-    const button_row = new ActionRowBuilder()
-      .addComponents(go_button)
-    const leaderPrompt = await interaction.followUp({
-      content: teamworkPresenter.showButton(userFlake),
-      components: [button_row],
+    const cancel_button = new ButtonBuilder()
+      .setCustomId("cancel_button")
+      .setLabel("Cancel")
+      .setStyle(ButtonStyle.Secondary)
+    const buttons_row = new ActionRowBuilder()
+      .addComponents(go_button, cancel_button)
+    const leader_prompt = await interaction.reply({
+      content: teamworkPresenter.leaderPromptMessage(userFlake),
+      components: [buttons_row],
+      ephemeral: true,
+    })
+
+    const bonus_selector = new StringSelectMenuBuilder()
+      .setCustomId("bonus_selector")
+      .setPlaceholder("Select your bonus")
+      .setMinValues(1)
+      .setMaxValues(11)
+      .addOptions(...bonusOptions)
+    const picker_row = new ActionRowBuilder()
+      .addComponents(bonus_selector)
+    const helper_prompt = await interaction.followUp({
+      content: teamworkPresenter.helperPromptMessage(userFlake, description),
+      components: [picker_row],
       fetchReply: true,
     })
-    leaderPrompt.awaitMessageComponent({
-      componentType: ComponentType.Button,
-      filter: i => buttonFilter(i, userFlake),
+
+    const helper_selections = new Collection()
+
+    const bonus_collector = helper_prompt.createMessageComponentCollector({
+      ComponentType: ComponentType.StringSelect,
       time: timeout_ms,
     })
-      .finally(interaction => {
-        reactionCollector.stop()
-      })
-
-    reactionPromise = new Promise((resolve, reject) => {
-      reactionCollector.once("end", (reactions, reason) => {
-        resolve(reactions)
-      })
+    bonus_collector.on('collect', event => {
+      event.deferUpdate()
+      helper_selections.set(event.user.id, event.values)
     })
-      .then(collected => {
-        leaderPrompt.delete()
-        return collected
-      })
-      .then(collected => increasePool(initialPool, collected))
-      .then(data => {
-        return {
-          presented_roll: makeLeaderResults(data.final_pool, roller, summer, presenter),
-          collected_reactions: data.collected_reactions
-        }
-      })
-      .then(data => {
-        const summaryMessage = interaction
-          .followUp({
-            content: teamworkPresenter.finalSummary(data.presented_roll, assisterPrompt),
-            fetchReply: true,
-          })
-          .then(summaryMessage => {
-            assisterPrompt.edit({
-              content: teamworkPresenter.afterAssisters(userFlake, description, summaryMessage)
-            })
-            return summaryMessage
-          })
-          .then(summaryMessage => {
-            teamworkPresenter.contributorEmbed(userFlake, initialPool, data.collected_reactions)
-              .then(embed => summaryMessage.edit({embeds: [embed]}))
-            return summaryMessage
-          })
 
-        return summaryMessage
+    return leader_prompt.awaitMessageComponent({
+      componentType: ComponentType.Button,
+      time: timeout_ms,
+    })
+      .then(event => {
+        event.deferUpdate()
+        bonus_collector.stop()
+        leader_prompt.delete()
+
+        if (event.customId == 'cancel_button') {
+          helper_prompt.edit({
+            content: teamworkPresenter.helperCancelledMessage(userFlake, description),
+            components: [],
+          })
+          return
+        }
+
+        const bonuses = bonusesFromSelections(helper_selections)
+        const final_pool = increasePool(initialPool, bonuses)
+        const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter)
+        const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
+
+        interaction.followUp({
+          content: teamworkPresenter.teamworkSummaryMessage(leader_summary),
+          embeds: [helper_embed],
+          fetchReply: true
+        })
+          .then(result_message => {
+
+            helper_prompt.edit({
+              content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message),
+              components: [],
+            })
+          })
       })
       .catch(err => {
-        // there was an actual error
-        console.log(err)
+        bonus_collector.stop()
+        leader_prompt.delete()
+        helper_prompt.edit({
+          content: teamworkPresenter.helperTimeoutMessage(userFlake, description),
+          components: [],
+        })
       })
-
-    seedReactions(assisterPrompt)
-
-    return reactionPromise
   }
 }

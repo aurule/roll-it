@@ -1,97 +1,118 @@
 const { Collection } = require("discord.js")
 const { Message } = require('../testing/message')
-const { ReactionsUserManager } = require("../testing/reactions-user-manager")
-const { User } = require('../testing/user')
 const { simpleflake } = require("simpleflakes")
 
 const teamworkPresenter = require("./teamwork-presenter")
 
 describe("teamworkPresenter", () => {
-  describe("promptAssisters", () => {
+  describe("helperPromptMessage", () => {
     it("references the user", () => {
-      const result = teamworkPresenter.promptAssisters("testflake")
+      const result = teamworkPresenter.helperPromptMessage("testflake")
 
       expect(result).toMatch("testflake")
     })
     it("includes description if given", () => {
-      const result = teamworkPresenter.promptAssisters("testflake", "test description")
+      const result = teamworkPresenter.helperPromptMessage("testflake", "test description")
 
       expect(result).toMatch('"test description"')
     })
   })
 
-  describe("afterAssisters", () => {
+  describe("helperRolledMessage", () => {
     it("references the user", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.afterAssisters("testflake", "", message)
+      const result = teamworkPresenter.helperRolledMessage("testflake", "", message)
 
       expect(result).toMatch("testflake")
     })
     it("includes the description if given", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.afterAssisters("testflake", "test description", message)
+      const result = teamworkPresenter.helperRolledMessage("testflake", "test description", message)
 
       expect(result).toMatch('"test description"')
     })
     it("links to the result message", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.afterAssisters("testflake", "", message)
+      const result = teamworkPresenter.helperRolledMessage("testflake", "", message)
 
       expect(result).toMatch(message.id.toString())
     })
   })
 
-  describe("showButton", () => {
+  describe("helperCancelledMessage", () => {
     it("references the user", () => {
-      const result = teamworkPresenter.showButton("testflake")
+      const message = new Message()
+
+      const result = teamworkPresenter.helperCancelledMessage("testflake", "", message)
+
+      expect(result).toMatch("testflake")
+    })
+    it("includes the description if given", () => {
+      const message = new Message()
+
+      const result = teamworkPresenter.helperCancelledMessage("testflake", "test description", message)
+
+      expect(result).toMatch('"test description"')
+    })
+  })
+
+  describe("helperTimeoutMessage", () => {
+    it("references the user", () => {
+      const message = new Message()
+
+      const result = teamworkPresenter.helperTimeoutMessage("testflake", "", message)
+
+      expect(result).toMatch("testflake")
+    })
+    it("includes the description if given", () => {
+      const message = new Message()
+
+      const result = teamworkPresenter.helperTimeoutMessage("testflake", "test description", message)
+
+      expect(result).toMatch('"test description"')
+    })
+  })
+
+  describe("leaderPromptMessage", () => {
+    it("references the user", () => {
+      const result = teamworkPresenter.leaderPromptMessage("testflake")
 
       expect(result).toMatch("testflake")
     })
   })
 
-  describe("finalSummary", () => {
+  describe("teamworkSummaryMessage", () => {
     it("includes the summary", () => {
       const message = new Message()
       const reactions = new Collection()
 
-      const result = teamworkPresenter.finalSummary("leader summary", message)
+      const result = teamworkPresenter.teamworkSummaryMessage("leader summary", message)
 
       expect(result).toMatch("leader summary")
-    })
-    it("links to the kickoff message", () => {
-      const message = new Message()
-      const reactions = new Collection()
-
-      const result = teamworkPresenter.finalSummary("leader summary", message)
-
-      expect(result).toMatch(message.id.toString())
     })
   })
 
   describe("contributorEmbed", () => {
     it("includes the leader", async () => {
       const userFlake = simpleflake()
-      const reactions = new Collection()
+      const bonuses = new Collection()
 
-      result = await teamworkPresenter.contributorEmbed(userFlake, 3, reactions)
+      result = await teamworkPresenter.contributorEmbed(userFlake, 3, bonuses)
 
       expect(result.data.fields[0].value).toMatch(userFlake.toString())
     })
     it("includes each helper", async () => {
       const userFlake = simpleflake()
-      const helperUser = new User()
-      const reactions = new Collection([
-        ["🔟", {
-          users: new ReactionsUserManager([helperUser])
-        }]
+      const bonuses = new Collection([
+        ['testflake', 1],
       ])
 
-      result = await teamworkPresenter.contributorEmbed(userFlake, 3, reactions)
+      result = await teamworkPresenter.contributorEmbed(userFlake, 3, bonuses)
 
-      expect(result.data.fields[1].value).toMatch(helperUser.id)
+      expect(result.data.fields[1].value).toMatch('testflake')
     })
   })
 })

@@ -1,52 +1,26 @@
 const { simpleflake } = require("simpleflakes")
 const { Collection } = require("discord.js")
-const { Message } = require("../testing/message")
-const { Interaction } = require('../testing/interaction')
-const { Reaction } = require('../testing/reaction')
-const { User } = require('../testing/user')
 
 const teamwork = require("./teamwork")
 
 describe("teamwork", () => {
   describe("increasePool", () => {
-    it("skips bot reactions", () => {
-      const reactions = new Collection([
-        ["🔟", new Reaction("🔟", 2)]
+    it("adds all bonuses", () => {
+      const bonuses = new Collection([
+        ['testflake', 1],
+        ['testflake2', 1],
       ])
 
-      const result = teamwork.increasePool(1, reactions)
+      const result = teamwork.increasePool(1, bonuses)
 
-      expect(result.final_pool).toEqual(11)
+      expect(result).toEqual(3)
     })
-    it.each(
-      teamwork.allowedEmoji
-    )("adds dice for each reaction", (emoji) => {
-      const reactions = new Collection([
-        [emoji, new Reaction(emoji, 2)]
-      ])
+    it("handles no bonuses", () => {
+      const bonuses = new Collection()
 
-      const result = teamwork.increasePool(1, reactions)
+      const result = teamwork.increasePool(1, bonuses)
 
-      const expected = 1 + teamwork.allowedEmoji.indexOf(emoji)
-      expect(result.final_pool).toEqual(expected)
-    })
-    it("returns the new pool", () => {
-      const reactions = new Collection([
-        ["🔟", new Reaction("🔟", 3)]
-      ])
-
-      const result = teamwork.increasePool(1, reactions)
-
-      expect(result.final_pool).toEqual(21)
-    })
-    it("returns the reactions", () => {
-      const reactions = new Collection([
-        ["🔟", new Reaction("🔟", 3)]
-      ])
-
-      const result = teamwork.increasePool(1, reactions)
-
-      expect(result.collected_reactions).toEqual(reactions)
+      expect(result).toEqual(1)
     })
   })
 
@@ -87,95 +61,20 @@ describe("teamwork", () => {
     })
   })
 
-  describe("reactionFilter", () => {
-    const OLD_ENV = process.env
+  describe("bonusesFromSelections", () => {
+    it("sums all bonuses for a user", () => {
+      const selections = new Collection([['testflake', ['+1', '+2']]])
 
-    beforeEach(() => {
-      process.env = { ...OLD_ENV }
+      const result = teamwork.bonusesFromSelections(selections)
+
+      expect(result.first()).toEqual(3)
     })
+    it("handles one bonus for a user", () => {
+      const selections = new Collection([['testflake', ['+1']]])
 
-    afterAll(() => {
-      process.env = OLD_ENV
-    })
+      const result = teamwork.bonusesFromSelections(selections)
 
-    it("rejects bot's reactions", () => {
-      bot_flake = simpleflake()
-      process.env.CLIENT_ID = bot_flake
-      const user = new User(bot_flake)
-      const reaction = new Reaction("🔟")
-
-      const result = teamwork.reactionFilter(reaction, user)
-
-      expect(result).toBeFalsy()
-    })
-    it("accepts user reactions", () => {
-      bot_flake = simpleflake()
-      process.env.CLIENT_ID = bot_flake
-      user_flake = simpleflake()
-      const user = new User(user_flake)
-      const reaction = new Reaction("🔟")
-
-      const result = teamwork.reactionFilter(reaction, user)
-
-      expect(result).toBeTruthy()
-    })
-    it("rejects unknown emoji", () => {
-      const user = new User()
-      const reaction = new Reaction("😇")
-
-      const result = teamwork.reactionFilter(reaction, user)
-
-      expect(result).toBeFalsy()
-    })
-    it("accepts allowed emoji", () => {
-      const user = new User()
-      const reaction = new Reaction("🔟")
-
-      const result = teamwork.reactionFilter(reaction, user)
-
-      expect(result).toBeTruthy()
-    })
-  })
-
-  describe("buttonFilter", () => {
-    it("defers the update", () => {
-      const userFlake = simpleflake()
-      const interaction = new Interaction()
-      const deferSpy = jest.spyOn(interaction, "deferUpdate")
-
-      teamwork.buttonFilter(interaction, userFlake.toString())
-
-      expect(deferSpy).toHaveBeenCalled()
-    })
-    it("returns true for the leader", () => {
-      const userFlake = simpleflake()
-      const interaction = new Interaction(null, userFlake)
-
-      const result = teamwork.buttonFilter(interaction, userFlake.toString())
-
-      expect(result).toBeTruthy()
-    })
-    it("returns false for others", () => {
-      const userFlake = simpleflake()
-      const interaction = new Interaction()
-
-      const result = teamwork.buttonFilter(interaction, userFlake.toString())
-
-      expect(result).toBeFalsy()
-    })
-  })
-
-  describe("seedReactions", () => {
-    const message = new Message()
-
-    beforeAll(() => {
-      teamwork.seedReactions(message)
-    })
-
-    it.each(
-      teamwork.allowedEmoji
-    )("adds a reaction for each allowed emoji", (emoji) => {
-      expect(message.reactions).toContain(emoji)
+      expect(result.first()).toEqual(1)
     })
   })
 })
