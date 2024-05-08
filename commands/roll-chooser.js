@@ -89,6 +89,12 @@ module.exports = {
           selection = event.values
           break;
       }
+    },
+    timeoutEvent => {
+      interaction.editReply({
+        content: "Ran out of time. Leaving server commands unchanged.",
+        components: []
+      })
     })
   },
   help({ command_name }) {

@@ -116,8 +116,8 @@ module.exports = {
               components: [],
             })
           })
-      })
-      .catch(err => {
+      },
+      timeout => {
         bonus_collector.stop()
         leader_prompt.delete()
         helper_prompt.edit({
