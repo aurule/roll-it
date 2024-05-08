@@ -3,10 +3,9 @@ const {
   PermissionFlagsBits,
   ActionRowBuilder,
   StringSelectMenuBuilder,
-  StringSelectMenuOptionBuilder,
   ComponentType,
-  italic,
-  underscore,
+  ButtonStyle,
+  ButtonBuilder,
 } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
@@ -37,23 +36,59 @@ module.exports = {
     const picker_row = new ActionRowBuilder()
       .addComponents(picker)
 
-    const prompt = await interaction.reply({content: "Choose the roll commands you want to make available:", components: [picker_row], ephemeral: true})
+    const go_button = new ButtonBuilder()
+      .setCustomId('go_button')
+      .setLabel("Set Commands")
+      .setStyle(ButtonStyle.Primary)
+    const cancel_button = new ButtonBuilder()
+      .setCustomId('cancel_button')
+      .setLabel("Cancel")
+      .setStyle(ButtonStyle.Secondary)
+    const buttons_row = new ActionRowBuilder()
+      .addComponents(go_button, cancel_button)
 
-    const collector = prompt.createMessageComponentCollector({componentType: ComponentType.StringSelect, time: 60_000 })
-
-    collector.on('collect', async event => {
-      const selection = event.values
-      const guildFlake = interaction.guild.id
-      await commandService.deployGuild(guildFlake, selection)
-      await interaction.editReply({
-        content: oneLine`
-          Updated server commands to: ${selection.join(", ")}
-        `,
-        components: [],
-        ephemeral: true})
+    const prompt = await interaction.reply({
+      content: "Choose the Roll It commands you want to make available on this server:",
+      components: [picker_row, buttons_row],
+      ephemeral: true
     })
-    collector.on('end', async (collected, reason) => {
-      await interaction.editReply({content: "Selection timed out. Leaving server commands unchanged.", components: [], ephemeral: true})
+
+    var selection = []
+
+    const collector = prompt.createMessageComponentCollector({
+      ComponentType: ComponentType.Button,
+      time: 60_000,
+    })
+    collector.on('collect', event => {
+      event.deferUpdate()
+      switch(event.customId) {
+        case "cancel_button":
+          interaction.editReply({
+            content: "Cancelled. Leaving server commands unchanged.",
+            components: []
+          })
+          break;
+        case "go_button":
+          if (!selection.length) {
+            interaction.editReply({
+              content: "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:"
+            })
+            break;
+          }
+          commandService.deployGuild(interaction.guild.id, selection)
+            .then(result => {
+              interaction.editReply({
+                content: oneLine`
+                  Updated server commands to: ${selection.join(", ")}
+                `,
+                components: [],
+              })
+            })
+          break;
+        case "chooser":
+          selection = event.values
+          break;
+      }
     })
   },
   help({ command_name }) {
