@@ -11,8 +11,6 @@ const CommandFetch = require("./services/command-fetch")
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
     ]
 })
 const token = process.env.BOT_TOKEN
