@@ -169,7 +169,7 @@ module.exports = {
       `,
       oneLine`
         The ${inlineCode("teamwork")} option starts a special teamwork roll that lets other people add dice by
-        reacting to a prompt. This is not compatible with the ${inlineCode("rolls")}, ${inlineCode("until")},
+        responding to a prompt. This is not compatible with the ${inlineCode("rolls")}, ${inlineCode("until")},
         or ${inlineCode("secret")} options.
       `
     ].join("\n")

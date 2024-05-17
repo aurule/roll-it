@@ -66,7 +66,7 @@ module.exports = {
     const lines = [
       "When your helpers are finished, ",
       userMention(userFlake),
-      ", click this button to roll the final pool. The roll will be cancelled ",
+      ", click this button to roll the final pool. The roll will happen automatically ",
       time(expiry, TimestampStyles.RelativeTime),
       "."
     ]
