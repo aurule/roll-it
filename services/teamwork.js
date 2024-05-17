@@ -82,48 +82,45 @@ module.exports = {
       helper_selections.set(event.user.id, event.values)
     })
 
+    const rollHandler = (event) => {
+      bonus_collector.stop()
+      leader_prompt.delete()
+
+      if (event.customId == 'cancel_button') {
+        helper_prompt.edit({
+          content: teamworkPresenter.helperCancelledMessage(userFlake, description),
+          components: [],
+        })
+        return
+      }
+
+      const bonuses = bonusesFromSelections(helper_selections)
+      const final_pool = increasePool(initialPool, bonuses)
+      const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter)
+      const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
+
+      interaction.followUp({
+        content: teamworkPresenter.teamworkSummaryMessage(leader_summary),
+        embeds: [helper_embed],
+        fetchReply: true
+      })
+        .then(result_message => {
+
+          helper_prompt.edit({
+            content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message),
+            components: [],
+          })
+        })
+    }
+
     return leader_prompt.awaitMessageComponent({
       componentType: ComponentType.Button,
       time: timeout_ms,
     })
       .then(event => {
         event.deferUpdate()
-        bonus_collector.stop()
-        leader_prompt.delete()
-
-        if (event.customId == 'cancel_button') {
-          helper_prompt.edit({
-            content: teamworkPresenter.helperCancelledMessage(userFlake, description),
-            components: [],
-          })
-          return
-        }
-
-        const bonuses = bonusesFromSelections(helper_selections)
-        const final_pool = increasePool(initialPool, bonuses)
-        const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter)
-        const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
-
-        interaction.followUp({
-          content: teamworkPresenter.teamworkSummaryMessage(leader_summary),
-          embeds: [helper_embed],
-          fetchReply: true
-        })
-          .then(result_message => {
-
-            helper_prompt.edit({
-              content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message),
-              components: [],
-            })
-          })
+        return rollHandler(event)
       },
-      timeout => {
-        bonus_collector.stop()
-        leader_prompt.delete()
-        helper_prompt.edit({
-          content: teamworkPresenter.helperTimeoutMessage(userFlake, description),
-          components: [],
-        })
-      })
+      rollHandler)
   }
 }
