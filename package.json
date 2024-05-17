@@ -19,7 +19,7 @@
   },
   "name": "roll-it",
   "description": "Discord bot for rolling dice",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
