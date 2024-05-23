@@ -33,7 +33,7 @@ module.exports = {
     },
     {
       label: "+6",
-      description: "Don't ruin this for me.",
+      description: `I said, "Third time's the charm"!`,
       value: "6",
     },
     {
@@ -48,7 +48,7 @@ module.exports = {
     },
     {
       label: "+9",
-      description: "Technically, I count as ten!",
+      description: "Like a ten, if you squint.",
       value: "9",
     },
     {
@@ -58,7 +58,7 @@ module.exports = {
     },
     {
       label: "+11",
-      description: "I SEE NO GOD UP HERE BUT ME",
+      description: "Did you see that hummingbird?",
       value: "11"
     },
     {
