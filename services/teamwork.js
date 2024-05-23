@@ -1,3 +1,12 @@
+/**
+ * Shared teamwork handler
+ *
+ * This handler is made to be called from within a command. The command must supply the required callbacks to
+ * actually do the rolling, as this handler only cares about the teamwork logic itself.
+ *
+ * See util/teamwork-settings for the helper options and timeout value.
+ */
+
 const {
   Collection,
   StringSelectMenuBuilder,
