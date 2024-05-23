@@ -1,4 +1,4 @@
-const D20ResultsPresenter = require("./d20-results-presenter")
+const SingletonPresenter = require("./singleton-results-presenter")
 
 const { simpleflake } = require("simpleflakes")
 
@@ -11,13 +11,13 @@ describe("presentOne", () => {
   }
 
   it("mentions the user", () => {
-    const result = D20ResultsPresenter.presentOne(defaultArgs)
+    const result = SingletonPresenter.presentOne(defaultArgs)
 
     expect(result).toMatch(defaultArgs.userFlake.toString())
   })
 
   it("includes description if present", () => {
-    const result = D20ResultsPresenter.presentOne(defaultArgs)
+    const result = SingletonPresenter.presentOne(defaultArgs)
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
   })
@@ -32,13 +32,13 @@ describe("presentMany", () => {
   }
 
   it("mentions the user", () => {
-    const result = D20ResultsPresenter.presentMany(defaultArgs)
+    const result = SingletonPresenter.presentMany(defaultArgs)
 
     expect(result).toMatch(defaultArgs.userFlake.toString())
   })
 
   it("includes description if present", () => {
-    const result = D20ResultsPresenter.presentMany(defaultArgs)
+    const result = SingletonPresenter.presentMany(defaultArgs)
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
   })
@@ -47,13 +47,13 @@ describe("presentMany", () => {
 describe("detail", () => {
   describe("when modifier is zero", () => {
     it("bolds the final result", () => {
-      const result = D20ResultsPresenter.detail(5, 0)
+      const result = SingletonPresenter.detail(5, 0)
 
       expect(result).toMatch("**5**")
     })
 
     it("has no breakdown", () => {
-      const result = D20ResultsPresenter.detail(5, 0)
+      const result = SingletonPresenter.detail(5, 0)
 
       expect(result).not.toMatch("(")
     })
@@ -61,13 +61,13 @@ describe("detail", () => {
 
   describe("when modifier is non-zero", () => {
     it("bolds the final result", () => {
-      const result = D20ResultsPresenter.detail(5, 3)
+      const result = SingletonPresenter.detail(5, 3)
 
       expect(result).toMatch("**8**")
     })
 
     it("includes breakdown when modifier is non-zero", () => {
-      const result = D20ResultsPresenter.detail(5, 3)
+      const result = SingletonPresenter.detail(5, 3)
 
       expect(result).toMatch("(")
     })

@@ -3,14 +3,15 @@ const {
   inlineCode,
   italic,
 } = require("discord.js")
+const { oneLine } = require("common-tags")
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/singleton-results-presenter")
 
 module.exports = {
-  name: "d20",
-  description: "Roll a single 20-sided die",
+  name: "d100",
+  description: "Roll a single percentile (100-sided) die",
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
@@ -46,7 +47,7 @@ module.exports = {
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(1, 20, rolls)
+    const raw_results = roll(1, 100, rolls)
 
     return interaction.reply({
       content: present({
@@ -60,6 +61,9 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    return `${command_name} rolls a single 20-sided die. That's it!`
+    return oneLine`
+      ${command_name} rolls a single percentile, or 100-sided, die. That's it!
+      The results are indexed from 1 to 100.
+    `
   },
 }
