@@ -8,6 +8,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/chop-results-presenter")
+const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "chop",
@@ -28,24 +29,9 @@ module.exports = {
           .setName("bomb")
           .setDescription("Replace paper with the special bomb result")
       )
-      .addIntegerOption((option) =>
-        option
-          .setName("rolls")
-          .setDescription(
-            "Roll rock-paper-scissors this many times (default 1)"
-          )
-          .setMinValue(1)
-      )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A word or two about this roll")
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("secret")
-          .setDescription("Hide the roll results from everyone but you")
-      ),
+      .addIntegerOption(commonOpts.rolls)
+      .addStringOption(commonOpts.description)
+      .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const static_test = interaction.options.getBoolean("static") ?? false
     const bomb = interaction.options.getBoolean("bomb") ?? false

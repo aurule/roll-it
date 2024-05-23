@@ -8,6 +8,7 @@ const { oneLine } = require("common-tags")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/singleton-results-presenter")
+const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "d100",
@@ -23,24 +24,9 @@ module.exports = {
             "A number to add to the die's result"
           )
       )
-      .addIntegerOption((option) =>
-        option
-          .setName("rolls")
-          .setDescription(
-            "Roll this many times (default 1)"
-          )
-          .setMinValue(1)
-      )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A word or two about this roll")
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("secret")
-          .setDescription("Hide the roll results from everyone but you")
-      ),
+      .addIntegerOption(commonOpts.rolls)
+      .addStringOption(commonOpts.description)
+      .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1

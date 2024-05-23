@@ -7,6 +7,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-results-presenter")
+const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "roll",
@@ -36,24 +37,9 @@ module.exports = {
             "A number to add to the result after adding up the rolled dice"
           )
       )
-      .addIntegerOption((option) =>
-        option
-          .setName("rolls")
-          .setDescription(
-            "Roll the entire dice pool this many times (default 1)"
-          )
-          .setMinValue(1)
-      )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A word or two about this roll")
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("secret")
-          .setDescription("Hide the roll results from everyone but you")
-      ),
+      .addIntegerOption(commonOpts.rolls)
+      .addStringOption(commonOpts.description)
+      .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const pool = interaction.options.getInteger("pool")
     const sides = interaction.options.getInteger("sides")

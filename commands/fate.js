@@ -9,6 +9,7 @@ const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/fate-results-presenter")
 const { fudge } = require("../services/tally")
+const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "fate",
@@ -24,24 +25,9 @@ module.exports = {
             "A number to add to the result after adding up the rolled dice"
           )
       )
-      .addIntegerOption((option) =>
-        option
-          .setName("rolls")
-          .setDescription(
-            "Roll the entire dice pool this many times (default 1)"
-          )
-          .setMinValue(1)
-      )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A word or two about this roll")
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("secret")
-          .setDescription("Hide the roll results from everyone but you")
-      ),
+      .addIntegerOption(commonOpts.rolls)
+      .addStringOption(commonOpts.description)
+      .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1

@@ -10,6 +10,7 @@ const { roll } = require("../services/base-roller")
 const { wod20 } = require("../services/tally")
 const { present } = require("../presenters/wod20-results-presenter")
 const { handleTeamwork } = require("../services/teamwork")
+const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "wod20",
@@ -47,14 +48,7 @@ module.exports = {
             "Begin a teamwork roll where others can contribute dice"
           )
       )
-      .addIntegerOption((option) =>
-        option
-          .setName("rolls")
-          .setDescription(
-            "Roll the entire dice pool this many times (default 1)"
-          )
-          .setMinValue(1)
-      )
+      .addIntegerOption(commonOpts.rolls)
       .addIntegerOption((option) =>
         option
           .setName("until")
@@ -63,16 +57,8 @@ module.exports = {
           )
           .setMinValue(1)
       )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A word or two about this roll")
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("secret")
-          .setDescription("Hide the roll results from everyone but you")
-      ),
+      .addStringOption(commonOpts.description)
+      .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const pool = interaction.options.getInteger("pool")
     const difficulty = interaction.options.getInteger("difficulty") ?? 6

@@ -6,6 +6,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/eightball-results-presenter")
+const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "eightball",
@@ -25,11 +26,7 @@ module.exports = {
           .setName("doit")
           .setDescription("Do it")
       )
-      .addBooleanOption((option) =>
-        option
-          .setName("secret")
-          .setDescription("Hide the result from everyone but you")
-      ),
+      .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const question = interaction.options.getString("question")
     const doit = interaction.options.getBoolean("doit") ?? false
