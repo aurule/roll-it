@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       label: "+2",
-      description: "It's not much, but it's honest work."
+      description: "It's not much, but it's honest work.",
       value: "2",
     },
     {
@@ -23,7 +23,7 @@ module.exports = {
     },
     {
       label: "+4",
-      description: "I'm kind of a big deal."
+      description: "I'm kind of a big deal.",
       value: "4",
     },
     {
@@ -33,22 +33,22 @@ module.exports = {
     },
     {
       label: "+6",
-      description: "Don't ruin this for me."
+      description: "Don't ruin this for me.",
       value: "6",
     },
     {
       label: "+7",
-      description: "Maybe I should have led."
+      description: "Maybe I should have led.",
       value: "7",
     },
     {
       label: "+8",
-      description: "Keep on rollin'"
+      description: "Keep on rollin'",
       value: "8",
     },
     {
       label: "+9",
-      description: "Technically, I count as ten!"
+      description: "Technically, I count as ten!",
       value: "9",
     },
     {

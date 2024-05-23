@@ -94,12 +94,7 @@ module.exports = {
       embed.addFields(
         {
           name: "Helper",
-          value: Array.from(bonuses.keys()).map(h => userMention(h)).join("\n"),
-          inline: true
-        },
-        {
-          name: "Contribution",
-          value: Array.from(bonuses.values()).map(v => `+${v}`).join("\n"),
+          value: bonuses.map((bonus, user) => `+${bonus} ${userMention(user)}`).join("\n"),
           inline: true
         },
       )
