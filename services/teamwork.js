@@ -13,7 +13,8 @@ const {
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
-  ComponentType
+  ComponentType,
+  UserSelectMenuBuilder
 } = require('discord.js');
 const teamworkPresenter = require("../presenters/teamwork-presenter")
 const { bonusOptions, timeout_ms } = require("../util/teamwork-settings")
@@ -41,6 +42,26 @@ module.exports = {
   increasePool,
   makeLeaderResults,
   bonusesFromSelections,
+
+  /**
+   * Handle teamwork roll logic
+   *
+   * This is the main entry point for teamwork rolls. It expects to be given appropriate callback functions
+   * for rolling dice, summing their results, and presenting those summed results. Otherwise, it handles the
+   * various prompts and interactions required to collect helper rolls, create a final pool, and display
+   * the final results.
+   *
+   * @param  {Interaction} opts.interaction       The command interaction that the user triggered
+   * @param  {Snowflake} opts.userFlake           Unique snowflake ID of the leading user
+   * @param  {string} opts.description            Description for the roll. Optional.
+   * @param  {int} opts.initialPool               The base number of dice in the pool. This should be the
+   *                                              leader's dice pool.
+   * @param  {fn(int)} opts.roller                Dice roller callback.
+   * @param  {fn(Array<int>[])} opts.summer       Roll summation callback.
+   * @param  {Fn(int, Array<int>[], int[])} opts.presenter        Roll presenter callback.
+   *
+   * @return {Promise}                            Promise resolving to a message component interaction
+   */
   async handleTeamwork({
     interaction,
     userFlake,
@@ -50,6 +71,12 @@ module.exports = {
     summer,
     presenter,
   }) {
+    const user_menu = new UserSelectMenuBuilder()
+      .setCustomId("helpers")
+      .setPlaceholder("Request help from these users")
+      .setMaxValues(25)
+    const user_row = new ActionRowBuilder()
+      .addComponents(user_menu)
     const go_button = new ButtonBuilder()
       .setCustomId("go_button")
       .setLabel("Roll It!")
@@ -62,7 +89,7 @@ module.exports = {
       .addComponents(go_button, cancel_button)
     const leader_prompt = await interaction.reply({
       content: teamworkPresenter.leaderPromptMessage(userFlake),
-      components: [buttons_row],
+      components: [user_row, buttons_row],
       ephemeral: true,
     })
 
@@ -83,7 +110,7 @@ module.exports = {
     const helper_selections = new Collection()
 
     const bonus_collector = helper_prompt.createMessageComponentCollector({
-      ComponentType: ComponentType.StringSelect,
+      componentType: ComponentType.StringSelect,
       time: timeout_ms,
     })
     bonus_collector.on('collect', event => {
@@ -121,6 +148,17 @@ module.exports = {
           })
         })
     }
+
+    const requested_collector = leader_prompt.createMessageComponentCollector({
+      componentType: ComponentType.UserSelect,
+      time: timeout_ms,
+    })
+    requested_collector.on('collect', event => {
+      event.deferUpdate()
+      // create or update notification message
+      // get ids to ping based on
+      // teamworkPresenter.notifyRequested(event.values)
+    })
 
     return leader_prompt.awaitMessageComponent({
       componentType: ComponentType.Button,

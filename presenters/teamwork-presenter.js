@@ -1,4 +1,4 @@
-const { userMention, time, TimestampStyles, hyperlink, EmbedBuilder } = require("discord.js")
+const { userMention, time, TimestampStyles, hyperlink, EmbedBuilder, inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 const { timeout_ms, allowedEmoji } = require("../util/teamwork-settings")
 const { messageLink } = require('../util/message-link')
@@ -66,9 +66,11 @@ module.exports = {
     const lines = [
       "When your helpers are finished, ",
       userMention(userFlake),
-      ", click this button to roll the final pool. The roll will happen automatically ",
+      ", click ",
+      inlineCode("Roll It!"),
+      " to roll the final pool. The roll will happen automatically ",
       time(expiry, TimestampStyles.RelativeTime),
-      "."
+      ". If there are a few specific people whose help you need, select them here to notify them."
     ]
     return lines.join("")
   },
