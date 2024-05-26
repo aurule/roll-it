@@ -56,7 +56,9 @@ If you want to make a PR, please make sure that the new code has 100% test cover
 
 ## Requirements
 
-Node 18+
+* Node 18+
+
+Roll-It currently uses Node 22.
 
 ## Dev Installation
 
@@ -71,6 +73,7 @@ Node 18+
 * NODE_ENV: one of "development", "test", "ci", or "production"
 * CLIENT_ID: ID of the bot's discord user
 * DEV_GUILDS: a list of discord server IDs that should respond to the bot when you run it locally (like `[ "guild_snowflake" ]`). It's important that these servers are private, or at least don't mind you spamming bot messages and breaking things.
+* LOG_LEVEL: usually `"debug"` for development
 
 ## Versioning
 
