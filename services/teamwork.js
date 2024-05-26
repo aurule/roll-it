@@ -93,6 +93,17 @@ module.exports = {
       ephemeral: true,
     })
 
+    const requested_collector = leader_prompt.createMessageComponentCollector({
+      componentType: ComponentType.UserSelect,
+      time: timeout_ms,
+    })
+    requested_collector.on('collect', event => {
+      event.deferUpdate()
+      // get ids to ping based on event.values, store it
+      // create or update notification message, like teamworkPresenter.notifyRequested(event.values)
+      // update red/green marks on requested helpers
+    })
+
     const bonus_selector = new StringSelectMenuBuilder()
       .setCustomId("bonus_selector")
       .setPlaceholder("Select your bonus")
@@ -116,6 +127,8 @@ module.exports = {
     bonus_collector.on('collect', event => {
       event.deferUpdate()
       helper_selections.set(event.user.id, event.values)
+      // update red/green marks
+      // update contributors list on the helper message
     })
 
     const rollHandler = (event) => {
@@ -148,17 +161,6 @@ module.exports = {
           })
         })
     }
-
-    const requested_collector = leader_prompt.createMessageComponentCollector({
-      componentType: ComponentType.UserSelect,
-      time: timeout_ms,
-    })
-    requested_collector.on('collect', event => {
-      event.deferUpdate()
-      // create or update notification message
-      // get ids to ping based on
-      // teamworkPresenter.notifyRequested(event.values)
-    })
 
     return leader_prompt.awaitMessageComponent({
       componentType: ComponentType.Button,
