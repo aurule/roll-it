@@ -74,10 +74,14 @@ module.exports = {
     ]
     return lines.join("")
   },
-  teamworkSummaryMessage(leaderRollSummary) {
+  teamworkSummaryMessage(leaderRollSummary, promptMessage) {
     const lines = [
       leaderRollSummary,
-      "This is the result of a teamwork roll. Here's who contributed:"
+      oneLine`
+        This is the result of a
+        ${hyperlink("teamwork roll", messageLink(promptMessage, false))}.
+        Here's who contributed:
+      `
     ]
     return lines.join("\n")
   },

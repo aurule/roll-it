@@ -93,6 +93,15 @@ describe("teamworkPresenter", () => {
 
       expect(result).toMatch("leader summary")
     })
+
+    it("links to the message", () => {
+      const message = new Message()
+      const reactions = new Collection()
+
+      const result = teamworkPresenter.teamworkSummaryMessage("leader summary", message)
+
+      expect(result).toMatch(message.id.toString())
+    })
   })
 
   describe("contributorEmbed", () => {

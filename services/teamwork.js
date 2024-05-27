@@ -149,7 +149,7 @@ module.exports = {
       const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
 
       interaction.followUp({
-        content: teamworkPresenter.teamworkSummaryMessage(leader_summary),
+        content: teamworkPresenter.teamworkSummaryMessage(leader_summary, helper_prompt),
         embeds: [helper_embed],
         fetchReply: true
       })
