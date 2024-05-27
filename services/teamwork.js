@@ -93,17 +93,6 @@ module.exports = {
       ephemeral: true,
     })
 
-    const requested_collector = leader_prompt.createMessageComponentCollector({
-      componentType: ComponentType.UserSelect,
-      time: timeout_ms,
-    })
-    requested_collector.on('collect', event => {
-      event.deferUpdate()
-      // get ids to ping based on event.values, store it
-      // create or update notification message, like teamworkPresenter.notifyRequested(event.values)
-      // update red/green marks on requested helpers
-    })
-
     const bonus_selector = new StringSelectMenuBuilder()
       .setCustomId("bonus_selector")
       .setPlaceholder("Select your bonus")
@@ -118,7 +107,22 @@ module.exports = {
       fetchReply: true,
     })
 
-    const helper_selections = new Collection()
+    const helper_bonuses = new Collection()
+    let requested_helpers = []
+
+    const requested_collector = leader_prompt.createMessageComponentCollector({
+      componentType: ComponentType.UserSelect,
+      time: timeout_ms,
+    })
+    requested_collector.on('collect', event => {
+      event.deferUpdate()
+      requested_helpers = event.values
+      // create or update notification message, like teamworkPresenter.notifyRequested(event.values)
+      const progress_embed = teamworkPresenter.helperProgressEmbed(helper_bonuses, requested_helpers)
+      helper_prompt.edit({
+        embeds: [progress_embed]
+      })
+    })
 
     const bonus_collector = helper_prompt.createMessageComponentCollector({
       componentType: ComponentType.StringSelect,
@@ -126,9 +130,11 @@ module.exports = {
     })
     bonus_collector.on('collect', event => {
       event.deferUpdate()
-      helper_selections.set(event.user.id, event.values)
-      // update red/green marks
-      // update contributors list on the helper message
+      helper_bonuses.set(event.user.id, event.values)
+      const progress_embed = teamworkPresenter.helperProgressEmbed(helper_bonuses, requested_helpers)
+      helper_prompt.edit({
+        embeds: [progress_embed]
+      })
     })
 
     const rollHandler = (event) => {
@@ -139,11 +145,12 @@ module.exports = {
         helper_prompt.edit({
           content: teamworkPresenter.helperCancelledMessage(userFlake, description),
           components: [],
+          embeds: [],
         })
         return
       }
 
-      const bonuses = bonusesFromSelections(helper_selections)
+      const bonuses = bonusesFromSelections(helper_bonuses)
       const final_pool = increasePool(initialPool, bonuses)
       const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter)
       const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
@@ -158,6 +165,7 @@ module.exports = {
           helper_prompt.edit({
             content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message),
             components: [],
+            embeds: [],
           })
         })
     }

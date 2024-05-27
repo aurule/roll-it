@@ -18,6 +18,43 @@ describe("teamworkPresenter", () => {
     })
   })
 
+  describe("helperProgressEmbed", () => {
+    describe("requested helpers", () => {
+      it("adds field when present", () => {
+        const bonuses = new Collection()
+        const requested = ["testflake"]
+
+        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+
+        expect(result.data.fields[0].name).toEqual("Requested")
+      })
+      it("shows an x when user has no bonus", () => {
+        const bonuses = new Collection()
+        const requested = ["testflake"]
+
+        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+
+        expect(result.data.fields[0].value).toMatch(":x:")
+      })
+      it("shows a check when user has a bonus", () => {
+        const bonuses = new Collection([["testflake", 2]])
+        const requested = ["testflake"]
+
+        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+
+        expect(result.data.fields[0].value).toMatch(":white_check_mark:")
+      })
+    })
+    it("adds a field for helper bonuses", () => {
+      const bonuses = new Collection([["testflake", 2]])
+      const requested = []
+
+      const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+
+      expect(result.data.fields[0].name).toEqual("Rolled")
+    })
+  })
+
   describe("helperRolledMessage", () => {
     it("references the user", () => {
       const message = new Message()

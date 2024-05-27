@@ -23,6 +23,31 @@ module.exports = {
     )
     return lines.join("")
   },
+  helperProgressEmbed(bonuses, requested) {
+    const embed = new EmbedBuilder()
+      .setColor("#03b199")
+      .setTitle("Helpers so far...")
+
+    const iconChooser = (snowflake) => {
+      return bonuses.hasAny(snowflake) ? ":white_check_mark:" : ":x:"
+    }
+
+    if (requested.length > 0) {
+      embed.addFields({
+        name: "Requested",
+        value: requested.map(user => `${iconChooser(user)} ${userMention(user)}`).join("\n"),
+        inline: false
+      })
+    }
+    if (bonuses.size) {
+      embed.addFields({
+        name: "Rolled",
+        value: bonuses.map((bonus, user) => `+${bonus} ${userMention(user)}`).join("\n"),
+        inline: false
+      })
+    }
+    return embed
+  },
   helperRolledMessage(userFlake, description, resultMessage) {
     const lines = [
       userMention(userFlake),
@@ -88,22 +113,18 @@ module.exports = {
   contributorEmbed(userFlake, initialPool, bonuses) {
     const embed = new EmbedBuilder()
       .setColor("#03b199")
-      .addFields(
-        {
-          name: "Leader",
-          value: `${userMention(userFlake)} with ${initialPool} dice`,
-          inline: false
-        }
-      )
+      .addFields({
+        name: "Leader",
+        value: `${userMention(userFlake)} with ${initialPool} dice`,
+        inline: false
+      })
 
     if (bonuses.size) {
-      embed.addFields(
-        {
-          name: "Helper",
-          value: bonuses.map((bonus, user) => `+${bonus} ${userMention(user)}`).join("\n"),
-          inline: true
-        },
-      )
+      embed.addFields({
+        name: "Helper",
+        value: bonuses.map((bonus, user) => `+${bonus} ${userMention(user)}`).join("\n"),
+        inline: false
+      })
     }
 
     return embed
