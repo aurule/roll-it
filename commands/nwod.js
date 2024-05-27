@@ -152,9 +152,9 @@ module.exports = {
         present, it caps the number of attempted rolls.
       `,
       oneLine`
-        The ${inlineCode("teamwork")} option starts a special teamwork roll that lets other people add dice by
-        responding to a prompt. This is not compatible with the ${inlineCode("rolls")}, ${inlineCode("until")},
-        or ${inlineCode("secret")} options.
+        The ${inlineCode("teamwork")} option starts a special teamwork roll that lets other people add dice to
+        your pool by responding to a prompt. This is not compatible with the ${inlineCode("rolls")},
+        ${inlineCode("until")}, or ${inlineCode("secret")} options.
       `
     ].join("\n")
   },
