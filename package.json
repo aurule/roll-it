@@ -49,5 +49,6 @@
   "bugs": {
     "url": "https://github.com/aurule/roll-it/issues"
   },
-  "homepage": "https://github.com/aurule/roll-it#readme"
+  "homepage": "https://github.com/aurule/roll-it#readme",
+  "packageManager": "yarn@4.2.2"
 }

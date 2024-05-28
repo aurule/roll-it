@@ -52,19 +52,20 @@ I take privacy pretty dang seriously! Roll It does not request permission to do 
 
 I'm open to pull requests, but please be aware that this is mostly a personal project for fun.
 
-If you want to make a PR, please make sure that the new code has 100% test coverage (you can run `npm test` to find out) and clearly state what it adds or fixes. If you can't get 100% test coverage, explain in detail why that is.
+If you want to make a PR, please make sure that the new code has 100% test coverage (you can run `yarn test` to find out) and clearly state what it adds or fixes. If you can't get 100% test coverage, explain in detail why that is.
 
 ## Requirements
 
 * Node 18+
+* Yarn 4
 
 Roll-It currently uses Node 22.
 
 ## Dev Installation
 
-1. run `npm install`
-2. ensure the file `.env` has the correct environment variables
-3. run `npm run live`
+1. pull the repo
+2. ensure the file `.env` has the correct environment variables. Especially double-check `DEV_GUILDS`.
+3. run `yarn run live`
 4. add Roll It to the discord server that you can spam for testing
 
 ## ENVVARS
@@ -81,8 +82,6 @@ Roll It uses [semantic versioning](https://semver.org/). In addition to the stan
 
 ## Deployment
 
-* copy code 
-* run `npm install` 
-* run `npm run commands:deploy-globals` 
-* run `npm run commands:deploy-guilds` 
-* restart daemon (`node index.js`)
+* copy repo
+* If global commands have changed, run `yarn run commands:deploy-globals`
+* restart daemon with `pm2 reload`
