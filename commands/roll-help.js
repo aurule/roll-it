@@ -14,23 +14,35 @@ module.exports = {
     return new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
-      .addStringOption((option) =>
-        option
+      .addSubcommand(subcommand =>
+        subcommand
           .setName("topic")
-          .setDescription("The topic you want help with")
-          .setChoices(...Topics.map((t) => { return {name: `${t.title}`, value: `${t.name}`} }))
+          .setDescription("Get help about a topic")
+          .addStringOption((option) =>
+            option
+              .setName("topic")
+              .setDescription("The topic you want help with")
+              .setChoices(...Topics.map((t) => { return {name: `${t.title}`, value: `${t.name}`} }))
+              .setRequired(true)
+          )
       )
-      .addStringOption((option) =>
-        option
+      .addSubcommand(subcommand =>
+        subcommand
           .setName("command")
-          .setDescription("The command you want help with")
-          .setChoices(...CommandChoicesTransformer.transform(commandFetch.all()))
+          .setDescription("Get help about a command")
+          .addStringOption((option) =>
+            option
+              .setName("command")
+              .setDescription("The command you want help with")
+              .setChoices(...CommandChoicesTransformer.transform(commandFetch.all()))
+              .setRequired(true)
+          )
       )
       .setDMPermission(true)
   },
   async execute(interaction) {
-    const command_name_arg = interaction.options.getString("command")
-    const topic_name = interaction.options.getString("topic")
+    const command_name_arg = interaction.options.getString("command") ?? ""
+    const topic_name = interaction.options.getString("topic") ?? ""
 
     if (topic_name) {
       const topic = Topics.get(topic_name)
