@@ -68,6 +68,8 @@ Roll-It currently uses Node 22.
 3. run `yarn run live`
 4. add Roll It to the discord server that you can spam for testing
 
+If you're developing on Windows, yarn will need to tweak some of its files. Do not commit these! The repo is aimed at \*nix systems.
+
 ## ENVVARS
 
 * BOT_TOKEN: discord bot application token
