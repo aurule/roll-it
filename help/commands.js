@@ -1,14 +1,13 @@
 const { inlineCode } = require('discord.js');
 const { oneLine } = require("common-tags")
-const commandFetch = require("../services/command-fetch")
 const commandNamePresenter = require("../presenters/command-name-presenter")
+const commands = require("../commands")
 
 module.exports = {
   name: "commands",
   title: "Commands",
   description: "How to use slash commands and what's available",
   help() {
-    const commands = commandFetch.all()
     return [
       oneLine`
         Roll It uses slash commands to roll dice using different built-in dice mechanics. Slash commands are

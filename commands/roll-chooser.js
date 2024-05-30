@@ -9,7 +9,6 @@ const {
 } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
-const commandFetch = require("../services/command-fetch")
 const commandNamePresenter = require("../presenters/command-name-presenter")
 const CommandSelectTransformer = require("../transformers/command-select-transformer")
 const commandService = require("../services/command-deploy");
@@ -26,13 +25,14 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(interaction) {
-    const commands = commandFetch.guild()
+    const commands = require("./index")
+    const guild_commands = commands.guild()
     const picker = new StringSelectMenuBuilder()
       .setCustomId('chooser')
       .setPlaceholder('Pick one or more')
       .setMinValues(1)
-      .setMaxValues(commands.length)
-      .addOptions(...CommandSelectTransformer.transform(commands))
+      .setMaxValues(guild_commands.size)
+      .addOptions(...CommandSelectTransformer.transform(guild_commands))
     const picker_row = new ActionRowBuilder()
       .addComponents(picker)
 
@@ -98,7 +98,7 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    const commands = commandFetch.guild()
+    const guild_commands = require("./index").guild()
     return [
       oneLine`
         ${command_name} sets which roll commands are available on the server.
@@ -108,7 +108,7 @@ module.exports = {
       `${command_name} can only be used by server managers.`,
       "",
       "These are the commands which you can add or remove:",
-      commands
+      guild_commands
         .filter(c => c.type !== "menu")
         .map(c => `• ${commandNamePresenter.present(c)} - ${c.description}`)
         .join("\n"),

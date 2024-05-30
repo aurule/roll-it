@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, italic, underscore } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
-const commandFetch = require("../services/command-fetch")
 const CommandChoicesTransformer = require("../transformers/command-choices-transformer")
 const CommandHelpPresenter = require("../presenters/command-help-presenter")
 const Topics = require("../help")
@@ -11,6 +10,7 @@ module.exports = {
   description: "Get help with Roll It and its commands",
   global: true,
   data() {
+    const commands = require("./index")
     return new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
@@ -34,7 +34,7 @@ module.exports = {
             option
               .setName("command")
               .setDescription("The command you want help with")
-              .setChoices(...CommandChoicesTransformer.transform(commandFetch.all()))
+              .setChoices(...CommandChoicesTransformer.transform(commands))
               .setRequired(true)
           )
       )
@@ -68,6 +68,7 @@ module.exports = {
     return interaction.reply({content: CommandHelpPresenter.present(command), ephemeral: true})
   },
   help({ command_name }) {
+    const commands = require("./index")
     return [
       oneLine`
         Both args let you pick from a list, so you don't need to memorize command or topic names. If you give

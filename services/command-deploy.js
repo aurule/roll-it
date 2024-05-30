@@ -6,7 +6,7 @@ const { logger } = require("../util/logger")
 const { REST, Routes } = require("discord.js")
 const crypto = require('crypto')
 
-const commandFetch = require("./command-fetch")
+const commands = require("../commands")
 
 const clientId = process.env.CLIENT_ID
 
@@ -24,7 +24,7 @@ function restClient() {
  * @return {string} JSON data about our global slash commands
  */
 function buildGlobalCommandJSON() {
-  return commandFetch.global().map(c => c.data().toJSON())
+  return commands.global().map(c => c.data().toJSON())
 }
 
 /**
@@ -34,7 +34,7 @@ function buildGlobalCommandJSON() {
  * @return {string}                     JSON data about the guild's commands
  */
 function buildGuildCommandJSON(command_names = null) {
-  let guild_commands = commandFetch.guild()
+  let guild_commands = commands.guild()
   if(command_names !== null) {
     guild_commands = guild_commands.filter(c => command_names.includes(c.name))
   }

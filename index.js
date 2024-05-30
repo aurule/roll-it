@@ -5,7 +5,7 @@ require("dotenv").config()
 const fs = require("fs")
 const { Client, Collection, GatewayIntentBits } = require("discord.js")
 const { jsNoTests } = require("./util/filters")
-const CommandFetch = require("./services/command-fetch")
+const commands = require("./commands")
 
 // Create a new client instance
 const client = new Client({
@@ -16,10 +16,7 @@ const client = new Client({
 const token = process.env.BOT_TOKEN
 
 // Store commands (slash commands, context menu commands)
-client.commands = new Collection()
-CommandFetch.all().forEach((command) =>
-    client.commands.set(command.name, command)
-)
+client.commands = commands
 
 // Register event listeners
 const eventFiles = fs.readdirSync("./events").filter(jsNoTests)
