@@ -11,7 +11,6 @@ const { stripIndent, oneLine } = require("common-tags")
 
 const commandNamePresenter = require("../presenters/command-name-presenter")
 const CommandSelectTransformer = require("../transformers/command-select-transformer")
-const commandService = require("../services/command-deploy");
 const api = require("../services/api")
 
 module.exports = {
@@ -79,7 +78,7 @@ module.exports = {
             })
             break;
           }
-          commandService.deployGuild(interaction.guild.id, selection)
+          api.setGuildCommands(interaction.guildId, selection)
             .then(result => {
               interaction.editReply({
                 content: oneLine`
