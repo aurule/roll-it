@@ -98,7 +98,6 @@ module.exports = {
     // handle command invocations
     if (interaction.isCommand() || interaction.isChatInputCommand()) {
       return module.exports.handleCommand(interaction).catch((err) => {
-        console.log(err)
         logger.error(
           {
             origin: "command",
