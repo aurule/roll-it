@@ -12,6 +12,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const commandNamePresenter = require("../presenters/command-name-presenter")
 const CommandSelectTransformer = require("../transformers/command-select-transformer")
 const commandService = require("../services/command-deploy");
+const api = require("../services/api")
 
 module.exports = {
   name: "roll-chooser",
@@ -27,12 +28,15 @@ module.exports = {
   async execute(interaction) {
     const commands = require("./index")
     const guild_commands = commands.guild()
+    const deployed_commands = await api.getGuildCommands(interaction.guildId)
+      .then(res => res.map(c => c.name))
+
     const picker = new StringSelectMenuBuilder()
       .setCustomId('chooser')
       .setPlaceholder('Pick one or more')
       .setMinValues(1)
       .setMaxValues(guild_commands.size)
-      .addOptions(...CommandSelectTransformer.transform(guild_commands))
+      .addOptions(...CommandSelectTransformer.transform(guild_commands, deployed_commands))
     const picker_row = new ActionRowBuilder()
       .addComponents(picker)
 
