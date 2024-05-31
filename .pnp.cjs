@@ -32,9 +32,9 @@ const RAW_RUNTIME_STATE =
           ["discord.js", "npm:14.15.2"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
-          ["mathjs", "npm:12.4.2"],\
+          ["mathjs", "npm:13.0.0"],\
           ["minimist", "npm:1.2.8"],\
-          ["nodemon", "npm:3.1.1"],\
+          ["nodemon", "npm:3.1.2"],\
           ["pino", "npm:9.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.1.0"],\
@@ -2187,13 +2187,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.4", {\
-        "packageLocation": "./.yarn/__virtual__/debug-virtual-11377b508d/3/.yarn/berry/cache/debug-npm-4.3.4-4513954577-10c0.zip/node_modules/debug/",\
+      ["virtual:8227ac539006e531918bf5d88077c531afe15318bf6ce5ee77403518d89d4658ce626b0cc91e5d6720c6653c20bec637cd3b5669f8da924206a1b75c70a98f67#npm:4.3.4", {\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-d234701f3c/3/.yarn/berry/cache/debug-npm-4.3.4-4513954577-10c0.zip/node_modules/debug/",\
         "packageDependencies": [\
-          ["debug", "virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.4"],\
+          ["debug", "virtual:8227ac539006e531918bf5d88077c531afe15318bf6ce5ee77403518d89d4658ce626b0cc91e5d6720c6653c20bec637cd3b5669f8da924206a1b75c70a98f67#npm:4.3.4"],\
           ["@types/supports-color", null],\
           ["ms", "npm:2.1.2"],\
-          ["supports-color", null]\
+          ["supports-color", "npm:5.5.0"]\
         ],\
         "packagePeers": [\
           "@types/supports-color",\
@@ -2201,13 +2201,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:f99724f84fddb2e93226de7fa788c781c9e79c7d19ca04efdd577de22e6446d084bf84a48e4e364741a3f55e030361e19abe9c130cab00dab47f4d0052fdc06b#npm:4.3.4", {\
-        "packageLocation": "./.yarn/__virtual__/debug-virtual-df4ab6115c/3/.yarn/berry/cache/debug-npm-4.3.4-4513954577-10c0.zip/node_modules/debug/",\
+      ["virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.4", {\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-11377b508d/3/.yarn/berry/cache/debug-npm-4.3.4-4513954577-10c0.zip/node_modules/debug/",\
         "packageDependencies": [\
-          ["debug", "virtual:f99724f84fddb2e93226de7fa788c781c9e79c7d19ca04efdd577de22e6446d084bf84a48e4e364741a3f55e030361e19abe9c130cab00dab47f4d0052fdc06b#npm:4.3.4"],\
+          ["debug", "virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.4"],\
           ["@types/supports-color", null],\
           ["ms", "npm:2.1.2"],\
-          ["supports-color", "npm:5.5.0"]\
+          ["supports-color", null]\
         ],\
         "packagePeers": [\
           "@types/supports-color",\
@@ -2634,10 +2634,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fraction.js", [\
-      ["npm:4.3.4", {\
-        "packageLocation": "../../.yarn/berry/cache/fraction.js-npm-4.3.4-ce148a1f45-10c0.zip/node_modules/fraction.js/",\
+      ["npm:4.3.7", {\
+        "packageLocation": "../../.yarn/berry/cache/fraction.js-npm-4.3.7-c2c7e95a8e-10c0.zip/node_modules/fraction.js/",\
         "packageDependencies": [\
-          ["fraction.js", "npm:4.3.4"]\
+          ["fraction.js", "npm:4.3.7"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3876,15 +3876,15 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:12.4.2", {\
-        "packageLocation": "../../.yarn/berry/cache/mathjs-npm-12.4.2-1b2c672e1b-10c0.zip/node_modules/mathjs/",\
+      ["npm:13.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/mathjs-npm-13.0.0-498d01577d-10c0.zip/node_modules/mathjs/",\
         "packageDependencies": [\
-          ["mathjs", "npm:12.4.2"],\
+          ["mathjs", "npm:13.0.0"],\
           ["@babel/runtime", "npm:7.24.6"],\
           ["complex.js", "npm:2.1.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["escape-latex", "npm:1.2.0"],\
-          ["fraction.js", "npm:4.3.4"],\
+          ["fraction.js", "npm:4.3.7"],\
           ["javascript-natural-sort", "npm:0.7.1"],\
           ["seedrandom", "npm:3.0.5"],\
           ["tiny-emitter", "npm:2.1.0"],\
@@ -4111,12 +4111,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["nodemon", [\
-      ["npm:3.1.1", {\
-        "packageLocation": "./.yarn/unplugged/nodemon-npm-3.1.1-f99724f84f/node_modules/nodemon/",\
+      ["npm:3.1.2", {\
+        "packageLocation": "./.yarn/unplugged/nodemon-npm-3.1.2-8227ac5390/node_modules/nodemon/",\
         "packageDependencies": [\
-          ["nodemon", "npm:3.1.1"],\
+          ["nodemon", "npm:3.1.2"],\
           ["chokidar", "npm:3.6.0"],\
-          ["debug", "virtual:f99724f84fddb2e93226de7fa788c781c9e79c7d19ca04efdd577de22e6446d084bf84a48e4e364741a3f55e030361e19abe9c130cab00dab47f4d0052fdc06b#npm:4.3.4"],\
+          ["debug", "virtual:8227ac539006e531918bf5d88077c531afe15318bf6ce5ee77403518d89d4658ce626b0cc91e5d6720c6653c20bec637cd3b5669f8da924206a1b75c70a98f67#npm:4.3.4"],\
           ["ignore-by-default", "npm:1.0.1"],\
           ["minimatch", "npm:3.1.2"],\
           ["pstree.remy", "npm:1.1.8"],\
@@ -4676,9 +4676,9 @@ const RAW_RUNTIME_STATE =
           ["discord.js", "npm:14.15.2"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
-          ["mathjs", "npm:12.4.2"],\
+          ["mathjs", "npm:13.0.0"],\
           ["minimist", "npm:1.2.8"],\
-          ["nodemon", "npm:3.1.1"],\
+          ["nodemon", "npm:3.1.2"],\
           ["pino", "npm:9.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.1.0"],\
