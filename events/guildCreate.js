@@ -1,4 +1,5 @@
 const commandService = require("../services/command-deploy");
+const api = require("../services/api")
 
 module.exports = {
   name: "guildCreate",
@@ -11,6 +12,6 @@ module.exports = {
       return
     }
 
-    await commandService.deployGuild(guildFlake)
+    return api.setGuildCommands(guildFlake)
   },
 }
