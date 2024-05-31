@@ -1,4 +1,3 @@
-const commandService = require("../services/command-deploy");
 const api = require("../services/api")
 
 module.exports = {
