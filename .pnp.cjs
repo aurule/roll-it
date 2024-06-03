@@ -29,7 +29,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.15.2"],\
+          ["discord.js", "npm:14.15.3"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["mathjs", "npm:13.0.0"],\
@@ -38,7 +38,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:9.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.1.0"],\
-          ["prettier", "npm:3.2.5"],\
+          ["prettier", "npm:3.3.0"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
@@ -837,10 +837,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/builders", [\
-      ["npm:1.8.1", {\
-        "packageLocation": "../../.yarn/berry/cache/@discordjs-builders-npm-1.8.1-d7366e8d68-10c0.zip/node_modules/@discordjs/builders/",\
+      ["npm:1.8.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-builders-npm-1.8.2-96fe9f4963-10c0.zip/node_modules/@discordjs/builders/",\
         "packageDependencies": [\
-          ["@discordjs/builders", "npm:1.8.1"],\
+          ["@discordjs/builders", "npm:1.8.2"],\
           ["@discordjs/formatters", "npm:0.4.0"],\
           ["@discordjs/util", "npm:1.1.0"],\
           ["@sapphire/shapeshift", "npm:3.9.7"],\
@@ -906,10 +906,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/ws", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "../../.yarn/berry/cache/@discordjs-ws-npm-1.1.0-47c747948f-10c0.zip/node_modules/@discordjs/ws/",\
+      ["npm:1.1.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@discordjs-ws-npm-1.1.1-ce928ca686-10c0.zip/node_modules/@discordjs/ws/",\
         "packageDependencies": [\
-          ["@discordjs/ws", "npm:1.1.0"],\
+          ["@discordjs/ws", "npm:1.1.1"],\
           ["@discordjs/collection", "npm:2.1.0"],\
           ["@discordjs/rest", "npm:2.3.0"],\
           ["@discordjs/util", "npm:1.1.0"],\
@@ -918,7 +918,7 @@ const RAW_RUNTIME_STATE =
           ["@vladfrangu/async_event_emitter", "npm:2.2.4"],\
           ["discord-api-types", "npm:0.37.83"],\
           ["tslib", "npm:2.6.2"],\
-          ["ws", "virtual:47c747948f96313da6c7946702cdba2c18a8685837a36a7287080e5f18f6fee4617eb50e817ea4ebda43cd84cdd254bdce732053a778d0bce2b95039ca131da1#npm:8.17.0"]\
+          ["ws", "virtual:ce928ca6866f0f6f87bc2103071ec5e3b56c0ba675017dafc0fb936328db0a739ae634726e691134a49d9c8f9b18ad221116704a51907ce21110ab4d92db95ce#npm:8.17.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2293,16 +2293,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["discord.js", [\
-      ["npm:14.15.2", {\
-        "packageLocation": "../../.yarn/berry/cache/discord.js-npm-14.15.2-da10f95790-10c0.zip/node_modules/discord.js/",\
+      ["npm:14.15.3", {\
+        "packageLocation": "../../.yarn/berry/cache/discord.js-npm-14.15.3-0c74284e59-10c0.zip/node_modules/discord.js/",\
         "packageDependencies": [\
-          ["discord.js", "npm:14.15.2"],\
-          ["@discordjs/builders", "npm:1.8.1"],\
+          ["discord.js", "npm:14.15.3"],\
+          ["@discordjs/builders", "npm:1.8.2"],\
           ["@discordjs/collection", "npm:1.5.3"],\
           ["@discordjs/formatters", "npm:0.4.0"],\
           ["@discordjs/rest", "npm:2.3.0"],\
           ["@discordjs/util", "npm:1.1.0"],\
-          ["@discordjs/ws", "npm:1.1.0"],\
+          ["@discordjs/ws", "npm:1.1.1"],\
           ["@sapphire/snowflake", "npm:3.5.3"],\
           ["discord-api-types", "npm:0.37.83"],\
           ["fast-deep-equal", "npm:3.1.3"],\
@@ -4421,10 +4421,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["prettier", [\
-      ["npm:3.2.5", {\
-        "packageLocation": "./.yarn/unplugged/prettier-npm-3.2.5-6859110d6a/node_modules/prettier/",\
+      ["npm:3.3.0", {\
+        "packageLocation": "./.yarn/unplugged/prettier-npm-3.3.0-2a7d3c0efa/node_modules/prettier/",\
         "packageDependencies": [\
-          ["prettier", "npm:3.2.5"]\
+          ["prettier", "npm:3.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4673,7 +4673,7 @@ const RAW_RUNTIME_STATE =
           ["roll-it", "workspace:."],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.15.2"],\
+          ["discord.js", "npm:14.15.3"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["mathjs", "npm:13.0.0"],\
@@ -4682,7 +4682,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:9.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.1.0"],\
-          ["prettier", "npm:3.2.5"],\
+          ["prettier", "npm:3.3.0"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
@@ -5387,10 +5387,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:47c747948f96313da6c7946702cdba2c18a8685837a36a7287080e5f18f6fee4617eb50e817ea4ebda43cd84cdd254bdce732053a778d0bce2b95039ca131da1#npm:8.17.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-3cbecf313d/3/.yarn/berry/cache/ws-npm-8.17.0-05fb441faf-10c0.zip/node_modules/ws/",\
+      ["virtual:ce928ca6866f0f6f87bc2103071ec5e3b56c0ba675017dafc0fb936328db0a739ae634726e691134a49d9c8f9b18ad221116704a51907ce21110ab4d92db95ce#npm:8.17.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-653a1fd65a/3/.yarn/berry/cache/ws-npm-8.17.0-05fb441faf-10c0.zip/node_modules/ws/",\
         "packageDependencies": [\
-          ["ws", "virtual:47c747948f96313da6c7946702cdba2c18a8685837a36a7287080e5f18f6fee4617eb50e817ea4ebda43cd84cdd254bdce732053a778d0bce2b95039ca131da1#npm:8.17.0"],\
+          ["ws", "virtual:ce928ca6866f0f6f87bc2103071ec5e3b56c0ba675017dafc0fb936328db0a739ae634726e691134a49d9c8f9b18ad221116704a51907ce21110ab4d92db95ce#npm:8.17.0"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
