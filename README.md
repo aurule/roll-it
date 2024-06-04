@@ -24,6 +24,7 @@ Roll some fun things, too!
 
 And of course, you can roll whatever dice you want:
 * Roll some d20s with `/d20`
+* Roll percentiles with `/d100`
 * Roll other dice with `/roll`
 * Do some dice math with `/roll-formula`
 
@@ -31,6 +32,8 @@ Most commands include some really helpful features:
 * The `rolls` option to re-roll the same pool multiple times (great for hoards of baddies!)
 * The `secret` option to keep the results to yourself
 * A handy `until` option so you can easily see how many checks it takes to reach a goal
+
+And a few commands like `/nwod` and `/wod20` have a special `teamwork` mode to let multiple people easily contribute to a shared roll.
 
 Finally, Roll It has a built-in help system through the command `/roll-help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
 
