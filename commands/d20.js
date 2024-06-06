@@ -6,7 +6,8 @@ const {
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
-const { present } = require("../presenters/singleton-results-presenter")
+const { present } = require("../presenters/d20-results-presenter")
+const { pick } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 
 module.exports = {
@@ -23,16 +24,29 @@ module.exports = {
             "A number to add to the die's result"
           )
       )
+      .addStringOption(option =>
+        option
+          .setName("advantage")
+          .setDescription("Roll with Advantage or Disadvantage from D&D 5e. Roll 2d20 and keep the higher or lower.")
+          .setChoices(
+            {name: "Advantage", value: "highest"},
+            {name: "Disadvantage", value: "lowest"}
+          )
+      )
       .addIntegerOption(commonOpts.rolls)
       .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
+    const keep = interaction.options.getString("advantage") ?? "all"
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(1, 20, rolls)
+    const pool = keep == "all" ? 1 : 2
+
+    const raw_results = roll(pool, 20, rolls)
+    const pick_results = keep ? pick(raw_results, 1, strategy = keep) : {}
 
     return interaction.reply({
       content: present({
@@ -40,6 +54,7 @@ module.exports = {
         modifier,
         description: roll_description,
         raw: raw_results,
+        picked: pick_results,
         userFlake: interaction.user.id,
       }),
       ephemeral: secret,
