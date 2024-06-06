@@ -66,7 +66,7 @@ describe("detail", () => {
       expect(result).toMatch("**8**")
     })
 
-    it("includes breakdown when modifier is non-zero", () => {
+    it("includes breakdown", () => {
       const result = SingletonPresenter.detail(5, 3)
 
       expect(result).toMatch("(")
