@@ -34,7 +34,8 @@
     "changelog:build": "node scripts/build-changelog.js",
     "changelog:add": "node scripts/add-changelog-snippet.js",
     "start": "node index.js",
-    "live": "nodemon index.js"
+    "live": "nodemon index.js",
+    "commands:update": "node scripts/update-commands.js"
   },
   "repository": {
     "type": "git",
