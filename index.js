@@ -3,7 +3,7 @@ require("dotenv").config()
 
 // Require the necessary discord.js classes
 const fs = require("fs")
-const { Client, Collection, GatewayIntentBits } = require("discord.js")
+const { Client, GatewayIntentBits } = require("discord.js")
 const { jsNoTests } = require("./util/filters")
 const commands = require("./commands")
 
