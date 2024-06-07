@@ -9,7 +9,13 @@ describe("pick", () => {
     }).toThrow('unknown pick strategy "bloopers"')
   })
 
-  it.todo("picks each result")
+  it("applies to all results", () => {
+    const raw = [[1, 2, 3], [3, 2, 1]]
+
+    const result = pick(raw, 1)
+
+    expect(result.length).toEqual(2)
+  })
 
   describe("per result", () => {
     it("all strategy keeps all dice", () => {
