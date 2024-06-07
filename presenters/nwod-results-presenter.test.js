@@ -2,6 +2,34 @@ const NwodResultsPresenter = require("./nwod-results-presenter")
 
 const { simpleflake } = require("simpleflakes")
 
+describe("notateDice", () => {
+  it("displays fails plain", () => {
+    const raw = [2]
+
+    const result = NwodResultsPresenter.notateDice(raw, 8, 10)
+
+    expect(result).toEqual("2")
+  })
+
+  it("displays successes in bold", () => {
+    const raw = [8]
+
+    const result = NwodResultsPresenter.notateDice(raw, 8, 10)
+
+    expect(result).toEqual("**8**")
+  })
+
+  it("displays n-again re-rolls in bold with a bang", () => {
+    const raw = [10]
+
+    const result = NwodResultsPresenter.notateDice(raw, 8, 10)
+
+    expect(result).toEqual("**10!**")
+  })
+
+  it.todo("displays rote rerolls plain with a bang")
+})
+
 describe("explainExplode", () => {
   it("returns an empty string with 10", () => {
     const result = NwodResultsPresenter.explainExplode(10)

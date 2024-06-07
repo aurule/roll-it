@@ -71,28 +71,15 @@ function explainChance(chance, raw, summed) {
  * @return {String}                    String detailing a single roll
  */
 function detailOne ({ pool, rote, threshold, explode, raw }) {
-  let detail = [
+  const detail = [
     `(${pool} dice`,
     explainRote(rote),
     explainThreshold(threshold),
     explainExplode(explode),
+    ": [",
+    notateDice(raw, threshold, explode),
+    "])",
   ]
-  detail.push(": [")
-
-  detail = detail.concat(
-    raw
-      .map((die) => {
-        if (die >= threshold) {
-          if (die >= explode) return bold(`${die}!`)
-          return bold(die)
-        }
-        return die
-      })
-      .join(", ")
-  )
-
-  detail.push("])")
-
   return detail.join("")
 }
 
@@ -137,6 +124,28 @@ function explainExplode(explode) {
 function explainRote(rote) {
   if (rote) return " with rote"
   return ""
+}
+
+/**
+ * Annotate dice in a result
+ *
+ * Success dice are bold, and re-rolls get an explamation point.
+ *
+ * @param  {int[]}  raw       Array with ints representing raw dice rolls
+ * @param  {int}    threshold Threshold for success
+ * @param  {int}    explode   Threshold for re-rolls
+ * @return {string}           Annotated dice results
+ */
+function notateDice(raw, threshold, explode) {
+  return raw
+    .map(die => {
+      if (die >= threshold) {
+        if (die >= explode) return bold(`${die}!`)
+        return bold(die)
+      }
+      return die
+    })
+    .join(", ")
 }
 
 /**
@@ -200,25 +209,16 @@ function presentMany({
  *
  * @param  {Int}    options.pool       Number of dice rolled
  * @param  {Int}    options.threshold  Threshold for success
- * @param  {Bool}   options.explode    Whether 10s were re-rolled
+ * @param  {Int}    options.explode    Threshold for re-rolls
  * @param  {Array<Int>} options.raw    Array with ints representing raw dice rolls
  * @return {String}                    String detailing a single roll
  */
 function detailMany({ pool, threshold, explode, raw }) {
-  let detail = ["("]
-  detail = detail.concat(
-    raw
-      .map((die) => {
-        if (die >= threshold) {
-          if (die >= explode) return bold(`${die}!`)
-          return bold(die)
-        }
-        return die
-      })
-      .join(", ")
-  )
-  detail.push(")")
-
+  const detail = [
+    "(",
+    notateDice(raw, threshold, explode),
+    ")",
+  ]
   return detail.join("")
 }
 
@@ -299,6 +299,7 @@ module.exports = {
   explainExplode,
   explainThreshold,
   explainRote,
+  notateDice,
   presentMany,
   detailMany,
   presentUntil
