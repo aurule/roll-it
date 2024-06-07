@@ -27,7 +27,39 @@ describe("notateDice", () => {
     expect(result).toEqual("**10!**")
   })
 
-  it.todo("displays rote rerolls plain with a bang")
+  describe("rote re-rolls", () => {
+    it("displays fails plain with a bang", () => {
+      const raw = [2]
+
+      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 1)
+
+      expect(result).toEqual("2!")
+    })
+
+    it("does not add a bang after initial results", () => {
+      const raw = [2, 3]
+
+      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 1)
+
+      expect(result).toEqual("2!, 3")
+    })
+
+    it("ignores explode re-roll dice", () => {
+      const raw = [2, 10, 5, 6, 1]
+
+      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 2)
+
+      expect(result).toEqual("2!, **10!**, 5, 6!, 1")
+    })
+
+    it("ignroes successes", () => {
+      const raw = [9]
+
+      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 1)
+
+      expect(result).toEqual("**9**")
+    })
+  })
 })
 
 describe("explainExplode", () => {
