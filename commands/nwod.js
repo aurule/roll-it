@@ -5,7 +5,7 @@ const {
 const { stripIndent, oneLine } = require("common-tags")
 
 const { rollUntil } = require("../services/until-roller")
-const { rollExplode } = require("../services/base-roller")
+const { roll } = require("../services/nwod-roller")
 const { successes } = require("../services/tally")
 const { present } = require("../presenters/nwod-results-presenter")
 const { handleTeamwork } = require("../services/teamwork")
@@ -103,7 +103,7 @@ module.exports = {
         userFlake,
         description: roll_description,
         initialPool: pool,
-        roller: (final_pool) => rollExplode(final_pool, 10, explode, rolls),
+        roller: (final_pool) => roll(final_pool, 10, explode, rolls),
         summer: (raw_results) => successes(raw_results, threshold),
         presenter: (final_pool, raw_results, summed_results) => present({
           rolls,
@@ -125,13 +125,13 @@ module.exports = {
 
     if (until) {
       ;({ raw_results, summed_results } = rollUntil({
-        roll: () => rollExplode(pool, 10, explode),
+        roll: () => roll(pool, 10, explode),
         tally: (currentResult) => successes(currentResult, threshold),
         max: rolls === 1 ? 0 : rolls,
         target: until,
       }))
     } else {
-      raw_results = rollExplode(pool, 10, explode, rolls)
+      raw_results = roll(pool, 10, explode, rolls)
       summed_results = successes(raw_results, threshold)
     }
 
