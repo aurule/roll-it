@@ -45,11 +45,11 @@ describe("notateDice", () => {
     })
 
     it("ignores explode re-roll dice", () => {
-      const raw = [2, 10, 5, 6, 1]
+      const raw = [2, 10, 5, 6, 1, 4]
 
-      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 2)
+      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 3)
 
-      expect(result).toEqual("2!, **10!**, 5, 6!, 1")
+      expect(result).toEqual("2!, **10!**, 5, 6!, 1, 4")
     })
 
     it("ignroes successes", () => {
