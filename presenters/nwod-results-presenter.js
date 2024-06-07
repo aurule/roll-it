@@ -140,16 +140,21 @@ function explainRote(rote) {
  */
 function notateDice(raw, threshold, explode, rote, pool) {
   let idx_mod = 0
+  let skip = false
   return raw
     .map((die, idx) => {
       if (die >= threshold) {
         if (die >= explode) {
           idx_mod--
+          skip = true
           return bold(`${die}!`)
         }
         return bold(die)
-      // } else if (rote) {
       } else if (rote && (idx + idx_mod < pool)) {
+        if (skip) {
+          skip = false
+          return die
+        }
         return `${die}!`
       }
       return die
