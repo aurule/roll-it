@@ -1,6 +1,7 @@
 const {
   SlashCommandBuilder,
   inlineCode,
+  italic,
 } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
@@ -43,6 +44,11 @@ module.exports = {
           .setMinValue(2)
           .setMaxValue(10)
       )
+      .addBooleanOption(option =>
+        option
+          .setName("rote")
+          .setDescription("Re-roll any dice in your initial pool that do not score successes")
+      )
       .addBooleanOption((option) =>
         option
           .setName("teamwork")
@@ -65,6 +71,7 @@ module.exports = {
     let pool = interaction.options.getInteger("pool")
     let explode = interaction.options.getInteger("explode") ?? 10
     let threshold = interaction.options.getInteger("threshold") ?? 8
+    const rote = interaction.options.getBoolean("rote") ?? false
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const until = interaction.options.getInteger("until") ?? 0
     const roll_description = interaction.options.getString("description") ?? ""
@@ -88,11 +95,11 @@ module.exports = {
     const userFlake = interaction.user.id
 
     if (is_teamwork) {
-      if (rolls > 1 || until > 0 || secret) {
+      if (rolls > 1 || until > 0 || secret || rote) {
         return interaction.reply({
           content: oneLine`
-            You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("until")}, or
-            ${inlineCode("secret")} options.
+            You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("rote")},
+            ${inlineCode("until")}, or ${inlineCode("secret")} options.
           `,
           ephemeral: true,
         })
@@ -103,12 +110,15 @@ module.exports = {
         userFlake,
         description: roll_description,
         initialPool: pool,
-        roller: (final_pool) => roll(final_pool, 10, explode, rolls),
+        roller: (final_pool) => roll({
+          pool: final_pool,
+          explode,
+          rolls
+        }),
         summer: (raw_results) => successes(raw_results, threshold),
         presenter: (final_pool, raw_results, summed_results) => present({
           rolls,
           pool: final_pool,
-          chance,
           explode,
           threshold,
           until,
@@ -125,13 +135,13 @@ module.exports = {
 
     if (until) {
       ;({ raw_results, summed_results } = rollUntil({
-        roll: () => roll(pool, 10, explode),
+        roll: () => roll({pool, explode, rote, threshold, chance}),
         tally: (currentResult) => successes(currentResult, threshold),
         max: rolls === 1 ? 0 : rolls,
         target: until,
       }))
     } else {
-      raw_results = roll(pool, 10, explode, rolls)
+      raw_results = roll({pool, explode, rote, threshold, chance, rolls})
       summed_results = successes(raw_results, threshold)
     }
 
@@ -139,6 +149,7 @@ module.exports = {
       content: present({
         rolls,
         pool,
+        rote,
         chance,
         explode,
         threshold,
@@ -157,6 +168,18 @@ module.exports = {
       `* A die that rolls at or above the ${inlineCode("threshold")} value adds a success`,
       `* A die that rolls at or above the ${inlineCode("explode")} value adds another die to the roll`,
       "",
+      "There are also some special mechanics that are supported, even though they don't come up very often:",
+      oneLine`
+        * When ${inlineCode("rote")} is true, every die in your ${italic("initial")} pool that fails to score
+        a success adds another die to the roll
+      `,
+      oneLine`
+        * When your ${inlineCode("pool")} is zero, you get a single "chance" die. If it's a 1, you
+        automatically get a "Dramatic Failure". If it's a 10, you get a single success which explodes as
+        usual. Any other result is a normal failure. This interacts with ${inlineCode("rote")} in a weird way;
+        see ${italic("World of Darkness")} p.135 for details.
+      `,
+      "",
       `If you want to roll a pool with no 10-again, set ${inlineCode("explode")} to 11.`,
       oneLine`
         The ${inlineCode("rolls")} option lets you roll the same pool and difficulty multiple times, like for
@@ -170,7 +193,7 @@ module.exports = {
       oneLine`
         The ${inlineCode("teamwork")} option starts a special teamwork roll that lets other people add dice to
         your pool by responding to a prompt. This is not compatible with the ${inlineCode("rolls")},
-        ${inlineCode("until")}, or ${inlineCode("secret")} options.
+        ${inlineCode("rote")}, ${inlineCode("until")}, or ${inlineCode("secret")} options.
       `
     ].join("\n")
   },

@@ -42,6 +42,20 @@ describe("explainThreshold", () => {
   })
 })
 
+describe("explainRote", () => {
+  it("returns empty string when false", () => {
+    const result = NwodResultsPresenter.explainRote(false)
+
+    expect(result).toEqual("")
+  })
+
+  it("returns a description for true", () => {
+    const result = NwodResultsPresenter.explainRote(true)
+
+    expect(result).toEqual(" with rote")
+  })
+})
+
 describe("explainChance", () => {
   describe("with normal roll", () => {
     it("ignores initial 1 result", () => {

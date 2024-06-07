@@ -6,6 +6,7 @@ const { bold, userMention } = require("discord.js")
  *
  * @param  {Int}    options.pool            Number of dice rolled
  * @param  {bool}   options.chance          Whether this is the result of a chance roll
+ * @param  {bool}   options.rote            Whether this is the result of a rote roll
  * @param  {Int}    options.threshold       Threshold for success
  * @param  {Bool}   options.explode         Whether 10s were re-rolled
  * @param  {Int}    options.until           Target number of successes from multiple rolls
@@ -18,6 +19,7 @@ const { bold, userMention } = require("discord.js")
 function presentOne({
   pool,
   chance,
+  rote,
   threshold,
   explode,
   until,
@@ -35,7 +37,7 @@ function presentOne({
     content.push(`for "${description}"`)
   }
   content.push(
-    detailOne({ pool, threshold, explode, raw: raw[0] })
+    detailOne({ pool, rote, threshold, explode, raw: raw[0] })
   )
   return content.join(" ")
 }
@@ -62,14 +64,16 @@ function explainChance(chance, raw, summed) {
  * Describe a single roll's details
  *
  * @param  {Int}    options.pool       Number of dice rolled
+ * @param  {bool}   options.rote       Whether this is the result of a rote roll
  * @param  {Int}    options.threshold  Threshold for success
  * @param  {Bool}   options.explode    Whether 10s were re-rolled
  * @param  {Array<Int>} options.raw    Array with ints representing raw dice rolls
  * @return {String}                    String detailing a single roll
  */
-function detailOne ({ pool, threshold, explode, raw }) {
+function detailOne ({ pool, rote, threshold, explode, raw }) {
   let detail = [
     `(${pool} dice`,
+    explainRote(rote),
     explainThreshold(threshold),
     explainExplode(explode),
   ]
@@ -108,7 +112,6 @@ function explainThreshold(threshold) {
   return lines.join("")
 }
 
-
 /**
  * Get text describing the passed n-again option
  *
@@ -125,12 +128,23 @@ function explainExplode(explode) {
   return ` with ${explode}-again`
 }
 
+/**
+ * Get text describing the passed rote option
+ *
+ * @param  {bool} rote Whether this was a rote roll
+ * @return {str}       Brief description of the rote option
+ */
+function explainRote(rote) {
+  if (rote) return " with rote"
+  return ""
+}
 
 /**
  * Describe the results of multiple rolls
  *
  * @param  {Int}    options.pool            Number of dice rolled
  * @param  {bool}   options.chance          Whether this is the result of a chance roll
+ * @param  {bool}   options.rote            Whether this is the result of a rote roll
  * @param  {Int}    options.threshold       Threshold for success
  * @param  {Bool}   options.explode         Whether 10s were re-rolled
  * @param  {Int}    options.until           Target number of successes from multiple rolls
@@ -143,6 +157,7 @@ function explainExplode(explode) {
 function presentMany({
   pool,
   chance,
+  rote,
   threshold,
   explode,
   until,
@@ -159,6 +174,7 @@ function presentMany({
   content.push(` ${raw.length} times with`)
 
   content.push(` ${pool} dice`)
+  content.push(explainRote(rote))
   content.push(explainThreshold(threshold))
   content.push(explainExplode(explode))
   content.push(":")
@@ -282,6 +298,7 @@ module.exports = {
   detailOne,
   explainExplode,
   explainThreshold,
+  explainRote,
   presentMany,
   detailMany,
   presentUntil
