@@ -22,7 +22,7 @@ module.exports = {
         option
           .setName("pool")
           .setDescription("The number of dice to roll")
-          .setMinValue(1)
+          .setMinValue(0)
           .setRequired(true)
       )
       .addIntegerOption((option) =>
@@ -62,14 +62,28 @@ module.exports = {
       .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
-    const pool = interaction.options.getInteger("pool")
-    const explode = interaction.options.getInteger("explode") ?? 10
-    const threshold = interaction.options.getInteger("threshold") ?? 8
+    let pool = interaction.options.getInteger("pool")
+    let explode = interaction.options.getInteger("explode") ?? 10
+    let threshold = interaction.options.getInteger("threshold") ?? 8
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const until = interaction.options.getInteger("until") ?? 0
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
     const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
+
+    const chance = !pool
+    if (chance) {
+      if (until) {
+        return interaction.reply({
+          content: `You cannot use the ${inlineCode("until")} option with a chance die.`,
+          ephemeral: true,
+        })
+      }
+
+      pool = 1
+      explode = 10
+      threshold = 10
+    }
 
     const userFlake = interaction.user.id
 
@@ -94,6 +108,7 @@ module.exports = {
         presenter: (final_pool, raw_results, summed_results) => present({
           rolls,
           pool: final_pool,
+          chance,
           explode,
           threshold,
           until,
@@ -124,6 +139,7 @@ module.exports = {
       content: present({
         rolls,
         pool,
+        chance,
         explode,
         threshold,
         until,

@@ -34,6 +34,42 @@ describe("explainThreshold", () => {
 
     expect(result).toMatch("9 and up")
   })
+
+  it("leaves off gte string for 10", () => {
+    const result = NwodResultsPresenter.explainThreshold(10)
+
+    expect(result).not.toMatch("and up")
+  })
+})
+
+describe("explainChance", () => {
+  describe("with normal roll", () => {
+    it("ignores initial 1 result", () => {
+      const result = NwodResultsPresenter.explainChance(false, [1, 8, 3], 1)
+
+      expect(result).not.toContain("failure")
+    })
+
+    it("shows the sum", () => {
+      const result = NwodResultsPresenter.explainChance(false, [1, 8, 3], 1)
+
+      expect(result).toEqual("**1**")
+    })
+  })
+
+  describe("with chance roll", () => {
+    it("returns dramatic failure with raw result of 1", () => {
+      const result = NwodResultsPresenter.explainChance(true, [1], 0)
+
+      expect(result).toMatch("dramatic failure")
+    })
+
+    it("returns normal sum with larger first raw result", () => {
+      const result = NwodResultsPresenter.explainChance(true, [10, 1], 1)
+
+      expect(result).toEqual("**1**")
+    })
+  })
 })
 
 describe("presentOne", () => {

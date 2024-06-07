@@ -26,7 +26,11 @@ function presentOne({
   summed,
   userFlake,
 }) {
-  let content = [userMention(userFlake), "rolled", bold(summed[0])]
+  const content = [
+    userMention(userFlake),
+    "rolled",
+    explainChance(chance, raw[0], summed[0])
+  ]
   if (description) {
     content.push(`for "${description}"`)
   }
@@ -37,16 +41,33 @@ function presentOne({
 }
 
 /**
+ * Explain a result
+ *
+ * If it's a chance roll, then a raw die of 1 is a dramatic failure.
+ * Otherwise, return the summed result as usual.
+ *
+ * @param  {bool}   chance Whether this is the result of a chance roll
+ * @param  {int[]}  raw    Array of a single roll's dice results
+ * @param  {int}    summed Normal success sum of those dice
+ * @return {string}        A string describing the result
+ */
+function explainChance(chance, raw, summed) {
+  if (chance && raw[0] === 1) {
+    return `a ${bold("dramatic failure")}`
+  }
+  return bold(summed)
+}
+
+/**
  * Describe a single roll's details
  *
  * @param  {Int}    options.pool       Number of dice rolled
- * @param  {bool}   options.chance     Whether this is the result of a chance roll
  * @param  {Int}    options.threshold  Threshold for success
  * @param  {Bool}   options.explode    Whether 10s were re-rolled
  * @param  {Array<Int>} options.raw    Array with ints representing raw dice rolls
  * @return {String}                    String detailing a single roll
  */
-function detailOne ({ pool, chance, threshold, explode, raw }) {
+function detailOne ({ pool, threshold, explode, raw }) {
   let detail = [
     `(${pool} dice`,
     explainThreshold(threshold),
@@ -82,7 +103,9 @@ function detailOne ({ pool, chance, threshold, explode, raw }) {
  */
 function explainThreshold(threshold) {
   if (threshold == 8) return ""
-  return ` succeeding on ${threshold} and up`
+  const lines = [` succeeding on ${threshold}`]
+  if (threshold < 10) lines.push(" and up")
+  return lines.join("")
 }
 
 
@@ -128,7 +151,7 @@ function presentMany({
   summed,
   userFlake,
 }) {
-  let content = [userMention(userFlake), " rolled"]
+  const content = [userMention(userFlake), " rolled"]
 
   if (description) {
     content.push(` "${description}"`)
@@ -143,7 +166,7 @@ function presentMany({
     .concat(
       raw.map((result, index) => {
         return [
-          `\n\t${bold(summed[index])} `,
+          `\n\t${explainChance(chance, raw[index], summed[index])} `,
           detailMany({
             pool,
             threshold,
@@ -160,14 +183,13 @@ function presentMany({
  * Describe a single roll's details
  *
  * @param  {Int}    options.pool       Number of dice rolled
- * @param  {bool}   options.chance     Whether this is the result of a chance roll
  * @param  {Int}    options.threshold  Threshold for success
  * @param  {Bool}   options.explode    Whether 10s were re-rolled
  * @param  {Array<Int>} options.raw    Array with ints representing raw dice rolls
  * @return {String}                    String detailing a single roll
  */
-function detailMany({ pool, chance, threshold, explode, raw }) {
-  let detail = [`(`]
+function detailMany({ pool, threshold, explode, raw }) {
+  let detail = ["("]
   detail = detail.concat(
     raw
       .map((die) => {
@@ -188,7 +210,6 @@ function detailMany({ pool, chance, threshold, explode, raw }) {
  * Describe the results of multiple rolls
  *
  * @param  {Int}    options.pool            Number of dice rolled
- * @param  {bool}   options.chance     Whether this is the result of a chance roll
  * @param  {Int}    options.threshold       Threshold for success
  * @param  {Bool}   options.explode         Whether 10s were re-rolled
  * @param  {Int}    options.until           Target number of successes from multiple rolls
@@ -200,7 +221,6 @@ function detailMany({ pool, chance, threshold, explode, raw }) {
  */
 function presentUntil({
   pool,
-  chance,
   threshold,
   explode,
   until,
@@ -258,6 +278,7 @@ module.exports = {
     return presentMany(rollOptions)
   },
   presentOne,
+  explainChance,
   detailOne,
   explainExplode,
   explainThreshold,
