@@ -12,6 +12,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const commandNamePresenter = require("../presenters/command-name-presenter")
 const CommandSelectTransformer = require("../transformers/command-select-transformer")
 const api = require("../services/api")
+const { arrayEq } = require("../util/array-eq")
 
 module.exports = {
   name: "roll-chooser",
@@ -56,7 +57,7 @@ module.exports = {
       ephemeral: true
     })
 
-    var selection = []
+    let selection = deployed_commands
 
     const collector = prompt.createMessageComponentCollector({
       ComponentType: ComponentType.Button,
@@ -74,10 +75,18 @@ module.exports = {
         case "go_button":
           if (!selection.length) {
             interaction.editReply({
-              content: "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:"
+              content: "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:",
             })
             break;
           }
+          if (arrayEq(selection, deployed_commands)) {
+            interaction.editReply({
+              content: "Commands match. Leaving server commands unchanged.",
+              components: [],
+            })
+            break;
+          }
+          // if selection matches deployed_commands, say no changes
           api.setGuildCommands(interaction.guildId, selection)
             .then(result => {
               interaction.editReply({
