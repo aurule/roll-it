@@ -77,7 +77,7 @@ function detailOne ({ pool, rote, threshold, explode, raw }) {
     explainThreshold(threshold),
     explainExplode(explode),
     ": [",
-    notateDice(raw, threshold, explode),
+    notateDice(raw, threshold, explode, rote, pool),
     "])",
   ]
   return detail.join("")
@@ -134,14 +134,23 @@ function explainRote(rote) {
  * @param  {int[]}  raw       Array with ints representing raw dice rolls
  * @param  {int}    threshold Threshold for success
  * @param  {int}    explode   Threshold for re-rolls
+ * @param  {bool}   rote      Whether this was a rote roll
+ * @param  {int}    pool      Initial number of dice rolled
  * @return {string}           Annotated dice results
  */
-function notateDice(raw, threshold, explode) {
+function notateDice(raw, threshold, explode, rote, pool) {
+  let idx_mod = 0
   return raw
-    .map(die => {
+    .map((die, idx) => {
       if (die >= threshold) {
-        if (die >= explode) return bold(`${die}!`)
+        if (die >= explode) {
+          idx_mod--
+          return bold(`${die}!`)
+        }
         return bold(die)
+      // } else if (rote) {
+      } else if (rote && (idx + idx_mod < pool)) {
+        return `${die}!`
       }
       return die
     })
@@ -151,7 +160,7 @@ function notateDice(raw, threshold, explode) {
 /**
  * Describe the results of multiple rolls
  *
- * @param  {Int}    options.pool            Number of dice rolled
+ * @param  {Int}    options.pool            Initial umber of dice rolled
  * @param  {bool}   options.chance          Whether this is the result of a chance roll
  * @param  {bool}   options.rote            Whether this is the result of a rote roll
  * @param  {Int}    options.threshold       Threshold for success
@@ -216,7 +225,7 @@ function presentMany({
 function detailMany({ pool, threshold, explode, raw }) {
   const detail = [
     "(",
-    notateDice(raw, threshold, explode),
+    notateDice(raw, threshold, explode, false, pool),
     ")",
   ]
   return detail.join("")
