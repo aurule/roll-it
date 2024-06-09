@@ -1,4 +1,4 @@
-const { bold, userMention } = require("discord.js")
+const { bold, userMention, inlineCode } = require("discord.js")
 const { evaluate } = require("mathjs")
 
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
 
     let content = [userMention(userFlake), "rolled", bold(finalSum), "on"]
     if (description) content.push(`"${description}"`)
-    content.push(`${formula}:`)
+    content.push(`${inlineCode(formula)}:`)
     content = content.concat(
       pools.map((pool, index) => {
         return `\n\t${summed[index]} from ${pool} [${raw[index]}]`
