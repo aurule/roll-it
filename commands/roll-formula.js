@@ -9,6 +9,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-formula-results-presenter")
+const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "roll-formula",
@@ -23,16 +24,8 @@ module.exports = {
           .setDescription("The formula of dice to roll and operations to apply")
           .setRequired(true)
       )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A word or two about this roll")
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("secret")
-          .setDescription("Hide the roll results from everyone but you")
-      ),
+      .addStringOption(commonOpts.description)
+      .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const formula = interaction.options.getString("formula")
     const roll_description = interaction.options.getString("description") ?? ""

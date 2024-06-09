@@ -16,6 +16,7 @@ module.exports = {
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
+      .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
         option
           .setName("pool")
@@ -38,7 +39,6 @@ module.exports = {
           )
       )
       .addIntegerOption(commonOpts.rolls)
-      .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const pool = interaction.options.getInteger("pool")

@@ -17,6 +17,7 @@ module.exports = {
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
+      .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
         option
           .setName("modifier")
@@ -27,14 +28,13 @@ module.exports = {
       .addStringOption(option =>
         option
           .setName("advantage")
-          .setDescription("Roll with Advantage or Disadvantage from D&D 5e. Roll 2d20 and keep the higher or lower.")
+          .setDescription("Roll with Advantage or Disadvantage from D&D 5e: rolls 2d20 and keeps the higher or lower.")
           .setChoices(
             {name: "Advantage", value: "highest"},
             {name: "Disadvantage", value: "lowest"}
           )
       )
       .addIntegerOption(commonOpts.rolls)
-      .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0

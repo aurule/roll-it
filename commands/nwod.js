@@ -19,6 +19,7 @@ module.exports = {
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
+      .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
         option
           .setName("pool")
@@ -49,6 +50,7 @@ module.exports = {
           .setName("rote")
           .setDescription("Re-roll any dice in your initial pool that do not score successes")
       )
+      .addIntegerOption(commonOpts.rolls)
       .addBooleanOption((option) =>
         option
           .setName("teamwork")
@@ -56,7 +58,6 @@ module.exports = {
             "Begin a teamwork roll where others can contribute dice"
           )
       )
-      .addIntegerOption(commonOpts.rolls)
       .addIntegerOption((option) =>
         option
           .setName("until")
@@ -65,7 +66,6 @@ module.exports = {
           )
           .setMinValue(1)
       )
-      .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     let pool = interaction.options.getInteger("pool")

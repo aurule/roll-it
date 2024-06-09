@@ -17,6 +17,7 @@ module.exports = {
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
+      .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
         option
           .setName("modifier")
@@ -25,7 +26,6 @@ module.exports = {
           )
       )
       .addIntegerOption(commonOpts.rolls)
-      .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0

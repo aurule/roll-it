@@ -17,6 +17,7 @@ module.exports = {
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
+      .addStringOption(commonOpts.description)
       .addBooleanOption((option) =>
         option
           .setName("static")
@@ -30,7 +31,6 @@ module.exports = {
           .setDescription("Replace paper with the special bomb result")
       )
       .addIntegerOption(commonOpts.rolls)
-      .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const static_test = interaction.options.getBoolean("static") ?? false
