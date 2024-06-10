@@ -34,11 +34,11 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["mathjs", "npm:13.0.0"],\
           ["minimist", "npm:1.2.8"],\
-          ["nodemon", "npm:3.1.2"],\
+          ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:11.1.0"],\
-          ["prettier", "npm:3.3.0"],\
+          ["pino-pretty", "npm:11.2.0"],\
+          ["prettier", "npm:3.3.1"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
@@ -2187,10 +2187,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:8227ac539006e531918bf5d88077c531afe15318bf6ce5ee77403518d89d4658ce626b0cc91e5d6720c6653c20bec637cd3b5669f8da924206a1b75c70a98f67#npm:4.3.4", {\
-        "packageLocation": "./.yarn/__virtual__/debug-virtual-d234701f3c/3/.yarn/berry/cache/debug-npm-4.3.4-4513954577-10c0.zip/node_modules/debug/",\
+      ["virtual:c81e4e5ea16dfa01869523ebf6a04ec44447181f8e3f02ff9d5dc54ee7fbe9969f572c5f20071c3b7e3d3a1748d52ed76d343c4ae325d453cb1e17d7545e921a#npm:4.3.4", {\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-08a99ecb7f/3/.yarn/berry/cache/debug-npm-4.3.4-4513954577-10c0.zip/node_modules/debug/",\
         "packageDependencies": [\
-          ["debug", "virtual:8227ac539006e531918bf5d88077c531afe15318bf6ce5ee77403518d89d4658ce626b0cc91e5d6720c6653c20bec637cd3b5669f8da924206a1b75c70a98f67#npm:4.3.4"],\
+          ["debug", "virtual:c81e4e5ea16dfa01869523ebf6a04ec44447181f8e3f02ff9d5dc54ee7fbe9969f572c5f20071c3b7e3d3a1748d52ed76d343c4ae325d453cb1e17d7545e921a#npm:4.3.4"],\
           ["@types/supports-color", null],\
           ["ms", "npm:2.1.2"],\
           ["supports-color", "npm:5.5.0"]\
@@ -4111,12 +4111,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["nodemon", [\
-      ["npm:3.1.2", {\
-        "packageLocation": "./.yarn/unplugged/nodemon-npm-3.1.2-8227ac5390/node_modules/nodemon/",\
+      ["npm:3.1.3", {\
+        "packageLocation": "./.yarn/unplugged/nodemon-npm-3.1.3-c81e4e5ea1/node_modules/nodemon/",\
         "packageDependencies": [\
-          ["nodemon", "npm:3.1.2"],\
+          ["nodemon", "npm:3.1.3"],\
           ["chokidar", "npm:3.6.0"],\
-          ["debug", "virtual:8227ac539006e531918bf5d88077c531afe15318bf6ce5ee77403518d89d4658ce626b0cc91e5d6720c6653c20bec637cd3b5669f8da924206a1b75c70a98f67#npm:4.3.4"],\
+          ["debug", "virtual:c81e4e5ea16dfa01869523ebf6a04ec44447181f8e3f02ff9d5dc54ee7fbe9969f572c5f20071c3b7e3d3a1748d52ed76d343c4ae325d453cb1e17d7545e921a#npm:4.3.4"],\
           ["ignore-by-default", "npm:1.0.1"],\
           ["minimatch", "npm:3.1.2"],\
           ["pstree.remy", "npm:1.1.8"],\
@@ -4361,10 +4361,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
-      ["npm:11.1.0", {\
-        "packageLocation": "../../.yarn/berry/cache/pino-pretty-npm-11.1.0-49c15b9ff5-10c0.zip/node_modules/pino-pretty/",\
+      ["npm:11.2.0", {\
+        "packageLocation": "../../.yarn/berry/cache/pino-pretty-npm-11.2.0-8c536462cd-10c0.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
-          ["pino-pretty", "npm:11.1.0"],\
+          ["pino-pretty", "npm:11.2.0"],\
           ["colorette", "npm:2.0.20"],\
           ["dateformat", "npm:4.6.3"],\
           ["fast-copy", "npm:3.0.2"],\
@@ -4421,10 +4421,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["prettier", [\
-      ["npm:3.3.0", {\
-        "packageLocation": "./.yarn/unplugged/prettier-npm-3.3.0-2a7d3c0efa/node_modules/prettier/",\
+      ["npm:3.3.1", {\
+        "packageLocation": "./.yarn/unplugged/prettier-npm-3.3.1-91c1be8598/node_modules/prettier/",\
         "packageDependencies": [\
-          ["prettier", "npm:3.3.0"]\
+          ["prettier", "npm:3.3.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4678,11 +4678,11 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["mathjs", "npm:13.0.0"],\
           ["minimist", "npm:1.2.8"],\
-          ["nodemon", "npm:3.1.2"],\
+          ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:11.1.0"],\
-          ["prettier", "npm:3.3.0"],\
+          ["pino-pretty", "npm:11.2.0"],\
+          ["prettier", "npm:3.3.1"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
