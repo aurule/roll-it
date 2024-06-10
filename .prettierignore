@@ -1,0 +1,5 @@
+.yarn
+guides
+.pnp.*
+jest.config.js
+**/*.md
