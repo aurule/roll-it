@@ -1,18 +1,27 @@
 const { inlineCode, userMention } = require("discord.js")
 
-const emojiFlat = [null, ":rock: rock", ":scroll: paper", ":scissors: scissors"]
+// prettier-ignore
+const emojiFlat = [
+  null,
+  ":rock: rock",
+  ":scroll: paper",
+  ":scissors: scissors"
+]
+// prettier-ignore
 const emojiStatic = [
   null,
   inlineCode("pass"),
   inlineCode("tie"),
   inlineCode("fail"),
 ]
+// prettier-ignore
 const emojiBomb = [
   null,
   ":rock: rock",
   ":firecracker: bomb",
   ":scissors: scissors",
 ]
+// prettier-ignore
 const emojiStaticBomb = [
   null,
   inlineCode("pass"),
