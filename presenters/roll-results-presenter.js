@@ -27,15 +27,7 @@ module.exports = {
    * @param  {Snowflake} options.userFlake    Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentOne: ({
-    pool,
-    sides,
-    description,
-    raw,
-    summed,
-    modifier,
-    userFlake,
-  }) => {
+  presentOne: ({ pool, sides, description, raw, summed, modifier, userFlake }) => {
     let content = [userMention(userFlake), "rolled", bold(summed[0] + modifier)]
     if (description) {
       content.push(`"${description}"`)
@@ -56,15 +48,7 @@ module.exports = {
    * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentMany: ({
-    pool,
-    sides,
-    description,
-    raw,
-    summed,
-    modifier,
-    userFlake,
-  }) => {
+  presentMany: ({ pool, sides, description, raw, summed, modifier, userFlake }) => {
     let content = [userMention(userFlake), "rolled"]
     if (description) {
       content.push(`"${description}"`)
@@ -78,7 +62,7 @@ module.exports = {
             `\n\t${bold(summed[index] + modifier)}`,
             module.exports.detail({ pool, sides, raw: result, modifier }),
           ].join(" ")
-        })
+        }),
       )
       .join(" ")
   },

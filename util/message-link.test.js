@@ -1,6 +1,6 @@
-const { messageLink } = require('./message-link')
+const { messageLink } = require("./message-link")
 
-const { Message } = require('../testing/message')
+const { Message } = require("../testing/message")
 
 var message
 

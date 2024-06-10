@@ -48,7 +48,7 @@ module.exports = {
    * @param  {Int}  obj.rolls     Number of times to repeat the roll
    * @return {Array<int[]>}       Array of arrays of random numbers
    */
-  roll({pool, explode, rote = false, threshold = 8, chance = false, rolls = 1}) {
+  roll({ pool, explode, rote = false, threshold = 8, chance = false, rolls = 1 }) {
     if (explode === 1) throw new RangeError("explode must be greater than 1")
 
     return Array.from({ length: rolls }, () => {
@@ -68,7 +68,7 @@ module.exports = {
       }
 
       // roll rote dice if present
-      while(rote_dice) {
+      while (rote_dice) {
         subresult.push(rand())
         rote_dice--
       }
@@ -76,7 +76,7 @@ module.exports = {
       // use subresult as a stack and handle n-again rerolls
       subresult.reverse()
       var res
-      while(subresult.length) {
+      while (subresult.length) {
         res = subresult.pop()
         if (res >= explode) subresult.push(rand())
         result.push(res)

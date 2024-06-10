@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder,
-  inlineCode,
-  italic,
-} = require("discord.js")
+const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { roll } = require("../services/base-roller")
@@ -19,11 +15,7 @@ module.exports = {
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
-        option
-          .setName("modifier")
-          .setDescription(
-            "A number to add to the die's result"
-          )
+        option.setName("modifier").setDescription("A number to add to the die's result"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

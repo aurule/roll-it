@@ -21,7 +21,7 @@ const faces = [
   "My reply is no",
   "My sources say no",
   "Outlook not so good",
-  "Very doubtful"
+  "Very doubtful",
 ]
 
 module.exports = {
@@ -37,9 +37,9 @@ module.exports = {
   present: ({ question, doit, raw, userFlake }) => {
     const num = raw[0][0]
     let result = faces[num]
-    if (doit) result = ("Do it")
+    if (doit) result = "Do it"
 
-    let content = [userMention(userFlake), `asked "${question}"`, ":8ball:" , italic(result)]
+    let content = [userMention(userFlake), `asked "${question}"`, ":8ball:", italic(result)]
     return content.join(" ")
   },
 }

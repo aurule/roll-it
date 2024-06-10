@@ -3,7 +3,7 @@ const NwodRoller = require("./nwod-roller")
 describe("roll", () => {
   describe("pool", () => {
     it("result set has a length of at least pool", () => {
-      const allResults = NwodRoller.roll({pool: 5, explode: 6})
+      const allResults = NwodRoller.roll({ pool: 5, explode: 6 })
 
       expect(allResults[0].length).toBeGreaterThan(4)
     })
@@ -12,13 +12,12 @@ describe("roll", () => {
   describe("explode", () => {
     it("throws an error if explode is one", () => {
       expect(() => {
-        NwodRoller.roll({pool: 5, explode: 1})
+        NwodRoller.roll({ pool: 5, explode: 1 })
       }).toThrow("explode must be greater than 1")
-
     })
 
     it("adds dice as threshold is met", () => {
-      const allResults = NwodRoller.roll({pool: 5, explode: 2})
+      const allResults = NwodRoller.roll({ pool: 5, explode: 2 })
 
       expect(allResults[0].length).toBeGreaterThan(5)
     })
@@ -39,7 +38,7 @@ describe("roll", () => {
 
   describe("rolls", () => {
     it("generates number of result sets equal to rolls", () => {
-      const allResults = NwodRoller.roll({pool: 5, explode: 6, rolls: 3})
+      const allResults = NwodRoller.roll({ pool: 5, explode: 6, rolls: 3 })
 
       expect(allResults.length).toEqual(3)
     })

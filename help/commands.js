@@ -1,4 +1,4 @@
-const { inlineCode } = require('discord.js');
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 const commandNamePresenter = require("../presenters/command-name-presenter")
 const commands = require("../commands")
@@ -32,8 +32,8 @@ module.exports = {
       "",
       "Here are all of the slash commands that Roll It knows:",
       commands
-        .filter(c => c.type !== "menu")
-        .map(c => `• ${commandNamePresenter.present(c)} - ${c.description}`)
+        .filter((c) => c.type !== "menu")
+        .map((c) => `• ${commandNamePresenter.present(c)} - ${c.description}`)
         .join("\n"),
     ].join("\n")
   },

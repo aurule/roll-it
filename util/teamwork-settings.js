@@ -59,12 +59,12 @@ module.exports = {
     {
       label: "+11",
       description: "Did you see that hummingbird?",
-      value: "11"
+      value: "11",
     },
     {
       label: "+20",
       description: "Can we retcon that I led?",
-      value: "20"
-    }
-  ]
+      value: "20",
+    },
+  ],
 }

@@ -2,12 +2,15 @@ const CommandNamePresenter = require("./command-name-presenter")
 
 const test_command = {
   name: "test-command",
-  help: () => "test help output"
+  help: () => "test help output",
 }
 
 describe("present", () => {
   it("with a menu command, it uses the name directly", () => {
-    const result = CommandNamePresenter.present({type: "menu", ...test_command})
+    const result = CommandNamePresenter.present({
+      type: "menu",
+      ...test_command,
+    })
 
     expect(result).toEqual(`_${test_command.name}_`)
   })
@@ -16,6 +19,5 @@ describe("present", () => {
     const result = CommandNamePresenter.present(test_command)
 
     expect(result).toEqual(`\`/${test_command.name}\``)
-
   })
 })

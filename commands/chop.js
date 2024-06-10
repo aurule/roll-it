@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder,
-  inlineCode,
-  italic,
-} = require("discord.js")
+const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
 const { logger } = require("../util/logger")
@@ -21,14 +17,10 @@ module.exports = {
       .addBooleanOption((option) =>
         option
           .setName("static")
-          .setDescription(
-            "Display results as pass-tie-fail, for static challenges"
-          )
+          .setDescription("Display results as pass-tie-fail, for static challenges"),
       )
       .addBooleanOption((option) =>
-        option
-          .setName("bomb")
-          .setDescription("Replace paper with the special bomb result")
+        option.setName("bomb").setDescription("Replace paper with the special bomb result"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

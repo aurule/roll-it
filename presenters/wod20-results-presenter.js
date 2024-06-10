@@ -42,16 +42,7 @@ module.exports = {
    * @param  {Snowflake} options.userFlake    Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentOne: ({
-    pool,
-    difficulty,
-    specialty,
-    until,
-    description,
-    raw,
-    summed,
-    userFlake,
-  }) => {
+  presentOne: ({ pool, difficulty, specialty, until, description, raw, summed, userFlake }) => {
     let content = [
       userMention(userFlake),
       "rolled",
@@ -60,9 +51,7 @@ module.exports = {
     if (description) {
       content.push(`for "${description}"`)
     }
-    content.push(
-      module.exports.detailOne({ pool, difficulty, specialty, raw: raw[0] })
-    )
+    content.push(module.exports.detailOne({ pool, difficulty, specialty, raw: raw[0] }))
     return content.join(" ")
   },
 
@@ -90,7 +79,7 @@ module.exports = {
           if (die >= difficulty) return bold(die)
           return die
         })
-        .join(", ")
+        .join(", "),
     )
 
     detail.push("])")
@@ -111,16 +100,7 @@ module.exports = {
    * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentMany: ({
-    pool,
-    difficulty,
-    specialty,
-    until,
-    description,
-    raw,
-    summed,
-    userFlake,
-  }) => {
+  presentMany: ({ pool, difficulty, specialty, until, description, raw, summed, userFlake }) => {
     const specialNote = specialty ? "with specialty" : ""
     const descNote = description ? ` "${description}"` : ""
     let content = [userMention(userFlake), " rolled"]
@@ -140,7 +120,7 @@ module.exports = {
               raw: result,
             }),
           ].join(" ")
-        })
+        }),
       )
       .join("")
   },
@@ -164,7 +144,7 @@ module.exports = {
           if (die >= difficulty) return bold(die)
           return die
         })
-        .join(", ")
+        .join(", "),
     )
     detail.push(")")
 
@@ -184,16 +164,7 @@ module.exports = {
    * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentUntil: ({
-    pool,
-    difficulty,
-    specialty,
-    until,
-    description,
-    raw,
-    summed,
-    userFlake,
-  }) => {
+  presentUntil: ({ pool, difficulty, specialty, until, description, raw, summed, userFlake }) => {
     const specialNote = specialty ? "with specialty" : ""
     const descNote = description ? ` "${description}"` : ""
     const finalSum = summed.reduce((prev, curr) => prev + curr, 0)
@@ -214,7 +185,7 @@ module.exports = {
             raw: result,
           }),
         ].join(" ")
-      })
+      }),
     )
     content.push(`\n${bold(finalSum)} of ${until}`)
     content.push(` in ${raw.length} rolls`)

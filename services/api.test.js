@@ -8,10 +8,14 @@ describe("api", () => {
   describe("commandsToJSON", () => {
     const test_command = {
       test: "test",
-      data() {return {
-        test: this.test,
-        toJSON() { return JSON.stringify(this.test) },
-      }},
+      data() {
+        return {
+          test: this.test,
+          toJSON() {
+            return JSON.stringify(this.test)
+          },
+        }
+      },
     }
 
     it("creates json from data()", () => {

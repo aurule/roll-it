@@ -76,7 +76,8 @@ class Interaction {
 
   async deferUpdate() {
     if (this.replied) return Promise.reject("cannot defer: interaction is already in replied state")
-    if (this.deferred) return Promise.reject("cannot defer: interaction is already in deferred state")
+    if (this.deferred)
+      return Promise.reject("cannot defer: interaction is already in deferred state")
     return
   }
 
@@ -103,5 +104,5 @@ class Interaction {
 }
 
 module.exports = {
-  Interaction
+  Interaction,
 }

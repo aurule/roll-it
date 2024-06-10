@@ -1,6 +1,4 @@
-const {
-  SlashCommandBuilder,
-} = require("discord.js")
+const { SlashCommandBuilder } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
 const { logger } = require("../util/logger")
@@ -16,16 +14,9 @@ module.exports = {
       .setName(module.exports.name)
       .setDescription(module.exports.description)
       .addStringOption((option) =>
-        option
-          .setName("question")
-          .setRequired(true)
-          .setDescription("The question you want to ask")
+        option.setName("question").setRequired(true).setDescription("The question you want to ask"),
       )
-      .addBooleanOption((option) =>
-        option
-          .setName("doit")
-          .setDescription("Do it")
-      )
+      .addBooleanOption((option) => option.setName("doit").setDescription("Do it"))
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const question = interaction.options.getString("question")

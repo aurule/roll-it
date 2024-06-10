@@ -1,4 +1,4 @@
-const { inlineCode, italic } = require('discord.js');
+const { inlineCode, italic } = require("discord.js")
 
 module.exports = {
   /**
@@ -9,5 +9,5 @@ module.exports = {
    */
   present: (command) => {
     return command.type == "menu" ? italic(command.name) : inlineCode(`/${command.name}`)
-  }
+  },
 }

@@ -46,7 +46,6 @@ describe("rollExplode", () => {
       expect(() => {
         rollService.rollExplode(5, 6, 1)
       }).toThrow("explode must be greater than 1")
-
     })
 
     it("adds dice as threshold is met", () => {

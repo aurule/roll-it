@@ -11,5 +11,5 @@ class Reaction {
 }
 
 module.exports = {
-  Reaction
+  Reaction,
 }

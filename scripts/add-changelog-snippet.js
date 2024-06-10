@@ -1,9 +1,9 @@
 const fs = require("fs")
 const path = require("path")
 
-const prompts = require("prompts");
+const prompts = require("prompts")
 
-(async () => {
+;(async () => {
   const questions = [
     {
       type: "select",
@@ -32,7 +32,7 @@ const prompts = require("prompts");
     .then((response) => {
       fs.writeFileSync(
         path.join(__dirname, "../changes", `${response.label}.${response.type}`),
-        response.message
+        response.message,
       )
     })
     .catch((err) => {

@@ -23,9 +23,7 @@ module.exports = {
    * @return {Array<Int>}                   Array of sums from each result set
    */
   fudge(resultSets) {
-    return resultSets.map((set) =>
-      set.reduce((prev, curr) => prev + curr - 2, 0)
-    )
+    return resultSets.map((set) => set.reduce((prev, curr) => prev + curr - 2, 0))
   },
 
   /**
@@ -70,8 +68,6 @@ module.exports = {
    * @return {Array<Int>}                   Array of ints representing the success tallies of each resultSet
    */
   successes(resultSets, threshold) {
-    return resultSets.map((set) =>
-      set.reduce((prev, curr) => prev + (curr >= threshold), 0)
-    )
+    return resultSets.map((set) => set.reduce((prev, curr) => prev + (curr >= threshold), 0))
   },
 }

@@ -22,7 +22,7 @@ describe("execute", () => {
     envSpy.mockReturnValue(false)
 
     return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch(
-      "wrong guild for env"
+      "wrong guild for env",
     )
   })
 
@@ -35,18 +35,14 @@ describe("execute", () => {
     it("executes commands", () => {
       handleSpy.mockResolvedValue("worked")
 
-      return expect(
-        InteractionCreateEvent.execute(interaction)
-      ).resolves.toMatch("worked")
+      return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch("worked")
     })
 
     it("executes application commands", () => {
       interaction.interactionType = "chatInputCommand"
       handleSpy.mockResolvedValue("worked")
 
-      return expect(
-        InteractionCreateEvent.execute(interaction)
-      ).resolves.toMatch("worked")
+      return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch("worked")
     })
 
     it("gracefully handles command errors", async () => {
@@ -67,9 +63,7 @@ describe("execute", () => {
     it("executes autocompletes", () => {
       handleSpy.mockResolvedValue("worked")
 
-      return expect(
-        InteractionCreateEvent.execute(interaction)
-      ).resolves.toMatch("worked")
+      return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch("worked")
     })
 
     it("gracefully handles autocomplete errors", async () => {
@@ -143,9 +137,7 @@ describe("handleCommand", () => {
   it("rejects on unknown command", () => {
     interaction.commandName = "nope"
 
-    return expect(
-      InteractionCreateEvent.handleCommand(interaction)
-    ).rejects.toMatch("no command")
+    return expect(InteractionCreateEvent.handleCommand(interaction)).rejects.toMatch("no command")
   })
 
   describe("when command is in a guild", () => {
@@ -154,9 +146,7 @@ describe("handleCommand", () => {
 
   describe("when command has no policy", () => {
     it("executes the command", () => {
-      return expect(
-        InteractionCreateEvent.handleCommand(interaction)
-      ).resolves.toMatch("worked")
+      return expect(InteractionCreateEvent.handleCommand(interaction)).resolves.toMatch("worked")
     })
   })
 
@@ -170,9 +160,7 @@ describe("handleCommand", () => {
         allow: async (interaction) => true,
       }
 
-      return expect(
-        InteractionCreateEvent.handleCommand(interaction)
-      ).resolves.toMatch("worked")
+      return expect(InteractionCreateEvent.handleCommand(interaction)).resolves.toMatch("worked")
     })
 
     it("replies with the policy error message when the policy disallows", () => {
@@ -181,9 +169,9 @@ describe("handleCommand", () => {
         errorMessage: "not allowed",
       }
 
-      return expect(
-        InteractionCreateEvent.handleCommand(interaction)
-      ).resolves.toMatchObject({ content: "not allowed" })
+      return expect(InteractionCreateEvent.handleCommand(interaction)).resolves.toMatchObject({
+        content: "not allowed",
+      })
     })
   })
 })
@@ -206,26 +194,24 @@ describe("handleAutocomplete", () => {
   it("rejects on unknown command", () => {
     interaction.commandName = "nope"
 
-    return expect(
-      InteractionCreateEvent.handleAutocomplete(interaction)
-    ).rejects.toMatch("no command")
+    return expect(InteractionCreateEvent.handleAutocomplete(interaction)).rejects.toMatch(
+      "no command",
+    )
   })
 
   it("rejects if no completer registered for the current option", () => {
     interaction.commandName = "testing"
     testCommand.autocomplete.delete("testOption")
 
-    return expect(
-      InteractionCreateEvent.handleAutocomplete(interaction)
-    ).rejects.toMatch("no autocomplete")
+    return expect(InteractionCreateEvent.handleAutocomplete(interaction)).rejects.toMatch(
+      "no autocomplete",
+    )
   })
 
   it("executes the completer", () => {
     interaction.commandName = "testing"
     interaction.focused_option = "testOption"
 
-    return expect(
-      InteractionCreateEvent.handleAutocomplete(interaction)
-    ).resolves.toMatch("worked")
+    return expect(InteractionCreateEvent.handleAutocomplete(interaction)).resolves.toMatch("worked")
   })
 })

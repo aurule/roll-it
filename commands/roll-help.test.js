@@ -17,13 +17,10 @@ const test_command = {
       .setName("test-command")
       .setDescription("A fake command for testing")
       .addStringOption((option) =>
-        option
-          .setName("title")
-          .setDescription("Title description")
-          .setRequired(true)
+        option.setName("title").setDescription("Title description").setRequired(true),
       )
       .addStringOption((option) =>
-        option.setName("subtitle").setDescription("Subtitle description")
+        option.setName("subtitle").setDescription("Subtitle description"),
       ),
   help: ({ command_name }) => "test help output",
 }
@@ -98,10 +95,7 @@ describe("execute", () => {
             .setName("roll-help")
             .setDescription("A fake command for testing")
             .addStringOption((option) =>
-              option
-                .setName("title")
-                .setDescription("Title description")
-                .setRequired(true)
+              option.setName("title").setDescription("Title description").setRequired(true),
             ),
         help: () => "test help",
       })
@@ -134,7 +128,7 @@ describe("data", () => {
 
 describe("help", () => {
   it("includes the command name in the output", () => {
-    const help_text = roll_help_command.help({command_name: "sillyness"})
+    const help_text = roll_help_command.help({ command_name: "sillyness" })
 
     expect(help_text).toMatch("sillyness")
   })

@@ -12,11 +12,7 @@ const topics = new Collection()
 fs.readdirSync(__dirname)
   .filter(jsNoTests)
   .filter(noDotFiles)
-  .filter((file) => {
-    return (
-      file !== basename
-    )
-  })
+  .filter((file) => file !== basename)
   .forEach((file) => {
     const topic = require(path.join(__dirname, file))
     topics.set(topic.name, topic)

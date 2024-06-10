@@ -28,33 +28,32 @@ module.exports = {
   async execute(interaction) {
     const commands = require("./index")
     const guild_commands = commands.guild()
-    const deployed_commands = await api.getGuildCommands(interaction.guildId)
-      .then(res => res.map(c => c.name))
+    const deployed_commands = await api
+      .getGuildCommands(interaction.guildId)
+      .then((res) => res.map((c) => c.name))
 
     const picker = new StringSelectMenuBuilder()
-      .setCustomId('chooser')
-      .setPlaceholder('Pick one or more')
+      .setCustomId("chooser")
+      .setPlaceholder("Pick one or more")
       .setMinValues(1)
       .setMaxValues(guild_commands.size)
       .addOptions(...CommandSelectTransformer.transform(guild_commands, deployed_commands))
-    const picker_row = new ActionRowBuilder()
-      .addComponents(picker)
+    const picker_row = new ActionRowBuilder().addComponents(picker)
 
     const go_button = new ButtonBuilder()
-      .setCustomId('go_button')
+      .setCustomId("go_button")
       .setLabel("Set Commands")
       .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
-      .setCustomId('cancel_button')
+      .setCustomId("cancel_button")
       .setLabel("Cancel")
       .setStyle(ButtonStyle.Secondary)
-    const buttons_row = new ActionRowBuilder()
-      .addComponents(go_button, cancel_button)
+    const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
 
     const prompt = await interaction.reply({
       content: "Choose the Roll It commands you want to make available on this server:",
       components: [picker_row, buttons_row],
-      ephemeral: true
+      ephemeral: true,
     })
 
     let selection = deployed_commands
@@ -63,32 +62,34 @@ module.exports = {
       ComponentType: ComponentType.Button,
       time: 60_000,
     })
-    collector.on('collect', event => {
-      event.deferUpdate()
-      switch(event.customId) {
-        case "cancel_button":
-          interaction.editReply({
-            content: "Cancelled. Leaving server commands unchanged.",
-            components: []
-          })
-          break;
-        case "go_button":
-          if (!selection.length) {
+    collector.on(
+      "collect",
+      (event) => {
+        event.deferUpdate()
+        switch (event.customId) {
+          case "cancel_button":
             interaction.editReply({
-              content: "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:",
-            })
-            break;
-          }
-          if (arrayEq(selection, deployed_commands)) {
-            interaction.editReply({
-              content: "Commands match. Leaving server commands unchanged.",
+              content: "Cancelled. Leaving server commands unchanged.",
               components: [],
             })
-            break;
-          }
-          // if selection matches deployed_commands, say no changes
-          api.setGuildCommands(interaction.guildId, selection)
-            .then(result => {
+            break
+          case "go_button":
+            if (!selection.length) {
+              interaction.editReply({
+                content:
+                  "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:",
+              })
+              break
+            }
+            if (arrayEq(selection, deployed_commands)) {
+              interaction.editReply({
+                content: "Commands match. Leaving server commands unchanged.",
+                components: [],
+              })
+              break
+            }
+            // if selection matches deployed_commands, say no changes
+            api.setGuildCommands(interaction.guildId, selection).then((result) => {
               interaction.editReply({
                 content: oneLine`
                   Updated server commands to: ${selection.join(", ")}
@@ -96,18 +97,19 @@ module.exports = {
                 components: [],
               })
             })
-          break;
-        case "chooser":
-          selection = event.values
-          break;
-      }
-    },
-    timeoutEvent => {
-      interaction.editReply({
-        content: "Ran out of time. Leaving server commands unchanged.",
-        components: []
-      })
-    })
+            break
+          case "chooser":
+            selection = event.values
+            break
+        }
+      },
+      (timeoutEvent) => {
+        interaction.editReply({
+          content: "Ran out of time. Leaving server commands unchanged.",
+          components: [],
+        })
+      },
+    )
   },
   help({ command_name }) {
     const guild_commands = require("./index").guild()
@@ -121,8 +123,8 @@ module.exports = {
       "",
       "These are the commands which you can add or remove:",
       guild_commands
-        .filter(c => c.type !== "menu")
-        .map(c => `• ${commandNamePresenter.present(c)} - ${c.description}`)
+        .filter((c) => c.type !== "menu")
+        .map((c) => `• ${commandNamePresenter.present(c)} - ${c.description}`)
         .join("\n"),
     ].join("\n")
   },

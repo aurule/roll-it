@@ -1,4 +1,4 @@
-const {arrayEq} = require("./array-eq")
+const { arrayEq } = require("./array-eq")
 
 it("returns true for identical objects", () => {
   const arr1 = [1, 2, 3]
@@ -34,7 +34,7 @@ it("returns false if non-shared item", () => {
   expect(result).toBeFalsy()
 })
 
-it("returns true with matching items", () =>{
+it("returns true with matching items", () => {
   const arr1 = [1, 2, 3]
   const arr2 = [1, 2, 3]
 

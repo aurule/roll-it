@@ -66,19 +66,14 @@ module.exports = {
    * @return {String}                         String describing this roll
    */
   presentMany: ({ static_test, bomb, description, raw, userFlake }) => {
-    let content = [
-      userMention(userFlake),
-      "rolled",
-    ]
+    let content = [userMention(userFlake), "rolled"]
     if (description) {
       content.push(`"${description}"`)
     }
     content.push(raw.length)
     content.push("times:")
     return content
-      .concat(
-        raw.map(result => `\n\t${module.exports.rollToEmoji(result, static_test, bomb)}`)
-      )
+      .concat(raw.map((result) => `\n\t${module.exports.rollToEmoji(result, static_test, bomb)}`))
       .join(" ")
   },
 

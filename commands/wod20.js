@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder,
-  italic,
-  inlineCode,
-} = require("discord.js")
+const { SlashCommandBuilder, italic, inlineCode } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
 const { rollUntil } = require("../services/until-roller")
@@ -14,8 +10,7 @@ const commonOpts = require("../util/common-options")
 
 module.exports = {
   name: "wod20",
-  description:
-    "Roll a pool of d10s using rules for World of Darkness 20th Anniversary",
+  description: "Roll a pool of d10s using rules for World of Darkness 20th Anniversary",
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
@@ -26,37 +21,33 @@ module.exports = {
           .setName("pool")
           .setDescription("The number of dice to roll")
           .setMinValue(1)
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("difficulty")
           .setDescription(
-            "The number a die has to meet or exceed to count as a success (default 6)"
+            "The number a die has to meet or exceed to count as a success (default 6)",
           )
           .setMinValue(2)
-          .setMaxValue(10)
+          .setMaxValue(10),
       )
       .addBooleanOption((option) =>
-        option
-          .setName("specialty")
-          .setDescription("Whether to count 10s as two successes")
+        option.setName("specialty").setDescription("Whether to count 10s as two successes"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption((option) =>
         option
           .setName("teamwork")
-          .setDescription(
-            "Begin a teamwork roll where others can contribute dice"
-          )
+          .setDescription("Begin a teamwork roll where others can contribute dice"),
       )
       .addIntegerOption((option) =>
         option
           .setName("until")
           .setDescription(
-            "Roll the entire dice pool multiple times until this many successes are accrued"
+            "Roll the entire dice pool multiple times until this many successes are accrued",
           )
-          .setMinValue(1)
+          .setMinValue(1),
       )
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
@@ -89,17 +80,18 @@ module.exports = {
         initialPool: pool,
         roller: (final_pool) => roll(final_pool, 10, rolls),
         summer: (raw_results) => wod20(raw_results, difficulty, specialty),
-        presenter: (final_pool, raw_results, summed_results) => present({
-          rolls,
-          pool: final_pool,
-          difficulty,
-          specialty,
-          until,
-          description: roll_description,
-          raw: raw_results,
-          summed: summed_results,
-          userFlake
-        })
+        presenter: (final_pool, raw_results, summed_results) =>
+          present({
+            rolls,
+            pool: final_pool,
+            difficulty,
+            specialty,
+            until,
+            description: roll_description,
+            raw: raw_results,
+            summed: summed_results,
+            userFlake,
+          }),
       })
     }
 
@@ -128,7 +120,7 @@ module.exports = {
         description: roll_description,
         raw: raw_results,
         summed: summed_results,
-        userFlake
+        userFlake,
       }),
       ephemeral: secret,
     })
@@ -157,7 +149,7 @@ module.exports = {
         The ${inlineCode("teamwork")} option starts a special teamwork roll that lets other people add dice to
         your pool by responding to a prompt. This is not compatible with the ${inlineCode("rolls")},
         ${inlineCode("until")}, or ${inlineCode("secret")} options.
-      `
+      `,
     ].join("\n")
   },
 }

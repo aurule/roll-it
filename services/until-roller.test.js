@@ -12,7 +12,7 @@ describe("rollUntil", () => {
       tally: (res) => sum(res),
     }
     const result = untilService.rollUntil(args)
-    let finalSum = result.summed_results.reduce((a,b) => a+b,0)
+    let finalSum = result.summed_results.reduce((a, b) => a + b, 0)
 
     expect(finalSum).toBeGreaterThan(19)
   })

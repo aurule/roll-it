@@ -1,9 +1,4 @@
-const {
-  SlashCommandBuilder,
-  inlineCode,
-  hideLinkEmbed,
-  hyperlink,
-} = require("discord.js")
+const { SlashCommandBuilder, inlineCode, hideLinkEmbed, hyperlink } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
 const { roll } = require("../services/base-roller")
@@ -22,7 +17,7 @@ module.exports = {
         option
           .setName("formula")
           .setDescription("The formula of dice to roll and operations to apply")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
@@ -44,7 +39,7 @@ module.exports = {
         let summed = sum(raw)
         summed_results.push(summed)
         return summed
-      }
+      },
     )
 
     return interaction.reply({

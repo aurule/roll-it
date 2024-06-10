@@ -18,8 +18,8 @@ describe("execute", () => {
     const spy = jest.spyOn(logger, "info")
     const client = {
       user: {
-        tag: 'test'
-      }
+        tag: "test",
+      },
     }
 
     ready.execute(client)

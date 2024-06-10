@@ -25,8 +25,8 @@ module.exports = {
       forceArray(policies).map((policy) =>
         policy.allow(interaction).then((allowed) => {
           return { result: allowed, errorMessage: policy.errorMessage }
-        })
-      )
+        }),
+      ),
     ).then((allResults) => {
       const errorLines = []
       const allowed = allResults.reduce(
@@ -34,7 +34,7 @@ module.exports = {
           if (!curr.result) errorLines.push(curr.errorMessage)
           return accumulator && curr.result
         },
-        { result: true }
+        { result: true },
       )
 
       return new PolicyResult(allowed, errorLines)

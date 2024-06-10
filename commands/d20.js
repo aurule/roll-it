@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder,
-  inlineCode,
-  italic,
-} = require("discord.js")
+const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
@@ -19,20 +15,18 @@ module.exports = {
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
-        option
-          .setName("modifier")
-          .setDescription(
-            "A number to add to the die's result"
-          )
+        option.setName("modifier").setDescription("A number to add to the die's result"),
       )
-      .addStringOption(option =>
+      .addStringOption((option) =>
         option
           .setName("advantage")
-          .setDescription("Roll with Advantage or Disadvantage from D&D 5e: rolls 2d20 and keeps the higher or lower.")
-          .setChoices(
-            {name: "Advantage", value: "highest"},
-            {name: "Disadvantage", value: "lowest"}
+          .setDescription(
+            "Roll with Advantage or Disadvantage from D&D 5e: rolls 2d20 and keeps the higher or lower.",
           )
+          .setChoices(
+            { name: "Advantage", value: "highest" },
+            { name: "Disadvantage", value: "lowest" },
+          ),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
@@ -46,7 +40,7 @@ module.exports = {
     const pool = keep == "all" ? 1 : 2
 
     const raw_results = roll(pool, 20, rolls)
-    const pick_results = keep ? pick(raw_results, 1, strategy = keep) : {}
+    const pick_results = keep ? pick(raw_results, 1, keep) : {}
 
     return interaction.reply({
       content: present({

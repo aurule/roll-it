@@ -7,7 +7,7 @@ describe("presentOne", () => {
     modifier: 0,
     description: "test roll",
     raw: [[1]],
-    picked: [{indexes: [0]}],
+    picked: [{ indexes: [0] }],
     userFlake: simpleflake(),
   }
 
@@ -29,7 +29,7 @@ describe("presentMany", () => {
     modifier: 0,
     description: "test roll",
     raw: [[1], [2]],
-    picked: [{indexes: [0]}, {indexes: [0]}],
+    picked: [{ indexes: [0] }, { indexes: [0] }],
     userFlake: simpleflake(),
   }
 

@@ -14,15 +14,7 @@ module.exports = {
    * @param  {Snowflake}  options.userFlake     Snowflake of the user that made the roll
    * @return {String}                           String describing the roll results
    */
-  present: ({
-    formula,
-    rolledFormula,
-    pools,
-    raw,
-    summed,
-    description,
-    userFlake,
-  }) => {
+  present: ({ formula, rolledFormula, pools, raw, summed, description, userFlake }) => {
     const finalSum = evaluate(rolledFormula)
 
     let content = [userMention(userFlake), "rolled", bold(finalSum), "on"]
@@ -31,7 +23,7 @@ module.exports = {
     content = content.concat(
       pools.map((pool, index) => {
         return `\n\t${summed[index]} from ${pool} [${raw[index]}]`
-      })
+      }),
     )
     content.push(`\n${finalSum} = ${rolledFormula}`)
     return content.join(" ")

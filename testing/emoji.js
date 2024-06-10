@@ -5,5 +5,5 @@ class Emoji {
 }
 
 module.exports = {
-  Emoji
+  Emoji,
 }

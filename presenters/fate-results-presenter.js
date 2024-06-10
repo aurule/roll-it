@@ -85,7 +85,7 @@ module.exports = {
             "result:",
             module.exports.detail({ raw: result, modifier }),
           ].join(" ")
-        })
+        }),
       )
       .join(" ")
   },

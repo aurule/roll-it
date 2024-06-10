@@ -10,7 +10,10 @@ describe("pick", () => {
   })
 
   it("applies to all results", () => {
-    const raw = [[1, 2, 3], [3, 2, 1]]
+    const raw = [
+      [1, 2, 3],
+      [3, 2, 1],
+    ]
 
     const result = pick(raw, 1)
 

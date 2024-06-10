@@ -7,8 +7,8 @@ module.exports = {
    * @param  {String}       strategy    Method to use to keep dice
    * @return {Array<obj>}               Array of objects, each with an indexes and results attribute
    */
-  pick(raw_results, dice=1, strategy="highest") {
-    return raw_results.map(raw => {
+  pick(raw_results, dice = 1, strategy = "highest") {
+    return raw_results.map((raw) => {
       if (strategy == "all" || dice >= raw.length) {
         return {
           indexes: Array.from(raw.keys()),
@@ -20,7 +20,7 @@ module.exports = {
       pairs.sort((a, b) => a[1] - b[1])
 
       let picked
-      switch(strategy) {
+      switch (strategy) {
         case "highest":
           picked = pairs.slice(-dice)
           break
@@ -32,8 +32,8 @@ module.exports = {
       }
 
       return {
-        indexes: picked.map(p => p[0]),
-        results: picked.map(p => p[1]),
+        indexes: picked.map((p) => p[0]),
+        results: picked.map((p) => p[1]),
       }
     })
   },

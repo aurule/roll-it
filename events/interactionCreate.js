@@ -21,7 +21,7 @@ async function handleCommand(interaction) {
     {
       command: interaction.commandName,
     },
-    `command ${interaction.commandName} called`
+    `command ${interaction.commandName} called`,
   )
 
   const policyResult = await PolicyChecker.check(command.policy, interaction)
@@ -46,16 +46,13 @@ async function handleCommand(interaction) {
  */
 async function handleAutocomplete(interaction) {
   const command = interaction.client.commands.get(interaction.commandName)
-  if (!command)
-    return Promise.reject(
-      `no command ${interaction.commandName} (autocomplete)`
-    )
+  if (!command) return Promise.reject(`no command ${interaction.commandName} (autocomplete)`)
 
   const option = interaction.options.getFocused(true)
   const completer = command.autocomplete.get(option.name)
   if (!completer)
     return Promise.reject(
-      `no autocomplete for option ${option.name} on command ${interaction.commandName}`
+      `no autocomplete for option ${option.name} on command ${interaction.commandName}`,
     )
 
   return completer.complete(interaction)
@@ -92,8 +89,7 @@ module.exports = {
    *                                    from a call to interaction.reply()
    */
   execute(interaction) {
-    if (!module.exports.inCorrectEnv(interaction))
-      return Promise.resolve("wrong guild for env")
+    if (!module.exports.inCorrectEnv(interaction)) return Promise.resolve("wrong guild for env")
 
     // handle command invocations
     if (interaction.isCommand() || interaction.isChatInputCommand()) {
@@ -105,7 +101,7 @@ module.exports = {
             guild: interaction.guildId,
             command: interaction.commandName,
           },
-          `Error while executing command ${interaction.commandName}`
+          `Error while executing command ${interaction.commandName}`,
         )
         const fn = getReplyFn(interaction)
         return interaction[fn]({
@@ -127,7 +123,7 @@ module.exports = {
             command: interaction.commandName,
             option: interaction.options.getFocused(true),
           },
-          `Error while executing autocomplete for command ${interaction.commandName}`
+          `Error while executing autocomplete for command ${interaction.commandName}`,
         )
         return interaction.respond([])
       })

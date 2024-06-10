@@ -14,7 +14,7 @@ module.exports = {
    */
   roll(pool, sides, rolls = 1) {
     return Array.from({ length: rolls }, () =>
-      Array.from({ length: pool }, () => Math.floor(Math.random() * sides) + 1)
+      Array.from({ length: pool }, () => Math.floor(Math.random() * sides) + 1),
     )
   },
 

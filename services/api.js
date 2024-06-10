@@ -21,7 +21,7 @@ const botId = process.env.CLIENT_ID
  * @return {Object[]}       Array of generated JSON for the given commands
  */
 function commandsToJSON(cmds) {
-  return cmds.map(c => c.data().toJSON())
+  return cmds.map((c) => c.data().toJSON())
 }
 
 module.exports = {
@@ -35,7 +35,8 @@ module.exports = {
    */
   async getGlobalCommands() {
     logger.info("Begin getting global commands")
-    return client.get(Routes.applicationCommands(botId))
+    return client
+      .get(Routes.applicationCommands(botId))
       .catch((error) => {
         logger.warn(error, "Error getting global commands")
       })
@@ -56,12 +57,10 @@ module.exports = {
     const global_json = commandsToJSON(commands.global())
 
     logger.info("Begin setting global commands")
-    return client.put(
-      Routes.applicationCommands(botId),
-      {
-        body: global_json
-      }
-    )
+    return client
+      .put(Routes.applicationCommands(botId), {
+        body: global_json,
+      })
       .catch((error) => {
         logger.warn(error, "Error setting global commands")
       })
@@ -84,18 +83,16 @@ module.exports = {
     const commands = require("../commands")
     const command_json = commands.globals().get(commandName).data().toJSON()
 
-    logger.info({command: commandName}, "Begin updating global command")
-    return client.patch(
-        Routes.applicationCommand(botId, commandId),
-        {
-          body: command_json
-        }
-      )
+    logger.info({ command: commandName }, "Begin updating global command")
+    return client
+      .patch(Routes.applicationCommand(botId, commandId), {
+        body: command_json,
+      })
       .catch((error) => {
         logger.warn(error, `Error updating global command ${commandName}`)
       })
       .finally(() => {
-        logger.info({command: commandName}, "Done updating global command")
+        logger.info({ command: commandName }, "Done updating global command")
       })
   },
 
@@ -106,7 +103,8 @@ module.exports = {
    */
   async getGuilds() {
     logger.info("Begin getting installed guilds")
-    return client.get(Routes.userGuilds(botId))
+    return client
+      .get(Routes.userGuilds(botId))
       .catch((error) => {
         logger.warn(error, "Error getting guilds")
       })
@@ -122,13 +120,14 @@ module.exports = {
    * @return {Promise<Array>}    Promise resolving to an array of command objects
    */
   async getGuildCommands(guildId) {
-    logger.info({guild: guildId}, "Begin getting guild commands")
-    return client.get(Routes.applicationGuildCommands(botId, guildId))
+    logger.info({ guild: guildId }, "Begin getting guild commands")
+    return client
+      .get(Routes.applicationGuildCommands(botId, guildId))
       .catch((error) => {
         logger.warn(error, `Error getting guild commands for ${guildId}`)
       })
       .finally(() => {
-        logger.info({guild: guildId}, "Done getting guild commands")
+        logger.info({ guild: guildId }, "Done getting guild commands")
       })
   },
 
@@ -148,22 +147,20 @@ module.exports = {
     const guild_commands = commands.guild()
     let new_commands = guild_commands
     if (typeof commandNames !== "undefined") {
-      new_commands = guild_commands.filter(c => commandNames.includes(c.name))
+      new_commands = guild_commands.filter((c) => commandNames.includes(c.name))
     }
     const guild_json = commandsToJSON(new_commands)
 
-    logger.info({guild: guildId, commands: commandNames}, "Begin setting guild commands")
-    return client.put(
-      Routes.applicationGuildCommands(botId, guildId),
-      {
-        body: guild_json
-      }
-    )
+    logger.info({ guild: guildId, commands: commandNames }, "Begin setting guild commands")
+    return client
+      .put(Routes.applicationGuildCommands(botId, guildId), {
+        body: guild_json,
+      })
       .catch((error) => {
         logger.warn(error, `Error setting guild commands for ${guildId}`)
       })
       .finally(() => {
-        logger.info({guild: guildId}, "Done setting guild commands")
+        logger.info({ guild: guildId }, "Done setting guild commands")
       })
   },
 
@@ -182,18 +179,16 @@ module.exports = {
     const commands = require("../commands")
     const command_json = commands.guild().get(commandName).data().toJSON()
 
-    logger.info({guild: guildId, command: commandName}, "Begin updating guild command")
-    return client.patch(
-        Routes.applicationGuildCommand(botId, guildId, commandId),
-        {
-          body: command_json
-        }
-      )
+    logger.info({ guild: guildId, command: commandName }, "Begin updating guild command")
+    return client
+      .patch(Routes.applicationGuildCommand(botId, guildId, commandId), {
+        body: command_json,
+      })
       .catch((error) => {
         logger.warn(error, `Error updating guild command ${commandName} for ${guildId}`)
       })
       .finally(() => {
-        logger.info({guild: guildId, command: commandName}, "Done updating guild command")
+        logger.info({ guild: guildId, command: commandName }, "Done updating guild command")
       })
-  }
+  },
 }

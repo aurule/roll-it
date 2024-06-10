@@ -13,11 +13,9 @@ module.exports = {
     const command_options = command_data.options
     const command_name = CommandNamePresenter.present(command)
 
-    let lines = [
-      `Showing help for ${command_name}: ${command.description}`,
-    ]
+    let lines = [`Showing help for ${command_name}: ${command.description}`]
 
-    if(command_options.length) {
+    if (command_options.length) {
       lines.push("")
       lines.push("Args:")
       lines = lines.concat(
@@ -27,7 +25,7 @@ module.exports = {
           opt_lines.push(opt.description)
 
           return opt_lines.join(" ")
-        })
+        }),
       )
     }
 

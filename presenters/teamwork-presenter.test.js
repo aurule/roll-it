@@ -1,5 +1,5 @@
 const { Collection } = require("discord.js")
-const { Message } = require('../testing/message')
+const { Message } = require("../testing/message")
 const { simpleflake } = require("simpleflakes")
 
 const teamworkPresenter = require("./teamwork-presenter")
@@ -90,7 +90,11 @@ describe("teamworkPresenter", () => {
     it("includes the description if given", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperCancelledMessage("testflake", "test description", message)
+      const result = teamworkPresenter.helperCancelledMessage(
+        "testflake",
+        "test description",
+        message,
+      )
 
       expect(result).toMatch('"test description"')
     })
@@ -107,7 +111,11 @@ describe("teamworkPresenter", () => {
     it("includes the description if given", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperTimeoutMessage("testflake", "test description", message)
+      const result = teamworkPresenter.helperTimeoutMessage(
+        "testflake",
+        "test description",
+        message,
+      )
 
       expect(result).toMatch('"test description"')
     })
@@ -152,13 +160,11 @@ describe("teamworkPresenter", () => {
     })
     it("includes each helper", async () => {
       const userFlake = simpleflake()
-      const bonuses = new Collection([
-        ['testflake', 1],
-      ])
+      const bonuses = new Collection([["testflake", 1]])
 
       result = await teamworkPresenter.contributorEmbed(userFlake, 3, bonuses)
 
-      expect(result.data.fields[1].value).toMatch('testflake')
+      expect(result.data.fields[1].value).toMatch("testflake")
     })
   })
 })

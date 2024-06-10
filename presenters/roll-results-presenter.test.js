@@ -7,7 +7,7 @@ describe("presentOne", () => {
     pool: 2,
     sides: 6,
     description: "test roll",
-    raw: [[1,4]],
+    raw: [[1, 4]],
     summed: [5],
     modifier: 2,
     userFlake: simpleflake(),
@@ -37,7 +37,10 @@ describe("presentMany", () => {
     pool: 2,
     sides: 6,
     description: "test roll",
-    raw: [[1,4], [2,5]],
+    raw: [
+      [1, 4],
+      [2, 5],
+    ],
     summed: [5],
     modifier: 2,
     userFlake: simpleflake(),
@@ -66,7 +69,7 @@ describe("detail", () => {
   const defaultArgs = {
     pool: 2,
     sides: 6,
-    raw: [1,4],
+    raw: [1, 4],
     modifier: 2,
   }
 

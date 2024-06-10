@@ -41,10 +41,7 @@ describe("check", () => {
       allow: async () => true,
     }
 
-    const policyResult = await PolicyChecker.check(
-      [policy1, policy2],
-      interaction
-    )
+    const policyResult = await PolicyChecker.check([policy1, policy2], interaction)
 
     expect(policyResult.allowed).toBeTruthy()
   })
@@ -58,10 +55,7 @@ describe("check", () => {
       errorMessage: "nope",
     }
 
-    const policyResult = await PolicyChecker.check(
-      [policy1, policy2],
-      interaction
-    )
+    const policyResult = await PolicyChecker.check([policy1, policy2], interaction)
 
     expect(policyResult.allowed).toBeFalsy()
   })
@@ -80,10 +74,7 @@ describe("check", () => {
       errorMessage: "bad",
     }
 
-    const policyResult = await PolicyChecker.check(
-      [policy1, policy2, policy3],
-      interaction
-    )
+    const policyResult = await PolicyChecker.check([policy1, policy2, policy3], interaction)
 
     expect(policyResult.errorMessages).toContain("nope")
     expect(policyResult.errorMessages).toContain("bad")

@@ -28,7 +28,7 @@ describe("presentOne", () => {
     difficulty: 6,
     specialty: false,
     description: "test roll",
-    raw: [[1,8]],
+    raw: [[1, 8]],
     summed: [0],
     userFlake: simpleflake(),
   }
@@ -65,7 +65,7 @@ describe("detailOne", () => {
     pool: 3,
     difficulty: 6,
     specialty: false,
-    raw: [1,5,8],
+    raw: [1, 5, 8],
   }
 
   it("includes difficulty", () => {
@@ -97,7 +97,7 @@ describe("detailOne", () => {
       pool: 2,
       difficulty: 6,
       specialty: true,
-      raw: [1,10],
+      raw: [1, 10],
     }
 
     it("notes specialty rule is applied", () => {
@@ -120,7 +120,10 @@ describe("presentMany", () => {
     difficulty: 6,
     specialty: false,
     description: "test roll",
-    raw: [[1,8], [4,6]],
+    raw: [
+      [1, 8],
+      [4, 6],
+    ],
     summed: [0, 1],
     userFlake: simpleflake(),
   }
@@ -157,7 +160,7 @@ describe("detailMany", () => {
     pool: 2,
     difficulty: 6,
     specialty: false,
-    raw: [1,8],
+    raw: [1, 8],
   }
 
   it("strikes 1s", () => {
@@ -177,7 +180,7 @@ describe("detailMany", () => {
       pool: 2,
       difficulty: 6,
       specialty: true,
-      raw: [1,10],
+      raw: [1, 10],
     }
 
     it("adds exclamations to 10s", () => {
@@ -195,7 +198,10 @@ describe("presentUntil", () => {
     specialty: false,
     until: 3,
     description: "test roll",
-    raw: [[9,8], [4,6]],
+    raw: [
+      [9, 8],
+      [4, 6],
+    ],
     summed: [2, 1],
     userFlake: simpleflake(),
   }

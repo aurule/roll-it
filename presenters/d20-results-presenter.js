@@ -11,16 +11,11 @@ const { bold, strikethrough, userMention } = require("discord.js")
  * @return {String}                         String describing this roll
  */
 function presentOne({ modifier, description, raw, picked, userFlake }) {
-  let content = [
-    userMention(userFlake),
-    "rolled",
-    detail(raw[0], picked[0].indexes, modifier)
-  ]
+  let content = [userMention(userFlake), "rolled", detail(raw[0], picked[0].indexes, modifier)]
   // with dis/advantage
   if (description) content.push(`for "${description}"`)
   return content.join(" ")
 }
-
 
 /**
  * Create a string describing the results of many rock-paper-scissors rolls
@@ -33,10 +28,7 @@ function presentOne({ modifier, description, raw, picked, userFlake }) {
  * @return {String}                         String describing this roll
  */
 function presentMany({ modifier, description, raw, picked, userFlake }) {
-  let content = [
-    userMention(userFlake),
-    "rolled",
-  ]
+  let content = [userMention(userFlake), "rolled"]
   if (description) {
     content.push(`"${description}"`)
   }
@@ -44,9 +36,7 @@ function presentMany({ modifier, description, raw, picked, userFlake }) {
   content.push(raw.length)
   content.push("times:")
   return content
-    .concat(
-      raw.map((result, idx) => `\n\t${detail(result, picked[idx].indexes, modifier)}`)
-    )
+    .concat(raw.map((result, idx) => `\n\t${detail(result, picked[idx].indexes, modifier)}`))
     .join(" ")
 }
 
@@ -64,18 +54,20 @@ function detail(result, indexes, modifier) {
 
   let selection = `${die}`
   if (result.length > 1) {
-    const nums = result.map((res, idx) => {
-      if (indexes.includes(idx)) {
-        return `${res}`
-      } else {
-        return strikethrough(res)
-      }
-    }).join(", ")
+    const nums = result
+      .map((res, idx) => {
+        if (indexes.includes(idx)) {
+          return `${res}`
+        } else {
+          return strikethrough(res)
+        }
+      })
+      .join(", ")
     selection = `[${nums}]`
   }
 
   let breakdown = ""
-  if(modifier) {
+  if (modifier) {
     breakdown = `(${selection} + ${modifier})`
     content.push(breakdown)
   } else if (result.length > 1) {
@@ -103,5 +95,5 @@ module.exports = {
   },
   presentOne,
   presentMany,
-  detail
+  detail,
 }

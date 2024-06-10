@@ -1,7 +1,4 @@
-const {
-  SlashCommandBuilder,
-  inlineCode,
-} = require("discord.js")
+const { SlashCommandBuilder, inlineCode } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
 const { roll } = require("../services/base-roller")
@@ -22,21 +19,19 @@ module.exports = {
           .setName("pool")
           .setDescription("The number of dice to roll")
           .setMinValue(1)
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("sides")
           .setDescription("The number of sides on the dice")
           .setMinValue(2)
-          .setRequired(true)
+          .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("modifier")
-          .setDescription(
-            "A number to add to the result after adding up the rolled dice"
-          )
+          .setDescription("A number to add to the result after adding up the rolled dice"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

@@ -9,13 +9,10 @@ const test_command = {
       .setName("test-command")
       .setDescription("A fake command for testing")
       .addStringOption((option) =>
-        option
-          .setName("title")
-          .setDescription("Title description")
-          .setRequired(true)
+        option.setName("title").setDescription("Title description").setRequired(true),
       )
       .addStringOption((option) =>
-        option.setName("subtitle").setDescription("Subtitle description")
+        option.setName("subtitle").setDescription("Subtitle description"),
       ),
   help: ({ command_name }) => "test help output",
 }

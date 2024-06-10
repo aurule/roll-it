@@ -14,7 +14,7 @@ module.exports = {
     return new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
-      .addSubcommand(subcommand =>
+      .addSubcommand((subcommand) =>
         subcommand
           .setName("topic")
           .setDescription("Get help about a topic")
@@ -22,11 +22,15 @@ module.exports = {
             option
               .setName("topic")
               .setDescription("The topic you want help with")
-              .setChoices(...Topics.map((t) => { return {name: `${t.title}`, value: `${t.name}`} }))
-              .setRequired(true)
-          )
+              .setChoices(
+                ...Topics.map((t) => {
+                  return { name: `${t.title}`, value: `${t.name}` }
+                }),
+              )
+              .setRequired(true),
+          ),
       )
-      .addSubcommand(subcommand =>
+      .addSubcommand((subcommand) =>
         subcommand
           .setName("command")
           .setDescription("Get help about a command")
@@ -35,8 +39,8 @@ module.exports = {
               .setName("command")
               .setDescription("The command you want help with")
               .setChoices(...CommandChoicesTransformer.transform(commands))
-              .setRequired(true)
-          )
+              .setRequired(true),
+          ),
       )
       .setDMPermission(true)
   },
@@ -49,10 +53,10 @@ module.exports = {
       if (!topic)
         return interaction.reply({
           content: `No help is available for the topic "${topic_name}"`,
-          ephemeral: true
+          ephemeral: true,
         })
 
-      return interaction.reply({content: topic.help(), ephemeral: true})
+      return interaction.reply({ content: topic.help(), ephemeral: true })
     }
 
     const command_name = command_name_arg || module.exports.name
@@ -61,11 +65,14 @@ module.exports = {
     if (!command?.help)
       return interaction.reply({
         content: `No help is available for the command "${command_name}"`,
-        ephemeral: true
+        ephemeral: true,
       })
 
     // return reply with the command's help text
-    return interaction.reply({content: CommandHelpPresenter.present(command), ephemeral: true})
+    return interaction.reply({
+      content: CommandHelpPresenter.present(command),
+      ephemeral: true,
+    })
   },
   help({ command_name }) {
     const commands = require("./index")
@@ -76,9 +83,7 @@ module.exports = {
       `,
       "",
       "Here are the available help topics:",
-      Topics
-        .map(t => `• ${t.title} - ${italic(t.description)}`)
-        .join("\n")
+      Topics.map((t) => `• ${t.title} - ${italic(t.description)}`).join("\n"),
     ].join("\n")
   },
 }

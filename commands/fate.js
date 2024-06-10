@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder,
-  hideLinkEmbed,
-  hyperlink,
-} = require("discord.js")
+const { SlashCommandBuilder, hideLinkEmbed, hyperlink } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
 const { logger } = require("../util/logger")
@@ -22,9 +18,7 @@ module.exports = {
       .addIntegerOption((option) =>
         option
           .setName("modifier")
-          .setDescription(
-            "A number to add to the result after adding up the rolled dice"
-          )
+          .setDescription("A number to add to the result after adding up the rolled dice"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
@@ -55,9 +49,7 @@ module.exports = {
       displayed using the FATE
       ${hyperlink(
         "ladder",
-        hideLinkEmbed(
-          "https://fate-srd.com/fate-core/taking-action-dice-ladder#the-ladder"
-        )
+        hideLinkEmbed("https://fate-srd.com/fate-core/taking-action-dice-ladder#the-ladder"),
       )}.
     `
   },

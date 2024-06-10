@@ -14,16 +14,13 @@ const {
   ButtonStyle,
   ActionRowBuilder,
   ComponentType,
-  UserSelectMenuBuilder
-} = require('discord.js');
+  UserSelectMenuBuilder,
+} = require("discord.js")
 const teamworkPresenter = require("../presenters/teamwork-presenter")
 const { bonusOptions, timeout_ms } = require("../util/teamwork-settings")
 
 function increasePool(initial_pool, bonuses) {
-  let final_pool = bonuses.reduce(
-    (acc, curr) => acc + curr,
-    initial_pool,
-  )
+  let final_pool = bonuses.reduce((acc, curr) => acc + curr, initial_pool)
   return final_pool
 }
 
@@ -35,7 +32,7 @@ function makeLeaderResults(final_pool, roller, summer, presenter) {
 }
 
 function bonusesFromSelections(selections) {
-  return selections.mapValues(v => v.reduce((a, n) => a + (+n), 0))
+  return selections.mapValues((v) => v.reduce((a, n) => a + +n, 0))
 }
 
 module.exports = {
@@ -75,8 +72,7 @@ module.exports = {
       .setCustomId("helpers")
       .setPlaceholder("Request help from these users")
       .setMaxValues(25)
-    const user_row = new ActionRowBuilder()
-      .addComponents(user_menu)
+    const user_row = new ActionRowBuilder().addComponents(user_menu)
     const go_button = new ButtonBuilder()
       .setCustomId("go_button")
       .setLabel("Roll It!")
@@ -85,8 +81,7 @@ module.exports = {
       .setCustomId("cancel_button")
       .setLabel("Cancel")
       .setStyle(ButtonStyle.Secondary)
-    const buttons_row = new ActionRowBuilder()
-      .addComponents(go_button, cancel_button)
+    const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
     const leader_prompt = await interaction.reply({
       content: teamworkPresenter.leaderPromptMessage(userFlake),
       components: [user_row, buttons_row],
@@ -99,8 +94,7 @@ module.exports = {
       .setMinValues(1)
       .setMaxValues(11)
       .addOptions(...bonusOptions)
-    const picker_row = new ActionRowBuilder()
-      .addComponents(bonus_selector)
+    const picker_row = new ActionRowBuilder().addComponents(bonus_selector)
     const helper_prompt = await interaction.followUp({
       content: teamworkPresenter.helperPromptMessage(userFlake, description),
       components: [picker_row],
@@ -114,13 +108,16 @@ module.exports = {
       componentType: ComponentType.UserSelect,
       time: timeout_ms,
     })
-    requested_collector.on('collect', event => {
+    requested_collector.on("collect", (event) => {
       event.deferUpdate()
       requested_helpers = event.values
       // create or update notification message, like teamworkPresenter.notifyRequested(event.values)
-      const progress_embed = teamworkPresenter.helperProgressEmbed(helper_bonuses, requested_helpers)
+      const progress_embed = teamworkPresenter.helperProgressEmbed(
+        helper_bonuses,
+        requested_helpers,
+      )
       helper_prompt.edit({
-        embeds: [progress_embed]
+        embeds: [progress_embed],
       })
     })
 
@@ -128,12 +125,15 @@ module.exports = {
       componentType: ComponentType.StringSelect,
       time: timeout_ms,
     })
-    bonus_collector.on('collect', event => {
+    bonus_collector.on("collect", (event) => {
       event.deferUpdate()
       helper_bonuses.set(event.user.id, event.values)
-      const progress_embed = teamworkPresenter.helperProgressEmbed(helper_bonuses, requested_helpers)
+      const progress_embed = teamworkPresenter.helperProgressEmbed(
+        helper_bonuses,
+        requested_helpers,
+      )
       helper_prompt.edit({
-        embeds: [progress_embed]
+        embeds: [progress_embed],
       })
     })
 
@@ -141,7 +141,7 @@ module.exports = {
       bonus_collector.stop()
       leader_prompt.delete()
 
-      if (event.customId == 'cancel_button') {
+      if (event.customId == "cancel_button") {
         helper_prompt.edit({
           content: teamworkPresenter.helperCancelledMessage(userFlake, description),
           components: [],
@@ -155,13 +155,13 @@ module.exports = {
       const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter)
       const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
 
-      interaction.followUp({
-        content: teamworkPresenter.teamworkSummaryMessage(leader_summary, helper_prompt),
-        embeds: [helper_embed],
-        fetchReply: true
-      })
-        .then(result_message => {
-
+      interaction
+        .followUp({
+          content: teamworkPresenter.teamworkSummaryMessage(leader_summary, helper_prompt),
+          embeds: [helper_embed],
+          fetchReply: true,
+        })
+        .then((result_message) => {
           helper_prompt.edit({
             content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message),
             components: [],
@@ -170,14 +170,14 @@ module.exports = {
         })
     }
 
-    return leader_prompt.awaitMessageComponent({
-      componentType: ComponentType.Button,
-      time: timeout_ms,
-    })
-      .then(event => {
+    return leader_prompt
+      .awaitMessageComponent({
+        componentType: ComponentType.Button,
+        time: timeout_ms,
+      })
+      .then((event) => {
         event.deferUpdate()
         return rollHandler(event)
-      },
-      rollHandler)
-  }
+      }, rollHandler)
+  },
 }

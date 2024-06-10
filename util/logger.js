@@ -4,15 +4,15 @@ require("dotenv").config()
 
 function pickStream() {
   if (process.env.NODE_ENV == "development") {
-    const pretty = require('pino-pretty')
+    const pretty = require("pino-pretty")
     return pretty()
   }
   if (process.env.NODE_ENV == "test") {
-    const devnull = require('dev-null')
+    const devnull = require("dev-null")
     return devnull()
   }
   if (process.env.NODE_ENV == "ci") {
-    const devnull = require('dev-null')
+    const devnull = require("dev-null")
     return devnull()
   }
   if (process.env.NODE_ENV == "production") {
@@ -23,7 +23,8 @@ function pickStream() {
         port: 15191,
         echo: false,
       },
-      "qyf-bot")
+      "qyf-bot",
+    )
     // NOTE: Leaving the file config here for ease of reference
     // return Pino.transport({
     //   target: "pino/file",
@@ -36,17 +37,17 @@ function pickStream() {
 }
 
 const default_levels = {
-  "development": "info",
-  "test": "error",
-  "ci": "error",
-  "production": "warn"
+  development: "info",
+  test: "error",
+  ci: "error",
+  production: "warn",
 }
 
 module.exports = {
   logger: Pino(
     {
-      level: default_levels[process.env.NODE_ENV]
+      level: default_levels[process.env.NODE_ENV],
     },
-    pickStream()
+    pickStream(),
   ),
 }

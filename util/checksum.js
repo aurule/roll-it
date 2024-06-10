@@ -1,4 +1,4 @@
-const crypto = require('crypto')
+const crypto = require("crypto")
 
 module.exports = {
   /**
@@ -10,8 +10,8 @@ module.exports = {
    * @return {string}       Checksum for the value, in hex format
    */
   checksum(value) {
-    hasher = crypto.createHash('md5')
+    hasher = crypto.createHash("md5")
 
-    return hasher.update(value).digest('hex')
-  }
+    return hasher.update(value).digest("hex")
+  },
 }

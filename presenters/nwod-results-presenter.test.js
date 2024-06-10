@@ -152,7 +152,7 @@ describe("presentOne", () => {
     threshold: 8,
     explode: 10,
     description: "test roll",
-    raw: [[1,8]],
+    raw: [[1, 8]],
     summed: [0],
     userFlake: simpleflake(),
   }
@@ -181,7 +181,7 @@ describe("detailOne", () => {
     pool: 3,
     threshold: 8,
     explode: 10,
-    raw: [10,5,8],
+    raw: [10, 5, 8],
   }
 
   it("bolds successes", () => {
@@ -209,7 +209,10 @@ describe("presentMany", () => {
     threshold: 8,
     explode: 10,
     description: "test roll",
-    raw: [[1,8], [4,6]],
+    raw: [
+      [1, 8],
+      [4, 6],
+    ],
     summed: [0, 1],
     userFlake: simpleflake(),
   }
@@ -232,7 +235,7 @@ describe("detailMany", () => {
     pool: 2,
     threshold: 8,
     explode: 10,
-    raw: [10,8],
+    raw: [10, 8],
   }
 
   it("bolds successes", () => {
@@ -255,7 +258,10 @@ describe("presentUntil", () => {
     explode: 10,
     until: 3,
     description: "test roll",
-    raw: [[9,8], [4,6]],
+    raw: [
+      [9, 8],
+      [4, 6],
+    ],
     summed: [2, 1],
     userFlake: simpleflake(),
   }

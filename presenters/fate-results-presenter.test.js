@@ -5,7 +5,7 @@ const { simpleflake } = require("simpleflakes")
 describe("presentOne", () => {
   const defaultArgs = {
     description: "test roll",
-    raw: [[1,1,2,3]],
+    raw: [[1, 1, 2, 3]],
     summed: [-1],
     modifier: 2,
     userFlake: simpleflake(),
@@ -39,8 +39,11 @@ describe("presentOne", () => {
 describe("presentMany", () => {
   const defaultArgs = {
     description: "test roll",
-    raw: [[1,2,3,3], [2,1,3,2]],
-    summed: [2,0],
+    raw: [
+      [1, 2, 3, 3],
+      [2, 1, 3, 2],
+    ],
+    summed: [2, 0],
     modifier: 5,
     userFlake: simpleflake(),
   }
@@ -72,7 +75,7 @@ describe("presentMany", () => {
 
 describe("detail", () => {
   const defaultArgs = {
-    raw: [1,1,2,3],
+    raw: [1, 1, 2, 3],
     modifier: 2,
   }
 

@@ -1,6 +1,5 @@
 const { bold, userMention } = require("discord.js")
 
-
 /**
  * Describe the results of a single roll
  *
@@ -28,17 +27,11 @@ function presentOne({
   summed,
   userFlake,
 }) {
-  const content = [
-    userMention(userFlake),
-    "rolled",
-    explainChance(chance, raw[0], summed[0])
-  ]
+  const content = [userMention(userFlake), "rolled", explainChance(chance, raw[0], summed[0])]
   if (description) {
     content.push(`for "${description}"`)
   }
-  content.push(
-    detailOne({ pool, rote, threshold, explode, raw: raw[0] })
-  )
+  content.push(detailOne({ pool, rote, threshold, explode, raw: raw[0] }))
   return content.join(" ")
 }
 
@@ -70,7 +63,7 @@ function explainChance(chance, raw, summed) {
  * @param  {Array<Int>} options.raw    Array with ints representing raw dice rolls
  * @return {String}                    String detailing a single roll
  */
-function detailOne ({ pool, rote, threshold, explode, raw }) {
+function detailOne({ pool, rote, threshold, explode, raw }) {
   const detail = [
     `(${pool} dice`,
     explainRote(rote),
@@ -150,7 +143,7 @@ function notateDice(raw, threshold, explode, rote, pool) {
           return bold(`${die}!`)
         }
         return bold(die)
-      } else if (rote && (idx + idx_mod < pool)) {
+      } else if (rote && idx + idx_mod < pool) {
         if (skip) {
           skip = false
           return die
@@ -213,7 +206,7 @@ function presentMany({
             raw: result,
           }),
         ].join(" ")
-      })
+      }),
     )
     .join("")
 }
@@ -228,11 +221,7 @@ function presentMany({
  * @return {String}                    String detailing a single roll
  */
 function detailMany({ pool, threshold, explode, raw }) {
-  const detail = [
-    "(",
-    notateDice(raw, threshold, explode, false, pool),
-    ")",
-  ]
+  const detail = ["(", notateDice(raw, threshold, explode, false, pool), ")"]
   return detail.join("")
 }
 
@@ -249,16 +238,7 @@ function detailMany({ pool, threshold, explode, raw }) {
  * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
  * @return {String}                         String describing the roll results
  */
-function presentUntil({
-  pool,
-  threshold,
-  explode,
-  until,
-  description,
-  raw,
-  summed,
-  userFlake,
-}) {
+function presentUntil({ pool, threshold, explode, until, description, raw, summed, userFlake }) {
   const finalSum = summed.reduce((prev, curr) => prev + curr, 0)
   let content = [userMention(userFlake), " rolled"]
 
@@ -270,20 +250,19 @@ function presentUntil({
   content.push(explainThreshold(threshold))
   content.push(explainExplode(explode))
   content.push(":")
-  content = content
-    .concat(
-      raw.map((result, index) => {
-        return [
-          `\n\t${bold(summed[index])} `,
-          detailMany({
-            pool,
-            threshold,
-            explode,
-            raw: result,
-          }),
-        ].join(" ")
-      })
-    )
+  content = content.concat(
+    raw.map((result, index) => {
+      return [
+        `\n\t${bold(summed[index])} `,
+        detailMany({
+          pool,
+          threshold,
+          explode,
+          raw: result,
+        }),
+      ].join(" ")
+    }),
+  )
   content.push(`\n${bold(finalSum)} of ${until}`)
   content.push(` in ${raw.length} rolls`)
 
@@ -316,5 +295,5 @@ module.exports = {
   notateDice,
   presentMany,
   detailMany,
-  presentUntil
+  presentUntil,
 }

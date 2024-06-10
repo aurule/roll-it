@@ -28,11 +28,7 @@ module.exports = {
    * @return {String}                         String describing this roll
    */
   presentOne: ({ modifier, description, raw, userFlake }) => {
-    let content = [
-      userMention(userFlake),
-      "rolled",
-      module.exports.detail(raw[0][0], modifier)
-    ]
+    let content = [userMention(userFlake), "rolled", module.exports.detail(raw[0][0], modifier)]
     if (description) content.push(`for "${description}"`)
     return content.join(" ")
   },
@@ -47,19 +43,14 @@ module.exports = {
    * @return {String}                         String describing this roll
    */
   presentMany: ({ modifier, description, raw, userFlake }) => {
-    let content = [
-      userMention(userFlake),
-      "rolled",
-    ]
+    let content = [userMention(userFlake), "rolled"]
     if (description) {
       content.push(`"${description}"`)
     }
     content.push(raw.length)
     content.push("times:")
     return content
-      .concat(
-        raw.map(result => `\n\t${module.exports.detail(result[0], modifier)}`)
-      )
+      .concat(raw.map((result) => `\n\t${module.exports.detail(result[0], modifier)}`))
       .join(" ")
   },
 
@@ -72,9 +63,9 @@ module.exports = {
    */
   detail: (result, modifier) => {
     const content = [bold(result + modifier)]
-    if(modifier) {
+    if (modifier) {
       content.push(`(${result} + ${modifier})`)
     }
     return content.join(" ")
-  }
+  },
 }

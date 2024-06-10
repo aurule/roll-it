@@ -17,15 +17,11 @@ const buckets = {
 fs.readdirSync(__dirname)
   .filter(noTests)
   .filter(noDotFiles)
-  .filter((file) => {
-    return (
-      file !== basename
-    )
-  })
+  .filter((file) => file !== basename)
   .forEach((file) => {
     const bucket_name = path.extname(file).substring(1)
     const file_path = path.join(__dirname, file)
-    const contents = fs.readFileSync(file_path, 'utf-8')
+    const contents = fs.readFileSync(file_path, "utf-8")
     buckets[bucket_name].push(contents.trim())
     buckets.files.push(file_path)
   })

@@ -19,8 +19,18 @@ it("creates an array of suitable objects", () => {
   const data = transform(commands)
 
   expect(data).toEqual([
-    {label: "test 1", description: "The first test", value: "test 1", default: false},
-    {label: "test 2", description: "The second test", value: "test 2", default: false}
+    {
+      label: "test 1",
+      description: "The first test",
+      value: "test 1",
+      default: false,
+    },
+    {
+      label: "test 2",
+      description: "The second test",
+      value: "test 2",
+      default: false,
+    },
   ])
 })
 
