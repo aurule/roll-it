@@ -35,10 +35,10 @@ const RAW_RUNTIME_STATE =
           ["mathjs", "npm:13.0.0"],\
           ["minimist", "npm:1.2.8"],\
           ["nodemon", "npm:3.1.3"],\
-          ["pino", "npm:9.1.0"],\
+          ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.0"],\
-          ["prettier", "npm:3.3.1"],\
+          ["prettier", "npm:3.3.2"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
@@ -4313,10 +4313,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.1.0", {\
-        "packageLocation": "../../.yarn/berry/cache/pino-npm-9.1.0-f8149231b0-10c0.zip/node_modules/pino/",\
+      ["npm:9.2.0", {\
+        "packageLocation": "../../.yarn/berry/cache/pino-npm-9.2.0-dc3662cd9b-10c0.zip/node_modules/pino/",\
         "packageDependencies": [\
-          ["pino", "npm:9.1.0"],\
+          ["pino", "npm:9.2.0"],\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
@@ -4421,10 +4421,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["prettier", [\
-      ["npm:3.3.1", {\
-        "packageLocation": "./.yarn/unplugged/prettier-npm-3.3.1-91c1be8598/node_modules/prettier/",\
+      ["npm:3.3.2", {\
+        "packageLocation": "./.yarn/unplugged/prettier-npm-3.3.2-efeafcaa4b/node_modules/prettier/",\
         "packageDependencies": [\
-          ["prettier", "npm:3.3.1"]\
+          ["prettier", "npm:3.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4679,10 +4679,10 @@ const RAW_RUNTIME_STATE =
           ["mathjs", "npm:13.0.0"],\
           ["minimist", "npm:1.2.8"],\
           ["nodemon", "npm:3.1.3"],\
-          ["pino", "npm:9.1.0"],\
+          ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.0"],\
-          ["prettier", "npm:3.3.1"],\
+          ["prettier", "npm:3.3.2"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
