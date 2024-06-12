@@ -12,13 +12,13 @@ module.exports = {
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
-      .setDescription(module.exports.description)
       .addStringOption((option) =>
         option
           .setName("formula")
           .setDescription("The formula of dice to roll and operations to apply")
           .setRequired(true),
       )
+      .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {

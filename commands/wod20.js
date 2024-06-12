@@ -15,7 +15,6 @@ module.exports = {
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
-      .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
         option
           .setName("pool")
@@ -23,6 +22,7 @@ module.exports = {
           .setMinValue(1)
           .setRequired(true),
       )
+      .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
         option
           .setName("difficulty")

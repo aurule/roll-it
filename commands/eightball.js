@@ -12,10 +12,10 @@ module.exports = {
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
-      .setDescription(module.exports.description)
       .addStringOption((option) =>
         option.setName("question").setRequired(true).setDescription("The question you want to ask"),
       )
+      .setDescription(module.exports.description)
       .addBooleanOption((option) => option.setName("doit").setDescription("Do it"))
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
