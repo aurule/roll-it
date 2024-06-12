@@ -1,1 +1,0 @@
-Improved how commands are loaded to decrease response time for `/roll-chooser` and `/roll-help`
