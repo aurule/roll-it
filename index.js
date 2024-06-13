@@ -1,15 +1,25 @@
 // Load envvars
 require("dotenv").config()
 
+const { version } = require("./package.json")
+
 // Require the necessary discord.js classes
 const fs = require("fs")
-const { Client, GatewayIntentBits } = require("discord.js")
+const { Client, GatewayIntentBits, ActivityType } = require("discord.js")
 const { jsNoTests } = require("./util/filters")
 const commands = require("./commands")
 
 // Create a new client instance
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
+  presence: {
+    activities: [
+      {
+        name: `Roll some dice! Or try /roll-help | v${version}`,
+        type: ActivityType.Custom,
+      },
+    ],
+  },
 })
 const token = process.env.BOT_TOKEN
 
