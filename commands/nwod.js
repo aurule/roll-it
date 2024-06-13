@@ -74,13 +74,6 @@ module.exports = {
 
     const chance = !pool
     if (chance) {
-      if (until) {
-        return interaction.reply({
-          content: `You cannot use the ${inlineCode("until")} option with a chance die.`,
-          ephemeral: true,
-        })
-      }
-
       pool = 1
       explode = 10
       threshold = 10
