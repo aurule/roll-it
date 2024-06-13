@@ -1,298 +1,707 @@
-const NwodResultsPresenter = require("./nwod-results-presenter")
+const { NwodPresenter } = require("./nwod-results-presenter")
 
 const { simpleflake } = require("simpleflakes")
 
-describe("notateDice", () => {
-  it("displays fails plain", () => {
-    const raw = [2]
+describe("NwodPresenter", () => {
+  describe("rolls", () => {
+    it("matches the number of results", () => {
+      const presenter = new NwodPresenter({ raw: [[1], [2]] })
 
-    const result = NwodResultsPresenter.notateDice(raw, 8, 10)
-
-    expect(result).toEqual("2")
-  })
-
-  it("displays successes in bold", () => {
-    const raw = [8]
-
-    const result = NwodResultsPresenter.notateDice(raw, 8, 10)
-
-    expect(result).toEqual("**8**")
-  })
-
-  it("displays n-again re-rolls in bold with a bang", () => {
-    const raw = [10]
-
-    const result = NwodResultsPresenter.notateDice(raw, 8, 10)
-
-    expect(result).toEqual("**10!**")
-  })
-
-  describe("rote re-rolls", () => {
-    it("displays fails plain with a bang", () => {
-      const raw = [2]
-
-      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 1)
-
-      expect(result).toEqual("2!")
-    })
-
-    it("does not add a bang after initial results", () => {
-      const raw = [2, 3]
-
-      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 1)
-
-      expect(result).toEqual("2!, 3")
-    })
-
-    it("ignores explode re-roll dice", () => {
-      const raw = [2, 10, 5, 6, 1, 4]
-
-      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 3)
-
-      expect(result).toEqual("2!, **10!**, 5, 6!, 1, 4")
-    })
-
-    it("ignroes successes", () => {
-      const raw = [9]
-
-      const result = NwodResultsPresenter.notateDice(raw, 8, 10, true, 1)
-
-      expect(result).toEqual("**9**")
-    })
-  })
-})
-
-describe("explainExplode", () => {
-  it("returns an empty string with 10", () => {
-    const result = NwodResultsPresenter.explainExplode(10)
-
-    expect(result).toEqual("")
-  })
-
-  it("returns a nope string with >10", () => {
-    const result = NwodResultsPresenter.explainExplode(11)
-
-    expect(result).toMatch("no 10-again")
-  })
-
-  it("returns a description for <10", () => {
-    const result = NwodResultsPresenter.explainExplode(8)
-
-    expect(result).toMatch("8-again")
-  })
-})
-
-describe("explainThreshold", () => {
-  it("returns an empty string with 8", () => {
-    const result = NwodResultsPresenter.explainThreshold(8)
-
-    expect(result).toEqual("")
-  })
-
-  it("returns a description for !=8", () => {
-    const result = NwodResultsPresenter.explainThreshold(9)
-
-    expect(result).toMatch("9 and up")
-  })
-
-  it("leaves off gte string for 10", () => {
-    const result = NwodResultsPresenter.explainThreshold(10)
-
-    expect(result).not.toMatch("and up")
-  })
-})
-
-describe("explainRote", () => {
-  it("returns empty string when false", () => {
-    const result = NwodResultsPresenter.explainRote(false)
-
-    expect(result).toEqual("")
-  })
-
-  it("returns a description for true", () => {
-    const result = NwodResultsPresenter.explainRote(true)
-
-    expect(result).toEqual(" with rote")
-  })
-})
-
-describe("explainChance", () => {
-  describe("with normal roll", () => {
-    it("ignores initial 1 result", () => {
-      const result = NwodResultsPresenter.explainChance(false, [1, 8, 3], 1)
-
-      expect(result).not.toContain("failure")
-    })
-
-    it("shows the sum", () => {
-      const result = NwodResultsPresenter.explainChance(false, [1, 8, 3], 1)
-
-      expect(result).toEqual("**1**")
+      expect(presenter.rolls).toEqual(2)
     })
   })
 
-  describe("with chance roll", () => {
-    it("returns dramatic failure with raw result of 1", () => {
-      const result = NwodResultsPresenter.explainChance(true, [1], 0)
+  describe("mode", () => {
+    describe("when until option true", () => {
+      it("returns 'until' with many rolls", () => {
+        const presenter = new NwodPresenter({
+          until: 2,
+          raw: [[1], [2]],
+        })
 
-      expect(result).toMatch("dramatic failure")
+        expect(presenter.mode).toEqual("until")
+      })
+
+      it("returns 'until' with one roll", () => {
+        const presenter = new NwodPresenter({
+          until: 2,
+          raw: [[1]],
+        })
+
+        expect(presenter.mode).toEqual("until")
+      })
     })
 
-    it("returns normal sum with larger first raw result", () => {
-      const result = NwodResultsPresenter.explainChance(true, [10, 1], 1)
+    describe("when until option false", () => {
+      it("returns 'many' with multiple rolls", () => {
+        const presenter = new NwodPresenter({
+          until: 0,
+          raw: [[1], [2]],
+        })
 
-      expect(result).toEqual("**1**")
+        expect(presenter.mode).toEqual("many")
+      })
+
+      it("returns 'one' with one roll", () => {
+        const presenter = new NwodPresenter({
+          until: 0,
+          raw: [[1]],
+        })
+
+        expect(presenter.mode).toEqual("one")
+      })
     })
   })
-})
 
-describe("presentOne", () => {
-  const defaultArgs = {
-    pool: 2,
-    threshold: 8,
-    explode: 10,
-    description: "test roll",
-    raw: [[1, 8]],
-    summed: [0],
-    userFlake: simpleflake(),
-  }
+  describe("presentResults", () => {
+    describe("in 'until' mode", () => {
+      it("tags the user", () => {
+        const flake = simpleflake().toString()
+        const presenter = new NwodPresenter({
+          until: 5,
+          userFlake: flake,
+          raw: [[8, 8, 8, 8, 8]],
+          summed: [5],
+        })
 
-  it("mentions the user", () => {
-    const result = NwodResultsPresenter.presentOne(defaultArgs)
+        const result = presenter.presentResults()
 
-    expect(result).toMatch(defaultArgs.userFlake.toString())
+        expect(result).toMatch(flake)
+      })
+
+      it("shows the description, if present", () => {
+        const presenter = new NwodPresenter({
+          until: 5,
+          raw: [[8, 8, 8, 8, 8]],
+          summed: [5],
+          description: "a test",
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("a test")
+      })
+
+      it("describes the until condition", () => {
+        const presenter = new NwodPresenter({
+          until: 5,
+          pool: 6,
+          raw: [[8, 8, 8, 8, 8, 2]],
+          summed: [5],
+          description: "a test",
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("until 5")
+      })
+
+      it("shows the pool", () => {
+        const presenter = new NwodPresenter({
+          until: 5,
+          pool: 6,
+          raw: [[8, 8, 8, 8, 8, 2]],
+          summed: [5],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("6 dice")
+      })
+
+      it("shows all results", () => {
+        const presenter = new NwodPresenter({
+          until: 5,
+          pool: 6,
+          raw: [
+            [8, 4, 9, 2, 1, 2],
+            [6, 1, 10, 2, 8, 9, 3],
+          ],
+          summed: [2, 3],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("**2** (")
+        expect(result).toMatch("**3** (")
+      })
+
+      it("shows a sum", () => {
+        const presenter = new NwodPresenter({
+          until: 5,
+          pool: 6,
+          raw: [
+            [8, 4, 9, 2, 1, 2],
+            [6, 1, 10, 2, 8, 9, 3],
+          ],
+          summed: [2, 3],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("**5** of 5 in 2 rolls")
+      })
+    })
+
+    describe("in 'many' mode", () => {
+      it("tags the user", () => {
+        const flake = simpleflake().toString()
+        const presenter = new NwodPresenter({
+          userFlake: flake,
+          pool: 6,
+          raw: [
+            [8, 4, 9, 2, 1, 2],
+            [6, 1, 10, 2, 8, 9, 3],
+          ],
+          summed: [2, 3],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch(flake)
+      })
+
+      it("shows the description, if present", () => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          raw: [
+            [8, 4, 9, 2, 1, 2],
+            [6, 1, 10, 2, 8, 9, 3],
+          ],
+          summed: [2, 3],
+          description: "a test",
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("a test")
+      })
+
+      it("describes the number of rolls", () => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          raw: [
+            [8, 4, 9, 2, 1, 2],
+            [6, 1, 10, 2, 8, 9, 3],
+          ],
+          summed: [2, 3],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("2 times")
+      })
+
+      it("shows the pool", () => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          raw: [
+            [8, 4, 9, 2, 1, 2],
+            [6, 1, 10, 2, 8, 9, 3],
+          ],
+          summed: [2, 3],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("6 dice")
+      })
+
+      it("shows all results", () => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          raw: [
+            [8, 4, 9, 2, 1, 2],
+            [6, 1, 10, 2, 8, 9, 3],
+          ],
+          summed: [2, 3],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("**2** (")
+        expect(result).toMatch("**3** (")
+      })
+    })
+
+    describe("in 'one' mode", () => {
+      it("tags the user", () => {
+        const flake = simpleflake().toString()
+        const presenter = new NwodPresenter({
+          userFlake: flake,
+          pool: 6,
+          raw: [[8, 4, 9, 2, 1, 2]],
+          summed: [2],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch(flake)
+      })
+
+      it("shows the description, if present", () => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          raw: [[8, 4, 9, 2, 1, 2]],
+          summed: [2],
+          description: "a test",
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("a test")
+      })
+
+      it("shows the pool", () => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          raw: [[8, 4, 9, 2, 1, 2]],
+          summed: [2],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("6 dice")
+      })
+
+      it("shows the result", () => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          raw: [[8, 4, 9, 2, 1, 2]],
+          summed: [2],
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("**2**")
+      })
+    })
   })
 
-  it("highlights final sum", () => {
-    const result = NwodResultsPresenter.presentOne(defaultArgs)
+  describe("presentedDescription", () => {
+    describe("with no description", () => {
+      it("is an empty string", () => {
+        const presenter = new NwodPresenter({})
 
-    expect(result).toMatch("**0**")
+        expect(presenter.presentedDescription).toEqual("")
+      })
+    })
+
+    describe("with a description", () => {
+      describe("in 'one' mode", () => {
+        it("includes extra word", () => {
+          const presenter = new NwodPresenter({
+            raw: [[1]],
+            description: "test description",
+          })
+
+          expect(presenter.presentedDescription).toMatch("for")
+        })
+
+        it("wraps the description in quotes", () => {
+          const presenter = new NwodPresenter({
+            raw: [[1]],
+            description: "test description",
+          })
+
+          expect(presenter.presentedDescription).toMatch('"test description"')
+        })
+      })
+
+      it("wraps the description in quotes", () => {
+        const presenter = new NwodPresenter({
+          raw: [[1], [2]],
+          description: "test description",
+        })
+
+        expect(presenter.presentedDescription).toMatch('"test description"')
+      })
+    })
   })
 
-  it("includes description if present", () => {
-    const result = NwodResultsPresenter.presentOne(defaultArgs)
+  describe("explainPool", () => {
+    it("with 'chance' true, says 'a chance die'", () => {
+      const presenter = new NwodPresenter({
+        chance: true,
+        pool: 1,
+      })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
-  })
-})
+      const result = presenter.explainPool()
 
-describe("detailOne", () => {
-  const defaultArgs = {
-    pool: 3,
-    threshold: 8,
-    explode: 10,
-    raw: [10, 5, 8],
-  }
+      expect(result).toMatch("a chance die")
+    })
 
-  it("bolds successes", () => {
-    const result = NwodResultsPresenter.detailOne(defaultArgs)
+    it("with 'chance' false, shows pool size", () => {
+      const presenter = new NwodPresenter({
+        pool: 5,
+      })
 
-    expect(result).toMatch("**8**")
-  })
+      const result = presenter.explainPool()
 
-  it("includes others", () => {
-    const result = NwodResultsPresenter.detailOne(defaultArgs)
+      expect(result).toMatch("5")
+    })
 
-    expect(result).toMatch("5")
-  })
+    it("with pool of one, uses 'die'", () => {
+      const presenter = new NwodPresenter({
+        pool: 1,
+      })
 
-  it("adds exclamations to 10s", () => {
-    const result = NwodResultsPresenter.detailOne(defaultArgs)
+      const result = presenter.explainPool()
 
-    expect(result).toMatch("**10!**")
-  })
-})
+      expect(result).toMatch("1 die")
+    })
 
-describe("presentMany", () => {
-  const defaultArgs = {
-    pool: 2,
-    threshold: 8,
-    explode: 10,
-    description: "test roll",
-    raw: [
-      [1, 8],
-      [4, 6],
-    ],
-    summed: [0, 1],
-    userFlake: simpleflake(),
-  }
+    it("with pool gt one, uses 'dice'", () => {
+      const presenter = new NwodPresenter({
+        pool: 5,
+      })
 
-  it("mentions the user", () => {
-    const result = NwodResultsPresenter.presentMany(defaultArgs)
+      const result = presenter.explainPool()
 
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
+      expect(result).toMatch("5 dice")
+    })
 
-  it("includes description if present", () => {
-    const result = NwodResultsPresenter.presentMany(defaultArgs)
+    it("shows rote if present", () => {
+      const presenter = new NwodPresenter({
+        pool: 5,
+        rote: true,
+      })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
-  })
-})
+      const result = presenter.explainPool()
 
-describe("detailMany", () => {
-  const defaultArgs = {
-    pool: 2,
-    threshold: 8,
-    explode: 10,
-    raw: [10, 8],
-  }
+      expect(result).toMatch("rote")
+    })
 
-  it("bolds successes", () => {
-    const result = NwodResultsPresenter.detailMany(defaultArgs)
+    it("shows threshold if not default", () => {
+      const presenter = new NwodPresenter({
+        pool: 5,
+        threshold: 9,
+      })
 
-    expect(result).toMatch("**8**")
-  })
+      const result = presenter.explainPool()
 
-  it("adds exclamations to 10s", () => {
-    const result = NwodResultsPresenter.detailMany(defaultArgs)
+      expect(result).toMatch("9")
+    })
 
-    expect(result).toMatch("**10!**")
-  })
-})
+    it("shows explode if not default", () => {
+      const presenter = new NwodPresenter({
+        pool: 5,
+        explode: 8,
+      })
 
-describe("presentUntil", () => {
-  const defaultArgs = {
-    pool: 2,
-    threshold: 8,
-    explode: 10,
-    until: 3,
-    description: "test roll",
-    raw: [
-      [9, 8],
-      [4, 6],
-    ],
-    summed: [2, 1],
-    userFlake: simpleflake(),
-  }
+      const result = presenter.explainPool()
 
-  it("mentions the user", () => {
-    const result = NwodResultsPresenter.presentUntil(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
+      expect(result).toMatch("8-again")
+    })
   })
 
-  it("includes intermediate results", () => {
-    const result = NwodResultsPresenter.presentUntil(defaultArgs)
+  describe("explainRote", () => {
+    it("with rote true, returns 'with rote'", () => {
+      const presenter = new NwodPresenter({
+        rote: true,
+      })
 
-    expect(result).toMatch("**2**")
+      const result = presenter.explainRote()
+
+      expect(result).toMatch("with rote")
+    })
+
+    it("with rote false, returns empty", () => {
+      const presenter = new NwodPresenter({
+        rote: false,
+      })
+
+      const result = presenter.explainRote()
+
+      expect(result).toEqual("")
+    })
   })
 
-  it("describes the target", () => {
-    const result = NwodResultsPresenter.presentUntil(defaultArgs)
+  describe("explainThreshold", () => {
+    it("returns an empty string with 8", () => {
+      const presenter = new NwodPresenter({
+        threshold: 8,
+      })
 
-    expect(result).toMatch("until 3")
+      const result = presenter.explainThreshold()
+
+      expect(result).toEqual("")
+    })
+
+    it("returns a description for !=8", () => {
+      const presenter = new NwodPresenter({
+        threshold: 9,
+      })
+
+      const result = presenter.explainThreshold()
+
+      expect(result).toMatch("9 and up")
+    })
+
+    it("leaves off gte string for 10", () => {
+      const presenter = new NwodPresenter({
+        threshold: 10,
+      })
+
+      const result = presenter.explainThreshold()
+
+      expect(result).not.toMatch("and up")
+    })
   })
 
-  it("displays the total number of rolls", () => {
-    const result = NwodResultsPresenter.presentUntil(defaultArgs)
+  describe("explainExplode", () => {
+    it("returns an empty string with 10", () => {
+      const presenter = new NwodPresenter({
+        explode: 10,
+      })
 
-    expect(result).toMatch("in 2 rolls")
+      const result = presenter.explainExplode()
+
+      expect(result).toEqual("")
+    })
+
+    it("returns a nope string with >10", () => {
+      const presenter = new NwodPresenter({
+        explode: 11,
+      })
+
+      const result = presenter.explainExplode()
+
+      expect(result).toMatch("no 10-again")
+    })
+
+    it("returns a description for <10", () => {
+      const presenter = new NwodPresenter({
+        explode: 8,
+      })
+
+      const result = presenter.explainExplode()
+
+      expect(result).toMatch("8-again")
+    })
   })
 
-  it("displays the final total of successes reached", () => {
-    const result = NwodResultsPresenter.presentUntil(defaultArgs)
+  describe("explainTally", () => {
+    describe("in 'chance' mode with a 1", () => {
+      it("returns dramatic failure", () => {
+        const presenter = new NwodPresenter({
+          chance: true,
+          raw: [[1]],
+          summed: [[0]],
+        })
 
-    expect(result).toMatch("**3** of 3")
+        const result = presenter.explainTally(0)
+
+        expect(result).toMatch("dramatic failure")
+      })
+
+      it("bolds the result", () => {
+        const presenter = new NwodPresenter({
+          chance: true,
+          raw: [[1]],
+          summed: [[0]],
+        })
+
+        const result = presenter.explainTally(0)
+
+        expect(result).toMatch("**dramatic failure**")
+      })
+    })
+
+    it("gets correct sum", () => {
+      const presenter = new NwodPresenter({
+        chance: false,
+        raw: [[8], [5]],
+        summed: [1, 0],
+      })
+
+      const result = presenter.explainTally(1)
+
+      expect(result).toMatch("0")
+    })
+
+    it("bolds the sum", () => {
+      const presenter = new NwodPresenter({
+        chance: false,
+        raw: [[8], [5]],
+        summed: [1, 0],
+      })
+
+      const result = presenter.explainTally(1)
+
+      expect(result).toMatch("**0**")
+    })
+  })
+
+  describe("notateDice", () => {
+    it("displays the correct result", () => {
+      const presenter = new NwodPresenter({
+        raw: [[2], [3]],
+        threshold: 8,
+        explode: 10,
+      })
+
+      const result = presenter.notateDice(1)
+
+      expect(result).toEqual("3")
+    })
+
+    it("displays fails plain", () => {
+      const presenter = new NwodPresenter({
+        raw: [[2]],
+        threshold: 8,
+        explode: 10,
+      })
+
+      const result = presenter.notateDice(0)
+
+      expect(result).toEqual("2")
+    })
+
+    it("displays successes in bold", () => {
+      const presenter = new NwodPresenter({
+        raw: [[8]],
+        threshold: 8,
+        explode: 10,
+      })
+
+      const result = presenter.notateDice(0)
+
+      expect(result).toEqual("**8**")
+    })
+
+    it("displays n-again re-rolls in bold with a bang", () => {
+      const presenter = new NwodPresenter({
+        raw: [[10]],
+        threshold: 8,
+        explode: 10,
+      })
+
+      const result = presenter.notateDice(0)
+
+      expect(result).toEqual("**10!**")
+    })
+
+    describe("rote re-rolls", () => {
+      it("displays fails plain with a bang", () => {
+        const presenter = new NwodPresenter({
+          raw: [[2]],
+          threshold: 8,
+          explode: 10,
+          rote: true,
+          pool: 1,
+        })
+
+        const result = presenter.notateDice(0)
+
+        expect(result).toEqual("2!")
+      })
+
+      it("does not add a bang after initial results", () => {
+        const presenter = new NwodPresenter({
+          raw: [[2, 3]],
+          threshold: 8,
+          explode: 10,
+          rote: true,
+          pool: 1,
+        })
+
+        const result = presenter.notateDice(0)
+
+        expect(result).toEqual("2!, 3")
+      })
+
+      it("ignores explode re-roll dice", () => {
+        const presenter = new NwodPresenter({
+          raw: [[2, 10, 5, 6, 1, 4]],
+          threshold: 8,
+          explode: 10,
+          rote: true,
+          pool: 3,
+        })
+
+        const result = presenter.notateDice(0)
+
+        expect(result).toEqual("2!, **10!**, 5, 6!, 1, 4")
+      })
+
+      it("ignores successes", () => {
+        const presenter = new NwodPresenter({
+          raw: [[9]],
+          threshold: 8,
+          explode: 10,
+          rote: true,
+          pool: 1,
+        })
+
+        const result = presenter.notateDice(0)
+
+        expect(result).toEqual("**9**")
+      })
+
+      describe("with chance", () => {
+        it("when result is 1, does not have a bang", () => {
+          const presenter = new NwodPresenter({
+            raw: [[1]],
+            threshold: 10,
+            explode: 10,
+            rote: true,
+            chance: true,
+            pool: 1,
+          })
+
+          const result = presenter.notateDice(0)
+
+          expect(result).toEqual("1")
+        })
+
+        it("when result is 10, it gets a double bang", () => {
+          const presenter = new NwodPresenter({
+            raw: [[10, 4, 2]],
+            threshold: 10,
+            explode: 10,
+            rote: true,
+            chance: true,
+            pool: 1,
+          })
+
+          const result = presenter.notateDice(0)
+
+          expect(result).toEqual("**10!!**, 4, 2")
+        })
+      })
+    })
+  })
+
+  describe("presentResultSet", () => {
+    it("shows the tally for each result", () => {
+      const presenter = new NwodPresenter({
+        raw: [
+          [2, 8],
+          [4, 3],
+        ],
+        summed: [1, 0],
+      })
+
+      const result = presenter.presentResultSet()
+
+      expect(result).toMatch("1")
+      expect(result).toMatch("0")
+    })
+
+    it("shows the dice for each result", () => {
+      const presenter = new NwodPresenter({
+        raw: [
+          [2, 8],
+          [4, 3],
+        ],
+        summed: [1, 0],
+      })
+
+      const result = presenter.presentResultSet()
+
+      expect(result).toMatch("2, 8")
+      expect(result).toMatch("4, 3")
+    })
   })
 })

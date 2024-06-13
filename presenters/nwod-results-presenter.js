@@ -1,299 +1,279 @@
 const { bold, userMention } = require("discord.js")
 
 /**
- * Describe the results of a single roll
+ * Class to more conveniently handle the complex presentation logic for an nwod roll
  *
- * @param  {Int}    options.pool            Number of dice rolled
- * @param  {bool}   options.chance          Whether this is the result of a chance roll
- * @param  {bool}   options.rote            Whether this is the result of a rote roll
- * @param  {Int}    options.threshold       Threshold for success
- * @param  {Bool}   options.explode         Whether 10s were re-rolled
- * @param  {Int}    options.until           Target number of successes from multiple rolls
- * @param  {String} options.description     Text describing the roll
- * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
- * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
- * @param  {Snowflake} options.userFlake    Snowflake of the user that made the roll
- * @return {String}                         String describing the roll results
+ * The presenter is designed to handle a single roll or set of identical rolls. It must not be reused for
+ * different rolls.
  */
-function presentOne({
-  pool,
-  chance,
-  rote,
-  threshold,
-  explode,
-  until,
-  description,
-  raw,
-  summed,
-  userFlake,
-}) {
-  const content = [userMention(userFlake), "rolled", explainChance(chance, raw[0], summed[0])]
-  if (description) {
-    content.push(`for "${description}"`)
+class NwodPresenter {
+  /**
+   * Create a new NwodPresenter object
+   *
+   * @param  {Int}       options.pool        Number of dice rolled
+   * @param  {bool}      options.chance      Whether this is the result of a chance roll
+   * @param  {bool}      options.rote        Whether this is the result of a rote roll
+   * @param  {Int}       options.threshold   Threshold for success
+   * @param  {Bool}      options.explode     Whether 10s were re-rolled
+   * @param  {Int}       options.until       Target number of successes from multiple rolls
+   * @param  {String}    options.description Text describing the roll
+   * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
+   * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
+   * @param  {Snowflake} options.userFlake   Snowflake of the user that made the roll
+   */
+  constructor({
+    pool,
+    chance,
+    rote,
+    threshold,
+    explode,
+    until,
+    description,
+    raw,
+    summed,
+    userFlake,
+  }) {
+    this.pool = pool
+    this.chance = chance
+    this.rote = rote
+    this.threshold = threshold
+    this.explode = explode
+    this.until = until
+    this.description = description
+    this.raw = raw
+    this.summed = summed
+    this.userFlake = userFlake
   }
-  content.push(detailOne({ pool, rote, threshold, explode, raw: raw[0] }))
-  return content.join(" ")
-}
 
-/**
- * Explain a result
- *
- * If it's a chance roll, then a raw die of 1 is a dramatic failure.
- * Otherwise, return the summed result as usual.
- *
- * @param  {bool}   chance Whether this is the result of a chance roll
- * @param  {int[]}  raw    Array of a single roll's dice results
- * @param  {int}    summed Normal success sum of those dice
- * @return {string}        A string describing the result
- */
-function explainChance(chance, raw, summed) {
-  if (chance && raw[0] === 1) {
-    return `a ${bold("dramatic failure")}`
+  /**
+   * Get the number of rolls made in our result set
+   *
+   * @return {int} Number of rolls made
+   */
+  get rolls() {
+    return this.raw.length
   }
-  return bold(summed)
-}
 
-/**
- * Describe a single roll's details
- *
- * @param  {Int}    options.pool       Number of dice rolled
- * @param  {bool}   options.rote       Whether this is the result of a rote roll
- * @param  {Int}    options.threshold  Threshold for success
- * @param  {Bool}   options.explode    Whether 10s were re-rolled
- * @param  {Array<Int>} options.raw    Array with ints representing raw dice rolls
- * @return {String}                    String detailing a single roll
- */
-function detailOne({ pool, rote, threshold, explode, raw }) {
-  const detail = [
-    `(${pool} dice`,
-    explainRote(rote),
-    explainThreshold(threshold),
-    explainExplode(explode),
-    ": [",
-    notateDice(raw, threshold, explode, rote, pool),
-    "])",
-  ]
-  return detail.join("")
-}
+  /**
+   * Get the mode we're operating under
+   *
+   * @return {string} Presentation mode based on number of rolls and the "until" option
+   */
+  get mode() {
+    if (this.until) {
+      return "until"
+    } else if (this.rolls > 1) {
+      return "many"
+    } else {
+      return "one"
+    }
+  }
 
-/**
- * Get text describing the passed success threshold
- *
- * >=8: empy string
- * other: "succeeding on 9 and up"
- *
- * @param  {Int}    threshold Threshold for tallying a success
- * @return {String}           Brief description of the success threshold
- */
-function explainThreshold(threshold) {
-  if (threshold == 8) return ""
-  const lines = [` succeeding on ${threshold}`]
-  if (threshold < 10) lines.push(" and up")
-  return lines.join("")
-}
+  /**
+   * Present the results of our rolls
+   *
+   * @return {str} A string describing the results of our roll(s)
+   */
+  presentResults() {
+    let content = `${userMention(this.userFlake)} rolled`
 
-/**
- * Get text describing the passed n-again option
- *
- * For 10-again: empty string
- * <10-again: "with 8-again"
- * >10: "with no 10-again"
- *
- * @param  {Int}    explode Number on which dice explode
- * @return {String}         Brief description of the n-again in play
- */
-function explainExplode(explode) {
-  if (explode == 10) return ""
-  if (explode > 10) return " with no 10-again"
-  return ` with ${explode}-again`
-}
+    switch (this.mode) {
+      case "until":
+        content += this.presentedDescription
+        content += ` until ${this.until} successes at ${this.explainPool()}:`
+        content += this.presentResultSet()
 
-/**
- * Get text describing the passed rote option
- *
- * @param  {bool} rote Whether this was a rote roll
- * @return {str}       Brief description of the rote option
- */
-function explainRote(rote) {
-  if (rote) return " with rote"
-  return ""
-}
+        const finalSum = this.summed.reduce((prev, curr) => prev + curr, 0)
+        content += `\n${bold(finalSum)} of ${this.until} in ${this.rolls} rolls`
+        break
+      case "many":
+        content += this.presentedDescription
+        content += ` ${this.rolls} times with ${this.explainPool()}:`
+        content += this.presentResultSet()
+        break
+      case "one":
+        content += ` ${this.explainTally(0)}`
+        content += this.presentedDescription
+        content += ` (${this.explainPool()}: [${this.notateDice(0)}])`
+        break
+    }
 
-/**
- * Annotate dice in a result
- *
- * Success dice are bold, and re-rolls get an explamation point.
- *
- * @param  {int[]}  raw       Array with ints representing raw dice rolls
- * @param  {int}    threshold Threshold for success
- * @param  {int}    explode   Threshold for re-rolls
- * @param  {bool}   rote      Whether this was a rote roll
- * @param  {int}    pool      Initial number of dice rolled
- * @return {string}           Annotated dice results
- */
-function notateDice(raw, threshold, explode, rote, pool) {
-  let idx_mod = 0
-  let skip = false
-  return raw
-    .map((die, idx) => {
-      if (die >= threshold) {
-        if (die >= explode) {
-          idx_mod--
-          skip = true
-          return bold(`${die}!`)
+    return content
+  }
+
+  /**
+   * Format the description
+   *
+   * Formatted string accounts for whether the description is present and whether we're presenting a single
+   * roll or multiples.
+   *
+   * @return {str} Formatted description string
+   */
+  get presentedDescription() {
+    if (!this.description) return ""
+
+    if (this.mode == "one") return ` for "${this.description}"`
+
+    return ` "${this.description}"`
+  }
+
+  /**
+   * Explain the dice pool used
+   *
+   * This includes breakdowns for the rote, threshold, and explode options.
+   *
+   * In chance mode, the string "a chance die" replaces the count of dice, since the base pool is always one.
+   *
+   * @return {str} Formatted dice pool explanation
+   */
+  explainPool() {
+    let content = `${this.pool}`
+    if (this.chance) {
+      content = "a chance"
+    }
+
+    if (this.pool == 1) {
+      content += " die"
+    } else {
+      content += " dice"
+    }
+
+    content += this.explainRote()
+    content += this.explainThreshold()
+    content += this.explainExplode()
+
+    return content
+  }
+
+  /**
+   * Get text describing the rote option
+   *
+   * @return {str} Brief description of the rote option
+   */
+  explainRote() {
+    if (this.rote) return " with rote"
+    return ""
+  }
+
+  /**
+   * Get text describing the success threshold
+   *
+   * >=8: empy string
+   * other: "succeeding on 9 and up"
+   *
+   * @return {String} Brief description of the success threshold
+   */
+  explainThreshold() {
+    if (this.threshold == 8) return ""
+
+    let content = ` succeeding on ${this.threshold}`
+    if (this.threshold < 10) content += " and up"
+
+    return content
+  }
+
+  /**
+   * Get text describing the n-again option
+   *
+   * For 10-again: empty string
+   * <10-again: "with 8-again"
+   * >10: "with no 10-again"
+   *
+   * @return {String} Brief description of the n-again in play
+   */
+  explainExplode() {
+    if (this.explode == 10) return ""
+    if (this.explode > 10) return " with no 10-again"
+    return ` with ${this.explode}-again`
+  }
+
+  /**
+   * Explain a single result
+   *
+   * If it's a chance roll, then a raw die of 1 is a dramatic failure.
+   * Otherwise, return the summed result as usual.
+   *
+   * @param  {int} result_index Index in the raw resultset of the result to present
+   * @return {str}              A string describing the result
+   */
+  explainTally(result_index) {
+    if (this.chance && this.raw[result_index][0] === 1) {
+      return `a ${bold("dramatic failure")}`
+    }
+    return bold(this.summed[result_index])
+  }
+
+  /**
+   * Annotate the dice of a single result
+   *
+   * Success dice are bold, and re-rolls get an explamation point.
+   *
+   * @param  {int} result_index Index in the raw resultset of the result to present
+   * @return {str}              Annotated dice results
+   */
+  notateDice(result_index) {
+    let idx_mod = 0
+    let skip = false
+    return this.raw[result_index]
+      .map((die, idx) => {
+        if (die >= this.threshold) {
+          if (die >= this.explode) {
+            idx_mod--
+            skip = true
+            if (this.rote && this.chance && idx === 0) {
+              // use the elusive double bang when a chance die has rote and rolls a 10
+              return bold(`${die}!!`)
+            }
+            // bold and bang re-roll successes
+            return bold(`${die}!`)
+          }
+          // bold normal successes
+          return bold(die)
+        } else if (this.rote && idx + idx_mod < this.pool) {
+          if (idx === 0 && die === 1) {
+            // a dramatic failure on the first die does not get a rote re-roll
+            return die
+          }
+          if (skip) {
+            // n-again re-rolls don't get rolled again for rote
+            skip = false
+            return die
+          }
+          // failures in the initial pool are rolled again for rote
+          return `${die}!`
         }
-        return bold(die)
-      } else if (rote && idx + idx_mod < pool) {
-        if (skip) {
-          skip = false
-          return die
-        }
-        return `${die}!`
-      }
-      return die
-    })
-    .join(", ")
-}
-
-/**
- * Describe the results of multiple rolls
- *
- * @param  {Int}    options.pool            Initial umber of dice rolled
- * @param  {bool}   options.chance          Whether this is the result of a chance roll
- * @param  {bool}   options.rote            Whether this is the result of a rote roll
- * @param  {Int}    options.threshold       Threshold for success
- * @param  {Bool}   options.explode         Whether 10s were re-rolled
- * @param  {Int}    options.until           Target number of successes from multiple rolls
- * @param  {String} options.description     Text describing the roll
- * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
- * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
- * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
- * @return {String}                         String describing the roll results
- */
-function presentMany({
-  pool,
-  chance,
-  rote,
-  threshold,
-  explode,
-  until,
-  description,
-  raw,
-  summed,
-  userFlake,
-}) {
-  const content = [userMention(userFlake), " rolled"]
-
-  if (description) {
-    content.push(` "${description}"`)
+        return die
+      })
+      .join(", ")
   }
-  content.push(` ${raw.length} times with`)
 
-  content.push(` ${pool} dice`)
-  content.push(explainRote(rote))
-  content.push(explainThreshold(threshold))
-  content.push(explainExplode(explode))
-  content.push(":")
-  return content
-    .concat(
-      raw.map((result, index) => {
-        return [
-          `\n\t${explainChance(chance, raw[index], summed[index])} `,
-          detailMany({
-            pool,
-            threshold,
-            explode,
-            raw: result,
-          }),
-        ].join(" ")
-      }),
-    )
-    .join("")
-}
-
-/**
- * Describe a single roll's details
- *
- * @param  {Int}    options.pool       Number of dice rolled
- * @param  {Int}    options.threshold  Threshold for success
- * @param  {Int}    options.explode    Threshold for re-rolls
- * @param  {Array<Int>} options.raw    Array with ints representing raw dice rolls
- * @return {String}                    String detailing a single roll
- */
-function detailMany({ pool, threshold, explode, raw }) {
-  const detail = ["(", notateDice(raw, threshold, explode, false, pool), ")"]
-  return detail.join("")
-}
-
-/**
- * Describe the results of multiple rolls
- *
- * @param  {Int}    options.pool            Number of dice rolled
- * @param  {Int}    options.threshold       Threshold for success
- * @param  {Bool}   options.explode         Whether 10s were re-rolled
- * @param  {Int}    options.until           Target number of successes from multiple rolls
- * @param  {String} options.description     Text describing the roll
- * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
- * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
- * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
- * @return {String}                         String describing the roll results
- */
-function presentUntil({ pool, threshold, explode, until, description, raw, summed, userFlake }) {
-  const finalSum = summed.reduce((prev, curr) => prev + curr, 0)
-  let content = [userMention(userFlake), " rolled"]
-
-  if (description) {
-    content.push(` "${description}"`)
+  /**
+   * Describe the results of all rolls
+   *
+   * @return {str} String describing the roll results
+   */
+  presentResultSet() {
+    return this.raw
+      .map((result, index) => {
+        return `\n\t${this.explainTally(index)} (${this.notateDice(index)})`
+      })
+      .join("")
   }
-  content.push(` until ${until} successes`)
-  content.push(` at ${pool} dice`)
-  content.push(explainThreshold(threshold))
-  content.push(explainExplode(explode))
-  content.push(":")
-  content = content.concat(
-    raw.map((result, index) => {
-      return [
-        `\n\t${bold(summed[index])} `,
-        detailMany({
-          pool,
-          threshold,
-          explode,
-          raw: result,
-        }),
-      ].join(" ")
-    }),
-  )
-  content.push(`\n${bold(finalSum)} of ${until}`)
-  content.push(` in ${raw.length} rolls`)
-
-  return content.join("")
 }
 
 module.exports = {
   /**
    * Present one or more results from the roll command
    *
-   * @param  {Int}        options.rolls       Total number of rolls to show
-   * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
+   * This is the main entry point for the nwod presenter. It's best to use this function instead of manually
+   * creating and using an NwodPresenter object.
+   *
+   * @param  {...options} options.rollOptions Roll options and results
    * @return {String}                         String describing the roll results
    */
-  present: ({ rolls, ...rollOptions }) => {
-    if (rollOptions.until) {
-      return presentUntil(rollOptions)
-    }
-    if (rolls == 1) {
-      return presentOne(rollOptions)
-    }
-    return presentMany(rollOptions)
+  present: ({ ...rollOptions }) => {
+    const presenter = new NwodPresenter(rollOptions)
+    return presenter.presentResults()
   },
-  presentOne,
-  explainChance,
-  detailOne,
-  explainExplode,
-  explainThreshold,
-  explainRote,
-  notateDice,
-  presentMany,
-  detailMany,
-  presentUntil,
+  NwodPresenter,
 }
