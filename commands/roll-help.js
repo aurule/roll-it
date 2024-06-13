@@ -68,11 +68,25 @@ module.exports = {
         ephemeral: true,
       })
 
-    // return reply with the command's help text
-    return interaction.reply({
-      content: CommandHelpPresenter.present(command),
+    const full_text = CommandHelpPresenter.present(command)
+    let offset = 0
+    let suffix = ""
+    if (full_text.length > 1997) {
+      suffix = "..."
+    }
+    await interaction.reply({
+      content: full_text.slice(0, 1997) + suffix,
       ephemeral: true,
     })
+    offset += 1997
+
+    while (offset < full_text.length) {
+      await interaction.followUp({
+        content: "(...continued)\n" + full_text.slice(offset, offset + 1985),
+        ephemeral: true,
+      })
+      offset += 1988
+    }
   },
   help({ command_name }) {
     const commands = require("./index")

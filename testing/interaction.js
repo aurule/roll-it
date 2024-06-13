@@ -61,16 +61,21 @@ class Interaction {
     this.customId = ""
     this.replied = false
     this.deferred = false
+
+    // custom field to track responses
+    this.replies = []
   }
 
   async reply(msg) {
     if (this.replied) return Promise.reject("cannot reply: interaction is already in replied state")
     this.replied = true
+    this.replies.push(msg)
     return msg
   }
 
   async editReply(msg) {
     if (!this.replied) return Promise.reject("cannot editReply: interaction has no reply to edit")
+    this.replies.push(msg)
     return msg
   }
 
@@ -83,6 +88,7 @@ class Interaction {
 
   async followUp(msg) {
     if (!this.replied) return Promise.reject("cannot followUp: interaction has no reply")
+    this.replies.push(msg)
     return msg
   }
 
