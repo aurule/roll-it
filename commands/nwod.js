@@ -163,10 +163,8 @@ module.exports = {
         a success adds another die to the roll
       `,
       oneLine`
-        * When your ${inlineCode("pool")} is zero, you get a single "chance" die. If it's a 1, you
-        automatically get a "Dramatic Failure". If it's a 10, you get a single success which explodes as
-        usual. Any other result is a normal failure. This interacts with ${inlineCode("rote")} in a weird way;
-        see ${italic("World of Darkness")} p.135 for details.
+        * When your ${inlineCode("pool")} is zero, you get a single "chance" die. This interacts with
+        ${inlineCode("rote")} in a weird way; see ${italic("World of Darkness")} p.135 for details.
       `,
       "",
       `If you want to roll a pool with no 10-again, set ${inlineCode("explode")} to 11.`,
