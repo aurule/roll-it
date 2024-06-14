@@ -18,6 +18,14 @@ describe("execute", () => {
     expect(result.content).toMatch(description_text)
   })
 
+  it("displays the call if present", async () => {
+    interaction.command_options.call = "heads"
+
+    const result = await coin_command.execute(interaction)
+
+    expect(result.content).toMatch("called heads")
+  })
+
   describe("secret", () => {
     it("when secret is true, reply is ephemeral", async () => {
       interaction.command_options.secret = true
