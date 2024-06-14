@@ -7,6 +7,7 @@ const { wod20 } = require("../services/tally")
 const { present } = require("../presenters/wod20-results-presenter")
 const { handleTeamwork } = require("../services/teamwork")
 const commonOpts = require("../util/common-options")
+const { longReply } = require("../util/long-reply")
 
 module.exports = {
   name: "wod20",
@@ -110,20 +111,18 @@ module.exports = {
       summed_results = wod20(raw_results, difficulty, specialty)
     }
 
-    return interaction.reply({
-      content: present({
-        rolls,
-        pool,
-        difficulty,
-        specialty,
-        until,
-        description: roll_description,
-        raw: raw_results,
-        summed: summed_results,
-        userFlake,
-      }),
-      ephemeral: secret,
+    const full_text = present({
+      rolls,
+      pool,
+      difficulty,
+      specialty,
+      until,
+      description: roll_description,
+      raw: raw_results,
+      summed: summed_results,
+      userFlake,
     })
+    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
   },
   help({ command_name }) {
     return [

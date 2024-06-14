@@ -5,6 +5,7 @@ const { sum } = require("../services/tally")
 const { present } = require("../presenters/d20-results-presenter")
 const { pick } = require("../services/pick")
 const commonOpts = require("../util/common-options")
+const { longReply } = require("../util/long-reply")
 
 module.exports = {
   name: "d20",
@@ -30,7 +31,7 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  async execute(interaction) {
+  execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const keep = interaction.options.getString("advantage") ?? "all"
     const rolls = interaction.options.getInteger("rolls") ?? 1
@@ -42,17 +43,15 @@ module.exports = {
     const raw_results = roll(pool, 20, rolls)
     const pick_results = keep ? pick(raw_results, 1, keep) : {}
 
-    return interaction.reply({
-      content: present({
+    const full_text = present({
         rolls,
         modifier,
         description: roll_description,
         raw: raw_results,
         picked: pick_results,
         userFlake: interaction.user.id,
-      }),
-      ephemeral: secret,
-    })
+      })
+    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
   },
   help({ command_name }) {
     return `${command_name} rolls a single 20-sided die. That's it!`

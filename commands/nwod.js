@@ -7,6 +7,7 @@ const { successes } = require("../services/tally")
 const { present } = require("../presenters/nwod-results-presenter")
 const { handleTeamwork } = require("../services/teamwork")
 const commonOpts = require("../util/common-options")
+const { longReply } = require("../util/long-reply")
 
 module.exports = {
   name: "nwod",
@@ -61,7 +62,7 @@ module.exports = {
           .setMinValue(1),
       )
       .addBooleanOption(commonOpts.secret),
-  async execute(interaction) {
+  execute(interaction) {
     let pool = interaction.options.getInteger("pool")
     let explode = interaction.options.getInteger("explode") ?? 10
     let threshold = interaction.options.getInteger("threshold") ?? 8
@@ -134,22 +135,20 @@ module.exports = {
       summed_results = successes(raw_results, threshold)
     }
 
-    return interaction.reply({
-      content: present({
-        rolls,
-        pool,
-        rote,
-        chance,
-        explode,
-        threshold,
-        until,
-        description: roll_description,
-        raw: raw_results,
-        summed: summed_results,
-        userFlake,
-      }),
-      ephemeral: secret,
+    const full_text = present({
+      rolls,
+      pool,
+      rote,
+      chance,
+      explode,
+      threshold,
+      until,
+      description: roll_description,
+      raw: raw_results,
+      summed: summed_results,
+      userFlake,
     })
+    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
   },
   help({ command_name }) {
     return [

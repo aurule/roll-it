@@ -5,6 +5,7 @@ const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/chop-results-presenter")
 const commonOpts = require("../util/common-options")
+const { longReply } = require("../util/long-reply")
 
 module.exports = {
   name: "chop",
@@ -24,7 +25,7 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  async execute(interaction) {
+  execute(interaction) {
     const static_test = interaction.options.getBoolean("static") ?? false
     const bomb = interaction.options.getBoolean("bomb") ?? false
     const rolls = interaction.options.getInteger("rolls") ?? 1
@@ -33,17 +34,15 @@ module.exports = {
 
     const raw_results = roll(1, 3, rolls)
 
-    return interaction.reply({
-      content: present({
-        rolls,
-        static_test,
-        bomb,
-        description: roll_description,
-        raw: raw_results,
-        userFlake: interaction.user.id,
-      }),
-      ephemeral: secret,
+    const full_text = present({
+      rolls,
+      static_test,
+      bomb,
+      description: roll_description,
+      raw: raw_results,
+      userFlake: interaction.user.id,
     })
+    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
   },
   help({ command_name }) {
     return oneLine`

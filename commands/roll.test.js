@@ -16,27 +16,27 @@ describe("execute", () => {
       interaction.command_options.sides = 2
     })
 
-    it("displays the description if present", async () => {
+    it("displays the description if present", () => {
       const description_text = "this is a test"
       interaction.command_options.description = description_text
 
-      const result = await roll_command.execute(interaction)
+      roll_command.execute(interaction)
 
-      expect(result.content).toMatch(description_text)
+      expect(interaction.replies[0].content).toMatch(description_text)
     })
 
-    it("displays the result", async () => {
-      const result = await roll_command.execute(interaction)
+    it("displays the result", () => {
+      roll_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*\d\*\*/)
+      expect(interaction.replies[0].content).toMatch(/\*\*\d\*\*/)
     })
 
-    it("displays the modifier", async () => {
+    it("displays the modifier", () => {
       interaction.command_options.modifier = 8
 
-      const result = await roll_command.execute(interaction)
+      roll_command.execute(interaction)
 
-      expect(result.content).toMatch("8")
+      expect(interaction.replies[0].content).toMatch("8")
     })
   })
 
@@ -47,51 +47,51 @@ describe("execute", () => {
       interaction.command_options.sides = 2
     })
 
-    it("displays the description if present", async () => {
+    it("displays the description if present", () => {
       const description_text = "this is a test"
       interaction.command_options.description = description_text
 
-      const result = await roll_command.execute(interaction)
+      roll_command.execute(interaction)
 
-      expect(result.content).toMatch(description_text)
+      expect(interaction.replies[0].content).toMatch(description_text)
     })
 
-    it("displays the result", async () => {
-      const result = await roll_command.execute(interaction)
+    it("displays the result", () => {
+      roll_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*\d\*\*/)
+      expect(interaction.replies[0].content).toMatch(/\*\*\d\*\*/)
     })
 
-    it("displays the modifier", async () => {
+    it("displays the modifier", () => {
       interaction.command_options.modifier = 8
 
-      const result = await roll_command.execute(interaction)
+      roll_command.execute(interaction)
 
-      expect(result.content).toMatch("8")
+      expect(interaction.replies[0].content).toMatch("8")
     })
   })
 
   describe("secret", () => {
-    it("when secret is true, reply is ephemeral", async () => {
+    it("when secret is true, reply is ephemeral", () => {
       interaction.command_options.secret = true
 
-      const result = await roll_command.execute(interaction)
+      roll_command.execute(interaction)
 
-      expect(result.ephemeral).toBeTruthy()
+      expect(interaction.replies[0].ephemeral).toBeTruthy()
     })
 
-    it("when secret is false, reply is not ephemeral", async () => {
+    it("when secret is false, reply is not ephemeral", () => {
       interaction.command_options.secret = false
 
-      const result = await roll_command.execute(interaction)
+      roll_command.execute(interaction)
 
-      expect(result.ephemeral).toBeFalsy()
+      expect(interaction.replies[0].ephemeral).toBeFalsy()
     })
 
-    it("secret defaults to false", async () => {
-      const result = await roll_command.execute(interaction)
+    it("secret defaults to false", () => {
+      roll_command.execute(interaction)
 
-      expect(result.ephemeral).toBeFalsy()
+      expect(interaction.replies[0].ephemeral).toBeFalsy()
     })
   })
 })

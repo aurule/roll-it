@@ -16,12 +16,15 @@ const max_length = 1985
  * then more will be sent using followUp() calls.
  *
  * @param  {Interaction} interaction Interaction to respond to
- * @param  {str} content             String to send
- * @param  {Object} message_options  Additional message options, like ephemeral.
+ * @param  {str}         content     String to send
+ * @param  {str}         options.separator
+ * @param  {Object}      options     Additional message options, like ephemeral.
  * @return {[type]}                  The interaction
  */
-function longReply(interaction, content, message_options = {}) {
-  const messages = splitMessage(content)
+function longReply(interaction, content, options = {}) {
+  const { separator, ...message_options } = options
+
+  const messages = splitMessage(content, separator)
   return multiReply(interaction, messages, message_options)
 }
 

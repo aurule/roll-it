@@ -45,7 +45,7 @@ module.exports = {
       )
       .setDMPermission(true)
   },
-  async execute(interaction) {
+  execute(interaction) {
     const command_name_arg = interaction.options.getString("command") ?? ""
     const topic_name = interaction.options.getString("topic") ?? ""
 

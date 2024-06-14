@@ -19,15 +19,15 @@ describe("execute", () => {
       const description_text = "this is a test"
       interaction.command_options.description = description_text
 
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(description_text)
+      expect(interaction.replies[0].content).toMatch(description_text)
     })
 
     it("displays the result", async () => {
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*(botch|\d)\*\*/)
+      expect(interaction.replies[0].content).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
@@ -41,15 +41,15 @@ describe("execute", () => {
       const description_text = "this is a test"
       interaction.command_options.description = description_text
 
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(description_text)
+      expect(interaction.replies[0].content).toMatch(description_text)
     })
 
     it("displays the result", async () => {
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*(botch|\d)\*\*/)
+      expect(interaction.replies[0].content).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
@@ -64,15 +64,15 @@ describe("execute", () => {
       const description_text = "this is a test"
       interaction.command_options.description = description_text
 
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(description_text)
+      expect(interaction.replies[0].content).toMatch(description_text)
     })
 
     it("displays the result", async () => {
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.content).toMatch(/\*\*(botch|\d)\*\*/)
+      expect(interaction.replies[0].content).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
@@ -80,23 +80,23 @@ describe("execute", () => {
     it("when secret is true, reply is ephemeral", async () => {
       interaction.command_options.secret = true
 
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.ephemeral).toBeTruthy()
+      expect(interaction.replies[0].ephemeral).toBeTruthy()
     })
 
     it("when secret is false, reply is not ephemeral", async () => {
       interaction.command_options.secret = false
 
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.ephemeral).toBeFalsy()
+      expect(interaction.replies[0].ephemeral).toBeFalsy()
     })
 
     it("secret defaults to false", async () => {
-      const result = await wod_command.execute(interaction)
+      await wod_command.execute(interaction)
 
-      expect(result.ephemeral).toBeFalsy()
+      expect(interaction.replies[0].ephemeral).toBeFalsy()
     })
   })
 })

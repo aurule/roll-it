@@ -5,6 +5,7 @@ const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-results-presenter")
 const commonOpts = require("../util/common-options")
+const { longReply } = require("../util/long-reply")
 
 module.exports = {
   name: "roll",
@@ -35,7 +36,7 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  async execute(interaction) {
+  execute(interaction) {
     const pool = interaction.options.getInteger("pool")
     const sides = interaction.options.getInteger("sides")
     const modifier = interaction.options.getInteger("modifier") ?? 0
@@ -46,8 +47,7 @@ module.exports = {
     const raw_results = roll(pool, sides, rolls)
     const summed_results = sum(raw_results)
 
-    return interaction.reply({
-      content: present({
+    const full_text = present({
         rolls,
         pool,
         sides,
@@ -56,9 +56,8 @@ module.exports = {
         summed: summed_results,
         modifier,
         userFlake: interaction.user.id,
-      }),
-      ephemeral: secret,
-    })
+      })
+    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
   },
   help({ command_name }) {
     return oneLine`

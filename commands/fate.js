@@ -6,6 +6,7 @@ const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/fate-results-presenter")
 const { fudge } = require("../services/tally")
 const commonOpts = require("../util/common-options")
+const { longReply } = require("../util/long-reply")
 
 module.exports = {
   name: "fate",
@@ -22,7 +23,7 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  async execute(interaction) {
+  execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
@@ -31,17 +32,15 @@ module.exports = {
     const raw_results = roll(4, 3, rolls)
     const summed_results = fudge(raw_results)
 
-    return interaction.reply({
-      content: present({
-        rolls,
-        modifier,
-        summed: summed_results,
-        description: roll_description,
-        raw: raw_results,
-        userFlake: interaction.user.id,
-      }),
-      ephemeral: secret,
+    const full_text = present({
+      rolls,
+      modifier,
+      summed: summed_results,
+      description: roll_description,
+      raw: raw_results,
+      userFlake: interaction.user.id,
     })
+    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
   },
   help({ command_name }) {
     return oneLine`
