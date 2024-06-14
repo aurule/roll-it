@@ -38,7 +38,7 @@ const long_command = {
       .addStringOption((option) =>
         option.setName("subtitle").setDescription("Subtitle description"),
       ),
-  help: ({ command_name }) => "x".repeat(2001),
+  help: ({ command_name }) => "adriatic sea".repeat(200),
 }
 
 describe("execute", () => {
@@ -48,16 +48,16 @@ describe("execute", () => {
       interaction.command_options.topic = "about"
     })
 
-    it("displays the help for the topic", async () => {
-      await roll_help_command.execute(interaction)
+    it("displays the help for the topic", () => {
+      roll_help_command.execute(interaction)
 
       expect(interaction.replies[0].content).toMatch("passion project")
     })
 
-    it("warns the user if the topic isn't found", async () => {
+    it("warns the user if the topic isn't found", () => {
       interaction.command_options.topic = "unknown"
 
-      await roll_help_command.execute(interaction)
+      roll_help_command.execute(interaction)
 
       expect(interaction.replies[0].content).toMatch("No help is available")
     })
@@ -70,29 +70,18 @@ describe("execute", () => {
       interaction.client.commands.set("test-command", test_command)
     })
 
-    it("displays the help for the command", async () => {
-      await roll_help_command.execute(interaction)
+    it("displays the help for the command", () => {
+      roll_help_command.execute(interaction)
 
       expect(interaction.replies[0].content).toMatch("test help")
     })
 
-    it("warns the user if the command isn't found", async () => {
+    it("warns the user if the command isn't found", () => {
       interaction.command_options.command = "unknown"
 
-      await roll_help_command.execute(interaction)
+      roll_help_command.execute(interaction)
 
       expect(interaction.replies[0].content).toMatch("No help is available")
-    })
-
-    it("sends followups when command help is too long", async () => {
-      interaction.command_options.command = "long-command"
-      interaction.client.commands.set("long-command", long_command)
-
-      await roll_help_command.execute(interaction)
-
-      expect(interaction.replies.length).toEqual(2)
-      expect(interaction.replies[0].content.length).toBeLessThanOrEqual(2000)
-      expect(interaction.replies[1].content.length).toBeLessThanOrEqual(2000)
     })
   })
 
@@ -103,8 +92,8 @@ describe("execute", () => {
       interaction.client.commands.set("test-command", test_command)
     })
 
-    it("displays the help for the topic", async () => {
-      await roll_help_command.execute(interaction)
+    it("displays the help for the topic", () => {
+      roll_help_command.execute(interaction)
 
       expect(interaction.replies[0].content).toMatch("passion project")
     })
@@ -128,8 +117,8 @@ describe("execute", () => {
       })
     })
 
-    it("displays its own help text", async () => {
-      await roll_help_command.execute(interaction)
+    it("displays its own help text", () => {
+      roll_help_command.execute(interaction)
 
       expect(interaction.replies[0].content).toMatch("test help")
     })

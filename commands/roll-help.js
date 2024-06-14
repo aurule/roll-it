@@ -4,6 +4,7 @@ const { stripIndent, oneLine } = require("common-tags")
 const CommandChoicesTransformer = require("../transformers/command-choices-transformer")
 const CommandHelpPresenter = require("../presenters/command-help-presenter")
 const Topics = require("../help")
+const { longReply } = require("../util/long-reply")
 
 module.exports = {
   name: "roll-help",
@@ -69,24 +70,7 @@ module.exports = {
       })
 
     const full_text = CommandHelpPresenter.present(command)
-    let offset = 0
-    let suffix = ""
-    if (full_text.length > 1997) {
-      suffix = "..."
-    }
-    await interaction.reply({
-      content: full_text.slice(0, 1997) + suffix,
-      ephemeral: true,
-    })
-    offset += 1997
-
-    while (offset < full_text.length) {
-      await interaction.followUp({
-        content: "(...continued)\n" + full_text.slice(offset, offset + 1985),
-        ephemeral: true,
-      })
-      offset += 1988
-    }
+    return longReply(interaction, full_text, {ephemeral: true})
   },
   help({ command_name }) {
     const commands = require("./index")
