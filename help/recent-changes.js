@@ -21,7 +21,7 @@ module.exports = {
       `Roll It is on version ${version}. Here's what's new!`,
       "",
       getChangelog(version),
-      `Older change logs can be found on github: ${hideLinkEmbed("https://github.com/aurule/roll-it/tree/main/changelog")}`,
+      `Older change logs can be found on github: ${hideLinkEmbed("https://github.com/aurule/roll-it/tree/master/changelog")}`,
     ].join("\n")
   },
 
