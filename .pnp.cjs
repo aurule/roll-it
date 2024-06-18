@@ -37,7 +37,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:11.2.0"],\
+          ["pino-pretty", "npm:11.2.1"],\
           ["prettier", "npm:3.3.2"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
@@ -4361,10 +4361,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
-      ["npm:11.2.0", {\
-        "packageLocation": "../../.yarn/berry/cache/pino-pretty-npm-11.2.0-8c536462cd-10c0.zip/node_modules/pino-pretty/",\
+      ["npm:11.2.1", {\
+        "packageLocation": "../../.yarn/berry/cache/pino-pretty-npm-11.2.1-c01fdb342c-10c0.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
-          ["pino-pretty", "npm:11.2.0"],\
+          ["pino-pretty", "npm:11.2.1"],\
           ["colorette", "npm:2.0.20"],\
           ["dateformat", "npm:4.6.3"],\
           ["fast-copy", "npm:3.0.2"],\
@@ -4681,7 +4681,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:11.2.0"],\
+          ["pino-pretty", "npm:11.2.1"],\
           ["prettier", "npm:3.3.2"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
