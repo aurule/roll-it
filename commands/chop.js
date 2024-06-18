@@ -42,7 +42,7 @@ module.exports = {
       raw: raw_results,
       userFlake: interaction.user.id,
     })
-    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
+    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
     return oneLine`

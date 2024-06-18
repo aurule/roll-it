@@ -122,7 +122,7 @@ module.exports = {
       summed: summed_results,
       userFlake,
     })
-    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
+    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
     return [

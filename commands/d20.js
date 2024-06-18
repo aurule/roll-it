@@ -44,14 +44,14 @@ module.exports = {
     const pick_results = keep ? pick(raw_results, 1, keep) : {}
 
     const full_text = present({
-        rolls,
-        modifier,
-        description: roll_description,
-        raw: raw_results,
-        picked: pick_results,
-        userFlake: interaction.user.id,
-      })
-    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
+      rolls,
+      modifier,
+      description: roll_description,
+      raw: raw_results,
+      picked: pick_results,
+      userFlake: interaction.user.id,
+    })
+    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
     return `${command_name} rolls a single 20-sided die. That's it!`

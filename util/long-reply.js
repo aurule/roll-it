@@ -60,7 +60,13 @@ function default_suffixer(idx, max) {
  * @param  {Number}   max_length Maximum length of a single string
  * @return {String[]}            Array of strings
  */
-function splitMessage(message, separator = " ", max_length = 2000, prefixer = default_prefixer, suffixer = default_suffixer) {
+function splitMessage(
+  message,
+  separator = " ",
+  max_length = 2000,
+  prefixer = default_prefixer,
+  suffixer = default_suffixer,
+) {
   if (message.length <= max_length) {
     return [message]
   }
@@ -72,10 +78,16 @@ function splitMessage(message, separator = " ", max_length = 2000, prefixer = de
   var breakpos
   let pagenum = 1
   const max_pages = ceil(current_message.length / max_length)
-  const page_length = max_length - prefixer(max_pages, max_pages).length - 3 - suffixer(max_pages, max_pages).length
+  const page_length =
+    max_length - prefixer(max_pages, max_pages).length - 3 - suffixer(max_pages, max_pages).length
   while (current_message.length > page_length) {
     breakpos = current_message.lastIndexOf(separator, page_length)
-    messages.push(prefixer(pagenum, max_pages) + current_message.slice(0, breakpos) + "..." + suffixer(pagenum, max_pages))
+    messages.push(
+      prefixer(pagenum, max_pages) +
+        current_message.slice(0, breakpos) +
+        "..." +
+        suffixer(pagenum, max_pages),
+    )
     current_message = current_message.slice(breakpos + separator.length)
     pagenum++
   }
@@ -93,17 +105,17 @@ function splitMessage(message, separator = " ", max_length = 2000, prefixer = de
  * @return {Interaction}                 The interaction
  */
 async function multiReply(interaction, contents, message_options = {}) {
-  if (!contents.length) return;
+  if (!contents.length) return
 
   await interaction.reply({
     content: contents[0],
-    ...message_options
+    ...message_options,
   })
 
   for (let idx = 1; idx < contents.length; idx++) {
     await interaction.followUp({
       content: contents[idx],
-      ...message_options
+      ...message_options,
     })
   }
 

@@ -24,7 +24,8 @@ describe("splitMessage", () => {
   })
 
   it("splits at the separator", () => {
-    const message = "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!"
+    const message =
+      "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!"
     const length = 100
 
     const result = splitMessage(message, " ", length)
@@ -51,7 +52,7 @@ describe("multiReply", () => {
     it("includes options", async () => {
       const i = new Interaction()
       const messages = ["pretty short, actually"]
-      const opts = {ephemeral: true}
+      const opts = { ephemeral: true }
 
       await multiReply(i, messages, opts)
 
@@ -62,10 +63,7 @@ describe("multiReply", () => {
   describe("with many messages", () => {
     it("sends all messages", async () => {
       const i = new Interaction()
-      const messages = [
-        "pretty short, actually",
-        "although there are two of them"
-      ]
+      const messages = ["pretty short, actually", "although there are two of them"]
 
       await multiReply(i, messages)
 
@@ -74,11 +72,8 @@ describe("multiReply", () => {
 
     it("includes options in each reply", async () => {
       const i = new Interaction()
-      const messages = [
-        "pretty short, actually",
-        "although there are two of them"
-      ]
-      const opts = {ephemeral: true}
+      const messages = ["pretty short, actually", "although there are two of them"]
+      const opts = { ephemeral: true }
 
       await multiReply(i, messages, opts)
 

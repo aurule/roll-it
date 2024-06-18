@@ -48,16 +48,16 @@ module.exports = {
     const summed_results = sum(raw_results)
 
     const full_text = present({
-        rolls,
-        pool,
-        sides,
-        description: roll_description,
-        raw: raw_results,
-        summed: summed_results,
-        modifier,
-        userFlake: interaction.user.id,
-      })
-    return longReply(interaction, full_text, {separator: "\n\t", ephemeral: secret})
+      rolls,
+      pool,
+      sides,
+      description: roll_description,
+      raw: raw_results,
+      summed: summed_results,
+      modifier,
+      userFlake: interaction.user.id,
+    })
+    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
     return oneLine`

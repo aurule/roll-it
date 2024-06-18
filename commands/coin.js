@@ -18,10 +18,7 @@ module.exports = {
         option
           .setName("call")
           .setDescription("Pick which side you think the coin will land on")
-          .setChoices(
-            { name: "Heads", value: "heads" },
-            { name: "Tails", value: "tails" },
-          ),
+          .setChoices({ name: "Heads", value: "heads" }, { name: "Tails", value: "tails" }),
       )
       .addBooleanOption(commonOpts.secret),
   async execute(interaction) {

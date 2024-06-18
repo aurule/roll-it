@@ -70,7 +70,7 @@ module.exports = {
       })
 
     const full_text = CommandHelpPresenter.present(command)
-    return longReply(interaction, full_text, {ephemeral: true})
+    return longReply(interaction, full_text, { ephemeral: true })
   },
   help({ command_name }) {
     const commands = require("./index")
