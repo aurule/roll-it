@@ -95,10 +95,24 @@ class NwodPresenter {
         content += ` ${this.explainTally(0)}`
         content += this.presentedDescription
         content += ` (${this.explainPool()}: [${this.notateDice(0)}])`
+        content += this.hummingbird
         break
     }
 
     return content
+  }
+
+  get hummingbird() {
+    const lower_desc = this.description?.toLowerCase()
+    if (
+      this.summed[0] == 11 &&
+      lower_desc &&
+      (lower_desc.includes("perception") || lower_desc.includes("perceive"))
+    ) {
+      return "\nYou saw the hummingbird!"
+    }
+
+    return ""
   }
 
   /**
