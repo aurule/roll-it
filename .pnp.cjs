@@ -34,7 +34,6 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["mathjs", "npm:13.0.0"],\
-          ["minimist", "npm:1.2.8"],\
           ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -4873,7 +4872,6 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["mathjs", "npm:13.0.0"],\
-          ["minimist", "npm:1.2.8"],\
           ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
