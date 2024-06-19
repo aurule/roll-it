@@ -3,6 +3,7 @@ const { stripIndent, oneLine } = require("common-tags")
 
 const CommandChoicesTransformer = require("../transformers/command-choices-transformer")
 const CommandHelpPresenter = require("../presenters/command-help-presenter")
+const commandNamePresenter = require("../presenters/command-name-presenter")
 const Topics = require("../help")
 const { longReply } = require("../util/long-reply")
 
@@ -76,12 +77,17 @@ module.exports = {
     const commands = require("./index")
     return [
       oneLine`
-        Both args let you pick from a list, so you don't need to memorize command or topic names. If you give
-        both a command and a topic, ${command_name} will only show help for the topic.
+        Both sub-commands let you pick from a list, so you don't need to memorize command or topic names.
       `,
       "",
       "Here are the available help topics:",
       Topics.map((t) => `• ${t.title} - ${italic(t.description)}`).join("\n"),
+      "",
+      "And here are the slash commands:",
+      commands
+        .filter((c) => c.type !== "menu")
+        .map((c) => `• ${commandNamePresenter.present(c)} - ${c.description}`)
+        .join("\n"),
     ].join("\n")
   },
 }

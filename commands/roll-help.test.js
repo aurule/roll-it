@@ -143,9 +143,15 @@ describe("data", () => {
 })
 
 describe("help", () => {
-  it("includes the command name in the output", () => {
-    const help_text = roll_help_command.help({ command_name: "sillyness" })
+  it("includes topic names", () => {
+    const help_text = roll_help_command.help({})
 
-    expect(help_text).toMatch("sillyness")
+    expect(help_text).toMatch("About Roll It")
+  })
+
+  it("includes command names", () => {
+    const help_text = roll_help_command.help({})
+
+    expect(help_text).toMatch("roll-chooser")
   })
 })
