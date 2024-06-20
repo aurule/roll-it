@@ -33,6 +33,7 @@ const RAW_RUNTIME_STATE =
           ["discord.js", "npm:14.15.3"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
+          ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.0.0"],\
           ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.2.0"],\
@@ -923,6 +924,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@hapi/hoek", [\
+      ["npm:9.3.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@hapi-hoek-npm-9.3.0-447eb8d274-10c0.zip/node_modules/@hapi/hoek/",\
+        "packageDependencies": [\
+          ["@hapi/hoek", "npm:9.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@hapi/topo", [\
+      ["npm:5.1.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@hapi-topo-npm-5.1.0-5e0b776809-10c0.zip/node_modules/@hapi/topo/",\
+        "packageDependencies": [\
+          ["@hapi/topo", "npm:5.1.0"],\
+          ["@hapi/hoek", "npm:9.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@isaacs/cliui", [\
       ["npm:8.0.2", {\
         "packageLocation": "../../.yarn/berry/cache/@isaacs-cliui-npm-8.0.2-f4364666d5-10c0.zip/node_modules/@isaacs/cliui/",\
@@ -1338,6 +1358,34 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/@sapphire-snowflake-npm-3.5.3-427ca2a4ee-10c0.zip/node_modules/@sapphire/snowflake/",\
         "packageDependencies": [\
           ["@sapphire/snowflake", "npm:3.5.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@sideway/address", [\
+      ["npm:4.1.5", {\
+        "packageLocation": "../../.yarn/berry/cache/@sideway-address-npm-4.1.5-a3852745c8-10c0.zip/node_modules/@sideway/address/",\
+        "packageDependencies": [\
+          ["@sideway/address", "npm:4.1.5"],\
+          ["@hapi/hoek", "npm:9.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@sideway/formula", [\
+      ["npm:3.0.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@sideway-formula-npm-3.0.1-ee371b2ddf-10c0.zip/node_modules/@sideway/formula/",\
+        "packageDependencies": [\
+          ["@sideway/formula", "npm:3.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@sideway/pinpoint", [\
+      ["npm:2.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@sideway-pinpoint-npm-2.0.0-66d94e687e-10c0.zip/node_modules/@sideway/pinpoint/",\
+        "packageDependencies": [\
+          ["@sideway/pinpoint", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3811,6 +3859,20 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["joi", [\
+      ["npm:17.13.3", {\
+        "packageLocation": "../../.yarn/berry/cache/joi-npm-17.13.3-866dad5bc8-10c0.zip/node_modules/joi/",\
+        "packageDependencies": [\
+          ["joi", "npm:17.13.3"],\
+          ["@hapi/hoek", "npm:9.3.0"],\
+          ["@hapi/topo", "npm:5.1.0"],\
+          ["@sideway/address", "npm:4.1.5"],\
+          ["@sideway/formula", "npm:3.0.1"],\
+          ["@sideway/pinpoint", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["joycon", [\
       ["npm:3.1.1", {\
         "packageLocation": "../../.yarn/berry/cache/joycon-npm-3.1.1-3033e0e5f4-10c0.zip/node_modules/joycon/",\
@@ -4871,6 +4933,7 @@ const RAW_RUNTIME_STATE =
           ["discord.js", "npm:14.15.3"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
+          ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.0.0"],\
           ["nodemon", "npm:3.1.3"],\
           ["pino", "npm:9.2.0"],\
