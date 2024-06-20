@@ -28,6 +28,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["better-sqlite3", "npm:11.0.0"],\
+          ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.15.3"],\
@@ -2127,6 +2128,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/clean-stack-npm-2.2.0-a8ce435a5c-10c0.zip/node_modules/clean-stack/",\
         "packageDependencies": [\
           ["clean-stack", "npm:2.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["cli-progress", [\
+      ["npm:3.12.0", {\
+        "packageLocation": "../../.yarn/berry/cache/cli-progress-npm-3.12.0-d686625154-10c0.zip/node_modules/cli-progress/",\
+        "packageDependencies": [\
+          ["cli-progress", "npm:3.12.0"],\
+          ["string-width", "npm:4.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4928,6 +4939,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["roll-it", "workspace:."],\
           ["better-sqlite3", "npm:11.0.0"],\
+          ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.15.3"],\
