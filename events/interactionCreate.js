@@ -48,14 +48,20 @@ async function handleAutocomplete(interaction) {
   const command = interaction.client.commands.get(interaction.commandName)
   if (!command) return Promise.reject(`no command ${interaction.commandName} (autocomplete)`)
 
+  const completer = command.autocomplete
   const option = interaction.options.getFocused(true)
-  const completer = command.autocomplete.get(option.name)
   if (!completer)
     return Promise.reject(
       `no autocomplete for option ${option.name} on command ${interaction.commandName}`,
     )
 
-  return completer.complete(interaction)
+  logger.info({
+    command: command.name,
+    option: option,
+  }, `autocomplete called for option ${option.name} on command ${interaction.commandName}`)
+
+  return completer(interaction)
+    .then(result => interaction.respond(result))
 }
 
 /**
