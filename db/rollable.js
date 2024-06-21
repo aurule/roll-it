@@ -10,7 +10,7 @@ const { db } = require("./index")
  * Due to the way tables are rolled, a table which has the same result for values 1-5 will need to duplicate
  * that result five times in its contents.
  */
-class Rollables {
+class GuildRollables {
   constructor(guildId) {
     this.guildId = guildId
   }
@@ -93,13 +93,13 @@ class Rollables {
   }
 
   /**
-   * Get a random result from the table
+   * Get a random result from a rollable
    *
-   * This rolls the `die` inside sql and picks the given result from the stored table. This should make it
+   * This rolls the `die` inside sql and picks the given result from the stored rollable. This should make it
    * nearly impossible to roll an invalid result. For safety, the query is still scoped to the current guild.
    *
    * @param  {int} id ID of the table to roll
-   * @return {str}    Table entry
+   * @return {str}    Rollable entry
    */
   random(id) {
     const select = db.prepare(oneLine`
@@ -171,51 +171,67 @@ class Rollables {
     select.pluck()
     return select.get(this.guildId)
   }
+
+  /**
+   * Check whether a given name is in use
+   *
+   * @param  {str} name The name to check
+   * @return {bool}     True if a rollable exists for this guild with the given name, false if not
+   */
+  taken(name) {
+    const select = db.prepare(oneLine`
+      SELECT 1 FROM rollable
+      WHERE guildFlake = @guildFlake AND name = @name
+    `)
+    select.pluck()
+    return !!select.get({
+      guildFlake: this.guildId,
+      name
+    })
+  }
+
+  exists(id) {
+    const select = db.prepare(oneLine`
+      SELECT 1 FROM rollable
+      WHERE id = @id AND guildFlake = @guildFlake
+    `)
+    select.pluck()
+    return !!select.get({
+      id,
+      guildFlake: this.guildId,
+    })
+  }
+
+  /**
+   * Delete a rollable record
+   *
+   * For safety, the delete query is still scoped to the current guild.
+   *
+   * @param  {int} id The ID of the rollable to delete
+   * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
+   */
+  destroy(id) {
+    const destroy = db.prepare(oneLine`
+      DELETE FROM rollable
+      WHERE id = @id AND guildFlake = @guildFlake
+    `)
+    return destroy.run({
+      id,
+      guildFlake: this.guildId,
+    })
+  }
 }
 
 /**
  * Create the rollable database table and its indexes
  */
 function setup() {
-  const tableStmt = db.prepare(oneLine`
-    CREATE TABLE IF NOT EXISTS rollable (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      guildFlake TEXT NOT NULL,
-      name TEXT NOT NULL,
-      description TEXT NOT NULL,
-      die INTEGER,
-      contents BLOB NOT NULL
-    )
-  `)
-  tableStmt.run()
+  const fs = require("fs")
+  const path = require("path")
 
-  // multicol index starting with guildFlake
-  // speeds up querying by guildFlake, or flake+name
-  const indexStmt = db.prepare(oneLine`
-    CREATE UNIQUE INDEX IF NOT EXISTS rollable_guild_name
-    ON rollable (guildFlake, name)
-  `)
-  indexStmt.run()
-
-  // set up the trigger to set the die size for new rollables
-  const insertTriggerStmt = db.prepare(oneLine`
-    CREATE TRIGGER IF NOT EXISTS new_rollable_die
-    AFTER INSERT ON rollable
-    BEGIN
-      UPDATE rollable SET die = JSON_ARRAY_LENGTH(NEW.contents) WHERE id = NEW.id;
-    END
-  `)
-  insertTriggerStmt.run()
-
-  // set up the trigger to set the die size for old rollables when their contents are changed
-  const updateTriggerStmt = db.prepare(oneLine`
-    CREATE TRIGGER IF NOT EXISTS old_rollable_die
-    AFTER UPDATE OF contents ON rollable
-    BEGIN
-      UPDATE rollable SET die = JSON_ARRAY_LENGTH(NEW.contents) WHERE id = NEW.id;
-    END
-  `)
-  updateTriggerStmt.run()
+  const file_path = path.join(__dirname, "rollable.setup.sql")
+  const setup_sql = fs.readFileSync(file_path, 'utf8')
+  db.exec(setup_sql)
 }
 
 /**
@@ -237,7 +253,7 @@ function seed() {
   const dev_guilds = JSON.parse(process.env.DEV_GUILDS)
 
   for (const guildId of dev_guilds) {
-    const rollables = new Rollables(guildId)
+    const rollables = new GuildRollables(guildId)
     for (const r of seed_rollables) {
       try {
         rollables.create(r.name, r.description, r.contents)
@@ -249,7 +265,7 @@ function seed() {
 }
 
 module.exports = {
-  Rollables,
+  GuildRollables,
   setup,
   seed,
 }
