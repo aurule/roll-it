@@ -123,7 +123,9 @@ module.exports = {
     }
   },
   async autocomplete(interaction) {
+    const tables = new GuildRollables(interaction.guildId)
     const focusedOption = interaction.options.getFocused(true)
+    const partialText = focusedOption.value
 
     switch(focusedOption.name) {
       case "table":
@@ -131,8 +133,9 @@ module.exports = {
         // lookup is by name, value is the table's id
         return [{name: "placeholder", value: "yes"}]
       case "name":
+        const subcommand = interaction.options.getSubcommand()
         // options for a new or changed table name
-        // can include a "do not change" option for the Manage command
+        // if subcommand is "manage", add special "do not change" option
         // show user entry with a description of whether it's available or not
         return [{name: "new placeholder", value: "yes"}]
       case "description":
