@@ -1,11 +1,5 @@
+const { oneLine } = require("common-tags")
 const { db } = require("./db")
-
-// schema
-// * guildId
-// * name
-// * description
-// * die (derived when contents changes)
-// * contents: json array
 
 class Rollables {
   constructor(guildId) {
@@ -45,6 +39,42 @@ class Rollables {
   }
 }
 
+/**
+ * Create the rollable database table and its indexes
+ */
+create() {
+  const tableStmt = db.prepare(
+    oneLine`
+      CREATE TABLE IF NOT EXISTS rollable (
+        id INTEGER PRIMARY KEY,
+        guildFlake TEXT NOT NULL,
+        name TEXT NOT NULL,
+        description TEXT NOT NULL,
+        die INTEGER NOT NULL,
+        contents BLOB NOT NULL,
+      )
+    `
+  )
+  tableStmt.run()
+
+  // multicol index starting with guildFlake
+  // speeds up querying by guildFlake, or flake+name
+  const indexStmt = db.prepare(
+    oneLine`
+      CREATE UNIQUE INDEX IF NOT EXISTS rollable_guild_name
+      ON rollable (guildFlake, name)
+    `
+  )
+  indexStmt.run()
+}
+
+seed() {
+  // populate development data
+  // error outside of dev mode
+}
+
 module.exports = {
-  Rollables
+  Rollables,
+  create,
+  seed
 }
