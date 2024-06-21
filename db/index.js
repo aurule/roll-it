@@ -1,24 +1,25 @@
 const { logger } = require("../util/logger")
 
-const Database = require('better-sqlite3');
+const Database = require("better-sqlite3")
 
 require("dotenv").config()
 
 function pickDatabaseFile() {
-  switch(process.env.NODE_ENV) {
+  switch (process.env.NODE_ENV) {
     case "development":
-      return "../roll-it.dev.db"
+      const path = require("path")
+      return path.join(__dirname, "..", ".sqlite", "roll-it.dev.db")
     case "test":
     case "ci":
       return ":memory:"
     case "production":
-      return "../roll-it.prod.db"
+      return path.join(__dirname, "..", ".sqlite", "roll-it.prod.db")
   }
 }
 
-const db = new Database(pickDatabaseFile(), { verbose: logger.debug });
+let db = new Database(pickDatabaseFile(), { verbose: (sql) => logger.debug(sql) })
 
 module.exports = {
   db,
-  pickDatabaseFile
+  pickDatabaseFile,
 }
