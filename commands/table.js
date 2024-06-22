@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, italic, underscore } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
+const { logger } = require("../util/logger")
 const CommandChoicesTransformer = require("../transformers/command-choices-transformer")
 const CommandHelpPresenter = require("../presenters/command-help-presenter")
 const Topics = require("../help")
@@ -70,37 +71,61 @@ module.exports = {
           ),
       )
   },
-  execute(interaction) {
+  async execute(interaction) {
     const subcommand = interaction.options.getSubcommand()
     const tables = new GuildRollables(interaction.guildId)
 
+    var table_id
+
     switch(subcommand) {
       case "add":
-        return interaction.reply("adding")
-        // autocompleter for name
         const name = interaction.options.getString("name")
         const description = interaction.options.getString("description")
+        if (tables.taken(name)) {
+          logger.error(`a table named "${name}" already exists`)
+          return
+        }
+        const table_file = interaction.options.getAttachment("file")
+        if (!table_file.contentType.includes("text/plain")) {
+          logger.error(`this doesn't look like a text file: ${table_file.contentType}`)
+          return
+        }
+
+        // reply with waiting message
+        const contents = await fetch(table_file.url)
+          .then((response) => response.text())
+          .then((body) => body.trim().split(/\r?\n/))
+        console.log(contents)
+
+        if (contents.length < 2) {
+          logger.error("not enough lines")
+          return
+        }
+
+        return interaction.reply("adding")
         // validate
-        // * name is unique within the guild with tables.taken(name)
         // * attachment media type is text
-        const contents = interaction.options.getAttachment("file")
-        // validate
         // * contents has at least two lines
         tables.create(name, description, contents)
-        // update guild's table commands with the new table options
-        //   this avoids the need for an autocompleter
         break;
       case "list":
-        return interaction.reply("listing")
         const available_tables = tables.all()
+        return interaction.reply(`listing ${available_tables.length}`)
         // present the data
-        break;
       case "manage":
-        return interaction.reply("managing")
-        // autocompleter for name
-        // const table_id = ???
-        // validate that the name exists
+        table_id = parseInt(interaction.options.getString("table"))
+        if (!table_id) {
+          logger.error("not an id")
+          return
+        }
+
+        if (!tables.exists(table_id)) {
+          logger.error(`table ${table_id} does not exist for guild ${tables.guildId}`)
+          return
+        }
+
         const table = tables.detail(table_id)
+        return interaction.reply(`managing table ${table.name}`)
         // show a prompt with the table name and description, probably also die size
         // ask the user what they want to do:
         // * show the table's contents
@@ -111,15 +136,21 @@ module.exports = {
         //    + name autocompleter shows whatever the user enters with a description of whether it's available or not
         // * remove the table
         //  - chicken switch, then tables.destroy(table_id)
-        break;
       case "roll":
-        return interaction.reply("rolling")
-        // autocompleter for name
-        // const table_id = ???
-        // validate that the name exists
+        table_id = parseInt(interaction.options.getString("table"))
+        if (!table_id) {
+          logger.error("not an id")
+          return
+        }
+
+        if (!tables.exists(table_id)) {
+          logger.error(`table ${table_id} does not exist for guild ${tables.guildId}`)
+          return
+        }
+
         const result = tables.random(table_id)
+        return interaction.reply(`rolled "${result}"`)
         // present the result
-        break;
     }
   },
   async autocomplete(interaction) {
@@ -131,7 +162,7 @@ module.exports = {
       case "table":
         // options for selecting a table
         // lookup is by name, value is the table's id
-        return [{name: "placeholder", value: "yes"}]
+        return [{name: "placeholder", value: "1"}]
       case "name":
         const subcommand = interaction.options.getSubcommand()
         // options for a new or changed table name
