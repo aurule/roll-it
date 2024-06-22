@@ -84,7 +84,12 @@ class GuildRollables {
       FROM rollable
       WHERE id = @id AND guildFlake = @guildFlake
     `)
-    const raw_out = select.get({ id, guildFlake: this.guildId })
+    const raw_out = select.get({
+      id,
+      guildFlake: this.guildId
+    })
+
+    if (raw_out === undefined) return undefined
 
     return {
       ...raw_out,
@@ -108,10 +113,14 @@ class GuildRollables {
       WHERE id = @id AND guildFlake = @guildFlake
     `)
     select.pluck()
-    return select.get({
+    const raw_out = select.get({
       id,
       guildFlake: this.guildId,
     })
+
+    if (raw_out === undefined) return undefined
+
+    return JSON.parse(raw_out)
   }
 
   /**
@@ -140,11 +149,24 @@ class GuildRollables {
   update(id, data) {
     const { name, description, contents } = data
 
-    let sql = "UPDATE OR ROLLBACK rollable SET"
+    let sql = "UPDATE OR ROLLBACK rollable SET "
+    const fields = []
+    const values = []
 
-    if (name) sql += " name = @name"
-    if (description) sql += " description = @description"
-    if (contents) sql += " contents = JSONB(@contents)"
+    if (name) {
+      fields.push("name")
+      values.push("@name")
+    }
+    if (description) {
+      fields.push("description")
+      values.push("@description")
+    }
+    if (contents) {
+      fields.push("contents")
+      values.push("JSONB(@contents)")
+    }
+
+    sql += `(${fields.join(", ")}) = (${values.join(", ")})`
 
     sql += " WHERE id = @id AND guildFlake = @guildFlake"
 
@@ -173,7 +195,7 @@ class GuildRollables {
   }
 
   /**
-   * Check whether a given name is in use
+   * Check whether a given name is in use for this guild
    *
    * @param  {str} name The name to check
    * @return {bool}     True if a rollable exists for this guild with the given name, false if not
@@ -190,6 +212,12 @@ class GuildRollables {
     })
   }
 
+  /**
+   * Check wither a given ID is in use for this guild
+   *
+   * @param  {int}  id ID of the rollable to check
+   * @return {bool}    True if the ID is used by a rollable for this guild, false if not
+   */
   exists(id) {
     const select = db.prepare(oneLine`
       SELECT 1 FROM rollable
