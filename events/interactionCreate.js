@@ -57,7 +57,7 @@ async function handleAutocomplete(interaction) {
 
   logger.info({
     command: command.name,
-    option: option,
+    option: option.name,
   }, `autocomplete called for option ${option.name} on command ${interaction.commandName}`)
 
   return completer(interaction)
