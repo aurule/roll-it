@@ -177,21 +177,20 @@ describe("handleCommand", () => {
 })
 
 describe("handleAutocomplete", () => {
-  const testAutocomplete = {
-    complete: (interaction) => "worked",
+  const testCommand = {
+    autocomplete: async (interaction) => "worked",
   }
 
-  const testCommand = {
-    autocomplete: new Collection(),
+  const invalidTestCommand = {
+    autocomplete: undefined,
   }
 
   beforeEach(() => {
-    interaction.client.commands.set("testing", testCommand)
-    testCommand.autocomplete.set("testOption", testAutocomplete)
     envSpy = jest.spyOn(InteractionCreateEvent, "inCorrectEnv").mockReturnValue(true)
   })
 
   it("rejects on unknown command", () => {
+    interaction.client.commands.set("testing", testCommand)
     interaction.commandName = "nope"
 
     return expect(InteractionCreateEvent.handleAutocomplete(interaction)).rejects.toMatch(
@@ -200,8 +199,8 @@ describe("handleAutocomplete", () => {
   })
 
   it("rejects if no completer registered for the current option", () => {
+    interaction.client.commands.set("testing", invalidTestCommand)
     interaction.commandName = "testing"
-    testCommand.autocomplete.delete("testOption")
 
     return expect(InteractionCreateEvent.handleAutocomplete(interaction)).rejects.toMatch(
       "no autocomplete",
@@ -209,6 +208,7 @@ describe("handleAutocomplete", () => {
   })
 
   it("executes the completer", () => {
+    interaction.client.commands.set("testing", testCommand)
     interaction.commandName = "testing"
     interaction.focused_option = "testOption"
 
