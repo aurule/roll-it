@@ -79,6 +79,8 @@ module.exports = {
 
     var table_id
     var table_name
+    var detail
+    var full_text
 
     switch(subcommand) {
       case "add":
@@ -113,13 +115,13 @@ module.exports = {
         tables.create(name, description, contents)
         return interaction.followUp(`${userMention(interaction.user.id)} created the table "${name}"! You can roll on it with ${inlineCode("/table roll")}.`)
       case "list":
-        const full_text = presentList(tables.all())
+        full_text = presentList(tables.all())
         return longReply(interaction, full_text, {separator: "\n", ephemeral: true})
       case "manage":
         table_name = interaction.options.getString("table")
         table_id = parseInt(table_name)
 
-        const detail = tables.detail(table_id, table_name)
+        detail = tables.detail(table_id, table_name)
 
         if (detail === undefined) {
           return interaction.reply({
@@ -155,9 +157,9 @@ module.exports = {
           })
         }
 
-        const detail = tables.detail(table_id, table_name)
+        detail = tables.detail(table_id, table_name)
 
-        const full_text = present({
+        full_text = present({
           userFlake: interaction.user.id,
           rolls,
           tableName: detail.name,

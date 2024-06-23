@@ -1,4 +1,4 @@
-const Completers = require("./table")
+const Completers = require("./table-completers")
 
 describe("table", () => {
   it("searches names by lowercase", () => {
