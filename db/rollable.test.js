@@ -67,6 +67,34 @@ describe("GuildRollables", () => {
   })
 
   describe("detail", () => {
+    it("looks up by id", () => {
+      const rollables = new GuildRollables("test-detail")
+      const insertion = rollables.create("testid", "desc", ["one"])
+
+      const result = rollables.detail(insertion.lastInsertRowid)
+
+      expect(result).toBeTruthy()
+    })
+
+    it("looks up by name", () => {
+      const rollables = new GuildRollables("test-detail")
+      const insertion = rollables.create("testn", "desc", ["one"])
+
+      const result = rollables.detail(0, "testn")
+
+      expect(result).toBeTruthy()
+    })
+
+    it("uses id when both are given", () => {
+      const rollables = new GuildRollables("test-detail")
+      const insertion = rollables.create("testb1", "desc", ["one"])
+      rollables.create("testb2", "desc", ["one"])
+
+      const result = rollables.detail(insertion.lastInsertRowid, "testb2")
+
+      expect(result).toBeTruthy()
+    })
+
     it("converts contents to an array", () => {
       const contents = ["first", "second", "third"]
       const rollables = new GuildRollables("test-detail")
@@ -90,6 +118,34 @@ describe("GuildRollables", () => {
   })
 
   describe("random", () => {
+    it("looks up by id", () => {
+      const rollables = new GuildRollables("test-random")
+      const insertion = rollables.create("testid", "desc", ["one"])
+
+      const result = rollables.random(insertion.lastInsertRowid)
+
+      expect(result).toBeTruthy()
+    })
+
+    it("looks up by name", () => {
+      const rollables = new GuildRollables("test-random")
+      const insertion = rollables.create("testn", "desc", ["one"])
+
+      const result = rollables.random(0, "testn")
+
+      expect(result).toBeTruthy()
+    })
+
+    it("uses id when both are given", () => {
+      const rollables = new GuildRollables("test-random")
+      const insertion = rollables.create("testb1", "desc", ["one"])
+      rollables.create("testb2", "desc", ["one"])
+
+      const result = rollables.random(insertion.lastInsertRowid, "testb2")
+
+      expect(result).toBeTruthy()
+    })
+
     it("gets a random line from the contents", () => {
       const contents = ["first", "second", "third"]
       const rollables = new GuildRollables("test-random")

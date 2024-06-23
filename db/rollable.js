@@ -72,20 +72,33 @@ class GuildRollables {
   /**
    * Get all stored data about a rollable
    *
+   * This method accepts either a rollable ID or a name. At least one must be provided. If both are given, it
+   * will prefer the ID.
+   *
    * The `contents` are parsed into an array before being returned. For safety, the query is still scoped to
    * the current guild.
    *
-   * @param  {int} id ID of the rollable to get
-   * @return {obj}    Object with all the fields of the rollable
+   * @param  {int} id   ID of the rollable to get
+   * @param  {str} name Name of the rollable to get
+   * @return {obj}      Object with all the fields of the rollable
    */
-  detail(id) {
-    const select = db.prepare(oneLine`
+  detail(id, name) {
+    let sql = oneLine`
       SELECT *, JSON_EXTRACT(contents, '$') AS contents
       FROM rollable
-      WHERE id = @id AND guildFlake = @guildFlake
-    `)
+      WHERE
+    `
+
+    if (id) {
+      sql += " id = @id AND guildFlake = @guildFlake"
+    } else if (name) {
+      sql += " guildFlake = @guildFlake AND name = @name"
+    }
+
+    const select = db.prepare(sql)
     const raw_out = select.get({
       id,
+      name,
       guildFlake: this.guildId
     })
 
@@ -100,22 +113,35 @@ class GuildRollables {
   /**
    * Get a random result from a rollable
    *
+   * This method accepts either a rollable ID or a name. At least one must be provided. If both are given, it
+   * will prefer the ID.
+   *
    * This rolls the `die` inside sql and picks the given result from the stored rollable. This should make it
    * nearly impossible to roll an invalid result. For safety, the query is still scoped to the current guild.
    *
-   * @param  {int} id ID of the table to roll
-   * @return {str}    Rollable entry
+   * @param  {int} id   ID of the rollable to roll
+   * @param  {str} name Name of the rollable to roll
+   * @return {str}      Rollable entry
    */
-  random(id) {
-    const select = db.prepare(oneLine`
+  random(id, name) {
+    let sql = oneLine`
       SELECT contents -> ABS(RANDOM() % die) AS result
       FROM rollable
-      WHERE id = @id AND guildFlake = @guildFlake
-    `)
+      WHERE
+    `
+
+    if (id) {
+      sql += " id = @id AND guildFlake = @guildFlake"
+    } else if (name) {
+      sql += " guildFlake = @guildFlake AND name = @name"
+    }
+
+    const select = db.prepare(sql)
     select.pluck()
     const raw_out = select.get({
       id,
-      guildFlake: this.guildId,
+      name,
+      guildFlake: this.guildId
     })
 
     if (raw_out === undefined) return undefined
