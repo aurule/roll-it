@@ -1,12 +1,12 @@
-const { SlashCommandBuilder, italic, underscore } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
+const { SlashCommandBuilder, inlineCode, userMention } = require("discord.js")
+const { oneLine } = require("common-tags")
 
 const { logger } = require("../util/logger")
-const CommandChoicesTransformer = require("../transformers/command-choices-transformer")
-const CommandHelpPresenter = require("../presenters/command-help-presenter")
-const Topics = require("../help")
+const { GuildRollables } = require("../db/rollable")
+const Completers = require("../completers/table-completers")
+const { present } = require("../presenters/table-results-presenter")
+const commonOpts = require("../util/common-options")
 const { longReply } = require("../util/long-reply")
-const {GuildRollables} = require("../db/rollable")
 
 module.exports = {
   name: "table",
@@ -25,7 +25,6 @@ module.exports = {
               .setName("name")
               .setDescription("The name for the table")
               .setRequired(true)
-              .setAutocomplete(true)
           )
           .addStringOption((option) =>
             option
@@ -68,7 +67,10 @@ module.exports = {
               .setDescription("Name of the table to manage")
               .setRequired(true)
               .setAutocomplete(true)
-          ),
+          )
+          .addStringOption(commonOpts.description)
+          .addIntegerOption(commonOpts.rolls)
+          .addBooleanOption(commonOpts.secret),
       )
   },
   async execute(interaction) {
@@ -76,55 +78,56 @@ module.exports = {
     const tables = new GuildRollables(interaction.guildId)
 
     var table_id
+    var table_name
 
     switch(subcommand) {
       case "add":
         const name = interaction.options.getString("name")
         const description = interaction.options.getString("description")
         if (tables.taken(name)) {
-          logger.error(`a table named "${name}" already exists`)
-          return
+          return interaction.reply({
+            content: `There is already a table named "${name}". You can use ${inlineCode("/table manage")} to change its contents, or pick a different name.`,
+            ephemeral: true,
+          })
         }
         const table_file = interaction.options.getAttachment("file")
         if (!table_file.contentType.includes("text/plain")) {
-          logger.error(`this doesn't look like a text file: ${table_file.contentType}`)
-          return
+          return interaction.reply({
+            content: "The file you uploaded doesn't look like it's plain text. As a reminder, it should be in plain text with one result per line (when word wrap is turned off).",
+            ephemeral: true,
+          })
         }
 
-        // reply with waiting message
+        interaction.deferUpdate()
         const contents = await fetch(table_file.url)
           .then((response) => response.text())
           .then((body) => body.trim().split(/\r?\n/))
-        console.log(contents)
 
         if (contents.length < 2) {
-          logger.error("not enough lines")
-          return
+          return interaction.followUp({
+            content: "The file you uploaded doesn't have enough lines. Ensure there are at least two lines of text in the file, preferably more, or it isn't much of a table.",
+            ephemeral: true,
+          })
         }
 
-        return interaction.reply("adding")
-        // validate
-        // * attachment media type is text
-        // * contents has at least two lines
         tables.create(name, description, contents)
-        break;
+        return interaction.followUp(`${userMention(interaction.user.id)} created the table "${name}"! You can roll on it with ${inlineCode("/table roll")}.`)
       case "list":
-        const available_tables = tables.all()
-        return interaction.reply(`listing ${available_tables.length}`)
-        // present the data
+        const full_text = presentList(tables.all())
+        return longReply(interaction, full_text, {separator: "\n", ephemeral: true})
       case "manage":
-        table_id = parseInt(interaction.options.getString("table"))
-        if (!table_id) {
-          logger.error("not an id")
-          return
+        table_name = interaction.options.getString("table")
+        table_id = parseInt(table_name)
+
+        const detail = tables.detail(table_id, table_name)
+
+        if (detail === undefined) {
+          return interaction.reply({
+            content: "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
+            ephemeral: true,
+          })
         }
 
-        if (!tables.exists(table_id)) {
-          logger.error(`table ${table_id} does not exist for guild ${tables.guildId}`)
-          return
-        }
-
-        const table = tables.detail(table_id)
         return interaction.reply(`managing table ${table.name}`)
         // show a prompt with the table name and description, probably also die size
         // ask the user what they want to do:
@@ -137,20 +140,31 @@ module.exports = {
         // * remove the table
         //  - chicken switch, then tables.destroy(table_id)
       case "roll":
-        table_id = parseInt(interaction.options.getString("table"))
-        if (!table_id) {
-          logger.error("not an id")
-          return
+        const rolls = interaction.options.getInteger("rolls") ?? 1
+        const roll_description = interaction.options.getString("description") ?? ""
+        const ephemeral = interaction.options.getBoolean("secret") ?? false
+        table_name = interaction.options.getString("table")
+        table_id = parseInt(table_name)
+
+        const results = Array.from({length: rolls}, (k, v) => tables.random(table_id, table_name))
+
+        if (results[0] === undefined) {
+          return interaction.reply({
+            content: "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
+            ephemeral: true,
+          })
         }
 
-        if (!tables.exists(table_id)) {
-          logger.error(`table ${table_id} does not exist for guild ${tables.guildId}`)
-          return
-        }
+        const detail = tables.detail(table_id, table_name)
 
-        const result = tables.random(table_id)
-        return interaction.reply(`rolled "${result}"`)
-        // present the result
+        const full_text = present({
+          userFlake: interaction.user.id,
+          rolls,
+          tableName: detail.name,
+          results,
+          description: roll_description,
+        })
+        return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
     }
   },
   async autocomplete(interaction) {
@@ -160,19 +174,7 @@ module.exports = {
 
     switch(focusedOption.name) {
       case "table":
-        // options for selecting a table
-        // lookup is by name, value is the table's id
-        return [{name: "placeholder", value: "1"}]
-      case "name":
-        const subcommand = interaction.options.getSubcommand()
-        // options for a new or changed table name
-        // if subcommand is "manage", add special "do not change" option
-        // show user entry with a description of whether it's available or not
-        return [{name: "new placeholder", value: "yes"}]
-      case "description":
-        // options for a changed table description
-        // show user entry with a description of whether it's available or not
-        return [{name: "some kind of descriptive text", value: "what he said"}]
+        return Completers.table(partialText, tables.all())
     }
   },
   help({ command_name }) {
