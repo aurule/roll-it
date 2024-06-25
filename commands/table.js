@@ -39,7 +39,6 @@ module.exports = {
               .setRequired(true)
           ),
       )
-      // only generate these when the guild has one or more tables in the database?
       .addSubcommand((subcommand) =>
         subcommand
           .setName("list")
@@ -148,7 +147,7 @@ module.exports = {
         table_name = interaction.options.getString("table")
         table_id = parseInt(table_name)
 
-        const results = Array.from({length: rolls}, (k, v) => tables.random(table_id, table_name))
+        const results = Array.from({length: rolls}, (v) => tables.random(table_id, table_name))
 
         if (results[0] === undefined) {
           return interaction.reply({
