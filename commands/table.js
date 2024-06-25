@@ -1,10 +1,11 @@
-const { SlashCommandBuilder, inlineCode, userMention } = require("discord.js")
+const { SlashCommandBuilder, inlineCode, userMention, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { logger } = require("../util/logger")
 const { GuildRollables } = require("../db/rollable")
 const Completers = require("../completers/table-completers")
 const { present } = require("../presenters/table-results-presenter")
+const { presentList } = require("../presenters/table-list-presenter")
 const commonOpts = require("../util/common-options")
 const { longReply } = require("../util/long-reply")
 
@@ -83,36 +84,37 @@ module.exports = {
 
     switch(subcommand) {
       case "add":
-        const name = interaction.options.getString("name")
-        const description = interaction.options.getString("description")
+        interaction.deferReply()
+
+        const name = interaction.options.getString("name") ?? ""
+        const description = interaction.options.getString("description") ?? ""
         if (tables.taken(name)) {
-          return interaction.reply({
+          return interaction.editReply({
             content: `There is already a table named "${name}". You can use ${inlineCode("/table manage")} to change its contents, or pick a different name.`,
             ephemeral: true,
           })
         }
         const table_file = interaction.options.getAttachment("file")
         if (!table_file.contentType.includes("text/plain")) {
-          return interaction.reply({
+          return interaction.editReply({
             content: "The file you uploaded doesn't look like it's plain text. As a reminder, it should be in plain text with one result per line (when word wrap is turned off).",
             ephemeral: true,
           })
         }
 
-        interaction.deferUpdate()
         const contents = await fetch(table_file.url)
           .then((response) => response.text())
           .then((body) => body.trim().split(/\r?\n/))
 
         if (contents.length < 2) {
-          return interaction.followUp({
+          return interaction.editReply({
             content: "The file you uploaded doesn't have enough lines. Ensure there are at least two lines of text in the file, preferably more, or it isn't much of a table.",
             ephemeral: true,
           })
         }
 
         tables.create(name, description, contents)
-        return interaction.followUp(`${userMention(interaction.user.id)} created the table "${name}"! You can roll on it with ${inlineCode("/table roll")}.`)
+        return interaction.editReply(`${userMention(interaction.user.id)} created the table "${italic(name)}"! You can roll on it with ${inlineCode("/table roll")}.`)
       case "list":
         full_text = presentList(tables.all())
         return longReply(interaction, full_text, {separator: "\n", ephemeral: true})
@@ -143,8 +145,8 @@ module.exports = {
       case "roll":
         const rolls = interaction.options.getInteger("rolls") ?? 1
         const roll_description = interaction.options.getString("description") ?? ""
-        const ephemeral = interaction.options.getBoolean("secret") ?? false
-        table_name = interaction.options.getString("table")
+        const secret = interaction.options.getBoolean("secret") ?? false
+        table_name = interaction.options.getString("table") ?? "0"
         table_id = parseInt(table_name)
 
         const results = Array.from({length: rolls}, (v) => tables.random(table_id, table_name))

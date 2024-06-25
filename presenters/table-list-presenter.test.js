@@ -25,7 +25,7 @@ it("shows each table's description", () => {
 })
 
 it("with no tables gives instructions", () => {
-  const result = presentList()
+  const result = presentList([])
 
   expect(result).toMatch("no tables")
 })
