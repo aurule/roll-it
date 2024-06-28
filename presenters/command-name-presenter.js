@@ -30,8 +30,8 @@ function presentSub(parent, child) {
 function list(all_commands) {
   const commands = all_commands ?? require("../commands")
   return commands
-    .filter(c => c.type !== "menu")
-    .map(cmd => {
+    .filter((c) => c.type !== "menu")
+    .map((cmd) => {
       let content = `* ${present(cmd)} - ${cmd.description}`
       if (cmd.subcommands) {
         const subcontent = cmd.subcommands

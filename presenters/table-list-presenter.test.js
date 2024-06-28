@@ -2,8 +2,8 @@ const { presentList } = require("./table-list-presenter")
 
 it("shows each table's name", () => {
   const tables = [
-    {name: "first", description: "desc1"},
-    {name: "second", description: "desc2"},
+    { name: "first", description: "desc1" },
+    { name: "second", description: "desc2" },
   ]
 
   const result = presentList(tables)
@@ -14,8 +14,8 @@ it("shows each table's name", () => {
 
 it("shows each table's description", () => {
   const tables = [
-    {name: "first", description: "desc1"},
-    {name: "second", description: "desc2"},
+    { name: "first", description: "desc1" },
+    { name: "second", description: "desc2" },
   ]
 
   const result = presentList(tables)

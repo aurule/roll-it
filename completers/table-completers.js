@@ -16,11 +16,11 @@ module.exports = {
     const search = partialText.toLowerCase()
 
     const matches = tables
-      .filter(t => t.name.toLowerCase().startsWith(search))
-      .map(t => {
+      .filter((t) => t.name.toLowerCase().startsWith(search))
+      .map((t) => {
         return {
           name: t.name.substring(0, 100),
-          value: t.id.toString()
+          value: t.id.toString(),
         }
       })
 

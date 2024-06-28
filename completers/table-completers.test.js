@@ -3,19 +3,19 @@ const Completers = require("./table-completers")
 describe("table", () => {
   it("searches names by lowercase", () => {
     const tables = [
-      {name: "figaro", id: 1},
-      {name: "FIDO", id: 2},
+      { name: "figaro", id: 1 },
+      { name: "FIDO", id: 2 },
     ]
 
     const result = Completers.table("fi", tables)
 
-    const ids = result.map(r => r.value)
+    const ids = result.map((r) => r.value)
     expect(ids).toContain("1")
     expect(ids).toContain("2")
   })
 
   it("caps returned names at 100 characters", () => {
-    const tables = [{name: "a".repeat(101), id: 1}]
+    const tables = [{ name: "a".repeat(101), id: 1 }]
 
     const result = Completers.table("a", tables)
 
@@ -23,7 +23,7 @@ describe("table", () => {
   })
 
   it("sends the id as the value", () => {
-    const tables = [{name: "very well", id: 5}]
+    const tables = [{ name: "very well", id: 5 }]
 
     const result = Completers.table("v", tables)
 

@@ -10,7 +10,7 @@ const test_subcommand = {
 const test_command = {
   name: "test-command",
   description: "a test command",
-  subcommands: new Collection([["sub", test_subcommand]])
+  subcommands: new Collection([["sub", test_subcommand]]),
 }
 
 describe("present", () => {

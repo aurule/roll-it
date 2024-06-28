@@ -99,7 +99,7 @@ class GuildRollables {
     const raw_out = select.get({
       id,
       name,
-      guildFlake: this.guildId
+      guildFlake: this.guildId,
     })
 
     if (raw_out === undefined) return undefined
@@ -141,7 +141,7 @@ class GuildRollables {
     const raw_out = select.get({
       id,
       name,
-      guildFlake: this.guildId
+      guildFlake: this.guildId,
     })
 
     if (raw_out === undefined) return undefined
@@ -234,7 +234,7 @@ class GuildRollables {
     select.pluck()
     return !!select.get({
       guildFlake: this.guildId,
-      name
+      name,
     })
   }
 
@@ -284,7 +284,7 @@ function setup() {
   const path = require("path")
 
   const file_path = path.join(__dirname, "rollable.setup.sql")
-  const setup_sql = fs.readFileSync(file_path, 'utf8')
+  const setup_sql = fs.readFileSync(file_path, "utf8")
   db.exec(setup_sql)
 }
 

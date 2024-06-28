@@ -61,7 +61,7 @@ describe("GuildRollables", () => {
 
       const result = rollables.all()
 
-      const names = result.map(r => r.name)
+      const names = result.map((r) => r.name)
       expect(names).not.toContain("third")
     })
   })
@@ -176,7 +176,7 @@ describe("GuildRollables", () => {
       const insertion = rollables.create(old_name, "desc", ["one"])
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(rollableId, {name: new_name})
+      const result = rollables.update(rollableId, { name: new_name })
 
       const detail = rollables.detail(rollableId)
       expect(detail.name).toEqual(new_name)
@@ -189,7 +189,7 @@ describe("GuildRollables", () => {
       const insertion = rollables.create("testd", old_desc, ["one"])
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(rollableId, {description: new_desc})
+      const result = rollables.update(rollableId, { description: new_desc })
 
       const detail = rollables.detail(rollableId)
       expect(detail.description).toEqual(new_desc)
@@ -202,7 +202,7 @@ describe("GuildRollables", () => {
       const insertion = rollables.create("testc", "desc", old_contents)
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(rollableId, {contents: new_contents})
+      const result = rollables.update(rollableId, { contents: new_contents })
 
       const detail = rollables.detail(rollableId)
       expect(detail.contents).toEqual(new_contents)
@@ -215,7 +215,7 @@ describe("GuildRollables", () => {
       const insertion = rollables.create("testdie", "desc", old_contents)
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(rollableId, {contents: new_contents})
+      const result = rollables.update(rollableId, { contents: new_contents })
 
       const detail = rollables.detail(rollableId)
       expect(detail.die).toEqual(2)
@@ -230,10 +230,7 @@ describe("GuildRollables", () => {
       const insertion = rollables.create(old_name, old_desc, ["one"])
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(
-        rollableId,
-        {name: new_name, description: new_desc}
-      )
+      const result = rollables.update(rollableId, { name: new_name, description: new_desc })
 
       const detail = rollables.detail(rollableId)
       expect(detail.name).toEqual(new_name)
@@ -248,7 +245,7 @@ describe("GuildRollables", () => {
       const insertion = other_rollables.create("testg", old_desc, ["one"])
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(rollableId, {description: new_desc})
+      const result = rollables.update(rollableId, { description: new_desc })
 
       const detail = other_rollables.detail(rollableId)
       expect(detail.description).toEqual(old_desc)
@@ -328,7 +325,6 @@ describe("GuildRollables", () => {
     })
 
     it("returns false if the id exists for another guild", () => {
-
       const rollables = new GuildRollables("test-exists")
       const other_rollables = new GuildRollables("other-exists")
       const insertion = other_rollables.create("testo", "desc", ["one"])

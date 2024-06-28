@@ -30,7 +30,7 @@ class Interaction {
 
         return this.partial_text
       },
-      getSubcommand: () => this.command_options.subcommand_name
+      getSubcommand: () => this.command_options.subcommand_name,
     }
     this.guildId = snowflake
     this.guild = {

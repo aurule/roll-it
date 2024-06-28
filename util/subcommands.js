@@ -25,10 +25,7 @@ module.exports = {
     const subcommands = new Collection()
 
     const subdir = path.join(commands_path, targetDir)
-    const files = fs
-      .readdirSync(subdir)
-      .filter(jsNoTests)
-      .filter(noDotFiles)
+    const files = fs.readdirSync(subdir).filter(jsNoTests).filter(noDotFiles)
     files.forEach((subcommand_file) => {
       const subcommand = require(path.join(subdir, subcommand_file))
       subcommands.set(subcommand.name, subcommand)
@@ -68,5 +65,5 @@ module.exports = {
     }
 
     return subcommand.execute(interaction)
-  }
+  },
 }

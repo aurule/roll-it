@@ -11,21 +11,13 @@ module.exports = {
    * @param  {str}       opts.description Optional string describing the roll
    * @return {str}                        String detailling the roll and its results
    */
-  present({
-    userFlake,
-    rolls,
-    tableName,
-    results,
-    description,
-  }) {
+  present({ userFlake, rolls, tableName, results, description }) {
     let content = `${userMention(userFlake)} rolled`
     if (rolls > 1) content += ` ${rolls} times`
     content += ` on the table ${italic(tableName)}`
     if (description) content += ` for "${description}"`
     content += " and got:"
-    content += results
-      .map(r => `\n\t${r}`)
-      .join("")
+    content += results.map((r) => `\n\t${r}`).join("")
     return content
-  }
+  },
 }

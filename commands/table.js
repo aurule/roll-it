@@ -22,51 +22,46 @@ module.exports = {
           .setName("add")
           .setDescription("Upload a new rollable table")
           .addStringOption((option) =>
-            option
-              .setName("name")
-              .setDescription("The name for the table")
-              .setRequired(true)
+            option.setName("name").setDescription("The name for the table").setRequired(true),
           )
           .addStringOption((option) =>
             option
               .setName("description")
               .setDescription("A few words about the table")
-              .setRequired(true)
+              .setRequired(true),
           )
           .addAttachmentOption((option) =>
             option
               .setName("file")
               .setDescription("A plain text file with the table's results, one per line")
-              .setRequired(true)
+              .setRequired(true),
           ),
       )
       .addSubcommand((subcommand) =>
-        subcommand
-          .setName("list")
-          .setDescription("List the tables on this server")
+        subcommand.setName("list").setDescription("List the tables on this server"),
       )
       .addSubcommand((subcommand) =>
         subcommand
           .setName("manage")
           .setDescription("Explain, change, or remove a table")
-          .addStringOption(option =>
+          .addStringOption((option) =>
             option
               .setName("table")
               .setDescription("Name of the table to manage")
               .setRequired(true)
-              .setAutocomplete(true)
+              .setAutocomplete(true),
           ),
       )
       .addSubcommand((subcommand) =>
         subcommand
           .setName("roll")
           .setDescription("Roll a random result from a table")
-          .addStringOption(option =>
+          .addStringOption((option) =>
             option
               .setName("table")
               .setDescription("Name of the table to manage")
               .setRequired(true)
-              .setAutocomplete(true)
+              .setAutocomplete(true),
           )
           .addStringOption(commonOpts.description)
           .addIntegerOption(commonOpts.rolls)
@@ -82,7 +77,7 @@ module.exports = {
     var detail
     var full_text
 
-    switch(subcommand) {
+    switch (subcommand) {
       case "add":
         interaction.deferReply()
 
@@ -97,7 +92,8 @@ module.exports = {
         const table_file = interaction.options.getAttachment("file")
         if (!table_file.contentType.includes("text/plain")) {
           return interaction.editReply({
-            content: "The file you uploaded doesn't look like it's plain text. As a reminder, it should be in plain text with one result per line (when word wrap is turned off).",
+            content:
+              "The file you uploaded doesn't look like it's plain text. As a reminder, it should be in plain text with one result per line (when word wrap is turned off).",
             ephemeral: true,
           })
         }
@@ -108,16 +104,19 @@ module.exports = {
 
         if (contents.length < 2) {
           return interaction.editReply({
-            content: "The file you uploaded doesn't have enough lines. Ensure there are at least two lines of text in the file, preferably more, or it isn't much of a table.",
+            content:
+              "The file you uploaded doesn't have enough lines. Ensure there are at least two lines of text in the file, preferably more, or it isn't much of a table.",
             ephemeral: true,
           })
         }
 
         tables.create(name, description, contents)
-        return interaction.editReply(`${userMention(interaction.user.id)} created the table "${italic(name)}"! You can roll on it with ${inlineCode("/table roll")}.`)
+        return interaction.editReply(
+          `${userMention(interaction.user.id)} created the table "${italic(name)}"! You can roll on it with ${inlineCode("/table roll")}.`,
+        )
       case "list":
         full_text = presentList(tables.all())
-        return longReply(interaction, full_text, {separator: "\n", ephemeral: true})
+        return longReply(interaction, full_text, { separator: "\n", ephemeral: true })
       case "manage":
         table_name = interaction.options.getString("table")
         table_id = parseInt(table_name)
@@ -126,7 +125,8 @@ module.exports = {
 
         if (detail === undefined) {
           return interaction.reply({
-            content: "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
+            content:
+              "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
             ephemeral: true,
           })
         }
@@ -149,11 +149,12 @@ module.exports = {
         table_name = interaction.options.getString("table") ?? "0"
         table_id = parseInt(table_name)
 
-        const results = Array.from({length: rolls}, (v) => tables.random(table_id, table_name))
+        const results = Array.from({ length: rolls }, (v) => tables.random(table_id, table_name))
 
         if (results[0] === undefined) {
           return interaction.reply({
-            content: "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
+            content:
+              "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
             ephemeral: true,
           })
         }
@@ -175,7 +176,7 @@ module.exports = {
     const focusedOption = interaction.options.getFocused(true)
     const partialText = focusedOption.value
 
-    switch(focusedOption.name) {
+    switch (focusedOption.name) {
       case "table":
         return Completers.table(partialText, tables.all())
     }

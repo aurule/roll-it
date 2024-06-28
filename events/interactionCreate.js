@@ -55,13 +55,15 @@ async function handleAutocomplete(interaction) {
       `no autocomplete for option ${option.name} on command ${interaction.commandName}`,
     )
 
-  logger.info({
-    command: command.name,
-    option: option.name,
-  }, `autocomplete called for option ${option.name} on command ${interaction.commandName}`)
+  logger.info(
+    {
+      command: command.name,
+      option: option.name,
+    },
+    `autocomplete called for option ${option.name} on command ${interaction.commandName}`,
+  )
 
-  return completer(interaction)
-    .then(result => interaction.respond(result))
+  return completer(interaction).then((result) => interaction.respond(result))
 }
 
 /**
