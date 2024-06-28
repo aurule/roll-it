@@ -103,7 +103,7 @@ module.exports = {
         logger.error(
           {
             origin: "command",
-            error: err,
+            err,
             guild: interaction.guildId,
             command: interaction.commandName,
           },
@@ -124,7 +124,7 @@ module.exports = {
         logger.error(
           {
             origin: "autocomplete",
-            error: err,
+            err: err,
             guild: interaction.guildId,
             command: interaction.commandName,
             option: interaction.options.getFocused(true),
