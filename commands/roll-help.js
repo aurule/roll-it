@@ -1,77 +1,29 @@
 const { SlashCommandBuilder, italic, underscore } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 
-const CommandChoicesTransformer = require("../transformers/command-choices-transformer")
-const CommandHelpPresenter = require("../presenters/command-help-presenter")
-const commandNamePresenter = require("../presenters/command-name-presenter")
+const CommandNamePresenter = require("../presenters/command-name-presenter")
 const Topics = require("../help")
 const { longReply } = require("../util/long-reply")
+const { logger } = require("../util/logger")
+const { loadSubcommands, dispatch } = require("../util/subcommands")
+
+const subcommands = loadSubcommands("roll-help")
 
 module.exports = {
   name: "roll-help",
   description: "Get help with Roll It and its commands",
   global: true,
+  subcommands,
   data() {
-    const commands = require("./index")
     return new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
-      .addSubcommand((subcommand) =>
-        subcommand
-          .setName("topic")
-          .setDescription("Get help about a topic")
-          .addStringOption((option) =>
-            option
-              .setName("topic")
-              .setDescription("The topic you want help with")
-              .setChoices(
-                ...Topics.map((t) => {
-                  return { name: `${t.title}`, value: `${t.name}` }
-                }),
-              )
-              .setRequired(true),
-          ),
-      )
-      .addSubcommand((subcommand) =>
-        subcommand
-          .setName("command")
-          .setDescription("Get help about a command")
-          .addStringOption((option) =>
-            option
-              .setName("command")
-              .setDescription("The command you want help with")
-              .setChoices(...CommandChoicesTransformer.transform(commands))
-              .setRequired(true),
-          ),
-      )
+      .addSubcommand((s) => subcommands.get("topic").data(s))
+      .addSubcommand((s) => subcommands.get("command").data(s))
       .setDMPermission(true)
   },
   execute(interaction) {
-    const command_name_arg = interaction.options.getString("command") ?? ""
-    const topic_name = interaction.options.getString("topic") ?? ""
-
-    if (topic_name) {
-      const topic = Topics.get(topic_name)
-      if (!topic)
-        return interaction.reply({
-          content: `No help is available for the topic "${topic_name}"`,
-          ephemeral: true,
-        })
-
-      return interaction.reply({ content: topic.help(), ephemeral: true })
-    }
-
-    const command_name = command_name_arg || module.exports.name
-    const command = interaction.client.commands.get(command_name)
-
-    if (!command?.help)
-      return interaction.reply({
-        content: `No help is available for the command "${command_name}"`,
-        ephemeral: true,
-      })
-
-    const full_text = CommandHelpPresenter.present(command)
-    return longReply(interaction, full_text, { ephemeral: true })
+    return dispatch(interaction, module.exports.subcommands)
   },
   help({ command_name }) {
     const commands = require("./index")
@@ -81,13 +33,10 @@ module.exports = {
       `,
       "",
       "Here are the available help topics:",
-      Topics.map((t) => `• ${t.title} - ${italic(t.description)}`).join("\n"),
+      Topics.map((t) => `* ${t.title} - ${italic(t.description)}`).join("\n"),
       "",
       "And here are the slash commands:",
-      commands
-        .filter((c) => c.type !== "menu")
-        .map((c) => `• ${commandNamePresenter.present(c)} - ${c.description}`)
-        .join("\n"),
+      CommandNamePresenter.list(),
     ].join("\n")
   },
 }
