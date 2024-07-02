@@ -1,11 +1,14 @@
+const { SlashCommandSubcommandBuilder } = require("discord.js")
+const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const Topics = require("../../help")
 const { longReply } = require("../../util/long-reply")
 
 module.exports = {
   name: "topic",
+  parent: "roll-help",
   description: "Get help about a topic",
-  data(subcommand) {
-    return subcommand
+  data() {
+    return new SlashCommandSubcommandBuilder()
       .setName("topic")
       .setDescription("Get help about a topic")
       .addStringOption((option) =>
@@ -34,6 +37,9 @@ module.exports = {
     return longReply(interaction, full_text, { ephemeral: true })
   },
   help({ command_name }) {
-    return "TBD"
+    return [
+      "Here are the available help topics:",
+      TopicNamePresenter.list(),
+    ].join("\n")
   },
 }

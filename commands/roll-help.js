@@ -1,10 +1,9 @@
-const { SlashCommandBuilder, italic, underscore } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
+const { SlashCommandBuilder, italic } = require("discord.js")
+const { oneLine } = require("common-tags")
 
 const CommandNamePresenter = require("../presenters/command-name-presenter")
+const TopicNamePresenter = require("../presenters/topic-name-presenter")
 const Topics = require("../help")
-const { longReply } = require("../util/long-reply")
-const { logger } = require("../util/logger")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 
 const subcommands = loadSubcommands("roll-help")
@@ -18,12 +17,15 @@ module.exports = {
     return new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
-      .addSubcommand((s) => subcommands.get("topic").data(s))
-      .addSubcommand((s) => subcommands.get("command").data(s))
+      .addSubcommand(subcommands.get("topic").data())
+      .addSubcommand(subcommands.get("command").data())
       .setDMPermission(true)
   },
   execute(interaction) {
     return dispatch(interaction, module.exports.subcommands)
+  },
+  async autocomplete(interaction) {
+    return dispatch(interaction, module.exports.subcommands, "autocomplete")
   },
   help({ command_name }) {
     const commands = require("./index")
@@ -33,7 +35,7 @@ module.exports = {
       `,
       "",
       "Here are the available help topics:",
-      Topics.map((t) => `* ${t.title} - ${italic(t.description)}`).join("\n"),
+      TopicNamePresenter.list(),
       "",
       "And here are the slash commands:",
       CommandNamePresenter.list(),
