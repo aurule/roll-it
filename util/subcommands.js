@@ -7,6 +7,8 @@ const { logger } = require("../util/logger")
 
 const commands_path = path.join(__dirname, "..", "commands")
 
+const allowed_dispatch_functions = ["execute", "autocomplete"]
+
 /**
  * Common helpers to load and execute subcommands
  *
@@ -42,9 +44,12 @@ module.exports = {
    *
    * @param  {Interaction} interaction The interaction to handle
    * @param  {Collection}  subcommands Collection of subcommand objects
-   * @return {Promise}                 A promise resolving to the result of executing the subcommand
+   * @param  {str}                     Name of the command's function to run. Must be one of "execute" or "autocomplete"
+   * @return {Promise}                 A promise resolving to the result of executing the subcommand.
    */
-  dispatch(interaction, subcommands) {
+  dispatch(interaction, subcommands, funktion = "execute") {
+    if (!allowed_dispatch_functions.includes(funktion)) throw new TypeError(`invalid function ${funktion}`)
+
     const subcommand_name = interaction.options.getSubcommand()
 
     const subcommand = subcommands.get(subcommand_name)
@@ -64,6 +69,6 @@ module.exports = {
       })
     }
 
-    return subcommand.execute(interaction)
+    return subcommand[funktion](interaction)
   },
 }
