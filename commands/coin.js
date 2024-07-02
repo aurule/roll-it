@@ -1,7 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
 
-const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/coin-results-presenter")
 const commonOpts = require("../util/common-options")
