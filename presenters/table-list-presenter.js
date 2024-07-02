@@ -1,4 +1,4 @@
-const { userMention, bold, inlineCode } = require("discord.js")
+const { userMention, italic, inlineCode } = require("discord.js")
 
 module.exports = {
   /**
@@ -12,7 +12,7 @@ module.exports = {
       return `There are no tables to roll. Add some with ${inlineCode("/table add")}!`
 
     let content = "These are the available tables:"
-    content += tables.map((t) => `\n${bold(t.name)}: ${t.description}`).join("")
+    content += tables.map((t) => `\n* ${italic(t.name)} - ${t.description}`).join("")
     return content
   },
 }
