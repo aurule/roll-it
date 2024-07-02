@@ -19,6 +19,9 @@ const contents = fs
 contents.forEach((command_file) => {
   const command = require(path.join(commandsDir, command_file))
   commands.set(command.name, command)
+  command.subcommands?.each((subc) => {
+    commands.set(`${command.name} ${subc.name}`, subc)
+  })
 })
 
 commands.global = function () {
