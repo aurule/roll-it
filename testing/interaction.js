@@ -78,6 +78,12 @@ class Interaction {
     this.replies = []
   }
 
+  get replyContent() {
+    return this.replies
+      .map(r => r.content)
+      .join("\n-----\n")
+  }
+
   async reply(msg) {
     if (this.replied) return Promise.reject("cannot reply: interaction is already in replied state")
     this.replied = true
