@@ -1,5 +1,3 @@
-const commands = require("../commands")
-
 module.exports = {
   /**
    * Completer for looking up commands
@@ -8,6 +6,7 @@ module.exports = {
    * @return {obj[]}           Array of choice objects
    */
   all(partialText) {
+    const commands = require("../commands")
     const search = partialText.toLowerCase()
 
     return commands.all_choices.filter(c => c.name.toLowerCase().startsWith(search))
