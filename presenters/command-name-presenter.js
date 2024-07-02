@@ -3,22 +3,21 @@ const { inlineCode, italic } = require("discord.js")
 /**
  * Return a formatted version of the command's name
  *
+ * Menu commands are shown in italics.
+ *
+ * Slash commands are shown as inline code. Subcommands are prefixed with their parent name, which must be
+ * present on the subcommand object.
+ *
  * @param  {Command} command  The command object to present
  * @return {String}           Markdown-formatted string of the command's name
  */
 function present(command) {
-  return command.type == "menu" ? italic(command.name) : inlineCode(`/${command.name}`)
-}
+  if (command.type == "menu") return italic(command.name)
 
-/**
- * Return a formatted version of the subcommand's name
- *
- * @param  {Command}    parent Command object that is the entry point to the subcommand
- * @param  {Subcommand} child  Subcommand object to present
- * @return {String}            Markdown-formatted string of the subcommand's fully qualified name
- */
-function presentSub(parent, child) {
-  return inlineCode(`/${parent.name} ${child.name}`)
+  let presented = "/"
+  if (command.parent) presented += command.parent + " "
+  presented += command.name
+  return inlineCode(presented)
 }
 
 /**
@@ -35,7 +34,7 @@ function list(all_commands) {
       let content = `* ${present(cmd)} - ${cmd.description}`
       if (cmd.subcommands) {
         const subcontent = cmd.subcommands
-          .map((subc, _k) => `  - ${presentSub(cmd, subc)} - ${subc.description}`)
+          .map((subc, _k) => `  - ${present(subc)} - ${subc.description}`)
           .join("\n")
         content += `\n${subcontent}`
       }
@@ -46,6 +45,5 @@ function list(all_commands) {
 
 module.exports = {
   present,
-  presentSub,
   list,
 }

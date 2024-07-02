@@ -3,6 +3,7 @@ const commands = require("../commands")
 const CommandNamePresenter = require("./command-name-presenter")
 
 const test_subcommand = {
+  parent: "test-command",
   name: "sub",
   description: "a test subcommand",
 }
@@ -28,25 +29,25 @@ describe("present", () => {
 
     expect(result).toEqual(`\`/${test_command.name}\``)
   })
-})
 
-describe("presentSub", () => {
-  it("shows the parent name", () => {
-    const result = CommandNamePresenter.presentSub(test_command, test_subcommand)
+  describe("with a subcommand", () => {
+    it("shows the parent name", () => {
+      const result = CommandNamePresenter.present(test_subcommand)
 
-    expect(result).toMatch(test_command.name)
-  })
+      expect(result).toMatch(test_command.name)
+    })
 
-  it("shows the child name", () => {
-    const result = CommandNamePresenter.presentSub(test_command, test_subcommand)
+    it("shows the child name", () => {
+      const result = CommandNamePresenter.present(test_subcommand)
 
-    expect(result).toMatch(test_subcommand.name)
-  })
+      expect(result).toMatch(test_subcommand.name)
+    })
 
-  it("separates with a space", () => {
-    const result = CommandNamePresenter.presentSub(test_command, test_subcommand)
+    it("separates with a space", () => {
+      const result = CommandNamePresenter.present(test_subcommand)
 
-    expect(result).toMatch(`${test_command.name} ${test_subcommand.name}`)
+      expect(result).toMatch(`${test_command.name} ${test_subcommand.name}`)
+    })
   })
 })
 
