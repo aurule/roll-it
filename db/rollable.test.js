@@ -1,13 +1,17 @@
 const { setup, GuildRollables } = require("./rollable")
+const { makeDB } = require("./index")
 
-beforeAll(() => {
-  setup()
+let db
+
+beforeEach(() => {
+  db = makeDB()
+  setup(db)
 })
 
 describe("GuildRollables", () => {
   describe("create", () => {
     it("creates a new table", () => {
-      const rollables = new GuildRollables("test-create")
+      const rollables = new GuildRollables("test-create", db)
       const contents = ["first", "second", "third"]
 
       const result = rollables.create("test", "a test", contents)
@@ -16,7 +20,7 @@ describe("GuildRollables", () => {
     })
 
     it("derives die from lines in contents", () => {
-      const rollables = new GuildRollables("test-create")
+      const rollables = new GuildRollables("test-create", db)
       const contents = ["first", "second", "third"]
 
       const result = rollables.create("lines", "a test", contents)
@@ -28,8 +32,8 @@ describe("GuildRollables", () => {
 
   describe("all", () => {
     beforeAll(() => {
-      const rollables = new GuildRollables("test-all")
-      const other_rollables = new GuildRollables("other-all")
+      const rollables = new GuildRollables("test-all", db)
+      const other_rollables = new GuildRollables("other-all", db)
 
       rollables.create("first", "desc1", ["one"])
       rollables.create("second", "desc2", ["one"])
@@ -38,7 +42,9 @@ describe("GuildRollables", () => {
     })
 
     it("gets info on all rollables for the guild", () => {
-      const rollables = new GuildRollables("test-all")
+      const rollables = new GuildRollables("test-all", db)
+      rollables.create("first", "desc1", ["one"])
+      rollables.create("second", "desc2", ["one"])
 
       const result = rollables.all()
 
@@ -46,7 +52,8 @@ describe("GuildRollables", () => {
     })
 
     it("includes id, name, description, die", () => {
-      const rollables = new GuildRollables("test-all")
+      const rollables = new GuildRollables("test-all", db)
+      rollables.create("first", "desc1", ["one"])
 
       const result = rollables.all()
 
@@ -57,7 +64,7 @@ describe("GuildRollables", () => {
     })
 
     it("excludes rollables for other guilds", () => {
-      const rollables = new GuildRollables("test-all")
+      const rollables = new GuildRollables("test-all", db)
 
       const result = rollables.all()
 
@@ -68,7 +75,7 @@ describe("GuildRollables", () => {
 
   describe("detail", () => {
     it("looks up by id", () => {
-      const rollables = new GuildRollables("test-detail")
+      const rollables = new GuildRollables("test-detail", db)
       const insertion = rollables.create("testid", "desc", ["one"])
 
       const result = rollables.detail(insertion.lastInsertRowid)
@@ -77,7 +84,7 @@ describe("GuildRollables", () => {
     })
 
     it("looks up by name", () => {
-      const rollables = new GuildRollables("test-detail")
+      const rollables = new GuildRollables("test-detail", db)
       const insertion = rollables.create("testn", "desc", ["one"])
 
       const result = rollables.detail(0, "testn")
@@ -86,7 +93,7 @@ describe("GuildRollables", () => {
     })
 
     it("uses id when both are given", () => {
-      const rollables = new GuildRollables("test-detail")
+      const rollables = new GuildRollables("test-detail", db)
       const insertion = rollables.create("testb1", "desc", ["one"])
       rollables.create("testb2", "desc", ["one"])
 
@@ -97,7 +104,7 @@ describe("GuildRollables", () => {
 
     it("converts contents to an array", () => {
       const contents = ["first", "second", "third"]
-      const rollables = new GuildRollables("test-detail")
+      const rollables = new GuildRollables("test-detail", db)
       const insertion = rollables.create("test", "desc", contents)
 
       const result = rollables.detail(insertion.lastInsertRowid)
@@ -106,8 +113,8 @@ describe("GuildRollables", () => {
     })
 
     it("cannot read another guilds rollable", () => {
-      const rollables = new GuildRollables("test-detail")
-      const other_rollables = new GuildRollables("other-detail")
+      const rollables = new GuildRollables("test-detail", db)
+      const other_rollables = new GuildRollables("other-detail", db)
       rollables.create("first", "desc1", ["one"])
       const insertion = other_rollables.create("third", "desc3", ["one"])
 
@@ -119,7 +126,7 @@ describe("GuildRollables", () => {
 
   describe("random", () => {
     it("looks up by id", () => {
-      const rollables = new GuildRollables("test-random")
+      const rollables = new GuildRollables("test-random", db)
       const insertion = rollables.create("testid", "desc", ["one"])
 
       const result = rollables.random(insertion.lastInsertRowid)
@@ -128,7 +135,7 @@ describe("GuildRollables", () => {
     })
 
     it("looks up by name", () => {
-      const rollables = new GuildRollables("test-random")
+      const rollables = new GuildRollables("test-random", db)
       const insertion = rollables.create("testn", "desc", ["one"])
 
       const result = rollables.random(0, "testn")
@@ -137,7 +144,7 @@ describe("GuildRollables", () => {
     })
 
     it("uses id when both are given", () => {
-      const rollables = new GuildRollables("test-random")
+      const rollables = new GuildRollables("test-random", db)
       const insertion = rollables.create("testb1", "desc", ["one"])
       rollables.create("testb2", "desc", ["one"])
 
@@ -148,7 +155,7 @@ describe("GuildRollables", () => {
 
     it("gets a random line from the contents", () => {
       const contents = ["first", "second", "third"]
-      const rollables = new GuildRollables("test-random")
+      const rollables = new GuildRollables("test-random", db)
       const insertion = rollables.create("test", "desc", contents)
 
       const result = rollables.random(insertion.lastInsertRowid)
@@ -157,8 +164,8 @@ describe("GuildRollables", () => {
     })
 
     it("cannot fetch from another guilds rollable", () => {
-      const rollables = new GuildRollables("test-random")
-      const other_rollables = new GuildRollables("other-random")
+      const rollables = new GuildRollables("test-random", db)
+      const other_rollables = new GuildRollables("other-random", db)
       rollables.create("first", "desc1", ["one"])
       const insertion = other_rollables.create("third", "desc3", ["one"])
 
@@ -172,7 +179,7 @@ describe("GuildRollables", () => {
     it("can change the name", () => {
       const old_name = "testn"
       const new_name = "boom"
-      const rollables = new GuildRollables("test-update")
+      const rollables = new GuildRollables("test-update", db)
       const insertion = rollables.create(old_name, "desc", ["one"])
       const rollableId = insertion.lastInsertRowid
 
@@ -185,7 +192,7 @@ describe("GuildRollables", () => {
     it("can change the description", () => {
       const old_desc = "desc"
       const new_desc = "chair"
-      const rollables = new GuildRollables("test-update")
+      const rollables = new GuildRollables("test-update", db)
       const insertion = rollables.create("testd", old_desc, ["one"])
       const rollableId = insertion.lastInsertRowid
 
@@ -198,7 +205,7 @@ describe("GuildRollables", () => {
     it("can change the contents", () => {
       const old_contents = ["one"]
       const new_contents = ["two"]
-      const rollables = new GuildRollables("test-update")
+      const rollables = new GuildRollables("test-update", db)
       const insertion = rollables.create("testc", "desc", old_contents)
       const rollableId = insertion.lastInsertRowid
 
@@ -211,7 +218,7 @@ describe("GuildRollables", () => {
     it("updates die to match new contents", () => {
       const old_contents = ["one"]
       const new_contents = ["two", "three"]
-      const rollables = new GuildRollables("test-update")
+      const rollables = new GuildRollables("test-update", db)
       const insertion = rollables.create("testdie", "desc", old_contents)
       const rollableId = insertion.lastInsertRowid
 
@@ -226,7 +233,7 @@ describe("GuildRollables", () => {
       const new_name = "doom"
       const old_desc = "desc"
       const new_desc = "chair"
-      const rollables = new GuildRollables("test-update")
+      const rollables = new GuildRollables("test-update", db)
       const insertion = rollables.create(old_name, old_desc, ["one"])
       const rollableId = insertion.lastInsertRowid
 
@@ -238,10 +245,10 @@ describe("GuildRollables", () => {
     })
 
     it("does not change rollable for another guild", () => {
-      const rollables = new GuildRollables("test-update")
+      const rollables = new GuildRollables("test-update", db)
       const old_desc = "desc"
       const new_desc = "chair"
-      const other_rollables = new GuildRollables("other-update")
+      const other_rollables = new GuildRollables("other-update", db)
       const insertion = other_rollables.create("testg", old_desc, ["one"])
       const rollableId = insertion.lastInsertRowid
 
@@ -254,7 +261,7 @@ describe("GuildRollables", () => {
 
   describe("count", () => {
     it("gets the count of rollables for the guild", () => {
-      const rollables = new GuildRollables("test-count")
+      const rollables = new GuildRollables("test-count", db)
       rollables.create("first", "desc1", ["one"])
       rollables.create("second", "desc2", ["one"])
 
@@ -264,8 +271,8 @@ describe("GuildRollables", () => {
     })
 
     it("ignores other guilds rollables", () => {
-      const rollables = new GuildRollables("test-count2")
-      const other_rollables = new GuildRollables("other-count2")
+      const rollables = new GuildRollables("test-count2", db)
+      const other_rollables = new GuildRollables("other-count2", db)
       rollables.create("first", "desc1", ["one"])
       rollables.create("second", "desc2", ["one"])
       other_rollables.create("third", "desc3", ["one"])
@@ -278,7 +285,7 @@ describe("GuildRollables", () => {
 
   describe("taken", () => {
     it("returns true if the name exists for the guild", () => {
-      const rollables = new GuildRollables("test-taken")
+      const rollables = new GuildRollables("test-taken", db)
       rollables.create("testt", "desc", ["one"])
 
       const result = rollables.taken("testt")
@@ -287,7 +294,7 @@ describe("GuildRollables", () => {
     })
 
     it("returns false if the name does not exist for the guild", () => {
-      const rollables = new GuildRollables("test-taken")
+      const rollables = new GuildRollables("test-taken", db)
 
       const result = rollables.taken("testf")
 
@@ -295,8 +302,8 @@ describe("GuildRollables", () => {
     })
 
     it("returns false if the name only exists for another guild", () => {
-      const rollables = new GuildRollables("test-taken")
-      const other_rollables = new GuildRollables("other-taken")
+      const rollables = new GuildRollables("test-taken", db)
+      const other_rollables = new GuildRollables("other-taken", db)
       other_rollables.create("testo", "desc", ["one"])
 
       const result = rollables.taken("testo")
@@ -307,7 +314,7 @@ describe("GuildRollables", () => {
 
   describe("exists", () => {
     it("returns true if the id exists for the guild", () => {
-      const rollables = new GuildRollables("test-exists")
+      const rollables = new GuildRollables("test-exists", db)
       const insertion = rollables.create("testt", "desc", ["one"])
 
       const result = rollables.exists(insertion.lastInsertRowid)
@@ -316,7 +323,7 @@ describe("GuildRollables", () => {
     })
 
     it("returns false if the id does not exist for the guild", () => {
-      const rollables = new GuildRollables("test-exists")
+      const rollables = new GuildRollables("test-exists", db)
       const insertion = rollables.create("testf", "desc", ["one"])
 
       const result = rollables.exists(insertion.lastInsertRowid + 1)
@@ -325,8 +332,8 @@ describe("GuildRollables", () => {
     })
 
     it("returns false if the id exists for another guild", () => {
-      const rollables = new GuildRollables("test-exists")
-      const other_rollables = new GuildRollables("other-exists")
+      const rollables = new GuildRollables("test-exists", db)
+      const other_rollables = new GuildRollables("other-exists", db)
       const insertion = other_rollables.create("testo", "desc", ["one"])
 
       const result = rollables.exists(insertion.lastInsertRowid)
@@ -337,7 +344,7 @@ describe("GuildRollables", () => {
 
   describe("destroy", () => {
     it("deletes the rollable", () => {
-      const rollables = new GuildRollables("test-destroy")
+      const rollables = new GuildRollables("test-destroy", db)
       const insertion = rollables.create("test", "desc", ["one"])
       const rollableId = insertion.lastInsertRowid
 
@@ -348,8 +355,8 @@ describe("GuildRollables", () => {
     })
 
     it("cannot delete a rollable for another guild", () => {
-      const rollables = new GuildRollables("test-destroy")
-      const other_rollables = new GuildRollables("other-destroy")
+      const rollables = new GuildRollables("test-destroy", db)
+      const other_rollables = new GuildRollables("other-destroy", db)
       const insertion = other_rollables.create("test", "desc", ["one"])
       const rollableId = insertion.lastInsertRowid
 

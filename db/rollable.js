@@ -1,6 +1,5 @@
 const { logger } = require("../util/logger")
 const { oneLine } = require("common-tags")
-const { db } = require("./index")
 
 /**
  * Class to handle the management of rollable tables in the database, scoped to a single guild
@@ -11,8 +10,9 @@ const { db } = require("./index")
  * that result five times in its contents.
  */
 class GuildRollables {
-  constructor(guildId) {
+  constructor(guildId, db_obj) {
     this.guildId = guildId
+    this.db = db_obj ?? require("./index").db
   }
 
   /**
@@ -32,7 +32,7 @@ class GuildRollables {
    * @throws {SqliteError} If `name` already exists for this guild
    */
   create(name, description, contents) {
-    const insert = db.prepare(oneLine`
+    const insert = this.db.prepare(oneLine`
       INSERT OR ROLLBACK INTO rollable (
         guildFlake,
         name,
@@ -62,7 +62,7 @@ class GuildRollables {
    * @return {obj[]} Array of rollable info objects
    */
   all() {
-    const select = db.prepare(oneLine`
+    const select = this.db.prepare(oneLine`
       SELECT id, name, description, die FROM rollable
       WHERE guildFlake = ?
     `)
@@ -95,7 +95,7 @@ class GuildRollables {
       sql += " guildFlake = @guildFlake AND name = @name"
     }
 
-    const select = db.prepare(sql)
+    const select = this.db.prepare(sql)
     const raw_out = select.get({
       id,
       name,
@@ -136,7 +136,7 @@ class GuildRollables {
       sql += " guildFlake = @guildFlake AND name = @name"
     }
 
-    const select = db.prepare(sql)
+    const select = this.db.prepare(sql)
     select.pluck()
     const raw_out = select.get({
       id,
@@ -196,7 +196,7 @@ class GuildRollables {
 
     sql += " WHERE id = @id AND guildFlake = @guildFlake"
 
-    const update = db.prepare(sql)
+    const update = this.db.prepare(sql)
     return update.run({
       id,
       guildFlake: this.guildId,
@@ -212,7 +212,7 @@ class GuildRollables {
    * @return {int} Number of rollables for the guild
    */
   count() {
-    const select = db.prepare(oneLine`
+    const select = this.db.prepare(oneLine`
       SELECT count(1) FROM rollable
       WHERE guildFlake = ?
     `)
@@ -227,7 +227,7 @@ class GuildRollables {
    * @return {bool}     True if a rollable exists for this guild with the given name, false if not
    */
   taken(name) {
-    const select = db.prepare(oneLine`
+    const select = this.db.prepare(oneLine`
       SELECT 1 FROM rollable
       WHERE guildFlake = @guildFlake AND name = @name
     `)
@@ -245,7 +245,7 @@ class GuildRollables {
    * @return {bool}    True if the ID is used by a rollable for this guild, false if not
    */
   exists(id) {
-    const select = db.prepare(oneLine`
+    const select = this.db.prepare(oneLine`
       SELECT 1 FROM rollable
       WHERE id = @id AND guildFlake = @guildFlake
     `)
@@ -265,7 +265,7 @@ class GuildRollables {
    * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
    */
   destroy(id) {
-    const destroy = db.prepare(oneLine`
+    const destroy = this.db.prepare(oneLine`
       DELETE FROM rollable
       WHERE id = @id AND guildFlake = @guildFlake
     `)
@@ -279,7 +279,8 @@ class GuildRollables {
 /**
  * Create the rollable database table and its indexes
  */
-function setup() {
+function setup(db_obj) {
+  const db = db_obj ?? require("./index").db
   const fs = require("fs")
   const path = require("path")
 

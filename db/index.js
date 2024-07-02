@@ -4,6 +4,13 @@ const Database = require("better-sqlite3")
 
 require("dotenv").config()
 
+/**
+ * Get the correct database path for our environment
+ *
+ * Dev and prod both use real files, while test and ci environments use an in-memory database.
+ *
+ * @return {str} String to the sqlite database path to use
+ */
 function pickDatabaseFile() {
   switch (process.env.NODE_ENV) {
     case "development":
@@ -17,9 +24,26 @@ function pickDatabaseFile() {
   }
 }
 
-let db = new Database(pickDatabaseFile(), { verbose: (sql) => logger.debug(sql) })
+/**
+ * Create a database connection
+ *
+ * This is mainly for use in tests, where each test should be isolated from the rest.
+ *
+ * @param  {Object} db_options Options to pass to the new connection
+ * @return {Database}          Database connection object
+ */
+function makeDB(db_options = {}) {
+  return new Database(
+    pickDatabaseFile(),
+    {
+      verbose: (sql) => logger.debug(sql),
+      ...db_options
+    },
+  )
+}
 
 module.exports = {
-  db,
+  db: makeDB(),
+  makeDB,
   pickDatabaseFile,
 }
