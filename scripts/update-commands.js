@@ -1,5 +1,4 @@
 const api = require("../services/api")
-const { Collection } = require("discord.js")
 const { logger } = require("../util/logger")
 const progress = require("cli-progress")
 
