@@ -4,6 +4,17 @@ const { simpleflake } = require("simpleflakes")
 const { PermissionFlagsBits, Collection } = require("discord.js")
 const { User } = require("./user")
 
+function normalizeMessage(msg) {
+  switch(typeof msg) {
+    case "string":
+      return {content: msg}
+    case "object":
+      return msg
+    default:
+      return Promise.reject(`msg is in invalid format "${typeof msg}"`)
+  }
+}
+
 class Interaction {
   constructor(snowflake = null, member_flake = null) {
     let member_snowflake = member_flake
@@ -70,13 +81,13 @@ class Interaction {
   async reply(msg) {
     if (this.replied) return Promise.reject("cannot reply: interaction is already in replied state")
     this.replied = true
-    this.replies.push(msg)
+    this.replies.push(normalizeMessage(msg))
     return msg
   }
 
   async editReply(msg) {
     if (!this.replied) return Promise.reject("cannot editReply: interaction has no reply to edit")
-    this.replies.push(msg)
+    this.replies.push(normalizeMessage(msg))
     return msg
   }
 
@@ -89,7 +100,7 @@ class Interaction {
 
   async followUp(msg) {
     if (!this.replied) return Promise.reject("cannot followUp: interaction has no reply")
-    this.replies.push(msg)
+    this.replies.push(normalizeMessage(msg))
     return msg
   }
 
