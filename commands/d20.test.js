@@ -20,7 +20,7 @@ describe("execute", () => {
 
       d20_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     describe("secret", () => {
@@ -59,7 +59,7 @@ describe("execute", () => {
 
       d20_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
   })
 })

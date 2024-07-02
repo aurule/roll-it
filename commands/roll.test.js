@@ -22,13 +22,13 @@ describe("execute", () => {
 
       roll_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", () => {
       roll_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*\d\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*\d\*\*/)
     })
 
     it("displays the modifier", () => {
@@ -36,7 +36,7 @@ describe("execute", () => {
 
       roll_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("8")
+      expect(interaction.replyContent).toMatch("8")
     })
   })
 
@@ -53,13 +53,13 @@ describe("execute", () => {
 
       roll_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", () => {
       roll_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*\d\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*\d\*\*/)
     })
 
     it("displays the modifier", () => {
@@ -67,7 +67,7 @@ describe("execute", () => {
 
       roll_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("8")
+      expect(interaction.replyContent).toMatch("8")
     })
   })
 

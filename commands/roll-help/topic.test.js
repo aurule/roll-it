@@ -10,7 +10,7 @@ describe("execute", () => {
 
     await topic_help_command.execute(interaction)
 
-    expect(interaction.replies[0].content).toMatch("passion project")
+    expect(interaction.replyContent).toMatch("passion project")
   })
 
   it("without a topic name, shows no help", async () => {
@@ -19,7 +19,7 @@ describe("execute", () => {
 
     await topic_help_command.execute(interaction)
 
-    expect(interaction.replies[0].content).toMatch("No help is available")
+    expect(interaction.replyContent).toMatch("No help is available")
   })
 
   it("with an unknown topic name, shows no help", async () => {
@@ -29,7 +29,7 @@ describe("execute", () => {
 
     await topic_help_command.execute(interaction)
 
-    expect(interaction.replies[0].content).toMatch("No help is available")
+    expect(interaction.replyContent).toMatch("No help is available")
   })
 })
 

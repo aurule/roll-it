@@ -21,13 +21,13 @@ describe("execute", () => {
 
       nwod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", () => {
       nwod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*\d\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*\d\*\*/)
     })
   })
 
@@ -43,13 +43,13 @@ describe("execute", () => {
 
       nwod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", () => {
       nwod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*\d\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*\d\*\*/)
     })
   })
 
@@ -89,13 +89,13 @@ describe("execute", () => {
 
       nwod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", () => {
       nwod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*\d\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*\d\*\*/)
     })
   })
 

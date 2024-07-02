@@ -21,13 +21,13 @@ describe("execute", () => {
 
       await wod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", async () => {
       await wod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*(botch|\d)\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
@@ -43,13 +43,13 @@ describe("execute", () => {
 
       await wod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", async () => {
       await wod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*(botch|\d)\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
@@ -66,13 +66,13 @@ describe("execute", () => {
 
       await wod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the result", async () => {
       await wod_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(/\*\*(botch|\d)\*\*/)
+      expect(interaction.replyContent).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 

@@ -28,7 +28,7 @@ describe("execute", () => {
 
       await command_help_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("test help output")
+      expect(interaction.replyContent).toMatch("test help output")
   })
 
   it("with an unknown command, it shows no help", async () => {
@@ -38,7 +38,7 @@ describe("execute", () => {
 
       await command_help_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("No help is available")
+      expect(interaction.replyContent).toMatch("No help is available")
   })
 
   it("without a command, it shows no help", async () => {
@@ -47,7 +47,7 @@ describe("execute", () => {
 
       await command_help_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("No help is available")
+      expect(interaction.replyContent).toMatch("No help is available")
   })
 })
 

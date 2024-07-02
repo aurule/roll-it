@@ -20,7 +20,7 @@ describe("execute", () => {
 
       fate_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the modifier", () => {
@@ -28,7 +28,7 @@ describe("execute", () => {
 
       fate_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("8")
+      expect(interaction.replyContent).toMatch("8")
     })
   })
 
@@ -43,7 +43,7 @@ describe("execute", () => {
 
       fate_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch(description_text)
+      expect(interaction.replyContent).toMatch(description_text)
     })
 
     it("displays the modifier", () => {
@@ -51,7 +51,7 @@ describe("execute", () => {
 
       fate_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("8")
+      expect(interaction.replyContent).toMatch("8")
     })
   })
 

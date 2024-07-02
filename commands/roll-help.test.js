@@ -28,7 +28,7 @@ describe("execute", () => {
 
       await roll_help_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("passion project")
+      expect(interaction.replyContent).toMatch("passion project")
     })
   })
 
@@ -41,7 +41,7 @@ describe("execute", () => {
 
       await roll_help_command.execute(interaction)
 
-      expect(interaction.replies[0].content).toMatch("test help output")
+      expect(interaction.replyContent).toMatch("test help output")
     })
   })
 })
