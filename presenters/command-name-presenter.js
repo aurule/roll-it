@@ -31,13 +31,8 @@ function list(all_commands) {
   return commands
     .filter((c) => c.type !== "menu")
     .map((cmd) => {
-      let content = `* ${present(cmd)} - ${cmd.description}`
-      if (cmd.subcommands) {
-        const subcontent = cmd.subcommands
-          .map((subc, _k) => `  - ${present(subc)} - ${subc.description}`)
-          .join("\n")
-        content += `\n${subcontent}`
-      }
+      let content = cmd.parent ? "  - " : "* "
+      content += `${present(cmd)} - ${cmd.description}`
       return content
     })
     .join("\n")

@@ -61,7 +61,10 @@ describe("list", () => {
   })
 
   it("shows subcommands", () => {
-    const commands = new Collection([["test-command", test_command]])
+    const commands = new Collection([
+      ["test-command", test_command],
+      ["sub", test_subcommand]
+    ])
 
     const result = CommandNamePresenter.list(commands)
 
