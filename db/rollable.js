@@ -1,4 +1,3 @@
-const { logger } = require("../util/logger")
 const { oneLine } = require("common-tags")
 
 /**
