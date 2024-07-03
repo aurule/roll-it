@@ -1,6 +1,7 @@
 const { SlashCommandSubcommandBuilder, inlineCode, userMention, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const { GuildRollables } = require("../../db/rollable")
+const { fetchLines } = require("../../util/attachment-lines")
 
 module.exports = {
   name: "add",
@@ -54,9 +55,7 @@ module.exports = {
       })
     }
 
-    const contents = await fetch(table_file.url)
-      .then((response) => response.text())
-      .then((body) => body.trim().split(/\r?\n/))
+    const contents = fetchLines(table_file)
 
     if (contents.length < 2) {
       return interaction.editReply({
@@ -71,7 +70,7 @@ module.exports = {
     tables.create(table_name, description, contents)
     return interaction.editReply(
       oneLine`
-        ${userMention(interaction.user.id)} created the table "${italic(table_name)}"! You can roll on it with
+        ${userMention(interaction.user.id)} created the table ${italic(table_name)}! You can roll on it with
         ${inlineCode("/table roll")}.
       `,
     )
