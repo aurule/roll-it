@@ -16,11 +16,8 @@ function normalizeMessage(msg) {
 }
 
 class Interaction {
-  constructor(snowflake = null, member_flake = null) {
-    let member_snowflake = member_flake
-    if (!member_snowflake) {
-      member_snowflake = simpleflake()
-    }
+  constructor(guildId = null, member_flake = null) {
+    let member_snowflake = member_flake ?? simpleflake()
 
     this.id = simpleflake()
     this.command_options = {}
@@ -32,10 +29,12 @@ class Interaction {
       getChannel: (key) => this.command_options[key],
       getInteger: (key) => this.command_options[key],
       getUser: (key) => this.command_options[key],
+      getAttachment: (key) => this.command_options[key],
       getFocused: (be_obj = false) => {
         if (be_obj) {
           return {
             name: this.focused_option,
+            value: this.partial_text,
           }
         }
 
@@ -43,9 +42,9 @@ class Interaction {
       },
       getSubcommand: () => this.command_options.subcommand_name,
     }
-    this.guildId = snowflake
+    this.guildId = guildId ?? simpleflake()
     this.guild = {
-      id: snowflake,
+      id: guildId,
       members: [],
       name: "test guild",
     }
@@ -53,7 +52,7 @@ class Interaction {
     this.channel = {
       id: simpleflake(),
       isThread: () => false,
-      guildId: snowflake,
+      guildId: guildId,
       parentId: simpleflake(),
       messages: {},
     }
@@ -97,10 +96,20 @@ class Interaction {
     return msg
   }
 
+  async deferReply() {
+    if (this.replied) return Promise.reject("cannot defer: interaction is already in replied state")
+    if (this.deferred)
+      return Promise.reject("cannot defer: interaction is already in deferred state")
+    this.replied = true
+    this.deferred = true
+    return
+  }
+
   async deferUpdate() {
     if (this.replied) return Promise.reject("cannot defer: interaction is already in replied state")
     if (this.deferred)
       return Promise.reject("cannot defer: interaction is already in deferred state")
+    this.deferred = true
     return
   }
 
