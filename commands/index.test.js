@@ -53,3 +53,10 @@ describe("surface_choices", () => {
     expect(names).not.toContain("roll-help command")
   })
 })
+
+describe("shared command features", () => {
+  // every command should
+  // * data() should return something
+  // * data()'s name should match the object name property
+  // * help should return something
+})
