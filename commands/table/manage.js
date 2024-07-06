@@ -33,7 +33,7 @@ module.exports = {
       })
     }
 
-    return interaction.reply(`managing table ${table.name}`)
+    return interaction.reply(`managing table ${detail.name}`)
     // show a prompt with the table name and description, probably also die size
     // ask the user what they want to do:
     // * show the table's contents

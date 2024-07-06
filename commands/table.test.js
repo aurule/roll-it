@@ -56,7 +56,18 @@ describe("execute", () => {
     fetchMock.mockRestore()
   })
 
-  it.todo("calls manage subcommand")
+  it("calls manage subcommand", async () => {
+    const interaction = new Interaction()
+    interaction.command_options.subcommand_name = "manage"
+    const contents = ["first"]
+    rollables = new GuildRollables(interaction.guildId)
+    const insertion = rollables.create("test", "a test", contents)
+    interaction.command_options.table = insertion.lastInsertRowid.toString()
+
+    await table_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("test")
+  })
 })
 
 describe("data", () => {
