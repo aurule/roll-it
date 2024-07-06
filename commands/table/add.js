@@ -25,6 +25,11 @@ module.exports = {
           .setName("file")
           .setDescription("A plain text file with the table's results, one per line")
           .setRequired(true),
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("quiet")
+          .setDescription("Hide the new table announcement from other users")
       ),
   async execute(interaction) {
     interaction.deferReply()
@@ -32,12 +37,13 @@ module.exports = {
 
     const table_name = interaction.options.getString("name") ?? ""
     const description = interaction.options.getString("description") ?? ""
+    const secret = interaction.options.getBoolean("quiet") ?? false
 
     if (tables.taken(table_name)) {
       return interaction.editReply({
         content: oneLine`
-          There is already a table named "${table_name}". You can use ${inlineCode("/table manage")} to change
-          its contents, or pick a different name.
+          There is already a table named "${table_name}". You can pick a different name, or use
+          ${inlineCode("/table manage")} to change the existing table.
         `,
         ephemeral: true,
       })
@@ -68,12 +74,13 @@ module.exports = {
     }
 
     tables.create(table_name, description, contents)
-    return interaction.editReply(
-      oneLine`
+    return interaction.editReply({
+      content: oneLine`
         ${userMention(interaction.user.id)} created the table ${italic(table_name)}! You can roll on it with
         ${inlineCode("/table roll")}.
       `,
-    )
+      ephemeral: secret,
+    })
   },
   help({ command_name }) {
     return `${command_name} IS A TEMPLATE.`
