@@ -4,7 +4,7 @@ const { GuildRollables } = require("../../db/rollable")
 
 module.exports = {
   name: "manage",
-  parent: "tables",
+  parent: "table",
   description: "Explain, change, or remove a table",
   data: () =>
     new SlashCommandSubcommandBuilder()

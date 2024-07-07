@@ -5,7 +5,7 @@ const { fetchLines } = require("../../util/attachment-lines")
 
 module.exports = {
   name: "add",
-  parent: "tables",
+  parent: "table",
   description: "Upload a new rollable table",
   data: () =>
     new SlashCommandSubcommandBuilder()
