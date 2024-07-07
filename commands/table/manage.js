@@ -1,4 +1,9 @@
-const { SlashCommandSubcommandBuilder } = require("discord.js")
+const { SlashCommandSubcommandBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+  ComponentType,
+} = require("discord.js")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
 
@@ -33,17 +38,62 @@ module.exports = {
       })
     }
 
-    return interaction.reply(`managing table ${detail.name}`)
-    // show a prompt with the table name and description, probably also die size
-    // ask the user what they want to do:
-    // * show the table's contents
-    //  - followup by presenting the stored contents
-    // * update the table
-    //  - prompt for a new name, description, and attachment
-    //  - name and desc are selectable and have a "do not change" option
-    //    + name autocompleter shows whatever the user enters with a description of whether it's available or not
-    // * remove the table
-    //  - chicken switch, then tables.destroy(table_id)
+    const edit_button = new ButtonBuilder()
+      .setCustomId("edit")
+      .setLabel("Edit Info")
+      .setStyle(ButtonStyle.Primary)
+    const show_button = new ButtonBuilder()
+      .setCustomId("show")
+      .setLabel("Show Contents")
+      .setStyle(ButtonStyle.Primary)
+    const cancel_button = new ButtonBuilder()
+      .setCustomId("cancel")
+      .setLabel("Cancel")
+      .setStyle("ButtonStyle.Secondary")
+    const remove_button = new ButtonBuilder()
+      .setCustomId("remove")
+      .setLabel("Remove Table")
+      .setStyle(ButtonStyle.Danger)
+    const manage_actions = new ActionRowBuilder()
+      .addComponents(edit_button, show_button, remove_button)
+    const manage_prompt = interaction.reply({
+      content: `managing table ${detail.name}`,
+      components: [manage_actions],
+      ephemeral: true,
+    })
+
+    const mangeHandler = (event) => {
+      manage_prompt.delete()
+
+      switch(event.customId) {
+        case "cancel":
+          return
+        case "edit":
+          // show modal with name and description (paragraph) fields
+          // update changed fields in the db
+          break
+        case "show":
+          return interaction.followUp({
+            content: "", // present table contents, need longReply
+            ephemeral: true,
+          })
+          break
+        case "remove":
+          // prompt to confirm, then delete the table
+          // tables.destroy(table_id)
+          break
+      }
+    }
+
+    return manage_prompt
+      .awaitMessageComponent({
+        componentType: ComponentType.Button,
+        time: 6000,
+      })
+      .then((event) => {
+        event.deferUpdate()
+        return manageHandler(event)
+      }, manageHandler)
   },
   async autocomplete(interaction) {
     const tables = new GuildRollables(interaction.guildId)
