@@ -54,9 +54,35 @@ describe("surface_choices", () => {
   })
 })
 
-describe("shared command features", () => {
-  // every command should
-  // * data() should return something
-  // * data()'s name should match the object name property
-  // * help should return something
+function pretty(command) {
+  let presented = ""
+  if (command.parent) presented += command.parent + " "
+  presented += command.name
+  return presented
+}
+
+const command_objects = Array.from(commands.values())
+describe.each(
+  command_objects
+  )("minimal correctness", (command) => {
+    describe(`${pretty(command)} data`, () => {
+      it("returns data", () => {
+        const result = command.data()
+
+        expect(result).toBeTruthy()
+      })
+
+      it("uses the command's name", () => {
+        const result = command.data()
+
+        expect(result.name).toEqual(command.name)
+      })
+    })
+    describe(`${pretty(command)} help`, () => {
+      it("returns a string", () => {
+        const result = command.help({ command_name: command.name })
+
+        expect(typeof result).toEqual("string")
+      })
+    })
 })

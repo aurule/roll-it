@@ -8,11 +8,3 @@ describe("execute", () => {
   it.todo("announces the new table")
   it.todo("announcement is ephemeral if quiet")
 })
-
-describe("data", () => {
-  it.todo("")
-})
-
-describe("help", () => {
-  it.todo("")
-})

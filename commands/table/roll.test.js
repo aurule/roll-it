@@ -11,11 +11,3 @@ describe("execute", () => {
 describe("autocomplete", () => {
   it.todo("gets matching table names")
 })
-
-describe("data", () => {
-  it.todo("")
-})
-
-describe("help", () => {
-  it.todo("")
-})
