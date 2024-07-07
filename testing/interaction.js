@@ -5,9 +5,9 @@ const { PermissionFlagsBits, Collection } = require("discord.js")
 const { User } = require("./user")
 
 function normalizeMessage(msg) {
-  switch(typeof msg) {
+  switch (typeof msg) {
     case "string":
-      return {content: msg}
+      return { content: msg }
     case "object":
       return msg
     default:
@@ -78,9 +78,7 @@ class Interaction {
   }
 
   get replyContent() {
-    return this.replies
-      .map(r => r.content)
-      .join("\n-----\n")
+    return this.replies.map((r) => r.content).join("\n-----\n")
   }
 
   async reply(msg) {

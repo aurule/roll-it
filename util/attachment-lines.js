@@ -3,5 +3,5 @@ module.exports = {
     return fetch(attachment_file.url)
       .then((response) => response.text())
       .then((body) => body.trim().split(/\r?\n/))
-  }
+  },
 }

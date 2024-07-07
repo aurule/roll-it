@@ -8,9 +8,7 @@ const { italic } = require("discord.js")
  */
 function list(all_topics) {
   const topics = all_topics ?? require("../help")
-  return topics
-    .map((t) => `* ${italic(t.title)} - ${t.description}`)
-    .join("\n")
+  return topics.map((t) => `* ${italic(t.title)} - ${t.description}`).join("\n")
 }
 
 module.exports = {

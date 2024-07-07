@@ -48,7 +48,8 @@ module.exports = {
    * @return {Promise}                 A promise resolving to the result of executing the subcommand.
    */
   dispatch(interaction, subcommands, funktion = "execute") {
-    if (!allowed_dispatch_functions.includes(funktion)) throw new TypeError(`invalid function ${funktion}`)
+    if (!allowed_dispatch_functions.includes(funktion))
+      throw new TypeError(`invalid function ${funktion}`)
 
     const subcommand_name = interaction.options.getSubcommand()
 

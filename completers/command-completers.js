@@ -9,6 +9,6 @@ module.exports = {
     const commands = require("../commands")
     const search = partialText.toLowerCase()
 
-    return commands.all_choices.filter(c => c.name.toLowerCase().startsWith(search))
-  }
+    return commands.all_choices.filter((c) => c.name.toLowerCase().startsWith(search))
+  },
 }

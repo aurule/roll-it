@@ -9,10 +9,11 @@ describe("execute", () => {
   })
 
   it("calls add subcommand", async () => {
-    const fetchMock = jest.spyOn(global, "fetch")
-      .mockImplementation(() => Promise.resolve({
-        text: () => "hello"
-      }))
+    const fetchMock = jest.spyOn(global, "fetch").mockImplementation(() =>
+      Promise.resolve({
+        text: () => "hello",
+      }),
+    )
 
     const interaction = new Interaction()
     interaction.command_options.subcommand_name = "add"
@@ -20,7 +21,7 @@ describe("execute", () => {
     interaction.command_options.description = "a test table"
     interaction.command_options.file = new Attachment({
       contentType: "text/plain",
-      contents: "first\nsecond\nthird"
+      contents: "first\nsecond\nthird",
     })
 
     await tables_command.execute(interaction)

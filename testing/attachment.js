@@ -1,5 +1,5 @@
 class Attachment {
-  constructor({contentType, contents}) {
+  constructor({ contentType, contents }) {
     this.contentType = contentType
     this.contents = contents ?? ""
     this.url = ""

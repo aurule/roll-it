@@ -27,9 +27,7 @@ module.exports = {
           .setRequired(true),
       )
       .addBooleanOption((option) =>
-        option
-          .setName("quiet")
-          .setDescription("Hide the new table announcement from other users")
+        option.setName("quiet").setDescription("Hide the new table announcement from other users"),
       ),
   async execute(interaction) {
     interaction.deferReply()

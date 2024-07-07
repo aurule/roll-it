@@ -33,23 +33,23 @@ commands.guild = function () {
 
 commands.all_choices = []
 commands.each((cmd, _k) => {
-    commands.all_choices.push({
-      name: cmd.name,
-      value: cmd.name
-    })
-
-    cmd.subcommands?.each((subc, _sk) => {
-      commands.all_choices.push({
-        name: `${cmd.name} ${subc.name}`,
-        value: `${cmd.name} ${subc.name}`
-      })
-    })
+  commands.all_choices.push({
+    name: cmd.name,
+    value: cmd.name,
   })
 
-commands.surface_choices = commands.map(cmd => {
+  cmd.subcommands?.each((subc, _sk) => {
+    commands.all_choices.push({
+      name: `${cmd.name} ${subc.name}`,
+      value: `${cmd.name} ${subc.name}`,
+    })
+  })
+})
+
+commands.surface_choices = commands.map((cmd) => {
   return {
     name: `${cmd.name}`,
-    value: `${cmd.name}`
+    value: `${cmd.name}`,
   }
 })
 

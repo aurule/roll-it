@@ -44,9 +44,6 @@ module.exports = {
     }
   },
   help({ command_name }) {
-    return [
-      "Here are all the available commands:",
-      CommandNamePresenter.list(),
-    ].join("\n")
+    return ["Here are all the available commands:", CommandNamePresenter.list()].join("\n")
   },
 }

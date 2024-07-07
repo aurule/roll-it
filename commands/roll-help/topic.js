@@ -37,9 +37,6 @@ module.exports = {
     return longReply(interaction, full_text, { ephemeral: true })
   },
   help({ command_name }) {
-    return [
-      "Here are the available help topics:",
-      TopicNamePresenter.list(),
-    ].join("\n")
+    return ["Here are the available help topics:", TopicNamePresenter.list()].join("\n")
   },
 }

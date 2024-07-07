@@ -1,10 +1,10 @@
-const {Collection} = require("discord.js")
+const { Collection } = require("discord.js")
 const Presenter = require("./topic-name-presenter")
 
 const test_topic = {
   name: "test",
   title: "A Test Topic",
-  description: "A topic to test to"
+  description: "A topic to test to",
 }
 
 describe("list", () => {

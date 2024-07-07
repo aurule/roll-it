@@ -33,13 +33,10 @@ function pickDatabaseFile() {
  * @return {Database}          Database connection object
  */
 function makeDB(db_options = {}) {
-  return new Database(
-    pickDatabaseFile(),
-    {
-      verbose: (sql) => logger.debug(sql),
-      ...db_options
-    },
-  )
+  return new Database(pickDatabaseFile(), {
+    verbose: (sql) => logger.debug(sql),
+    ...db_options,
+  })
 }
 
 module.exports = {

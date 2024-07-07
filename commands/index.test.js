@@ -32,24 +32,24 @@ describe("guild collection", () => {
 
 describe("all_choices", () => {
   it("includes top-level names", () => {
-    const names = commands.all_choices.map(c => c.name)
+    const names = commands.all_choices.map((c) => c.name)
     expect(names).toContain("coin")
   })
 
   it("includes subcommand names", () => {
-    const names = commands.all_choices.map(c => c.name)
+    const names = commands.all_choices.map((c) => c.name)
     expect(names).toContain("roll-help command")
   })
 })
 
 describe("surface_choices", () => {
   it("includes top-level names", () => {
-    const names = commands.surface_choices.map(c => c.name)
+    const names = commands.surface_choices.map((c) => c.name)
     expect(names).toContain("coin")
   })
 
   it("does not include subcommand names", () => {
-    const names = commands.surface_choices.map(c => c.name)
+    const names = commands.surface_choices.map((c) => c.name)
     expect(names).not.toContain("roll-help command")
   })
 })
@@ -62,27 +62,25 @@ function pretty(command) {
 }
 
 const command_objects = Array.from(commands.values())
-describe.each(
-  command_objects
-  )("minimal correctness", (command) => {
-    describe(`${pretty(command)} data`, () => {
-      it("returns data", () => {
-        const result = command.data()
+describe.each(command_objects)("minimal correctness", (command) => {
+  describe(`${pretty(command)} data`, () => {
+    it("returns data", () => {
+      const result = command.data()
 
-        expect(result).toBeTruthy()
-      })
-
-      it("uses the command's name", () => {
-        const result = command.data()
-
-        expect(result.name).toEqual(command.name)
-      })
+      expect(result).toBeTruthy()
     })
-    describe(`${pretty(command)} help`, () => {
-      it("returns a string", () => {
-        const result = command.help({ command_name: command.name })
 
-        expect(typeof result).toEqual("string")
-      })
+    it("uses the command's name", () => {
+      const result = command.data()
+
+      expect(result.name).toEqual(command.name)
     })
+  })
+  describe(`${pretty(command)} help`, () => {
+    it("returns a string", () => {
+      const result = command.help({ command_name: command.name })
+
+      expect(typeof result).toEqual("string")
+    })
+  })
 })
