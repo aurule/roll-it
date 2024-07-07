@@ -49,20 +49,20 @@ module.exports = {
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
       .setLabel("Cancel")
-      .setStyle("ButtonStyle.Secondary")
+      .setStyle(ButtonStyle.Secondary)
     const remove_button = new ButtonBuilder()
       .setCustomId("remove")
       .setLabel("Remove Table")
       .setStyle(ButtonStyle.Danger)
     const manage_actions = new ActionRowBuilder()
       .addComponents(edit_button, show_button, remove_button)
-    const manage_prompt = interaction.reply({
+    const manage_prompt = await interaction.reply({
       content: `managing table ${detail.name}`,
       components: [manage_actions],
       ephemeral: true,
     })
 
-    const mangeHandler = (event) => {
+    const manageHandler = (event) => {
       manage_prompt.delete()
 
       switch(event.customId) {
