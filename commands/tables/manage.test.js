@@ -9,7 +9,3 @@ describe("execute", () => {
   it.todo("show contents shows full table")
   it.todo("remove table deletes the table")
 })
-
-describe("autocomplete", () => {
-  it.todo("gets matching table names")
-})

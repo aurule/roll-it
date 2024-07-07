@@ -5,7 +5,7 @@ const { fetchLines } = require("../../util/attachment-lines")
 
 module.exports = {
   name: "add",
-  parent: "table",
+  parent: "tables",
   description: "Upload a new rollable table",
   data: () =>
     new SlashCommandSubcommandBuilder()
@@ -54,8 +54,8 @@ module.exports = {
     if (!table_file.contentType.includes("text/plain")) {
       return interaction.editReply({
         content: oneLine`
-          The file you uploaded doesn't look like it's plain text. As a reminder, it must be a plain text file
-          with one result per line (when word wrap is turned off).
+          The file you uploaded does not look like a plain text file. Try again using a plain, basic text file
+          (save as ${inlineCode(".txt")}) with one result per line (when word wrap is turned off).
         `,
         ephemeral: true,
       })
@@ -66,8 +66,8 @@ module.exports = {
     if (contents.length < 2) {
       return interaction.editReply({
         content: oneLine`
-          The file you uploaded doesn't have enough lines. Ensure there are at least two lines of text in the
-          file, preferably more, or it isn't much of a table.
+          The file you uploaded does not have enough lines. Ensure there are at least two lines of text in the
+          file.
         `,
         ephemeral: true,
       })
