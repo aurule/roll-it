@@ -27,7 +27,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.0.0"],\
+          ["better-sqlite3", "npm:11.1.2"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
@@ -35,8 +35,8 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.0.0"],\
-          ["nodemon", "npm:3.1.3"],\
+          ["mathjs", "npm:13.0.2"],\
+          ["nodemon", "npm:3.1.4"],\
           ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.1"],\
@@ -777,10 +777,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@babel/runtime", [\
-      ["npm:7.24.6", {\
-        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.24.6-3acd4a9fd9-224ad205de.zip/node_modules/@babel/runtime/",\
+      ["npm:7.24.7", {\
+        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.24.7-035e043b00-b6fa3ec61a.zip/node_modules/@babel/runtime/",\
         "packageDependencies": [\
-          ["@babel/runtime", "npm:7.24.6"],\
+          ["@babel/runtime", "npm:7.24.7"],\
           ["regenerator-runtime", "npm:0.14.1"]\
         ],\
         "linkType": "HARD"\
@@ -1855,10 +1855,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:11.0.0", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.0.0-8bde05fee6/node_modules/better-sqlite3/",\
+      ["npm:11.1.2", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.1.2-2524c3e559/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.0.0"],\
+          ["better-sqlite3", "npm:11.1.2"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -2296,10 +2296,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:c81e4e5ea16dfa01869523ebf6a04ec44447181f8e3f02ff9d5dc54ee7fbe9969f572c5f20071c3b7e3d3a1748d52ed76d343c4ae325d453cb1e17d7545e921a#npm:4.3.4", {\
-        "packageLocation": "./.yarn/__virtual__/debug-virtual-08a99ecb7f/0/cache/debug-npm-4.3.4-4513954577-cedbec4529.zip/node_modules/debug/",\
+      ["virtual:33f4db03df5cb0a9b65cd83d4a160375f85a7e77735be4fe22ba0f32d7046e6ea2dc2852727ba6ed8ca64f8738f7114c71efc960773f2df5deb72715fe30d8b5#npm:4.3.4", {\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-2383ae041d/0/cache/debug-npm-4.3.4-4513954577-cedbec4529.zip/node_modules/debug/",\
         "packageDependencies": [\
-          ["debug", "virtual:c81e4e5ea16dfa01869523ebf6a04ec44447181f8e3f02ff9d5dc54ee7fbe9969f572c5f20071c3b7e3d3a1748d52ed76d343c4ae325d453cb1e17d7545e921a#npm:4.3.4"],\
+          ["debug", "virtual:33f4db03df5cb0a9b65cd83d4a160375f85a7e77735be4fe22ba0f32d7046e6ea2dc2852727ba6ed8ca64f8738f7114c71efc960773f2df5deb72715fe30d8b5#npm:4.3.4"],\
           ["@types/supports-color", null],\
           ["ms", "npm:2.1.2"],\
           ["supports-color", "npm:5.5.0"]\
@@ -4072,11 +4072,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:13.0.0", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-13.0.0-498d01577d-de6083d50f.zip/node_modules/mathjs/",\
+      ["npm:13.0.2", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-13.0.2-5fe40edb58-0ad3bed342.zip/node_modules/mathjs/",\
         "packageDependencies": [\
-          ["mathjs", "npm:13.0.0"],\
-          ["@babel/runtime", "npm:7.24.6"],\
+          ["mathjs", "npm:13.0.2"],\
+          ["@babel/runtime", "npm:7.24.7"],\
           ["complex.js", "npm:2.1.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["escape-latex", "npm:1.2.0"],\
@@ -4084,7 +4084,7 @@ const RAW_RUNTIME_STATE =
           ["javascript-natural-sort", "npm:0.7.1"],\
           ["seedrandom", "npm:3.0.5"],\
           ["tiny-emitter", "npm:2.1.0"],\
-          ["typed-function", "npm:4.1.1"]\
+          ["typed-function", "npm:4.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4344,12 +4344,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["nodemon", [\
-      ["npm:3.1.3", {\
-        "packageLocation": "./.yarn/unplugged/nodemon-npm-3.1.3-c81e4e5ea1/node_modules/nodemon/",\
+      ["npm:3.1.4", {\
+        "packageLocation": "./.yarn/unplugged/nodemon-npm-3.1.4-33f4db03df/node_modules/nodemon/",\
         "packageDependencies": [\
-          ["nodemon", "npm:3.1.3"],\
+          ["nodemon", "npm:3.1.4"],\
           ["chokidar", "npm:3.6.0"],\
-          ["debug", "virtual:c81e4e5ea16dfa01869523ebf6a04ec44447181f8e3f02ff9d5dc54ee7fbe9969f572c5f20071c3b7e3d3a1748d52ed76d343c4ae325d453cb1e17d7545e921a#npm:4.3.4"],\
+          ["debug", "virtual:33f4db03df5cb0a9b65cd83d4a160375f85a7e77735be4fe22ba0f32d7046e6ea2dc2852727ba6ed8ca64f8738f7114c71efc960773f2df5deb72715fe30d8b5#npm:4.3.4"],\
           ["ignore-by-default", "npm:1.0.1"],\
           ["minimatch", "npm:3.1.2"],\
           ["pstree.remy", "npm:1.1.8"],\
@@ -4938,7 +4938,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["roll-it", "workspace:."],\
-          ["better-sqlite3", "npm:11.0.0"],\
+          ["better-sqlite3", "npm:11.1.2"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
@@ -4946,8 +4946,8 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.0.0"],\
-          ["nodemon", "npm:3.1.3"],\
+          ["mathjs", "npm:13.0.2"],\
+          ["nodemon", "npm:3.1.4"],\
           ["pino", "npm:9.2.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.1"],\
@@ -5543,10 +5543,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["typed-function", [\
-      ["npm:4.1.1", {\
-        "packageLocation": "./.yarn/cache/typed-function-npm-4.1.1-d09696d7f2-139bf8c4a2.zip/node_modules/typed-function/",\
+      ["npm:4.2.1", {\
+        "packageLocation": "./.yarn/cache/typed-function-npm-4.2.1-68f0b6c302-0b4e9a359e.zip/node_modules/typed-function/",\
         "packageDependencies": [\
-          ["typed-function", "npm:4.1.1"]\
+          ["typed-function", "npm:4.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
