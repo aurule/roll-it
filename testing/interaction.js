@@ -3,17 +3,7 @@
 const { simpleflake } = require("simpleflakes")
 const { PermissionFlagsBits, Collection } = require("discord.js")
 const { User } = require("./user")
-
-function normalizeMessage(msg) {
-  switch (typeof msg) {
-    case "string":
-      return { content: msg }
-    case "object":
-      return msg
-    default:
-      return Promise.reject(`msg is in invalid format "${typeof msg}"`)
-  }
-}
+const { Message } = require("./message")
 
 class Interaction {
   constructor(guildId = null, member_flake = null) {
@@ -77,20 +67,32 @@ class Interaction {
     this.replies = []
   }
 
+  normalizeMessage(msg) {
+    switch (typeof msg) {
+      case "string":
+        return new Message({ content: msg, guildId: this.guildId })
+      case "object":
+        return new Message({guildId: this.guildId, ...msg})
+      default:
+        return Promise.reject(`msg is in invalid format "${typeof msg}"`)
+    }
+  }
+
   get replyContent() {
     return this.replies.map((r) => r.content).join("\n-----\n")
   }
 
   async reply(msg) {
     if (this.replied) return Promise.reject("cannot reply: interaction is already in replied state")
+    const real_message = this.normalizeMessage(msg)
     this.replied = true
-    this.replies.push(normalizeMessage(msg))
-    return msg
+    this.replies.push(real_message)
+    return real_message
   }
 
   async editReply(msg) {
     if (!this.replied) return Promise.reject("cannot editReply: interaction has no reply to edit")
-    this.replies.push(normalizeMessage(msg))
+    this.replies.push(this.normalizeMessage(msg))
     return msg
   }
 
@@ -113,7 +115,7 @@ class Interaction {
 
   async followUp(msg) {
     if (!this.replied) return Promise.reject("cannot followUp: interaction has no reply")
-    this.replies.push(normalizeMessage(msg))
+    this.replies.push(this.normalizeMessage(msg))
     return msg
   }
 
