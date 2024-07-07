@@ -8,7 +8,7 @@ const subcommands = loadSubcommands("table")
 module.exports = {
   name: "table",
   description: "Add, manage, and roll on random tables",
-  global: true,
+  global: false,
   subcommands,
   data() {
     return new SlashCommandBuilder()
