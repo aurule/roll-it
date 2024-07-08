@@ -3,9 +3,13 @@ const { SlashCommandSubcommandBuilder,
   ButtonStyle,
   ActionRowBuilder,
   ComponentType,
+  italic,
 } = require("discord.js")
+const { oneLine } = require("common-tags")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
+const { presentContents } = require("../../presenters/table-contents-presenter")
+const { splitMessage } = require("../../util/long-reply")
 
 module.exports = {
   name: "manage",
@@ -44,7 +48,7 @@ module.exports = {
       .setStyle(ButtonStyle.Primary)
     const show_button = new ButtonBuilder()
       .setCustomId("show")
-      .setLabel("Show Contents")
+      .setLabel("Show Entries")
       .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
@@ -55,32 +59,78 @@ module.exports = {
       .setLabel("Remove Table")
       .setStyle(ButtonStyle.Danger)
     const manage_actions = new ActionRowBuilder()
-      .addComponents(edit_button, show_button, remove_button)
+      .addComponents(edit_button, show_button, cancel_button, remove_button)
     const manage_prompt = await interaction.reply({
-      content: `managing table ${detail.name}`,
+      content: [
+        "All about this table:",
+        `${italic("Name:")} ${detail.name}`,
+        `${italic("Description:")} ${detail.description}`,
+        `${italic("Total Entries:")} ${detail.die}`,
+        "What do you want to do?"
+      ].join("\n"),
       components: [manage_actions],
       ephemeral: true,
     })
 
-    const manageHandler = (event) => {
-      manage_prompt.delete()
+    const manageHandler = async (event) => {
+      // manage_prompt.delete()
 
       switch(event.customId) {
         case "cancel":
-          return
+          return interaction
         case "edit":
           // show modal with name and description (paragraph) fields
           // update changed fields in the db
           break
         case "show":
-          return interaction.followUp({
-            content: "", // present table contents, need longReply
+          const full_text = `These are the entries in the ${italic(detail.name)} table:\n` + presentContents(detail.contents)
+
+          const split_contents = splitMessage(full_text, "\n")
+
+          for (const msg of split_contents) {
+            interaction.followUp({
+              content: msg,
+              ephemeral: true,
+            })
+          }
+
+          return interaction
+        case "remove":
+          const remove_cancel = new ButtonBuilder()
+            .setCustomId("remove_cancel")
+            .setLabel("Cancel")
+            .setStyle(ButtonStyle.Secondary)
+          const remove_confirm = new ButtonBuilder()
+            .setCustomId("remove_confirm")
+            .setLabel("Remove")
+            .setStyle(ButtonStyle.Danger)
+          const remove_actions = new ActionRowBuilder()
+            .addComponents(remove_cancel, remove_confirm)
+          const remove_chicken = await manage_prompt.edit({
+            content: `Are you sure you want to remove the table ${italic(detail.name)}? This action is permanent.`,
+            components: [remove_actions],
             ephemeral: true,
           })
-          break
-        case "remove":
-          // prompt to confirm, then delete the table
-          // tables.destroy(table_id)
+
+          remove_chicken.awaitMessageComponent({
+            componentType: ComponentType.Button,
+            time: 60_000,
+          })
+          .then((remove_event) => {
+            remove_event.deferUpdate()
+            if (remove_event.customId == "remove_cancel") {
+              manage_prompt.edit({content: "Cancelled!", components: [], ephemeral: true})
+              return interaction
+            }
+
+            tables.destroy(detail.id)
+
+            return manage_prompt.edit({
+              content: `The table ${italic(detail.name)} has been removed.`,
+              components: [],
+              ephemeral: true,
+            })
+          })
           break
       }
     }
@@ -88,7 +138,7 @@ module.exports = {
     return manage_prompt
       .awaitMessageComponent({
         componentType: ComponentType.Button,
-        time: 6000,
+        time: 60_000,
       })
       .then((event) => {
         event.deferUpdate()
