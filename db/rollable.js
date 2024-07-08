@@ -77,6 +77,21 @@ class GuildRollables {
    * The `contents` are parsed into an array before being returned. For safety, the query is still scoped to
    * the current guild.
    *
+   * @example
+   * rollables.detail(3)
+   * // returns {
+   * //   id: 3,
+   * //   name: "Test Table",
+   * //   description: "A table for testing",
+   * //   die: 10,
+   * //   contents: [
+   * //     "first entry",
+   * //     "second entry",
+   * //     ...
+   * //     "tenth entry",
+   * //   ],
+   * // }
+   *
    * @param  {int} id   ID of the rollable to get
    * @param  {str} name Name of the rollable to get
    * @return {obj}      Object with all the fields of the rollable
