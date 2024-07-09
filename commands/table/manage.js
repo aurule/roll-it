@@ -42,10 +42,6 @@ module.exports = {
       })
     }
 
-    const edit_button = new ButtonBuilder()
-      .setCustomId("edit")
-      .setLabel("Edit Info")
-      .setStyle(ButtonStyle.Primary)
     const show_button = new ButtonBuilder()
       .setCustomId("show")
       .setLabel("Show Entries")
@@ -59,7 +55,7 @@ module.exports = {
       .setLabel("Remove Table")
       .setStyle(ButtonStyle.Danger)
     const manage_actions = new ActionRowBuilder()
-      .addComponents(edit_button, show_button, cancel_button, remove_button)
+      .addComponents(show_button, cancel_button, remove_button)
     const manage_prompt = await interaction.reply({
       content: [
         "All about this table:",
@@ -73,16 +69,12 @@ module.exports = {
     })
 
     const manageHandler = async (event) => {
-      // manage_prompt.delete()
-
       switch(event.customId) {
         case "cancel":
+          manage_prompt.delete()
           return interaction
-        case "edit":
-          // show modal with name and description (paragraph) fields
-          // update changed fields in the db
-          break
         case "show":
+          manage_prompt.delete()
           const full_text = `These are the entries in the ${italic(detail.name)} table:\n` + presentContents(detail.contents)
 
           const split_contents = splitMessage(full_text, "\n")
