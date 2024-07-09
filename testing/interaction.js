@@ -92,8 +92,9 @@ class Interaction {
 
   async editReply(msg) {
     if (!this.replied) return Promise.reject("cannot editReply: interaction has no reply to edit")
-    this.replies.push(this.normalizeMessage(msg))
-    return msg
+    const real_message = this.normalizeMessage(msg)
+    this.replies.push(real_message)
+    return real_message
   }
 
   async deferReply() {
@@ -115,8 +116,14 @@ class Interaction {
 
   async followUp(msg) {
     if (!this.replied) return Promise.reject("cannot followUp: interaction has no reply")
-    this.replies.push(this.normalizeMessage(msg))
-    return msg
+    const real_message = this.normalizeMessage(msg)
+    this.replies.push(real_message)
+    return real_message
+  }
+
+  async showModal(modal) {
+    if (this.replied || this.deferred) return Promise.reject("cannot showModal: must be the first response")
+    return modal
   }
 
   async respond(data) {
