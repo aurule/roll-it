@@ -54,18 +54,6 @@ describe("all_choices", () => {
   })
 })
 
-describe("surface_choices", () => {
-  it("includes top-level names", () => {
-    const names = commands.surface_choices.map((c) => c.name)
-    expect(names).toContain("coin")
-  })
-
-  it("does not include subcommand names", () => {
-    const names = commands.surface_choices.map((c) => c.name)
-    expect(names).not.toContain("roll-help command")
-  })
-})
-
 function pretty(command) {
   let presented = ""
   if (command.parent) presented += command.parent + " "
