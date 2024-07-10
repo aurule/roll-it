@@ -1,5 +1,6 @@
-const CommandHelpPresenter = require("./command-help-presenter")
 const { SlashCommandBuilder } = require("discord.js")
+const help_command = require("../commands/roll-help")
+const CommandHelpPresenter = require("./command-help-presenter")
 
 const test_command = {
   name: "test-command",
@@ -42,6 +43,12 @@ describe("present", () => {
   })
 
   describe("with options", () => {
+    it("uses correct label", () => {
+      const result = CommandHelpPresenter.present(test_command)
+
+      expect(result).toMatch("Args:")
+    })
+
     it("shows the options", () => {
       const result = CommandHelpPresenter.present(test_command)
 
@@ -53,6 +60,21 @@ describe("present", () => {
       const result = CommandHelpPresenter.present(test_command)
 
       expect(result).toMatch("(required) Title description")
+    })
+  })
+
+  describe("with subcommands", () => {
+    it("uses correct label", () => {
+      const result = CommandHelpPresenter.present(help_command)
+
+      expect(result).toMatch("Subcommands:")
+    })
+
+    it("shows the subcommands", () => {
+      const result = CommandHelpPresenter.present(help_command)
+
+      expect(result).toMatch("topic")
+      expect(result).toMatch("command")
     })
   })
 

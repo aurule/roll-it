@@ -16,7 +16,11 @@ module.exports = {
 
     if (command_options.length) {
       lines.push("")
-      lines.push("Args:")
+      if (command.subcommands) {
+        lines.push("Subcommands:")
+      } else {
+        lines.push("Args:")
+      }
       lines = lines.concat(
         command_options.map((opt) => {
           let opt_lines = [`\t${inlineCode(opt.name)}:`]
