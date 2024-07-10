@@ -8,7 +8,6 @@ beforeEach(() => {
   interaction = new Interaction()
 })
 
-describe.skip("execute", () => {
-  it.todo("prompts the user to choose commands")
-  // not sure how to test this yet, since it relies extremely heavily on user interaction
+it("is global", () => {
+  expect(chooser_command.global).toBeTruthy()
 })
