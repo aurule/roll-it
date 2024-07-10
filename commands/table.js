@@ -30,8 +30,11 @@ module.exports = {
   help({ command_name }) {
     return [
       oneLine`
-        Tables!
+        The ${command_name} commands let you create and roll random results from a table. Each subcommand has
+        its own help entry for more details.
       `,
+      "\n",
+      "",
     ].join("\n")
   },
 }
