@@ -5,6 +5,7 @@ const { GuildRollables } = require("../../db/rollable")
 const { fetchLines } = require("../../util/attachment-lines")
 
 const MAX_UPLOAD_SIZE = 5_242_880
+const MAX_ENTRY_LENGTH = 1500
 
 module.exports = {
   name: "add",
@@ -15,7 +16,7 @@ module.exports = {
       .setName(module.exports.name)
       .setDescription(module.exports.description)
       .addStringOption((option) =>
-        option.setName("name").setDescription("The name for the table").setMinLength(3).setRequired(true),
+        option.setName("name").setDescription("Unique name for the table").setMinLength(3).setRequired(true),
       )
       .addStringOption((option) =>
         option
@@ -84,8 +85,8 @@ module.exports = {
     const contents_schema = Joi.array()
       .items(
         Joi.string()
-          .max(1500)
-            .message("At least one of the table entries is too long. Keep each one below 1500 characters.")
+          .max(MAX_ENTRY_LENGTH)
+            .message(`At least one of the table entries is too long. Keep each one below ${MAX_ENTRY_LENGTH} characters.`)
           .trim()
       )
       .min(2)
@@ -137,6 +138,26 @@ module.exports = {
         ${command_name} creates a new rollable table on this server. Once added, you can use
         ${inlineCode("/table roll")} to get a random result from its entries.
       `,
+      "",
+      oneLine`
+        When adding a table, you'll have to upload a text file containing the table's entries. Each line of
+        the file will become a single entry in the table. Be careful that you don't leave any blank lines,
+        titles, or other notes in the file that you use.
+      `,
+      "",
+      oneLine`
+        If you aren't sure you have a plain text file, open it with your text editor of choice and save it as
+        ${inlineCode("Plain Text")} with the extension ${inlineCode(".txt")}.
+      `,
+      "",
+      "Because tables are stored by Roll It, there are some caveats to watch out for.",
+      "1. Each table on a server has to have a unique name. You'll get an error if it's taken.",
+      "2. The name and description both have to be at least three characters long.",
+      oneLine`
+        3. The entries file has to have at least two lines, and has to be smaller than 5 megabytes. That's
+        roughly the size of a full-length novel.
+      `,
+      `4. Each entry must be less than ${MAX_ENTRY_LENGTH} characters.`,
     ].join("\n")
   },
 }
