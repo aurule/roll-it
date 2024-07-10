@@ -36,7 +36,7 @@ describe("execute", () => {
   it("calls add subcommand", async () => {
     const fetchMock = jest.spyOn(global, "fetch").mockImplementation(() =>
       Promise.resolve({
-        text: () => "hello",
+        text: () => "hello\nthere",
       }),
     )
 
