@@ -32,6 +32,7 @@ describe("execute", () => {
   it("warns on name collision", async () => {
     rollables.create("test", "a test", ["first"])
     interaction.command_options.name = "test"
+    interaction.command_options.description = "a test"
 
     await table_add_command.execute(interaction)
 
@@ -51,6 +52,20 @@ describe("execute", () => {
     expect(interaction.replyContent).toMatch("does not look like a plain text file")
   })
 
+  it("warns on large file", async () => {
+    interaction.command_options.name = "test"
+    interaction.command_options.description = "a test"
+    interaction.command_options.file = new Attachment({
+      contentType: "text/plain",
+      contents: "first\nsecond",
+      size: 25_000_000,
+    })
+
+    await table_add_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("too large")
+  })
+
   it("warns on short contents", async () => {
     interaction.command_options.name = "test"
     interaction.command_options.description = "a test"
@@ -62,6 +77,19 @@ describe("execute", () => {
     await table_add_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("not have enough lines")
+  })
+
+  it("warns on long entry", async () => {
+    interaction.command_options.name = "test"
+    interaction.command_options.description = "a test"
+    interaction.command_options.file = new Attachment({
+      contentType: "text/plain",
+      contents: "first\n" + "x".repeat(2000),
+    })
+
+    await table_add_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("too long")
   })
 
   it("adds a table for the interaction's guild", async () => {
