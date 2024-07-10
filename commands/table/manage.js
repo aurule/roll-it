@@ -1,4 +1,5 @@
-const { SlashCommandSubcommandBuilder,
+const {
+  SlashCommandSubcommandBuilder,
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
@@ -54,28 +55,33 @@ module.exports = {
       .setCustomId("remove")
       .setLabel("Remove Table")
       .setStyle(ButtonStyle.Danger)
-    const manage_actions = new ActionRowBuilder()
-      .addComponents(show_button, cancel_button, remove_button)
+    const manage_actions = new ActionRowBuilder().addComponents(
+      show_button,
+      cancel_button,
+      remove_button,
+    )
     const manage_prompt = await interaction.reply({
       content: [
         "All about this table:",
         `${italic("Name:")} ${detail.name}`,
         `${italic("Description:")} ${detail.description}`,
         `${italic("Total Entries:")} ${detail.die}`,
-        "What do you want to do?"
+        "What do you want to do?",
       ].join("\n"),
       components: [manage_actions],
       ephemeral: true,
     })
 
     const manageHandler = async (event) => {
-      switch(event.customId) {
+      switch (event.customId) {
         case "cancel":
           manage_prompt.delete()
           return interaction
         case "show":
           manage_prompt.delete()
-          const full_text = `These are the entries in the ${italic(detail.name)} table:\n` + presentContents(detail.contents)
+          const full_text =
+            `These are the entries in the ${italic(detail.name)} table:\n` +
+            presentContents(detail.contents)
 
           const split_contents = splitMessage(full_text, "\n")
 
@@ -96,33 +102,33 @@ module.exports = {
             .setCustomId("remove_confirm")
             .setLabel("Remove")
             .setStyle(ButtonStyle.Danger)
-          const remove_actions = new ActionRowBuilder()
-            .addComponents(remove_cancel, remove_confirm)
+          const remove_actions = new ActionRowBuilder().addComponents(remove_cancel, remove_confirm)
           const remove_chicken = await manage_prompt.edit({
             content: `Are you sure you want to remove the table ${italic(detail.name)}? This action is permanent.`,
             components: [remove_actions],
             ephemeral: true,
           })
 
-          remove_chicken.awaitMessageComponent({
-            componentType: ComponentType.Button,
-            time: 60_000,
-          })
-          .then((remove_event) => {
-            remove_event.deferUpdate()
-            if (remove_event.customId == "remove_cancel") {
-              manage_prompt.edit({content: "Cancelled!", components: [], ephemeral: true})
-              return interaction
-            }
-
-            tables.destroy(detail.id)
-
-            return manage_prompt.edit({
-              content: `The table ${italic(detail.name)} has been removed.`,
-              components: [],
-              ephemeral: true,
+          remove_chicken
+            .awaitMessageComponent({
+              componentType: ComponentType.Button,
+              time: 60_000,
             })
-          })
+            .then((remove_event) => {
+              remove_event.deferUpdate()
+              if (remove_event.customId == "remove_cancel") {
+                manage_prompt.edit({ content: "Cancelled!", components: [], ephemeral: true })
+                return interaction
+              }
+
+              tables.destroy(detail.id)
+
+              return manage_prompt.edit({
+                content: `The table ${italic(detail.name)} has been removed.`,
+                components: [],
+                ephemeral: true,
+              })
+            })
           break
       }
     }

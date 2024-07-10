@@ -8,8 +8,6 @@ module.exports = {
    * @return {str}                  String with the table's contents and indices
    */
   presentContents(table_contents) {
-    return table_contents
-      .map((line, idx) => `${idx + 1}. ${line}`)
-      .join("\n")
+    return table_contents.map((line, idx) => `${idx + 1}. ${line}`).join("\n")
   },
 }

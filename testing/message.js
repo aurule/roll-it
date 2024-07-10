@@ -3,7 +3,10 @@ const { simpleflake } = require("simpleflakes")
 
 class Message {
   constructor({
-    content = "", ephemeral = false, components = [], embeds = [],
+    content = "",
+    ephemeral = false,
+    components = [],
+    embeds = [],
     guildId,
     channelId,
   } = {}) {
@@ -22,7 +25,7 @@ class Message {
     this.reactions.push(emoji)
   }
 
-  async awaitMessageComponent({componentType, time} = {}) {
+  async awaitMessageComponent({ componentType, time } = {}) {
     return new ComponentEvent("")
   }
 

@@ -72,7 +72,7 @@ class Interaction {
       case "string":
         return new Message({ content: msg, guildId: this.guildId })
       case "object":
-        return new Message({guildId: this.guildId, ...msg})
+        return new Message({ guildId: this.guildId, ...msg })
       default:
         return Promise.reject(`msg is in invalid format "${typeof msg}"`)
     }
@@ -122,7 +122,8 @@ class Interaction {
   }
 
   async showModal(modal) {
-    if (this.replied || this.deferred) return Promise.reject("cannot showModal: must be the first response")
+    if (this.replied || this.deferred)
+      return Promise.reject("cannot showModal: must be the first response")
     return modal
   }
 

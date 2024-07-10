@@ -10,12 +10,12 @@ afterEach(() => {
   fetchMock.mockRestore()
 })
 
-const dummy_attachment = {url: ""}
+const dummy_attachment = { url: "" }
 
 it("splits on \\n", async () => {
   fetchMock.mockImplementation((url) => {
     return Promise.resolve({
-      text: () => "first\nsecond"
+      text: () => "first\nsecond",
     })
   })
 
@@ -27,7 +27,7 @@ it("splits on \\n", async () => {
 it("splits on \\r\\n", async () => {
   fetchMock.mockImplementation((url) => {
     return Promise.resolve({
-      text: () => "first\r\nsecond"
+      text: () => "first\r\nsecond",
     })
   })
 
@@ -39,7 +39,7 @@ it("splits on \\r\\n", async () => {
 it("ignores trailing newline", async () => {
   fetchMock.mockImplementation((url) => {
     return Promise.resolve({
-      text: () => "first\nsecond\n"
+      text: () => "first\nsecond\n",
     })
   })
 

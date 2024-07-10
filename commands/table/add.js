@@ -16,7 +16,11 @@ module.exports = {
       .setName(module.exports.name)
       .setDescription(module.exports.description)
       .addStringOption((option) =>
-        option.setName("name").setDescription("Unique name for the table").setMinLength(3).setRequired(true),
+        option
+          .setName("name")
+          .setDescription("Unique name for the table")
+          .setMinLength(3)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
@@ -28,7 +32,9 @@ module.exports = {
       .addAttachmentOption((option) =>
         option
           .setName("file")
-          .setDescription("A plain text file with the table's entries, one per line. Keep it under 5 MB.")
+          .setDescription(
+            "A plain text file with the table's entries, one per line. Keep it under 5 MB.",
+          )
           .setRequired(true),
       )
       .addBooleanOption((option) =>
@@ -56,12 +62,9 @@ module.exports = {
           "any.custom.unique": oneLine`
             There is already a table named "{#value}". You can pick a different name, or use
             ${inlineCode("/table manage")} to remove the existing table.
-          `
+          `,
         }),
-      description: Joi.string()
-        .trim()
-        .required()
-        .min(3),
+      description: Joi.string().trim().required().min(3),
       secret: Joi.boolean(),
       table_file: Joi.object({
         contentType: Joi.string()
@@ -71,26 +74,29 @@ module.exports = {
             "any.only": oneLine`
               The file you uploaded does not look like a plain text file. Try again using a plain, basic text
               file (save as ${inlineCode(".txt")}) with one result per line (when word wrap is turned off).
-            `
+            `,
           }),
         size: Joi.number()
           .required()
           .max(MAX_UPLOAD_SIZE)
-            .message("The file you uploaded is too large. Make sure your file is less than 5 MB."),
+          .message("The file you uploaded is too large. Make sure your file is less than 5 MB."),
         contents: Joi.string().optional(), //for testing
-      })
-        .unknown()
+      }).unknown(),
     })
 
     const contents_schema = Joi.array()
       .items(
         Joi.string()
           .max(MAX_ENTRY_LENGTH)
-            .message(`At least one of the table entries is too long. Keep each one below ${MAX_ENTRY_LENGTH} characters.`)
-          .trim()
+          .message(
+            `At least one of the table entries is too long. Keep each one below ${MAX_ENTRY_LENGTH} characters.`,
+          )
+          .trim(),
       )
       .min(2)
-        .message("The file you uploaded does not have enough lines. Ensure there are at least two lines of text in the file.")
+      .message(
+        "The file you uploaded does not have enough lines. Ensure there are at least two lines of text in the file.",
+      )
       .required()
 
     const raw_options = {
@@ -103,20 +109,20 @@ module.exports = {
     let normalized_options
     try {
       normalized_options = await options_schema.validateAsync(raw_options)
-    } catch(err) {
+    } catch (err) {
       return interaction.editReply({
         content: err.details[0].message,
         ephemeral: true,
       })
     }
 
-    const {table_name, description, secret, table_file} = normalized_options
+    const { table_name, description, secret, table_file } = normalized_options
 
     let contents
     const initial_contents = await fetchLines(table_file)
     try {
       contents = await contents_schema.validateAsync(initial_contents)
-    } catch(err) {
+    } catch (err) {
       return interaction.editReply({
         content: err.details[0].message,
         ephemeral: true,
