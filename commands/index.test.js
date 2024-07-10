@@ -19,6 +19,12 @@ describe("global collection", () => {
     expect(global_commands.has("roll-help")).toBeTruthy()
     expect(global_commands.has("fate")).toBeFalsy()
   })
+
+  it("excludes subcommands", () => {
+    const global_commands = commands.global()
+
+    expect(global_commands.has("roll-help topic")).toBeFalsy()
+  })
 })
 
 describe("guild collection", () => {
@@ -27,6 +33,12 @@ describe("guild collection", () => {
 
     expect(guild_commands.has("roll-help")).toBeFalsy()
     expect(guild_commands.has("fate")).toBeTruthy()
+  })
+
+  it("excludes subcommands", () => {
+    const guild_commands = commands.guild()
+
+    expect(guild_commands.has("table add")).toBeFalsy()
   })
 })
 

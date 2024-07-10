@@ -25,10 +25,10 @@ contents.forEach((command_file) => {
 })
 
 commands.global = function () {
-  return this.filter((c) => c.global)
+  return this.filter((c) => c.global && !c.parent)
 }
 commands.guild = function () {
-  return this.filter((c) => !c.global)
+  return this.filter((c) => !c.global && !c.parent)
 }
 
 commands.all_choices = []
