@@ -19,6 +19,6 @@ module.exports = {
     return longReply(interaction, full_text, { separator: "\n", ephemeral: true })
   },
   help({ command_name }) {
-    return `${command_name} IS A TEMPLATE.`
+    return `${command_name} shows the tables that are available on this server.`
   },
 }

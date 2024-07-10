@@ -36,6 +36,6 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    return `${command_name} asks a question of the Magic 8 Ball`
+    return `${command_name} asks a question of the Magic 8 Ball.`
   },
 }

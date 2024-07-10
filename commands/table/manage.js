@@ -14,7 +14,7 @@ const { splitMessage } = require("../../util/long-reply")
 module.exports = {
   name: "manage",
   parent: "table",
-  description: "Explain, change, or remove a table",
+  description: "Explain or remove a table",
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)
@@ -148,6 +148,19 @@ module.exports = {
     }
   },
   help({ command_name }) {
-    return `${command_name} IS A TEMPLATE.`
+    return [
+      `${command_name} lets you see the details about a table, or remove it from this server.`,
+      "",
+      oneLine`
+        Removing a table is permanent. The only way to get it back is to add a new table with the same name
+        and entries.
+      `,
+      "",
+      oneLine`
+        Due to limitations in Discord, editing a table is not possible right now. In order to change a table's
+        name, description, or entries, you have to remove the old table and add a new one with the desired
+        changes.
+      `,
+    ].join("\n")
   },
 }

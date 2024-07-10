@@ -140,17 +140,18 @@ module.exports = {
       `,
       "",
       oneLine`
-        When adding a table, you'll have to upload a text file containing the table's entries. Each line of
-        the file will become a single entry in the table. Be careful that you don't leave any blank lines,
-        titles, or other notes in the file that you use.
+        When adding a table, you have to upload a text file containing the table's entries. Each line of the
+        file will become a single entry in the table. Be careful that you don't leave any blank lines, titles,
+        or other notes in the file that you use, because these ${italic("will")} show up as entries in the
+        table.
       `,
       "",
       oneLine`
-        If you aren't sure you have a plain text file, open it with your text editor of choice and save it as
-        ${inlineCode("Plain Text")} with the extension ${inlineCode(".txt")}.
+        If you aren't sure you that your file is a plain text file, open it with your text editor of choice
+        and save it as ${inlineCode("Plain Text")} with the extension ${inlineCode(".txt")}.
       `,
       "",
-      "Because tables are stored by Roll It, there are some caveats to watch out for.",
+      "Because tables are stored by Roll It, they have some limitations beyond what Discord requires:",
       "1. Each table on a server has to have a unique name. You'll get an error if it's taken.",
       "2. The name and description both have to be at least three characters long.",
       oneLine`

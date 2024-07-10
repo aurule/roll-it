@@ -9,7 +9,7 @@ const commonOpts = require("../../util/common-options")
 module.exports = {
   name: "roll",
   parent: "table",
-  description: "Roll a random result from a table",
+  description: "Roll a random entry from a table",
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)
@@ -65,6 +65,6 @@ module.exports = {
     }
   },
   help({ command_name }) {
-    return `${command_name} IS A TEMPLATE.`
+    return `${command_name} gets a random entry from a table on this server.`
   },
 }
