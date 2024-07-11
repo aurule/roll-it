@@ -8,7 +8,7 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 
 [Add Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136) to your server using this link! It will request the absolute minimum permissions needed in order to work.
 
-Once added, you'll automatically have access to all of its commands. You can see what's available with the help system through `/help topic:Commands`. If you only want to keep a few roll commands, you can use `/roll-chooser` to pick which ones are available on your server.
+Once added, you'll automatically have access to all of its commands. You can learn how it works using the help system. A good place to start is the `Commands` topic, which you can reach using `/help topic:Commands`. Since you may not need to roll every kind of dice that Roll It supports, you can use  `/roll-chooser` to pick which ones are available on your server.
 
 ## Features
 
@@ -18,26 +18,34 @@ Roll dice pools for a number of game systems:
 * New World of Darkness d10s with `/nwod`
 * World of Darkness 20th Anniversary with `/wod20`
 
-Roll some fun things, too!
-* Flip a coin with `/coin`
-* Seek advice from the Magic 8 Ball with `/eightball`
-
-And of course, you can roll whatever dice you want:
+And of course, you can roll whatever standard dice you want:
 * Roll some d20s with `/d20`
 * Roll percentiles with `/d100`
 * Roll other dice with `/roll`
 * Do some dice math with `/roll-formula`
 
-Most commands include some really helpful features:
+Most commands include some really helpful options:
 * The `rolls` option to re-roll the same pool multiple times (great for hoards of baddies!)
 * The `secret` option to keep the results to yourself
 * A handy `until` option so you can easily see how many checks it takes to reach a goal
 
-And a few commands like `/nwod` and `/wod20` have a special `teamwork` mode to let multiple people easily contribute to a shared roll.
+### Teamwork!
 
-Finally, Roll It has a built-in help system through the command `/help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
+And a few commands like `/nwod` and `/wod20` have a special `teamwork` mode to let multiple people easily contribute to a shared roll. You can request specific helpers, and see who's added dice before you roll!
+
+### Tables!
+
+GMs can add random tables and roll on them to generate magic items, random encounters, and anything else! Check out `/help command:table` and `/help command:table add` to get started.
+
+### Fun!
+
+There are a few commands thrown in just for fun, too:
+* Flip a coin with `/coin`
+* Seek advice from the Magic 8 Ball with `/eightball`
 
 ## Getting Help
+
+Roll It has a built-in help system through the command `/help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
 
 If the `/help` command doesn't answer your question, you can open a ticket on the [Roll It Github](https://github.com/aurule/roll-it). You'll have to be patient with responses, though!
 
@@ -47,7 +55,7 @@ Got thoughts on something that works well, or that doesn't meet your needs? Have
 
 ## Privacy
 
-I take privacy pretty dang seriously! Roll It does not request permission to do anything besides accept slash commands to roll dice. No message contents, no user lists, nothing invasive.
+I take privacy pretty dang seriously. Roll It only requests permissions to accept slash commands (to roll the dice) and show custom emojis (to make the results of `/fate` all fancy). No message contents, no membership info, and nothing invasive.
 
 # Development
 
@@ -66,27 +74,20 @@ Roll-It currently uses Node 22.
 
 ## Dev Installation
 
-1. pull the repo
-2. ensure the file `.env` has the correct environment variables. Especially double-check `DEV_GUILDS`.
-3. run `yarn run live`
-4. add Roll It to the discord server that you can spam for testing
-
-If you're developing on Windows, yarn will need to tweak some of its files. Do not commit these! The repo is aimed at \*nix systems.
+1. Pull the repo
+    1. Roll It makes use of Yarn's plug-n-play (pnp) feature, so you shouldn't need a separate install step after pulling. It's always safe to run `yarn` if you aren't sure.
+2. Ensure the file `.env` has the correct environment variables. Especially double-check `DEV_GUILDS`.
+3. Run `yarn run live`
+4. Add Roll It to a discord server that you can spam for testing
 
 ## ENVVARS
 
 * BOT_TOKEN: discord bot application token
-* NODE_ENV: one of "development", "test", "ci", or "production"
 * CLIENT_ID: ID of the bot's discord user
-* DEV_GUILDS: a list of discord server IDs that should respond to the bot when you run it locally (like `[ "guild_snowflake" ]`). It's important that these servers are private, or at least don't mind you spamming bot messages and breaking things.
+* NODE_ENV: one of "development", "test", "ci", or "production"
+* DEV_GUILDS: a JSON array of discord server IDs that should respond to the bot when you run it locally (like `[ "guild_snowflake" ]`). It's important that these servers are private, or at least don't mind you spamming bot messages and breaking things.
 * LOG_LEVEL: usually `"debug"` for development
 
 ## Versioning
 
 Roll It uses [semantic versioning](https://semver.org/). In addition to the standard version increment rules, the minor version may be bumped for new commands.
-
-## Deployment
-
-* copy repo
-* If global commands have changed, run `yarn run commands:deploy-globals`
-* restart daemon with `pm2 reload`
