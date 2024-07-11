@@ -8,7 +8,7 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 
 [Add Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136) to your server using this link! It will request the absolute minimum permissions needed in order to work.
 
-Once added, you'll automatically have access to all of its commands. You can see what's available with the help system through `/roll-help topic:Commands`. If you only want to keep a few roll commands, you can use `/roll-chooser` to pick which ones are available on your server.
+Once added, you'll automatically have access to all of its commands. You can see what's available with the help system through `/help topic:Commands`. If you only want to keep a few roll commands, you can use `/roll-chooser` to pick which ones are available on your server.
 
 ## Features
 
@@ -35,11 +35,11 @@ Most commands include some really helpful features:
 
 And a few commands like `/nwod` and `/wod20` have a special `teamwork` mode to let multiple people easily contribute to a shared roll.
 
-Finally, Roll It has a built-in help system through the command `/roll-help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
+Finally, Roll It has a built-in help system through the command `/help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
 
 ## Getting Help
 
-If the `/roll-help` command doesn't answer your question, you can open a ticket on the [Roll It Github](https://github.com/aurule/roll-it). You'll have to be patient with responses, though!
+If the `/help` command doesn't answer your question, you can open a ticket on the [Roll It Github](https://github.com/aurule/roll-it). You'll have to be patient with responses, though!
 
 ## Giving Feedback
 

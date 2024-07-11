@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js")
-const help_command = require("../commands/roll-help")
+const help_command = require("../commands/help")
 const CommandHelpPresenter = require("./command-help-presenter")
 
 const test_command = {

@@ -15,7 +15,7 @@ const client = new Client({
   presence: {
     activities: [
       {
-        name: `Roll some dice! Or try /roll-help | v${version}`,
+        name: `Roll some dice! Or try /help | v${version}`,
         type: ActivityType.Custom,
       },
     ],

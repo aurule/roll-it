@@ -5,7 +5,7 @@ const { longReply } = require("../../util/long-reply")
 
 module.exports = {
   name: "topic",
-  parent: "roll-help",
+  parent: "help",
   description: "Get help about a topic",
   data() {
     return new SlashCommandSubcommandBuilder()

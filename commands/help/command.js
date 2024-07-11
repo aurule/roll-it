@@ -6,7 +6,7 @@ const Completers = require("../../completers/command-completers")
 
 module.exports = {
   name: "command",
-  parent: "roll-help",
+  parent: "help",
   description: "Get help about a command",
   data() {
     return new SlashCommandSubcommandBuilder()

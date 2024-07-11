@@ -16,14 +16,14 @@ describe("global collection", () => {
   it("only includes global commands", () => {
     const global_commands = commands.global()
 
-    expect(global_commands.has("roll-help")).toBeTruthy()
+    expect(global_commands.has("help")).toBeTruthy()
     expect(global_commands.has("fate")).toBeFalsy()
   })
 
   it("excludes subcommands", () => {
     const global_commands = commands.global()
 
-    expect(global_commands.has("roll-help topic")).toBeFalsy()
+    expect(global_commands.has("help topic")).toBeFalsy()
   })
 })
 
@@ -31,7 +31,7 @@ describe("guild collection", () => {
   it("only includes guild commands", () => {
     const guild_commands = commands.guild()
 
-    expect(guild_commands.has("roll-help")).toBeFalsy()
+    expect(guild_commands.has("help")).toBeFalsy()
     expect(guild_commands.has("fate")).toBeTruthy()
   })
 
@@ -50,7 +50,7 @@ describe("all_choices", () => {
 
   it("includes subcommand names", () => {
     const names = commands.all_choices.map((c) => c.name)
-    expect(names).toContain("roll-help command")
+    expect(names).toContain("help command")
   })
 })
 

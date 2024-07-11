@@ -1,4 +1,4 @@
-const roll_help_command = require("./roll-help")
+const help_command = require("./help")
 const { SlashCommandBuilder } = require("discord.js")
 
 const { Interaction } = require("../testing/interaction")
@@ -26,7 +26,7 @@ describe("execute", () => {
       interaction.command_options.subcommand_name = "topic"
       interaction.command_options.topic = "about"
 
-      await roll_help_command.execute(interaction)
+      await help_command.execute(interaction)
 
       expect(interaction.replyContent).toMatch("passion project")
     })
@@ -39,7 +39,7 @@ describe("execute", () => {
       interaction.command_options.command = "test-command"
       interaction.client.commands.set("test-command", test_command)
 
-      await roll_help_command.execute(interaction)
+      await help_command.execute(interaction)
 
       expect(interaction.replyContent).toMatch("test help output")
     })
@@ -48,13 +48,13 @@ describe("execute", () => {
 
 describe("help", () => {
   it("includes topic names", () => {
-    const help_text = roll_help_command.help({})
+    const help_text = help_command.help({})
 
     expect(help_text).toMatch("About Roll It")
   })
 
   it("includes command names", () => {
-    const help_text = roll_help_command.help({})
+    const help_text = help_command.help({})
 
     expect(help_text).toMatch("roll-chooser")
   })

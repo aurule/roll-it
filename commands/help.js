@@ -6,10 +6,10 @@ const TopicNamePresenter = require("../presenters/topic-name-presenter")
 const Topics = require("../help")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 
-const subcommands = loadSubcommands("roll-help")
+const subcommands = loadSubcommands("help")
 
 module.exports = {
-  name: "roll-help",
+  name: "help",
   description: "Get help with Roll It and its commands",
   global: true,
   subcommands,

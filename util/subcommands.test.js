@@ -24,13 +24,13 @@ const test_command = {
 
 describe("loadSubcommands", () => {
   it("stores subcommands by name", () => {
-    const result = helpers.loadSubcommands("roll-help")
+    const result = helpers.loadSubcommands("help")
 
     expect(result.has("topic")).toBeTruthy()
   })
 
   it("loads each file in the target dir", () => {
-    const result = helpers.loadSubcommands("roll-help")
+    const result = helpers.loadSubcommands("help")
 
     expect(result.hasAll("command", "topic")).toBeTruthy()
   })
