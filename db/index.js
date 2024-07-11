@@ -20,7 +20,7 @@ function pickDatabaseFile() {
     case "ci":
       return ":memory:"
     case "production":
-      return path.join(__dirname, "..", ".sqlite", "roll-it.prod.db")
+      return path.join(__dirname, "..", "..", "roll-it.prod.db")
   }
 }
 
