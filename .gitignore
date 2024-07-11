@@ -104,7 +104,8 @@ dist
 .tern-port
 
 # Local testing databases
-.sqlite/
+.sqlite/*
+!.sqlite/.keep
 
 # mac files
 .DS_STORE
