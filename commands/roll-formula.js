@@ -79,9 +79,11 @@ module.exports = {
       `,
       "",
       oneLine`
-        ${command_name} uses ${hyperlink("math.js", hideLinkEmbed("https://mathjs.org/index.html"))} under the
+        ${command_name} uses ${hyperlink("math.js", hideLinkEmbed("https://mathjs.org"))} under the
         hood to do the calculations, so it respects proper order of operations and can do all sorts of fancy
-        math.
+        math. Read up on its ${hyperlink("syntax guide", hideLinkEmbed("https://mathjs.org/docs/expressions/syntax.html"))}
+        and ${hyperlink("supported functions", hideLinkEmbed("https://mathjs.org/docs/reference/functions.html"))}
+        if there's something really wild you want to try.
       `,
     ].join("\n")
   },
