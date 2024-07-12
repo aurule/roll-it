@@ -111,7 +111,7 @@ dist
 .DS_STORE
 
 # yarn stuff
-.yarn/*
+# .yarn/*
 .yarn/install-state.gz
 !.yarn/cache
 !.yarn/patches
