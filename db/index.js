@@ -1,4 +1,5 @@
 const { logger } = require("../util/logger")
+const path = require("path")
 
 const Database = require("better-sqlite3")
 
@@ -14,7 +15,6 @@ require("dotenv").config()
 function pickDatabaseFile() {
   switch (process.env.NODE_ENV) {
     case "development":
-      const path = require("path")
       return path.join(__dirname, "..", ".sqlite", "roll-it.dev.db")
     case "test":
     case "ci":
