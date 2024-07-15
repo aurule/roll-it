@@ -21,11 +21,11 @@ api.getGuilds().then((guilds) => {
       .getGuildCommands(guild.id)
       .then((deployed_commands) => {
         guildBar.increment()
-        deployed_commands.map((c) => c.name)
+        return deployed_commands.map((c) => c.name)
       })
       .then((command_names) => {
         guildBar.increment()
-        api.setGuildCommands(guild.id, command_names)
+        return api.setGuildCommands(guild.id, command_names)
       })
       .then((n) => guildBar.increment())
       .finally((n) => allBar.increment())
