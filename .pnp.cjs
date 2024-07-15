@@ -37,10 +37,10 @@ const RAW_RUNTIME_STATE =
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.0.2"],\
           ["nodemon", "npm:3.1.4"],\
-          ["pino", "npm:9.2.0"],\
+          ["pino", "npm:9.3.1"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.1"],\
-          ["prettier", "npm:3.3.2"],\
+          ["prettier", "npm:3.3.3"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
@@ -4546,10 +4546,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.2.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.2.0-dc3662cd9b-5fbd226ff7.zip/node_modules/pino/",\
+      ["npm:9.3.1", {\
+        "packageLocation": "./.yarn/cache/pino-npm-9.3.1-d94a4976a0-ab1e81b3e5.zip/node_modules/pino/",\
         "packageDependencies": [\
-          ["pino", "npm:9.2.0"],\
+          ["pino", "npm:9.3.1"],\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
@@ -4675,10 +4675,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["prettier", [\
-      ["npm:3.3.2", {\
-        "packageLocation": "./.yarn/unplugged/prettier-npm-3.3.2-efeafcaa4b/node_modules/prettier/",\
+      ["npm:3.3.3", {\
+        "packageLocation": "./.yarn/unplugged/prettier-npm-3.3.3-e811f023f3/node_modules/prettier/",\
         "packageDependencies": [\
-          ["prettier", "npm:3.3.2"]\
+          ["prettier", "npm:3.3.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4948,10 +4948,10 @@ const RAW_RUNTIME_STATE =
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.0.2"],\
           ["nodemon", "npm:3.1.4"],\
-          ["pino", "npm:9.2.0"],\
+          ["pino", "npm:9.3.1"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.1"],\
-          ["prettier", "npm:3.3.2"],\
+          ["prettier", "npm:3.3.3"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
