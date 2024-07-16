@@ -14,8 +14,11 @@ The command object looks like this:
     global?: bool,                      // Whether the command is a global command or a guild command
     subcommands?: Collection<Object>,   // Collection of subcommand objects
     data(options?): Builder,            // SlashCommandBuilder
-    async execute(interaction): Promise,
-    async autocomplete?: Array<Object>, // [{name: "chop", value: "chop"}]
+    savable?: Array<string>,            // List of options that can be used in a saved roll
+    schema: Joi.object,                 // Validation object for options
+    perform(Object): string,            // Take in options, return a string
+    async execute(interaction): Promise,// Respond to an interaction
+    async autocomplete?: Array<Object>, // () => [{name: "chop", value: "chop"}]
     help(options): string,              // "my very long help text"
 }
 ```

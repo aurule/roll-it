@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js")
+const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/coin-results-presenter")
@@ -19,20 +20,43 @@ module.exports = {
           .setChoices({ name: "Heads", value: "heads" }, { name: "Tails", value: "tails" }),
       )
       .addBooleanOption(commonOpts.secret),
+  schema: Joi.object({
+    description: Joi.string()
+      .trim()
+      .optional()
+      .max(1500)
+      .message("The description is too long. Keep it under 1500 characters."),
+    call: Joi.string()
+      // one of "heads" or "tails"
+      .optional(),
+  }),
+  perform(userFlake, options) {
+    const {description, call} = module.exports.schema.validate(options)
+
+    const raw_results = roll(1, 2, 1)
+
+    return present({
+      call,
+      description,
+      raw: raw_results,
+      userFlake,
+    })
+  },
   async execute(interaction) {
     const roll_description = interaction.options.getString("description") ?? ""
     const call = interaction.options.getString("call") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(1, 2, 1)
-
-    return interaction.reply({
-      content: present({
+    const full_text = module.exports.perform(
+      interaction.user.id,
+      {
         call,
         description: roll_description,
-        raw: raw_results,
-        userFlake: interaction.user.id,
-      }),
+      }
+    )
+
+    return interaction.reply({
+      content: full_text,
       ephemeral: secret,
     })
   },
