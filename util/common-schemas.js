@@ -17,4 +17,10 @@ module.exports = {
       "number.min": "Rolls must be between 1 and 100.",
       "number.max": "Rolls must be between 1 and 100.",
     }),
+  modifier: Joi.number()
+    .optional()
+    .integer()
+    .messages({
+      "number.integer": "Modifier must be a whole number."
+    }),
 }

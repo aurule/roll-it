@@ -79,3 +79,21 @@ describe("rolls", () => {
     expect(schemaMessages(result)).toBeFalsy()
   })
 })
+
+describe("modifier", () => {
+  it("is optional", () => {
+    const modifier_value = undefined
+
+    const result = commonSchemas.modifier.validate(modifier_value)
+
+    expect(schemaMessages(result)).not.toMatch("Modifier")
+  })
+
+  it("is an integer", () => {
+    const modifier_value = 1.2
+
+    const result = commonSchemas.modifier.validate(modifier_value)
+
+    expect(schemaMessages(result)).toMatch("whole number")
+  })
+})
