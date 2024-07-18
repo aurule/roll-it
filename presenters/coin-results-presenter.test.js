@@ -11,12 +11,6 @@ describe("present", () => {
     userFlake: simpleflake(),
   }
 
-  it("mentions the user", () => {
-    const result = CoinResultsPresenter.present(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
-
   it("includes description if present", () => {
     const result = CoinResultsPresenter.present(defaultArgs)
 

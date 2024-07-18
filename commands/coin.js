@@ -4,6 +4,7 @@ const Joi = require("joi")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/coin-results-presenter")
 const commonOpts = require("../util/common-options")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "coin",
@@ -27,19 +28,19 @@ module.exports = {
       .max(1500)
       .message("The description is too long. Keep it under 1500 characters."),
     call: Joi.string()
-      // one of "heads" or "tails"
-      .optional(),
+      .optional()
+      .valid("heads", "tails")
+      .messages({
+        "any.only": 'Call must be either "heads" or "tails".',
+      }),
   }),
-  perform(userFlake, options) {
-    const {description, call} = module.exports.schema.validate(options)
-
+  perform({description, call}) {
     const raw_results = roll(1, 2, 1)
 
     return present({
       call,
       description,
       raw: raw_results,
-      userFlake,
     })
   },
   async execute(interaction) {
@@ -47,8 +48,7 @@ module.exports = {
     const call = interaction.options.getString("call") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const full_text = module.exports.perform(
-      interaction.user.id,
+    const partial_message = module.exports.perform(
       {
         call,
         description: roll_description,
@@ -56,7 +56,7 @@ module.exports = {
     )
 
     return interaction.reply({
-      content: full_text,
+      content: injectMention(partial_message, interaction.user.id),
       ephemeral: secret,
     })
   },

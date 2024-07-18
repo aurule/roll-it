@@ -1,4 +1,4 @@
-const { userMention, bold } = require("discord.js")
+const { bold } = require("discord.js")
 
 const faces = [null, "heads", "tails"]
 
@@ -9,13 +9,12 @@ module.exports = {
    * @param  {String}   options.call          The side the user chose before rolling
    * @param  {String}   options.description   Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
    * @return {String}                         String describing this roll
    */
-  present: ({ call, description, raw, userFlake }) => {
+  present: ({ call, description, raw }) => {
     const num = raw[0][0]
 
-    let content = userMention(userFlake)
+    let content = "{{userMention}}"
     if (call) {
       content += ` called ${call} and`
     }
