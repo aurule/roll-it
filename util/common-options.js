@@ -20,7 +20,7 @@ module.exports = {
    * @return {SlashCommandIntegerOption}        Populated option
    */
   rolls(option) {
-    return option.setName("rolls").setDescription("Roll this many times (default 1)").setMinValue(1)
+    return option.setName("rolls").setDescription("Roll this many times (default 1)").setMinValue(1).setMaxValue(100)
   },
 
   /**
