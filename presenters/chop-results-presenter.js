@@ -1,4 +1,4 @@
-const { inlineCode, userMention } = require("discord.js")
+const { inlineCode } = require("discord.js")
 
 // prettier-ignore
 const emojiFlat = [
@@ -51,13 +51,11 @@ module.exports = {
    * @param  {Bool}     options.bomb          Whether paper is replaced with bomb
    * @param  {String}   options.description   Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
    * @return {String}                         String describing this roll
    */
-  presentOne: ({ static_test, bomb, description, raw, userFlake }) => {
+  presentOne: ({ static_test, bomb, description, raw }) => {
     let content = [
-      userMention(userFlake),
-      "rolled",
+      "{{userMention}} rolled",
       module.exports.rollToEmoji(raw[0][0], static_test, bomb),
     ]
     if (description) content.push(`for "${description}"`)
@@ -71,11 +69,10 @@ module.exports = {
    * @param  {Bool}     options.bomb          Whether paper is replaced with bomb
    * @param  {String}   options.description   Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
    * @return {String}                         String describing this roll
    */
-  presentMany: ({ static_test, bomb, description, raw, userFlake }) => {
-    let content = [userMention(userFlake), "rolled"]
+  presentMany: ({ static_test, bomb, description, raw }) => {
+    let content = ["{{userMention}} rolled"]
     if (description) {
       content.push(`"${description}"`)
     }

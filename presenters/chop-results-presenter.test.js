@@ -1,48 +1,45 @@
 const ChopResultsPresenter = require("./chop-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("presentOne", () => {
   const defaultArgs = {
-    static_test: false,
+    static_test: true,
     bomb: false,
     description: "test roll",
     raw: [[1]],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = ChopResultsPresenter.presentOne(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes description if present", () => {
     const result = ChopResultsPresenter.presentOne(defaultArgs)
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
+  })
+
+  it("shows the result", () => {
+    const result = ChopResultsPresenter.presentOne(defaultArgs)
+
+    expect(result).toMatch("pass")
   })
 })
 
 describe("presentMany", () => {
   const defaultArgs = {
-    static_test: false,
+    static_test: true,
     bomb: false,
     description: "test roll",
     raw: [[1], [2]],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = ChopResultsPresenter.presentMany(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes description if present", () => {
     const result = ChopResultsPresenter.presentMany(defaultArgs)
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
+  })
+
+  it("shows all results", () => {
+    const result = ChopResultsPresenter.presentMany(defaultArgs)
+
+    expect(result).toMatch("pass")
+    expect(result).toMatch("tie")
   })
 })
 

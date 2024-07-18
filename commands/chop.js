@@ -1,11 +1,14 @@
 const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
+const Joi = require("joi")
 
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/chop-results-presenter")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "chop",
@@ -25,6 +28,25 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  schema: Joi.object({
+    bomb: Joi.boolean()
+      .optional(),
+    description: commonSchemas.description,
+    rolls: commonSchemas.rolls,
+    static_test: Joi.boolean()
+      .optional(),
+  }),
+  perform({static_test, bomb, rolls, description}) {
+    const raw_results = roll(1, 3, rolls)
+
+    return present({
+      rolls,
+      static_test,
+      bomb,
+      description,
+      raw: raw_results,
+    })
+  },
   execute(interaction) {
     const static_test = interaction.options.getBoolean("static") ?? false
     const bomb = interaction.options.getBoolean("bomb") ?? false
@@ -32,16 +54,14 @@ module.exports = {
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(1, 3, rolls)
-
-    const full_text = present({
+    const partial_message = module.exports.perform({
       rolls,
       static_test,
       bomb,
       description: roll_description,
-      raw: raw_results,
-      userFlake: interaction.user.id,
     })
+
+    const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
