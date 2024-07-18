@@ -43,8 +43,4 @@ describe("execute", () => {
 
     expect(interaction.replies[0].components).toBeTruthy()
   })
-
-  it.todo("show contents shows full table")
-
-  it.todo("remove table deletes the table")
 })
