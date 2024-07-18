@@ -1,5 +1,17 @@
 const { injectMention } = require("./inject-user")
 
-it.todo("replaces all placeholders")
+it("uses the given user snowflake", () => {
+  const template = "{{userMention}} did a thing"
 
-it.todo("uses the given user snowflake")
+  const result = injectMention(template, "testflake")
+
+  expect(result).toMatch("testflake")
+})
+
+it("replaces all placeholders", () => {
+  const template = "{{userMention}} and then {{userMention}}"
+
+  const result = injectMention(template, "testflake")
+
+  expect(result.match(/testflake/g).length).toEqual(2)
+})
