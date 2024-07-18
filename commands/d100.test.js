@@ -8,19 +8,22 @@ beforeEach(() => {
   interaction = new Interaction()
 })
 
+describe("perform", () => {
+  it("displays the description if present", () => {
+    const options = {
+      description: "this is a test"
+    }
+
+    const result = d100_command.perform(options)
+
+    expect(result).toMatch("this is a test")
+  })
+})
+
 describe("execute", () => {
   describe("with one roll", () => {
     beforeEach(() => {
       interaction.command_options.rolls = 1
-    })
-
-    it("displays the description if present", () => {
-      const description_text = "this is a test"
-      interaction.command_options.description = description_text
-
-      d100_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch(description_text)
     })
 
     describe("secret", () => {

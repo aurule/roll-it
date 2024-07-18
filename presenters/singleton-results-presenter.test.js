@@ -1,20 +1,11 @@
 const SingletonPresenter = require("./singleton-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("presentOne", () => {
   const defaultArgs = {
     modifier: 0,
     description: "test roll",
     raw: [[1]],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = SingletonPresenter.presentOne(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes description if present", () => {
     const result = SingletonPresenter.presentOne(defaultArgs)
@@ -28,14 +19,7 @@ describe("presentMany", () => {
     modifier: 0,
     description: "test roll",
     raw: [[1], [2]],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = SingletonPresenter.presentMany(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes description if present", () => {
     const result = SingletonPresenter.presentMany(defaultArgs)

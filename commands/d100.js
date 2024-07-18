@@ -1,11 +1,14 @@
 const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
+const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/singleton-results-presenter")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "d100",
@@ -20,21 +23,38 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  savable: [
+    "modifier",
+    "rolls",
+  ],
+  schema: Joi.object({
+    description: commonSchemas.description,
+    modifier: commonSchemas.modifier,
+    rolls: commonSchemas.rolls,
+  }),
+  perform({rolls, modifier, description}) {
+    const raw_results = roll(1, 100, rolls)
+
+    return present({
+      rolls,
+      modifier,
+      description,
+      raw: raw_results,
+    })
+  },
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(1, 100, rolls)
-
-    const full_text = present({
+    const partial_message = module.exports.perform({
       rolls,
       modifier,
       description: roll_description,
-      raw: raw_results,
-      userFlake: interaction.user.id,
     })
+
+    const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {

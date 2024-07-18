@@ -1,4 +1,4 @@
-const { bold, userMention } = require("discord.js")
+const { bold } = require("discord.js")
 
 module.exports = {
   /**
@@ -24,11 +24,10 @@ module.exports = {
    * @param  {Int}      options.modifier      Number to add to the roll's summed result
    * @param  {String}   options.description   Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
    * @return {String}                         String describing this roll
    */
   presentOne: ({ modifier, description, raw, userFlake }) => {
-    let content = [userMention(userFlake), "rolled", module.exports.detail(raw[0][0], modifier)]
+    let content = ["{{userMention}} rolled", module.exports.detail(raw[0][0], modifier)]
     if (description) content.push(`for "${description}"`)
     return content.join(" ")
   },
@@ -39,11 +38,10 @@ module.exports = {
    * @param  {Int}      options.modifier      Number to add to the roll's summed result
    * @param  {String}   options.description   Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
    * @return {String}                         String describing this roll
    */
   presentMany: ({ modifier, description, raw, userFlake }) => {
-    let content = [userMention(userFlake), "rolled"]
+    let content = ["{{userMention}} rolled"]
     if (description) {
       content.push(`"${description}"`)
     }
