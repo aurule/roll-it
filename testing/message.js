@@ -1,4 +1,4 @@
-const { ComponentEvent } = require("./component_event")
+const { ComponentEvent } = require("./component-event")
 const { simpleflake } = require("simpleflakes")
 
 class Message {
