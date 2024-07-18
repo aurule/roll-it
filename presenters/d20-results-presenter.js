@@ -1,4 +1,4 @@
-const { bold, strikethrough, userMention } = require("discord.js")
+const { bold, strikethrough } = require("discord.js")
 
 /**
  * Create a string describing the results of a rock-paper-scissors roll
@@ -7,11 +7,10 @@ const { bold, strikethrough, userMention } = require("discord.js")
  * @param  {String}    options.description  Text describing the roll
  * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
  * @param  {obj}       options.picked       Object of results and indexes after picking highest or lowest
- * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
  * @return {String}                         String describing this roll
  */
-function presentOne({ modifier, description, raw, picked, userFlake }) {
-  let content = [userMention(userFlake), "rolled", detail(raw[0], picked[0].indexes, modifier)]
+function presentOne({ modifier, description, raw, picked }) {
+  let content = ["{{userMention}} rolled", detail(raw[0], picked[0].indexes, modifier)]
   // with dis/advantage
   if (description) content.push(`for "${description}"`)
   return content.join(" ")
@@ -24,11 +23,10 @@ function presentOne({ modifier, description, raw, picked, userFlake }) {
  * @param  {String}    options.description  Text describing the roll
  * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
  * @param  {obj[]}     options.picked       Array of objects of results and indexes after picking highest or lowest
- * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
  * @return {String}                         String describing this roll
  */
-function presentMany({ modifier, description, raw, picked, userFlake }) {
-  let content = [userMention(userFlake), "rolled"]
+function presentMany({ modifier, description, raw, picked }) {
+  let content = ["{{userMention}} rolled"]
   if (description) {
     content.push(`"${description}"`)
   }

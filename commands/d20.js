@@ -1,11 +1,15 @@
 const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
+const { oneLine } = require("common-tags")
+const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/d20-results-presenter")
 const { pick } = require("../services/pick")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "d20",
@@ -31,6 +35,37 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  savable: [
+    "modifier",
+    "keep",
+    "rolls",
+  ],
+  schema: Joi.object({
+    modifier: commonSchemas.modifier,
+    keep: Joi.string()
+      .optional()
+      .valid("all", "highest", "lowest")
+      .messages({
+        "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
+      }),
+    rolls: commonSchemas.rolls,
+    description: commonSchemas.description,
+  }),
+  perform({keep, rolls, modifier, description}) {
+    const pool = keep == "all" ? 1 : 2
+
+    const raw_results = roll(pool, 20, rolls)
+    const pick_results = pick(raw_results, 1, keep)
+
+    return present({
+      rolls,
+      modifier,
+      description,
+      keep,
+      raw: raw_results,
+      picked: pick_results,
+    })
+  },
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const keep = interaction.options.getString("advantage") ?? "all"
@@ -38,22 +73,25 @@ module.exports = {
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const pool = keep == "all" ? 1 : 2
-
-    const raw_results = roll(pool, 20, rolls)
-    const pick_results = keep ? pick(raw_results, 1, keep) : {}
-
-    const full_text = present({
+    const partial_message = module.exports.perform({
       rolls,
       modifier,
       description: roll_description,
-      raw: raw_results,
-      picked: pick_results,
-      userFlake: interaction.user.id,
+      keep,
     })
+
+    const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
-    return `${command_name} rolls a single 20-sided die. That's it!`
+    return [
+      `${command_name} rolls a single 20-sided die.`,
+      "",
+      oneLine`
+        The ${inlineCode("advantage")} option lets you roll twice and take either the higher or lower result,
+        like the D&D 5e mechanic of the same name. Set it to ${inlineCode("Advantage")} to use the higher
+        result, and ${inlineCode("Disadvantage")} to use the lower.
+      `,
+    ].join("\n")
   },
 }

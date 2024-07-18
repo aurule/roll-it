@@ -1,21 +1,12 @@
 const d20Presenter = require("./d20-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("presentOne", () => {
   const defaultArgs = {
     modifier: 0,
     description: "test roll",
     raw: [[1]],
     picked: [{ indexes: [0] }],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = d20Presenter.presentOne(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes description if present", () => {
     const result = d20Presenter.presentOne(defaultArgs)
@@ -30,14 +21,7 @@ describe("presentMany", () => {
     description: "test roll",
     raw: [[1], [2]],
     picked: [{ indexes: [0] }, { indexes: [0] }],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = d20Presenter.presentMany(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes description if present", () => {
     const result = d20Presenter.presentMany(defaultArgs)
