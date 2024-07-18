@@ -4,6 +4,7 @@ const Joi = require("joi")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/coin-results-presenter")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/inject-user")
 
 module.exports = {
@@ -22,11 +23,7 @@ module.exports = {
       )
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({
-    description: Joi.string()
-      .trim()
-      .optional()
-      .max(1500)
-      .message("The description is too long. Keep it under 1500 characters."),
+    description: commonSchemas.description,
     call: Joi.string()
       .optional()
       .valid("heads", "tails")

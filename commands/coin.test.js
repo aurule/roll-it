@@ -64,28 +64,6 @@ describe("perform", () => {
 })
 
 describe("schema", () => {
-  describe("description", () => {
-    it("is optional", () => {
-      const options = {}
-      const result = coin_command.schema.validate(options, {
-        abortEarly: false,
-      })
-
-      expect(schemaMessages(result)).not.toMatch("description")
-    })
-
-    it("allows at most 1500 characters", () => {
-      const options = {
-        description: "x".repeat(2000),
-      }
-      const result = coin_command.schema.validate(options, {
-        abortEarly: false,
-      })
-
-      expect(schemaMessages(result)).toMatch("too long")
-    })
-  })
-
   describe("call", () => {
     it("is optional", () => {
       const options = {}
