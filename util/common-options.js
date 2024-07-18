@@ -10,7 +10,7 @@ module.exports = {
    * @return {SlashCommandStringOption}        Populated option
    */
   description(option) {
-    return option.setName("description").setDescription("A word or two about this roll")
+    return option.setName("description").setDescription("A word or two about this roll").setMaxLength(1500)
   },
 
   /**
