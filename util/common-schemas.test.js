@@ -23,3 +23,59 @@ describe("description", () => {
     expect(schemaMessages(result)).toMatch("too long")
   })
 })
+
+describe("rolls", () => {
+  it("is required", () => {
+    const rolls_value = undefined
+
+    const result = commonSchemas.rolls.validate(rolls_value, {
+      abortEarly: false,
+    })
+
+    expect(schemaMessages(result)).toMatch("rolls")
+  })
+
+  it("is an integer", () => {
+    const rolls_value = 1.5
+
+    const result = commonSchemas.rolls.validate(rolls_value, {
+      abortEarly: false,
+    })
+
+    expect(schemaMessages(result)).toMatch("whole number")
+  })
+
+  it("must be at least 1", () => {
+    const rolls_value = 0
+
+    const result = commonSchemas.rolls.validate(rolls_value, {
+      abortEarly: false,
+    })
+
+    expect(schemaMessages(result)).toMatch("between")
+  })
+
+  it("must be at most 100", () => {
+    const rolls_value = 101
+
+    const result = commonSchemas.rolls.validate(rolls_value, {
+      abortEarly: false,
+    })
+
+    expect(schemaMessages(result)).toMatch("between")
+  })
+
+  it.each([
+    [1],
+    [15],
+    [100],
+  ])("allows normal value %i", (val) => {
+    const rolls_value = val
+
+    const result = commonSchemas.rolls.validate(rolls_value, {
+      abortEarly: false,
+    })
+
+    expect(schemaMessages(result)).toBeFalsy()
+  })
+})
