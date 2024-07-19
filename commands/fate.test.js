@@ -8,53 +8,31 @@ beforeEach(() => {
   interaction = new Interaction()
 })
 
+describe("perform", () => {
+  it("displays the description if present", () => {
+    const description_text = "this is a test"
+    const options = {
+      description: description_text
+    }
+
+    const result = fate_command.perform(options)
+
+    expect(result).toMatch(description_text)
+  })
+
+  it("displays the modifier", () => {
+    interaction.command_options.modifier = 8
+    const options = {
+      modifier: 8
+    }
+
+    const result = fate_command.perform(options)
+
+    expect(result).toMatch("8")
+  })
+})
+
 describe("execute", () => {
-  describe("with one roll", () => {
-    beforeEach(() => {
-      interaction.command_options.rolls = 1
-    })
-
-    it("displays the description if present", () => {
-      const description_text = "this is a test"
-      interaction.command_options.description = description_text
-
-      fate_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch(description_text)
-    })
-
-    it("displays the modifier", () => {
-      interaction.command_options.modifier = 8
-
-      fate_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("8")
-    })
-  })
-
-  describe("with multiple rolls", () => {
-    beforeEach(() => {
-      interaction.command_options.rolls = 2
-    })
-
-    it("displays the description if present", () => {
-      const description_text = "this is a test"
-      interaction.command_options.description = description_text
-
-      fate_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch(description_text)
-    })
-
-    it("displays the modifier", () => {
-      interaction.command_options.modifier = 8
-
-      fate_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("8")
-    })
-  })
-
   describe("secret", () => {
     it("when secret is true, reply is ephemeral", () => {
       interaction.command_options.secret = true

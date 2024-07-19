@@ -1,12 +1,15 @@
 const { SlashCommandBuilder, hideLinkEmbed, hyperlink } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
+const Joi = require("joi")
 
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/fate-results-presenter")
 const { fudge } = require("../services/tally")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "fate",
@@ -23,23 +26,39 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  savable: [
+    "modifier",
+    "rolls",
+  ],
+  schema: Joi.object({
+    rolls: commonSchemas.rolls,
+    modifier: commonSchemas.modifier,
+    description: commonSchemas.description,
+  }),
+  perform({rolls, modifier, description}) {
+    const raw_results = roll(4, 3, rolls)
+    const summed_results = fudge(raw_results)
+
+    return present({
+      rolls,
+      modifier,
+      description,
+      raw: raw_results,
+      summed: summed_results,
+    })
+  },
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(4, 3, rolls)
-    const summed_results = fudge(raw_results)
-
-    const full_text = present({
+    const partial_message = module.exports.perform({
       rolls,
       modifier,
-      summed: summed_results,
       description: roll_description,
-      raw: raw_results,
-      userFlake: interaction.user.id,
     })
+    const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {

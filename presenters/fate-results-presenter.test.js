@@ -1,21 +1,12 @@
 const FateResultsPresenter = require("./fate-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("presentOne", () => {
   const defaultArgs = {
     description: "test roll",
     raw: [[1, 1, 2, 3]],
     summed: [-1],
     modifier: 2,
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = FateResultsPresenter.presentOne(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes the ladder word for the sum", () => {
     const result = FateResultsPresenter.presentOne(defaultArgs)
@@ -45,14 +36,7 @@ describe("presentMany", () => {
     ],
     summed: [2, 0],
     modifier: 5,
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = FateResultsPresenter.presentMany(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("highlights final sum", () => {
     const result = FateResultsPresenter.presentMany(defaultArgs)

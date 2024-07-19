@@ -1,5 +1,3 @@
-const { userMention } = require("discord.js")
-
 const emoji = [
   null,
   "<:fateneg:1038147643836203018>",
@@ -45,11 +43,10 @@ module.exports = {
    * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
    * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
    * @param  {Int}    options.modifier        Number to add to the roll's summed result
-   * @param  {Snowflake} options.userFlake    Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentOne: ({ description, raw, summed, modifier, userFlake }) => {
-    let content = [userMention(userFlake), "rolled"]
+  presentOne: ({ description, raw, summed, modifier }) => {
+    let content = ["{{userMention}} rolled"]
     content.push(module.exports.toLadder(summed[0] + modifier))
     if (description) {
       content.push("for")
@@ -67,11 +64,10 @@ module.exports = {
    * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
    * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
    * @param  {Int}    options.modifier        Number to add to the roll's summed result
-   * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentMany: ({ description, raw, summed, modifier, userFlake }) => {
-    let content = [userMention(userFlake), "rolled"]
+  presentMany: ({ description, raw, summed, modifier }) => {
+    let content = ["{{userMention}} rolled"]
     if (description) {
       content.push(`"${description}"`)
     }
