@@ -11,14 +11,14 @@ beforeEach(() => {
 
 describe("schema", () => {
   describe("bomb", () => {
+    const bomb_schema = chop_command.schema.extract("bomb")
+
     it("is optional", () => {
       const options = {}
 
-      const result = chop_command.schema.validate(options, {
-        abortEarly: false,
-      })
+      const result = bomb_schema.validate(undefined)
 
-      expect(schemaMessages(result)).not.toMatch("bomb")
+      expect(result.error).toBeFalsy()
     })
 
     it("is boolean", () => {
@@ -26,23 +26,21 @@ describe("schema", () => {
         bomb: "yes",
       }
 
-      const result = chop_command.schema.validate(options, {
-        abortEarly: false,
-      })
+      const result = bomb_schema.validate("yes")
 
-      expect(schemaMessages(result)).toMatch("bomb")
+      expect(result.error).toBeTruthy()
     })
   })
 
   describe("static_test", () => {
+    const static_schema = chop_command.schema.extract("static_test")
+
     it("is optional", () => {
       const options = {}
 
-      const result = chop_command.schema.validate(options, {
-        abortEarly: false,
-      })
+      const result = static_schema.validate()
 
-      expect(schemaMessages(result)).not.toMatch("static")
+      expect(result.error).toBeFalsy()
     })
 
     it("is boolean", () => {
@@ -50,11 +48,9 @@ describe("schema", () => {
         static_test: "yes",
       }
 
-      const result = chop_command.schema.validate(options, {
-        abortEarly: false,
-      })
+      const result = static_schema.validate("yes")
 
-      expect(schemaMessages(result)).toMatch("static")
+      expect(result.error).toBeTruthy()
     })
   })
 })
