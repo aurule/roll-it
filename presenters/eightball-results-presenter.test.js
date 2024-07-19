@@ -1,20 +1,11 @@
 const EightBallResultsPresenter = require("./eightball-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("present", () => {
   const defaultArgs = {
     doit: false,
     question: "test roll",
     raw: [[1]],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = EightBallResultsPresenter.present(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes the question", () => {
     const result = EightBallResultsPresenter.present(defaultArgs)

@@ -1,4 +1,4 @@
-const { italic, bold, userMention } = require("discord.js")
+const { italic, bold } = require("discord.js")
 
 const faces = [
   null,
@@ -31,7 +31,6 @@ module.exports = {
    * @param  {String}   options.question      Question the roll is for
    * @param  {bool}     options.doit          Whether to always reply "Do it"
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @param  {Snowflake} options.userFlake    Snowflake ID of the user who made the roll
    * @return {String}                         String describing this roll
    */
   present: ({ question, doit, raw, userFlake }) => {
@@ -39,7 +38,6 @@ module.exports = {
     let result = faces[num]
     if (doit) result = "Do it"
 
-    let content = [userMention(userFlake), `asked "${question}"`, ":8ball:", italic(result)]
-    return content.join(" ")
+    return `{{userMention}} asked "${question}" :8ball: ${italic(result)}`
   },
 }
