@@ -11,6 +11,7 @@ module.exports = {
     .integer()
     .min(1)
     .max(100)
+    .default(1)
     .messages({
       "any.required": "There must be a value for rolls.",
       "number.integer": "Rolls must be a whole number.",
