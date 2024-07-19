@@ -19,7 +19,6 @@ class NwodPresenter {
    * @param  {String}    options.description Text describing the roll
    * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
-   * @param  {Snowflake} options.userFlake   Snowflake of the user that made the roll
    */
   constructor({
     pool,
@@ -31,7 +30,6 @@ class NwodPresenter {
     description,
     raw,
     summed,
-    userFlake,
   }) {
     this.pool = pool
     this.chance = chance
@@ -42,7 +40,6 @@ class NwodPresenter {
     this.description = description
     this.raw = raw
     this.summed = summed
-    this.userFlake = userFlake
   }
 
   /**
@@ -75,7 +72,7 @@ class NwodPresenter {
    * @return {str} A string describing the results of our roll(s)
    */
   presentResults() {
-    let content = `${userMention(this.userFlake)} rolled`
+    let content = "{{userMention}} rolled"
 
     switch (this.mode) {
       case "until":

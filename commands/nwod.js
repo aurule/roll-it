@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
+const Joi = require("joi")
 
 const { rollUntil } = require("../services/until-roller")
 const { roll } = require("../services/nwod-roller")
@@ -7,7 +8,9 @@ const { successes } = require("../services/tally")
 const { present } = require("../presenters/nwod-results-presenter")
 const { handleTeamwork } = require("../services/teamwork")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "nwod",
@@ -21,6 +24,7 @@ module.exports = {
           .setName("pool")
           .setDescription("The number of dice to roll")
           .setMinValue(0)
+          .setMaxValue(1000)
           .setRequired(true),
       )
       .addStringOption(commonOpts.description)
@@ -59,9 +63,81 @@ module.exports = {
           .setDescription(
             "Roll the entire dice pool multiple times until this many successes are accrued",
           )
-          .setMinValue(1),
+          .setMinValue(1)
+          .setMaxValue(100),
       )
       .addBooleanOption(commonOpts.secret),
+  savable: [
+    "pool",
+    "explode",
+    "threshold",
+    "rote",
+    "rolls",
+  ],
+  schema: Joi.object({
+    pool: Joi.number()
+      .required()
+      .integer()
+      .min(0)
+      .max(1000),
+    explode: Joi.number()
+      .optional()
+      .integer()
+      .min(2)
+      .max(11)
+      .default(10),
+    threshold: Joi.number()
+      .optional()
+      .integer()
+      .min(2)
+      .max(10)
+      .default(8),
+    rote: Joi.boolean()
+      .optional(),
+    rolls: commonSchemas.rolls,
+    until: Joi.number()
+      .optional()
+      .integer()
+      .min(1)
+      .max(100),
+    description: commonSchemas.description,
+  }),
+  perform({pool, explode, threshold, rote, rolls, until, description}) {
+    const chance = !pool
+    if (chance) {
+      pool = 1
+      explode = 10
+      threshold = 10
+    }
+
+    let raw_results
+    let summed_results
+
+    if (until) {
+      ;({ raw_results, summed_results } = rollUntil({
+        roll: () => roll({ pool, explode, rote, threshold, chance }),
+        tally: (currentResult) => successes(currentResult, threshold),
+        max: rolls === 1 ? 0 : rolls,
+        target: until,
+      }))
+    } else {
+      raw_results = roll({ pool, explode, rote, threshold, chance, rolls })
+      summed_results = successes(raw_results, threshold)
+    }
+
+    return present({
+      rolls,
+      pool,
+      rote,
+      chance,
+      explode,
+      threshold,
+      until,
+      description,
+      raw: raw_results,
+      summed: summed_results,
+    })
+  },
   execute(interaction) {
     let pool = interaction.options.getInteger("pool")
     let explode = interaction.options.getInteger("explode") ?? 10
@@ -73,21 +149,14 @@ module.exports = {
     const secret = interaction.options.getBoolean("secret") ?? false
     const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
 
-    const chance = !pool
-    if (chance) {
-      pool = 1
-      explode = 10
-      threshold = 10
-    }
-
     const userFlake = interaction.user.id
 
     if (is_teamwork) {
-      if (rolls > 1 || until > 0 || secret || rote) {
+      if (rolls > 1 || until > 0 || secret || rote || !pool) {
         return interaction.reply({
           content: oneLine`
             You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("rote")},
-            ${inlineCode("until")}, or ${inlineCode("secret")} options.
+            ${inlineCode("until")}, or ${inlineCode("secret")} options, or if you have a chance die.
           `,
           ephemeral: true,
         })
@@ -115,39 +184,21 @@ module.exports = {
             description: roll_description,
             raw: raw_results,
             summed: summed_results,
-            userFlake,
           }),
       })
     }
 
-    let raw_results
-    let summed_results
-
-    if (until) {
-      ;({ raw_results, summed_results } = rollUntil({
-        roll: () => roll({ pool, explode, rote, threshold, chance }),
-        tally: (currentResult) => successes(currentResult, threshold),
-        max: rolls === 1 ? 0 : rolls,
-        target: until,
-      }))
-    } else {
-      raw_results = roll({ pool, explode, rote, threshold, chance, rolls })
-      summed_results = successes(raw_results, threshold)
-    }
-
-    const full_text = present({
+    const partial_message = module.exports.perform({
       rolls,
       pool,
       rote,
-      chance,
       explode,
       threshold,
       until,
       description: roll_description,
-      raw: raw_results,
-      summed: summed_results,
-      userFlake,
     })
+    const full_text = injectMention(partial_message, userFlake)
+
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {

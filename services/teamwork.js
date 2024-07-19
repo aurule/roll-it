@@ -18,17 +18,18 @@ const {
 } = require("discord.js")
 const teamworkPresenter = require("../presenters/teamwork-presenter")
 const { bonusOptions, timeout_ms } = require("../util/teamwork-settings")
+const { injectMention } = require("../util/inject-user")
 
 function increasePool(initial_pool, bonuses) {
   let final_pool = bonuses.reduce((acc, curr) => acc + curr, initial_pool)
   return final_pool
 }
 
-function makeLeaderResults(final_pool, roller, summer, presenter) {
+function makeLeaderResults(final_pool, roller, summer, presenter, userFlake) {
   const raw_results = roller(final_pool)
   const summed_results = summer(raw_results)
-  const presented_roll = presenter(final_pool, raw_results, summed_results)
-  return presented_roll
+  const presented_roll_partial = presenter(final_pool, raw_results, summed_results)
+  return injectMention(presented_roll_partial, userFlake)
 }
 
 function bonusesFromSelections(selections) {
@@ -152,7 +153,7 @@ module.exports = {
 
       const bonuses = bonusesFromSelections(helper_bonuses)
       const final_pool = increasePool(initialPool, bonuses)
-      const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter)
+      const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter, userFlake)
       const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
 
       interaction

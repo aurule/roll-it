@@ -1,7 +1,5 @@
 const { NwodPresenter } = require("./nwod-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("NwodPresenter", () => {
   describe("rolls", () => {
     it("matches the number of results", () => {
@@ -55,20 +53,6 @@ describe("NwodPresenter", () => {
 
   describe("presentResults", () => {
     describe("in 'until' mode", () => {
-      it("tags the user", () => {
-        const flake = simpleflake().toString()
-        const presenter = new NwodPresenter({
-          until: 5,
-          userFlake: flake,
-          raw: [[8, 8, 8, 8, 8]],
-          summed: [5],
-        })
-
-        const result = presenter.presentResults()
-
-        expect(result).toMatch(flake)
-      })
-
       it("shows the description, if present", () => {
         const presenter = new NwodPresenter({
           until: 5,
@@ -144,23 +128,6 @@ describe("NwodPresenter", () => {
     })
 
     describe("in 'many' mode", () => {
-      it("tags the user", () => {
-        const flake = simpleflake().toString()
-        const presenter = new NwodPresenter({
-          userFlake: flake,
-          pool: 6,
-          raw: [
-            [8, 4, 9, 2, 1, 2],
-            [6, 1, 10, 2, 8, 9, 3],
-          ],
-          summed: [2, 3],
-        })
-
-        const result = presenter.presentResults()
-
-        expect(result).toMatch(flake)
-      })
-
       it("shows the description, if present", () => {
         const presenter = new NwodPresenter({
           pool: 6,
@@ -225,20 +192,6 @@ describe("NwodPresenter", () => {
     })
 
     describe("in 'one' mode", () => {
-      it("tags the user", () => {
-        const flake = simpleflake().toString()
-        const presenter = new NwodPresenter({
-          userFlake: flake,
-          pool: 6,
-          raw: [[8, 4, 9, 2, 1, 2]],
-          summed: [2],
-        })
-
-        const result = presenter.presentResults()
-
-        expect(result).toMatch(flake)
-      })
-
       it("shows the description, if present", () => {
         const presenter = new NwodPresenter({
           pool: 6,
