@@ -87,23 +87,23 @@ describe("execute", () => {
     it("when secret is true, reply is ephemeral", async () => {
       interaction.command_options.secret = true
 
-      const result = await roll_formula_command.execute(interaction)
+      await roll_formula_command.execute(interaction)
 
-      expect(result.ephemeral).toBeTruthy()
+      expect(interaction.replies[0].ephemeral).toBeTruthy()
     })
 
     it("when secret is false, reply is not ephemeral", async () => {
       interaction.command_options.secret = false
 
-      const result = await roll_formula_command.execute(interaction)
+      await roll_formula_command.execute(interaction)
 
-      expect(result.ephemeral).toBeFalsy()
+      expect(interaction.replies[0].ephemeral).toBeFalsy()
     })
 
     it("secret defaults to false", async () => {
-      const result = await roll_formula_command.execute(interaction)
+      await roll_formula_command.execute(interaction)
 
-      expect(result.ephemeral).toBeFalsy()
+      expect(interaction.replies[0].ephemeral).toBeFalsy()
     })
   })
 })
