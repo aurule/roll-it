@@ -1,10 +1,13 @@
 const { SlashCommandBuilder, inlineCode, hideLinkEmbed, hyperlink } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
+const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-formula-results-presenter")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "roll-formula",
@@ -16,16 +19,25 @@ module.exports = {
         option
           .setName("formula")
           .setDescription("The formula of dice to roll and operations to apply")
+          .setMinValue(3)
+          .setMaxValue(1000)
           .setRequired(true),
       )
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addBooleanOption(commonOpts.secret),
-  async execute(interaction) {
-    const formula = interaction.options.getString("formula")
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-
+  savable: [
+    "formula",
+  ],
+  schema: Joi.object({
+    formula: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .max(1500),
+    description: commonSchemas.description,
+  }),
+  perform({formula, description}) {
     let raw_pools = []
     let raw_results = []
     let summed_results = []
@@ -42,16 +54,26 @@ module.exports = {
       },
     )
 
+    return present({
+      formula,
+      rolledFormula: rolled_formula,
+      description,
+      pools: raw_pools,
+      raw: raw_results,
+      summed: summed_results,
+    })
+  },
+  async execute(interaction) {
+    const formula = interaction.options.getString("formula")
+    const roll_description = interaction.options.getString("description") ?? ""
+    const secret = interaction.options.getBoolean("secret") ?? false
+
+    const partial_message = module.exports.perform({
+      formula,
+      description: roll_description,
+    })
     return interaction.reply({
-      content: present({
-        formula,
-        rolledFormula: rolled_formula,
-        pools: raw_pools,
-        raw: raw_results,
-        summed: summed_results,
-        description: roll_description,
-        userFlake: interaction.user.id,
-      }),
+      content: injectMention(partial_message, interaction.user.id),
       ephemeral: secret,
     })
   },

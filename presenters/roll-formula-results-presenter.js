@@ -1,4 +1,4 @@
-const { bold, userMention, inlineCode } = require("discord.js")
+const { bold, inlineCode } = require("discord.js")
 const { evaluate } = require("mathjs")
 
 const { create, all } = require('mathjs')
@@ -25,13 +25,12 @@ module.exports = {
    * @param  {Array<Array<Int>>} options.raw    Array of arrays with ints representing the roll for each pool
    * @param  {Array<Int>} options.summed        Array of summed dice rolls
    * @param  {String}     options.description   Text describing the roll
-   * @param  {Snowflake}  options.userFlake     Snowflake of the user that made the roll
    * @return {String}                           String describing the roll results
    */
   present: ({ formula, rolledFormula, pools, raw, summed, description, userFlake }) => {
     const finalSum = limitedEvaluate(rolledFormula)
 
-    let content = [userMention(userFlake), "rolled", bold(finalSum), "on"]
+    let content = ["{{userMention}} rolled", bold(finalSum), "on"]
     if (description) content.push(`"${description}"`)
     content.push(`${inlineCode(formula)}:`)
     content = content.concat(

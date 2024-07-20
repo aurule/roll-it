@@ -1,7 +1,5 @@
 const RollFormulaResultsPresenter = require("./roll-formula-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("present", () => {
   const defaultArgs = {
     formula: "1d4 + 5",
@@ -10,7 +8,6 @@ describe("present", () => {
     raw: [[2]],
     summed: [2],
     description: "test roll",
-    userFlake: simpleflake(),
   }
 
   it("includes the original formula", () => {
