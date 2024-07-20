@@ -7,6 +7,7 @@ const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-formula-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
+const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
 
 module.exports = {
@@ -19,8 +20,8 @@ module.exports = {
         option
           .setName("formula")
           .setDescription("The formula of dice to roll and operations to apply")
-          .setMinValue(3)
-          .setMaxValue(1000)
+          .setMinLength(3)
+          .setMaxLength(1500)
           .setRequired(true),
       )
       .setDescription(module.exports.description)
@@ -72,10 +73,8 @@ module.exports = {
       formula,
       description: roll_description,
     })
-    return interaction.reply({
-      content: injectMention(partial_message, interaction.user.id),
-      ephemeral: secret,
-    })
+    const full_text = injectMention(partial_message, interaction.user.id)
+    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
     return [
