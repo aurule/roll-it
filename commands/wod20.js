@@ -62,11 +62,7 @@ module.exports = {
     "rolls",
   ],
   schema: Joi.object({
-    pool: Joi.number()
-      .required()
-      .integer()
-      .min(0)
-      .max(1000),
+    pool: commonSchemas.pool,
     difficulty: Joi.number()
       .optional()
       .integer()

@@ -29,4 +29,9 @@ module.exports = {
     .integer()
     .min(1)
     .max(100),
+  pool: Joi.number()
+    .required()
+    .integer()
+    .min(1)
+    .max(1000),
 }

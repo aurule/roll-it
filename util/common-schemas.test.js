@@ -132,3 +132,37 @@ describe("until", () => {
     expect(result.error).toBeFalsy()
   })
 })
+
+describe("pool", () => {
+  const pool_schema = commonSchemas.pool
+
+  it("is required", () => {
+    const result = pool_schema.validate()
+
+    expect(result.error).toBeTruthy()
+  })
+
+  it("is an int", () => {
+    const result = pool_schema.validate(4.2)
+
+    expect(result.error).toBeTruthy()
+  })
+
+  it("min of zero", () => {
+    const result = pool_schema.validate(-1)
+
+    expect(result.error).toBeTruthy()
+  })
+
+  it("max of 1000", () => {
+    const result = pool_schema.validate(1001)
+
+    expect(result.error).toBeTruthy()
+  })
+
+  it("accepts expected values", () => {
+    const result = pool_schema.validate(5)
+
+    expect(result.error).toBeFalsy()
+  })
+})
