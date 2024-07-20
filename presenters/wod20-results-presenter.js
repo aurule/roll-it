@@ -1,4 +1,4 @@
-const { bold, strikethrough, userMention } = require("discord.js")
+const { bold, strikethrough } = require("discord.js")
 
 module.exports = {
   /**
@@ -39,13 +39,11 @@ module.exports = {
    * @param  {String} options.description     Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
    * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
-   * @param  {Snowflake} options.userFlake    Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentOne: ({ pool, difficulty, specialty, until, description, raw, summed, userFlake }) => {
+  presentOne: ({ pool, difficulty, specialty, until, description, raw, summed }) => {
     let content = [
-      userMention(userFlake),
-      "rolled",
+      "{{userMention}} rolled",
       bold(module.exports.formatSuccesses(summed[0])),
     ]
     if (description) {
@@ -97,13 +95,12 @@ module.exports = {
    * @param  {String} options.description     Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
    * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
-   * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentMany: ({ pool, difficulty, specialty, until, description, raw, summed, userFlake }) => {
+  presentMany: ({ pool, difficulty, specialty, until, description, raw, summed }) => {
     const specialNote = specialty ? "with specialty" : ""
     const descNote = description ? ` "${description}"` : ""
-    let content = [userMention(userFlake), " rolled"]
+    let content = ["{{userMention}} rolled"]
     content.push(descNote)
     content.push(` ${raw.length} times`)
     content.push(` at ${pool} diff ${difficulty}${specialNote}`)
@@ -161,15 +158,14 @@ module.exports = {
    * @param  {String} options.description     Text describing the roll
    * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
    * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
-   * @param  {Int}    options.userFlake       Snowflake of the user that made the roll
    * @return {String}                         String describing the roll results
    */
-  presentUntil: ({ pool, difficulty, specialty, until, description, raw, summed, userFlake }) => {
+  presentUntil: ({ pool, difficulty, specialty, until, description, raw, summed }) => {
     const specialNote = specialty ? "with specialty" : ""
     const descNote = description ? ` "${description}"` : ""
     const finalSum = summed.reduce((prev, curr) => prev + curr, 0)
 
-    let content = [userMention(userFlake), " rolled"]
+    let content = ["{{userMention}} rolled"]
     content.push(descNote)
     content.push(` until ${until} successes`)
     content.push(` at ${pool} diff ${difficulty}${specialNote}`)

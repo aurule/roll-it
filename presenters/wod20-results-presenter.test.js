@@ -1,7 +1,5 @@
 const WodResultsPresenter = require("./wod20-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("formatSuccesses", () => {
   it("returns botch for negative totals", () => {
     const result = WodResultsPresenter.formatSuccesses(-2)
@@ -30,14 +28,7 @@ describe("presentOne", () => {
     description: "test roll",
     raw: [[1, 8]],
     summed: [0],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = WodResultsPresenter.presentOne(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("highlights final sum", () => {
     const result = WodResultsPresenter.presentOne(defaultArgs)
@@ -125,14 +116,7 @@ describe("presentMany", () => {
       [4, 6],
     ],
     summed: [0, 1],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = WodResultsPresenter.presentMany(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes description if present", () => {
     const result = WodResultsPresenter.presentMany(defaultArgs)
@@ -203,14 +187,7 @@ describe("presentUntil", () => {
       [4, 6],
     ],
     summed: [2, 1],
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = WodResultsPresenter.presentUntil(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("includes intermediate results", () => {
     const result = WodResultsPresenter.presentUntil(defaultArgs)
