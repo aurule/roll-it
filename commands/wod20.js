@@ -76,11 +76,7 @@ module.exports = {
     specialty: Joi.boolean()
       .optional(),
     rolls: commonSchemas.rolls,
-    until: Joi.number()
-      .optional()
-      .integer()
-      .min(1)
-      .max(100),
+    until: commonSchemas.until,
     description: commonSchemas.description,
   }),
   perform({pool, difficulty, specialty, rolls, until, description}) {

@@ -24,4 +24,9 @@ module.exports = {
     .messages({
       "number.integer": "Modifier must be a whole number."
     }),
+  until: Joi.number()
+    .optional()
+    .integer()
+    .min(1)
+    .max(100),
 }

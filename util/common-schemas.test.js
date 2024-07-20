@@ -97,3 +97,38 @@ describe("modifier", () => {
     expect(schemaMessages(result)).toMatch("whole number")
   })
 })
+
+
+describe("until", () => {
+  const until_schema = commonSchemas.until
+
+  it("is optional", () => {
+    const result = until_schema.validate()
+
+    expect(result.error).toBeFalsy()
+  })
+
+  it("is an int", () => {
+    const result = until_schema.validate(5.5)
+
+    expect(result.error).toBeTruthy()
+  })
+
+  it("min of 1", () => {
+    const result = until_schema.validate(0)
+
+    expect(result.error).toBeTruthy()
+  })
+
+  it("max of 100", () => {
+    const result = until_schema.validate(101)
+
+    expect(result.error).toBeTruthy()
+  })
+
+  it("accepts expected values", () => {
+    const result = until_schema.validate(8)
+
+    expect(result.error).toBeFalsy()
+  })
+})
