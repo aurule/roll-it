@@ -1,11 +1,14 @@
 const { SlashCommandBuilder, inlineCode } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
+const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-results-presenter")
 const commonOpts = require("../util/common-options")
+const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
+const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "roll",
@@ -36,6 +39,37 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  savable: [
+    "pool",
+    "sides",
+    "modifier",
+    "rolls",
+  ],
+  schema: Joi.object({
+    pool: commonSchemas.pool,
+    sides: Joi.number()
+      .required()
+      .integer()
+      .min(2)
+      .max(100000),
+    description: commonSchemas.description,
+    modifier: commonSchemas.modifier,
+    rolls: commonSchemas.rolls,
+  }),
+  perform({pool, sides, description, modifier, rolls}) {
+    const raw_results = roll(pool, sides, rolls)
+    const summed_results = sum(raw_results)
+
+    return present({
+      rolls,
+      pool,
+      sides,
+      modifier,
+      description,
+      raw: raw_results,
+      summed: summed_results,
+    })
+  },
   execute(interaction) {
     const pool = interaction.options.getInteger("pool")
     const sides = interaction.options.getInteger("sides")
@@ -44,19 +78,15 @@ module.exports = {
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const raw_results = roll(pool, sides, rolls)
-    const summed_results = sum(raw_results)
 
-    const full_text = present({
+    const partial_message = module.exports.perform({
       rolls,
       pool,
       sides,
-      description: roll_description,
-      raw: raw_results,
-      summed: summed_results,
       modifier,
-      userFlake: interaction.user.id,
+      description: roll_description,
     })
+    const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {

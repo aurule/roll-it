@@ -1,7 +1,5 @@
 const RollResultsPresenter = require("./roll-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
-
 describe("presentOne", () => {
   const defaultArgs = {
     pool: 2,
@@ -10,14 +8,7 @@ describe("presentOne", () => {
     raw: [[1, 4]],
     summed: [5],
     modifier: 2,
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = RollResultsPresenter.presentOne(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("highlights final sum", () => {
     const result = RollResultsPresenter.presentOne(defaultArgs)
@@ -43,14 +34,7 @@ describe("presentMany", () => {
     ],
     summed: [5],
     modifier: 2,
-    userFlake: simpleflake(),
   }
-
-  it("mentions the user", () => {
-    const result = RollResultsPresenter.presentMany(defaultArgs)
-
-    expect(result).toMatch(defaultArgs.userFlake.toString())
-  })
 
   it("highlights final sum", () => {
     const result = RollResultsPresenter.presentMany(defaultArgs)

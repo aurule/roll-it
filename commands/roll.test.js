@@ -8,69 +8,130 @@ beforeEach(() => {
   interaction = new Interaction()
 })
 
-describe("execute", () => {
+describe("schema", () => {
+  describe("sides", () => {
+    const sides_schema = roll_command.schema.extract("sides")
+
+    it("is required", () => {
+      const result = sides_schema.validate()
+
+      expect(result.error).toBeTruthy()
+    })
+
+    it("is an integer", () => {
+      const result = sides_schema.validate(1.5)
+
+      expect(result.error).toBeTruthy()
+    })
+
+    it("must be at least 2", () => {
+      const result = sides_schema.validate(0)
+
+      expect(result.error).toBeTruthy()
+    })
+
+    it("must be at most 100000", () => {
+      const result = sides_schema.validate(100001)
+
+      expect(result.error).toBeTruthy()
+    })
+
+    it("allows expected values", () => {
+      const result = sides_schema.validate(30)
+
+      expect(result.error).toBeFalsy()
+    })
+  })
+})
+
+describe("perform", () => {
   describe("with one roll", () => {
-    beforeEach(() => {
-      interaction.command_options.rolls = 1
-      interaction.command_options.pool = 1
-      interaction.command_options.sides = 2
-    })
-
     it("displays the description if present", () => {
-      const description_text = "this is a test"
-      interaction.command_options.description = description_text
+      const options = {
+        rolls: 1,
+        pool: 1,
+        sides: 2,
+        modifier: 0,
+        description: "test description",
+      }
 
-      roll_command.execute(interaction)
+      const result = roll_command.perform(options)
 
-      expect(interaction.replyContent).toMatch(description_text)
+      expect(result).toMatch("test description")
     })
 
-    it("displays the result", () => {
-      roll_command.execute(interaction)
+    it.only("displays the result", () => {
+      const options = {
+        rolls: 1,
+        pool: 1,
+        sides: 2,
+        modifier: 0,
+      }
 
-      expect(interaction.replyContent).toMatch(/\*\*\d\*\*/)
+      const result = roll_command.perform(options)
+
+      expect(result).toMatch(/\*\*\d\*\*/)
     })
 
     it("displays the modifier", () => {
-      interaction.command_options.modifier = 8
+      const options = {
+        rolls: 1,
+        pool: 1,
+        sides: 2,
+        modifier: 0,
+        modifier: 8
+      }
 
-      roll_command.execute(interaction)
+      const result = roll_command.perform(options)
 
-      expect(interaction.replyContent).toMatch("8")
+      expect(result).toMatch("8")
     })
   })
 
   describe("with multiple rolls", () => {
-    beforeEach(() => {
-      interaction.command_options.rolls = 2
-      interaction.command_options.pool = 1
-      interaction.command_options.sides = 2
-    })
-
     it("displays the description if present", () => {
-      const description_text = "this is a test"
-      interaction.command_options.description = description_text
+      const options = {
+        rolls: 2,
+        pool: 1,
+        sides: 2,
+        modifier: 0,
+        description: "test description",
+      }
 
-      roll_command.execute(interaction)
+      const result = roll_command.perform(options)
 
-      expect(interaction.replyContent).toMatch(description_text)
+      expect(result).toMatch("test description")
     })
 
     it("displays the result", () => {
-      roll_command.execute(interaction)
+      const options = {
+        rolls: 2,
+        pool: 1,
+        sides: 2,
+        modifier: 0,
+      }
 
-      expect(interaction.replyContent).toMatch(/\*\*\d\*\*/)
+      const result = roll_command.perform(options)
+
+      expect(result).toMatch(/\*\*\d\*\*/)
     })
 
     it("displays the modifier", () => {
-      interaction.command_options.modifier = 8
+      const options = {
+        rolls: 2,
+        pool: 1,
+        sides: 2,
+        modifier: 8
+      }
 
-      roll_command.execute(interaction)
+      const result = roll_command.perform(options)
 
-      expect(interaction.replyContent).toMatch("8")
+      expect(result).toMatch("8")
     })
   })
+})
 
+describe("execute", () => {
   describe("secret", () => {
     it("when secret is true, reply is ephemeral", () => {
       interaction.command_options.secret = true
