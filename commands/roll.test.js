@@ -60,7 +60,7 @@ describe("perform", () => {
       expect(result).toMatch("test description")
     })
 
-    it.only("displays the result", () => {
+    it("displays the result", () => {
       const options = {
         rolls: 1,
         pool: 1,
