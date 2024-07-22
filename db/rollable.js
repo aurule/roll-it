@@ -74,10 +74,12 @@ class GuildRollables {
    * This method accepts either a rollable ID or a name. At least one must be provided. If both are given, it
    * will prefer the ID.
    *
-   * The `contents` are parsed into an array before being returned. For safety, the query is still scoped to
-   * the current guild.
+   * The `contents` are parsed into an array before being returned.
+   *
+   * For safety, the query is always scoped to the current guild.
    *
    * @example
+   * ```js
    * rollables.detail(3)
    * // returns {
    * //   id: 3,
@@ -91,6 +93,7 @@ class GuildRollables {
    * //     "tenth entry",
    * //   ],
    * // }
+   * ```
    *
    * @param  {int} id   ID of the rollable to get
    * @param  {str} name Name of the rollable to get
