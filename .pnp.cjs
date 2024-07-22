@@ -32,7 +32,6 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.15.3"],\
-          ["dot", "npm:1.1.3"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
@@ -2447,15 +2446,6 @@ const RAW_RUNTIME_STATE =
           ["lodash.snakecase", "npm:4.1.1"],\
           ["tslib", "npm:2.6.2"],\
           ["undici", "npm:6.13.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["dot", [\
-      ["npm:1.1.3", {\
-        "packageLocation": "./.yarn/cache/dot-npm-1.1.3-a570dedf33-d5aae2b065.zip/node_modules/dot/",\
-        "packageDependencies": [\
-          ["dot", "npm:1.1.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4953,7 +4943,6 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.15.3"],\
-          ["dot", "npm:1.1.3"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
