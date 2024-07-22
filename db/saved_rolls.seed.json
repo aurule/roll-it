@@ -1,0 +1,13 @@
+[
+  {
+    "name": "weapon damage",
+    "description": "a weapon damage roll",
+    "command": "roll",
+    "options": {
+      "pool": 3,
+      "sides": 6,
+      "modifier": 8,
+      "rolls": 3,
+    }
+  }
+]
