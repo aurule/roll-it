@@ -1,6 +1,7 @@
 const wod_command = require("./wod20")
 
 const { Interaction } = require("../testing/interaction")
+const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
 
@@ -183,28 +184,4 @@ describe("perform", () => {
   })
 })
 
-describe("execute", () => {
-  describe("secret", () => {
-    it("when secret is true, reply is ephemeral", async () => {
-      interaction.command_options.secret = true
-
-      await wod_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeTruthy()
-    })
-
-    it("when secret is false, reply is not ephemeral", async () => {
-      interaction.command_options.secret = false
-
-      await wod_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-
-    it("secret defaults to false", async () => {
-      await wod_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-  })
-})
+test_secret_option(wod_command)

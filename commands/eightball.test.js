@@ -1,6 +1,7 @@
 const eightball_command = require("./eightball")
 
 const { Interaction } = require("../testing/interaction")
+const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
 
@@ -67,28 +68,4 @@ describe("perform", () => {
   })
 })
 
-describe("execute", () => {
-  describe("secret", () => {
-    it("when secret is true, reply is ephemeral", async () => {
-      interaction.command_options.secret = true
-
-      const result = await eightball_command.execute(interaction)
-
-      expect(result.ephemeral).toBeTruthy()
-    })
-
-    it("when secret is false, reply is not ephemeral", async () => {
-      interaction.command_options.secret = false
-
-      const result = await eightball_command.execute(interaction)
-
-      expect(result.ephemeral).toBeFalsy()
-    })
-
-    it("secret defaults to false", async () => {
-      const result = await eightball_command.execute(interaction)
-
-      expect(result.ephemeral).toBeFalsy()
-    })
-  })
-})
+test_secret_option(eightball_command)

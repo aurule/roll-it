@@ -1,6 +1,7 @@
 const d100_command = require("./d100")
 
 const { Interaction } = require("../testing/interaction")
+const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
 
@@ -22,33 +23,7 @@ describe("perform", () => {
 
 describe("execute", () => {
   describe("with one roll", () => {
-    beforeEach(() => {
-      interaction.command_options.rolls = 1
-    })
-
-    describe("secret", () => {
-      it("when secret is true, reply is ephemeral", () => {
-        interaction.command_options.secret = true
-
-        d100_command.execute(interaction)
-
-        expect(interaction.replies[0].ephemeral).toBeTruthy()
-      })
-
-      it("when secret is false, reply is not ephemeral", () => {
-        interaction.command_options.secret = false
-
-        d100_command.execute(interaction)
-
-        expect(interaction.replies[0].ephemeral).toBeFalsy()
-      })
-
-      it("secret defaults to false", () => {
-        d100_command.execute(interaction)
-
-        expect(interaction.replies[0].ephemeral).toBeFalsy()
-      })
-    })
+    test_secret_option(d100_command, {rolls: 1})
   })
 
   describe("with multiple rolls", () => {

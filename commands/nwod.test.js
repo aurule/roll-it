@@ -2,6 +2,7 @@ const nwod_command = require("./nwod")
 
 const { Interaction } = require("../testing/interaction")
 const { schemaMessages } = require("../testing/schema-messages")
+const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
 
@@ -201,27 +202,5 @@ describe("execute", () => {
     })
   })
 
-  describe("secret", () => {
-    it("when secret is true, reply is ephemeral", () => {
-      interaction.command_options.secret = true
-
-      nwod_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeTruthy()
-    })
-
-    it("when secret is false, reply is not ephemeral", () => {
-      interaction.command_options.secret = false
-
-      nwod_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-
-    it("secret defaults to false", () => {
-      nwod_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-  })
+  test_secret_option(nwod_command)
 })

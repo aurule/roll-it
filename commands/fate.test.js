@@ -1,6 +1,7 @@
 const fate_command = require("./fate")
 
 const { Interaction } = require("../testing/interaction")
+const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
 
@@ -32,28 +33,4 @@ describe("perform", () => {
   })
 })
 
-describe("execute", () => {
-  describe("secret", () => {
-    it("when secret is true, reply is ephemeral", () => {
-      interaction.command_options.secret = true
-
-      fate_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeTruthy()
-    })
-
-    it("when secret is false, reply is not ephemeral", () => {
-      interaction.command_options.secret = false
-
-      fate_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-
-    it("secret defaults to false", () => {
-      fate_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-  })
-})
+test_secret_option(fate_command)

@@ -1,3 +1,5 @@
+const { pretty } = require("../testing/command-pretty")
+
 const commands = require("./index")
 
 it("loads command files", () => {
@@ -53,13 +55,6 @@ describe("all_choices", () => {
     expect(names).toContain("help command")
   })
 })
-
-function pretty(command) {
-  let presented = ""
-  if (command.parent) presented += command.parent + " "
-  presented += command.name
-  return presented
-}
 
 const command_objects = Array.from(commands.values())
 describe.each(command_objects)("minimal correctness", (command) => {

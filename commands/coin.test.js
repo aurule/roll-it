@@ -2,6 +2,7 @@ const coin_command = require("./coin")
 
 const { Interaction } = require("../testing/interaction")
 const { schemaMessages } = require("../testing/schema-messages")
+const { test_secret_option } = require("../testing/shared/execute-secret")
 
 describe("execute", () => {
   let interaction
@@ -16,29 +17,7 @@ describe("execute", () => {
     expect(result.content).toMatch("flipped a coin")
   })
 
-  describe("secret", () => {
-    it("when secret is true, reply is ephemeral", async () => {
-      interaction.command_options.secret = true
-
-      const result = await coin_command.execute(interaction)
-
-      expect(result.ephemeral).toBeTruthy()
-    })
-
-    it("when secret is false, reply is not ephemeral", async () => {
-      interaction.command_options.secret = false
-
-      const result = await coin_command.execute(interaction)
-
-      expect(result.ephemeral).toBeFalsy()
-    })
-
-    it("secret defaults to false", async () => {
-      const result = await coin_command.execute(interaction)
-
-      expect(result.ephemeral).toBeFalsy()
-    })
-  })
+  test_secret_option(coin_command)
 })
 
 describe("perform", () => {

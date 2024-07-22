@@ -2,6 +2,7 @@ const chop_command = require("./chop")
 
 const { Interaction } = require("../testing/interaction")
 const { schemaMessages } = require("../testing/schema-messages")
+const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
 
@@ -79,27 +80,5 @@ describe("execute", () => {
     expect(interaction.replyContent).toMatch("test desc")
   })
 
-  describe("secret", () => {
-    it("when secret is true, reply is ephemeral", () => {
-      interaction.command_options.secret = true
-
-      chop_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeTruthy()
-    })
-
-    it("when secret is false, reply is not ephemeral", () => {
-      interaction.command_options.secret = false
-
-      chop_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-
-    it("secret defaults to false", () => {
-      chop_command.execute(interaction)
-
-      expect(interaction.replies[0].ephemeral).toBeFalsy()
-    })
-  })
+  test_secret_option(chop_command)
 })
