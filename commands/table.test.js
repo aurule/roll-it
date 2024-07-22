@@ -1,13 +1,9 @@
-const { setup, GuildRollables } = require("../db/rollable")
+const { GuildRollables } = require("../db/rollable")
 const { Interaction } = require("../testing/interaction")
 const { Attachment } = require("../testing/attachment")
 const table_command = require("./table")
 
 describe("execute", () => {
-  beforeAll(() => {
-    setup()
-  })
-
   it("calls roll subcommand", async () => {
     const interaction = new Interaction()
     interaction.command_options.subcommand_name = "roll"

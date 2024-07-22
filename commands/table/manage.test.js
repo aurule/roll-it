@@ -1,12 +1,8 @@
-const { setup, GuildRollables } = require("../../db/rollable")
+const { GuildRollables } = require("../../db/rollable")
 const { Interaction } = require("../../testing/interaction")
 const table_manage_command = require("./manage")
 
 describe("execute", () => {
-  beforeAll(() => {
-    setup()
-  })
-
   var interaction
   var rollables
   var table_id

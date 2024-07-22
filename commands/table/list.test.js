@@ -1,12 +1,8 @@
-const { setup, GuildRollables } = require("../../db/rollable")
+const { GuildRollables } = require("../../db/rollable")
 const { Interaction } = require("../../testing/interaction")
 const table_list_command = require("./list")
 
 describe("execute", () => {
-  beforeAll(() => {
-    setup()
-  })
-
   it("shows table names", async () => {
     const interaction = new Interaction()
     interaction.command_options.subcommand_name = "list"

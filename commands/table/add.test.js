@@ -1,12 +1,10 @@
-const { setup, GuildRollables } = require("../../db/rollable")
+const { GuildRollables } = require("../../db/rollable")
 const { Interaction } = require("../../testing/interaction")
 const { Attachment } = require("../../testing/attachment")
 const attachment_lines = require("../../util/attachment-lines")
 
 describe("execute", () => {
   beforeAll(() => {
-    setup()
-
     fetchMock = jest
       .spyOn(attachment_lines, "fetchLines")
       .mockImplementation((attachment) => attachment.contents.split(/\n/))

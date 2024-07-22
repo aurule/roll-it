@@ -1,14 +1,10 @@
-const { setup, GuildRollables } = require("../../db/rollable")
+const { GuildRollables } = require("../../db/rollable")
 const { Interaction } = require("../../testing/interaction")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 
 const table_roll_command = require("./roll")
 
 describe("execute", () => {
-  beforeAll(() => {
-    setup()
-  })
-
   var interaction
   var rollables
   var table_id
