@@ -190,26 +190,27 @@ class GuildRollables {
    * @throws {SqliteError} If `data` is empty
    */
   update(id, data) {
-    const { name, description, contents } = data
-
     let sql = "UPDATE OR ROLLBACK rollable SET "
     const fields = []
-    const values = []
+    const placeholders = []
+    const values = {}
 
-    if (name) {
-      fields.push("name")
-      values.push("@name")
-    }
-    if (description) {
-      fields.push("description")
-      values.push("@description")
-    }
-    if (contents) {
-      fields.push("contents")
-      values.push("JSONB(@contents)")
+    for (const field in data) {
+      switch(field) {
+        case "contents":
+          fields.push("contents")
+          placeholders.push("JSONB(@contents)")
+          values.contents = JSON.stringify(data[field])
+          break;
+        default:
+          fields.push(field)
+          placeholders.push(`@${field}`)
+          values[field] = data[field]
+          break;
+      }
     }
 
-    sql += `(${fields.join(", ")}) = (${values.join(", ")})`
+    sql += `(${fields.join(", ")}) = (${placeholders.join(", ")})`
 
     sql += " WHERE id = @id AND guildFlake = @guildFlake"
 
@@ -217,9 +218,7 @@ class GuildRollables {
     return update.run({
       id,
       guildFlake: this.guildId,
-      name,
-      description,
-      contents: JSON.stringify(contents),
+      ...values
     })
   }
 
