@@ -86,7 +86,8 @@ Roll-It currently uses Node 22.
 * CLIENT_ID: ID of the bot's discord user
 * NODE_ENV: one of "development", "test", "ci", or "production"
 * DEV_GUILDS: a JSON array of discord server IDs that should respond to the bot when you run it locally (like `[ "guild_snowflake" ]`). It's important that these servers are private, or at least don't mind you spamming bot messages and breaking things.
-* LOG_LEVEL: usually `"debug"` for development
+* DEV_USERS: a JSON array of discord user IDs (like `[ "user_snowflake" ]`) to use when seeding certain database tables.
+* LOG_LEVEL: the minimum level of log statements to display. Defaults to `"info"` in development and `"warning"` in test. Using `"debug"` will print all sql statements to the console, for example. See [Pino log levels](https://github.com/pinojs/pino/blob/main/docs/api.md#logger-level) for more detail.
 
 ## Versioning
 
