@@ -275,25 +275,12 @@ class GuildRollables {
 }
 
 /**
- * Create the rollable database table and its indexes
- */
-function setup(db_obj) {
-  const db = db_obj ?? require("./index").db
-  const fs = require("fs")
-  const path = require("path")
-
-  const file_path = path.join(__dirname, "rollable.setup.sql")
-  const setup_sql = fs.readFileSync(file_path, "utf8")
-  db.exec(setup_sql)
-}
-
-/**
  * Populate the development database with some rollables
  *
  * Each guild in the envvar DEV_GUILDS gets a copy of each rollable specified in `rollable.seed.json`. The
  * errors from duplicate inserts are suppressed for convenience.
  *
- * Outside of development mode, this is a noop.
+ * Outside of development mode, this is a no-op.
  */
 function seed() {
   if (process.env.NODE_ENV !== "development") return
@@ -319,6 +306,5 @@ function seed() {
 
 module.exports = {
   GuildRollables,
-  setup,
   seed,
 }
