@@ -31,7 +31,7 @@ module.exports = {
     return [
       oneLine`
         The ${command_name} commands let you create and roll random results from a table. Each subcommand has
-        its own help entry for more details.
+        its own help entry you can read for more details.
       `,
       "",
       oneLine`
