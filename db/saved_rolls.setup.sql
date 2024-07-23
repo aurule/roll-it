@@ -5,10 +5,10 @@ CREATE TABLE IF NOT EXISTS saved_rolls (
   userFlake TEXT NOT NULL,
   name TEXT NOT NULL,
   description TEXT NOT NULL,
-  incomplete BOOL DEFAULT false,
-  invalid BOOL DEFAULT false,
   command TEXT NOT NULL,
-  options BLOB NOT NULL
+  options BLOB NOT NULL,
+  incomplete BOOL DEFAULT false,
+  invalid BOOL DEFAULT false
 );
 
 -- multicol index starting with guildFlake
