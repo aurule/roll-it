@@ -73,6 +73,7 @@ module.exports = {
     "threshold",
     "rote",
     "rolls",
+    "until",
   ],
   schema: Joi.object({
     pool: commonSchemas.pool,

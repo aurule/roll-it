@@ -60,6 +60,7 @@ module.exports = {
     "difficulty",
     "specialty",
     "rolls",
+    "until",
   ],
   schema: Joi.object({
     pool: commonSchemas.pool,
