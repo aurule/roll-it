@@ -29,6 +29,7 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/testing/",
+    "/services/api.js",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
