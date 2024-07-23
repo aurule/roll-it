@@ -78,6 +78,8 @@ describe("UserSavedRolls", () => {
 
       expect(result.length).toEqual(3)
     })
+
+    it.todo("extracts options from jsonb")
   })
 
   describe("detail", () => {

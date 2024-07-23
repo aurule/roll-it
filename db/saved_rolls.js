@@ -107,16 +107,23 @@ class UserSavedRolls {
   /**
    * Get an array of all saved rolls for this user and guild
    *
-   * Each object in the array represents a single saved rol.
+   * Each object in the array represents a single saved roll.
    *
    * @return {[type]} [description]
    */
   all() {
     const select = this.db.prepare(oneLine`
-      SELECT * FROM saved_rolls
+      SELECT *, JSON_EXTRACT(options, '$') AS options FROM saved_rolls
       WHERE guildFlake = ? AND userFlake = ?
     `)
-    return select.all(this.guildId, this.userId)
+    const raw_out = select.all(this.guildId, this.userId)
+
+    return raw_out.map(raw => ({
+      ...raw,
+      options: JSON.parse(raw.options),
+      incomplete: !!raw.incomplete,
+      invalid: !!raw.invalid,
+    }))
   }
 
   /**
@@ -282,7 +289,7 @@ class UserSavedRolls {
    *
    * Can only delete a saved roll for our guild and user.
    *
-   * @param  {int} id The ID of the rollable to delete
+   * @param  {int} id The ID of the saved roll to delete
    * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
    */
   destroy(id) {
@@ -298,20 +305,34 @@ class UserSavedRolls {
   }
 }
 
-/**
- * Create the saved_rolls database table and its indexes
- */
-function setup(db_obj) {
-  const db = db_obj ?? require("./index").db
+function seed() {
+  require("dotenv").config()
+  if (process.env.NODE_ENV !== "development") return
+
   const fs = require("fs")
   const path = require("path")
 
-  const file_path = path.join(__dirname, "saved_rolls.setup.sql")
-  const setup_sql = fs.readFileSync(file_path, "utf8")
-  db.exec(setup_sql)
+  const file_path = path.join(__dirname, "saved_rolls.seed.json")
+  const seed_rolls = JSON.parse(fs.readFileSync(file_path))
+  const dev_guilds = JSON.parse(process.env.DEV_GUILDS)
+  const dev_users = JSON.parse(process.env.DEV_USERS)
+
+  for (const guildId of dev_guilds) {
+    for (const userId of dev_users) {
+      const saved_rolls = new UserSavedRolls(guildId, userId)
+      for (const r of seed_rolls) {
+        try {
+          saved_rolls.create(r)
+        } catch (e) {
+          console.log(e)
+          continue
+        }
+      }
+    }
+  }
 }
 
 module.exports = {
   UserSavedRolls,
-  setup,
+  seed,
 }

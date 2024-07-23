@@ -1,13 +1,33 @@
 [
   {
-    "name": "weapon damage",
-    "description": "a weapon damage roll",
+    "name": "valid",
+    "description": "a valid saved roll",
     "command": "roll",
     "options": {
       "pool": 3,
       "sides": 6,
-      "modifier": 8,
-      "rolls": 3,
+      "modifier": 8
+    }
+  },
+  {
+    "name": "invalid",
+    "description": "an invalid saved roll",
+    "invalid": true,
+    "command": "roll",
+    "options": {
+      "pool": 3,
+      "sides": 0,
+      "modifier": 8
+    }
+  },
+  {
+    "name": "incomplete",
+    "description": "an incomplete saved roll",
+    "incomplete": true,
+    "command": "roll",
+    "options": {
+      "pool": 3,
+      "modifier": 8
     }
   }
 ]
