@@ -30,6 +30,9 @@ commands.global = function () {
 commands.guild = function () {
   return this.filter((c) => !c.global && !c.parent)
 }
+commands.savable = function () {
+  return this.filter((c) => !!c.savable)
+}
 
 commands.all_choices = commands.map((_cmd, full_name) => ({
   name: full_name,
