@@ -311,36 +311,6 @@ describe("GuildRollables", () => {
     })
   })
 
-  describe("exists", () => {
-    it("returns true if the id exists for the guild", () => {
-      const rollables = new GuildRollables("test-exists", db)
-      const insertion = rollables.create("testt", "desc", ["one"])
-
-      const result = rollables.exists(insertion.lastInsertRowid)
-
-      expect(result).toBeTruthy()
-    })
-
-    it("returns false if the id does not exist for the guild", () => {
-      const rollables = new GuildRollables("test-exists", db)
-      const insertion = rollables.create("testf", "desc", ["one"])
-
-      const result = rollables.exists(insertion.lastInsertRowid + 1)
-
-      expect(result).toBeFalsy()
-    })
-
-    it("returns false if the id exists for another guild", () => {
-      const rollables = new GuildRollables("test-exists", db)
-      const other_rollables = new GuildRollables("other-exists", db)
-      const insertion = other_rollables.create("testo", "desc", ["one"])
-
-      const result = rollables.exists(insertion.lastInsertRowid)
-
-      expect(result).toBeFalsy()
-    })
-  })
-
   describe("destroy", () => {
     it("deletes the rollable", () => {
       const rollables = new GuildRollables("test-destroy", db)

@@ -255,24 +255,6 @@ class GuildRollables {
   }
 
   /**
-   * Check wither a given ID is in use for this guild
-   *
-   * @param  {int}  id ID of the rollable to check
-   * @return {bool}    True if the ID is used by a rollable for this guild, false if not
-   */
-  exists(id) {
-    const select = this.db.prepare(oneLine`
-      SELECT 1 FROM rollable
-      WHERE id = @id AND guildFlake = @guildFlake
-    `)
-    select.pluck()
-    return !!select.get({
-      id,
-      guildFlake: this.guildId,
-    })
-  }
-
-  /**
    * Delete a rollable record
    *
    * For safety, the delete query is still scoped to the current guild.
