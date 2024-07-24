@@ -15,6 +15,12 @@ function presentList(saved_rolls) {
   return content
 }
 
+/**
+ * Present a saved roll's name, description, and status
+ *
+ * @param  {obj} saved_roll Saved roll info object
+ * @return {str}            Status, name, and description of the saved roll
+ */
 function presentRollName(saved_roll) {
   let content_lines = ""
   if (saved_roll.invalid) content_lines += ":x: "
@@ -23,6 +29,14 @@ function presentRollName(saved_roll) {
   return content_lines
 }
 
+/**
+ * Present a saved roll's command invocation
+ *
+ * This string is meant to be usable by pasting it directly into discord's chat.
+ *
+ * @param  {obj} saved_roll Saved roll info object
+ * @return {str}            Invocation string
+ */
 function presentInvocation(saved_roll) {
   let content_lines = "/" + saved_roll.command
   for (const [key, value] of Object.entries(saved_roll.options)) {
