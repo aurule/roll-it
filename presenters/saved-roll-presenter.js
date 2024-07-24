@@ -28,7 +28,6 @@ function presentInvocation(saved_roll) {
   for (const [key, value] of Object.entries(saved_roll.options)) {
     content_lines += " " + key + ":" + value
   }
-  content_lines += ` description:${saved_roll.description}`
 
   return inlineCode(content_lines)
 }
