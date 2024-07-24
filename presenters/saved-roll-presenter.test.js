@@ -35,12 +35,28 @@ describe("presentRollName", () => {
     expect(result).toMatch("test")
   })
 
+  it("handles undefined name", () => {
+    const roll = {description: "a description"}
+
+    const result = presenter.presentRollName(roll)
+
+    expect(result).not.toMatch("undefined")
+  })
+
   it("shows the description", () => {
     const roll = {name: "test", description: "a description"}
 
     const result = presenter.presentRollName(roll)
 
     expect(result).toMatch("description")
+  })
+
+  it("handles undefined description", () => {
+    const roll = {name: "test"}
+
+    const result = presenter.presentRollName(roll)
+
+    expect(result).not.toMatch("undefined")
   })
 
   it("marks incomplete", () => {
@@ -78,6 +94,14 @@ describe("presentInvocation", () => {
     expect(result).toMatch("nwod")
   })
 
+  it("handles missing command name", () => {
+    const roll = {options: {}}
+
+    const result = presenter.presentInvocation(roll)
+
+    expect(result).not.toMatch("undefined")
+  })
+
   it("shows each option", () => {
     const roll = {command: "nwod", options: {pool: 3, until: 5, rote: true}}
 
@@ -86,5 +110,13 @@ describe("presentInvocation", () => {
     expect(result).toMatch("pool")
     expect(result).toMatch("until")
     expect(result).toMatch("rote")
+  })
+
+  it("handles missing options", () => {
+    const roll = {command: "nwod"}
+
+    const result = presenter.presentInvocation(roll)
+
+    expect(result).not.toMatch("undefined")
   })
 })

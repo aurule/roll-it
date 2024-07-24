@@ -23,9 +23,11 @@ function presentList(saved_rolls) {
  */
 function presentRollName(saved_roll) {
   let content_lines = ""
+  const name = saved_roll.name ?? "(incomplete)"
+  const description = saved_roll.description ?? "(incomplete)"
   if (saved_roll.invalid) content_lines += ":x: "
   if (saved_roll.incomplete) content_lines += ":warning: "
-  content_lines += `${italic(saved_roll.name)} - ${saved_roll.description}`
+  content_lines += `${italic(name)} - ${description}`
   return content_lines
 }
 
@@ -38,8 +40,11 @@ function presentRollName(saved_roll) {
  * @return {str}            Invocation string
  */
 function presentInvocation(saved_roll) {
-  let content_lines = "/" + saved_roll.command
-  for (const [key, value] of Object.entries(saved_roll.options)) {
+  const command_name = saved_roll.command ?? "(not set)"
+  const options = saved_roll.options ?? {}
+
+  let content_lines = "/" + command_name
+  for (const [key, value] of Object.entries(options)) {
     content_lines += " " + key + ":" + value
   }
 
