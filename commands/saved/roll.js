@@ -1,6 +1,6 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
-const Completers = require("../../completers/table-completers")
-const { present } = require("../../presenters/table-results-presenter")
+const Completers = require("../../completers/saved-completers")
+const presenter = require("../../presenters/saved-roll-presenter")
 const { longReply } = require("../../util/long-reply")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const commonOpts = require("../../util/common-options")
