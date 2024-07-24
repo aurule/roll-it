@@ -1,18 +1,90 @@
 const presenter = require("./saved-roll-presenter")
 
 describe("presentList", () => {
-  it.todo("shows each name")
+  it("shows each command", () => {
+    const rolls = [
+      {name: "test1", description: "a description", options: {}},
+      {name: "test2", description: "a description", options: {}},
+    ]
+
+    const result = presenter.presentList(rolls)
+
+    expect(result).toMatch("test1")
+    expect(result).toMatch("test2")
+  })
+
+  it("shows each invocation", () => {
+    const rolls = [
+      {name: "test1", description: "a description", options: {}, command: "nwod"},
+      {name: "test2", description: "a description", options: {}, command: "fate"},
+    ]
+
+    const result = presenter.presentList(rolls)
+
+    expect(result).toMatch("/nwod")
+    expect(result).toMatch("/fate")
+  })
 })
 
 describe("presentRollName", () => {
-  it.todo("shows the name")
-  it.todo("shows the description")
-  it.todo("marks incomplete")
-  it.todo("marks invalid")
-  it.todo("shows invocation")
+  it("shows the name", () => {
+    const roll = {name: "test", description: "a description"}
+
+    const result = presenter.presentRollName(roll)
+
+    expect(result).toMatch("test")
+  })
+
+  it("shows the description", () => {
+    const roll = {name: "test", description: "a description"}
+
+    const result = presenter.presentRollName(roll)
+
+    expect(result).toMatch("description")
+  })
+
+  it("marks incomplete", () => {
+    const roll = {name: "test", description: "a description", incomplete: true}
+
+    const result = presenter.presentRollName(roll)
+
+    expect(result).toMatch(":warning:")
+  })
+
+  it("marks invalid", () => {
+    const roll = {name: "test", description: "a description", invalid: true}
+
+    const result = presenter.presentRollName(roll)
+
+    expect(result).toMatch(":x:")
+  })
+
+  it("marks both invalid and incomplete", () => {
+    const roll = {name: "test", description: "a description", incomplete: true, invalid: true}
+
+    const result = presenter.presentRollName(roll)
+
+    expect(result).toMatch(":warning:")
+    expect(result).toMatch(":x:")
+  })
 })
 
 describe("presentInvocation", () => {
-  it.todo("shows the command name")
-  it.todo("shows each option")
+  it("shows the command name", () => {
+    const roll = {command: "nwod", options: {}}
+
+    const result = presenter.presentInvocation(roll)
+
+    expect(result).toMatch("nwod")
+  })
+
+  it("shows each option", () => {
+    const roll = {command: "nwod", options: {pool: 3, until: 5, rote: true}}
+
+    const result = presenter.presentInvocation(roll)
+
+    expect(result).toMatch("pool")
+    expect(result).toMatch("until")
+    expect(result).toMatch("rote")
+  })
 })
