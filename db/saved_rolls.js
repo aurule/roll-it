@@ -8,57 +8,10 @@ class UserSavedRolls {
   }
 
   /**
-   * Create an in-progress saved roll
-   *
-   * This new record has no options and is automatically marked as incomplete.
-   *
-   * The convention for `command_name` is to use the command object's name attribute, prefixed with the name
-   * of its parent command and a space, if present.
-   *
-   * @param  {str} name         Name for the saved roll
-   * @param  {str} description  Description for the saved roll
-   * @param  {str} command_name Command the saved roll will invoke
-   * @return {Info}             Query info object with `changes` and `lastInsertRowid` properties
-   *
-   * @throws {SqliteError} If `name` already exists for this guild
-   */
-  partial(name, description, command_name) {
-    const insert = this.db.prepare(oneLine`
-      INSERT OR ROLLBACK INTO saved_rolls (
-        guildFlake,
-        userFlake,
-        name,
-        description,
-        command,
-        options,
-        incomplete
-      ) VALUES (
-        @guildFlake,
-        @userFlake,
-        @name,
-        @description,
-        @command,
-        JSONB('{}'),
-        true
-      )
-    `)
-    return insert.run({
-      guildFlake: this.guildId,
-      userFlake: this.userId,
-      name,
-      description,
-      command: command_name,
-    })
-  }
-
-  /**
    * Create a new saved roll record
    *
-   * Due to the way the saved roll creation process works in production, this method is almost exclusively
-   * used during testing.
-   *
    * The convention for `command_name` is to use the command object's name attribute, prefixed with the name
-   * of its parent command and a space, if present.
+   * of its parent command and a space, if it has a parent.
    *
    * @param  {str} options.name         Name for the saved roll
    * @param  {str} options.description  Description for the saved roll

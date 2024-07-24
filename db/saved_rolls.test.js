@@ -21,34 +21,6 @@ beforeEach(() => {
 })
 
 describe("UserSavedRolls", () => {
-  describe("partial", () => {
-    it("creates a new saved roll", () => {
-      const saved_rolls = new UserSavedRolls("test-guild", "user-partial", db)
-
-      saved_rolls.partial("test", "test roll", "roll")
-
-      expect(saved_rolls.count()).toEqual(1)
-    })
-
-    it("marks the roll as incomplete", () => {
-      const saved_rolls = new UserSavedRolls("test-guild", "user-partial", db)
-      const other_saved_rolls = new UserSavedRolls("test-guild", "user-partial-other", db)
-
-      saved_rolls.partial("test", "test roll", "roll")
-      const result = other_saved_rolls.partial("test", "test roll", "roll")
-
-      expect(other_saved_rolls.detail(result.lastInsertRowid).incomplete).toBeTruthy()
-    })
-
-    it("makes rolls for different users", () => {
-      const saved_rolls = new UserSavedRolls("test-guild", "user-partial", db)
-
-      const result = saved_rolls.partial("test", "test roll", "roll")
-
-      expect(saved_rolls.detail(result.lastInsertRowid).incomplete).toBeTruthy()
-    })
-  })
-
   describe("create", () => {
     it("creates a new saved roll", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-create", db)
