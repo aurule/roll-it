@@ -5,6 +5,7 @@
   "main": "index.js",
   "author": "Paige Andrews",
   "license": "MIT",
+  "repository": "github:aurule/roll-it",
   "bugs": {
     "url": "https://github.com/aurule/roll-it/issues"
   },
@@ -50,5 +51,8 @@
     "roll",
     "dice"
   ],
+  "engines": {
+    "node": "22"
+  },
   "packageManager": "yarn@4.3.1"
 }
