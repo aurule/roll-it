@@ -1,7 +1,7 @@
 const { GuildRollables } = require("../../db/rollable")
 const { Interaction } = require("../../testing/interaction")
-const { Attachment } = require("../../testing/attachment")
-const attachment_lines = require("../../util/attachment-lines")
+
+const set_command = require("./set")
 
 describe("execute", () => {
   it.todo("warns on name collision")

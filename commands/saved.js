@@ -19,7 +19,7 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
       .addSubcommand(subcommands.get("roll").data())
       .addSubcommand(subcommands.get("list").data())
-      .addSubcommand(subcommands.get("add").data())
+      .addSubcommand(subcommands.get("set").data())
       .addSubcommand(subcommands.get("manage").data())
   },
   async execute(interaction) {
@@ -37,7 +37,7 @@ module.exports = {
       `,
       "",
       oneLine`
-        In general, you'll use ${inlineCode("/saved add")} to save one or more rolls and their options. Then,
+        In general, you'll use ${inlineCode("/saved set")} to save one or more rolls and their options. Then,
         ${inlineCode("/saved roll")} to use one of them.
       `,
       "",

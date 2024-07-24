@@ -9,7 +9,7 @@ const MAX_UPLOAD_SIZE = 5_242_880
 const MAX_ENTRY_LENGTH = 1500
 
 module.exports = {
-  name: "add",
+  name: "set",
   parent: "saved",
   description: "Save a roll command and its options",
   data: () =>
@@ -19,22 +19,23 @@ module.exports = {
       .addStringOption((option) =>
         option
           .setName("name")
-          .setDescription("Unique name for the roll")
+          .setDescription("Unique name for the saved roll")
           .setMinLength(3)
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
           .setName("description")
-          .setDescription("A few words about the roll")
+          .setDescription("A few words about the saved roll")
           .setMinLength(3)
-          .setRequired(true),
+          .setRequired(true)
       )
       .addStringOption((option) =>
         option
-          .setName("command")
-          .setDescription("The command to use")
-          // .addOptions(),
+          .setName("invocation")
+          .setDescription("ADVANCED! Manually enter the discord command invocation to use")
+          .setMinLength(4)
+          .setRequired(false)
       ),
   async execute(interaction) {
     interaction.deferReply()
