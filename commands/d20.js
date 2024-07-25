@@ -24,13 +24,13 @@ module.exports = {
       )
       .addStringOption((option) =>
         option
-          .setName("advantage")
+          .setName("keep")
           .setDescription(
-            "Roll with Advantage or Disadvantage from D&D 5e: rolls 2d20 and keeps the higher or lower.",
+            "Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of 2d20",
           )
           .setChoices(
-            { name: "Advantage", value: "highest" },
-            { name: "Disadvantage", value: "lowest" },
+            { name: "Highest", value: "highest" },
+            { name: "Lowest", value: "lowest" },
           ),
       )
       .addIntegerOption(commonOpts.rolls)
@@ -45,6 +45,7 @@ module.exports = {
     keep: Joi.string()
       .optional()
       .valid("all", "highest", "lowest")
+      .default("all")
       .messages({
         "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
       }),
@@ -68,7 +69,7 @@ module.exports = {
   },
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
-    const keep = interaction.options.getString("advantage") ?? "all"
+    const keep = interaction.options.getString("keep") ?? "all"
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
@@ -88,7 +89,7 @@ module.exports = {
       `${command_name} rolls a single 20-sided die.`,
       "",
       oneLine`
-        The ${inlineCode("advantage")} option lets you roll twice and take either the higher or lower result,
+        The ${inlineCode("keep")} option lets you roll twice and take either the higher or lower result,
         like the D&D 5e mechanic of the same name. Set it to ${inlineCode("Advantage")} to use the higher
         result, and ${inlineCode("Disadvantage")} to use the lower.
       `,
