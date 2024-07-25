@@ -25,14 +25,14 @@ describe("description", () => {
 })
 
 describe("rolls", () => {
-  it("is required", () => {
+  it("is optional", () => {
     const rolls_value = undefined
 
     const result = commonSchemas.rolls.validate(rolls_value, {
       abortEarly: false,
     })
 
-    expect(schemaMessages(result)).toMatch("rolls")
+    expect(schemaMessages(result)).not.toMatch("rolls")
   })
 
   it("is an integer", () => {
