@@ -1,5 +1,14 @@
 const { parse } = require("./invocation-parser")
 
+describe("with junk input", () => {
+  it("errors early", () => {
+    const result = parse("something something explosions")
+
+    const error_messages = result.errors.join("\b")
+    expect(error_messages).toMatch("invalid")
+  })
+})
+
 describe("with an unknown command", () => {
   it("errors early", () => {
     const result = parse("/nopealope pool:3")
