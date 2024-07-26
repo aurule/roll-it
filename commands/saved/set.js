@@ -4,6 +4,7 @@ const Joi = require("joi")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const { fetchLines } = require("../../util/attachment-lines")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
+const { parse } = require("../../parsers/invocation-parser")
 
 const MAX_UPLOAD_SIZE = 5_242_880
 const MAX_ENTRY_LENGTH = 1500
@@ -39,6 +40,7 @@ module.exports = {
       ),
   async execute(interaction) {
     interaction.deferReply()
+
     const savable_commands = require("../index").savable()
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
@@ -50,16 +52,8 @@ module.exports = {
       return value
     }
 
-    const command_exists_validator = (value, helpers) => {
-      if (! savable_commands.has(value)) {
-        return helpers.error("any.custom.exists")
-      }
-
-      return value
-    }
-
     const options_schema = Joi.object({
-      roll_name: Joi.string()
+      name: Joi.string()
         .trim()
         .required()
         .min(3)
@@ -71,25 +65,16 @@ module.exports = {
           `,
         }),
       description: Joi.string().trim().required().min(3),
-      command_name: Joi.string()
-        .trim()
-        .required()
-        .min(3)
-        .custom(command_exists_validator, "whether the command exists")
-        .messages({
-          "any.custom.exists": 'The command "{#value}" does not exist. How did you even do that?'
-        })
     })
 
     const raw_options = {
-      table_name: interaction.options.getString("name"),
+      name: interaction.options.getString("name"),
       description: interaction.options.getString("description"),
-      command_name: interaction.options.getString("command"),
     }
 
-    let normalized_options
+    let command_options = {}
     try {
-      normalized_options = await options_schema.validateAsync(raw_options)
+      command_options = await options_schema.validateAsync(raw_options)
     } catch (err) {
       return interaction.editReply({
         content: err.details[0].message,
@@ -97,14 +82,36 @@ module.exports = {
       })
     }
 
-    const { roll_name, description, command_name } = normalized_options
+    const saved_roll_params = {
+      ...command_options,
+      incomplete: true
+    }
 
-    saved_rolls.partial(roll_name, description, command_name)
+    const invocation = interaction.options.getString("invocation")
+    if (invocation) {
+      const parsed_invocation = parse(invocation)
+
+      if (parsed_invocation.errors.length) {
+        return interaction.editReply({
+          content: parsed_invocation.errors.join("\n"),
+          ephemeral: true
+        })
+      }
+
+      saved_roll_params.command = parsed_invocation.command
+      saved_roll_params.options = parsed_invocation.options
+      saved_roll_params.incomplete = false
+    }
+
+    saved_rolls.create(saved_roll_params)
+    let response_content
+    if (saved_roll_params.incomplete) {
+      response_content = ``
+    } else {
+      response_content = `You've saved the roll ${italic(name)}. Try it out with ${inlineCode("/saved roll name:" + name)}!`
+    }
     return interaction.editReply({
-      content: oneLine`
-        You've begun creating the ${italic(roll_name)} roll. The second (and only) step is to save its
-        options. You can leave that step and return to it later using ${inlineCode("/saved manage")}.
-      `,
+      content: response_content,
       ephemeral: true,
     })
   },
