@@ -5,7 +5,10 @@
   "main": "index.js",
   "author": "Paige Andrews",
   "license": "MIT",
-  "repository": "github:aurule/roll-it",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aurule/roll-it.git"
+  },
   "bugs": {
     "url": "https://github.com/aurule/roll-it/issues"
   },
@@ -40,10 +43,6 @@
     "live": "nodemon index.js",
     "commands:update": "node scripts/update-commands.js",
     "pretty": "prettier . --write"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aurule/roll-it.git"
   },
   "keywords": [
     "discord",
