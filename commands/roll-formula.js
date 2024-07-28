@@ -36,14 +36,15 @@ module.exports = {
       .trim()
       .min(3)
       .max(1500),
+    modifier: commonSchemas.modifier,
     description: commonSchemas.description,
   }),
-  perform({formula, description}) {
+  perform({formula, modifier, description}) {
     let raw_pools = []
     let raw_results = []
     let summed_results = []
 
-    const rolled_formula = formula.replace(
+    let rolled_formula = formula.replace(
       /(\d+)d(\d+)/g,
       (match, pool, sides, _offset, _wholeString) => {
         raw_pools.push(match)
@@ -54,6 +55,12 @@ module.exports = {
         return summed
       },
     )
+    if (modifier > 0) {
+      rolled_formula += ` + ${modifier}`
+    }
+    if (modifier < 0) {
+      rolled_formula += `${modifier}`
+    }
 
     return present({
       formula,
@@ -95,8 +102,13 @@ module.exports = {
         1d20 and add 16, then multiply that total by 20.
       `,
       oneLine`
-        * A crit damage roll might look like ${inlineCode("(1d8 + 4) * 2 + 1d6")}. ${command_name} will roll
-        1d8 and add 4, multiply that result by 2, then add 1d6.
+        * A crit damage roll in D&D 5e might look like ${inlineCode("(1d8 + 4) * 2 + 1d6")}. ${command_name}
+        will roll 1d8 and add 4, multiply that result by 2, then add 1d6.
+      `,
+      "",
+      oneLine`
+        When used as a saved roll, ${command_name} accepts a hidden ${inlineCode("modifier")} so that you can
+        add a bonus to the formula.
       `,
       "",
       oneLine`

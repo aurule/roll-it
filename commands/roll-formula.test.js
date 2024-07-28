@@ -5,10 +5,6 @@ const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
 
-beforeEach(() => {
-  interaction = new Interaction()
-})
-
 describe("schema", () => {
   describe("formula", () => {
     const formula_schema = roll_formula_command.schema.extract("formula")
@@ -76,6 +72,28 @@ describe("perform", () => {
     const result = roll_formula_command.perform(options)
 
     expect(result).toMatch("8")
+  })
+
+  it("adds the modifier if present", () => {
+    const options = {
+      formula: "5",
+      modifier: 2,
+    }
+
+    const result = roll_formula_command.perform(options)
+
+    expect(result).toMatch("7")
+  })
+
+  it("subtracts the modifier if present", () => {
+    const options = {
+      formula: "5",
+      modifier: -2,
+    }
+
+    const result = roll_formula_command.perform(options)
+
+    expect(result).toMatch("3")
   })
 })
 
