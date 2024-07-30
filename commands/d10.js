@@ -32,7 +32,7 @@ module.exports = {
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
   }),
-  perform({rolls, modifier, description}) {
+  perform({rolls = 1, modifier = 0, description} = {}) {
     const raw_results = roll(1, 10, rolls)
 
     return present({

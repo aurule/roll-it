@@ -68,15 +68,14 @@ module.exports = {
       .optional()
       .integer()
       .min(2)
-      .max(10)
-      .default(7),
+      .max(10),
     specialty: Joi.boolean()
       .optional(),
     rolls: commonSchemas.rolls,
     until: commonSchemas.until,
     description: commonSchemas.description,
   }),
-  perform({pool, difficulty, specialty, rolls, until, description}) {
+  perform({pool, difficulty = 7, specialty, rolls = 1, until, description} = {}) {
     let raw_results
     let summed_results
 

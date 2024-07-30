@@ -39,7 +39,7 @@ module.exports = {
     modifier: commonSchemas.modifier,
     description: commonSchemas.description,
   }),
-  perform({formula, modifier, description}) {
+  perform({formula, modifier = 0, description} = {}) {
     let raw_pools = []
     let raw_results = []
     let summed_results = []

@@ -56,7 +56,7 @@ module.exports = {
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
   }),
-  perform({pool, sides, description, modifier, rolls}) {
+  perform({pool, sides, description, modifier = 0, rolls = 1} = {}) {
     const raw_results = roll(pool, sides, rolls)
     const summed_results = sum(raw_results)
 

@@ -45,14 +45,13 @@ module.exports = {
     keep: Joi.string()
       .optional()
       .valid("all", "highest", "lowest")
-      .default("all")
       .messages({
         "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
       }),
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
   }),
-  perform({keep, rolls, modifier, description}) {
+  perform({keep = "all", rolls = 1, modifier = 0, description} = {}) {
     const pool = keep == "all" ? 1 : 2
 
     const raw_results = roll(pool, 20, rolls)

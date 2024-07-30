@@ -35,7 +35,7 @@ module.exports = {
     modifier: commonSchemas.modifier,
     description: commonSchemas.description,
   }),
-  perform({rolls, modifier, description}) {
+  perform({rolls = 1, modifier = 0, description} = {}) {
     const raw_results = roll(4, 3, rolls)
     const summed_results = fudge(raw_results)
 

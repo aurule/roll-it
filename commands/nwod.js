@@ -81,21 +81,19 @@ module.exports = {
       .optional()
       .integer()
       .min(2)
-      .max(11)
-      .default(10),
+      .max(11),
     threshold: Joi.number()
       .optional()
       .integer()
       .min(2)
-      .max(10)
-      .default(8),
+      .max(10),
     rote: Joi.boolean()
       .optional(),
     rolls: commonSchemas.rolls,
     until: commonSchemas.until,
     description: commonSchemas.description,
   }),
-  perform({pool, explode, threshold, rote, rolls, until, description}) {
+  perform({pool, explode = 10, threshold = 8, rote, rolls = 1, until, description} = {}) {
     const chance = !pool
     if (chance) {
       pool = 1
