@@ -5,6 +5,7 @@ const command_re = /\/(?<command>\w+)/
 const args_re = /(\s+)?(?<name>\w+):(?<value>([\w+-/^*]+\s*)+(\s|$))/g
 
 module.exports = {
+  name: "invocation",
   /**
    * Parse a command invocation string
    *
