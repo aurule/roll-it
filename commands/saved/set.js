@@ -5,6 +5,7 @@ const { UserSavedRolls } = require("../../db/saved_rolls")
 const { fetchLines } = require("../../util/attachment-lines")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const { parse } = require("../../parsers/invocation-parser")
+const commonSchemas = require("../../util/common-schemas")
 
 const MAX_UPLOAD_SIZE = 5_242_880
 const MAX_ENTRY_LENGTH = 1500
@@ -22,6 +23,7 @@ module.exports = {
           .setName("name")
           .setDescription("Unique name for the saved roll")
           .setMinLength(3)
+          .setMaxLength(100)
           .setRequired(true)
       )
       .addStringOption((option) =>
@@ -29,6 +31,7 @@ module.exports = {
           .setName("description")
           .setDescription("A few words about the saved roll")
           .setMinLength(3)
+          .setMaxLength(1500)
           .setRequired(true)
       )
       .addStringOption((option) =>
@@ -36,6 +39,7 @@ module.exports = {
           .setName("invocation")
           .setDescription("ADVANCED! Manually enter the discord command invocation to use")
           .setMinLength(4)
+          .setMaxLength(1500)
           .setRequired(false)
       ),
   async execute(interaction) {
@@ -57,6 +61,7 @@ module.exports = {
         .trim()
         .required()
         .min(3)
+        .max(100)
         .custom(name_taken_validator, "whether the name is in use")
         .messages({
           "any.custom.unique": oneLine`
@@ -64,12 +69,18 @@ module.exports = {
             ${inlineCode("/saved manage")} to remove the existing roll.
           `,
         }),
-      description: Joi.string().trim().required().min(3),
+      description: commonSchemas.description,
+      invocation: Joi.string()
+        .trim()
+        .optional()
+        .min(4)
+        .max(1500),
     })
 
     const raw_options = {
       name: interaction.options.getString("name"),
       description: interaction.options.getString("description"),
+      invocation: interaction.options.getString("invocation"),
     }
 
     let command_options = {}
@@ -87,7 +98,7 @@ module.exports = {
       incomplete: true
     }
 
-    const invocation = interaction.options.getString("invocation")
+    const invocation = command_options.invocation
     if (invocation) {
       const parsed_invocation = parse(invocation)
 
@@ -98,17 +109,37 @@ module.exports = {
         })
       }
 
+      const schema = savable_commands.get(parsed_invocation.command).schema
+      var validated_options
+      try {
+        validated_options = await schema.validateAsync(parsed_invocation.options)
+      } catch (err) {
+        return interaction.editReply({
+          content: err.details[0].message,
+          ephemeral: true,
+        })
+      }
+
       saved_roll_params.command = parsed_invocation.command
-      saved_roll_params.options = parsed_invocation.options
+      saved_roll_params.options = validated_options
       saved_roll_params.incomplete = false
+
     }
 
+    // TODO upsert
     saved_rolls.create(saved_roll_params)
     let response_content
     if (saved_roll_params.incomplete) {
-      response_content = ``
+      response_content = oneLine`
+        You've saved the name ${italic(command_options.name)} for a new roll. Right click on the result of a
+        roll you make and choose ${inlineCode("Apps -> Save this roll")} to add that command and its options
+        to ${italic(command_options.name)}.
+      `
     } else {
-      response_content = `You've saved the roll ${italic(name)}. Try it out with ${inlineCode("/saved roll name:" + name)}!`
+      response_content = oneLine`
+        You've saved the roll ${italic(command_options.name)}. Try it out with
+        ${inlineCode("/saved roll name:" + command_options.name)}!
+      `
     }
     return interaction.editReply({
       content: response_content,
