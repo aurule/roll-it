@@ -51,7 +51,14 @@ describe("UserSavedRolls", () => {
       expect(result.length).toEqual(3)
     })
 
-    it.todo("extracts options from jsonb")
+    it("extracts options from jsonb", () => {
+      const saved_rolls = new UserSavedRolls("test-guild", "user-all", db)
+      fakeSavedRoll(saved_rolls, {name: "test1"})
+
+      const result = saved_rolls.all()
+
+      expect(result[0].options.pool).toEqual(1)
+    })
   })
 
   describe("detail", () => {
