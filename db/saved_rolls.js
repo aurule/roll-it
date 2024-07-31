@@ -99,7 +99,13 @@ class UserSavedRolls {
     })
   }
 
-
+  upsert(data) {
+    // {name, description, command, options, incomplete, invalid}
+    // const fields = Object.keys(data)
+    // INSERT INTO saved_rolls (...) VALUES (...)
+    // ON CONFLICT (incomplete) WHERE guildFlake = @guildFlake AND userFlake = @userFlake DO UPDATE SET
+    // (${fields.join(", ")}) = (${fields.map(f => `excluded.${f}`).join(", ")})
+  }
 
   /**
    * Get an array of all saved rolls for this user and guild
