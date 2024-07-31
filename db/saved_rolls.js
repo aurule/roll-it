@@ -1,5 +1,47 @@
 const { oneLine } = require("common-tags")
 
+/**
+ * Convert an object into vars suitable for use in UPDATE sql
+ *
+ * For intended use, see update().
+ *
+ * @param  {obj} data Object of data to convert
+ * @return {obj}      Object of fields, placeholders, and values to use in generating an UPDATE call
+ */
+function makeUpdateFields(data) {
+  const fields = []
+  const placeholders = []
+  const values = {}
+
+  for (const field in data) {
+    fields.push(field)
+    switch(field) {
+      case "options":
+        placeholders.push("JSONB(@options)")
+        values.options = JSON.stringify(data.options)
+        break;
+      case "incomplete":
+      case "invalid":
+        placeholders.push(`@${field}`)
+        values[field] = +!!data[field]
+        break;
+      default:
+        placeholders.push(`@${field}`)
+        values[field] = data[field]
+        break;
+    }
+  }
+
+  return {
+    fields,
+    placeholders,
+    values,
+  }
+}
+
+/**
+ * Class for manipulating saved_rolls database records.
+ */
 class UserSavedRolls {
   constructor(guildId, userId, db_obj) {
     this.guildId = guildId
@@ -24,7 +66,7 @@ class UserSavedRolls {
    * @throws {SqliteError} If `name` already exists for this guild
    */
   create({name, description, command, options, incomplete, invalid}) {
-    const insert =  this.db.prepare(oneLine`
+    const insert = this.db.prepare(oneLine`
       INSERT OR ROLLBACK INTO saved_rolls (
         guildFlake,
         userFlake,
@@ -56,6 +98,8 @@ class UserSavedRolls {
       invalid: +!!invalid,
     })
   }
+
+
 
   /**
    * Get an array of all saved rolls for this user and guild
@@ -165,35 +209,13 @@ class UserSavedRolls {
    * @throws {SqliteError} If `data` is empty
    */
   update(id, data) {
-    let sql = "UPDATE OR ROLLBACK saved_rolls SET "
-    const fields = []
-    const placeholders = []
-    const values = {}
+    const {fields, placeholders, values} = makeUpdateFields(data)
 
-    for (const field in data) {
-      switch(field) {
-        case "options":
-          fields.push("options")
-          placeholders.push("JSONB(@options)")
-          values.options = JSON.stringify(data.options)
-          break;
-        case "incomplete":
-        case "invalid":
-          fields.push(field)
-          placeholders.push(`@${field}`)
-          values[field] = +!!data[field]
-          break;
-        default:
-          fields.push(field)
-          placeholders.push(`@${field}`)
-          values[field] = data[field]
-          break;
-      }
-    }
-
-    sql += `(${fields.join(", ")}) = (${placeholders.join(", ")})`
-
-    sql += " WHERE id = @id AND guildFlake = @guildFlake AND userFlake = @userFlake"
+    const sql = oneLine`
+      UPDATE OR ROLLBACK saved_rolls SET
+      (${fields.join(", ")}) = (${placeholders.join(", ")})
+      WHERE id = @id AND guildFlake = @guildFlake AND userFlake = @userFlake
+    `
 
     const update = this.db.prepare(sql)
     return update.run({
@@ -286,6 +308,7 @@ function seed() {
 }
 
 module.exports = {
+  makeUpdateFields,
   UserSavedRolls,
   seed,
 }

@@ -1,4 +1,4 @@
-const { UserSavedRolls } = require("./saved_rolls")
+const { makeUpdateFields, UserSavedRolls } = require("./saved_rolls")
 const { makeDB } = require("./index")
 
 function fakeSavedRoll(saved_rolls, data) {
@@ -18,6 +18,60 @@ let db
 
 beforeEach(() => {
   db = makeDB()
+})
+
+describe("makeUpdateFields", () => {
+  it("generates fields", () => {
+    const data = {
+      test: "test",
+    }
+
+    const result = makeUpdateFields(data)
+
+    expect(result.fields).toContain("test")
+  })
+
+  it("generates placeholders", () => {
+    const data = {
+      test: "test",
+    }
+
+    const result = makeUpdateFields(data)
+
+    expect(result.placeholders).toContain("@test")
+  })
+
+  it("generates values", () => {
+    const data = {
+      test: "test",
+    }
+
+    const result = makeUpdateFields(data)
+
+    expect(result.values.test).toMatch("test")
+  })
+
+  it("converts options", () => {
+    const data = {
+      options: {test: true},
+    }
+
+    const result = makeUpdateFields(data)
+
+    expect(result.fields).toContain("options")
+    expect(result.placeholders).toContain("JSONB(@options)")
+    expect(result.values.options).toMatch(JSON.stringify(data.options))
+  })
+
+  it("forces flag to be integer", () => {
+    const data = {
+      incomplete: true,
+    }
+
+    const result = makeUpdateFields(data)
+
+    expect(result.values.incomplete).toEqual(1)
+  })
 })
 
 describe("UserSavedRolls", () => {
