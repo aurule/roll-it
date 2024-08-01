@@ -105,11 +105,12 @@ module.exports = {
     // if there is an invocation, parse and validate it
     const invocation = command_options.invocation
     if (invocation) {
-      const parsed_invocation = parse(invocation)
-
-      if (parsed_invocation.errors.length) {
+      var parsed_invocation
+      try {
+        parsed_invocation = await parse(invocation)
+      } catch (err) {
         return interaction.editReply({
-          content: parsed_invocation.errors.join("\n"),
+          content: err.message,
           ephemeral: true
         })
       }

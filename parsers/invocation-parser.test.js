@@ -1,56 +1,47 @@
 const { parse } = require("./invocation-parser")
 
 describe("with junk input", () => {
-  it("errors early", () => {
-    const result = parse("something something explosions")
-
-    const error_messages = result.errors.join("\b")
-    expect(error_messages).toMatch("invalid")
+  it("errors early", async () => {
+    await expect(parse("something something explosions"))
+    .rejects
+    .toThrow("invalid")
   })
 })
 
 describe("with an unknown command", () => {
-  it("errors early", () => {
-    const result = parse("/nopealope pool:3")
-
-    const error_messages = result.errors.join("\b")
-    expect(error_messages).toMatch("cannot save")
+  it("errors early", async () => {
+    await expect(parse("/nopealope pool:3"))
+    .rejects
+    .toThrow("cannot save")
   })
 })
 
 describe("with a non-savable command", () => {
-  it("errors early", () => {
-    const result = parse("/chop")
-
-    const error_messages = result.errors.join("\b")
-    expect(error_messages).toMatch("cannot save")
+  it("errors early", async () => {
+    await expect(parse("/chop"))
+    .rejects
+    .toThrow("cannot save")
   })
 })
 
 describe("with a savable command", () => {
   describe("with invalid options", () => {
-    it("returns the command name", () => {
-      const result = parse("/roll pool:3")
-
-      expect(result.command).toEqual("roll")
-    })
-
-    it("returns validation errors", () => {
-      const result = parse("/roll pool:3")
-
-      expect(result.errors.length).toBeTruthy()
+    it("throws validation errors", async () => {
+      await expect(parse("/roll pool:3"))
+      .rejects
+      .toThrow('"sides" is required')
     })
   })
 
   describe("with valid options", () => {
-    it("returns the command name", () => {
-      const result = parse("/roll pool:3 sides:6 modifier:2")
+    it("returns the command name", async () => {
+      const result = await parse("/roll pool:3 sides:6 modifier:2")
 
       expect(result.command).toEqual("roll")
     })
 
-    it("returns converted options object", () => {
-      const result = parse("/roll pool:3 sides:6 modifier:2")
+    it("returns converted options object", async () => {
+      const result = await parse("/roll pool:3 sides:6 modifier:2")
 
       expect(result.options).toMatchObject({
         pool: 3,
@@ -87,8 +78,8 @@ describe("spot checks", () => {
       difficulty: 8,
       specialty: true,
     }],
-  ])("parses %s", (invocation, expected_options) => {
-    const result = parse(invocation)
+  ])("parses %s", async (invocation, expected_options) => {
+    const result = await parse(invocation)
 
     expect(result.options).toMatchObject(expected_options)
   })

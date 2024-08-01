@@ -1,7 +1,8 @@
 const Joi = require("joi")
 const { schemaErrors } = require("../util/schema-errors")
+const { RollParseError } = require("../errors/roll-parse-error")
 
-const command_re = /\/(?<command>\w+)/
+const command_re = /\/(?<command>[\w-]+)/
 const args_re = /(\s+)?(?<name>\w+):(?<value>([\w+-/^*]+\s*)+(\s|$))/g
 
 module.exports = {
@@ -12,16 +13,16 @@ module.exports = {
    * These take the format of `/command optionInt:5 optionBool:true optionStr:some kind of string optionN:value
    *
    * @param  {str} invocation Invocation string
-   * @return {obj}            Object with at least an errors member, and also command and options if the command was savable.
+   * @return {obj}            Object with a command and options attribute if the command was savable.
+   *
+   * @throws RollParseError On an invalid invocation string, non-savable command, or invalid options.
    */
-  parse(invocation) {
+  async parse(invocation) {
     const commands = require("../commands")
 
     const groups = invocation.match(command_re)?.groups
     if (!groups) {
-      return {
-        errors: [`invalid invocation "${invocation}"`]
-      }
+      throw new RollParseError([`invalid invocation "${invocation}"`])
     }
     const command_name = groups.command
 
@@ -34,18 +35,20 @@ module.exports = {
     }
 
     const command = commands.get(command_name)
-    if (!(command && command.savable)) {
-      return {
-        errors: [`cannot save "${command_name}"`]
-      }
+    if (!(command?.savable)) {
+      throw new RollParseError([`cannot save "${command_name}"`])
     }
 
-    const validated = command.schema.validate(options, {abortEarly: false})
+    var validated_options
+    try {
+      validated_options = await command.schema.validateAsync(options, {abortEarly: false})
+    } catch(err) {
+      throw new RollParseError(err.details.map(d => d.message))
+    }
 
     return {
       command: command_name,
-      options: validated.value,
-      errors: schemaErrors(validated),
+      options: validated_options,
     }
   },
 }

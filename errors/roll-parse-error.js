@@ -1,5 +1,6 @@
 class RollParseError extends Error {
   constructor(messages) {
+    super()
     this.messages = messages
   }
 
