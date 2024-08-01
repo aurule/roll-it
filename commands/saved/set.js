@@ -62,10 +62,10 @@ const options_schema = Joi.object({
  * @type {Joi.object}
  */
 const saved_roll_presence_schema = Joi.object({
-  name: Joi.string(),
-  description: Joi.string(),
-  command: Joi.string(),
-  options: Joi.object(),
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  command: Joi.string().required(),
+  options: Joi.object().required(),
 }).unknown()
 
 module.exports = {
