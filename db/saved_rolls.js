@@ -99,6 +99,18 @@ class UserSavedRolls {
     })
   }
 
+  /**
+   * Insert or update a saved roll record
+   *
+   * When there is no incomplete record, this method will always create a new record.
+   *
+   * When there *is* an incomplete record, this method will update it.
+   *
+   * This method aborts on errors from name collision.
+   *
+   * @param  {obj} data Object of new values to set. All omitted attributes will be left alone.
+   * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
+   */
   upsert(data) {
     const {fields, placeholders, values} = makeUpdateFields(data)
 
