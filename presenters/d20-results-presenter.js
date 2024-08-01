@@ -1,19 +1,26 @@
-const { bold, strikethrough } = require("discord.js")
+const { bold, strikethrough, Collection } = require("discord.js")
+
+const keep_strings = new Collection([
+  ["all", ""],
+  ["highest", " with advantage"],
+  ["lowest", " with disadvantage"],
+])
 
 /**
  * Create a string describing the results of a rock-paper-scissors roll
  *
- * @param  {Int}       options.modifier     Number to add to the roll's summed result
- * @param  {String}    options.description  Text describing the roll
- * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
- * @param  {obj}       options.picked       Object of results and indexes after picking highest or lowest
- * @return {String}                         String describing this roll
+ * @param  {Int}          modifier    Number to add to the roll's summed result
+ * @param  {String}       description Text describing the roll
+ * @param  {Array<int[]>} raw         An array of one array with one numeric value for the die
+ * @param  {obj}          picked      Object of results and indexes after picking highest or lowest
+ * @param  {str}          keep        The method used to pick dice to keep. One of "all", "highest", or "lowest".
+ * @return {String}                   String describing this roll
  */
-function presentOne({ modifier, description, raw, picked }) {
-  let content = ["{{userMention}} rolled", detail(raw[0], picked[0].indexes, modifier)]
-  // with dis/advantage
-  if (description) content.push(`for "${description}"`)
-  return content.join(" ")
+function presentOne({ modifier, description, raw, picked, keep }) {
+  let content = "{{userMention}} rolled " + detail(raw[0], picked[0].indexes, modifier)
+  if (description) content += ` for "${description}"`
+  content += keep_strings.get(keep)
+  return content
 }
 
 /**

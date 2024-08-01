@@ -13,6 +13,17 @@ describe("presentOne", () => {
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
   })
+
+  it("includes advantage if present", () => {
+    const args = {
+      ...defaultArgs,
+      keep: "highest",
+    }
+
+    const result = d20Presenter.presentOne(args)
+
+    expect(result).toMatch("with advantage")
+  })
 })
 
 describe("presentMany", () => {
@@ -27,6 +38,17 @@ describe("presentMany", () => {
     const result = d20Presenter.presentMany(defaultArgs)
 
     expect(result).toMatch(`"${defaultArgs.description}"`)
+  })
+
+  it("includes advantage if present", () => {
+    const args = {
+      ...defaultArgs,
+      keep: "highest",
+    }
+
+    const result = d20Presenter.presentOne(args)
+
+    expect(result).toMatch("with advantage")
   })
 })
 
