@@ -17,7 +17,7 @@ it("excludes the index", () => {
 describe("savable command parsers", () => {
   it.each(
     Array.from(commands.savable().keys().map(k => [k])),
-  )("parses %s output", (command_name) => {
+  )("has a parser for %s output", (command_name) => {
     expect(parsers.get(command_name)).toBeTruthy()
   })
 })
