@@ -29,12 +29,12 @@ module.exports = {
   async parse(content) {
     const raw_options = {}
 
-    const modifier_groups = content.match(modifier_re)?.groups
+    const modifier_groups = modifier_re.exec(content)?.groups
     if (modifier_groups) {
       raw_options.modifier = modifier_groups.modifier
     }
 
-    const rolls_groups = content.match(rolls_re)?.groups
+    const rolls_groups = rolls_re.exec(content)?.groups
     if (rolls_groups) {
       raw_options.rolls = rolls_groups.rolls
     }
