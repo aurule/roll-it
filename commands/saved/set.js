@@ -200,8 +200,9 @@ module.exports = {
     return [
       oneLine`
         ${command_name} creates a new saved roll for you on this server. It has two steps. First, you set the
-        name and description, and choose the command to use. Second, you set the options for that command.
-        Once you're finished, you can use ${inlineCode("/saved roll")} to roll it!
+        name and description. Second, you set the options for that command using
+        ${inlineCode("Save this roll")}. Once you're finished, you can use ${inlineCode("/saved roll")} to
+        roll it!
       `,
       "",
       oneLine`
@@ -219,7 +220,19 @@ module.exports = {
       "3. Not all commands can be saved. Below is a list of the ones which can be used.",
       "",
       "Savable commands:",
-      CommandNamePresenter.list(savable_commands)
+      CommandNamePresenter.list(savable_commands),
+      "",
+      oneLine`
+        For advanced usage, you can add the ${inlineCode("invocation")} option. This lets you directly set the
+        command and options that will be saved to the roll. An invocaiton looks like
+        ${inlineCode("/roll pool:3 sides:6 rolls:2")} and is what Discord generates when you type out a
+        command.
+      `,
+      "",
+      oneLine`
+        By adding an ${inlineCode("invocation")}, you can quickly create many saved rolls in a row. This will
+        work even if you have an incomplete roll, because the rolls you're creating a complete.
+      `,
     ].join("\n")
   },
 }
