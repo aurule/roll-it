@@ -100,11 +100,36 @@ class UserSavedRolls {
   }
 
   upsert(data) {
-    // {name, description, command, options, incomplete, invalid}
-    // const fields = Object.keys(data)
-    // INSERT INTO saved_rolls (...) VALUES (...)
-    // ON CONFLICT (incomplete) WHERE guildFlake = @guildFlake AND userFlake = @userFlake DO UPDATE SET
-    // (${fields.join(", ")}) = (${fields.map(f => `excluded.${f}`).join(", ")})
+    const {fields, placeholders, values} = makeUpdateFields(data)
+
+    const sql = oneLine`
+      INSERT INTO saved_rolls
+      (
+        guildFlake,
+        userFlake,
+        ${fields.join(", ")}
+      )
+      VALUES
+      (
+        @guildFlake,
+        @userFlake,
+        ${placeholders.join(", ")}
+      )
+      ON CONFLICT (guildFlake, userFlake)
+        WHERE incomplete
+      DO UPDATE SET
+      (
+        ${fields.join(", ")}
+      ) = (
+        ${fields.map(f => `excluded.${f}`).join(", ")}
+      )
+    `
+    const upsert = this.db.prepare(sql)
+    return upsert.run({
+      guildFlake: this.guildId,
+      userFlake: this.userId,
+      ...values
+    })
   }
 
   /**

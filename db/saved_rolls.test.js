@@ -93,6 +93,53 @@ describe("UserSavedRolls", () => {
     })
   })
 
+  describe("upsert", () => {
+    it("inserts a new complete record", () => {
+      const saved_rolls = new UserSavedRolls("test-guild", "user-upsert", db)
+      const data = {
+        name: "test roll",
+        description: "a test",
+        command: "d20",
+        options: {},
+      }
+
+      saved_rolls.upsert(data)
+
+      expect(saved_rolls.count()).toEqual(1)
+    })
+
+    describe("with no incomplete roll", () => {
+      it("inserts a new incomplete record", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-upsert", db)
+        const data = {
+          name: "test roll",
+          description: "a test",
+          incomplete: true,
+        }
+
+        saved_rolls.upsert(data)
+
+        expect(saved_rolls.count()).toEqual(1)
+      })
+    })
+
+    describe("with an incomplete roll", () => {
+      it("updates the existing incomplete record", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-upsert", db)
+        fakeSavedRoll(saved_rolls, {incomplete: true})
+        const data = {
+          name: "test roll",
+          description: "a test",
+          incomplete: true,
+        }
+
+        saved_rolls.upsert(data)
+
+        expect(saved_rolls.count()).toEqual(1)
+      })
+    })
+  })
+
   describe("all", () => {
     it("lists all the user's rolls in this guild", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-all", db)
