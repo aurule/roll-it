@@ -135,22 +135,40 @@ module.exports = {
     // let the db insert or update as appropriate
     // when new data is incomplete, an existing incomplete record will be created or updated
     // when new data is complete, a new record will be created
-    saved_rolls.upsert(saved_roll_params)
-    let response_content
-    if (saved_roll_params.incomplete) {
-      response_content = oneLine`
-        You've saved the name ${italic(command_options.name)} for a new roll. Right click on the result of a
-        roll you make and choose ${inlineCode("Apps -> Save this roll")} to add that command and its options
-        to ${italic(command_options.name)}.
-      `
-    } else {
-      response_content = oneLine`
+    const record_result = saved_rolls.upsert(saved_roll_params)
+    const record_id = record_result.lastInsertRowid
+    const saved_details = saved_rolls.detail(record_id)
+
+    // see if the changes complete the saved roll
+    // Minimal schema to validate presence. Correctness must be validated before we reach this point.
+    const saved_roll_presence_schema = Joi.object({
+      name: Joi.string(),
+      description: Joi.string(),
+      command: Joi.string(),
+      options: Joi.object(),
+    }).unknown()
+
+    try {
+      await saved_roll_presence_schema.validateAsync(saved_details)
+    } catch (err) {
+      return interaction.editReply({
+        content: oneLine`
+          You've saved the name ${italic(command_options.name)} for a new roll. Right click on the result of a
+          roll you make and choose ${inlineCode("Apps -> Save this roll")} to add that command and its options
+          to ${italic(command_options.name)}.
+        `,
+        ephemeral: true,
+      })
+    }
+
+    // the roll is finished
+    saved_rolls.update(record_id, {incomplete: false})
+
+    return interaction.editReply({
+      content: oneLine`
         You've saved the roll ${italic(command_options.name)}. Try it out with
         ${inlineCode("/saved roll name:" + command_options.name)}!
-      `
-    }
-    return interaction.editReply({
-      content: response_content,
+      `,
       ephemeral: true,
     })
   },

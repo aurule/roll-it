@@ -128,39 +128,155 @@ describe("execute", () => {
   })
 
   describe("with an incomplete roll", () => {
-    describe("with name and description", () => {
+    describe("that has name and description", () => {
+      var record_id
+
+      beforeEach(() => {
+        const created = saved_rolls.create({
+          name: "test",
+          description: "test",
+          incomplete: true,
+        })
+        record_id = created.lastInsertRowid
+      })
+
       describe("with no invocation", () => {
-        it.todo("overwrites the name")
-        it.todo("overwrites the description")
-        it.todo("leaves the roll incomplete")
-        it.todo("responds with instructions to finish the saved roll")
+        beforeEach(() => {
+          interaction.command_options.name = "new name"
+          interaction.command_options.description = "new description"
+        })
+
+        it("overwrites the name", async () => {
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.name).toMatch("new name")
+        })
+
+        it("overwrites the description", async () => {
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.description).toMatch("new description")
+        })
+
+        it("leaves the roll incomplete", async () => {
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.incomplete).toBeTruthy()
+        })
+
+        it("responds with instructions to finish the saved roll", async () => {
+          await set_command.execute(interaction)
+
+          expect(interaction.replyContent).toMatch("add that command")
+        })
+
+        it("ignores name collision with incomplete record", async () => {
+          interaction.command_options.name = "test"
+
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.description).toMatch("new description")
+        })
+
+        it("warns on name collision with other record", async () => {
+          saved_rolls.create({
+            name: "other",
+          })
+          interaction.command_options.name = "other"
+
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.name).toMatch("test")
+          expect(interaction.replyContent).toMatch("pick a different name")
+        })
       })
 
       describe("with an invocation", () => {
-        it.todo("overwrites the name")
-        it.todo("overwrites the description")
-        it.todo("saves the command")
-        it.todo("saves the options")
-        it.todo("marks roll as complete")
-        it.todo("responds with instructions to use the saved roll")
+        // the rest of this behavior is identical to what's tested in `with no incomplete roll` -> `with an invocation`
+        beforeEach(() => {
+          interaction.command_options.name = "new name"
+          interaction.command_options.description = "new description"
+          interaction.command_options.invocation = "/d20 modifier:8"
+        })
+
+        it("creates a new record", async () => {
+          await set_command.execute(interaction)
+
+          const unfinished = saved_rolls.detail(record_id)
+          expect(unfinished.name).toMatch("test")
+          expect(saved_rolls.count()).toEqual(2)
+        })
       })
     })
 
-    describe("with command and options", () => {
+    describe("that has command and options", () => {
+      var record_id
+
+      beforeEach(() => {
+        const created = saved_rolls.create({
+          command: "d10",
+          options: {
+            modifier: 8,
+          },
+          incomplete: true,
+        })
+        record_id = created.lastInsertRowid
+      })
+
       describe("with no invocation", () => {
-        it.todo("saves the name")
-        it.todo("saves the description")
-        it.todo("marks roll as complete")
-        it.todo("responds with instructions to use the saved roll")
+        beforeEach(() => {
+          interaction.command_options.name = "new name"
+          interaction.command_options.description = "new description"
+        })
+
+        it("saves the name", async () => {
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.name).toMatch("new name")
+        })
+
+        it("saves the description", async () => {
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.description).toMatch("new description")
+        })
+
+        it("marks roll as complete", async () => {
+          await set_command.execute(interaction)
+
+          const detail = saved_rolls.detail(record_id)
+          expect(detail.incomplete).toBeFalsy()
+        })
+
+        it("responds with instructions to use the saved roll", async () => {
+          await set_command.execute(interaction)
+
+          expect(interaction.replyContent).toMatch("Try it out")
+        })
       })
 
       describe("with an invocation", () => {
-        it.todo("saves the name")
-        it.todo("saves the description")
-        it.todo("overwrites the command")
-        it.todo("overwrites the options")
-        it.todo("marks roll as complete")
-        it.todo("responds with instructions to use the saved roll")
+        // the rest of this behavior is identical to what's tested in `with no incomplete roll` -> `with an invocation`
+        beforeEach(() => {
+          interaction.command_options.name = "new name"
+          interaction.command_options.description = "new description"
+          interaction.command_options.invocation = "/d20 modifier:8"
+        })
+
+        it("creates a new record", async () => {
+          await set_command.execute(interaction)
+
+          const unfinished = saved_rolls.detail(record_id)
+          expect(unfinished.command).toMatch("d10")
+          expect(saved_rolls.count()).toEqual(2)
+        })
       })
     })
   })
