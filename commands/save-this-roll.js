@@ -4,6 +4,8 @@ module.exports = {
   name: "Save this roll",
   description: "Save a roll you've made to reuse it later",
   type: "menu",
+  // global: true,
+  global: false,
   data: () =>
     new ContextMenuCommandBuilder()
       .setName(module.exports.name)
