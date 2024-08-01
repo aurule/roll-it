@@ -13,7 +13,7 @@ const MAX_ENTRY_LENGTH = 1500
 module.exports = {
   name: "set",
   parent: "saved",
-  description: "Save a roll command and its options",
+  description: "Set the name and description of a saved roll",
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)
@@ -43,8 +43,10 @@ module.exports = {
           .setRequired(false)
       ),
   async execute(interaction) {
+    // insurance against timeouts
     interaction.deferReply()
 
+    // validate the name and description
     const savable_commands = require("../index").savable()
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
@@ -93,11 +95,14 @@ module.exports = {
       })
     }
 
+    // name, desc, and incomplete flag are the expected state
     const saved_roll_params = {
-      ...command_options,
-      incomplete: true
+      name: command_options.name,
+      description: command_options.description,
+      incomplete: true,
     }
 
+    // if there is an invocation, parse and validate it
     const invocation = command_options.invocation
     if (invocation) {
       const parsed_invocation = parse(invocation)
@@ -120,14 +125,17 @@ module.exports = {
         })
       }
 
+      // with a valid invocation, we can skip the incomplete flag and make a new saved roll directly
       saved_roll_params.command = parsed_invocation.command
       saved_roll_params.options = validated_options
       saved_roll_params.incomplete = false
 
     }
 
-    // TODO upsert
-    saved_rolls.create(saved_roll_params)
+    // let the db insert or update as appropriate
+    // when new data is incomplete, an existing incomplete record will be created or updated
+    // when new data is complete, a new record will be created
+    saved_rolls.upsert(saved_roll_params)
     let response_content
     if (saved_roll_params.incomplete) {
       response_content = oneLine`
