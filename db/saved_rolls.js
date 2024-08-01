@@ -286,13 +286,15 @@ class UserSavedRolls {
   /**
    * Check whether a given name is in use for this guild and user
    *
+   * The name for an incomplete roll does not count as taken.
+   *
    * @param  {str}  name The name to check
    * @return {bool}      True if a saved roll exists for this guild and user with the given name, false if not
    */
   taken(name) {
     const select = this.db.prepare(oneLine`
       SELECT 1 FROM saved_rolls
-      WHERE guildFlake = @guildFlake AND userFlake = @userFlake AND name = @name
+      WHERE guildFlake = @guildFlake AND userFlake = @userFlake AND name = @name AND NOT incomplete
     `)
     select.pluck()
     return !!select.get({

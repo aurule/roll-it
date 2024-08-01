@@ -321,6 +321,15 @@ describe("UserSavedRolls", () => {
       expect(result).toBeTruthy()
     })
 
+    it("returns false if the name only exists on an incomplete roll for the guild and user", () => {
+      const saved_rolls = new UserSavedRolls("test-guild", "user-taken", db)
+      fakeSavedRoll(saved_rolls, {name: "test", incomplete: true})
+
+      const result = saved_rolls.taken("test")
+
+      expect(result).toBeFalsy()
+    })
+
     it("returns false if the name does not exist for the guild and user", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-taken", db)
       fakeSavedRoll(saved_rolls, {name: "test"})
