@@ -1,5 +1,4 @@
 const Joi = require("joi")
-const { schemaErrors } = require("../util/schema-errors")
 const { RollParseError } = require("../errors/roll-parse-error")
 
 const command_re = /\/(?<command>[\w-]+)/
