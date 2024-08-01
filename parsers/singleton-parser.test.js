@@ -28,7 +28,7 @@ describe("single roll", () => {
     const content = present({
       rolls: 1,
       raw: [[3]],
-      modifier: [[2]],
+      modifier: 2,
     })
 
     const result = await parse(content)
@@ -51,7 +51,7 @@ describe("single roll", () => {
     const content = present({
       rolls: 1,
       raw: [[3]],
-      modifier: [[2]],
+      modifier: 2,
       description: "(I wanted a 5)"
     })
 
@@ -77,7 +77,7 @@ describe("multiple rolls", () => {
     const content = present({
       rolls: 2,
       raw: [[3], [4]],
-      modifier: [[2]],
+      modifier: 2,
     })
 
     const result = await parse(content)
@@ -100,7 +100,7 @@ describe("multiple rolls", () => {
     const content = present({
       rolls: 2,
       raw: [[3], [4]],
-      modifier: [[2]],
+      modifier: 2,
       description: "(I wanted a 5)"
     })
 
