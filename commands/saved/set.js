@@ -144,20 +144,9 @@ module.exports = {
         })
       }
 
-      const schema = savable_commands.get(parsed_invocation.command).schema
-      var validated_options
-      try {
-        validated_options = await schema.validateAsync(parsed_invocation.options)
-      } catch (err) {
-        return interaction.editReply({
-          content: err.details[0].message,
-          ephemeral: true,
-        })
-      }
-
       // with a valid invocation, we can skip the incomplete flag and make a new saved roll directly
       saved_roll_params.command = parsed_invocation.command
-      saved_roll_params.options = validated_options
+      saved_roll_params.options = parsed_invocation.options
       saved_roll_params.incomplete = false
 
     }
