@@ -32,17 +32,15 @@ function presentOne({ modifier, description, raw, picked, keep }) {
  * @param  {obj[]}     options.picked       Array of objects of results and indexes after picking highest or lowest
  * @return {String}                         String describing this roll
  */
-function presentMany({ modifier, description, raw, picked }) {
-  let content = ["{{userMention}} rolled"]
+function presentMany({ modifier, description, raw, picked, keep }) {
+  let content = "{{userMention}} rolled"
   if (description) {
-    content.push(`"${description}"`)
+    content+= ` "${description}"`
   }
-  // with dis/advantage
-  content.push(raw.length)
-  content.push("times:")
+  content += keep_strings.get(keep)
+  content += ` ${raw.length} times:`
+  content += raw.map((result, idx) => `\n\t${detail(result, picked[idx].indexes, modifier)}`)
   return content
-    .concat(raw.map((result, idx) => `\n\t${detail(result, picked[idx].indexes, modifier)}`))
-    .join(" ")
 }
 
 /**
