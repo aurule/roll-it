@@ -29,4 +29,12 @@ describe("table", () => {
 
     expect(result[0].value).toEqual("5")
   })
+
+  it("sends up to 25 options", () => {
+    const tables = Array.from({length: 30}, (_x, idx) => ({name: `test${idx}`, id: idx}))
+
+    const result = Completers.table("", tables)
+
+    expect(result.length).toEqual(25)
+  })
 })

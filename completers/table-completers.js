@@ -17,6 +17,7 @@ module.exports = {
 
     const matches = tables
       .filter((t) => t.name.toLowerCase().startsWith(search))
+      .slice(0, 25)
       .map((t) => {
         return {
           name: t.name.substring(0, 100),

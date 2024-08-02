@@ -12,4 +12,10 @@ describe("all", () => {
 
     expect(result[0].value).toEqual("chop")
   })
+
+  it("sends up to 25 options", () => {
+    const result = Completers.all("")
+
+    expect(result.length).toEqual(25)
+  })
 })
