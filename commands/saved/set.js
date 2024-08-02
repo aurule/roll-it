@@ -2,7 +2,6 @@ const { SlashCommandSubcommandBuilder, inlineCode, userMention, italic } = requi
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 const { UserSavedRolls } = require("../../db/saved_rolls")
-const { fetchLines } = require("../../util/attachment-lines")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const { parse } = require("../../parsers/invocation-parser")
 const commonSchemas = require("../../util/common-schemas")
@@ -101,9 +100,6 @@ module.exports = {
           .setRequired(false)
       ),
   async execute(interaction) {
-    // insurance against timeouts
-    interaction.deferReply()
-
     // validate the name and description
     const savable_commands = require("../index").savable()
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
@@ -111,15 +107,15 @@ module.exports = {
     const raw_options = {
       name: interaction.options.getString("name"),
       description: interaction.options.getString("description"),
-      invocation: interaction.options.getString("invocation"),
+      invocation: interaction.options.getString("invocation") ?? undefined,
     }
 
     let command_options = {}
     try {
       command_options = await options_schema.validateAsync(raw_options, {context: {saved_rolls}})
     } catch (err) {
-      return interaction.editReply({
-        content: err.details[0].message,
+      return interaction.reply({
+        content: `There was a problem saving that name and description:\n` + err.details[0].message,
         ephemeral: true,
       })
     }
@@ -134,12 +130,12 @@ module.exports = {
     // if there is an invocation, parse and validate it
     const invocation = command_options.invocation
     if (invocation) {
-      var parsed_invocation
+      let parsed_invocation
       try {
         parsed_invocation = await parse(invocation)
       } catch (err) {
-        return interaction.editReply({
-          content: err.message,
+        return interaction.reply({
+          content: `There was a problem saving the invocation for "${raw_options.name})":\n` + err.message,
           ephemeral: true
         })
       }
@@ -148,7 +144,6 @@ module.exports = {
       saved_roll_params.command = parsed_invocation.command
       saved_roll_params.options = parsed_invocation.options
       saved_roll_params.incomplete = false
-
     }
 
     // let the db insert or update as appropriate
@@ -163,11 +158,11 @@ module.exports = {
     try {
       await saved_roll_presence_schema.validateAsync(saved_details)
     } catch (err) {
-      return interaction.editReply({
+      return interaction.reply({
         content: oneLine`
-          You've saved the name ${italic(command_options.name)} for a new roll. Right click on the result of a
-          roll you make and choose ${inlineCode("Apps -> Save this roll")} to add that command and its options
-          to ${italic(command_options.name)}.
+          You've saved the name "${command_options.name}" for a new roll. Right click on the result of a
+          Roll-It command and choose ${italic("Apps -> Save this roll")} to add that command and its options
+          to "${command_options.name}".
         `,
         ephemeral: true,
       })
@@ -176,10 +171,10 @@ module.exports = {
     // the roll is finished
     saved_rolls.update(record_id, {incomplete: false})
 
-    return interaction.editReply({
+    return interaction.reply({
       content: oneLine`
-        You've saved the roll ${italic(command_options.name)}. Try it out with
-        ${inlineCode("/saved roll name:" + command_options.name)}!
+        You've saved the roll ${italic(command_options.name)}! Try it out with
+        ${inlineCode("/saved roll name:" + command_options.name)}.
       `,
       ephemeral: true,
     })
