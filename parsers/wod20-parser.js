@@ -37,7 +37,7 @@ module.exports = {
       raw_options.difficulty = pool_groups.difficulty
     }
 
-    const has_specialty = specialty_re.exec(stripped_content)
+    const has_specialty = specialty_re.test(stripped_content)
     if (has_specialty) {
       raw_options.specialty = true
     }
