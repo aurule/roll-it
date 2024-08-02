@@ -215,7 +215,7 @@ module.exports = {
       "",
       oneLine`
         By adding an ${inlineCode("invocation")}, you can quickly create many saved rolls in a row. This will
-        work even if you have an incomplete roll, because the rolls you're creating a complete.
+        work even if you have an incomplete roll, because the rolls you're creating are already complete.
       `,
     ].join("\n")
   },

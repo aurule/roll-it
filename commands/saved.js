@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, inlineCode } = require("discord.js")
+const { SlashCommandBuilder, PermissionFlagsBits, inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
@@ -37,15 +37,17 @@ module.exports = {
       `,
       "",
       oneLine`
-        In general, you'll use ${inlineCode("/saved set")} to save one or more rolls and their options. Then,
-        ${inlineCode("/saved roll")} to use one of them.
+        In general, you'll use ${inlineCode("/saved set")} and ${italic("Save this roll")} to save one or more
+        rolls and their options. Then, ${inlineCode("/saved roll")} to use one of them. Check out the help
+        for ${inlineCode("/saved set")} and ${italic("Save this roll")} to learn more about how they work
+        together.
       `,
       "",
       `You can use ${inlineCode("/saved list")} to see the rolls you've saved on this server.`,
       "",
       oneLine`
-        ${inlineCode("/saved manage")} lets you see the details of a saved roll, update its options, and
-        remove it from the server.
+        ${inlineCode("/saved manage")} lets you see the details of a saved roll, update it, and remove it from
+        the server.
       `,
     ].join("\n")
   },
