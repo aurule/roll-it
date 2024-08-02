@@ -11,6 +11,8 @@ module.exports = {
    *
    * These take the format of `/command optionInt:5 optionBool:true optionStr:some kind of string optionN:value
    *
+   * Unlike other parsers, the invocation parser returns both the command and the command's validated options.
+   *
    * @param  {str} invocation Invocation string
    * @return {obj}            Object with a command and options attribute if the command was savable.
    *
