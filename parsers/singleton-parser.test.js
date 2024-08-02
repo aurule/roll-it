@@ -50,6 +50,17 @@ describe.each([
     expect(result.modifier).toEqual(2)
   })
 
+  it("captures negative modifier", async () => {
+    const content = present({
+      ...raw_opts,
+      modifier: -2,
+    })
+
+    const result = await parse(content)
+
+    expect(result.modifier).toEqual(-2)
+  })
+
   it("skips modifier if not present", async () => {
     const content = present(raw_opts)
 

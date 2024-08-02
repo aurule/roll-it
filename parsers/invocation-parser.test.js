@@ -58,6 +58,7 @@ describe("spot checks", () => {
     ["/d20 modifier:4", {modifier: 4}],
     ["/fate", {}],
     ["/fate modifier:3", {modifier: 3}],
+    ["/fate modifier:-3", {modifier: -3}],
     ["/nwod pool:6", {pool: 6}],
     ["/nwod pool:6 explode:9 threshold:9 rote:true", {
       pool: 6,

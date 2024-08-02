@@ -3,7 +3,7 @@ const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/roll")
 
 const pool_re = /(?<pool>\d+)d(?<sides>\d+)/
-const modifier_re = /(?<modifier>(?:- )?\d+)\)/
+const modifier_re = /(?<modifier>-?\d+)\)/
 const rolls_re = /(?<rolls>\d+) times/
 
 module.exports = {
