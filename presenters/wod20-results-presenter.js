@@ -32,6 +32,21 @@ module.exports = {
   /**
    * Describe the results of a single roll
    *
+   * @example
+   * ```js
+   * const options = {
+   *   pool: 5,
+   *   difficulty: 7,
+   *   specialty: false,
+   *   until: undefined,
+   *   description: "exmaple roll",
+   *   raw: [[5, 3, 8, 2, 1]],
+   *   summed: [0],
+   * }
+   * presentOne(options)
+   * // {{userMention}} rolled **0** for "exmaple roll" (5 diff 7: [5, 3, **8**, 2,~~1~~])
+   * ```
+   *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.difficulty      Threshold for success
    * @param  {Bool}   options.specialty       Whether 10s count as two successes
@@ -88,6 +103,26 @@ module.exports = {
   /**
    * Describe the results of multiple rolls
    *
+   * @example
+   * ```js
+   * const options = {
+   *   pool: 5,
+   *   difficulty: 7,
+   *   specialty: false,
+   *   until: undefined,
+   *   description: "exmaple roll",
+   *   raw: [
+   *     [5, 3, 8, 2, 1],
+   *     [9, 4, 8, 1, 3],
+   *   ],
+   *   summed: [0, 1],
+   * }
+   * presentMany(options)
+   * // {{userMention}} rolled "exmaple roll" 2 times at 5 diff 7:
+   * //   **0**  (5, 3, **8**, 2, ~~1~~)
+   * //   **1**  (**9**, 4, **8**, ~~1~~, 3)
+   * ```
+   *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.difficulty      Threshold for success
    * @param  {Bool}   options.specialty       Whether 10s count as two successes
@@ -97,7 +132,7 @@ module.exports = {
    * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
    * @return {String}                         String describing the roll results
    */
-  presentMany: ({ pool, difficulty, specialty, until, description, raw, summed }) => {
+  presentMany: ({ pool, difficulty, specialty, description, raw, summed }) => {
     const specialNote = specialty ? "with specialty" : ""
     const descNote = description ? ` "${description}"` : ""
     let content = ["{{userMention}} rolled"]
@@ -150,6 +185,26 @@ module.exports = {
 
   /**
    * Describe the results of multiple rolls
+   *
+   * @example
+   * ```js
+   * const options = {
+   *   pool: 5,
+   *   difficulty: 7,
+   *   specialty: false,
+   *   until: 1,
+   *   description: "exmaple roll",
+   *   raw: [
+   *     [5, 3, 8, 2, 1],
+   *     [9, 4, 8, 1, 3],
+   *   ],
+   *   summed: [0, 1],
+   * }
+   * presentMany(options)
+   * // {{userMention}} rolled "exmaple roll" until 1 successes at 5 diff 7:
+   * //   **0**  (5, 3, **8**, 2, ~~1~~)
+   * //   **1**  (**9**, 4, **8**, ~~1~~, 3)
+   * ```
    *
    * @param  {Int}    options.pool            Number of dice rolled
    * @param  {Int}    options.difficulty      Threshold for success
