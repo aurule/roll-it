@@ -30,15 +30,13 @@ module.exports = {
   present: ({ formula, rolledFormula, pools, raw, summed, description, userFlake }) => {
     const finalSum = limitedEvaluate(rolledFormula)
 
-    let content = ["{{userMention}} rolled", bold(finalSum), "on"]
-    if (description) content.push(`"${description}"`)
-    content.push(`${inlineCode(formula)}:`)
-    content = content.concat(
-      pools.map((pool, index) => {
+    let content = `{{userMention}} rolled ${bold(finalSum)} on`
+    if (description) content += ` "${description}"`
+    content += ` ${inlineCode(formula)}:`
+    content += pools.map((pool, index) => {
         return `\n\t${summed[index]} from ${pool} [${raw[index]}]`
-      }),
-    )
-    content.push(`\n${finalSum} = ${rolledFormula}`)
-    return content.join(" ")
+      })
+    content += `\n${finalSum} = ${rolledFormula}`
+    return content
   },
 }
