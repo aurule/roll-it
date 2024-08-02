@@ -53,7 +53,7 @@ module.exports = {
       content.push(`"${description}"`)
     }
     content.push(":")
-    content.push(module.exports.detail({ raw: raw[0], modifier }))
+    content.push(module.exports.detail(raw[0], modifier))
     return content.join(" ")
   },
 
@@ -79,7 +79,7 @@ module.exports = {
           return [
             `\n\t${module.exports.toLadder(summed[index] + modifier)}`,
             "result:",
-            module.exports.detail({ raw: result, modifier }),
+            module.exports.detail(result, modifier),
           ].join(" ")
         }),
       )
@@ -110,7 +110,7 @@ module.exports = {
    * @param  {Int}    options.modifier Number to add to the roll's summed result
    * @return {String}                  String detailing a single roll
    */
-  detail: ({ raw, modifier = 0 } = {}) => {
+  detail: (raw, modifier = 0) => {
     let detail = raw.map((face) => {
       return emoji[face]
     })

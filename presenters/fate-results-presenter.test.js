@@ -58,13 +58,11 @@ describe("presentMany", () => {
 })
 
 describe("detail", () => {
-  const defaultArgs = {
-    raw: [1, 1, 2, 3],
-    modifier: 2,
-  }
+  const default_raw = [1, 1, 2, 3]
+  const default_modifier = 2
 
   it("shows the breakdown of the dice", () => {
-    const result = FateResultsPresenter.detail(defaultArgs)
+    const result = FateResultsPresenter.detail(default_raw, default_modifier)
 
     expect(result).toMatch("fateneg")
     expect(result).toMatch("fatezero")
@@ -72,15 +70,13 @@ describe("detail", () => {
   })
 
   it("shows the modifier if non-zero", () => {
-    const result = FateResultsPresenter.detail(defaultArgs)
+    const result = FateResultsPresenter.detail(default_raw, default_modifier)
 
     expect(result).toMatch(" + 2")
   })
 
   it("excludes modifier if zero", () => {
-    let args = defaultArgs
-    args.modifier = 0
-    const result = FateResultsPresenter.detail(args)
+    const result = FateResultsPresenter.detail(default_raw, 0)
 
     expect(result).not.toMatch(" + ")
   })
