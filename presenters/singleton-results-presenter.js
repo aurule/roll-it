@@ -28,7 +28,7 @@ module.exports = {
    */
   presentOne: ({ modifier, description, raw, userFlake }) => {
     let content = "{{userMention}} rolled " + module.exports.detail(raw[0][0], modifier)
-    if (description) content += `for "${description}"`
+    if (description) content += ` for "${description}"`
     return content
   },
 
