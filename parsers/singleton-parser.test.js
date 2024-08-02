@@ -23,11 +23,25 @@ describe("minimal output", () => {
   })
 })
 
-describe("single roll", () => {
-  it("gets modifier if present", async () => {
-    const content = present({
+describe.each([
+  [
+    "single roll",
+    {
       rolls: 1,
       raw: [[3]],
+    },
+  ],
+  [
+    "multiple rolls",
+    {
+      rolls: 2,
+      raw: [[3], [4]],
+    },
+  ],
+])("%s", (_suite, raw_opts) => {
+  it("gets modifier if present", async () => {
+    const content = present({
+      ...raw_opts,
       modifier: 2,
     })
 
@@ -37,10 +51,7 @@ describe("single roll", () => {
   })
 
   it("skips modifier if not present", async () => {
-    const content = present({
-      rolls: 1,
-      raw: [[3]],
-    })
+    const content = present(raw_opts)
 
     const result = await parse(content)
 
@@ -49,8 +60,7 @@ describe("single roll", () => {
 
   it("ignores decoy modifier in description", async () => {
     const content = present({
-      rolls: 1,
-      raw: [[3]],
+      ...raw_opts,
       modifier: 2,
       description: "(I wanted a 5)"
     })
@@ -59,7 +69,9 @@ describe("single roll", () => {
 
     expect(result.modifier).toEqual(2)
   })
+})
 
+describe("single roll", () => {
   it("skips rolls", async () => {
     const content = present({
       rolls: 1,
@@ -73,42 +85,6 @@ describe("single roll", () => {
 })
 
 describe("multiple rolls", () => {
-  it("gets modifier if present", async () => {
-    const content = present({
-      rolls: 2,
-      raw: [[3], [4]],
-      modifier: 2,
-    })
-
-    const result = await parse(content)
-
-    expect(result.modifier).toEqual(2)
-  })
-
-  it("skips modifier if not present", async () => {
-    const content = present({
-      rolls: 2,
-      raw: [[3], [4]],
-    })
-
-    const result = await parse(content)
-
-    expect(result.modifier).toBeUndefined()
-  })
-
-  it("ignores decoy modifier in description", async () => {
-    const content = present({
-      rolls: 2,
-      raw: [[3], [4]],
-      modifier: 2,
-      description: "(I wanted a 5)"
-    })
-
-    const result = await parse(content)
-
-    expect(result.modifier).toEqual(2)
-  })
-
   it("gets rolls", async () => {
     const content = present({
       rolls: 2,
