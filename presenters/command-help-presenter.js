@@ -14,7 +14,7 @@ module.exports = {
 
     let lines = [`Showing help for ${command_name}: ${command.description}`]
 
-    if (command_options.length) {
+    if (command_options?.length) {
       lines.push("")
       if (command.subcommands) {
         lines.push("Subcommands:")

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js")
+const { SlashCommandBuilder, ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js")
 const help_command = require("../commands/help")
 const CommandHelpPresenter = require("./command-help-presenter")
 
@@ -25,6 +25,16 @@ const test_command_bare = {
     new SlashCommandBuilder()
       .setName("test-command-bare")
       .setDescription("A fake command for testing without options"),
+  help: ({ command_name }) => "test bare help output",
+}
+
+const test_command_context = {
+  name: "test-command",
+  description: "A fake command for testing",
+  data: () =>
+    new ContextMenuCommandBuilder()
+      .setName("test-command-bare")
+      .setType(ApplicationCommandType.Message),
   help: ({ command_name }) => "test bare help output",
 }
 
@@ -81,6 +91,14 @@ describe("present", () => {
   describe("without options", () => {
     it("skips the Args section", () => {
       const result = CommandHelpPresenter.present(test_command_bare)
+
+      expect(result).not.toMatch("Args")
+    })
+  })
+
+  describe("with a context command", () => {
+    it("skips the Args section", () => {
+      const result = CommandHelpPresenter.present(test_command_context)
 
       expect(result).not.toMatch("Args")
     })
