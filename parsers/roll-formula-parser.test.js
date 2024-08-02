@@ -40,13 +40,3 @@ describe("with a valid message", () => {
     expect(result.formula).toMatch("1d6 + 2")
   })
 })
-/*
-   * @param  {String}     options.formula       Text of the original formula
-   * @param  {String}     options.rolledFormula Text of the formula after generating dice results
-   * @param  {Array<String>} options.pools      Array of descriptions for dice pools rolled
-   * @param  {Array<Array<Int>>} options.raw    Array of arrays with ints representing the roll for each pool
-   * @param  {Array<Int>} options.summed        Array of summed dice rolls
-   * @param  {String}     options.description   Text describing the roll
-   * @return {String}                           String describing the roll results
-  present: ({ formula, rolledFormula, pools, raw, summed, description, userFlake }) => {
-    */
