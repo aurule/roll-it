@@ -2,8 +2,8 @@ const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/d20")
 
-const modifier_re = /(?<modifier>(?:- )?\d)\)/
-const rolls_re = /(?<rolls>\d) times/
+const modifier_re = /(?<modifier>(?:- )?\d+)\)/
+const rolls_re = /(?<rolls>\d+) times/
 const keep_re = /with (?<low>dis)?advantage/
 
 module.exports = {

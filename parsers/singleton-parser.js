@@ -2,8 +2,8 @@ const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/d10")
 
-const modifier_re = /(?<modifier>(?:- )?\d)\)/
-const rolls_re = /(?<rolls>\d) times/
+const modifier_re = /(?<modifier>(?:- )?\d+)\)/
+const rolls_re = /(?<rolls>\d+) times/
 
 module.exports = {
   name: "singleton",
