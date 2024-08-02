@@ -110,7 +110,7 @@ module.exports = {
    * @param  {Int}    options.modifier Number to add to the roll's summed result
    * @return {String}                  String detailing a single roll
    */
-  detail: ({ raw, modifier }) => {
+  detail: ({ raw, modifier = 0 } = {}) => {
     let detail = raw.map((face) => {
       return emoji[face]
     })
