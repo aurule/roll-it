@@ -51,7 +51,7 @@ function presentMany({ modifier, description, raw, picked, keep }) {
  * @param  {Int} modifier Number to add to the raw die
  * @return {string}       Description of the result and modifier
  */
-function detail(result, indexes, modifier) {
+function detail(result, indexes, modifier = 0) {
   const die = result[indexes[0]]
   const content = [bold(die + modifier)]
 
