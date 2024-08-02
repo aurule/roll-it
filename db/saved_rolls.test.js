@@ -190,7 +190,7 @@ describe("UserSavedRolls", () => {
       expect(result).toBeTruthy()
     })
 
-    it("converts options to an array", () => {
+    it("converts options to an object", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
       const options = {
         pool: 1,
@@ -221,6 +221,56 @@ describe("UserSavedRolls", () => {
       const result = other_saved_rolls.detail(insertion.lastInsertRowid)
 
       expect(result).toBeUndefined()
+    })
+  })
+
+  describe("incomplete", () => {
+    it("returns undefined if none exists", () => {
+      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+      fakeSavedRoll(saved_rolls)
+
+      const result = saved_rolls.incomplete()
+
+      expect(result).toBeUndefined()
+    })
+
+    it("returns roll data if one exists", () => {
+      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+      saved_rolls.create({
+        command: "d20",
+        options: {modifier: 3},
+        incomplete: true,
+      })
+
+      const result = saved_rolls.incomplete()
+
+      expect(result.command).toMatch("d20")
+    })
+
+    it("converts options to an object", () => {
+      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+      saved_rolls.create({
+        command: "d20",
+        options: {modifier: 3},
+        incomplete: true,
+      })
+
+      const result = saved_rolls.incomplete()
+
+      expect(result.options).toMatchObject({modifier: 3})
+    })
+
+    it("handles missing options", () => {
+      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+      saved_rolls.create({
+        name: "unfinished",
+        description: "I have no command",
+        incomplete: true,
+      })
+
+      const result = saved_rolls.incomplete()
+
+      expect(result.options).toBeNull()
     })
   })
 

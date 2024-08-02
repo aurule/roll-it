@@ -229,6 +229,49 @@ class UserSavedRolls {
   }
 
   /**
+   * Get all stored data about the incomplete roll for this user and guild
+   *
+   * If the user has no incomplete roll on this guild, this method will return undefined.
+   *
+   * @example
+   * ```js
+   * saved_rolls.incomplete()
+   * // returns {
+   * //   id: 3,
+   * //   name: "Test Roll",
+   * //   description: "A roll for testing",
+   * //   command: null,
+   * //   options: null,
+   * //   incomplete: true,
+   * //   invalid: false,
+   * // }
+   * ```
+   *
+   * @return {obj} Object with all the fields of the saved roll
+   */
+  incomplete() {
+    const select = this.db.prepare(oneLine`
+      SELECT *, JSON_EXTRACT(options, '$') AS options
+      FROM saved_rolls
+      WHERE guildFlake = @guildFlake AND userFlake = @userFlake AND incomplete
+    `)
+
+    const raw_out = select.get({
+      guildFlake: this.guildId,
+      userFlake: this.userId,
+    })
+
+    if (raw_out === undefined) return undefined
+
+    return {
+      ...raw_out,
+      options: JSON.parse(raw_out.options),
+      incomplete: !!raw_out.incomplete,
+      invalid: !!raw_out.invalid,
+    }
+  }
+
+  /**
    * Update an existing saved roll
    *
    * This method will only update the values that are passed in as part of `data`. Because this method can
