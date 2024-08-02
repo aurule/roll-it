@@ -12,7 +12,7 @@ module.exports = {
    *
    * @example
    * ```js
-   * const content = '<@12345> rolled **a Great (+3)** for "example roll": <:emoji:12345><:emoji:12345><:emoji:12345><:emoji:12345> + 3
+   * const content = '<@12345> rolled **a Great (+3)** for "example roll": <:emoji:12345><:emoji:12345><:emoji:12345><:emoji:12345> + 3'
    * parse(content)
    * // {
    * //   modifier: 3
@@ -25,8 +25,6 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
-    // <@12345> rolled **a Great (+3)** for "description": 4x<:fateneg:1038147643836203018> + modifier
-
     const stripped_content = content.replace(/".*"/, '')
     const raw_options = {}
 
