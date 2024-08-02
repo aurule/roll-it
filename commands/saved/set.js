@@ -183,9 +183,9 @@ module.exports = {
     const savable_commands = require("../index").savable()
     return [
       oneLine`
-        ${command_name} creates a new saved roll for you on this server. It has two steps. First, you set the
-        name and description. Second, you set the options for that command using
-        ${inlineCode("Save this roll")}. Once you're finished, you can use ${inlineCode("/saved roll")} to
+        ${command_name} helps create a new saved roll for you on this server by setting the name and
+        description. Then, you set the command and options for that roll using
+        ${italic("Save this roll")}. Once you're finished, you can use ${inlineCode("/saved roll")} to
         roll it!
       `,
       "",
@@ -195,27 +195,21 @@ module.exports = {
         be able to use it, nor will you be able to edit or create another saved roll.
       `,
       "",
-      "Because saved rolls are stored by Roll It, they have some limitations beyond what Discord requires:",
-      oneLine`
-        1. Each of your rolls on a server has to have a unique name. You'll get an error if you try to use one
-        twice.
-      `,
-      "2. The name and description both have to be at least three characters long.",
-      "3. Not all commands can be saved. Below is a list of the ones which can be used.",
+      "Because saved rolls are stored by Roll It, each one of yours on the server has to have a unique name.",
       "",
-      "Savable commands:",
+      "Not all commands can be saved. Here is a list of the ones which can be used:",
       CommandNamePresenter.list(savable_commands),
       "",
       oneLine`
         For advanced usage, you can add the ${inlineCode("invocation")} option. This lets you directly set the
-        command and options that will be saved to the roll. An invocaiton looks like
+        command and options that will be saved to the roll. An invocation looks like
         ${inlineCode("/roll pool:3 sides:6 rolls:2")} and is what Discord generates when you type out a
         command.
       `,
       "",
       oneLine`
         By adding an ${inlineCode("invocation")}, you can quickly create many saved rolls in a row. This will
-        work even if you have an incomplete roll, because the rolls you're creating are already complete.
+        always save a new roll, even if you have one that is incomplete.
       `,
     ].join("\n")
   },
