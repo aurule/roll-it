@@ -27,6 +27,7 @@ module.exports = {
    * @return {String}                         String describing the roll results
    */
   presentOne: ({ pool, sides, description, raw, summed, modifier }) => {
+    modifier = modifier ?? 0
     let content = ["{{userMention}} rolled", bold(summed[0] + modifier)]
     if (description) {
       content.push(`"${description}"`)
@@ -47,6 +48,7 @@ module.exports = {
    * @return {String}                         String describing the roll results
    */
   presentMany: ({ pool, sides, description, raw, summed, modifier }) => {
+    modifier = modifier ?? 0
     let content = ["{{userMention}} rolled"]
     if (description) {
       content.push(`"${description}"`)
