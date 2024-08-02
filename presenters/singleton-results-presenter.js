@@ -59,7 +59,7 @@ module.exports = {
    * @param  {Int} modifier Number to add to the raw die
    * @return {string}       Description of the result and modifier
    */
-  detail: (result, modifier) => {
+  detail: (result, modifier = 0) => {
     const content = [bold(result + modifier)]
     if (modifier) {
       content.push(`(${result} + ${modifier})`)
