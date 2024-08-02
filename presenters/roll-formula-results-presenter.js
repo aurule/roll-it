@@ -28,7 +28,12 @@ module.exports = {
    * @return {String}                           String describing the roll results
    */
   present: ({ formula, rolledFormula, pools, raw, summed, description, userFlake }) => {
-    const finalSum = limitedEvaluate(rolledFormula)
+    let finalSum
+    try {
+      finalSum = limitedEvaluate(rolledFormula)
+    } catch(err) {
+      return `Error: ${err.message}`
+    }
 
     let content = `{{userMention}} rolled ${bold(finalSum)} on`
     if (description) content += ` "${description}"`
