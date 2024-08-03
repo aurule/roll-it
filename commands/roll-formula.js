@@ -26,9 +26,11 @@ module.exports = {
       )
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
+      .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: [
     "formula",
+    "rolls",
   ],
   schema: Joi.object({
     formula: Joi.string()
@@ -37,9 +39,12 @@ module.exports = {
       .min(3)
       .max(1500),
     modifier: commonSchemas.modifier,
+    rolls: commonSchemas.rolls,
     description: commonSchemas.description,
   }),
-  perform({formula, modifier = 0, description} = {}) {
+  perform({formula, rolls = 1, modifier = 0, description} = {}) {
+    // TODO encapsulate multiple roll results
+
     let raw_pools = []
     let raw_results = []
     let summed_results = []
@@ -63,6 +68,7 @@ module.exports = {
     }
 
     return present({
+      rolls,
       formula,
       rolledFormula: rolled_formula,
       description,
@@ -74,10 +80,12 @@ module.exports = {
   async execute(interaction) {
     const formula = interaction.options.getString("formula")
     const roll_description = interaction.options.getString("description") ?? ""
+    const rolls = interaction.options.getString("rolls") ?? 1
     const secret = interaction.options.getBoolean("secret") ?? false
 
     const partial_message = module.exports.perform({
       formula,
+      rolls,
       description: roll_description,
     })
     const full_text = injectMention(partial_message, interaction.user.id)

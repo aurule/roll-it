@@ -3,6 +3,7 @@ const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/roll-formula")
 
 const formula_re = /`(?<formula>.*)`/
+const rolls_re = /(?<rolls>\d+) times/
 
 module.exports = {
   name: "roll-formula",
@@ -30,6 +31,11 @@ module.exports = {
     const formula_groups = formula_re.exec(stripped_content)?.groups
     if (formula_groups) {
       raw_options.formula = formula_groups.formula
+    }
+
+    const rolls_groups = rolls_re.exec(stripped_content)?.groups
+    if (rolls_groups) {
+      raw_options.rolls = rolls_groups.rolls
     }
 
     var validated_options
