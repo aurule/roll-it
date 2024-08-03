@@ -148,6 +148,28 @@ describe("execute", () => {
       expect(interaction.replyContent).toMatch("can no longer")
     })
   })
+
+  describe("with rolls", () => {
+    it("overrides the saved rolls number", async () => {
+      saved_rolls.create({
+        name: "test",
+        description: "test",
+        command: "roll",
+        options: {
+          pool: 1,
+          sides: 6,
+          modifier: 6,
+          rolls: 3,
+        },
+      })
+      interaction.command_options.name = "test"
+      interaction.command_options.rolls = 2
+
+      await saved_roll_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("2 times")
+    })
+  })
 })
 
 describe("change_target", () => {

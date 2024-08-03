@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder } = require("discord.js")
+const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
 const Completers = require("../../completers/saved-completers")
 const presenter = require("../../presenters/saved-roll-presenter")
 const { longReply } = require("../../util/long-reply")
@@ -51,6 +51,9 @@ module.exports = {
             { name: "Difficulty", value: "difficulty" },
           )
       )
+      .addIntegerOption((option) =>
+        option.setName("rolls").setDescription("Roll this many times").setMinValue(1).setMaxValue(100)
+      )
       .addBooleanOption(commonOpts.secret),
   change_target,
   async execute(interaction) {
@@ -90,6 +93,7 @@ module.exports = {
 
     const bonus = interaction.options.getInteger("bonus") ?? 0
     const change = interaction.options.getString("change")
+    const rolls = interaction.options.getInteger("rolls") ?? 0
     const secret = interaction.options.getBoolean("secret") ?? false
 
     const savable_commands = require("../index").savable()
@@ -109,8 +113,9 @@ module.exports = {
 
       const old_number = roll_detail.options[target] ?? 0
       roll_detail.options[target] = old_number + bonus
-
     }
+
+    if (rolls) roll_detail.options.rolls = rolls
 
     try {
       await command.schema.validateAsync(roll_detail.options)
@@ -149,6 +154,26 @@ module.exports = {
     }
   },
   help({ command_name }) {
-    return `${command_name} gets a random entry from a table on this server.`
+    return [
+      `${command_name} lets you use a saved roll while tweaking its options.`,
+      "",
+      oneLine`
+        The ${inlineCode("description")} and ${inlineCode("rolls")} options will entirely replace those that
+        were saved with the roll. If you leave them out, the original values will be used.
+      `,
+      "",
+      oneLine`
+        If you give a ${inlineCode("bonus")}, it will be automatically added to the most appropriate number in
+        the saved roll's options. It tries to change the ${inlineCode("modifier")} first and then the
+        ${inlineCode("pool")}, using the first one that's supported by the saved command.
+      `,
+      "",
+      oneLine`
+        The ${inlineCode("change")} option lets you override this behavior and choose which saved option to
+        alter. To support ${inlineCode("/wod20")} and other commands with a commonly changed difficulty, you
+        can also choose to apply the ${inlineCode("bonus")} to the saved ${inlineCode("difficulty")} of the
+        roll.
+      `,
+    ].join("\n")
   },
 }
