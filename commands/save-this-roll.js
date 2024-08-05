@@ -73,12 +73,13 @@ module.exports = {
       command: command_name,
       options: parsed_options,
       incomplete: true,
+      invalid: false,
     }
 
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
     const record_result = saved_rolls.upsert(saved_roll_params)
     const record_id = record_result.lastInsertRowid
-    const saved_details = saved_rolls.detail(record_id)
+    const saved_details = saved_rolls.incomplete()
 
     // see if the changes complete the saved roll
 
