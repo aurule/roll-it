@@ -11,6 +11,16 @@ describe("execute", () => {
     saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
   })
 
+  it("warns on no command", async () => {
+    interaction.targetMessage = {
+      content: "lorem ipsum"
+    }
+
+    await save_roll_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("not sent by a Roll It command")
+  })
+
   it("warns on unknown command", async () => {
     interaction.targetMessage = {
       interaction: {commandName: "gobbledegook"},

@@ -31,7 +31,7 @@ module.exports = {
     const parsers = require("../parsers")
 
     const message = interaction.targetMessage
-    const command_name = message.interaction.commandName
+    const command_name = message.interaction?.commandName
     const command = commands.get(command_name)
 
     if (!command) {
