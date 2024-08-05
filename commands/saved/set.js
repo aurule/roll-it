@@ -152,7 +152,7 @@ module.exports = {
     // when new data is complete, a new record will be created
     const record_result = saved_rolls.upsert(saved_roll_params)
     const record_id = record_result.lastInsertRowid
-    const saved_details = saved_rolls.incomplete()
+    const saved_details = saved_rolls.detail(record_id, saved_roll_params.name)
 
     // see if the changes complete the saved roll
 
