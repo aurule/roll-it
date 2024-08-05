@@ -125,6 +125,7 @@ module.exports = {
       name: command_options.name,
       description: command_options.description,
       incomplete: true,
+      invalid: false,
     }
 
     // if there is an invocation, parse and validate it
@@ -151,7 +152,7 @@ module.exports = {
     // when new data is complete, a new record will be created
     const record_result = saved_rolls.upsert(saved_roll_params)
     const record_id = record_result.lastInsertRowid
-    const saved_details = saved_rolls.detail(record_id)
+    const saved_details = saved_rolls.incomplete()
 
     // see if the changes complete the saved roll
 
@@ -169,7 +170,7 @@ module.exports = {
     }
 
     // the roll is finished
-    saved_rolls.update(record_id, {incomplete: false})
+    saved_rolls.update(saved_details.id, {incomplete: false})
 
     return interaction.reply({
       content: oneLine`
