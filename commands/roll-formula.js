@@ -28,9 +28,9 @@ module.exports = {
       .addStringOption(commonOpts.description)
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  savable: [
-    "formula",
-    "rolls",
+  savable: true,
+  changeable: [
+    "modifier",
   ],
   schema: Joi.object({
     formula: Joi.string()

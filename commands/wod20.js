@@ -55,12 +55,10 @@ module.exports = {
           .setMinValue(1),
       )
       .addBooleanOption(commonOpts.secret),
-  savable: [
+  savable: true,
+  changeable: [
     "pool",
     "difficulty",
-    "specialty",
-    "rolls",
-    "until",
   ],
   schema: Joi.object({
     pool: commonSchemas.pool,

@@ -35,10 +35,9 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  savable: [
+  savable: true,
+  changeable: [
     "modifier",
-    "keep",
-    "rolls",
   ],
   schema: Joi.object({
     modifier: commonSchemas.modifier,

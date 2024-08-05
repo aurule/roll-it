@@ -6,20 +6,21 @@ The command object looks like this:
 
 ```ts
 {
-    name: string,                       // "command-name"
-    parent?: string,                    // "parent-name"
-    description: string,                // "user visible description"
-    type?: string,                      // "slash"
-    policy?: Object|Array<Object>,      // ManagerPolicy
-    global?: bool,                      // Whether the command is a global command or a guild command
-    subcommands?: Collection<Object>,   // Collection of subcommand objects
-    data(options?): Builder,            // SlashCommandBuilder
-    savable?: Array<string>,            // List of options that can be used in a saved roll
-    schema: Joi.object,                 // Validation object for options
-    perform(Object): string,            // Take in options, return a string
-    async execute(interaction): Promise,// Respond to an interaction
-    async autocomplete?: Array<Object>, // () => [{name: "chop", value: "chop"}]
-    help(options): string,              // "my very long help text"
+    name: string;                       // "command-name"
+    parent?: string;                    // "parent-name"
+    description: string;                // "user visible description"
+    type?: string;                      // "slash"
+    policy?: Object|Array<Object>;      // ManagerPolicy
+    global?: bool;                      // Whether the command is a global command or a guild command
+    subcommands?: Collection<Object>;   // Collection of subcommand objects
+    data(options?): Builder;            // SlashCommandBuilder
+    savable?: boolean;                  // Whether this command can be saved
+    changeable?: Array<string>;         // List of options that can accept a numeric bonus, for use with saved rolls
+    schema: Joi.object;                 // Validation object for options
+    perform(Object): string;            // Take in options, return a string
+    async execute(interaction): Promise;// Respond to an interaction
+    async autocomplete?: Array<Object>; // () => [{name: "chop", value: "chop"}]
+    help(options): string;              // "my very long help text"
 }
 ```
 

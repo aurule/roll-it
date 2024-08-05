@@ -67,13 +67,9 @@ module.exports = {
           .setMaxValue(100),
       )
       .addBooleanOption(commonOpts.secret),
-  savable: [
+  savable: true,
+  changeable: [
     "pool",
-    "explode",
-    "threshold",
-    "rote",
-    "rolls",
-    "until",
   ],
   schema: Joi.object({
     pool: commonSchemas.pool,

@@ -8,11 +8,11 @@ const present_command = require("../../presenters/command-name-presenter").prese
 const { injectMention } = require("../../util/inject-user")
 const { oneLine } = require("common-tags")
 
-function change_target(bonus, change, savable) {
+function change_target(bonus, change, changeable) {
   if (!bonus) return undefined
   if (change) return change
   for (const opt of ["modifier", "pool"]) {
-    if (savable.includes(opt)) {
+    if (changeable.includes(opt)) {
       return opt
     }
   }
@@ -98,10 +98,10 @@ module.exports = {
 
     const savable_commands = require("../index").savable()
     const command = savable_commands.get(roll_detail.command)
-    const target = change_target(bonus, change, command.savable)
+    const target = change_target(bonus, change, command.changeable)
 
     if (target) {
-      if (!command.savable.includes(target)) {
+      if (!command.changeable.includes(target)) {
         return interaction.reply({
           content: oneLine`
             Cannot change option ${inlineCode(target)}, since it does not exist for
