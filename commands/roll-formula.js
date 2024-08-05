@@ -43,44 +43,49 @@ module.exports = {
     description: commonSchemas.description,
   }),
   perform({formula, rolls = 1, modifier = 0, description} = {}) {
-    // TODO encapsulate multiple roll results
+    const results = []
 
-    let raw_pools = []
-    let raw_results = []
-    let summed_results = []
+    for (_r in Array.from({length: rolls}, i => i)) {
+      const raw_pools = []
+      const raw_results = []
+      const summed_results = []
 
-    let rolled_formula = formula.replace(
-      /(\d+)d(\d+)/g,
-      (match, pool, sides, _offset, _wholeString) => {
-        raw_pools.push(match)
-        let raw = roll(pool, sides)
-        raw_results.push(raw[0])
-        let summed = sum(raw)
-        summed_results.push(summed)
-        return summed
-      },
-    )
-    if (modifier > 0) {
-      rolled_formula += ` + ${modifier}`
-    }
-    if (modifier < 0) {
-      rolled_formula += `${modifier}`
+      let rolled_formula = formula.replace(
+        /(\d+)d(\d+)/g,
+        (match, pool, sides, _offset, _wholeString) => {
+          raw_pools.push(match)
+          let raw = roll(pool, sides)
+          raw_results.push(raw[0])
+          let summed = sum(raw)
+          summed_results.push(summed)
+          return summed
+        },
+      )
+      if (modifier > 0) {
+        rolled_formula += ` + ${modifier}`
+      }
+      if (modifier < 0) {
+        rolled_formula += `${modifier}`
+      }
+      results.push({
+        rolledFormula: rolled_formula,
+        pools: raw_pools,
+        raw: raw_results,
+        summed: summed_results,
+      })
     }
 
     return present({
       rolls,
       formula,
-      rolledFormula: rolled_formula,
       description,
-      pools: raw_pools,
-      raw: raw_results,
-      summed: summed_results,
+      results,
     })
   },
   async execute(interaction) {
     const formula = interaction.options.getString("formula")
     const roll_description = interaction.options.getString("description") ?? ""
-    const rolls = interaction.options.getString("rolls") ?? 1
+    const rolls = interaction.options.getInteger("rolls") ?? 1
     const secret = interaction.options.getBoolean("secret") ?? false
 
     const partial_message = module.exports.perform({

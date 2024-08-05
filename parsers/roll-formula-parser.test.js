@@ -13,11 +13,14 @@ describe("with junk input", () => {
 describe("with a valid message", () => {
   it("ignores the description", async () => {
     const content = present({
+      rolls: 1,
       formula: "1d6 + 2",
-      rolledFormula: "3 + 2",
-      pools: ["1d6"],
-      raw: [[3]],
-      summed: [3],
+      results: [{
+        rolledFormula: "3 + 2",
+        pools: ["1d6"],
+        raw: [[3]],
+        summed: [3],
+      }],
       description: "I meant to roll `5d8 + 20`",
     })
 
@@ -33,10 +36,12 @@ describe.each([
     {
       rolls: 1,
       formula: "1d6 + 2",
-      rolledFormula: "3 + 2",
-      pools: ["1d6"],
-      raw: [[3]],
-      summed: [3],
+      results: [{
+        rolledFormula: "3 + 2",
+        pools: ["1d6"],
+        raw: [[3]],
+        summed: [3],
+      }]
     },
   ],
   [
@@ -44,10 +49,20 @@ describe.each([
     {
       rolls: 2,
       formula: "1d6 + 2",
-      rolledFormula: "3 + 2",
-      pools: ["1d6"],
-      raw: [[3]],
-      summed: [3],
+      results: [
+        {
+          rolledFormula: "3 + 2",
+          pools: ["1d6"],
+          raw: [[3]],
+          summed: [3],
+        },
+        {
+          rolledFormula: "4 + 2",
+          pools: ["1d6"],
+          raw: [[4]],
+          summed: [4],
+        },
+      ]
     },
   ],
 ])("%s", (_suite, raw_opts) => {
@@ -65,10 +80,12 @@ describe("single roll", () => {
     const content = present({
       rolls: 1,
       formula: "1d6 + 2",
-      rolledFormula: "3 + 2",
-      pools: ["1d6"],
-      raw: [[3]],
-      summed: [3],
+      results: [{
+        rolledFormula: "3 + 2",
+        pools: ["1d6"],
+        raw: [[3]],
+        summed: [3],
+      }]
     })
 
     const result = await parse(content)
@@ -78,15 +95,24 @@ describe("single roll", () => {
 })
 
 describe("multiple rolls", () => {
-  // TODO implement these correctly once the format is known
-  it.failing("gets rolls", async () => {
+  it("gets rolls", async () => {
     const content = present({
       rolls: 2,
       formula: "1d6 + 2",
-      rolledFormula: "3 + 2",
-      pools: ["1d6"],
-      raw: [[3]],
-      summed: [3],
+      results: [
+        {
+          rolledFormula: "3 + 2",
+          pools: ["1d6"],
+          raw: [[3]],
+          summed: [3],
+        },
+        {
+          rolledFormula: "4 + 2",
+          pools: ["1d6"],
+          raw: [[4]],
+          summed: [4],
+        },
+      ]
     })
 
     const result = await parse(content)
@@ -94,14 +120,24 @@ describe("multiple rolls", () => {
     expect(result.rolls).toEqual(2)
   })
 
-  it.failing("ignores decoy rolls in description", async () => {
+  it("ignores decoy rolls in description", async () => {
     const content = present({
       rolls: 2,
       formula: "1d6 + 2",
-      rolledFormula: "3 + 2",
-      pools: ["1d6"],
-      raw: [[3]],
-      summed: [3],
+      results: [
+        {
+          rolledFormula: "3 + 2",
+          pools: ["1d6"],
+          raw: [[3]],
+          summed: [3],
+        },
+        {
+          rolledFormula: "4 + 2",
+          pools: ["1d6"],
+          raw: [[4]],
+          summed: [4],
+        },
+      ],
       description: "5 times!",
     })
 
