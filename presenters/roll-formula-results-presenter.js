@@ -92,7 +92,7 @@ module.exports = {
     if (description) content += ` for "${description}"`
     content += ` on ${inlineCode(formula)}:`
 
-    for (result of results) {
+    for (const result of results) {
       const {rolledFormula, pools, raw, summed, description} = result
 
       let finalSum
