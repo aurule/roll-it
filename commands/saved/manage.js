@@ -5,11 +5,25 @@ const {
   ActionRowBuilder,
   ComponentType,
   italic,
+  inlineCode,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
+const Joi = require("joi")
 const Completers = require("../../completers/saved-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const { splitMessage } = require("../../util/long-reply")
+
+/**
+ * Minimal schema to validate presence. Correctness must be validated before we reach this point.
+ *
+ * @type {Joi.object}
+ */
+const saved_roll_presence_schema = Joi.object({
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  command: Joi.string().required(),
+  options: Joi.object().required(),
+}).unknown()
 
 module.exports = {
   name: "manage",
@@ -21,7 +35,7 @@ module.exports = {
       .setDescription(module.exports.description)
       .addStringOption((option) =>
         option
-          .setName("roll")
+          .setName("name")
           .setDescription("Name of the saved roll to manage")
           .setRequired(true)
           .setAutocomplete(true),
@@ -29,7 +43,7 @@ module.exports = {
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
-    const roll_name = interaction.options.getString("table")
+    const roll_name = interaction.options.getString("name")
     const roll_id = parseInt(roll_name)
 
     const detail = saved_rolls.detail(roll_id, roll_name)
@@ -42,12 +56,150 @@ module.exports = {
       })
     }
 
-    // TODO
-    // remove is like table remove
-    // edit sets the saved roll to incomplete mode and shows the modal
-    //  if something is already incomplete, show an error
-    //  different button text for editing an incomplete vs complete roll
+    const manage_lines = [
+      "All about this roll:",
+      `${italic("Name:")} ${detail.name}`,
+      `${italic("Description:")} ${detail.description}`,
+      `${italic("Command:")} ${detail.command}`,
+      `${italic("Options:")}`,
+    ]
+    for (const opt in detail.options) {
+      manage_lines.push(`* ${italic(opt + ":")} ${detail.options[opt]}`)
+    }
+    manage_lines.push("What do you want to do?")
 
+    const edit_button = new ButtonBuilder()
+      .setCustomId("edit")
+      .setLabel("Edit Roll")
+      .setStyle(ButtonStyle.Primary)
+    if (detail.incomplete) {
+      edit_button.setCustomId("no-edit")
+      edit_button.setLabel("Stop Editing")
+    }
+    const cancel_button = new ButtonBuilder()
+      .setCustomId("cancel")
+      .setLabel("Cancel")
+      .setStyle(ButtonStyle.Secondary)
+    const remove_button = new ButtonBuilder()
+      .setCustomId("remove")
+      .setLabel("Remove Roll")
+      .setStyle(ButtonStyle.Danger)
+    const manage_actions = new ActionRowBuilder().addComponents(
+      edit_button,
+      cancel_button,
+      remove_button,
+    )
+    const manage_prompt = await interaction.reply({
+      content: manage_lines.join("\n"),
+      components: [manage_actions],
+      ephemeral: true,
+    })
+
+    const manageHandler = async (event) => {
+      switch (event.customId) {
+        case "cancel":
+          manage_prompt.delete()
+          return interaction
+        case "edit":
+          try {
+            saved_rolls.update(detail.id, {incomplete: true})
+          } catch (err) {
+            return manage_prompt.edit({
+              content: oneLine`
+                You already have an incomplete roll in progress. Finish that first using
+                ${inlineCode("/saved set")} or ${inlineCode("Save this roll")}, then you can edit
+                ${italic(detail.name)}.
+              `,
+              components: [],
+              ephemeral: true,
+            })
+          }
+
+          return manage_prompt.edit({
+            content: oneLine`
+              The roll ${italic(detail.name)} is ready for editing. Use ${inlineCode("/saved set")} or
+              ${inlineCode("Save this roll")} to make the changes you want!
+            `,
+            components: [],
+            ephemeral: true,
+          })
+        case "no-edit":
+          const command = require("../index").get(detail.command)
+          try {
+            await command.schema.validateAsync(detail.options)
+            await saved_roll_presence_schema.validateAsync(detail)
+          } catch(err) {
+            saved_rolls.update(detail.id, {incomplete: false, invalid: true})
+
+            const edit_lines = [
+              `The roll ${italic(detail.name)} is no longer marked for editing, but it has some errors:`,
+              err.message,
+              "You will need to fix them before you can use the roll."
+            ]
+
+            return manage_prompt.edit({
+              content: edit_lines.join("\n"),
+              components: [],
+              ephemeral: true,
+            })
+          }
+
+          saved_rolls.update(detail.id, {incomplete: false, invalid: false})
+
+          return manage_prompt.edit({
+            content: `The roll ${italic(detail.name)} is no longer marked for editing.`,
+            components: [],
+            ephemeral: true,
+          })
+        case "remove":
+          const remove_cancel = new ButtonBuilder()
+            .setCustomId("remove_cancel")
+            .setLabel("Cancel")
+            .setStyle(ButtonStyle.Secondary)
+          const remove_confirm = new ButtonBuilder()
+            .setCustomId("remove_confirm")
+            .setLabel("Remove")
+            .setStyle(ButtonStyle.Danger)
+          const remove_actions = new ActionRowBuilder().addComponents(remove_cancel, remove_confirm)
+          const remove_chicken = await manage_prompt.edit({
+            content: `Are you sure you want to remove the roll ${italic(detail.name)}? This action is permanent.`,
+            components: [remove_actions],
+            ephemeral: true,
+          })
+
+          remove_chicken
+            .awaitMessageComponent({
+              componentType: ComponentType.Button,
+              time: 60_000,
+            })
+            .then((remove_event) => {
+              remove_event.deferUpdate()
+              if (remove_event.customId == "remove_cancel") {
+                manage_prompt.edit({ content: "Cancelled!", components: [], ephemeral: true })
+                return interaction
+              }
+
+              saved_rolls.destroy(detail.id)
+
+              return manage_prompt.edit({
+                content: `The roll ${italic(detail.name)} has been removed.`,
+                components: [],
+                ephemeral: true,
+              })
+            })
+          break
+      }
+    }
+
+    return manage_prompt
+      .awaitMessageComponent({
+        componentType: ComponentType.Button,
+        time: 60_000,
+      })
+      .then((event) => {
+        event.deferUpdate()
+        return manageHandler(event)
+      }, manageHandler)
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
@@ -55,7 +207,7 @@ module.exports = {
     const partialText = focusedOption.value
 
     switch (focusedOption.name) {
-      case "roll":
+      case "name":
         return Completers.saved_roll(partialText, saved_rolls.all())
     }
   },
