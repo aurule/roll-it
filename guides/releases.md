@@ -12,3 +12,5 @@ Steps to do:
 5. merge the release branch into `develop`
 6. delete the release branch
 7. push main to deploy the release
+8. run `yarn node scripts/update-commands.js`
+9. run `yarn node scripts/mark-invalid-rolls.js` on the server
