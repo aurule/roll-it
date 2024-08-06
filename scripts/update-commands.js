@@ -1,13 +1,14 @@
+const progress = require("cli-progress")
+
 const api = require("../services/api")
 const { logger } = require("../util/logger")
-const progress = require("cli-progress")
 
 logger.level = "warn"
 
 const multibar = new progress.MultiBar({
   stopOnComplete: true,
   clearOnComplete: false,
-  hidCursor: true,
+  hideCursor: true,
   format: "{bar} | {id} | {name}",
 })
 
