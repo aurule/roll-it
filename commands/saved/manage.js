@@ -106,8 +106,9 @@ module.exports = {
             return manage_prompt.edit({
               content: oneLine`
                 You already have an incomplete roll in progress. Finish that first using
-                ${inlineCode("/saved set")} or ${inlineCode("Save this roll")}, then you can edit
-                ${italic(detail.name)}.
+                ${inlineCode("/saved set")} for the name and description, or right click/long press on the
+                result of a Roll It command and choose ${italic("Apps -> Save this roll")} to save that
+                command. Then you can edit ${italic(detail.name)}.
               `,
               components: [],
               ephemeral: true,
@@ -117,7 +118,7 @@ module.exports = {
           return manage_prompt.edit({
             content: oneLine`
               The roll ${italic(detail.name)} is ready for editing. Use ${inlineCode("/saved set")} or
-              ${inlineCode("Save this roll")} to make the changes you want!
+              ${italic("Apps -> Save this roll")} to make the changes you want!
             `,
             components: [],
             ephemeral: true,

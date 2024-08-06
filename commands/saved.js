@@ -2,6 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits, inlineCode, italic } = require
 const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
+const CommandNamePresenter = require("../presenters/command-name-presenter")
 
 const subcommands = loadSubcommands("saved")
 
@@ -29,11 +30,11 @@ module.exports = {
     return dispatch(interaction, module.exports.subcommands, "autocomplete")
   },
   help({ command_name }) {
+    const savable_commands = require("./index").savable()
     return [
       oneLine`
-        The ${command_name} commands let you save commonly used rolls and easily re-use them. Certain commands
-        cannot be saved, but most will work. Each subcommand has its own help entry you can read for more
-        details.
+        The ${command_name} commands let you save commonly used rolls and easily re-use them. Each subcommand
+        has its own help entry you can read for more details.
       `,
       "",
       oneLine`
@@ -49,6 +50,9 @@ module.exports = {
         ${inlineCode("/saved manage")} lets you see the details of a saved roll, update it, and remove it from
         the server.
       `,
+      "",
+      "Not all commands can be saved. Here is a list of the ones which can be used:",
+      CommandNamePresenter.list(savable_commands),
     ].join("\n")
   },
 }

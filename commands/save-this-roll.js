@@ -110,9 +110,11 @@ module.exports = {
     const savable_commands = require("./index").savable()
     return [
       oneLine`
-        ${command_name} helps create a new saved roll for you on this server by setting the command and
-        options. Then, you set the name and description using ${inlineCode("/saved set")}. Once you're
-        finished, you can use ${inlineCode("/saved roll")} to roll it!
+        ${command_name} is a context menu command that helps create a new saved roll for you on this server.
+        To use it, right click or long press on the result of a Roll It command and choose
+        ${italic("Apps -> Save this roll")}. This will set the command and options for the saved roll. Then,
+        you set the name and description using ${inlineCode("/saved set")}. Once you're finished, you can use
+        ${inlineCode("/saved roll")} to roll it!
       `,
       "",
       oneLine`

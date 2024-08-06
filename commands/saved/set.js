@@ -161,9 +161,9 @@ module.exports = {
     } catch (err) {
       return interaction.reply({
         content: oneLine`
-          You've saved the name "${command_options.name}" for a new roll. Right click on the result of a
-          Roll-It command and choose ${italic("Apps -> Save this roll")} to add that command and its options
-          to "${command_options.name}".
+          You've saved the name "${command_options.name}" for a new roll. Right click or long press on the
+          result of a Roll It command and choose ${italic("Apps -> Save this roll")} to add that command and
+          its options to "${command_options.name}".
         `,
         ephemeral: true,
       })
@@ -185,15 +185,15 @@ module.exports = {
     return [
       oneLine`
         ${command_name} helps create a new saved roll for you on this server by setting the name and
-        description. Then, you set the command and options for that roll using
-        ${italic("Save this roll")}. Once you're finished, you can use ${inlineCode("/saved roll")} to
-        roll it!
+        description. Then, you set the command and options for that roll by right clicking or long pressing on
+        the result of a Roll It command and choosing ${italic("Apps -> Save this roll")}. Once you're
+        finished, you can use ${inlineCode("/saved roll")} to roll it!
       `,
       "",
       oneLine`
         You can only have one unfinished roll at a time. That can either be a roll you just created, or a roll
-        you are editing with ${inlineCode("/saved manage")}. Until you finish that roll's options, you will not
-        be able to use it, nor will you be able to edit or create another saved roll.
+        you are editing with ${inlineCode("/saved manage")}. Until you finish that roll, you will not be able
+        to use it, nor will you be able to edit or create another saved roll.
       `,
       "",
       "Because saved rolls are stored by Roll It, each one of yours on the server has to have a unique name.",
@@ -202,15 +202,16 @@ module.exports = {
       CommandNamePresenter.list(savable_commands),
       "",
       oneLine`
-        For advanced usage, you can add the ${inlineCode("invocation")} option. This lets you directly set the
-        command and options that will be saved to the roll. An invocation looks like
+        For advanced usage, you can add an ${inlineCode("invocation")} when using ${command_name}. This lets
+        you directly set the command and options that will be saved to the roll. An invocation looks like
         ${inlineCode("/roll pool:3 sides:6 rolls:2")} and is what Discord generates when you type out a
         command.
       `,
       "",
       oneLine`
         By adding an ${inlineCode("invocation")}, you can quickly create many saved rolls in a row. This will
-        always save a new roll, even if you have one that is incomplete.
+        always save a new roll, even if you have one that is incomplete. As such, you ${italic("cannot")} use
+        an ${inlineCode("invocation")} when editing a roll, as it will create a new saved roll instead.
       `,
     ].join("\n")
   },
