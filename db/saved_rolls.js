@@ -26,6 +26,11 @@ function makeUpdateFields(data) {
         placeholders.push(`@${field}`)
         values[field] = +!!data[field]
         break;
+      case "id":
+      case "guildFlake":
+      case "userFlake":
+        // These attrs are restricted. Skip them.
+        break;
       default:
         placeholders.push(`@${field}`)
         values[field] = data[field]

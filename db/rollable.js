@@ -202,6 +202,10 @@ class GuildRollables {
           placeholders.push("JSONB(@contents)")
           values.contents = JSON.stringify(data[field])
           break;
+        case "id":
+        case "guildFlake":
+          // These attrs are restricted. Skip them.
+          break;
         default:
           fields.push(field)
           placeholders.push(`@${field}`)

@@ -256,6 +256,17 @@ describe("GuildRollables", () => {
       const detail = other_rollables.detail(rollableId)
       expect(detail.description).toEqual(old_desc)
     })
+
+    it("cannot change the id", () => {
+      const rollables = new GuildRollables("test-update", db)
+      const insertion = rollables.create("test", "a test", ["one"])
+      const rollableId = insertion.lastInsertRowid
+
+      const result = rollables.update(rollableId, { id: rollableId + 5, description: "new desc" })
+
+      const detail = rollables.detail(rollableId + 5)
+      expect(detail).toBeUndefined()
+    })
   })
 
   describe("count", () => {

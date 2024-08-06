@@ -72,6 +72,19 @@ describe("makeUpdateFields", () => {
 
     expect(result.values.incomplete).toEqual(1)
   })
+
+  it.each([
+    ["id"],
+    ["guildFlake"],
+    ["userFlake"],
+  ])("skips restricted attribute %s", (attr_name) => {
+    const data = {}
+    data[attr_name] = "test"
+
+    const result = makeUpdateFields(data)
+
+    expect(result.values).not.toHaveProperty(attr_name)
+  })
 })
 
 describe("UserSavedRolls", () => {
