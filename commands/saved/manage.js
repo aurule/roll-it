@@ -10,21 +10,9 @@ const {
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 const Completers = require("../../completers/saved-completers")
-const { UserSavedRolls } = require("../../db/saved_rolls")
+const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const { splitMessage } = require("../../util/long-reply")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
-
-/**
- * Minimal schema to validate presence. Correctness must be validated before we reach this point.
- *
- * @type {Joi.object}
- */
-const saved_roll_presence_schema = Joi.object({
-  name: Joi.string().required(),
-  description: Joi.string().required(),
-  command: Joi.string().required(),
-  options: Joi.object().required(),
-}).unknown()
 
 module.exports = {
   name: "manage",
@@ -117,7 +105,7 @@ module.exports = {
           const command = require("../index").get(detail.command)
           try {
             await command.schema.validateAsync(detail.options)
-            await saved_roll_presence_schema.validateAsync(detail)
+            await saved_roll_schema.validateAsync(detail)
           } catch(err) {
             saved_rolls.update(detail.id, {incomplete: false, invalid: true})
 

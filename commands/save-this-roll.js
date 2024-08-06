@@ -1,20 +1,8 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType, inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
-const { UserSavedRolls } = require("../db/saved_rolls")
+const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
-
-/**
- * Minimal schema to validate presence. Correctness must be validated before we reach this point.
- *
- * @type {Joi.object}
- */
-const saved_roll_presence_schema = Joi.object({
-  name: Joi.string().required(),
-  description: Joi.string().required(),
-  command: Joi.string().required(),
-  options: Joi.object().required(),
-}).unknown()
 
 module.exports = {
   name: "Save this roll",
@@ -84,7 +72,7 @@ module.exports = {
     // see if the changes complete the saved roll
 
     try {
-      await saved_roll_presence_schema.validateAsync(saved_details)
+      await saved_roll_schema.validateAsync(saved_details)
     } catch (err) {
       return interaction.reply({
         content: oneLine`

@@ -1,4 +1,5 @@
 const { oneLine } = require("common-tags")
+const Joi = require("joi")
 
 /**
  * Convert an object into vars suitable for use in UPDATE sql
@@ -399,4 +400,24 @@ module.exports = {
   makeUpdateFields,
   UserSavedRolls,
   seed,
+
+  /**
+   * Minimal schema to validate saved roll attributes
+   *
+   * This is not for validating database records. Instead, it is for validating incoming data from other code.
+   * That's why attributes like `id`` which are required by the database are optional in this schema.
+   *
+   * @type {Joi.object}
+   */
+  saved_roll_schema: Joi.object({
+    id: Joi.number().integer().optional(),
+    guildFlake: Joi.string().optional(),
+    userFlake: Joi.string().optional(),
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    command: Joi.string().required(),
+    options: Joi.object().required(),
+    incomplete: Joi.boolean().optional(),
+    invalid: Joi.boolean().optional(),
+  })
 }
