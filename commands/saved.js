@@ -9,8 +9,7 @@ const subcommands = loadSubcommands("saved")
 module.exports = {
   name: "saved",
   description: "Save your most common rolls and re-use them",
-  global: false,
-  // global: true,
+  global: true,
   subcommands,
   data() {
     return new SlashCommandBuilder()
