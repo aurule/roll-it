@@ -74,9 +74,6 @@ module.exports = {
 
     const manageHandler = async (event) => {
       switch (event.customId) {
-        case "cancel":
-          manage_prompt.delete()
-          return interaction
         case "show":
           manage_prompt.delete()
           const full_text =
@@ -129,7 +126,15 @@ module.exports = {
                 ephemeral: true,
               })
             })
+            .catch(err => {
+              manage_prompt.delete()
+              return interaction
+            })
           break
+        case "cancel":
+        default:
+          manage_prompt.delete()
+          return interaction
       }
     }
 

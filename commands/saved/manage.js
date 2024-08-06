@@ -97,9 +97,6 @@ module.exports = {
 
     const manageHandler = async (event) => {
       switch (event.customId) {
-        case "cancel":
-          manage_prompt.delete()
-          return interaction
         case "edit":
           try {
             saved_rolls.update(detail.id, {incomplete: true})
@@ -187,7 +184,15 @@ module.exports = {
                 ephemeral: true,
               })
             })
+            .catch(err => {
+              manage_prompt.delete()
+              return interaction
+            })
           break
+        case "cancel":
+        default:
+          manage_prompt.delete()
+          return interaction
       }
     }
 
