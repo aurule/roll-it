@@ -1,4 +1,5 @@
 const { bold } = require("discord.js")
+const { added } = require("./addition-presenter")
 
 module.exports = {
   /**
@@ -79,7 +80,7 @@ module.exports = {
   detail: ({ pool, sides, raw, modifier }) => {
     let detail = [`(${pool}d${sides}: [${raw}]`]
     if (modifier) {
-      detail.push(` + ${modifier}`)
+      detail.push(added(modifier))
     }
     detail.push(")")
 

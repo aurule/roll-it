@@ -1,3 +1,5 @@
+const { added } = require("./addition-presenter")
+
 const emoji = [
   null,
   "<:fateneg:1038147643836203018>",
@@ -116,7 +118,7 @@ module.exports = {
     })
 
     if (modifier) {
-      detail.push(` + ${modifier}`)
+      detail.push(added(modifier))
     }
 
     return detail.join("")

@@ -1,4 +1,5 @@
 const { bold, strikethrough, Collection } = require("discord.js")
+const { added } = require("./addition-presenter")
 
 const keep_strings = new Collection([
   ["all", ""],
@@ -71,7 +72,7 @@ function detail(result, indexes, modifier = 0) {
 
   let breakdown = ""
   if (modifier) {
-    breakdown = `(${selection} + ${modifier})`
+    breakdown = `(${selection}${added(modifier)})`
     content.push(breakdown)
   } else if (result.length > 1) {
     content.push(selection)

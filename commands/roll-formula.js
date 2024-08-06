@@ -9,6 +9,7 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
+const { added } = require("../presenters/addition-presenter")
 
 module.exports = {
   name: "roll-formula",
@@ -61,12 +62,7 @@ module.exports = {
           return summed
         },
       )
-      if (modifier > 0) {
-        rolled_formula += ` + ${modifier}`
-      }
-      if (modifier < 0) {
-        rolled_formula += `${modifier}`
-      }
+      rolled_formula += added(modifier)
       results.push({
         rolledFormula: rolled_formula,
         pools: raw_pools,

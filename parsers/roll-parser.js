@@ -3,7 +3,7 @@ const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/roll")
 
 const pool_re = /(?<pool>\d+)d(?<sides>\d+)/
-const modifier_re = /(?<modifier>-?\d+)\)/
+const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
 const rolls_re = /(?<rolls>\d+) times/
 
 module.exports = {
@@ -37,7 +37,9 @@ module.exports = {
 
     const modifier_groups = modifier_re.exec(stripped_content)?.groups
     if (modifier_groups) {
-      raw_options.modifier = modifier_groups.modifier
+      let mod = modifier_groups.modifier
+      if (modifier_groups.operator == "-") mod = -1 * mod
+      raw_options.modifier = mod
     }
 
     const rolls_groups = rolls_re.exec(stripped_content)?.groups
