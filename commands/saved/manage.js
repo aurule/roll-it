@@ -12,6 +12,7 @@ const Joi = require("joi")
 const Completers = require("../../completers/saved-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const { splitMessage } = require("../../util/long-reply")
+const invocation_presenter = require("../../presenters/invocation-presenter")
 
 /**
  * Minimal schema to validate presence. Correctness must be validated before we reach this point.
@@ -66,6 +67,7 @@ module.exports = {
     for (const opt in detail.options) {
       manage_lines.push(`* ${italic(opt + ":")} ${detail.options[opt]}`)
     }
+    manage_lines.push(`${italic("Invocation:")} ${invocation_presenter.present(detail.command, detail.options)}`)
     manage_lines.push("What do you want to do?")
 
     const edit_button = new ButtonBuilder()
