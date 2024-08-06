@@ -1,5 +1,47 @@
 const presenter = require("./saved-roll-presenter")
 
+describe("present", () => {
+  it("shows the name", () => {
+    const saved_roll = {name: "test1", description: "a description", options: {}, command: "nwod"}
+
+    const result = presenter.present(saved_roll)
+
+    expect(result).toMatch("test1")
+  })
+
+  it("shows the description", () => {
+    const saved_roll = {name: "test1", description: "a description", options: {}, command: "nwod"}
+
+    const result = presenter.present(saved_roll)
+
+    expect(result).toMatch("description")
+  })
+
+  it("shows the command", () => {
+    const saved_roll = {name: "test1", description: "a description", options: {}, command: "nwod"}
+
+    const result = presenter.present(saved_roll)
+
+    expect(result).toMatch("/nwod")
+  })
+
+  it("shows options", () => {
+    const saved_roll = {name: "test1", description: "a description", options: {pool: 5}, command: "nwod"}
+
+    const result = presenter.present(saved_roll)
+
+    expect(result).toMatch("_pool:_ 5")
+  })
+
+  it("shows the invocation", () => {
+    const saved_roll = {name: "test1", description: "a description", options: {pool: 5}, command: "nwod"}
+
+    const result = presenter.present(saved_roll)
+
+    expect(result).toMatch("`/nwod pool:5`")
+  })
+})
+
 describe("presentList", () => {
   it("shows each command", () => {
     const rolls = [

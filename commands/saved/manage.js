@@ -12,7 +12,7 @@ const Joi = require("joi")
 const Completers = require("../../completers/saved-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const { splitMessage } = require("../../util/long-reply")
-const invocation_presenter = require("../../presenters/invocation-presenter")
+const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
 
 /**
  * Minimal schema to validate presence. Correctness must be validated before we reach this point.
@@ -57,18 +57,8 @@ module.exports = {
       })
     }
 
-    const manage_lines = [
-      "All about this roll:",
-      `${italic("Name:")} ${detail.name}`,
-      `${italic("Description:")} ${detail.description}`,
-      `${italic("Command:")} ${detail.command}`,
-      `${italic("Options:")}`,
-    ]
-    for (const opt in detail.options) {
-      manage_lines.push(`* ${italic(opt + ":")} ${detail.options[opt]}`)
-    }
-    manage_lines.push(`${italic("Invocation:")} ${invocation_presenter.present(detail.command, detail.options)}`)
-    manage_lines.push("What do you want to do?")
+    let manage_text = saved_roll_presenter.present(detail)
+    manage_text += "What do you want to do?"
 
     const edit_button = new ButtonBuilder()
       .setCustomId("edit")
@@ -92,7 +82,7 @@ module.exports = {
       remove_button,
     )
     const manage_prompt = await interaction.reply({
-      content: manage_lines.join("\n"),
+      content: manage_text,
       components: [manage_actions],
       ephemeral: true,
     })

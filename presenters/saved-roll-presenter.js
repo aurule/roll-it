@@ -1,6 +1,27 @@
 const { italic, inlineCode, bold } = require("discord.js")
 
 /**
+ * Present the details of a single saved roll
+ *
+ * @param  {obj} saved_roll Saved roll details
+ * @return {str}            String describing all attributes of the saved roll
+ */
+function present(saved_roll) {
+  const manage_lines = [
+      "All about this roll:",
+      `${italic("Name:")} ${presentRollName(saved_roll)}`,
+      `${italic("Description:")} ${saved_roll.description}`,
+      `${italic("Command:")} ${saved_roll.command}`,
+      `${italic("Options:")}`,
+    ]
+    for (const opt in saved_roll.options) {
+      manage_lines.push(`* ${italic(opt + ":")} ${saved_roll.options[opt]}`)
+    }
+    manage_lines.push(`${italic("Invocation:")} ${presentInvocation(saved_roll)}`)
+    return manage_lines.join("\n")
+}
+
+/**
  * Present the list of available saved rolls
  *
  * @param  {obj[]} rolls Array of saved_roll info objects
@@ -44,14 +65,15 @@ function presentInvocation(saved_roll) {
   const options = saved_roll.options ?? {}
 
   let content_lines = "/" + command_name
-  for (const [key, value] of Object.entries(options)) {
-    content_lines += " " + key + ":" + value
+  for (const opt in options) {
+    content_lines += ` ${opt}:${options[opt]}`
   }
 
   return inlineCode(content_lines)
 }
 
 module.exports = {
+  present,
   presentList,
   presentRollName,
   presentInvocation,
