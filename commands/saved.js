@@ -16,7 +16,6 @@ module.exports = {
       .setName(module.exports.name)
       .setDescription(module.exports.description)
       .setDMPermission(false)
-      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
       .addSubcommand(subcommands.get("roll").data())
       .addSubcommand(subcommands.get("list").data())
       .addSubcommand(subcommands.get("set").data())
