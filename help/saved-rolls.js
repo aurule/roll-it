@@ -1,4 +1,4 @@
-const { inlineCode, italic, bold, heading, orderedList } = require("discord.js")
+const { inlineCode, italic, heading, orderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 
