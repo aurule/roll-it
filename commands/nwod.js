@@ -68,28 +68,17 @@ module.exports = {
       )
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: [
-    "pool",
-  ],
+  changeable: ["pool"],
   schema: Joi.object({
     pool: commonSchemas.pool,
-    explode: Joi.number()
-      .optional()
-      .integer()
-      .min(2)
-      .max(11),
-    threshold: Joi.number()
-      .optional()
-      .integer()
-      .min(2)
-      .max(10),
-    rote: Joi.boolean()
-      .optional(),
+    explode: Joi.number().optional().integer().min(2).max(11),
+    threshold: Joi.number().optional().integer().min(2).max(10),
+    rote: Joi.boolean().optional(),
     rolls: commonSchemas.rolls,
     until: commonSchemas.until,
     description: commonSchemas.description,
   }),
-  perform({pool, explode = 10, threshold = 8, rote, rolls = 1, until, description} = {}) {
+  perform({ pool, explode = 10, threshold = 8, rote, rolls = 1, until, description } = {}) {
     const chance = !pool
     if (chance) {
       pool = 1

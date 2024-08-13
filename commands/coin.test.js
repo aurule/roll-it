@@ -53,12 +53,9 @@ describe("schema", () => {
       expect(schemaMessages(result)).not.toMatch("call")
     })
 
-    it.each([
-      ["heads"],
-      ["tails"],
-    ])("allows %s", (call_value) => {
+    it.each([["heads"], ["tails"]])("allows %s", (call_value) => {
       const options = {
-        call: call_value
+        call: call_value,
       }
       const result = coin_command.schema.validate(options, {
         abortEarly: false,
@@ -69,7 +66,7 @@ describe("schema", () => {
 
     it("disallows other values", () => {
       const options = {
-        call: "nopealope"
+        call: "nopealope",
       }
       const result = coin_command.schema.validate(options, {
         abortEarly: false,

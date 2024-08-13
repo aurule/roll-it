@@ -30,17 +30,35 @@ describe("teamwork", () => {
     const mockPresenter = jest.fn((s) => s.toString())
 
     it("gets results from the roller", () => {
-      const result = teamwork.makeLeaderResults(5, mockRoller, mockSummer, mockPresenter, "testflake")
+      const result = teamwork.makeLeaderResults(
+        5,
+        mockRoller,
+        mockSummer,
+        mockPresenter,
+        "testflake",
+      )
 
       expect(mockRoller).toHaveBeenCalled()
     })
     it("gets the sum from the summer", () => {
-      const result = teamwork.makeLeaderResults(5, mockRoller, mockSummer, mockPresenter, "testflake")
+      const result = teamwork.makeLeaderResults(
+        5,
+        mockRoller,
+        mockSummer,
+        mockPresenter,
+        "testflake",
+      )
 
       expect(mockSummer).toHaveBeenCalled()
     })
     it("gets the string from the presenter", () => {
-      const result = teamwork.makeLeaderResults(5, mockRoller, mockSummer, mockPresenter, "testflake")
+      const result = teamwork.makeLeaderResults(
+        5,
+        mockRoller,
+        mockSummer,
+        mockPresenter,
+        "testflake",
+      )
 
       expect(mockPresenter).toHaveBeenCalled()
     })

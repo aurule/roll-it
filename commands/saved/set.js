@@ -48,11 +48,7 @@ const options_schema = Joi.object({
       `,
     }),
   description: commonSchemas.description,
-  invocation: Joi.string()
-    .trim()
-    .optional()
-    .min(4)
-    .max(1500),
+  invocation: Joi.string().trim().optional().min(4).max(1500),
 })
 
 module.exports = {
@@ -69,7 +65,7 @@ module.exports = {
           .setDescription("Unique name for the saved roll")
           .setMinLength(3)
           .setMaxLength(100)
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
@@ -77,7 +73,7 @@ module.exports = {
           .setDescription("A few words about the saved roll")
           .setMinLength(3)
           .setMaxLength(1500)
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
@@ -85,7 +81,7 @@ module.exports = {
           .setDescription("ADVANCED! Manually enter the discord command invocation to use")
           .setMinLength(4)
           .setMaxLength(1500)
-          .setRequired(false)
+          .setRequired(false),
       ),
   async execute(interaction) {
     // validate the name and description
@@ -100,7 +96,9 @@ module.exports = {
 
     let command_options = {}
     try {
-      command_options = await options_schema.validateAsync(raw_options, {context: {saved_rolls}})
+      command_options = await options_schema.validateAsync(raw_options, {
+        context: { saved_rolls },
+      })
     } catch (err) {
       return interaction.reply({
         content: `There was a problem saving that name and description:\n` + err.details[0].message,
@@ -124,8 +122,9 @@ module.exports = {
         parsed_invocation = await parse(invocation)
       } catch (err) {
         return interaction.reply({
-          content: `There was a problem saving the invocation for "${raw_options.name})":\n` + err.message,
-          ephemeral: true
+          content:
+            `There was a problem saving the invocation for "${raw_options.name})":\n` + err.message,
+          ephemeral: true,
         })
       }
 
@@ -158,7 +157,7 @@ module.exports = {
     }
 
     // the roll is finished
-    saved_rolls.update(saved_details.id, {incomplete: false})
+    saved_rolls.update(saved_details.id, { incomplete: false })
 
     return interaction.reply({
       content: oneLine`

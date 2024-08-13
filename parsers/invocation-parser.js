@@ -36,15 +36,15 @@ module.exports = {
     }
 
     const command = commands.get(command_name)
-    if (!(command?.savable)) {
+    if (!command?.savable) {
       throw new RollParseError([`cannot save "${command_name}"`])
     }
 
     var validated_options
     try {
-      validated_options = await command.schema.validateAsync(options, {abortEarly: false})
-    } catch(err) {
-      throw new RollParseError(err.details.map(d => d.message))
+      validated_options = await command.schema.validateAsync(options, { abortEarly: false })
+    } catch (err) {
+      throw new RollParseError(err.details.map((d) => d.message))
     }
 
     return {

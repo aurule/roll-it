@@ -4,12 +4,14 @@ describe("presentOne", () => {
   const defaultArgs = {
     formula: "1d4 + 5",
     description: "test roll",
-    results: [{
-      rolledFormula: "2 + 5",
-      pools: ["1d4"],
-      raw: [[2]],
-      summed: [2],
-    }]
+    results: [
+      {
+        rolledFormula: "2 + 5",
+        pools: ["1d4"],
+        raw: [[2]],
+        summed: [2],
+      },
+    ],
   }
 
   it("includes the original formula", () => {

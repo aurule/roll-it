@@ -8,17 +8,17 @@ const { italic, inlineCode, bold } = require("discord.js")
  */
 function present(saved_roll) {
   const manage_lines = [
-      "All about this roll:",
-      `${italic("Name:")} ${presentRollName(saved_roll)}`,
-      `${italic("Description:")} ${saved_roll.description}`,
-      `${italic("Command:")} ${saved_roll.command}`,
-      `${italic("Options:")}`,
-    ]
-    for (const opt in saved_roll.options) {
-      manage_lines.push(`* ${italic(opt + ":")} ${saved_roll.options[opt]}`)
-    }
-    manage_lines.push(`${italic("Invocation:")} ${presentInvocation(saved_roll)}`)
-    return manage_lines.join("\n")
+    "All about this roll:",
+    `${italic("Name:")} ${presentRollName(saved_roll)}`,
+    `${italic("Description:")} ${saved_roll.description}`,
+    `${italic("Command:")} ${saved_roll.command}`,
+    `${italic("Options:")}`,
+  ]
+  for (const opt in saved_roll.options) {
+    manage_lines.push(`* ${italic(opt + ":")} ${saved_roll.options[opt]}`)
+  }
+  manage_lines.push(`${italic("Invocation:")} ${presentInvocation(saved_roll)}`)
+  return manage_lines.join("\n")
 }
 
 /**
@@ -32,7 +32,9 @@ function presentList(saved_rolls) {
     return `You have no saved rolls. Make some with ${inlineCode("/saved add")}!`
 
   let content = "These are your saved rolls:"
-  content += saved_rolls.map(r => `\n* ${presentRollName(r)}\n  - ${presentInvocation(r)}`).join("")
+  content += saved_rolls
+    .map((r) => `\n* ${presentRollName(r)}\n  - ${presentInvocation(r)}`)
+    .join("")
   return content
 }
 

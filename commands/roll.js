@@ -40,22 +40,15 @@ module.exports = {
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: [
-    "pool",
-    "modifier",
-  ],
+  changeable: ["pool", "modifier"],
   schema: Joi.object({
     pool: commonSchemas.pool,
-    sides: Joi.number()
-      .required()
-      .integer()
-      .min(2)
-      .max(100000),
+    sides: Joi.number().required().integer().min(2).max(100000),
     description: commonSchemas.description,
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
   }),
-  perform({pool, sides, description, modifier = 0, rolls = 1} = {}) {
+  perform({ pool, sides, description, modifier = 0, rolls = 1 } = {}) {
     const raw_results = roll(pool, sides, rolls)
     const summed_results = sum(raw_results)
 
@@ -76,7 +69,6 @@ module.exports = {
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
-
 
     const partial_message = module.exports.perform({
       rolls,

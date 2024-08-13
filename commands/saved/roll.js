@@ -35,24 +35,29 @@ module.exports = {
       )
       .addStringOption((option) =>
         option
-        .setName("description")
-        .setDescription("A word or two about this roll. Defaults to the saved description.")
-        .setMaxLength(1500)
+          .setName("description")
+          .setDescription("A word or two about this roll. Defaults to the saved description.")
+          .setMaxLength(1500),
       )
       .addIntegerOption((option) =>
         option.setName("bonus").setDescription("A number to add or subtract from the roll"),
       )
       .addStringOption((option) =>
-        option.setName("change")
+        option
+          .setName("change")
           .setDescription("Choose where to apply the bonus. Default is based on the saved command.")
           .setChoices(
             { name: "Modifier", value: "modifier" },
             { name: "Pool", value: "pool" },
             { name: "Difficulty", value: "difficulty" },
-          )
+          ),
       )
       .addIntegerOption((option) =>
-        option.setName("rolls").setDescription("Roll this many times").setMinValue(1).setMaxValue(100)
+        option
+          .setName("rolls")
+          .setDescription("Roll this many times")
+          .setMinValue(1)
+          .setMaxValue(100),
       )
       .addBooleanOption(commonOpts.secret),
   change_target,
@@ -63,7 +68,7 @@ module.exports = {
     const roll_id = parseInt(roll_name)
 
     const roll_detail = saved_rolls.detail(roll_id, roll_name)
-    if(roll_detail === undefined) {
+    if (roll_detail === undefined) {
       return interaction.reply({
         content:
           "That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
@@ -128,7 +133,7 @@ module.exports = {
           ephemeral: true,
         })
       } else {
-        saved_rolls.update(roll_detail.id, {invalid: true})
+        saved_rolls.update(roll_detail.id, { invalid: true })
         return interaction.reply({
           content: oneLine`
             The saved options for this roll are no longer valid. You'll have to update them before you can use

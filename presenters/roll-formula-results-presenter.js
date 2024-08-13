@@ -1,21 +1,36 @@
 const { bold, inlineCode } = require("discord.js")
 const { evaluate } = require("mathjs")
 
-const { create, all } = require('mathjs')
+const { create, all } = require("mathjs")
 
 const math = create(all)
 const limitedEvaluate = math.evaluate
 
-math.import({
-  'import':     function () { throw new Error('Function import is disabled') },
-  'createUnit': function () { throw new Error('Function createUnit is disabled') },
-  'evaluate':   function () { throw new Error('Function evaluate is disabled') },
-  'parse':      function () { throw new Error('Function parse is disabled') },
-  'simplify':   function () { throw new Error('Function simplify is disabled') },
-  'derivative': function () { throw new Error('Function derivative is disabled') }
-}, { override: true })
+math.import(
+  {
+    import: function () {
+      throw new Error("Function import is disabled")
+    },
+    createUnit: function () {
+      throw new Error("Function createUnit is disabled")
+    },
+    evaluate: function () {
+      throw new Error("Function evaluate is disabled")
+    },
+    parse: function () {
+      throw new Error("Function parse is disabled")
+    },
+    simplify: function () {
+      throw new Error("Function simplify is disabled")
+    },
+    derivative: function () {
+      throw new Error("Function derivative is disabled")
+    },
+  },
+  { override: true },
+)
 
-   // * @param  {Int}        options.rolls         Total number of rolls to show
+// * @param  {Int}        options.rolls         Total number of rolls to show
 module.exports = {
   /**
    * Present the results of one or more formula results
@@ -28,7 +43,7 @@ module.exports = {
    * @param  {...obj} rollOptions Object with the roll results
    * @return {str}                String of presented roll results
    */
-  present({rolls, ...rollOptions}) {
+  present({ rolls, ...rollOptions }) {
     if (rolls == 1) {
       return module.exports.presentOne(rollOptions)
     }
@@ -52,12 +67,12 @@ module.exports = {
    * @return {str}               String of the presented roll result
    */
   presentOne({ formula, description, results }) {
-    const {rolledFormula, pools, raw, summed} = results[0]
+    const { rolledFormula, pools, raw, summed } = results[0]
 
     let finalSum
     try {
       finalSum = limitedEvaluate(rolledFormula)
-    } catch(err) {
+    } catch (err) {
       return `Error: ${err.message}`
     }
 
@@ -93,12 +108,12 @@ module.exports = {
     content += ` on ${inlineCode(formula)}:`
 
     for (const result of results) {
-      const {rolledFormula, pools, raw, summed, description} = result
+      const { rolledFormula, pools, raw, summed, description } = result
 
       let finalSum
       try {
         finalSum = limitedEvaluate(rolledFormula)
-      } catch(err) {
+      } catch (err) {
         return `Error: ${err.message}`
       }
 
@@ -110,5 +125,5 @@ module.exports = {
     }
 
     return content
-  }
+  },
 }

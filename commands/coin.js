@@ -24,14 +24,11 @@ module.exports = {
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({
     description: commonSchemas.description,
-    call: Joi.string()
-      .optional()
-      .valid("heads", "tails")
-      .messages({
-        "any.only": 'Call must be either "heads" or "tails".',
-      }),
+    call: Joi.string().optional().valid("heads", "tails").messages({
+      "any.only": 'Call must be either "heads" or "tails".',
+    }),
   }),
-  perform({description, call}) {
+  perform({ description, call }) {
     const raw_results = roll(1, 2, 1)
 
     return present({
@@ -45,12 +42,10 @@ module.exports = {
     const call = interaction.options.getString("call") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const partial_message = module.exports.perform(
-      {
-        call,
-        description: roll_description,
-      }
-    )
+    const partial_message = module.exports.perform({
+      call,
+      description: roll_description,
+    })
 
     return interaction.reply({
       content: injectMention(partial_message, interaction.user.id),

@@ -13,7 +13,7 @@ describe("execute", () => {
 
   it("warns on no command", async () => {
     interaction.targetMessage = {
-      content: "lorem ipsum"
+      content: "lorem ipsum",
     }
 
     await save_roll_command.execute(interaction)
@@ -23,8 +23,8 @@ describe("execute", () => {
 
   it("warns on unknown command", async () => {
     interaction.targetMessage = {
-      interaction: {commandName: "gobbledegook"},
-      content: "lorem ipsum"
+      interaction: { commandName: "gobbledegook" },
+      content: "lorem ipsum",
     }
 
     await save_roll_command.execute(interaction)
@@ -34,8 +34,8 @@ describe("execute", () => {
 
   it("warns on non-savable command", async () => {
     interaction.targetMessage = {
-      interaction: {commandName: "chop"},
-      content: "lorem ipsum"
+      interaction: { commandName: "chop" },
+      content: "lorem ipsum",
     }
 
     await save_roll_command.execute(interaction)
@@ -45,8 +45,8 @@ describe("execute", () => {
 
   it("warns on invalid options", async () => {
     interaction.targetMessage = {
-      interaction: {commandName: "d10"},
-      content: "0 times"
+      interaction: { commandName: "d10" },
+      content: "0 times",
     }
 
     await save_roll_command.execute(interaction)
@@ -57,7 +57,7 @@ describe("execute", () => {
   describe("with no incomplete roll", () => {
     beforeEach(() => {
       interaction.targetMessage = {
-        interaction: {commandName: "d10"},
+        interaction: { commandName: "d10" },
         content: '<@12345> rolled **7** (3 + 4) for "a roll"',
       }
     })
@@ -73,7 +73,7 @@ describe("execute", () => {
       await save_roll_command.execute(interaction)
 
       const detail = saved_rolls.incomplete()
-      expect(detail.options).toMatchObject({modifier: 4})
+      expect(detail.options).toMatchObject({ modifier: 4 })
     })
 
     it("marks the record incomplete", async () => {
@@ -103,7 +103,7 @@ describe("execute", () => {
         record_id = created.lastInsertRowid
 
         interaction.targetMessage = {
-          interaction: {commandName: "d10"},
+          interaction: { commandName: "d10" },
           content: '<@12345> rolled **7** (3 + 4) for "a roll"',
         }
       })
@@ -119,7 +119,7 @@ describe("execute", () => {
         await save_roll_command.execute(interaction)
 
         const detail = saved_rolls.detail(undefined, "test")
-        expect(detail.options).toMatchObject({modifier: 4})
+        expect(detail.options).toMatchObject({ modifier: 4 })
       })
 
       it("marks the record complete", async () => {
@@ -150,7 +150,7 @@ describe("execute", () => {
         record_id = created.lastInsertRowid
 
         interaction.targetMessage = {
-          interaction: {commandName: "d10"},
+          interaction: { commandName: "d10" },
           content: '<@12345> rolled **7** (3 + 4) for "a roll"',
         }
       })
@@ -166,7 +166,7 @@ describe("execute", () => {
         await save_roll_command.execute(interaction)
 
         const detail = saved_rolls.detail(record_id)
-        expect(detail.options).toMatchObject({modifier: 4})
+        expect(detail.options).toMatchObject({ modifier: 4 })
       })
 
       it("leaves the record incomplete", async () => {

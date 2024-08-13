@@ -99,7 +99,6 @@ describe("schema", () => {
       expect(result.error).toBeFalsy()
     })
   })
-
 })
 
 describe("perform", () => {
@@ -109,7 +108,7 @@ describe("perform", () => {
       const options = {
         rolls: 1,
         pool: 1,
-        description: description_text
+        description: description_text,
       }
 
       const result = wod_command.perform(options)
@@ -135,7 +134,7 @@ describe("perform", () => {
       const options = {
         rolls: 2,
         pool: 1,
-        description: description_text
+        description: description_text,
       }
 
       const result = wod_command.perform(options)
@@ -162,7 +161,7 @@ describe("perform", () => {
         pool: 5,
         until: 1,
         difficulty: 5,
-        description: description_text
+        description: description_text,
       }
 
       const result = wod_command.perform(options)

@@ -4,8 +4,6 @@ const { Interaction } = require("../../testing/interaction")
 const saved_list_command = require("./list")
 
 describe("execute", () => {
-
-
   it("shows all saved rolls for the user and guild", () => {
     const interaction = new Interaction()
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
@@ -59,8 +57,8 @@ describe("execute", () => {
       invalid: true,
       command: "d20",
       options: {
-        "keep": "all the things"
-      }
+        keep: "all the things",
+      },
     })
 
     saved_list_command.execute(interaction)

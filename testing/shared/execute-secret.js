@@ -29,7 +29,7 @@ function test_secret_option(command, interaction_options, after_interaction) {
   return describe(`${pretty(command)} execute`, () => {
     beforeEach(() => {
       interaction = new Interaction()
-      interaction.command_options = {...interaction_options}
+      interaction.command_options = { ...interaction_options }
       typeof after_interaction === "function" && after_interaction(interaction)
     })
 
@@ -58,5 +58,5 @@ function test_secret_option(command, interaction_options, after_interaction) {
 }
 
 module.exports = {
-  test_secret_option
+  test_secret_option,
 }

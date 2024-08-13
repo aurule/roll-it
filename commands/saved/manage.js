@@ -79,7 +79,7 @@ module.exports = {
       switch (event.customId) {
         case "edit":
           try {
-            saved_rolls.update(detail.id, {incomplete: true})
+            saved_rolls.update(detail.id, { incomplete: true })
           } catch (err) {
             return manage_prompt.edit({
               content: oneLine`
@@ -106,13 +106,13 @@ module.exports = {
           try {
             await command.schema.validateAsync(detail.options)
             await saved_roll_schema.validateAsync(detail)
-          } catch(err) {
-            saved_rolls.update(detail.id, {incomplete: false, invalid: true})
+          } catch (err) {
+            saved_rolls.update(detail.id, { incomplete: false, invalid: true })
 
             const edit_lines = [
               `The roll ${italic(detail.name)} is no longer marked for editing, but it has some errors:`,
               err.message,
-              "You will need to fix them before you can use the roll."
+              "You will need to fix them before you can use the roll.",
             ]
 
             return manage_prompt.edit({
@@ -122,7 +122,7 @@ module.exports = {
             })
           }
 
-          saved_rolls.update(detail.id, {incomplete: false, invalid: false})
+          saved_rolls.update(detail.id, { incomplete: false, invalid: false })
 
           return manage_prompt.edit({
             content: `The roll ${italic(detail.name)} is no longer marked for editing.`,
@@ -165,7 +165,7 @@ module.exports = {
                 ephemeral: true,
               })
             })
-            .catch(err => {
+            .catch((err) => {
               manage_prompt.delete()
               return interaction
             })

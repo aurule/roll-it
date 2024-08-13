@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js")
+const {
+  SlashCommandBuilder,
+  ContextMenuCommandBuilder,
+  ApplicationCommandType,
+} = require("discord.js")
 const help_command = require("../commands/help")
 const CommandHelpPresenter = require("./command-help-presenter")
 

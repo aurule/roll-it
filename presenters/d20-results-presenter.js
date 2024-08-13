@@ -36,7 +36,7 @@ function presentOne({ modifier, description, raw, picked, keep }) {
 function presentMany({ modifier, description, raw, picked, keep }) {
   let content = "{{userMention}} rolled"
   if (description) {
-    content+= ` "${description}"`
+    content += ` "${description}"`
   }
   content += keep_strings.get(keep)
   content += ` ${raw.length} times:`

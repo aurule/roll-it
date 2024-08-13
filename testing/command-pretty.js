@@ -14,5 +14,5 @@ function pretty(command) {
 }
 
 module.exports = {
-  pretty
+  pretty,
 }

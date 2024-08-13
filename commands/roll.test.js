@@ -80,7 +80,7 @@ describe("perform", () => {
         pool: 1,
         sides: 2,
         modifier: 0,
-        modifier: 8
+        modifier: 8,
       }
 
       const result = roll_command.perform(options)
@@ -122,7 +122,7 @@ describe("perform", () => {
         rolls: 2,
         pool: 1,
         sides: 2,
-        modifier: 8
+        modifier: 8,
       }
 
       const result = roll_command.perform(options)

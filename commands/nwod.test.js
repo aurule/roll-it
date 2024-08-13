@@ -107,7 +107,7 @@ describe("perform", () => {
     it("displays the description if present", () => {
       const description_text = "this is a test"
       const options = {
-        description: description_text
+        description: description_text,
       }
 
       const result = nwod_command.perform(options)
@@ -118,7 +118,7 @@ describe("perform", () => {
     it("displays the result", () => {
       const description_text = "this is a test"
       const options = {
-        pool: 5
+        pool: 5,
       }
 
       const result = nwod_command.perform(options)
@@ -146,7 +146,6 @@ describe("perform", () => {
     })
 
     it("displays the result", () => {
-
       const result = nwod_command.perform(options)
 
       expect(result).toMatch(/\*\*\d\*\*/)

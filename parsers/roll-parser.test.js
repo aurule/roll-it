@@ -4,9 +4,7 @@ const { parse } = require("./roll-parser")
 
 describe("with junk input", () => {
   it("errors out", async () => {
-    await expect(parse("something something explosions"))
-    .rejects
-    .toThrow("pool")
+    await expect(parse("something something explosions")).rejects.toThrow("pool")
   })
 })
 

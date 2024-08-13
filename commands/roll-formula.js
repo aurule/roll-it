@@ -30,23 +30,17 @@ module.exports = {
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: [
-    "modifier",
-  ],
+  changeable: ["modifier"],
   schema: Joi.object({
-    formula: Joi.string()
-      .required()
-      .trim()
-      .min(3)
-      .max(1500),
+    formula: Joi.string().required().trim().min(3).max(1500),
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
   }),
-  perform({formula, rolls = 1, modifier = 0, description} = {}) {
+  perform({ formula, rolls = 1, modifier = 0, description } = {}) {
     const results = []
 
-    for (_r in Array.from({length: rolls}, i => i)) {
+    for (_r in Array.from({ length: rolls }, (i) => i)) {
       const raw_pools = []
       const raw_results = []
       const summed_results = []

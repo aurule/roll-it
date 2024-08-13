@@ -53,7 +53,7 @@ describe("makeUpdateFields", () => {
 
   it("converts options", () => {
     const data = {
-      options: {test: true},
+      options: { test: true },
     }
 
     const result = makeUpdateFields(data)
@@ -73,11 +73,7 @@ describe("makeUpdateFields", () => {
     expect(result.values.incomplete).toEqual(1)
   })
 
-  it.each([
-    ["id"],
-    ["guildFlake"],
-    ["userFlake"],
-  ])("skips restricted attribute %s", (attr_name) => {
+  it.each([["id"], ["guildFlake"], ["userFlake"]])("skips restricted attribute %s", (attr_name) => {
     const data = {}
     data[attr_name] = "test"
 
@@ -174,7 +170,7 @@ describe("UserSavedRolls", () => {
     describe("with an incomplete roll", () => {
       it("updates the existing incomplete record", () => {
         const saved_rolls = new UserSavedRolls("test-guild", "user-upsert", db)
-        fakeSavedRoll(saved_rolls, {incomplete: true})
+        fakeSavedRoll(saved_rolls, { incomplete: true })
         const data = {
           name: "test roll",
           description: "a test",
@@ -191,9 +187,9 @@ describe("UserSavedRolls", () => {
   describe("all", () => {
     it("lists all the user's rolls in this guild", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-all", db)
-      fakeSavedRoll(saved_rolls, {name: "test1"})
-      fakeSavedRoll(saved_rolls, {name: "test2"})
-      fakeSavedRoll(saved_rolls, {name: "test3"})
+      fakeSavedRoll(saved_rolls, { name: "test1" })
+      fakeSavedRoll(saved_rolls, { name: "test2" })
+      fakeSavedRoll(saved_rolls, { name: "test3" })
 
       const result = saved_rolls.all()
 
@@ -202,7 +198,7 @@ describe("UserSavedRolls", () => {
 
     it("extracts options from jsonb", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-all", db)
-      fakeSavedRoll(saved_rolls, {name: "test1"})
+      fakeSavedRoll(saved_rolls, { name: "test1" })
 
       const result = saved_rolls.all()
 
@@ -222,7 +218,7 @@ describe("UserSavedRolls", () => {
 
     it("looks up by name", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
-      const insertion = fakeSavedRoll(saved_rolls, {name: "testn"})
+      const insertion = fakeSavedRoll(saved_rolls, { name: "testn" })
 
       const result = saved_rolls.detail(0, "testn")
 
@@ -231,7 +227,7 @@ describe("UserSavedRolls", () => {
 
     it("uses id when both are given", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
-      const insertion = fakeSavedRoll(saved_rolls, {name: "testb2"})
+      const insertion = fakeSavedRoll(saved_rolls, { name: "testb2" })
 
       const result = saved_rolls.detail(insertion.lastInsertRowid, "testb2")
 
@@ -244,7 +240,7 @@ describe("UserSavedRolls", () => {
         pool: 1,
         sides: 6,
       }
-      const insertion = fakeSavedRoll(saved_rolls, {options: options})
+      const insertion = fakeSavedRoll(saved_rolls, { options: options })
 
       const result = saved_rolls.detail(insertion.lastInsertRowid)
 
@@ -286,7 +282,7 @@ describe("UserSavedRolls", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
       saved_rolls.create({
         command: "d20",
-        options: {modifier: 3},
+        options: { modifier: 3 },
         incomplete: true,
       })
 
@@ -299,13 +295,13 @@ describe("UserSavedRolls", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
       saved_rolls.create({
         command: "d20",
-        options: {modifier: 3},
+        options: { modifier: 3 },
         incomplete: true,
       })
 
       const result = saved_rolls.incomplete()
 
-      expect(result.options).toMatchObject({modifier: 3})
+      expect(result.options).toMatchObject({ modifier: 3 })
     })
 
     it("handles missing options", () => {
@@ -327,7 +323,7 @@ describe("UserSavedRolls", () => {
       ["name", "new name"],
       ["description", "new description"],
       ["command", "d20"],
-      ["options", {modifier: 55}],
+      ["options", { modifier: 55 }],
       ["incomplete", true],
       ["invalid", true],
     ])("can update the %s", (field, new_value) => {
@@ -393,8 +389,8 @@ describe("UserSavedRolls", () => {
   describe("count", () => {
     it("gets the count of saved rolls for the guild", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-count", db)
-      fakeSavedRoll(saved_rolls, {name: "test1"})
-      fakeSavedRoll(saved_rolls, {name: "test2"})
+      fakeSavedRoll(saved_rolls, { name: "test1" })
+      fakeSavedRoll(saved_rolls, { name: "test2" })
 
       const result = saved_rolls.count()
 
@@ -404,8 +400,8 @@ describe("UserSavedRolls", () => {
     it("ignores other guild's saved rolls for the same user", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-count", db)
       const other_saved_rolls = new UserSavedRolls("test-guild-other", "user-count", db)
-      fakeSavedRoll(saved_rolls, {name: "test1"})
-      fakeSavedRoll(other_saved_rolls, {name: "test2"})
+      fakeSavedRoll(saved_rolls, { name: "test1" })
+      fakeSavedRoll(other_saved_rolls, { name: "test2" })
 
       const result = saved_rolls.count()
 
@@ -415,8 +411,8 @@ describe("UserSavedRolls", () => {
     it("ignores other user's saved rolls in the same guild", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-count1", db)
       const other_saved_rolls = new UserSavedRolls("test-guild", "user-count2", db)
-      fakeSavedRoll(saved_rolls, {name: "test1"})
-      fakeSavedRoll(other_saved_rolls, {name: "test2"})
+      fakeSavedRoll(saved_rolls, { name: "test1" })
+      fakeSavedRoll(other_saved_rolls, { name: "test2" })
 
       const result = saved_rolls.count()
 
@@ -427,7 +423,7 @@ describe("UserSavedRolls", () => {
   describe("taken", () => {
     it("returns true if the name exists for the guild and user", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-taken", db)
-      fakeSavedRoll(saved_rolls, {name: "test"})
+      fakeSavedRoll(saved_rolls, { name: "test" })
 
       const result = saved_rolls.taken("test")
 
@@ -436,7 +432,7 @@ describe("UserSavedRolls", () => {
 
     it("returns false if the name only exists on an incomplete roll for the guild and user", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-taken", db)
-      fakeSavedRoll(saved_rolls, {name: "test", incomplete: true})
+      fakeSavedRoll(saved_rolls, { name: "test", incomplete: true })
 
       const result = saved_rolls.taken("test")
 
@@ -445,7 +441,7 @@ describe("UserSavedRolls", () => {
 
     it("returns false if the name does not exist for the guild and user", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-taken", db)
-      fakeSavedRoll(saved_rolls, {name: "test"})
+      fakeSavedRoll(saved_rolls, { name: "test" })
 
       const result = saved_rolls.taken("nope")
 
@@ -455,7 +451,7 @@ describe("UserSavedRolls", () => {
     it("returns false if the name only exists for another guild but same user", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-taken", db)
       const other_saved_rolls = new UserSavedRolls("test-guild-other", "user-taken", db)
-      fakeSavedRoll(other_saved_rolls, {name: "test"})
+      fakeSavedRoll(other_saved_rolls, { name: "test" })
 
       const result = saved_rolls.taken("test")
 
@@ -465,7 +461,7 @@ describe("UserSavedRolls", () => {
     it("returns false if the name only exists for same guild but another user", () => {
       const saved_rolls = new UserSavedRolls("test-guild", "user-taken", db)
       const other_saved_rolls = new UserSavedRolls("test-guild", "user-taken-other", db)
-      fakeSavedRoll(other_saved_rolls, {name: "test"})
+      fakeSavedRoll(other_saved_rolls, { name: "test" })
 
       const result = saved_rolls.taken("test")
 
@@ -535,9 +531,21 @@ describe("GlobalSavedRolls", () => {
   describe("all", () => {
     it("lists all rolls", () => {
       const saved_rolls = new GlobalSavedRolls(db)
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild1", userFlake: "user-all", name: "test1"})
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild2", userFlake: "user-all", name: "test2"})
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild3", userFlake: "user-all", name: "test3"})
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild1",
+        userFlake: "user-all",
+        name: "test1",
+      })
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild2",
+        userFlake: "user-all",
+        name: "test2",
+      })
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild3",
+        userFlake: "user-all",
+        name: "test3",
+      })
 
       const result = saved_rolls.all()
 
@@ -546,7 +554,11 @@ describe("GlobalSavedRolls", () => {
 
     it("extracts options from jsonb", () => {
       const saved_rolls = new GlobalSavedRolls(db)
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild1", userFlake: "user-all", name: "test1"})
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild1",
+        userFlake: "user-all",
+        name: "test1",
+      })
 
       const result = saved_rolls.all()
 
@@ -557,7 +569,11 @@ describe("GlobalSavedRolls", () => {
   describe("detail", () => {
     it("looks up by id", () => {
       const saved_rolls = new GlobalSavedRolls(db)
-      const insertion = fakeSavedRoll(saved_rolls, {guildFlake: "test-guild", userFlake: "user-detail", name: "test1"})
+      const insertion = fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild",
+        userFlake: "user-detail",
+        name: "test1",
+      })
 
       const result = saved_rolls.detail(insertion.lastInsertRowid)
 
@@ -570,7 +586,12 @@ describe("GlobalSavedRolls", () => {
         sides: 6,
       }
       const saved_rolls = new GlobalSavedRolls(db)
-      const insertion = fakeSavedRoll(saved_rolls, {guildFlake: "test-guild", userFlake: "user-detail", name: "test1", options})
+      const insertion = fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild",
+        userFlake: "user-detail",
+        name: "test1",
+        options,
+      })
 
       const result = saved_rolls.detail(insertion.lastInsertRowid)
 
@@ -583,12 +604,15 @@ describe("GlobalSavedRolls", () => {
       ["name", "new name"],
       ["description", "new description"],
       ["command", "d20"],
-      ["options", {modifier: 55}],
+      ["options", { modifier: 55 }],
       ["incomplete", true],
       ["invalid", true],
     ])("can update the %s", (field, new_value) => {
       const saved_rolls = new GlobalSavedRolls(db)
-      const insertion = fakeSavedRoll(saved_rolls, {guildFlake: "test-guild", userFlake: "user-update"})
+      const insertion = fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild",
+        userFlake: "user-update",
+      })
       const roll_id = insertion.lastInsertRowid
       const data = {}
       data[field] = new_value
@@ -601,7 +625,10 @@ describe("GlobalSavedRolls", () => {
 
     it("can update multiple values", () => {
       const saved_rolls = new GlobalSavedRolls(db)
-      const insertion = fakeSavedRoll(saved_rolls, {guildFlake: "test-guild", userFlake: "user-update"})
+      const insertion = fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild",
+        userFlake: "user-update",
+      })
       const roll_id = insertion.lastInsertRowid
       const data = {
         name: "new name",
@@ -617,7 +644,10 @@ describe("GlobalSavedRolls", () => {
 
     it("can update the user id", () => {
       const saved_rolls = new GlobalSavedRolls(db)
-      const insertion = fakeSavedRoll(saved_rolls, {guildFlake: "test-guild", userFlake: "user-update"})
+      const insertion = fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild",
+        userFlake: "user-update",
+      })
       const roll_id = insertion.lastInsertRowid
       const data = {
         userFlake: "new-user",
@@ -633,8 +663,16 @@ describe("GlobalSavedRolls", () => {
   describe("count", () => {
     it("gets the count of saved rolls for all guilds", () => {
       const saved_rolls = new GlobalSavedRolls(db)
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild1", userFlake: "user-count", name: "test1"})
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild2", userFlake: "user-count", name: "test2"})
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild1",
+        userFlake: "user-count",
+        name: "test1",
+      })
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild2",
+        userFlake: "user-count",
+        name: "test2",
+      })
 
       const result = saved_rolls.count()
 
@@ -643,8 +681,16 @@ describe("GlobalSavedRolls", () => {
 
     it("counts saved rolls for all users", () => {
       const saved_rolls = new GlobalSavedRolls(db)
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild", userFlake: "user-count1", name: "test1"})
-      fakeSavedRoll(saved_rolls, {guildFlake: "test-guild", userFlake: "user-count2", name: "test2"})
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild",
+        userFlake: "user-count1",
+        name: "test1",
+      })
+      fakeSavedRoll(saved_rolls, {
+        guildFlake: "test-guild",
+        userFlake: "user-count2",
+        name: "test2",
+      })
 
       const result = saved_rolls.count()
 

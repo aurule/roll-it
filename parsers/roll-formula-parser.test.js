@@ -4,9 +4,7 @@ const { parse } = require("./roll-formula-parser")
 
 describe("with junk input", () => {
   it("errors out", async () => {
-    await expect(parse("something something explosions"))
-    .rejects
-    .toThrow("formula")
+    await expect(parse("something something explosions")).rejects.toThrow("formula")
   })
 })
 
@@ -15,12 +13,14 @@ describe("with a valid message", () => {
     const content = present({
       rolls: 1,
       formula: "1d6 + 2",
-      results: [{
-        rolledFormula: "3 + 2",
-        pools: ["1d6"],
-        raw: [[3]],
-        summed: [3],
-      }],
+      results: [
+        {
+          rolledFormula: "3 + 2",
+          pools: ["1d6"],
+          raw: [[3]],
+          summed: [3],
+        },
+      ],
       description: "I meant to roll `5d8 + 20`",
     })
 
@@ -36,12 +36,14 @@ describe.each([
     {
       rolls: 1,
       formula: "1d6 + 2",
-      results: [{
-        rolledFormula: "3 + 2",
-        pools: ["1d6"],
-        raw: [[3]],
-        summed: [3],
-      }]
+      results: [
+        {
+          rolledFormula: "3 + 2",
+          pools: ["1d6"],
+          raw: [[3]],
+          summed: [3],
+        },
+      ],
     },
   ],
   [
@@ -62,7 +64,7 @@ describe.each([
           raw: [[4]],
           summed: [4],
         },
-      ]
+      ],
     },
   ],
 ])("%s", (_suite, raw_opts) => {
@@ -80,12 +82,14 @@ describe("single roll", () => {
     const content = present({
       rolls: 1,
       formula: "1d6 + 2",
-      results: [{
-        rolledFormula: "3 + 2",
-        pools: ["1d6"],
-        raw: [[3]],
-        summed: [3],
-      }]
+      results: [
+        {
+          rolledFormula: "3 + 2",
+          pools: ["1d6"],
+          raw: [[3]],
+          summed: [3],
+        },
+      ],
     })
 
     const result = await parse(content)
@@ -112,7 +116,7 @@ describe("multiple rolls", () => {
           raw: [[4]],
           summed: [4],
         },
-      ]
+      ],
     })
 
     const result = await parse(content)
@@ -146,4 +150,3 @@ describe("multiple rolls", () => {
     expect(result.rolls).toEqual(2)
   })
 })
-

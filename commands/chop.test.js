@@ -62,7 +62,7 @@ describe("perform", () => {
       rolls: 1,
       static_test: false,
       bomb: false,
-      description: "test desc"
+      description: "test desc",
     }
 
     const result = chop_command.perform(options)

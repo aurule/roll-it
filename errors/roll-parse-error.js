@@ -20,5 +20,5 @@ class RollParseError extends Error {
 }
 
 module.exports = {
-  RollParseError
+  RollParseError,
 }

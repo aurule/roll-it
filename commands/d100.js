@@ -24,15 +24,13 @@ module.exports = {
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: [
-    "modifier",
-  ],
+  changeable: ["modifier"],
   schema: Joi.object({
     description: commonSchemas.description,
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
   }),
-  perform({rolls = 1, modifier = 0, description} = {}) {
+  perform({ rolls = 1, modifier = 0, description } = {}) {
     const raw_results = roll(1, 100, rolls)
 
     return present({

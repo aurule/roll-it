@@ -73,7 +73,7 @@ describe.each([
     const content = present({
       ...raw_opts,
       modifier: 2,
-      description: "(I wanted a 5)"
+      description: "(I wanted a 5)",
     })
 
     const result = await parse(content)
@@ -111,7 +111,7 @@ describe("multiple rolls", () => {
     const content = present({
       rolls: 2,
       raw: [[3], [4]],
-      description: "5 times!"
+      description: "5 times!",
     })
 
     const result = await parse(content)

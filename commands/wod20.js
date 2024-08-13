@@ -56,24 +56,16 @@ module.exports = {
       )
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: [
-    "pool",
-    "difficulty",
-  ],
+  changeable: ["pool", "difficulty"],
   schema: Joi.object({
     pool: commonSchemas.pool,
-    difficulty: Joi.number()
-      .optional()
-      .integer()
-      .min(2)
-      .max(10),
-    specialty: Joi.boolean()
-      .optional(),
+    difficulty: Joi.number().optional().integer().min(2).max(10),
+    specialty: Joi.boolean().optional(),
     rolls: commonSchemas.rolls,
     until: commonSchemas.until,
     description: commonSchemas.description,
   }),
-  perform({pool, difficulty = 7, specialty, rolls = 1, until, description} = {}) {
+  perform({ pool, difficulty = 7, specialty, rolls = 1, until, description } = {}) {
     let raw_results
     let summed_results
 

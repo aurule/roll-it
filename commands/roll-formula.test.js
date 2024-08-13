@@ -56,7 +56,7 @@ describe("perform", () => {
 
   it("displays the result", async () => {
     const options = {
-      formula: "1d4 + 8"
+      formula: "1d4 + 8",
     }
 
     const result = roll_formula_command.perform(options)
@@ -66,7 +66,7 @@ describe("perform", () => {
 
   it("displays the rest of the formula", async () => {
     const options = {
-      formula: "1d4 + 8"
+      formula: "1d4 + 8",
     }
 
     const result = roll_formula_command.perform(options)
@@ -97,4 +97,4 @@ describe("perform", () => {
   })
 })
 
-test_secret_option(roll_formula_command, {formula: "1d4"})
+test_secret_option(roll_formula_command, { formula: "1d4" })

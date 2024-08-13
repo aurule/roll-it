@@ -10,7 +10,10 @@ module.exports = {
    * @return {SlashCommandStringOption}        Populated option
    */
   description(option) {
-    return option.setName("description").setDescription("A word or two about this roll").setMaxLength(1500)
+    return option
+      .setName("description")
+      .setDescription("A word or two about this roll")
+      .setMaxLength(1500)
   },
 
   /**
@@ -20,7 +23,11 @@ module.exports = {
    * @return {SlashCommandIntegerOption}        Populated option
    */
   rolls(option) {
-    return option.setName("rolls").setDescription("Roll this many times (default 1)").setMinValue(1).setMaxValue(100)
+    return option
+      .setName("rolls")
+      .setDescription("Roll this many times (default 1)")
+      .setMinValue(1)
+      .setMaxValue(100)
   },
 
   /**

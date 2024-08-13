@@ -2,7 +2,7 @@ const presenter = require("./saved-roll-presenter")
 
 describe("present", () => {
   it("shows the name", () => {
-    const saved_roll = {name: "test1", description: "a description", options: {}, command: "nwod"}
+    const saved_roll = { name: "test1", description: "a description", options: {}, command: "nwod" }
 
     const result = presenter.present(saved_roll)
 
@@ -10,7 +10,7 @@ describe("present", () => {
   })
 
   it("shows the description", () => {
-    const saved_roll = {name: "test1", description: "a description", options: {}, command: "nwod"}
+    const saved_roll = { name: "test1", description: "a description", options: {}, command: "nwod" }
 
     const result = presenter.present(saved_roll)
 
@@ -18,7 +18,7 @@ describe("present", () => {
   })
 
   it("shows the command", () => {
-    const saved_roll = {name: "test1", description: "a description", options: {}, command: "nwod"}
+    const saved_roll = { name: "test1", description: "a description", options: {}, command: "nwod" }
 
     const result = presenter.present(saved_roll)
 
@@ -26,7 +26,12 @@ describe("present", () => {
   })
 
   it("shows options", () => {
-    const saved_roll = {name: "test1", description: "a description", options: {pool: 5}, command: "nwod"}
+    const saved_roll = {
+      name: "test1",
+      description: "a description",
+      options: { pool: 5 },
+      command: "nwod",
+    }
 
     const result = presenter.present(saved_roll)
 
@@ -34,7 +39,12 @@ describe("present", () => {
   })
 
   it("shows the invocation", () => {
-    const saved_roll = {name: "test1", description: "a description", options: {pool: 5}, command: "nwod"}
+    const saved_roll = {
+      name: "test1",
+      description: "a description",
+      options: { pool: 5 },
+      command: "nwod",
+    }
 
     const result = presenter.present(saved_roll)
 
@@ -45,8 +55,8 @@ describe("present", () => {
 describe("presentList", () => {
   it("shows each command", () => {
     const rolls = [
-      {name: "test1", description: "a description", options: {}},
-      {name: "test2", description: "a description", options: {}},
+      { name: "test1", description: "a description", options: {} },
+      { name: "test2", description: "a description", options: {} },
     ]
 
     const result = presenter.presentList(rolls)
@@ -57,8 +67,8 @@ describe("presentList", () => {
 
   it("shows each invocation", () => {
     const rolls = [
-      {name: "test1", description: "a description", options: {}, command: "nwod"},
-      {name: "test2", description: "a description", options: {}, command: "fate"},
+      { name: "test1", description: "a description", options: {}, command: "nwod" },
+      { name: "test2", description: "a description", options: {}, command: "fate" },
     ]
 
     const result = presenter.presentList(rolls)
@@ -70,7 +80,7 @@ describe("presentList", () => {
 
 describe("presentRollName", () => {
   it("shows the name", () => {
-    const roll = {name: "test", description: "a description"}
+    const roll = { name: "test", description: "a description" }
 
     const result = presenter.presentRollName(roll)
 
@@ -78,7 +88,7 @@ describe("presentRollName", () => {
   })
 
   it("handles undefined name", () => {
-    const roll = {description: "a description"}
+    const roll = { description: "a description" }
 
     const result = presenter.presentRollName(roll)
 
@@ -86,7 +96,7 @@ describe("presentRollName", () => {
   })
 
   it("shows the description", () => {
-    const roll = {name: "test", description: "a description"}
+    const roll = { name: "test", description: "a description" }
 
     const result = presenter.presentRollName(roll)
 
@@ -94,7 +104,7 @@ describe("presentRollName", () => {
   })
 
   it("handles undefined description", () => {
-    const roll = {name: "test"}
+    const roll = { name: "test" }
 
     const result = presenter.presentRollName(roll)
 
@@ -102,7 +112,7 @@ describe("presentRollName", () => {
   })
 
   it("marks incomplete", () => {
-    const roll = {name: "test", description: "a description", incomplete: true}
+    const roll = { name: "test", description: "a description", incomplete: true }
 
     const result = presenter.presentRollName(roll)
 
@@ -110,7 +120,7 @@ describe("presentRollName", () => {
   })
 
   it("marks invalid", () => {
-    const roll = {name: "test", description: "a description", invalid: true}
+    const roll = { name: "test", description: "a description", invalid: true }
 
     const result = presenter.presentRollName(roll)
 
@@ -118,7 +128,7 @@ describe("presentRollName", () => {
   })
 
   it("marks both invalid and incomplete", () => {
-    const roll = {name: "test", description: "a description", incomplete: true, invalid: true}
+    const roll = { name: "test", description: "a description", incomplete: true, invalid: true }
 
     const result = presenter.presentRollName(roll)
 
@@ -129,7 +139,7 @@ describe("presentRollName", () => {
 
 describe("presentInvocation", () => {
   it("shows the command name", () => {
-    const roll = {command: "nwod", options: {}}
+    const roll = { command: "nwod", options: {} }
 
     const result = presenter.presentInvocation(roll)
 
@@ -137,7 +147,7 @@ describe("presentInvocation", () => {
   })
 
   it("handles missing command name", () => {
-    const roll = {options: {}}
+    const roll = { options: {} }
 
     const result = presenter.presentInvocation(roll)
 
@@ -145,7 +155,7 @@ describe("presentInvocation", () => {
   })
 
   it("shows each option", () => {
-    const roll = {command: "nwod", options: {pool: 3, until: 5, rote: true}}
+    const roll = { command: "nwod", options: { pool: 3, until: 5, rote: true } }
 
     const result = presenter.presentInvocation(roll)
 
@@ -155,7 +165,7 @@ describe("presentInvocation", () => {
   })
 
   it("handles missing options", () => {
-    const roll = {command: "nwod"}
+    const roll = { command: "nwod" }
 
     const result = presenter.presentInvocation(roll)
 

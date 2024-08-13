@@ -126,7 +126,7 @@ module.exports = {
                 ephemeral: true,
               })
             })
-            .catch(err => {
+            .catch((err) => {
               manage_prompt.delete()
               return interaction
             })

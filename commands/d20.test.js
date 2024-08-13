@@ -30,13 +30,9 @@ describe("schema", () => {
       expect(schemaMessages(result)).toMatch("must be one of")
     })
 
-    it.each([
-      ["all"],
-      ["highest"],
-      ["lowest"],
-    ])("accepts '%s'", (value) => {
+    it.each([["all"], ["highest"], ["lowest"]])("accepts '%s'", (value) => {
       const options = {
-        keep: value
+        keep: value,
       }
 
       const result = d20_command.schema.validate(options)
@@ -44,7 +40,6 @@ describe("schema", () => {
       expect(schemaMessages(result)).not.toMatch("must be one of")
     })
   })
-
 })
 
 describe("perform", () => {
@@ -62,7 +57,7 @@ describe("perform", () => {
 
 describe("execute", () => {
   describe("with one roll", () => {
-    test_secret_option(d20_command, {rolls: 1})
+    test_secret_option(d20_command, { rolls: 1 })
   })
 
   describe("with multiple rolls", () => {

@@ -115,7 +115,7 @@ describe("execute", () => {
 
         const detail = saved_rolls.detail(undefined, "test roll")
         expect(detail.options).toMatchObject({
-          modifier: 3
+          modifier: 3,
         })
       })
 

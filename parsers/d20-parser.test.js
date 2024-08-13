@@ -15,7 +15,7 @@ describe("minimal output", () => {
     const content = present({
       rolls: 1,
       raw: [[3]],
-      picked: [{indexes: [0]}],
+      picked: [{ indexes: [0] }],
     })
 
     const result = await parse(content)
@@ -30,7 +30,7 @@ describe.each([
     {
       rolls: 1,
       raw: [[3]],
-      picked: [{indexes: [0]}],
+      picked: [{ indexes: [0] }],
     },
   ],
   [
@@ -38,10 +38,7 @@ describe.each([
     {
       rolls: 2,
       raw: [[3], [4]],
-      picked: [
-        {indexes: [0]},
-        {indexes: [0]},
-      ],
+      picked: [{ indexes: [0] }, { indexes: [0] }],
     },
   ],
 ])("%s", (_suite, raw_opts) => {
@@ -123,7 +120,7 @@ describe("single roll", () => {
     const content = present({
       rolls: 1,
       raw: [[3]],
-      picked: [{indexes: [0]}],
+      picked: [{ indexes: [0] }],
     })
 
     const result = await parse(content)
@@ -137,10 +134,7 @@ describe("multiple rolls", () => {
     const content = present({
       rolls: 2,
       raw: [[3], [4]],
-      picked: [
-        {indexes: [0]},
-        {indexes: [0]},
-      ],
+      picked: [{ indexes: [0] }, { indexes: [0] }],
     })
 
     const result = await parse(content)
@@ -153,10 +147,7 @@ describe("multiple rolls", () => {
       rolls: 2,
       raw: [[3], [4]],
       description: "5 times!",
-      picked: [
-        {indexes: [0]},
-        {indexes: [0]},
-      ],
+      picked: [{ indexes: [0] }, { indexes: [0] }],
     })
 
     const result = await parse(content)

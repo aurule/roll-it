@@ -28,10 +28,9 @@ module.exports = {
       .max(1500)
       .message("The question is too long. Keep it under 1500 characters."),
     description: commonSchemas.description,
-    doit: Joi.boolean()
-      .optional(),
+    doit: Joi.boolean().optional(),
   }),
-  perform({question, doit}) {
+  perform({ question, doit }) {
     const raw_results = roll(1, 20, 1)
 
     return present({
@@ -45,7 +44,7 @@ module.exports = {
     const doit = interaction.options.getBoolean("doit") ?? false
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const partial_message = module.exports.perform({question, doit})
+    const partial_message = module.exports.perform({ question, doit })
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.reply({
       content: full_text,

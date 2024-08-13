@@ -29,14 +29,12 @@ module.exports = {
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({
-    bomb: Joi.boolean()
-      .optional(),
+    bomb: Joi.boolean().optional(),
     description: commonSchemas.description,
     rolls: commonSchemas.rolls,
-    static_test: Joi.boolean()
-      .optional(),
+    static_test: Joi.boolean().optional(),
   }),
-  perform({static_test, bomb, rolls, description}) {
+  perform({ static_test, bomb, rolls, description }) {
     const raw_results = roll(1, 3, rolls)
 
     return present({

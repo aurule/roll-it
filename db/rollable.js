@@ -196,21 +196,21 @@ class GuildRollables {
     const values = {}
 
     for (const field in data) {
-      switch(field) {
+      switch (field) {
         case "contents":
           fields.push("contents")
           placeholders.push("JSONB(@contents)")
           values.contents = JSON.stringify(data[field])
-          break;
+          break
         case "id":
         case "guildFlake":
           // These attrs are restricted. Skip them.
-          break;
+          break
         default:
           fields.push(field)
           placeholders.push(`@${field}`)
           values[field] = data[field]
-          break;
+          break
       }
     }
 
@@ -222,7 +222,7 @@ class GuildRollables {
     return update.run({
       id,
       guildFlake: this.guildId,
-      ...values
+      ...values,
     })
   }
 

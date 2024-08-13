@@ -61,5 +61,6 @@ describe("execute", () => {
       const secret_rollables = new GuildRollables(i.guildId)
       const insertion = secret_rollables.create("testx", "a test", ["first"])
       i.command_options.table = insertion.lastInsertRowid
-    })
+    },
+  )
 })

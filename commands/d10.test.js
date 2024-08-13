@@ -12,7 +12,7 @@ beforeEach(() => {
 describe("perform", () => {
   it("displays the description if present", () => {
     const options = {
-      description: "this is a test"
+      description: "this is a test",
     }
 
     const result = d10_command.perform(options)
@@ -23,7 +23,7 @@ describe("perform", () => {
 
 describe("execute", () => {
   describe("with one roll", () => {
-    test_secret_option(d10_command, {rolls: 1})
+    test_secret_option(d10_command, { rolls: 1 })
   })
 
   describe("with multiple rolls", () => {

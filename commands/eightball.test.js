@@ -59,7 +59,7 @@ describe("perform", () => {
   it("displays the question", async () => {
     const question_text = "this is a test"
     const options = {
-      question: question_text
+      question: question_text,
     }
 
     const result = await eightball_command.perform(options)

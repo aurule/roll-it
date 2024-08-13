@@ -20,18 +20,18 @@ function makeUpdateFields(data, safe = true) {
   const values = {}
 
   for (const field in data) {
-    switch(field) {
+    switch (field) {
       case "options":
         fields.push(field)
         placeholders.push("JSONB(@options)")
         values.options = JSON.stringify(data.options)
-        break;
+        break
       case "incomplete":
       case "invalid":
         fields.push(field)
         placeholders.push(`@${field}`)
         values[field] = +!!data[field]
-        break;
+        break
       case "id":
       case "guildFlake":
       case "userFlake":
@@ -40,7 +40,7 @@ function makeUpdateFields(data, safe = true) {
         fields.push(field)
         placeholders.push(`@${field}`)
         values[field] = data[field]
-        break;
+        break
     }
   }
 
@@ -77,7 +77,7 @@ class UserSavedRolls {
    *
    * @throws {SqliteError} If `name` already exists for this guild and user
    */
-  create({name, description, command, options, incomplete, invalid}) {
+  create({ name, description, command, options, incomplete, invalid }) {
     const insert = this.db.prepare(oneLine`
       INSERT OR ROLLBACK INTO saved_rolls (
         guildFlake,
@@ -124,7 +124,7 @@ class UserSavedRolls {
    * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
    */
   upsert(data) {
-    const {fields, placeholders, values} = makeUpdateFields(data)
+    const { fields, placeholders, values } = makeUpdateFields(data)
 
     const sql = oneLine`
       INSERT INTO saved_rolls
@@ -145,14 +145,14 @@ class UserSavedRolls {
       (
         ${fields.join(", ")}
       ) = (
-        ${fields.map(f => `excluded.${f}`).join(", ")}
+        ${fields.map((f) => `excluded.${f}`).join(", ")}
       )
     `
     const upsert = this.db.prepare(sql)
     return upsert.run({
       guildFlake: this.guildId,
       userFlake: this.userId,
-      ...values
+      ...values,
     })
   }
 
@@ -170,7 +170,7 @@ class UserSavedRolls {
     `)
     const raw_out = select.all(this.guildId, this.userId)
 
-    return raw_out.map(raw => ({
+    return raw_out.map((raw) => ({
       ...raw,
       options: JSON.parse(raw.options),
       incomplete: !!raw.incomplete,
@@ -307,7 +307,7 @@ class UserSavedRolls {
    * @throws {SqliteError} If `data` is empty
    */
   update(id, data) {
-    const {fields, placeholders, values} = makeUpdateFields(data)
+    const { fields, placeholders, values } = makeUpdateFields(data)
 
     const sql = oneLine`
       UPDATE OR ROLLBACK saved_rolls SET
@@ -320,7 +320,7 @@ class UserSavedRolls {
       id,
       guildFlake: this.guildId,
       userFlake: this.userId,
-      ...values
+      ...values,
     })
   }
 
@@ -409,7 +409,7 @@ class GlobalSavedRolls {
    *
    * @throws {SqliteError} If `name` already exists for this guild
    */
-  create({guildFlake, userFlake, name, description, command, options, incomplete, invalid}) {
+  create({ guildFlake, userFlake, name, description, command, options, incomplete, invalid }) {
     const insert = this.db.prepare(oneLine`
       INSERT OR ROLLBACK INTO saved_rolls (
         guildFlake,
@@ -456,7 +456,7 @@ class GlobalSavedRolls {
     `)
     const raw_out = select.all()
 
-    return raw_out.map(raw => ({
+    return raw_out.map((raw) => ({
       ...raw,
       options: JSON.parse(raw.options),
       incomplete: !!raw.incomplete,
@@ -532,7 +532,7 @@ class GlobalSavedRolls {
    * @throws {SqliteError} If `data` is empty
    */
   update(id, data) {
-    const {fields, placeholders, values} = makeUpdateFields(data, false)
+    const { fields, placeholders, values } = makeUpdateFields(data, false)
 
     const sql = oneLine`
       UPDATE OR ROLLBACK saved_rolls SET
@@ -543,7 +543,7 @@ class GlobalSavedRolls {
     const update = this.db.prepare(sql)
     return update.run({
       id,
-      ...values
+      ...values,
     })
   }
 
@@ -612,5 +612,5 @@ module.exports = {
     options: Joi.object().required(),
     incomplete: Joi.boolean().optional(),
     invalid: Joi.boolean().optional(),
-  })
+  }),
 }

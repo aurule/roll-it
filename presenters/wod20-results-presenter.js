@@ -57,10 +57,7 @@ module.exports = {
    * @return {String}                         String describing the roll results
    */
   presentOne: ({ pool, difficulty, specialty, until, description, raw, summed }) => {
-    let content = [
-      "{{userMention}} rolled",
-      bold(module.exports.formatSuccesses(summed[0])),
-    ]
+    let content = ["{{userMention}} rolled", bold(module.exports.formatSuccesses(summed[0]))]
     if (description) {
       content.push(`for "${description}"`)
     }

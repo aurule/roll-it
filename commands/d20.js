@@ -28,29 +28,21 @@ module.exports = {
           .setDescription(
             "Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of 2d20",
           )
-          .setChoices(
-            { name: "Highest", value: "highest" },
-            { name: "Lowest", value: "lowest" },
-          ),
+          .setChoices({ name: "Highest", value: "highest" }, { name: "Lowest", value: "lowest" }),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: [
-    "modifier",
-  ],
+  changeable: ["modifier"],
   schema: Joi.object({
     modifier: commonSchemas.modifier,
-    keep: Joi.string()
-      .optional()
-      .valid("all", "highest", "lowest")
-      .messages({
-        "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
-      }),
+    keep: Joi.string().optional().valid("all", "highest", "lowest").messages({
+      "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
+    }),
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
   }),
-  perform({keep = "all", rolls = 1, modifier = 0, description} = {}) {
+  perform({ keep = "all", rolls = 1, modifier = 0, description } = {}) {
     const pool = keep == "all" ? 1 : 2
 
     const raw_results = roll(pool, 20, rolls)

@@ -4,9 +4,7 @@ const { parse } = require("./wod20-parser")
 
 describe("with junk input", () => {
   it("errors out", async () => {
-    await expect(parse("something something explosions"))
-    .rejects
-    .toThrow("pool")
+    await expect(parse("something something explosions")).rejects.toThrow("pool")
   })
 })
 
@@ -101,7 +99,7 @@ describe.each([
   it("ignores decoy specialty", async () => {
     const content = present({
       ...raw_opts,
-      description: "but I had specialty"
+      description: "but I had specialty",
     })
 
     const result = await parse(content)
@@ -175,7 +173,6 @@ describe("multiple rolls", () => {
     expect(result.until).toBeUndefined()
   })
 })
-
 
 describe("roll until", () => {
   const default_opts = {

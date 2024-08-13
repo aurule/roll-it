@@ -23,12 +23,12 @@ for (const roll_detail of all_rolls) {
   const validation_result = command.schema?.validate(roll_detail.options)
   if (validation_result?.error) {
     console.log(`bad roll`)
-    saved_rolls.update(roll_detail.id, {invalid: true})
+    saved_rolls.update(roll_detail.id, { invalid: true })
   }
 
   if (!validation_result) {
     console.log(`so that's weird`)
-    saved_rolls.update(roll_detail.id, {invalid: true})
+    saved_rolls.update(roll_detail.id, { invalid: true })
   }
 
   bar.increment()

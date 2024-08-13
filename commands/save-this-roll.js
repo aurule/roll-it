@@ -1,4 +1,9 @@
-const { ContextMenuCommandBuilder, ApplicationCommandType, inlineCode, italic } = require("discord.js")
+const {
+  ContextMenuCommandBuilder,
+  ApplicationCommandType,
+  inlineCode,
+  italic,
+} = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
@@ -49,7 +54,7 @@ module.exports = {
     let parsed_options
     try {
       parsed_options = await parser.parse(message.content)
-    } catch(err) {
+    } catch (err) {
       return interaction.reply({
         content: `There was a problem saving ${inlineCode(command_name)}:\n` + err.message,
         ephemeral: true,
@@ -83,7 +88,7 @@ module.exports = {
     }
 
     // the roll is finished
-    saved_rolls.update(record_id, {incomplete: false})
+    saved_rolls.update(record_id, { incomplete: false })
 
     return interaction.reply({
       content: oneLine`
@@ -113,5 +118,5 @@ module.exports = {
       "Not all commands can be saved. Here is a list of the ones which can be used:",
       CommandNamePresenter.list(savable_commands),
     ].join("\n")
-  }
+  },
 }

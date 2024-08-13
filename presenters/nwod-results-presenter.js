@@ -20,17 +20,7 @@ class NwodPresenter {
    * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
    */
-  constructor({
-    pool,
-    chance,
-    rote,
-    threshold,
-    explode,
-    until,
-    description,
-    raw,
-    summed,
-  }) {
+  constructor({ pool, chance, rote, threshold, explode, until, description, raw, summed }) {
     this.pool = pool
     this.chance = chance
     this.rote = rote

@@ -9,5 +9,5 @@ module.exports = {
     if (number > 0) return ` + ${number}`
     if (number < 0) return ` - ${-1 * number}`
     return ""
-  }
+  },
 }
