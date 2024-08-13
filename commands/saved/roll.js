@@ -36,7 +36,7 @@ module.exports = {
       .addStringOption((option) =>
         option
         .setName("description")
-        .setDescription("A word or two about this roll. Defaults to the saved description.") // or should it be the saved name?
+        .setDescription("A word or two about this roll. Defaults to the saved description.")
         .setMaxLength(1500)
       )
       .addIntegerOption((option) =>
@@ -88,7 +88,7 @@ module.exports = {
       })
     }
 
-    const description = interaction.options.getString("description") ?? roll_detail.description // or should this be the name?
+    const description = interaction.options.getString("description") ?? roll_detail.description
     roll_detail.options.description = description
 
     const bonus = interaction.options.getInteger("bonus") ?? 0
