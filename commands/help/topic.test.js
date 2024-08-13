@@ -3,14 +3,26 @@ const topic_help_command = require("./topic")
 const { Interaction } = require("../../testing/interaction")
 
 describe("execute", () => {
-  it("with a topic name, shows the topic", async () => {
-    const interaction = new Interaction()
-    interaction.command_options.subcommand_name = "topic"
-    interaction.command_options.topic = "about"
+  describe("with a valid topic name", () => {
+    let interaction
 
-    await topic_help_command.execute(interaction)
+    beforeEach(() => {
+      interaction = new Interaction()
+      interaction.command_options.subcommand_name = "topic"
+      interaction.command_options.topic = "about"
+    })
 
-    expect(interaction.replyContent).toMatch("passion project")
+    it("shows the topic title", async () => {
+      await topic_help_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("About Roll It")
+    })
+
+    it("shows the topic body", async () => {
+      await topic_help_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("passion project")
+    })
   })
 
   it("without a topic name, shows no help", async () => {

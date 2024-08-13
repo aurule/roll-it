@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder } = require("discord.js")
+const { SlashCommandSubcommandBuilder, heading } = require("discord.js")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const Topics = require("../../help")
 const { longReply } = require("../../util/long-reply")
@@ -33,7 +33,7 @@ module.exports = {
         ephemeral: true,
       })
 
-    const full_text = topic.help()
+    const full_text = heading(topic.title) + "\n" + topic.help()
     return longReply(interaction, full_text, { ephemeral: true })
   },
   help({ command_name }) {
