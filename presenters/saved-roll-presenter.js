@@ -35,6 +35,9 @@ function presentList(saved_rolls) {
   content += saved_rolls
     .map((r) => `\n* ${presentRollName(r)}\n  - ${presentInvocation(r)}`)
     .join("")
+  content += "\n-# Legend:"
+  content += "\n-# :warning: means that roll is incomplete"
+  content += "\n-# :x: means that roll is not valid"
   return content
 }
 
