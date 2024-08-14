@@ -30,7 +30,27 @@ math.import(
   { override: true },
 )
 
-// * @param  {Int}        options.rolls         Total number of rolls to show
+/**
+ * Show the breakdown of the pools in a roll
+ *
+ * @param  {str[]}        pools  Array of formula specifier strings
+ * @param  {Array<int[]>} raw    Array of dice results, one array for each pool and one int for each die in the pool
+ * @param  {int[]}        summed Array of summed dice rolls, one int per pool
+ * @param  {string}       labels Array of roll labels
+ * @return {string}              String with the details of all the pools
+ */
+function detail({ pools, raw, summed, labels }) {
+  return pools
+    .map((pool, index) => {
+      const label = labels[index]
+      let detail_line = `\n\t${summed[index]}`
+      if (label) detail_line += ` ${label}`
+      detail_line += ` from ${pool} [${raw[index]}]`
+      return detail_line
+    })
+    .join("\n")
+}
+
 module.exports = {
   /**
    * Present the results of one or more formula results
@@ -59,6 +79,7 @@ module.exports = {
    *   {str[]}        pools         Array of formula specifier strings
    *   {Array<int[]>} raw           Array of dice results, one array for each pool and one int for each die in the pool
    *   {int[]}        summed        Array of summed dice rolls, one int per pool
+   *   {string}       labels        Array of roll labels
    * }
    *
    * @param  {str}   formula     Text of the original formula, before any dice were rolled
@@ -67,7 +88,7 @@ module.exports = {
    * @return {str}               String of the presented roll result
    */
   presentOne({ formula, description, results }) {
-    const { rolledFormula, pools, raw, summed } = results[0]
+    const { rolledFormula } = results[0]
 
     let finalSum
     try {
@@ -79,9 +100,7 @@ module.exports = {
     let content = `{{userMention}} rolled ${bold(finalSum)}`
     if (description) content += ` for "${description}"`
     content += ` on ${inlineCode(formula)}:`
-    content += pools.map((pool, index) => {
-      return `\n\t${summed[index]} from ${pool} [${raw[index]}]`
-    })
+    content += detail(results[0])
     content += `\n${finalSum} = ${rolledFormula}`
     return content
   },
@@ -95,6 +114,7 @@ module.exports = {
    *   {str[]}        pools         Array of formula specifier strings
    *   {Array<int[]>} raw           Array of dice results, one array for each pool and one int for each die in the pool
    *   {int[]}        summed        Array of summed dice rolls, one int per pool
+   *   {string}       labels        Array of roll labels
    * }
    *
    * @param  {str}   formula     Text of the original formula, before any dice were rolled
@@ -108,7 +128,7 @@ module.exports = {
     content += ` on ${inlineCode(formula)}:`
 
     for (const result of results) {
-      const { rolledFormula, pools, raw, summed, description } = result
+      const { rolledFormula } = result
 
       let finalSum
       try {
@@ -119,11 +139,11 @@ module.exports = {
 
       content += `\n${bold(finalSum)} = ${rolledFormula}`
 
-      content += pools.map((pool, index) => {
-        return `\n\t${summed[index]} from ${pool} [${raw[index]}]`
-      })
+      content += detail(result)
     }
 
     return content
   },
+  detail,
+  limitedEvaluate,
 }

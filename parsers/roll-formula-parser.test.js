@@ -19,6 +19,7 @@ describe("with a valid message", () => {
           pools: ["1d6"],
           raw: [[3]],
           summed: [3],
+          labels: [undefined],
         },
       ],
       description: "I meant to roll `5d8 + 20`",
@@ -42,6 +43,7 @@ describe.each([
           pools: ["1d6"],
           raw: [[3]],
           summed: [3],
+          labels: [undefined],
         },
       ],
     },
@@ -57,12 +59,14 @@ describe.each([
           pools: ["1d6"],
           raw: [[3]],
           summed: [3],
+          labels: [undefined],
         },
         {
           rolledFormula: "4 + 2",
           pools: ["1d6"],
           raw: [[4]],
           summed: [4],
+          labels: [undefined],
         },
       ],
     },
@@ -74,6 +78,19 @@ describe.each([
     const result = await parse(content)
 
     expect(result.formula).toMatch("1d6 + 2")
+  })
+
+  it("returns a formula with labels", async () => {
+    const opts = {
+      ...raw_opts,
+      formula: '1d6"test" + 2',
+    }
+    opts.results[0].labels = "test"
+    const content = present(opts)
+
+    const result = await parse(content)
+
+    expect(result.formula).toMatch(opts.formula)
   })
 })
 
@@ -88,6 +105,7 @@ describe("single roll", () => {
           pools: ["1d6"],
           raw: [[3]],
           summed: [3],
+          labels: [undefined],
         },
       ],
     })
@@ -109,12 +127,14 @@ describe("multiple rolls", () => {
           pools: ["1d6"],
           raw: [[3]],
           summed: [3],
+          labels: [undefined],
         },
         {
           rolledFormula: "4 + 2",
           pools: ["1d6"],
           raw: [[4]],
           summed: [4],
+          labels: [undefined],
         },
       ],
     })
@@ -134,12 +154,14 @@ describe("multiple rolls", () => {
           pools: ["1d6"],
           raw: [[3]],
           summed: [3],
+          labels: [undefined],
         },
         {
           rolledFormula: "4 + 2",
           pools: ["1d6"],
           raw: [[4]],
           summed: [4],
+          labels: [undefined],
         },
       ],
       description: "5 times!",
