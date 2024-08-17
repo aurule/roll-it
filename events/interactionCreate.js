@@ -108,6 +108,7 @@ module.exports = {
             err,
             guild: interaction.guildId,
             command: interaction.commandName,
+            options: interaction.options.data,
           },
           `Error while executing command ${interaction.commandName}`,
         )
