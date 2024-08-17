@@ -151,7 +151,7 @@ module.exports = {
   async autocomplete(interaction) {
     const tables = new GuildRollables(interaction.guildId)
     const focusedOption = interaction.options.getFocused(true)
-    const partialText = focusedOption.value
+    const partialText = focusedOption.value ?? ""
 
     switch (focusedOption.name) {
       case "table":
