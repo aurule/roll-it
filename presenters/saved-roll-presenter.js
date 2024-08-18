@@ -41,7 +41,10 @@ function present(saved_roll) {
  */
 function presentList(saved_rolls) {
   if (!saved_rolls.length)
-    return `You have no saved rolls. Make some with ${inlineCode("/saved add")}!`
+    return oneLine`
+      You have no saved rolls. Make some with ${inlineCode("/saved set")} and
+      ${italic("Save this roll")}!
+    `
 
   let content = "These are your saved rolls:"
   content += saved_rolls
