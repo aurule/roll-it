@@ -9,7 +9,7 @@ const { italic, inlineCode, bold } = require("discord.js")
 function present(saved_roll) {
   const manage_lines = [
     "All about this roll:",
-    `${italic("Name:")} ${presentRollName(saved_roll)}`,
+    `${italic("Name:")} ${saved_roll.name}`,
     `${italic("Description:")} ${saved_roll.description}`,
     `${italic("Command:")} ${saved_roll.command}`,
     `${italic("Options:")}`,
