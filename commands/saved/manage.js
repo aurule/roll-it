@@ -46,15 +46,21 @@ module.exports = {
     }
 
     let manage_text = saved_roll_presenter.present(detail)
-    manage_text += "What do you want to do?"
+    manage_text += "\n\nWhat do you want to do?"
 
-    const edit_button = new ButtonBuilder()
-      .setCustomId("edit")
-      .setLabel("Edit Roll")
-      .setStyle(ButtonStyle.Primary)
+    const manage_actions = new ActionRowBuilder()
     if (detail.incomplete) {
-      edit_button.setCustomId("no-edit")
-      edit_button.setLabel("Stop Editing")
+      const no_edit_button = new ButtonBuilder()
+        .setCustomId("no-edit")
+        .setLabel("Stop Editing")
+        .setStyle(ButtonStyle.Success)
+      manage_actions.addComponents(no_edit_button)
+    } else {
+      const edit_button = new ButtonBuilder()
+        .setCustomId("edit")
+        .setLabel("Edit Roll")
+        .setStyle(ButtonStyle.Primary)
+      manage_actions.addComponents(edit_button)
     }
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
@@ -64,8 +70,7 @@ module.exports = {
       .setCustomId("remove")
       .setLabel("Remove Roll")
       .setStyle(ButtonStyle.Danger)
-    const manage_actions = new ActionRowBuilder().addComponents(
-      edit_button,
+    manage_actions.addComponents(
       cancel_button,
       remove_button,
     )
@@ -125,7 +130,7 @@ module.exports = {
           saved_rolls.update(detail.id, { incomplete: false, invalid: false })
 
           return manage_prompt.edit({
-            content: `The roll ${italic(detail.name)} is no longer marked for editing.`,
+            content: `The roll ${italic(detail.name)} is no longer marked for editing and is ready to use.`,
             components: [],
             ephemeral: true,
           })

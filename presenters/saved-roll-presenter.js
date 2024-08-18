@@ -1,4 +1,5 @@
 const { italic, inlineCode, bold } = require("discord.js")
+const { oneLine } = require("common-tags")
 
 /**
  * Present the details of a single saved roll
@@ -25,6 +26,7 @@ function present(saved_roll) {
   }
   manage_lines.push(`${italic("Invocation:")} ${presentInvocation(saved_roll)}`)
   if (saved_roll.incomplete) {
+    manage_lines.push("")
     manage_lines.push(oneLine`
       :warning: This roll is incomplete! You have to finish it using ${inlineCode("/saved set")} or
       ${italic("Save this roll")} before you'll be able to roll it.
