@@ -138,11 +138,9 @@ module.exports = {
     // when new data is incomplete, an existing incomplete record will be created or updated
     // when new data is complete, a new record will be created
     const record_result = saved_rolls.upsert(saved_roll_params)
-    const record_id = record_result.lastInsertRowid
-    const saved_details = saved_rolls.detail(record_id, saved_roll_params.name)
+    const saved_details = saved_rolls.detail(undefined, saved_roll_params.name)
 
     // see if the changes complete the saved roll
-
     try {
       await saved_roll_schema.validateAsync(saved_details)
     } catch (err) {

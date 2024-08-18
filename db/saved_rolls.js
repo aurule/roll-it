@@ -120,8 +120,12 @@ class UserSavedRolls {
    *
    * This method aborts on errors from name collision.
    *
+   * Although this returns an object with `lastInsertRowid`, that value should be ignored. The query as
+   * executed may or may not have inserted a row, so as per the [documentation](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md#runbindparameters---object),
+   * the value should be discarded.
+   *
    * @param  {obj} data Object of new values to set. All omitted attributes will be left alone.
-   * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
+   * @return {Info}     Query info object with `changes`
    */
   upsert(data) {
     const { fields, placeholders, values } = makeUpdateFields(data)
