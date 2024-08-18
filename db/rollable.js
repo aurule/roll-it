@@ -190,7 +190,6 @@ class GuildRollables {
    * @throws {SqliteError} If `data` is empty
    */
   update(id, data) {
-    let sql = "UPDATE OR ROLLBACK rollable SET "
     const fields = []
     const placeholders = []
     const values = {}
@@ -214,9 +213,11 @@ class GuildRollables {
       }
     }
 
-    sql += `(${fields.join(", ")}) = (${placeholders.join(", ")})`
-
-    sql += " WHERE id = @id AND guildFlake = @guildFlake"
+    const sql = oneLine`
+      UPDATE OR ROLLBACK rollable SET
+      (${fields.join(", ")}) = (${placeholders.join(", ")})
+      WHERE id = @id AND guildFlake = @guildFlake
+    `
 
     const update = this.db.prepare(sql)
     return update.run({
