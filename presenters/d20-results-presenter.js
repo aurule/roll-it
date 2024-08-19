@@ -82,10 +82,7 @@ function detail(result, indexes, modifier = 0) {
 
 module.exports = {
   /**
-   * Present one or more results from a singleton roll command
-   *
-   * This is meant to present the output for commands like d20 and d100, where there is only ever a single die
-   * result.
+   * Present one or more results from the d20 command
    *
    * @param  {Int}        options.rolls       Total number of rolls to show
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
