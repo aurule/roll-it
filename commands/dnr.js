@@ -95,6 +95,7 @@ module.exports = {
       name: pool_name,
       raw,
       summed,
+      pool,
     }
   },
   perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description, modifier = 0} = {}) {
@@ -105,12 +106,12 @@ module.exports = {
       ["madness", madness],
     ])
 
-    const pools = Array.from({ length: rolls }, (i) => {
-      return pool_options.map(module.exports.roll_pool)
+    const tests = Array.from({ length: rolls }, (i) => {
+      return pool_options.mapValues(module.exports.roll_pool)
     })
 
     return present({
-      pools,
+      tests,
       description,
       rolls,
       talent,
