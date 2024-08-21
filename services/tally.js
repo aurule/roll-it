@@ -63,11 +63,20 @@ module.exports = {
   /**
    * Count successes using simple threshold mechanic
    *
-   * @param  {Array<Array<Int>>} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {Int}               threshold  Number a die must meet or exceed to add one success
-   * @return {Array<Int>}                   Array of ints representing the success tallies of each resultSet
+   * Whether inverted or not, the threshold value is always counted as a success.
+   *
+   * @param  {Array<Int[]>} resultSets Nested array representing one or more sets of dice rolls
+   * @param  {Int}          threshold  Number a die must meet or exceed to add one success
+   * @param  {bool}         inverted   Whether to count dice below the threshold
+   * @return {Int[]}                   Array of ints representing the success tallies of each resultSet
    */
-  successes(resultSets, threshold) {
-    return resultSets.map((set) => set.reduce((prev, curr) => prev + (curr >= threshold), 0))
+  successes(resultSets, threshold, inverted = false) {
+    let comparator
+    if (inverted) {
+      comparator = (prev, curr) => prev + (curr <= threshold)
+    } else {
+      comparator = (prev, curr) => prev + (curr >= threshold)
+    }
+    return resultSets.map((set) => set.reduce(comparator, 0))
   },
 }

@@ -143,11 +143,37 @@ describe("successes", () => {
     expect(successSums.length).toEqual(3)
   })
 
+  it("adds a success for a number that exceeds threshold", () => {
+    const resultSets = [[5, 6, 7]]
+
+    const successSums = tallyService.successes(resultSets, 6)
+
+    expect(successSums[0]).toEqual(2)
+  })
+
   it("adds a success for a number that meets threshold", () => {
     const resultSets = [[5, 6, 7]]
 
     const successSums = tallyService.successes(resultSets, 7)
 
     expect(successSums[0]).toEqual(1)
+  })
+
+  describe("inverted", () => {
+    it("adds a success for a number under the threshold", () => {
+      const resultSets = [[5, 6, 7]]
+
+      const successSums = tallyService.successes(resultSets, 6, true)
+
+      expect(successSums[0]).toEqual(2)
+    })
+
+    it("adds a success for a number that meets threshold", () => {
+      const resultSets = [[5, 6, 7]]
+
+      const successSums = tallyService.successes(resultSets, 5, true)
+
+      expect(successSums[0]).toEqual(1)
+    })
   })
 })
