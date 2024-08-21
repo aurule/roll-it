@@ -1,12 +1,76 @@
 const { bold, underline, italic, strikethrough, Collection } = require("discord.js")
 
+/**
+ * Map of talent keywords to displayable names
+ *
+ * @type {Collection<str, str>}
+ */
 const talentNames = new Collection([
   ["minor", "Minor Exhaustion"],
   ["major", "Major Exhaustion"],
   ["madness", "Madness"],
 ])
 
+/**
+ * Names of the degree of success
+ *
+ * Indexed by the difference between the player successes and pain successes.
+ *
+ * @type {str[]}
+ */
+const successDegrees = [
+  "narrow",
+  "competant",
+  "impressive",
+  "extraordinary",
+  "fantastic",
+]
+
+/**
+ * List of strength names in descending order
+ *
+ * Order is used for breaking ties if all die results are identical.
+ *
+ * @type {str[]}
+ */
+const strengthPrecedence = [
+  "discipline",
+  "madness",
+  "exhaustion",
+  "pain",
+]
+
 class DnrPresenter {
+  /**
+   * Array of results for each test
+   *
+   * Length should match value of rolls.
+   *
+   * @type {Array<DnrRoll[]>}
+   */
+  tests;
+
+  /**
+   * Description for the rolls
+   *
+   * @type {str}
+   */
+  description;
+
+  /**
+   * Name of the talent used
+   *
+   * @type {str | undefined}
+   */
+  talent;
+
+  /**
+   * Number of rolls that were made
+   *
+   * @type {int}
+   */
+  rolls;
+
   constructor({ tests, description, talent, rolls }) {
     this.tests = tests
     this.description = description
@@ -27,6 +91,11 @@ class DnrPresenter {
     }
   }
 
+  /**
+   * Present the result of our rolls
+   *
+   * @return {str} Presented roll results
+   */
   presentResults() {
     let content = "{{userMention}} rolled"
 
@@ -35,18 +104,18 @@ class DnrPresenter {
         content += this.presentedDescription()
         content += ` ${this.rolls} times`
         content += this.presentedTalent()
-        // foreach this.rolls, make a roll presenter and format
-        // **result** dominated by **dominating**
-        //     pool1 detail
-        //     pool2 detail
-        //     n v m pain detail
+        content += this.tests.map(pools => {
+          const roll_presenter = new DnrRollPresenter({strengths: pools, talent: this.talent})
+          return `\n${bold(roll_presenter.resultWord)} dominated by ${bold(roll_presenter.dominating_strength)}\n` + roll_presenter.present()
+        })
         break
       case "one":
-        // make a roll presenter
-        // success/fail
+        const roll_presenter = new DnrRollPresenter({strengths: this.tests[0], talent: this.talent})
+        content += " a " + bold(roll_presenter.resultWord)
         content += this.presentedDescription()
-        // dominant
-        content += this.presentedTalent()
+        content += ` dominated by ${bold(roll_presenter.dominating_strength)}`
+        content += this.presentedTalent() + "\n"
+        content += roll_presenter.present()
         break
     }
 
@@ -84,16 +153,70 @@ class DnrPresenter {
 }
 
 class DnrRollPresenter {
+  /**
+   * The pools of this roll
+   *
+   * @type {DnrPool[]}
+   */
+  strengths;
+
+  /**
+   * The name of the talent used
+   *
+   * @type {str | undefined}
+   */
+  talent;
+
+  /**
+   * The name of the strength which dominates the roll
+   *
+   * @type {str}
+   */
+  dominating_strength;
+
+  /**
+   * The feature of the dominating strength which caused it to win
+   *
+   * Always a string, but the charcter may be numeric or the name of the dominating pool.
+   *
+   * @type {str}
+   */
+  dominating_feature;
+
   constructor({strengths, talent}) {
     this.strengths = strengths
     this.talent = talent
     this.setDominating()
   }
 
+  /**
+   * Determine which strength dominates our roll
+   *
+   * Strengths are compared by the number of dice showing a result, from 6 to 1. Then they're compared by name
+   * using the order defined in strengthPrecedence.
+   *
+   * This has the side effect of sorting the strengths collection.
+   */
   setDominating() {
-    //
-    this.dominating_strength = "" // name of the strength which dominates
-    this.dominating_feature = "" // name or die value that caused it to dominate
+    const tied = this.strengths.clone()
+    let feature = 6
+    while (feature) {
+      const max_dice = Math.max(...tied.map(pool => pool.spread[feature]))
+      tied.sweep(pool => pool.spread[feature] < max_dice)
+      if (tied.size == 1) {
+        this.dominating_strength = tied.first().name
+        this.dominating_feature = feature.toString()
+        return
+      }
+      feature -= 1
+    }
+
+    for (const pool_name of strengthPrecedence) {
+      if (!tied.get(pool_name)) continue
+      this.dominating_strength = pool_name
+      this.dominating_feature = pool_name
+      return
+    }
   }
 
   /**
@@ -107,7 +230,7 @@ class DnrRollPresenter {
    * @return {str} String describing all the roll's strengths
    */
   present() {
-    const strength_order = ["discipline", "madness", "exhaustion"].filter(name => this.strengths.has(name))
+    const strength_order = strengthPrecedence.slice(0, 3).filter(name => this.strengths.has(name))
     const content = strength_order.map(strength_name => `\t${this.explainStrength(strength_name)}`).join("\n")
     return content + `\n\t${this.presentedTotal} vs ${this.explainStrength("pain")}`
   }
@@ -122,7 +245,7 @@ class DnrRollPresenter {
       this._subtotal = this.strengths
         .filter((p) => p.name != "pain")
         .reduce(
-          (acc, pool) => acc + pool.summed[0],
+          (acc, pool) => acc + pool.successes,
           0,
         )
     }
@@ -135,7 +258,7 @@ class DnrRollPresenter {
    * @return {int} Dice pool from the exhaustion strength
    */
   get exhaustionPool() {
-    return this.strengths.get("exhaustion")?.pool ?? 0
+    return this.strengths.get("exhaustion")?.size ?? 0
   }
 
   /**
@@ -187,18 +310,22 @@ class DnrRollPresenter {
    * @return {int} Successes from the pain strength
    */
   get painTotal() {
-    return this.strengths.get("pain").summed[0]
+    return this.strengths.get("pain").successes
   }
 
   /**
-   * The word which describes the final result
+   * The words which describe the final result
    *
-   * Compares the player total against the pain total.
+   * Compares the player total against the pain total. Main word is "success" or "failure", with an extra
+   * descriptor for success.
    *
-   * @return {str} Either "success" or "failure"
+   * @return {str} String describing the roll result
    */
   get resultWord() {
-    if (this.playerTotal > this.painTotal) return "success"
+    if (this.playerTotal >= this.painTotal) {
+      const degree = Math.min(4, this.playerTotal - this.painTotal)
+      return `${successDegrees[degree]} success`
+    }
     return "failure"
   }
 
@@ -228,13 +355,13 @@ class DnrRollPresenter {
   explainStrength(strength_name) {
     const strength = this.strengths.get(strength_name)
 
-    let content = `${strength.summed[0]} ${strength_name} (`
-    content += strength.raw[0].map(die => die < 4 ? bold(die) : `${die}`).join(", ")
+    let content = `${strength.successes} ${strength_name} (`
+    content += strength.dice.map(die => die < 4 ? bold(die) : `${die}`).join(", ")
     content += ")"
 
     if (this.dominating_strength != strength_name) return content
 
-    return content.replace(this.dominating_feature, underline(this.dominating_feature))
+    return content.replaceAll(this.dominating_feature, underline(this.dominating_feature))
   }
 }
 

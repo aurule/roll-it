@@ -1,5 +1,6 @@
 const { Collection } = require("discord.js")
 
+const { DnrPool } = require("../util/rolls/dnr-pool")
 const { DnrPresenter, DnrRollPresenter } = require("./dnr-results-presenter")
 
 describe("DnrPresenter", () => {
@@ -25,15 +26,137 @@ describe("DnrPresenter", () => {
 
   describe("presentResults", () => {
     describe("with one roll", () => {
-      it.todo("includes description if present")
-      it.todo("shows result")
-      it.todo("shows dominant pool")
+      it("includes description if present", () => {
+        const options = {
+          tests: [
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+              ["pain", new DnrPool("pain", [[6, 1]])],
+            ]),
+          ],
+          rolls: 1,
+          talent: "",
+          description: "test roll",
+        }
+        const presenter = new DnrPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("test roll")
+      })
+
+      it("shows result", () => {
+        const options = {
+          tests: [
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+              ["pain", new DnrPool("pain", [[6, 1]])],
+            ]),
+          ],
+          rolls: 1,
+          talent: "",
+          description: "test roll",
+        }
+        const presenter = new DnrPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("success")
+        expect(result).toMatch("_2_ vs 1")
+      })
+
+      it("shows dominant pool", () => {
+        const options = {
+          tests: [
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+              ["pain", new DnrPool("pain", [[6, 1]])],
+            ]),
+          ],
+          rolls: 1,
+          talent: "",
+          description: "test roll",
+        }
+        const presenter = new DnrPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("dominated by **pain**")
+        expect(result).toMatch("__6__")
+      })
     })
 
     describe("with multiple rolls", () => {
-      it.todo("includes description if present")
-      it.todo("shows result for each roll")
-      it.todo("shows dominant pool for each roll")
+      it("includes description if present", () => {
+        const options = {
+          tests: [
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+              ["pain", new DnrPool("pain", [[6, 1]])],
+            ]),
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+              ["pain", new DnrPool("pain", [[6, 1]])],
+            ]),
+          ],
+          rolls: 2,
+          talent: "",
+          description: "test roll",
+        }
+        const presenter = new DnrPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("test roll")
+      })
+
+      it("shows result for each roll", () => {
+        const options = {
+          tests: [
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 3, 3]])],
+              ["pain", new DnrPool("pain", [[6, 1]])],
+            ]),
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+              ["pain", new DnrPool("pain", [[6, 1]])],
+            ]),
+          ],
+          rolls: 2,
+          talent: "",
+          description: "test roll",
+        }
+        const presenter = new DnrPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("_3_ vs 1")
+        expect(result).toMatch("_2_ vs 1")
+      })
+
+      it("shows dominant pool for each roll", () => {
+        const options = {
+          tests: [
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 3, 6]])],
+              ["pain", new DnrPool("pain", [[5, 1]])],
+            ]),
+            new Collection([
+              ["discipline", new DnrPool("discipline", [[2, 4, 4]])],
+              ["pain", new DnrPool("pain", [[5, 1]])],
+            ]),
+          ],
+          rolls: 2,
+          talent: "",
+          description: "test roll",
+        }
+        const presenter = new DnrPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("dominated by **discipline**")
+        expect(result).toMatch("ominated by **pain**")
+      })
     })
   })
 
@@ -114,22 +237,87 @@ describe("DnrPresenter", () => {
 })
 
 describe("DnrRollPresenter", () => {
-  describe("setDominating", () => {
-    it.todo("highest die result wins")
-    it.todo("largest number of dice with highest result wins")
-    it.todo("next highest result wins")
-    it.todo("next highest biggest pool wins")
-    it.todo("total pool size wins")
-    it.todo("discipline > madness > exhaustion > pain")
+  describe("dominating strength", () => {
+    it("highest die result wins", () => {
+      const options = {
+        strengths: new Collection([
+          ["discipline", new DnrPool("discipline", [[3, 4]])],
+          ["exhaustion", new DnrPool("exhaustion", [[1, 2]])],
+          ["pain", new DnrPool("pain", [[3, 5]])],
+        ]),
+      }
+      const presenter = new DnrRollPresenter(options)
+
+      expect(presenter.dominating_strength).toEqual("pain")
+      expect(presenter.dominating_feature).toEqual("5")
+    })
+
+    it("largest number of dice with highest result wins", () => {
+      const options = {
+        strengths: new Collection([
+          ["discipline", new DnrPool("discipline", [[5, 5]])],
+          ["exhaustion", new DnrPool("exhaustion", [[1, 2]])],
+          ["pain", new DnrPool("pain", [[3, 5]])],
+        ]),
+      }
+      const presenter = new DnrRollPresenter(options)
+
+      expect(presenter.dominating_strength).toEqual("discipline")
+      expect(presenter.dominating_feature).toEqual("5")
+    })
+
+    it("next highest result wins", () => {
+      const options = {
+        strengths: new Collection([
+          ["madness", new DnrPool("madness", [[3]])],
+          ["discipline", new DnrPool("discipline", [[4, 1, 5]])],
+          ["pain", new DnrPool("pain", [[2, 4, 5, 3, 1]])],
+          ["exhaustion", new DnrPool("exhaustion", [[4, 4]])],
+        ]),
+      }
+      const presenter = new DnrRollPresenter(options)
+
+      expect(presenter.dominating_strength).toEqual("pain")
+      expect(presenter.dominating_feature).toEqual("3")
+    })
+
+    it("total pool size wins eventually", () => {
+      const options = {
+        strengths: new Collection([
+          ["discipline", new DnrPool("discipline", [[2, 3, 4, 5]])],
+          ["exhaustion", new DnrPool("exhaustion", [[1, 2, 3, 4, 5]])],
+          ["pain", new DnrPool("pain", [[2, 3, 4, 5]])],
+        ]),
+      }
+      const presenter = new DnrRollPresenter(options)
+
+      expect(presenter.dominating_strength).toEqual("exhaustion")
+      expect(presenter.dominating_feature).toEqual("1")
+    })
+
+    it("discipline > madness > exhaustion > pain", () => {
+      const options = {
+        strengths: new Collection([
+          ["discipline", new DnrPool("discipline", [[2, 3, 4, 5]])],
+          ["madness", new DnrPool("madness", [[1, 2, 3, 4, 5]])],
+          ["exhaustion", new DnrPool("exhaustion", [[1, 2, 3, 4, 5]])],
+          ["pain", new DnrPool("pain", [[1, 2, 3, 4, 5]])],
+        ]),
+      }
+      const presenter = new DnrRollPresenter(options)
+
+      expect(presenter.dominating_strength).toEqual("madness")
+      expect(presenter.dominating_feature).toEqual("madness")
+    })
   })
 
   describe("present", () => {
     it("shows each pool's total", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [1], pool: 2, raw: [[3, 4]]}],
-          ["exhaustion", {name: "discipline", summed: [2], pool: 2, raw: [[1, 2]]}],
-          ["pain", {name: "pain", summed: [1], pool: 2, raw: [[3, 5]]}],
+          ["discipline", new DnrPool("discipline", [[3, 4]])],
+          ["exhaustion", new DnrPool("exhaustion", [[1, 2]])],
+          ["pain", new DnrPool("pain", [[3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -144,9 +332,9 @@ describe("DnrRollPresenter", () => {
     it("shows the total vs pain", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [1], pool: 2, raw: [[3, 4]]}],
-          ["exhaustion", {name: "discipline", summed: [2], pool: 2, raw: [[1, 2]]}],
-          ["pain", {name: "pain", summed: [1], pool: 2, raw: [[3, 5]]}],
+          ["discipline", new DnrPool("discipline", [[3, 4]])],
+          ["exhaustion", new DnrPool("exhaustion", [[1, 2]])],
+          ["pain", new DnrPool("pain", [[3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -161,8 +349,8 @@ describe("DnrRollPresenter", () => {
     it("does not include pain sum", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [2]}],
-          ["pain", {name: "pain", summed: [5]}],
+          ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+          ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -173,9 +361,9 @@ describe("DnrRollPresenter", () => {
     it("adds remaining strength sums", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [2]}],
-          ["madness", {name: "madness", summed: [1]}],
-          ["pain", {name: "pain", summed: [5]}],
+          ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+          ["madness", new DnrPool("madness", [[2, 4]])],
+          ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -188,9 +376,9 @@ describe("DnrRollPresenter", () => {
     it("is the first sum of the pain strength", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [2], pool: 3}],
-          ["exhaustion", {name: "discipline", summed: [2], pool: 3}],
-          ["pain", {name: "pain", summed: [5]}],
+          ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+          ["exhaustion", new DnrPool("exhaustion", [[1, 3, 4]])],
+          ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -204,9 +392,9 @@ describe("DnrRollPresenter", () => {
       it("returns the subtotal", () => {
         const options = {
           strengths: new Collection([
-            ["discipline", {name: "discipline", summed: [1], pool: 3}],
-            ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-            ["pain", {name: "pain", summed: [5]}],
+            ["discipline", new DnrPool("discipline", [[1, 4, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -220,9 +408,9 @@ describe("DnrRollPresenter", () => {
         const options = {
           talent: "minor",
           strengths: new Collection([
-            ["discipline", {name: "discipline", summed: [2], pool: 3}],
-            ["exhaustion", {name: "exhaustion", summed: [2], pool: 3}],
-            ["pain", {name: "pain", summed: [5]}],
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 3, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -234,9 +422,9 @@ describe("DnrRollPresenter", () => {
         const options = {
           talent: "minor",
           strengths: new Collection([
-            ["discipline", {name: "discipline", summed: [1], pool: 3}],
-            ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-            ["pain", {name: "pain", summed: [5]}],
+            ["discipline", new DnrPool("discipline", [[1, 4, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -250,9 +438,9 @@ describe("DnrRollPresenter", () => {
         const options = {
           talent: "major",
           strengths: new Collection([
-            ["discipline", {name: "discipline", summed: [2], pool: 3}],
-            ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-            ["pain", {name: "pain", summed: [5]}],
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -268,9 +456,9 @@ describe("DnrRollPresenter", () => {
         const options = {
           talent: "major",
           strengths: new Collection([
-            ["discipline", {name: "discipline", summed: [2], pool: 3}],
-            ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-            ["pain", {name: "pain", summed: [5]}],
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -282,9 +470,9 @@ describe("DnrRollPresenter", () => {
         const options = {
           talent: "major",
           strengths: new Collection([
-            ["discipline", {name: "discipline", summed: [2], pool: 3}],
-            ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-            ["pain", {name: "pain", summed: [5]}],
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -299,9 +487,9 @@ describe("DnrRollPresenter", () => {
           const options = {
             talent: "minor",
             strengths: new Collection([
-              ["discipline", {name: "discipline", summed: [2], pool: 3}],
-              ["exhaustion", {name: "exhaustion", summed: [2], pool: 3}],
-              ["pain", {name: "pain", summed: [5]}],
+              ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+              ["exhaustion", new DnrPool("exhaustion", [[1, 3, 4]])],
+              ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
             ]),
           }
           const presenter = new DnrRollPresenter(options)
@@ -313,9 +501,9 @@ describe("DnrRollPresenter", () => {
           const options = {
             talent: "minor",
             strengths: new Collection([
-              ["discipline", {name: "discipline", summed: [2], pool: 3}],
-              ["exhaustion", {name: "exhaustion", summed: [2], pool: 3}],
-              ["pain", {name: "pain", summed: [5]}],
+              ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+              ["exhaustion", new DnrPool("exhaustion", [[1, 3, 4]])],
+              ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
             ]),
           }
           const presenter = new DnrRollPresenter(options)
@@ -329,9 +517,9 @@ describe("DnrRollPresenter", () => {
           const options = {
             talent: "minor",
             strengths: new Collection([
-              ["discipline", {name: "discipline", summed: [1], pool: 3}],
-              ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-              ["pain", {name: "pain", summed: [5]}],
+              ["discipline", new DnrPool("discipline", [[1, 4, 4]])],
+              ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+              ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
             ]),
           }
           const presenter = new DnrRollPresenter(options)
@@ -343,9 +531,9 @@ describe("DnrRollPresenter", () => {
           const options = {
             talent: "minor",
             strengths: new Collection([
-              ["discipline", {name: "discipline", summed: [1], pool: 3}],
-              ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-              ["pain", {name: "pain", summed: [5]}],
+              ["discipline", new DnrPool("discipline", [[1, 4, 4]])],
+              ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+              ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
             ]),
           }
           const presenter = new DnrRollPresenter(options)
@@ -359,9 +547,9 @@ describe("DnrRollPresenter", () => {
       it("shows the subtotal", () => {
         const options = {
           strengths: new Collection([
-            ["discipline", {name: "discipline", summed: [1], pool: 3}],
-            ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-            ["pain", {name: "pain", summed: [5]}],
+            ["discipline", new DnrPool("discipline", [[1, 4, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -375,8 +563,8 @@ describe("DnrRollPresenter", () => {
     it("is the first sum of the pain strength", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [2], pool: 3}],
-          ["pain", {name: "pain", summed: [5]}],
+          ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+          ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -386,25 +574,70 @@ describe("DnrRollPresenter", () => {
   })
 
   describe("resultWord", () => {
-    it("is success when total is gte pain", () => {
-      const options = {
-        talent: "major",
-        strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [2], pool: 3}],
-          ["exhaustion", {name: "exhaustion", summed: [1], pool: 3}],
-          ["pain", {name: "pain", summed: [5]}],
-        ]),
-      }
-      const presenter = new DnrRollPresenter(options)
+    describe("total is equal to pain", () => {
+      it("returns success", () => {
+        const options = {
+          talent: "major",
+          strengths: new Collection([
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 3, 5]])],
+          ]),
+        }
+        const presenter = new DnrRollPresenter(options)
 
-      expect(presenter.resultWord).toEqual("success")
+        expect(presenter.resultWord).toMatch("success")
+      })
+    })
+    describe("total is gt pain", () => {
+      it("returns success", () => {
+        const options = {
+          talent: "major",
+          strengths: new Collection([
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
+          ]),
+        }
+        const presenter = new DnrRollPresenter(options)
+
+        expect(presenter.resultWord).toMatch("success")
+      })
+
+      it("uses the degree word", () => {
+        const options = {
+          talent: "major",
+          strengths: new Collection([
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
+          ]),
+        }
+        const presenter = new DnrRollPresenter(options)
+
+        expect(presenter.resultWord).toMatch("competant")
+      })
+
+      it("caps degree at fantastic", () => {
+        const options = {
+          talent: "major",
+          strengths: new Collection([
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["exhaustion", new DnrPool("exhaustion", [[1, 4, 4]])],
+            ["pain", new DnrPool("pain", [[4, 5]])],
+          ]),
+        }
+        const presenter = new DnrRollPresenter(options)
+
+        expect(presenter.resultWord).toMatch("fantastic")
+      })
     })
 
     it("is failure when total is lt pain", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {name: "discipline", summed: [2], pool: 3}],
-          ["pain", {name: "pain", summed: [3]}],
+            ["discipline", new DnrPool("discipline", [[1, 3, 4]])],
+            ["pain", new DnrPool("pain", [[1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -417,13 +650,8 @@ describe("DnrRollPresenter", () => {
     it("shows the pool's total successes", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {
-            name: "discipline",
-            summed: [2],
-            pool: 3,
-            raw: [[2, 3, 4]]
-          }],
-          ["pain", {name: "pain", summed: [5]}],
+          ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+          ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -436,13 +664,8 @@ describe("DnrRollPresenter", () => {
     it("shows the name of the pool", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {
-            name: "discipline",
-            summed: [2],
-            pool: 3,
-            raw: [[2, 3, 4]]
-          }],
-          ["pain", {name: "pain", summed: [5]}],
+          ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+          ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -455,13 +678,8 @@ describe("DnrRollPresenter", () => {
     it("highlights successful dice", () => {
       const options = {
         strengths: new Collection([
-          ["discipline", {
-            name: "discipline",
-            summed: [2],
-            pool: 3,
-            raw: [[2, 3, 4]]
-          }],
-          ["pain", {name: "pain", summed: [5]}],
+          ["discipline", new DnrPool("discipline", [[2, 3, 4]])],
+          ["pain", new DnrPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DnrRollPresenter(options)
@@ -473,21 +691,11 @@ describe("DnrRollPresenter", () => {
     })
 
     describe("when dominance is from dice", () => {
-      it.failing("underlines the dominant numbers", () => {
+      it("underlines the dominant numbers", () => {
         const options = {
           strengths: new Collection([
-            ["discipline", {
-              name: "discipline",
-              summed: [2],
-              pool: 3,
-              raw: [[2, 3, 5]]
-            }],
-            ["pain", {
-              name: "pain",
-              summed: [2],
-              pool: 3,
-              raw: [[2, 3, 4]]
-            }],
+            ["discipline", new DnrPool("discipline", [[2, 3, 5]])],
+            ["pain", new DnrPool("pain", [[2, 3, 4]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
@@ -499,21 +707,11 @@ describe("DnrRollPresenter", () => {
     })
 
     describe("when dominance is from name", () => {
-      it.failing("underlines the name", () => {
+      it("underlines the name", () => {
         const options = {
           strengths: new Collection([
-            ["discipline", {
-              name: "discipline",
-              summed: [2],
-              pool: 3,
-              raw: [[2, 3, 5]]
-            }],
-            ["pain", {
-              name: "pain",
-              summed: [2],
-              pool: 3,
-              raw: [[2, 3, 5]]
-            }],
+            ["discipline", new DnrPool("discipline", [[2, 3, 5]])],
+            ["pain", new DnrPool("pain", [[2, 3, 5]])],
           ]),
         }
         const presenter = new DnrRollPresenter(options)
