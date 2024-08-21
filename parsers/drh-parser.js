@@ -48,7 +48,7 @@ module.exports = {
 
     const talent_groups = talent_re.exec(stripped_content)?.groups
     if (talent_groups) {
-      raw_options.talent = talentNames.findKey(n => n === talent_groups.name)
+      raw_options.talent = talentNames.findKey((n) => n === talent_groups.name)
     }
 
     const rolls_groups = rolls_re.exec(stripped_content)?.groups

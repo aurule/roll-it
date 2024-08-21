@@ -164,7 +164,7 @@ describe("multiple rolls", () => {
         ]),
       ],
       rolls: 2,
-      description: "5 times"
+      description: "5 times",
     })
 
     const result = await parse(content)

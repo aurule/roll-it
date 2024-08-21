@@ -225,7 +225,7 @@ describe("DrhPresenter", () => {
 
     it("with talent, includes full talent name", () => {
       const options = {
-        talent: "minor"
+        talent: "minor",
       }
       const presenter = new DrhPresenter(options)
 
@@ -636,8 +636,8 @@ describe("DrhRollPresenter", () => {
     it("is failure when total is lt pain", () => {
       const options = {
         strengths: new Collection([
-            ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-            ["pain", new DrhPool("pain", [[1, 1, 3, 5]])],
+          ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
+          ["pain", new DrhPool("pain", [[1, 1, 3, 5]])],
         ]),
       }
       const presenter = new DrhRollPresenter(options)

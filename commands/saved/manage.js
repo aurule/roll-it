@@ -70,10 +70,7 @@ module.exports = {
       .setCustomId("remove")
       .setLabel("Remove Roll")
       .setStyle(ButtonStyle.Danger)
-    manage_actions.addComponents(
-      cancel_button,
-      remove_button,
-    )
+    manage_actions.addComponents(cancel_button, remove_button)
     const manage_prompt = await interaction.reply({
       content: manage_text,
       components: [manage_actions],

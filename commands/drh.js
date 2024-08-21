@@ -1,10 +1,17 @@
-const { SlashCommandBuilder, inlineCode, italic, Collection, orderedList, unorderedList } = require("discord.js")
+const {
+  SlashCommandBuilder,
+  inlineCode,
+  italic,
+  Collection,
+  orderedList,
+  unorderedList,
+} = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
-const {present} = require("../presenters/drh-results-presenter")
+const { present } = require("../presenters/drh-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
@@ -24,14 +31,14 @@ module.exports = {
           .setDescription("Dice in your Dicipline pool")
           .setRequired(true)
           .setMinValue(1)
-          .setMaxValue(6)
+          .setMaxValue(6),
       )
       .addIntegerOption((option) =>
         option
           .setName("pain")
           .setDescription("Dice in the Pain pool")
           .setRequired(true)
-          .setMinValue(1)
+          .setMinValue(1),
       )
       .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
@@ -39,23 +46,20 @@ module.exports = {
           .setName("exhaustion")
           .setDescription("Dice in your Exhaustion pool")
           .setMinValue(1)
-          .setMaxValue(6)
+          .setMaxValue(6),
       )
       .addIntegerOption((option) =>
-        option
-          .setName("madness")
-          .setDescription("Dice in your Madness pool")
-          .setMinValue(1)
+        option.setName("madness").setDescription("Dice in your Madness pool").setMinValue(1),
       )
       .addStringOption((option) =>
         option
           .setName("talent")
           .setDescription("A talent you're using for this roll")
           .setChoices([
-            {name: "Minor Exhaustion", value: "minor"},
-            {name: "Major Exhaustion", value: "major"},
-            {name: "Madness", value: "madness"},
-          ])
+            { name: "Minor Exhaustion", value: "minor" },
+            { name: "Major Exhaustion", value: "major" },
+            { name: "Madness", value: "madness" },
+          ]),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
@@ -64,23 +68,28 @@ module.exports = {
   schema: Joi.object({
     discipline: Joi.number().required().integer().min(1).max(6),
     pain: Joi.number().required().integer().min(1).max(100),
-    exhaustion: Joi.number().optional().integer().min(1).max(6)
+    exhaustion: Joi.number()
+      .optional()
+      .integer()
+      .min(1)
+      .max(6)
       .when("talent", {
         is: Joi.string().valid("minor", "major"),
         then: Joi.required(),
         otherwise: Joi.optional(),
       }),
-    madness: Joi.number().integer().min(1).max(8)
+    madness: Joi.number()
+      .integer()
+      .min(1)
+      .max(8)
       .when("talent", {
         is: Joi.string().valid("madness"),
         then: Joi.required(),
         otherwise: Joi.optional(),
       }),
-    talent: Joi.string().optional().valid("minor", "major", "madness")
-      .default("none")
-      .messages({
-        "any.only": "Talent must be one of 'minor', 'major', or 'madness'.",
-      }),
+    talent: Joi.string().optional().valid("minor", "major", "madness").default("none").messages({
+      "any.only": "Talent must be one of 'minor', 'major', or 'madness'.",
+    }),
     description: commonSchemas.description,
     rolls: commonSchemas.rolls,
     modifier: commonSchemas.modifier,
@@ -92,7 +101,16 @@ module.exports = {
 
     return new DrhPool(pool_name, raw)
   },
-  perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description, modifier = 0} = {}) {
+  perform({
+    discipline,
+    pain,
+    exhaustion,
+    madness,
+    talent,
+    rolls = 1,
+    description,
+    modifier = 0,
+  } = {}) {
     const pool_options = new Collection([
       ["discipline", discipline],
       ["pain", pain],
@@ -101,7 +119,7 @@ module.exports = {
     ])
 
     const tests = Array.from({ length: rolls }, (i) => {
-      return pool_options.mapValues(module.exports.roll_pool).filter(pool => pool !== undefined)
+      return pool_options.mapValues(module.exports.roll_pool).filter((pool) => pool !== undefined)
     })
 
     return present({
@@ -127,14 +145,14 @@ module.exports = {
         if (exhaustion === 0) {
           return interaction.reply({
             content: `You need at least 1 ${inlineCode("exhaustion")} to use an exhaustion talent.`,
-            ephemeral: true
+            ephemeral: true,
           })
         }
       case "madness":
         if (madness === 0) {
           return interaction.reply({
             content: `You need at least 1 ${inlineCode("madness")} to use a madness talent.`,
-            ephemeral: true
+            ephemeral: true,
           })
         }
     }
@@ -201,7 +219,7 @@ module.exports = {
       oneLine`
         When used for a saved roll, ${command_name} will apply the ${inlineCode("bonus")} from
         ${inlineCode("/saved roll")} to the ${opt_exhaustion} pool.
-      `
+      `,
     ].join("\n")
   },
 }

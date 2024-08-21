@@ -1,4 +1,4 @@
-const {successes} = require("../../services/tally")
+const { successes } = require("../../services/tally")
 
 /**
  * Class representing a single dice pool in a Don't Rest Your Head roll
@@ -12,14 +12,14 @@ class DrhPool {
    *
    * @type {string}
    */
-  name;
+  name
 
   /**
    * Raw roller results
    *
    * @type {Array<int[]>}
    */
-  raw;
+  raw
 
   /**
    * Simplified roller results
@@ -28,7 +28,7 @@ class DrhPool {
    *
    * @type {int[]}
    */
-  dice;
+  dice
 
   /**
    * Number of dice in the pool
@@ -37,14 +37,14 @@ class DrhPool {
    *
    * @type {int}
    */
-  size;
+  size
 
   /**
    * Number of successes per pool, as standard from the tally.successes function
    *
    * @type {int[]}
    */
-  summed;
+  summed
 
   /**
    * Number of successes
@@ -53,7 +53,7 @@ class DrhPool {
    *
    * @type {int}
    */
-  successes;
+  successes
 
   constructor(name, raw) {
     this.name = name
@@ -72,5 +72,5 @@ class DrhPool {
 }
 
 module.exports = {
-  DrhPool
+  DrhPool,
 }

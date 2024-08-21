@@ -90,8 +90,8 @@ describe("spot checks", () => {
         pain: 2,
         exhaustion: 1,
         talent: "major",
-      }
-    ]
+      },
+    ],
   ])("parses %s", async (invocation, expected_options) => {
     const result = await parse(invocation)
 

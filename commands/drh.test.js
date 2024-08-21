@@ -246,7 +246,7 @@ describe("schema", () => {
       expect(result.error).toBeFalsy()
     })
 
-    it.each([['minor'], ['major'], ['madness']])("accepts %s", (talent_value) => {
+    it.each([["minor"], ["major"], ["madness"]])("accepts %s", (talent_value) => {
       const result = talent_schema.validate(talent_value)
 
       expect(result.error).toBeFalsy()

@@ -18,13 +18,7 @@ const talentNames = new Collection([
  *
  * @type {str[]}
  */
-const successDegrees = [
-  "narrow",
-  "competant",
-  "impressive",
-  "extraordinary",
-  "fantastic",
-]
+const successDegrees = ["narrow", "competant", "impressive", "extraordinary", "fantastic"]
 
 /**
  * List of strength names in descending order
@@ -33,12 +27,7 @@ const successDegrees = [
  *
  * @type {str[]}
  */
-const strengthPrecedence = [
-  "discipline",
-  "madness",
-  "exhaustion",
-  "pain",
-]
+const strengthPrecedence = ["discipline", "madness", "exhaustion", "pain"]
 
 class DrhPresenter {
   /**
@@ -48,28 +37,28 @@ class DrhPresenter {
    *
    * @type {Array<DrhRoll[]>}
    */
-  tests;
+  tests
 
   /**
    * Description for the rolls
    *
    * @type {str}
    */
-  description;
+  description
 
   /**
    * Name of the talent used
    *
    * @type {str | undefined}
    */
-  talent;
+  talent
 
   /**
    * Number of rolls that were made
    *
    * @type {int}
    */
-  rolls;
+  rolls
 
   constructor({ tests, description, talent, rolls }) {
     this.tests = tests
@@ -99,18 +88,24 @@ class DrhPresenter {
   presentResults() {
     let content = "{{userMention}} rolled"
 
-    switch(this.mode) {
+    switch (this.mode) {
       case "many":
         content += this.presentedDescription()
         content += ` ${this.rolls} times`
         content += this.presentedTalent()
-        content += this.tests.map(pools => {
-          const roll_presenter = new DrhRollPresenter({strengths: pools, talent: this.talent})
-          return `\n${bold(roll_presenter.resultWord)} dominated by ${bold(roll_presenter.dominating_strength)}\n` + roll_presenter.present()
+        content += this.tests.map((pools) => {
+          const roll_presenter = new DrhRollPresenter({ strengths: pools, talent: this.talent })
+          return (
+            `\n${bold(roll_presenter.resultWord)} dominated by ${bold(roll_presenter.dominating_strength)}\n` +
+            roll_presenter.present()
+          )
         })
         break
       case "one":
-        const roll_presenter = new DrhRollPresenter({strengths: this.tests[0], talent: this.talent})
+        const roll_presenter = new DrhRollPresenter({
+          strengths: this.tests[0],
+          talent: this.talent,
+        })
         content += " a " + bold(roll_presenter.resultWord)
         content += this.presentedDescription()
         content += ` dominated by ${bold(roll_presenter.dominating_strength)}`
@@ -158,21 +153,21 @@ class DrhRollPresenter {
    *
    * @type {DrhPool[]}
    */
-  strengths;
+  strengths
 
   /**
    * The name of the talent used
    *
    * @type {str | undefined}
    */
-  talent;
+  talent
 
   /**
    * The name of the strength which dominates the roll
    *
    * @type {str}
    */
-  dominating_strength;
+  dominating_strength
 
   /**
    * The feature of the dominating strength which caused it to win
@@ -181,9 +176,9 @@ class DrhRollPresenter {
    *
    * @type {str}
    */
-  dominating_feature;
+  dominating_feature
 
-  constructor({strengths, talent}) {
+  constructor({ strengths, talent }) {
     this.strengths = strengths
     this.talent = talent
     this.setDominating()
@@ -201,8 +196,8 @@ class DrhRollPresenter {
     const tied = this.strengths.clone()
     let feature = 6
     while (feature) {
-      const max_dice = Math.max(...tied.map(pool => pool.spread[feature]))
-      tied.sweep(pool => pool.spread[feature] < max_dice)
+      const max_dice = Math.max(...tied.map((pool) => pool.spread[feature]))
+      tied.sweep((pool) => pool.spread[feature] < max_dice)
       if (tied.size == 1) {
         this.dominating_strength = tied.first().name
         this.dominating_feature = feature.toString()
@@ -230,8 +225,10 @@ class DrhRollPresenter {
    * @return {str} String describing all the roll's strengths
    */
   present() {
-    const strength_order = strengthPrecedence.slice(0, 3).filter(name => this.strengths.has(name))
-    const content = strength_order.map(strength_name => `\t${this.explainStrength(strength_name)}`).join("\n")
+    const strength_order = strengthPrecedence.slice(0, 3).filter((name) => this.strengths.has(name))
+    const content = strength_order
+      .map((strength_name) => `\t${this.explainStrength(strength_name)}`)
+      .join("\n")
     return content + `\n\t${this.presentedTotal} vs ${this.explainStrength("pain")}`
   }
 
@@ -244,10 +241,7 @@ class DrhRollPresenter {
     if (this._subtotal === undefined) {
       this._subtotal = this.strengths
         .filter((p) => p.name != "pain")
-        .reduce(
-          (acc, pool) => acc + pool.successes,
-          0,
-        )
+        .reduce((acc, pool) => acc + pool.successes, 0)
     }
     return this._subtotal
   }
@@ -356,7 +350,7 @@ class DrhRollPresenter {
     const strength = this.strengths.get(strength_name)
 
     let content = `${strength.successes} ${strength_name} (`
-    content += strength.dice.map(die => die < 4 ? bold(die) : `${die}`).join(", ")
+    content += strength.dice.map((die) => (die < 4 ? bold(die) : `${die}`)).join(", ")
     content += ")"
 
     if (this.dominating_strength != strength_name) return content
