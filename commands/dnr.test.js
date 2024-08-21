@@ -301,14 +301,49 @@ describe("perform", () => {
 })
 
 describe("execute", () => {
-  it("performs the roll", () => {
-    const interaction = new Interaction()
+  let interaction
+
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
+
+  it("performs the roll", async () => {
     interaction.command_options.discipline = 1
     interaction.command_options.pain = 1
 
-    dnr_command.execute(interaction)
+    await dnr_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("rolled")
+  })
+
+  it("with major talent, requires exhaustion", async () => {
+    interaction.command_options.talent = "major"
+    interaction.command_options.discipline = 1
+    interaction.command_options.pain = 1
+
+    await dnr_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("need at least 1")
+  })
+
+  it("with minor talent, requires exhaustion", async () => {
+    interaction.command_options.talent = "minor"
+    interaction.command_options.discipline = 1
+    interaction.command_options.pain = 1
+
+    await dnr_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("need at least 1")
+  })
+
+  it("with madness talent, requires madness", async () => {
+    interaction.command_options.talent = "madness"
+    interaction.command_options.discipline = 1
+    interaction.command_options.pain = 1
+
+    await dnr_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("need at least 1")
   })
 
   test_secret_option(dnr_command)

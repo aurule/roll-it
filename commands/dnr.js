@@ -1,15 +1,15 @@
-const { SlashCommandBuilder, inlineCode, italic, Collection } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
+const { SlashCommandBuilder, inlineCode, italic, Collection, orderedList, unorderedList } = require("discord.js")
+const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
-const {successes} = require("../services/tally")
 const {present} = require("../presenters/dnr-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
+const { DnrPool } = require("../util/rolls/dnr-pool")
 
 module.exports = {
   name: "dnr",
@@ -39,7 +39,7 @@ module.exports = {
           .setName("exhaustion")
           .setDescription("Dice in your Exhaustion pool")
           .setMinValue(1)
-          .setMinValue(6)
+          .setMaxValue(6)
       )
       .addIntegerOption((option) =>
         option
@@ -50,7 +50,7 @@ module.exports = {
       .addStringOption((option) =>
         option
           .setName("talent")
-          .setDescription("Whether you're using a talent for this roll")
+          .setDescription("A talent you're using for this roll")
           .setChoices([
             {name: "Minor Exhaustion", value: "minor"},
             {name: "Major Exhaustion", value: "major"},
@@ -89,14 +89,8 @@ module.exports = {
     if (!pool) return undefined
 
     const raw = roll(pool, 6)
-    const summed = successes(raw, 4)
 
-    return {
-      name: pool_name,
-      raw,
-      summed,
-      pool,
-    }
+    return new DnrPool(pool_name, raw)
   },
   perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description, modifier = 0} = {}) {
     const pool_options = new Collection([
@@ -107,14 +101,14 @@ module.exports = {
     ])
 
     const tests = Array.from({ length: rolls }, (i) => {
-      return pool_options.mapValues(module.exports.roll_pool)
+      return pool_options.mapValues(module.exports.roll_pool).filter(pool => pool !== undefined)
     })
 
     return present({
       tests,
       description,
-      rolls,
       talent,
+      rolls,
     })
   },
   execute(interaction) {
@@ -126,6 +120,24 @@ module.exports = {
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
+
+    switch (talent) {
+      case "minor":
+      case "major":
+        if (exhaustion === 0) {
+          return interaction.reply({
+            content: `You need at least 1 ${inlineCode("exhaustion")} to use an exhaustion talent.`,
+            ephemeral: true
+          })
+        }
+      case "madness":
+        if (madness === 0) {
+          return interaction.reply({
+            content: `You need at least 1 ${inlineCode("madness")} to use a madness talent.`,
+            ephemeral: true
+          })
+        }
+    }
 
     const partial_message = module.exports.perform({
       rolls,
@@ -141,14 +153,50 @@ module.exports = {
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name }) {
-    return oneLine`
-      ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
-      emoji and a word describing the outcome, like "\:rock: rock". The ${inlineCode("static")} option
-      changes this to display pass, tie, or fail, to make it easier to interpret the result of an uncontested
-      challenge. The ${inlineCode("bomb")} option replaces the paper result with bomb, which wins against
-      rock and paper. Setting both ${inlineCode("static")} and ${inlineCode("bomb")} will display the result
-      as pass, ${italic("pass")}, or fail, as the bomb result wins against the assumed paper result of the
-      static opponent.
-    `
+    const opt_discipline = inlineCode("discipline")
+    const opt_madness = inlineCode("madness")
+    const opt_exhaustion = inlineCode("exhaustion")
+    const opt_pain = inlineCode("pain")
+    const opt_talent = inlineCode("talent")
+
+    return [
+      `The dice mechanics for ${command_name} break down like this:`,
+      orderedList([
+        oneLine`
+          All four pools (${opt_discipline}, ${opt_madness}, ${opt_exhaustion}, and ${opt_pain}) are rolled
+          separately.
+        `,
+        `A die that rolls at or below 3 adds a success to its pool.`,
+        oneLine`
+          The successes from the ${opt_discipline}, ${opt_madness}, and ${opt_exhaustion} pools are added up
+          and compared against the successes from the ${opt_pain} pool. When ${opt_pain} has more, you fail.
+          When it has fewer or equal successes, you succeed.
+        `,
+        oneLine`
+          The die results of each pool are compared again, this time from highest to lowest. The pool with the
+          highest number on a die ${italic("dominates")} the roll. If pools are tied for highest, then the
+          next highest number is compared. If all pools are identical, then ${opt_discipline} beats
+          ${opt_madness}, ${opt_madness} beats ${opt_exhaustion}, and ${opt_exhaustion} beats ${opt_pain}.
+        `,
+      ]),
+      "",
+      `Tip: The printed results not only show what dominated the roll, but underline the reason why it did so.`,
+      "",
+      `The ${opt_talent} can modify the number of successes you compare against the ${opt_pain} result:`,
+      unorderedList([
+        oneLine`
+          Minor Exhaustion prevents you from getting fewer successes than your ${opt_exhaustion} pool.
+          ${opt_exhaustion} has to be at least 1.
+        `,
+        oneLine`
+          Major Exhaustion adds one success to your result per die of ${opt_exhaustion}. ${opt_exhaustion} has
+          to be at least 1.
+        `,
+        oneLine`
+          Madness is required to do magic. It does not change your successes, but does require ${opt_madness}
+          to be at least 1.
+        `,
+      ]),
+    ].join("\n")
   },
 }
