@@ -1,4 +1,4 @@
-const dnr_command = require("./dnr")
+const drh_command = require("./drh")
 
 const { Interaction } = require("../testing/interaction")
 const { schemaMessages } = require("../testing/schema-messages")
@@ -12,7 +12,7 @@ beforeEach(() => {
 
 describe("schema", () => {
   describe("discipline", () => {
-    const discipline_schema = dnr_command.schema.extract("discipline")
+    const discipline_schema = drh_command.schema.extract("discipline")
 
     it("is required", () => {
       const result = discipline_schema.validate()
@@ -46,7 +46,7 @@ describe("schema", () => {
   })
 
   describe("pain", () => {
-    const pain_schema = dnr_command.schema.extract("pain")
+    const pain_schema = drh_command.schema.extract("pain")
 
     it("is required", () => {
       const result = pain_schema.validate()
@@ -86,7 +86,7 @@ describe("schema", () => {
         pain: 1,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeFalsy()
     })
@@ -98,7 +98,7 @@ describe("schema", () => {
         exhaustion: 3.5,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -110,7 +110,7 @@ describe("schema", () => {
         exhaustion: 0,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -122,7 +122,7 @@ describe("schema", () => {
         exhaustion: 7,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -134,7 +134,7 @@ describe("schema", () => {
         exhaustion: 4,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeFalsy()
     })
@@ -146,7 +146,7 @@ describe("schema", () => {
         talent: "minor",
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -158,7 +158,7 @@ describe("schema", () => {
         talent: "major",
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -171,7 +171,7 @@ describe("schema", () => {
         pain: 1,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeFalsy()
     })
@@ -183,7 +183,7 @@ describe("schema", () => {
         madness: 3.5,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -195,7 +195,7 @@ describe("schema", () => {
         madness: 0,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -207,7 +207,7 @@ describe("schema", () => {
         madness: 9,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
@@ -219,7 +219,7 @@ describe("schema", () => {
         madness: 4,
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeFalsy()
     })
@@ -231,14 +231,14 @@ describe("schema", () => {
         talent: "madness",
       }
 
-      const result = dnr_command.schema.validate(options)
+      const result = drh_command.schema.validate(options)
 
       expect(result.error).toBeTruthy()
     })
   })
 
   describe("talent", () => {
-    const talent_schema = dnr_command.schema.extract("talent")
+    const talent_schema = drh_command.schema.extract("talent")
 
     it("is optional", () => {
       const result = talent_schema.validate()
@@ -262,25 +262,25 @@ describe("schema", () => {
 
 describe("roll_pool", () => {
   it("returns undefined with no dice", () => {
-    const result = dnr_command.roll_pool(0, "test")
+    const result = drh_command.roll_pool(0, "test")
 
     expect(result).toBeUndefined()
   })
 
   it("includes pool name", () => {
-    const result = dnr_command.roll_pool(1, "test")
+    const result = drh_command.roll_pool(1, "test")
 
     expect(result.name).toEqual("test")
   })
 
   it("includes raw results", () => {
-    const result = dnr_command.roll_pool(1, "test")
+    const result = drh_command.roll_pool(1, "test")
 
     expect(result.raw.length).toEqual(1)
   })
 
   it("includes summed results", () => {
-    const result = dnr_command.roll_pool(1, "test")
+    const result = drh_command.roll_pool(1, "test")
 
     expect(result.summed.length).toEqual(1)
   })
@@ -294,7 +294,7 @@ describe("perform", () => {
       rolls: 2,
     }
 
-    const result = dnr_command.perform(options)
+    const result = drh_command.perform(options)
 
     expect(result).toMatch("2 times")
   })
@@ -311,7 +311,7 @@ describe("execute", () => {
     interaction.command_options.discipline = 1
     interaction.command_options.pain = 1
 
-    await dnr_command.execute(interaction)
+    await drh_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("rolled")
   })
@@ -321,7 +321,7 @@ describe("execute", () => {
     interaction.command_options.discipline = 1
     interaction.command_options.pain = 1
 
-    await dnr_command.execute(interaction)
+    await drh_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("need at least 1")
   })
@@ -331,7 +331,7 @@ describe("execute", () => {
     interaction.command_options.discipline = 1
     interaction.command_options.pain = 1
 
-    await dnr_command.execute(interaction)
+    await drh_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("need at least 1")
   })
@@ -341,10 +341,10 @@ describe("execute", () => {
     interaction.command_options.discipline = 1
     interaction.command_options.pain = 1
 
-    await dnr_command.execute(interaction)
+    await drh_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("need at least 1")
   })
 
-  test_secret_option(dnr_command)
+  test_secret_option(drh_command)
 })

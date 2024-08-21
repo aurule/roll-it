@@ -40,13 +40,13 @@ const strengthPrecedence = [
   "pain",
 ]
 
-class DnrPresenter {
+class DrhPresenter {
   /**
    * Array of results for each test
    *
    * Length should match value of rolls.
    *
-   * @type {Array<DnrRoll[]>}
+   * @type {Array<DrhRoll[]>}
    */
   tests;
 
@@ -105,12 +105,12 @@ class DnrPresenter {
         content += ` ${this.rolls} times`
         content += this.presentedTalent()
         content += this.tests.map(pools => {
-          const roll_presenter = new DnrRollPresenter({strengths: pools, talent: this.talent})
+          const roll_presenter = new DrhRollPresenter({strengths: pools, talent: this.talent})
           return `\n${bold(roll_presenter.resultWord)} dominated by ${bold(roll_presenter.dominating_strength)}\n` + roll_presenter.present()
         })
         break
       case "one":
-        const roll_presenter = new DnrRollPresenter({strengths: this.tests[0], talent: this.talent})
+        const roll_presenter = new DrhRollPresenter({strengths: this.tests[0], talent: this.talent})
         content += " a " + bold(roll_presenter.resultWord)
         content += this.presentedDescription()
         content += ` dominated by ${bold(roll_presenter.dominating_strength)}`
@@ -152,11 +152,11 @@ class DnrPresenter {
   }
 }
 
-class DnrRollPresenter {
+class DrhRollPresenter {
   /**
    * The pools of this roll
    *
-   * @type {DnrPool[]}
+   * @type {DrhPool[]}
    */
   strengths;
 
@@ -367,16 +367,16 @@ class DnrRollPresenter {
 
 module.exports = {
   /**
-   * Present one or more results from the dnr command
+   * Present one or more results from the drh command
    *
    * @param  {Int}        options.rolls       Total number of rolls to show
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
    * @return {String}                         String describing the roll results
    */
   present: ({ ...rollOptions }) => {
-    const presenter = new DnrPresenter(rollOptions)
+    const presenter = new DrhPresenter(rollOptions)
     return presenter.presentResults()
   },
-  DnrPresenter,
-  DnrRollPresenter,
+  DrhPresenter,
+  DrhRollPresenter,
 }

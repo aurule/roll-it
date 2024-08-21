@@ -4,15 +4,15 @@ const Joi = require("joi")
 
 const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
-const {present} = require("../presenters/dnr-results-presenter")
+const {present} = require("../presenters/drh-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
-const { DnrPool } = require("../util/rolls/dnr-pool")
+const { DrhPool } = require("../util/rolls/drh-pool")
 
 module.exports = {
-  name: "dnr",
+  name: "drh",
   description: "Roll pools of d6s for Don't Rest Your Head",
   data: () =>
     new SlashCommandBuilder()
@@ -90,7 +90,7 @@ module.exports = {
 
     const raw = roll(pool, 6)
 
-    return new DnrPool(pool_name, raw)
+    return new DrhPool(pool_name, raw)
   },
   perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description, modifier = 0} = {}) {
     const pool_options = new Collection([

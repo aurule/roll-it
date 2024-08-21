@@ -1,14 +1,14 @@
 const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
-const command = require("../commands/dnr")
+const command = require("../commands/drh")
 
 const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
 const rolls_re = /(?<rolls>\d+) times/
 
 module.exports = {
-  name: "dnr",
+  name: "drh",
   /**
-   * Parse the presented output of the dnr command
+   * Parse the presented output of the drh command
    *
    * @example
    * ```js

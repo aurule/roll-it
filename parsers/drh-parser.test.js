@@ -1,6 +1,6 @@
-const { present } = require("../presenters/dnr-results-presenter")
+const { present } = require("../presenters/drh-results-presenter")
 
-const { parse } = require("./dnr-parser")
+const { parse } = require("./drh-parser")
 
 describe("with junk input", () => {
   it.todo("returns an empty object")

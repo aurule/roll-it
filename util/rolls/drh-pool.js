@@ -6,7 +6,7 @@ const {successes} = require("../../services/tally")
  * Each roll in that system has up to four distinct pools. This class represents a single pool and has helper
  * methods to generate the properties of that roll.
  */
-class DnrPool {
+class DrhPool {
   /**
    * Name of the pool
    *
@@ -72,5 +72,5 @@ class DnrPool {
 }
 
 module.exports = {
-  DnrPool
+  DrhPool
 }
