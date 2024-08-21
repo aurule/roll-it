@@ -379,4 +379,5 @@ module.exports = {
   },
   DrhPresenter,
   DrhRollPresenter,
+  talentNames,
 }

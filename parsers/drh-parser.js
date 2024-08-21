@@ -1,9 +1,7 @@
 const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/drh")
-
-const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
-const rolls_re = /(?<rolls>\d+) times/
+const { talentNames } = require("../presenters/drh-results-presenter")
 
 module.exports = {
   name: "drh",
@@ -12,10 +10,18 @@ module.exports = {
    *
    * @example
    * ```js
-   * const content = '<@12345> rolled **7** (3 + 4) for "a roll"'
-   * parse(content)
+   * const content = `
+   * <@12345> rolled a **competant success** for "a roll" dominated by **pain**
+   *   2 discipline (**3**, **2**, 4)
+   *   0 madness (4)
+   *   2 exhaustion (**1**, **2**)
+   *   _4_ vs 3 pain (**3**, **1**, **2**, __5__)
+   * `
    * // {
-   * //   modifier: 4
+   * //   discipline: 3,
+   * //   madness: 1,
+   * //   exhaustion: 2,
+   * //   pain: 4
    * // }
    * ```
    *
@@ -25,14 +31,24 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
+    const rolls_re = /(?<rolls>\d+) times/
+    const pool_re = /_*(?<name>\w+?)_*?\s+\((?<dice>.*?)\)/gm
+    const commas_re = /,/g
+    const talent_re = /a (?<name>[\w\s]+) talent/
+
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 
-    const modifier_groups = modifier_re.exec(stripped_content)?.groups
-    if (modifier_groups) {
-      let mod = modifier_groups.modifier
-      if (modifier_groups.operator == "-") mod = -1 * mod
-      raw_options.modifier = mod
+    while ((pool_match = pool_re.exec(stripped_content)) !== null) {
+      const pool_name = pool_match.groups.name
+      const pool_value = (pool_match.groups.dice.match(commas_re) || []).length + 1
+      raw_options[pool_name] = pool_value
+      if (pool_name == "pain") break
+    }
+
+    const talent_groups = talent_re.exec(stripped_content)?.groups
+    if (talent_groups) {
+      raw_options.talent = talentNames.findKey(n => n === talent_groups.name)
     }
 
     const rolls_groups = rolls_re.exec(stripped_content)?.groups

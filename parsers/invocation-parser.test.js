@@ -83,6 +83,15 @@ describe("spot checks", () => {
         specialty: true,
       },
     ],
+    [
+      "/drh discipline:3 pain:2 exhaustion:1 talent:major",
+      {
+        discipline: 3,
+        pain: 2,
+        exhaustion: 1,
+        talent: "major",
+      }
+    ]
   ])("parses %s", async (invocation, expected_options) => {
     const result = await parse(invocation)
 
