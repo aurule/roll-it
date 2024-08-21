@@ -14,6 +14,7 @@ module.exports = {
 
     let lines = [`Showing help for ${command_name}: ${command.description}`]
 
+    const formatted_options = {}
     if (command_options?.length) {
       lines.push("")
       if (command.subcommands) {
@@ -23,6 +24,7 @@ module.exports = {
       }
       lines = lines.concat(
         command_options.map((opt) => {
+          formatted_options[opt.name] = inlineCode(opt.name)
           let opt_lines = [`\t${inlineCode(opt.name)}:`]
           if (opt.required) opt_lines.push("(required)")
           opt_lines.push(opt.description)
@@ -33,7 +35,7 @@ module.exports = {
     }
 
     lines.push("")
-    lines.push(command.help({ command_name }))
+    lines.push(command.help({ command_name, ...formatted_options }))
 
     return lines.join("\n")
   },

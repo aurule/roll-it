@@ -177,36 +177,33 @@ module.exports = {
 
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
-  help({ command_name }) {
+  help({ command_name, ...opts }) {
     return [
       `The dice mechanics for ${command_name} break down like this:`,
-      `* A die that rolls at or above the ${inlineCode("threshold")} value adds a success`,
-      `* A die that rolls at or above the ${inlineCode("explode")} value adds another die to the roll`,
+      `* A die that rolls at or above the ${opts.threshold} value adds a success`,
+      `* A die that rolls at or above the ${opts.explode} value adds another die to the roll`,
       "",
       "There are also some special mechanics that are supported, even though they don't come up very often:",
       oneLine`
-        * When ${inlineCode("rote")} is true, every die in your ${italic("initial")} pool that fails to score
-        a success adds another die to the roll
+        * When ${opts.rote} is true, every die in your ${italic("initial")} pool that fails to score a success
+        ds another die to the roll
       `,
       oneLine`
-        * When your ${inlineCode("pool")} is zero, you get a single "chance" die. This interacts with
-        ${inlineCode("rote")} in a weird way; see ${italic("World of Darkness")} p.135 for details.
+        * When your ${opts.pool} is zero, you get a single "chance" die. This interacts with ${opts.rote} in a
+        weird way; see ${italic("World of Darkness")} p.135 for details.
       `,
       "",
-      `If you want to roll a pool with no 10-again, set ${inlineCode("explode")} to 11.`,
+      `If you want to roll a pool with no 10-again, set ${opts.explode} to 11.`,
+      `The ${opts.rolls} option lets you roll the same pool and difficulty multiple times, like for NPCs.`,
       oneLine`
-        The ${inlineCode("rolls")} option lets you roll the same pool and difficulty multiple times, like for
-        NPCs.
+        The ${opts.until} option tells Roll It to continue rolling the same pool and difficulty until the
+        total successes meet or exceed the number supplied. When the ${opts.rolls} option is also present, it
+        caps the number of attempted rolls.
       `,
       oneLine`
-        The ${inlineCode("until")} option tells Roll It to continue rolling the same pool and difficulty until
-        the total successes meet or exceed the number supplied. When the ${inlineCode("rolls")} option is also
-        present, it caps the number of attempted rolls.
-      `,
-      oneLine`
-        The ${inlineCode("teamwork")} option starts a special teamwork roll that lets other people add dice to
-        your pool by responding to a prompt. This is not compatible with the ${inlineCode("rolls")},
-        ${inlineCode("rote")}, ${inlineCode("until")}, or ${inlineCode("secret")} options.
+        The ${opts.teamwork} option starts a special teamwork roll that lets other people add dice to your
+        pool by responding to a prompt. This is not compatible with the ${opts.rolls}, ${opts.rote},
+        ${opts.until}, or ${opts.secret} options.
       `,
     ].join("\n")
   },

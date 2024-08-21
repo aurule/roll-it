@@ -170,55 +170,50 @@ module.exports = {
     const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
-  help({ command_name }) {
-    const opt_discipline = inlineCode("discipline")
-    const opt_madness = inlineCode("madness")
-    const opt_exhaustion = inlineCode("exhaustion")
-    const opt_pain = inlineCode("pain")
-    const opt_talent = inlineCode("talent")
-
+  help({ command_name, ...opts }) {
     return [
       `The dice mechanics for ${command_name} break down like this:`,
       orderedList([
         oneLine`
-          All four pools (${opt_discipline}, ${opt_madness}, ${opt_exhaustion}, and ${opt_pain}) are rolled
-          separately.
+          All four pools (${opts.discipline}, ${opts.madness}, ${opts.exhaustion}, and ${opts.pain}) are
+          rolled separately.
         `,
         `A die that rolls at or below 3 adds a success to its pool.`,
         oneLine`
-          The successes from the ${opt_discipline}, ${opt_madness}, and ${opt_exhaustion} pools are added up
-          and compared against the successes from the ${opt_pain} pool. When ${opt_pain} has more, you fail.
-          When it has fewer or equal successes, you succeed.
+          The successes from the ${opts.discipline}, ${opts.madness}, and ${opts.exhaustion} pools are added
+          up and compared against the successes from the ${opts.pain} pool. When ${opts.pain} has more, you
+          fail. When it has fewer or equal successes, you succeed.
         `,
         oneLine`
           The die results of each pool are compared again, this time from highest to lowest. The pool with the
           highest number on a die ${italic("dominates")} the roll. If pools are tied for highest, then the
-          next highest number is compared. If all pools are identical, then ${opt_discipline} beats
-          ${opt_madness}, ${opt_madness} beats ${opt_exhaustion}, and ${opt_exhaustion} beats ${opt_pain}.
+          next highest number is compared. If all pools are identical, then ${opts.discipline} beats
+          ${opts.madness}, ${opts.madness} beats ${opts.exhaustion}, and ${opts.exhaustion} beats
+          ${opts.pain}.
         `,
       ]),
       "",
       `Tip: The printed results not only show what dominated the roll, but underline the reason why it did so.`,
       "",
-      `The ${opt_talent} can modify the number of successes you compare against the ${opt_pain} result:`,
+      `The ${opts.talent} can modify the number of successes you compare against the ${opts.pain} result:`,
       unorderedList([
         oneLine`
-          Minor Exhaustion prevents you from getting fewer successes than your ${opt_exhaustion} pool.
-          ${opt_exhaustion} has to be at least 1.
+          Minor Exhaustion prevents you from getting fewer successes than your ${opts.exhaustion} pool.
+          ${opts.exhaustion} has to be at least 1.
         `,
         oneLine`
-          Major Exhaustion adds one success to your result per die of ${opt_exhaustion}. ${opt_exhaustion} has
-          to be at least 1.
+          Major Exhaustion adds one success to your result per die of ${opts.exhaustion}. ${opts.exhaustion}
+          has to be at least 1.
         `,
         oneLine`
-          Madness is required to do magic. It does not change your successes, but does require ${opt_madness}
+          Madness is required to do magic. It does not change your successes, but does require ${opts.madness}
           to be at least 1.
         `,
       ]),
       "",
       oneLine`
         When used for a saved roll, ${command_name} will apply the ${inlineCode("bonus")} from
-        ${inlineCode("/saved roll")} to the ${opt_exhaustion} pool.
+        ${inlineCode("/saved roll")} to the ${opts.exhaustion} pool.
       `,
     ].join("\n")
   },

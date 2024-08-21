@@ -92,7 +92,6 @@ module.exports = {
   help({ command_name }) {
     return [
       oneLine`
-        to keep track of special types of damage.
         ${command_name} rolls multiple pools of dice at once and can apply complex modifiers to the die results.
         Each formula should include at least one pool of dice, written as
         ${inlineCode("pool")}d${inlineCode("sides")}. All dice pools are rolled, then the math of the formula

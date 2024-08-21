@@ -165,7 +165,7 @@ module.exports = {
       ephemeral: true,
     })
   },
-  help({ command_name }) {
+  help({ command_name, ...opts }) {
     const savable_commands = require("../index").savable()
     return [
       oneLine`
@@ -187,16 +187,16 @@ module.exports = {
       CommandNamePresenter.list(savable_commands),
       "",
       oneLine`
-        For advanced usage, you can add an ${inlineCode("invocation")} when using ${command_name}. This lets
-        you directly set the command and options that will be saved to the roll. An invocation looks like
+        For advanced usage, you can add an ${opts.invocation} when using ${command_name}. This lets you
+        directly set the command and options that will be saved to the roll. An invocation looks like
         ${inlineCode("/roll pool:3 sides:6 rolls:2")} and is what Discord generates when you type out a
         command.
       `,
       "",
       oneLine`
-        By adding an ${inlineCode("invocation")}, you can quickly create many saved rolls in a row. This will
-        always save a new roll, even if you have one that is incomplete. As such, you ${italic("cannot")} use
-        an ${inlineCode("invocation")} when editing a roll, as it will create a new saved roll instead.
+        By adding an ${opts.invocation}, you can quickly create many saved rolls in a row. This will always
+        save a new roll, even if you have one that is incomplete. As such, you ${italic("cannot")} use an
+        ${opts.invocation} when editing a roll, as it will create a new saved roll instead.
       `,
     ].join("\n")
   },

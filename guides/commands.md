@@ -44,10 +44,12 @@ Help options object:
 ```ts
 {
     command_name: string, // "/formatted-command-name"
+    option1: string,
+    option2: string,
 }
 ```
 
-The command_name attribute is populated by `CommandHelpPresenter.present()`.
+The `command_name` attribute is populated by `CommandHelpPresenter.present()`. Other attributes are named the same as command args, and contain the formatted name of that argument.
 
 ## File Locations
 

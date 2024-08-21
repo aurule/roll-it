@@ -74,14 +74,14 @@ module.exports = {
     const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
-  help({ command_name }) {
+  help({ command_name, ...opts }) {
     return [
       `${command_name} rolls a single 20-sided die.`,
       "",
       oneLine`
-        The ${inlineCode("keep")} option lets you roll twice and take either the higher or lower result,
-        like the D&D 5e mechanic of the same name. Set it to ${inlineCode("Advantage")} to use the higher
-        result, and ${inlineCode("Disadvantage")} to use the lower.
+        The ${opts.keep} option lets you roll twice and take either the higher or lower result, like the D&D
+        5e mechanic of the same name. Set it to ${inlineCode("Advantage")} to use the higher result, and
+        ${inlineCode("Disadvantage")} to use the lower.
       `,
     ].join("\n")
   },

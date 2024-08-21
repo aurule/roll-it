@@ -62,15 +62,15 @@ module.exports = {
     const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
-  help({ command_name }) {
+  help({ command_name, ...opts }) {
     return oneLine`
       ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
-      emoji and a word describing the outcome, like "\:rock: rock". The ${inlineCode("static")} option
-      changes this to display pass, tie, or fail, to make it easier to interpret the result of an uncontested
-      challenge. The ${inlineCode("bomb")} option replaces the paper result with bomb, which wins against
-      rock and paper. Setting both ${inlineCode("static")} and ${inlineCode("bomb")} will display the result
-      as pass, ${italic("pass")}, or fail, as the bomb result wins against the assumed paper result of the
-      static opponent.
+      emoji and a word describing the outcome, like "\:rock: rock". The ${opts.static} option changes this to
+      display ${inlineCode("pass")}, ${inlineCode("tie")}, or ${inlineCode("fail")}, to make it easier to
+      interpret the result of an uncontested challenge. The ${opts.bomb} option replaces the paper result with
+      bomb, which wins against rock and paper. Setting both ${opts.static} and ${opts.bomb} will change the
+      ${inlineCode("tie")} result to ${inlineCode("pass")}, as the bomb result wins against the assumed paper
+      result of the static opponent.
     `
   },
 }

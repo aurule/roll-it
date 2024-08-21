@@ -57,8 +57,8 @@ module.exports = {
   },
   help({ command_name }) {
     return oneLine`
-      ${command_name} rolls a single percentile, or 100-sided, die. That's it!
-      The results are indexed from 1 to 100.
+      ${command_name} rolls a single percentile, or 100-sided, die. That's it! The results are indexed from 1
+      to 100.
     `
   },
 }

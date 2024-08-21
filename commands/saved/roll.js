@@ -158,27 +158,27 @@ module.exports = {
         return Completers.saved_roll(partialText, saved_rolls.all())
     }
   },
-  help({ command_name }) {
+  help({ command_name, ...opts }) {
     return [
       `${command_name} lets you use a saved roll while tweaking its options.`,
       "",
       oneLine`
-        The ${inlineCode("description")} and ${inlineCode("rolls")} options will entirely replace what was
-        saved with the roll. If you leave them out, ${inlineCode("rolls")} will use the original value and
-        ${inlineCode("description")} will use the saved roll description.
+        The ${opts.description} and ${opts.rolls} options will entirely replace what was
+        saved with the roll. If you leave them out, ${opts.rolls} will use the original value and
+        ${opts.description} will use the saved roll description.
       `,
       "",
       oneLine`
-        If you give a ${inlineCode("bonus")}, it will automatically be added to the most appropriate number in
+        If you give a ${opts.bonus}, it will automatically be added to the most appropriate number in
         the saved roll's options. It tries to change the ${inlineCode("modifier")} first and then the
         ${inlineCode("pool")}, using the first one that's supported by the saved command.
       `,
       "",
       oneLine`
-        The ${inlineCode("change")} option lets you override this behavior and choose which saved option to
+        The ${opts.change} option lets you override this behavior and choose which saved option to
         alter, like if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")}. To support
         ${inlineCode("/wod20")} and other commands with a commonly changed difficulty, you can also choose to
-        apply the ${inlineCode("bonus")} to the saved ${inlineCode("difficulty")} of the roll. The difficulty
+        apply the ${opts.bonus} to the saved ${inlineCode("difficulty")} of the roll. The difficulty
         will never be changed automatically.
       `,
     ].join("\n")

@@ -19,7 +19,7 @@ const test_command = {
       .addStringOption((option) =>
         option.setName("subtitle").setDescription("Subtitle description"),
       ),
-  help: ({ command_name }) => "test help output",
+  help: ({ command_name, ...opts }) => `test help output with a ${opts.title}`,
 }
 
 const test_command_bare = {
@@ -50,10 +50,16 @@ describe("present", () => {
     expect(result).toMatch(test_command.name)
   })
 
+  it("names the options in the output", () => {
+    const result = CommandHelpPresenter.present(test_command)
+
+    expect(result).toMatch("title")
+  })
+
   it("shows the help output for the command", () => {
     const result = CommandHelpPresenter.present(test_command)
 
-    expect(result).toMatch(test_command.help({ command_name: "test-command" }))
+    expect(result).toMatch(test_command.help({ command_name: "test-command", title: "`title`" }))
   })
 
   describe("with options", () => {

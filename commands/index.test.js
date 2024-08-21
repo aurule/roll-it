@@ -77,5 +77,19 @@ describe.each(command_objects)("minimal correctness", (command) => {
 
       expect(typeof result).toEqual("string")
     })
+
+    it("has nothing undefined", () => {
+      const help_options = {
+        command_name: command.name,
+      }
+      const command_options = command.data().options ?? []
+      for (const option of command_options) {
+        help_options[option.name] = option.name
+      }
+
+      const result = command.help(help_options)
+
+      expect(result).not.toMatch("undefined")
+    })
   })
 })
