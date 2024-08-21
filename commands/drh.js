@@ -197,6 +197,11 @@ module.exports = {
           to be at least 1.
         `,
       ]),
+      "",
+      oneLine`
+        When used for a saved roll, ${command_name} will apply the ${inlineCode("bonus")} from
+        ${inlineCode("/saved roll")} to the ${opt_exhaustion} pool.
+      `
     ].join("\n")
   },
 }
