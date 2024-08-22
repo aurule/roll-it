@@ -40,7 +40,7 @@ module.exports = {
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: ["pool", "modifier"],
+  changeable: ["modifier", "pool"],
   schema: Joi.object({
     pool: commonSchemas.pool,
     sides: Joi.number().required().integer().min(2).max(100000),

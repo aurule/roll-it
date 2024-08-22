@@ -10,12 +10,8 @@ const { oneLine } = require("common-tags")
 
 function change_target(bonus, change, changeable) {
   if (!bonus) return undefined
-  if (change) return change
-  for (const opt of ["modifier", "pool"]) {
-    if (changeable.includes(opt)) {
-      return opt
-    }
-  }
+  if (change && changeable.includes(change)) return change
+  return changeable[0]
 }
 
 module.exports = {

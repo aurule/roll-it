@@ -64,7 +64,7 @@ module.exports = {
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: ["modifier"],
+  changeable: ["exhaustion", "madness", "discipline", "pain"],
   schema: Joi.object({
     discipline: Joi.number().required().integer().min(1).max(6),
     pain: Joi.number().required().integer().min(1).max(100),
@@ -109,12 +109,11 @@ module.exports = {
     talent,
     rolls = 1,
     description,
-    modifier = 0,
   } = {}) {
     const pool_options = new Collection([
       ["discipline", discipline],
       ["pain", pain],
-      ["exhaustion", exhaustion + modifier],
+      ["exhaustion", exhaustion],
       ["madness", madness],
     ])
 
@@ -213,7 +212,7 @@ module.exports = {
       "",
       oneLine`
         When used for a saved roll, ${command_name} will apply the ${inlineCode("bonus")} from
-        ${inlineCode("/saved roll")} to the ${opts.exhaustion} pool.
+        ${inlineCode("/saved roll")} to the ${opts.exhaustion} pool by default.
       `,
     ].join("\n")
   },

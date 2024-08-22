@@ -176,40 +176,43 @@ describe("change_target", () => {
   it("is undefined with no bonus", () => {
     const bonus = 0
     const change = undefined
-    const savable = ["modifier"]
+    const changeable = ["modifier"]
 
-    const result = saved_roll_command.change_target(bonus, change, savable)
+    const result = saved_roll_command.change_target(bonus, change, changeable)
 
     expect(result).toBeUndefined()
   })
 
-  it("returns the named option if provided", () => {
-    const bonus = 1
-    const change = "pool"
-    const savable = ["modifier", "pool"]
+  describe("with a named option", () => {
+    it("returns the option if it's in the list", () => {
+      const bonus = 1
+      const change = "pool"
+      const changeable = ["modifier", "pool"]
 
-    const result = saved_roll_command.change_target(bonus, change, savable)
+      const result = saved_roll_command.change_target(bonus, change, changeable)
 
-    expect(result).toMatch("pool")
+      expect(result).toMatch("pool")
+    })
+
+    it("returns the first changeable entry if it's not in the list", () => {
+      const bonus = 1
+      const change = "nope"
+      const changeable = ["modifier", "pool"]
+
+      const result = saved_roll_command.change_target(bonus, change, changeable)
+
+      expect(result).toMatch("modifier")
+    })
   })
 
-  it("returns modifier if supported", () => {
-    const bonus = 1
-    const change = undefined
-    const savable = ["modifier"]
+  describe("without a named option", () => {
+    it("returns the first changeable entry", () => {
+      const bonus = 1
+      const changeable = ["modifier", "pool"]
 
-    const result = saved_roll_command.change_target(bonus, change, savable)
+      const result = saved_roll_command.change_target(bonus, undefined, changeable)
 
-    expect(result).toMatch("modifier")
-  })
-
-  it("returns pool if supported and modifier is not", () => {
-    const bonus = 1
-    const change = undefined
-    const savable = ["pool"]
-
-    const result = saved_roll_command.change_target(bonus, change, savable)
-
-    expect(result).toMatch("pool")
+      expect(result).toMatch("modifier")
+    })
   })
 })
