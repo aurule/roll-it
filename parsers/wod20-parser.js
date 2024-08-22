@@ -2,11 +2,6 @@ const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/wod20")
 
-const pool_re = /(?<pool>\d+) diff (?<difficulty>\d+)/
-const specialty_re = /specialty/
-const rolls_re = /(?<rolls>\d+) times/
-const until_re = /until (?<until>\d+)/
-
 module.exports = {
   name: "wod20",
   /**
@@ -28,6 +23,11 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
+    const pool_re = /(?<pool>\d+) diff (?<difficulty>\d+)/
+    const specialty_re = /specialty/
+    const rolls_re = /(?<rolls>\d+) times/
+    const until_re = /until (?<until>\d+)/
+
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 

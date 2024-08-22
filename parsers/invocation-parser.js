@@ -1,9 +1,6 @@
 const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 
-const command_re = /\/(?<command>[\w-]+)/
-const args_re = /(\s+)?(?<name>\w+):(?<value>([\w+-/^*]+\s*)+(\s|$))/g
-
 module.exports = {
   name: "invocation",
   /**
@@ -19,6 +16,9 @@ module.exports = {
    * @throws RollParseError On an invalid invocation string, non-savable command, or invalid options.
    */
   async parse(invocation) {
+    const command_re = /\/(?<command>[\w-]+)/
+    const args_re = /(\s+)?(?<name>\w+):(?<value>([\w+-/^*]+\s*)+(\s|$))/g
+
     const commands = require("../commands")
 
     const groups = invocation.match(command_re)?.groups

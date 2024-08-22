@@ -2,13 +2,6 @@ const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/nwod")
 
-const pool_re = /(\(|at |with )(?<pool>\d+)/ // also chance die handling
-const explode_re = /(?<no>no )?(?<explode>\d+)-again/
-const threshold_re = /on (?<threshold>\d+)/
-const rote_re = /rote/
-const rolls_re = /(?<rolls>\d+) times/
-const until_re = /until (?<until>\d+)/
-
 module.exports = {
   name: "nwod",
   /**
@@ -29,6 +22,13 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
+    const pool_re = /(\(|at |with )(?<pool>\d+)/ // also chance die handling
+    const explode_re = /(?<no>no )?(?<explode>\d+)-again/
+    const threshold_re = /on (?<threshold>\d+)/
+    const rote_re = /rote/
+    const rolls_re = /(?<rolls>\d+) times/
+    const until_re = /until (?<until>\d+)/
+
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 

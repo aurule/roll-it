@@ -2,9 +2,6 @@ const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/roll-formula")
 
-const formula_re = /`(?<formula>.*)`:/
-const rolls_re = /(?<rolls>\d+) times/
-
 module.exports = {
   name: "roll-formula",
   /**
@@ -25,6 +22,9 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
+    const formula_re = /`(?<formula>.*)`:/
+    const rolls_re = /(?<rolls>\d+) times/
+
     const raw_options = {}
 
     const formula_groups = formula_re.exec(content)?.groups

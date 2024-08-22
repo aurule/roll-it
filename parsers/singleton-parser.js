@@ -2,9 +2,6 @@ const Joi = require("joi")
 const { RollParseError } = require("../errors/roll-parse-error")
 const command = require("../commands/d10")
 
-const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
-const rolls_re = /(?<rolls>\d+) times/
-
 module.exports = {
   name: "singleton",
   /**
@@ -27,6 +24,9 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
+    const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
+    const rolls_re = /(?<rolls>\d+) times/
+
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 
