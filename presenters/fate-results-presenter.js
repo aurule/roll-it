@@ -1,4 +1,5 @@
 const { added } = require("./addition-presenter")
+const { singularize } = require("../util/singularize")
 
 const emoji = [
   null,
@@ -7,20 +8,20 @@ const emoji = [
   "<:fatepos:1038147644767350827>",
 ]
 const ladder = [
-  "an Impossible",
-  "a Catastrophic",
-  "an Awful",
-  "a Terrible",
-  "a Poor",
-  "a Mediocre",
-  "an Average",
-  "a Fair",
-  "a Good",
-  "a Great",
-  "a Superb",
-  "a Fantastic",
-  "an Epic",
-  "a Legendary",
+  "Impossible",
+  "Catastrophic",
+  "Awful",
+  "Terrible",
+  "Poor",
+  "Mediocre",
+  "Average",
+  "Fair",
+  "Good",
+  "Great",
+  "Superb",
+  "Fantastic",
+  "Epic",
+  "Legendary",
 ]
 
 module.exports = {
@@ -97,7 +98,7 @@ module.exports = {
   toLadder: (num) => {
     const index = num + 5
 
-    let content = ["**", ladder[index], " ("]
+    let content = ["**", singularize(ladder[index]), " ("]
     if (num > 0) content.push("+")
     content.push(num)
     content.push(")**")
