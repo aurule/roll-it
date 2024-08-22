@@ -96,7 +96,7 @@ module.exports = {
       oneLine`
         Once you have a saved roll, you can start using it with ${roll}. It takes the name of a saved roll and
         runs the command and options you stored. It also takes a ${inlineCode("bonus")}, which lets you add to
-        the modifier, pool, or difficulty on the fly. See the help for ${roll} to learn more.
+        the command's options on the fly. See the help for ${roll} to learn more.
       `,
       "",
       oneLine`

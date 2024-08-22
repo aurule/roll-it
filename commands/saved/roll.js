@@ -164,14 +164,14 @@ module.exports = {
       `,
       "",
       oneLine`
-        If you give a ${opts.bonus}, it will automatically be added to the most appropriate number in
-        the saved roll's options. It tries to change the ${inlineCode("modifier")} first and then the
-        ${inlineCode("pool")}, using the first one that's supported by the saved command.
+        If you give a ${opts.bonus}, it will automatically be added to the most appropriate number in the
+        saved roll's options. Most commands apply the bonus to their ${inlineCode("modifier")} by default, but
+        some instead change the ${inlineCode("pool")} or another option entirely.
       `,
       "",
       oneLine`
-        The ${opts.change} option lets you override this behavior and choose which saved option to
-        alter, like if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")}. To support
+        The ${opts.change} option lets you override this behavior and choose which saved option to alter, like
+        if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")}. To support
         ${inlineCode("/wod20")} and other commands with a commonly changed difficulty, you can also choose to
         apply the ${opts.bonus} to the saved ${inlineCode("difficulty")} of the roll. The difficulty
         will never be changed automatically.

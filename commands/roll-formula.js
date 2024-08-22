@@ -122,7 +122,7 @@ module.exports = {
       "",
       oneLine`
         When used as a saved roll, ${command_name} accepts a hidden ${inlineCode("modifier")} so that you can
-        add a bonus to the formula with ${inlineCode("/saved set")}.
+        add a bonus to the formula with ${inlineCode("/saved roll")}.
       `,
       "",
       oneLine`
