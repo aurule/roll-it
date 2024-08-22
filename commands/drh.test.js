@@ -346,5 +346,5 @@ describe("execute", () => {
     expect(interaction.replyContent).toMatch("need at least 1")
   })
 
-  test_secret_option(drh_command)
+  test_secret_option(drh_command, { discipline: 1, pain: 1 })
 })
