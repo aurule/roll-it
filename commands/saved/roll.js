@@ -1,5 +1,5 @@
 const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
-const Completers = require("../../completers/saved-completers")
+const saved_roll_completers = require("../../completers/saved-roll-completers")
 const presenter = require("../../presenters/saved-roll-presenter")
 const { longReply } = require("../../util/long-reply")
 const { UserSavedRolls } = require("../../db/saved_rolls")
@@ -42,11 +42,7 @@ module.exports = {
         option
           .setName("change")
           .setDescription("Choose where to apply the bonus. Default is based on the saved command.")
-          .setChoices(
-            { name: "Modifier", value: "modifier" },
-            { name: "Pool", value: "pool" },
-            { name: "Difficulty", value: "difficulty" },
-          ),
+          .setAutocomplete(true),
       )
       .addIntegerOption((option) =>
         option
@@ -146,12 +142,15 @@ module.exports = {
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
+    const all_rolls = saved_rolls.all()
     const focusedOption = interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 
     switch (focusedOption.name) {
       case "name":
-        return Completers.saved_roll(partialText, saved_rolls.all())
+        return saved_roll_completers.saved_roll(partialText, all_rolls)
+      case "change":
+        return saved_roll_completers.change_target(partialText, all_rolls, interaction.options)
     }
   },
   help({ command_name, ...opts }) {

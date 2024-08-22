@@ -9,7 +9,7 @@ const {
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
-const Completers = require("../../completers/saved-completers")
+const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const { splitMessage } = require("../../util/long-reply")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
@@ -196,7 +196,7 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "name":
-        return Completers.saved_roll(partialText, saved_rolls.all())
+        return saved_roll_completers.saved_roll(partialText, saved_rolls.all())
     }
   },
   help({ command_name }) {
