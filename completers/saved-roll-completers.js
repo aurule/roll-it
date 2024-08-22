@@ -40,7 +40,7 @@ module.exports = {
     const search = partialText.toLowerCase()
 
     const name = interaction_options.getString("name")
-    saved_roll = saved_rolls.find(r => r.id == name || r.name == name)
+    saved_roll = saved_rolls.find((r) => r.id == name || r.name == name)
 
     const commands = require("../commands")
     const command = commands.get(saved_roll.command)
@@ -48,7 +48,7 @@ module.exports = {
 
     const matches = command.changeable
       .filter((c) => c.startsWith(search))
-      .map(c => {
+      .map((c) => {
         return {
           name: c,
           value: c,
@@ -56,5 +56,5 @@ module.exports = {
       })
 
     return matches
-  }
+  },
 }

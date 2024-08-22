@@ -101,15 +101,7 @@ module.exports = {
 
     return new DrhPool(pool_name, raw)
   },
-  perform({
-    discipline,
-    pain,
-    exhaustion,
-    madness,
-    talent,
-    rolls = 1,
-    description,
-  } = {}) {
+  perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description } = {}) {
     const pool_options = new Collection([
       ["discipline", discipline],
       ["pain", pain],
