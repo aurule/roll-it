@@ -16,5 +16,5 @@ module.exports = {
     const initial = word[0].toLowerCase()
     if (vowels.includes(initial)) return `an ${word}`
     return `a ${word}`
-  }
+  },
 }
