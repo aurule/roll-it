@@ -108,6 +108,25 @@ describe("execute", () => {
       expect(interaction.replyContent).toMatch("+ 8")
     })
 
+    it("shows the bonus in the description", async () => {
+      saved_rolls.create({
+        name: "test",
+        description: "test",
+        command: "roll",
+        options: {
+          pool: 1,
+          sides: 6,
+          modifier: 6,
+        },
+      })
+      interaction.command_options.name = "test"
+      interaction.command_options.bonus = 2
+
+      await saved_roll_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("test + 2")
+    })
+
     it("adds the bonus to the chosen option", async () => {
       saved_rolls.create({
         name: "test",
