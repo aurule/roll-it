@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/aurule/roll-it#readme",
   "dependencies": {
-    "better-sqlite3": "^11.1.2",
+    "better-sqlite3": "^11.2.1",
     "common-tags": "^1.8.2",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",

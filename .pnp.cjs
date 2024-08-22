@@ -27,7 +27,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.1.2"],\
+          ["better-sqlite3", "npm:11.2.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
@@ -1855,10 +1855,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:11.1.2", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.1.2-2524c3e559/node_modules/better-sqlite3/",\
+      ["npm:11.2.1", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.2.1-cdb5f378b2/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.1.2"],\
+          ["better-sqlite3", "npm:11.2.1"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -4938,7 +4938,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["roll-it", "workspace:."],\
-          ["better-sqlite3", "npm:11.1.2"],\
+          ["better-sqlite3", "npm:11.2.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
