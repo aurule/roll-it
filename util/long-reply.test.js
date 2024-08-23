@@ -31,8 +31,8 @@ describe("splitMessage", () => {
     const result = splitMessage(message, " ", length)
 
     expect(result).toEqual([
-      "I am surprisingly long, actually. I know, it's a real surprise, but truly I have...\n(message 1/2)",
-      "...over 100 characters!\n(message 2/2)",
+      "I am surprisingly long, actually. I know, it's a real surprise, but truly I...\n-# (message 1/2)",
+      "...have over 100 characters!\n-# (message 2/2)",
     ])
   })
 })

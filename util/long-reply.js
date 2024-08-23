@@ -1,13 +1,6 @@
 const { ceil } = require("mathjs")
 
 /**
- * Max message length with built-in room to add a short footer string.
- *
- * @type {Number}
- */
-const max_length = 1985
-
-/**
  * Send one or more replies for a long message
  *
  * This is the main entry point for the module, though the other functions can be used on their own.
@@ -49,7 +42,9 @@ function default_prefixer(idx, max) {
  * @return {str}     Suffix string
  */
 function default_suffixer(idx, max) {
-  return `\n(message ${idx}/${max})`
+  let continuation = ""
+  if (idx < max) continuation = "..."
+  return `${continuation}\n-# (message ${idx}/${max})`
 }
 
 /**
@@ -85,7 +80,6 @@ function splitMessage(
     messages.push(
       prefixer(pagenum, max_pages) +
         current_message.slice(0, breakpos) +
-        "..." +
         suffixer(pagenum, max_pages),
     )
     current_message = current_message.slice(breakpos + separator.length)
