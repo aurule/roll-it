@@ -89,6 +89,11 @@ class NwodPresenter {
     return content
   }
 
+  /**
+   * Show a hummingbird easter egg under just the right conditions
+   *
+   * @return {string} Empty string, or a hummingbird statement
+   */
   get hummingbird() {
     const lower_desc = this.description?.toLowerCase()
     if (
