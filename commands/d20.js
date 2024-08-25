@@ -24,11 +24,11 @@ module.exports = {
       )
       .addStringOption((option) =>
         option
-          .setName("keep")
+          .setName("with")
           .setDescription(
             "Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of 2d20",
           )
-          .setChoices({ name: "Highest", value: "highest" }, { name: "Lowest", value: "lowest" }),
+          .setChoices({ name: "Advantage", value: "advantage" }, { name: "Disadvantage", value: "disadvantage" }),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
@@ -57,9 +57,19 @@ module.exports = {
       picked: pick_results,
     })
   },
+  with_to_keep(value) {
+    switch(value) {
+      case "advantage":
+        return "highest"
+      case "disadvantage":
+        return "lowest"
+      default:
+        "all"
+    }
+  },
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
-    const keep = interaction.options.getString("keep") ?? "all"
+    const keep = module.exports.with_to_keep(interaction.options.getString("with"))
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
