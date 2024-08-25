@@ -1,13 +1,8 @@
 const wod_command = require("./wod20")
 
-const { Interaction } = require("../testing/interaction")
 const { test_secret_option } = require("../testing/shared/execute-secret")
 
 var interaction
-
-beforeEach(() => {
-  interaction = new Interaction()
-})
 
 describe("schema", () => {
   describe("difficulty", () => {
@@ -61,40 +56,6 @@ describe("schema", () => {
 
     it("accepts expected values", () => {
       const result = specialty_schema.validate(true)
-
-      expect(result.error).toBeFalsy()
-    })
-  })
-
-  describe("until", () => {
-    const until_schema = wod_command.schema.extract("until")
-
-    it("is optional", () => {
-      const result = until_schema.validate()
-
-      expect(result.error).toBeFalsy()
-    })
-
-    it("is an int", () => {
-      const result = until_schema.validate(5.5)
-
-      expect(result.error).toBeTruthy()
-    })
-
-    it("min of 1", () => {
-      const result = until_schema.validate(0)
-
-      expect(result.error).toBeTruthy()
-    })
-
-    it("max of 100", () => {
-      const result = until_schema.validate(101)
-
-      expect(result.error).toBeTruthy()
-    })
-
-    it("accepts expected values", () => {
-      const result = until_schema.validate(8)
 
       expect(result.error).toBeFalsy()
     })
