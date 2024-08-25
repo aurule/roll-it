@@ -89,10 +89,16 @@ module.exports = {
       `${command_name} rolls a single 20-sided die.`,
       "",
       oneLine`
-        The ${opts.keep} option lets you roll twice and take either the higher or lower result, like the D&D
-        5e mechanic of the same name. Set it to ${inlineCode("Advantage")} to use the higher result, and
+        The ${opts.with} option lets you roll twice and take either the higher or lower result, like the D&D
+        5e mechanic of advantage. Set it to ${inlineCode("Advantage")} to use the higher result, and
         ${inlineCode("Disadvantage")} to use the lower.
       `,
+      "",
+      oneLine`
+        Due to langauge limitations, the actual invocation for ${command_name} uses ${inlineCode("keep")}
+        instead of ${inlineCode("with")}, and ${inlineCode("highest")} or ${inlineCode("lowest")} for the
+        value. So, it would look like ${inlineCode("/d20 keep:highest")} to save a roll with advantage.
+      `
     ].join("\n")
   },
 }
