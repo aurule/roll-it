@@ -50,6 +50,9 @@ module.exports = {
           mode.
         `,
         oneLine`
+          Shadowrun 4e, 5e, 6e: ${inlineCode("/shadowrun")}. Handles glitches and rule of six.
+        `,
+        oneLine`
           World of Darkness 20th Anniversary Edition: ${inlineCode("/wod20")}. Rolls and tallies, with support
           for specialties and an interactive teamwork mode.
         `

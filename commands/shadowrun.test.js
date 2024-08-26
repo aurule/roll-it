@@ -1,3 +1,5 @@
+const { Interaction } = require("../testing/interaction")
+
 const shadowrun_command = require("./shadowrun")
 
 const { test_secret_option } = require("../testing/shared/execute-secret")
@@ -28,19 +30,130 @@ describe("schema", () => {
 
 describe("perform", () => {
   describe("with one roll", () => {
-    it.todo("displays the description if present")
-    it.todo("displays the result")
+    it("displays the description if present", () => {
+      const options = {
+        pool: 1,
+        description: "a test"
+      }
+
+      const result = shadowrun_command.perform(options)
+
+      expect(result).toMatch("a test")
+    })
+
+    it("displays a result", () => {
+      const options = {
+        pool: 1,
+        description: "a test"
+      }
+
+      const result = shadowrun_command.perform(options)
+
+      expect(result).toMatch("**")
+    })
   })
 
   describe("with multiple rolls", () => {
-    it.todo("displays the description if present")
-    it.todo("displays the result")
+    it("displays the description if present", () => {
+      const options = {
+        pool: 1,
+        rolls: 3,
+        description: "a test"
+      }
+
+      const result = shadowrun_command.perform(options)
+
+      expect(result).toMatch("a test")
+    })
+
+    it("displays a result", () => {
+      const options = {
+        pool: 1,
+        rolls: 3,
+        description: "a test"
+      }
+
+      const result = shadowrun_command.perform(options)
+
+      expect(result).toMatch("**")
+    })
   })
 
   describe("with until", () => {
-    it.todo("displays the description if present")
-    it.todo("displays the result")
+    it("displays the description if present", () => {
+      const options = {
+        pool: 1,
+        rolls: 3,
+        until: 1,
+        description: "a test"
+      }
+
+      const result = shadowrun_command.perform(options)
+
+      expect(result).toMatch("a test")
+    })
+
+    it("displays a result", () => {
+      const options = {
+        pool: 1,
+        rolls: 3,
+        until: 1,
+        description: "a test"
+      }
+
+      const result = shadowrun_command.perform(options)
+
+      expect(result).toMatch("**")
+    })
   })
 })
 
-test_secret_option(shadowrun_command)
+describe("execute", () => {
+  let interaction
+
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
+
+  describe("with teamwork", () => {
+    it("disallows rolls option", async () => {
+      interaction.command_options.pool = 3
+      interaction.command_options.teamwork = true
+      interaction.command_options.rolls = 4
+
+      await shadowrun_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("cannot use teamwork")
+    })
+
+    it("disallows until option", async () => {
+      interaction.command_options.pool = 3
+      interaction.command_options.teamwork = true
+      interaction.command_options.until = 4
+
+      await shadowrun_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("cannot use teamwork")
+    })
+
+    it("disallows secret option", async () => {
+      interaction.command_options.pool = 3
+      interaction.command_options.teamwork = true
+      interaction.command_options.secret = true
+
+      await shadowrun_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("cannot use teamwork")
+    })
+  })
+
+  it("responds with the result", async () => {
+    interaction.command_options.pool = 3
+
+    await shadowrun_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("**")
+  })
+})
+
+test_secret_option(shadowrun_command, {pool: 1})

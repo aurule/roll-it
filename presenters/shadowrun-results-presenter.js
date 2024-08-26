@@ -1,4 +1,4 @@
-const { bold, userMention } = require("discord.js")
+const { bold, userMention, italic } = require("discord.js")
 
 /**
  * Class to more conveniently handle the complex presentation logic for a shadowrun roll
@@ -76,7 +76,6 @@ class ShadowrunPresenter {
         content += ` ${this.explainTally(0)}`
         content += this.presentedDescription
         content += ` (${this.explainPool()}: [${this.notateDice(0)}])`
-        content += this.hummingbird
         break
     }
 
@@ -99,16 +98,82 @@ class ShadowrunPresenter {
     return ` "${this.description}"`
   }
 
+  /**
+   * Explain the dice pool
+   *
+   * @return {str} String describing the number of dice in the pool and their roll-again, if present
+   */
   explainPool() {
-    //
+    let content = this.pool.toString()
+
+    if (this.pool == 1) {
+      content += " die"
+    } else {
+      content += " dice"
+    }
+
+    content += this.explainExplode()
+
+    return content
   }
 
+  /**
+   * Explain the roll-again status of the dice
+   *
+   * @return {str} Empty unless edge is true, then returns the rule of six note
+   */
+  explainExplode() {
+    if (this.edge) return " with rule of six"
+    return ""
+  }
+
+  /**
+   * Annotate the raw results with styling
+   *
+   * Successes are in bold, ones are italicized
+   *
+   * @param  {int} result_index Index of the roll to notate
+   * @return {str}              String with stylized die results
+   */
   notateDice(result_index) {
-    //
+    return this.raw[result_index].map((die, idx) => {
+      if (die >= 5) return bold(die)
+      if (die === 1) return italic(die)
+      return die.toString()
+    }).join(", ")
   }
 
+  /**
+   * Explain the result
+   *
+   * Shows the number of successes and glitch status
+   *
+   * @param  {int} result_index Index of the roll result to explain
+   * @return {str}              String with successes and glitch status
+   */
   explainTally(result_index) {
-    //
+    const successes = this.summed[result_index]
+    let content = bold(successes)
+
+    if (this.glitch(result_index)) {
+      if (successes === 0) return bold("critical glitch")
+      content += ` with a ${bold("glitch")}`
+    }
+
+    return content
+  }
+
+  /**
+   * Get whether a pool has a glitch
+   *
+   * @param  {int} result_index Index of the roll to test
+   * @return {bool}             True if the roll results are more than half 1s, false if not
+   */
+  glitch(result_index) {
+    const half = Math.floor(this.pool / 2)
+    const ones = this.raw[result_index].filter(d => d === 1).length
+
+    return ones > half
   }
 
   /**

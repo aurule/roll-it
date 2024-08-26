@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, italic, inlineCode } = require("discord.js")
+const { SlashCommandBuilder, italic, inlineCode, unorderedList } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 const Joi = require("joi")
 
@@ -141,7 +141,25 @@ module.exports = {
   },
   help({ command_name, ...opts }) {
     return [
-      `TBD`,
+      `The dice mechanics for ${command_name} break down like this:`,
+      unorderedList([
+        "A die that rolls a 5 or 6 adds a success",
+        `If ${opts.edge} is true, then a die that rolls a 6 adds another die to the roll`,
+        "If more than half the dice roll a 1, your result is a glitch",
+        "If more than half the dice roll a 1 and you have no successes, your result is a critical glitch",
+      ]),
+      "",
+      `The ${opts.rolls} option lets you roll the same pool and difficulty multiple times, like for NPCs.`,
+      oneLine`
+        The ${opts.until} option tells Roll It to continue rolling the same pool and difficulty until the
+        total successes meet or exceed the number supplied. When the ${opts.rolls} option is also present, it
+        caps the number of attempted rolls.
+      `,
+      oneLine`
+        The ${opts.teamwork} option starts a special teamwork roll that lets other people add dice to your
+        pool by responding to a prompt. This is not compatible with the ${opts.rolls}, ${opts.until}, or
+        ${opts.secret} options.
+      `,
     ].join("\n")
   },
 }
