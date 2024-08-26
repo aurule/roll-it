@@ -22,7 +22,7 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
-    const pool_re = /(\(|at |with )(?<pool>\d+)/ // also chance die handling
+    const pool_re = /(\(|at |with )(?<pool>\d+)/
     const explode_re = /(?<no>no )?(?<explode>\d+)-again/
     const threshold_re = /on (?<threshold>\d+)/
     const rote_re = /rote/
