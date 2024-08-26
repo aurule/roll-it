@@ -9,7 +9,7 @@ describe("with junk input", () => {
 })
 
 describe("minimal output", () => {
-  it("captures pool and difficulty", async () => {
+  it("captures pool", async () => {
     const content = present({
       rolls: 1,
       pool: 5,
@@ -69,7 +69,7 @@ describe.each([
     },
   ],
 ])("%s", (_suite, raw_opts) => {
-  it("gets pool and difficulty", async () => {
+  it("gets pool", async () => {
     const content = present(raw_opts)
 
     const result = await parse(content)
