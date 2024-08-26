@@ -11,6 +11,17 @@ const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
 
+function with_to_keep(value) {
+  switch(value) {
+    case "advantage":
+      return "highest"
+    case "disadvantage":
+      return "lowest"
+    default:
+      "all"
+  }
+}
+
 module.exports = {
   name: "d20",
   description: "Roll a single 20-sided die",
@@ -39,10 +50,13 @@ module.exports = {
     keep: Joi.string().optional().valid("all", "highest", "lowest").messages({
       "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
     }),
+    with: Joi.string().optional().valid("advantage", "disadvantage"),
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
-  }),
-  perform({ keep = "all", rolls = 1, modifier = 0, description } = {}) {
+  }).oxor("keep", "with"),
+  perform({ keep = "all", rolls = 1, modifier = 0, description, ...others } = {}) {
+    if (others.with) keep = with_to_keep(others.with)
+
     const pool = keep == "all" ? 1 : 2
 
     const raw_results = roll(pool, 20, rolls)
@@ -57,19 +71,10 @@ module.exports = {
       picked: pick_results,
     })
   },
-  with_to_keep(value) {
-    switch(value) {
-      case "advantage":
-        return "highest"
-      case "disadvantage":
-        return "lowest"
-      default:
-        "all"
-    }
-  },
+  with_to_keep,
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
-    const keep = module.exports.with_to_keep(interaction.options.getString("with"))
+    const keep = with_to_keep(interaction.options.getString("with"))
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
@@ -95,9 +100,7 @@ module.exports = {
       `,
       "",
       oneLine`
-        Due to langauge limitations, the actual invocation for ${command_name} uses ${inlineCode("keep")}
-        instead of ${inlineCode("with")}, and ${inlineCode("highest")} or ${inlineCode("lowest")} for the
-        value. So, it would look like ${inlineCode("/d20 keep:highest")} to save a roll with advantage.
+        The invocation for ${command_name} can use either ${inlineCode("keep")} or ${opts.with}, but not both.
       `
     ].join("\n")
   },

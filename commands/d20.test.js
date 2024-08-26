@@ -12,33 +12,78 @@ beforeEach(() => {
 
 describe("schema", () => {
   describe("keep", () => {
+    const keep_schema = d20_command.schema.extract("keep")
+
     it("is optional", () => {
-      const options = {}
+      const result = keep_schema.validate()
 
-      const result = d20_command.schema.validate(options)
-
-      expect(schemaMessages(result)).not.toMatch("must be one of")
+      expect(result.error).toBeFalsy()
     })
 
     it("rejects unknown values", () => {
-      const options = {
-        keep: "nothing",
-      }
+      const result = keep_schema.validate("nothing")
 
-      const result = d20_command.schema.validate(options)
-
-      expect(schemaMessages(result)).toMatch("must be one of")
+      expect(result.error).toBeTruthy()
     })
 
     it.each([["all"], ["highest"], ["lowest"]])("accepts '%s'", (value) => {
-      const options = {
-        keep: value,
-      }
+      const result = keep_schema.validate(value)
 
-      const result = d20_command.schema.validate(options)
-
-      expect(schemaMessages(result)).not.toMatch("must be one of")
+      expect(result.error).toBeFalsy()
     })
+  })
+
+  describe("with", () => {
+    const with_schema = d20_command.schema.extract("with")
+
+    it("is optional", () => {
+      const result = with_schema.validate()
+
+      expect(result.error).toBeFalsy()
+    })
+
+    it("rejects unknown values", () => {
+      const result = with_schema.validate("nothing")
+
+      expect(result.error).toBeTruthy()
+    })
+
+    it.each([["advantage"], ["disadvantage"]])("accepts '%s'", (value) => {
+      const result = with_schema.validate(value)
+
+      expect(result.error).toBeFalsy()
+    })
+  })
+
+  it("does not allow 'keep' and 'with'", () => {
+    const options = {
+      keep: "all",
+      with: "advantage",
+    }
+
+    const result = d20_command.schema.validate(options, {abortEarly: false})
+
+    expect(result.error.message).toMatch("exclusive peers")
+  })
+
+  it("allows keep alone", () => {
+    const options = {
+      keep: "all",
+    }
+
+    const result = d20_command.schema.validate(options, {abortEarly: false})
+
+    expect(result.error).toBeFalsy()
+  })
+
+  it("allows with alone", () => {
+    const options = {
+      with: "advantage",
+    }
+
+    const result = d20_command.schema.validate(options, {abortEarly: false})
+
+    expect(result.error).toBeFalsy()
   })
 })
 
@@ -52,6 +97,17 @@ describe("perform", () => {
     const result = d20_command.perform(options)
 
     expect(result).toMatch("this is a test")
+  })
+
+  it("overrides `keep` using `with`", () => {
+    const options = {
+      rolls: 1,
+      with: "advantage"
+    }
+
+    const result = d20_command.perform(options)
+
+    expect(result).toMatch("advantage")
   })
 })
 
