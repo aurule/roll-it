@@ -1,5 +1,7 @@
 const { bold, userMention } = require("discord.js")
 
+const { pluralize } = require("../util/pluralize")
+
 /**
  * Class to more conveniently handle the complex presentation logic for an nwod roll
  *
@@ -138,11 +140,7 @@ class NwodPresenter {
       content = "a chance"
     }
 
-    if (this.pool == 1) {
-      content += " die"
-    } else {
-      content += " dice"
-    }
+    content += " " + pluralize("die", this.pool)
 
     content += this.explainRote()
     content += this.explainThreshold()

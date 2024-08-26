@@ -1,5 +1,7 @@
 const { bold, userMention, italic } = require("discord.js")
 
+const { pluralize } = require("../util/pluralize")
+
 /**
  * Class to more conveniently handle the complex presentation logic for a shadowrun roll
  *
@@ -106,11 +108,7 @@ class ShadowrunPresenter {
   explainPool() {
     let content = this.pool.toString()
 
-    if (this.pool == 1) {
-      content += " die"
-    } else {
-      content += " dice"
-    }
+    content += " " + pluralize("die", this.pool)
 
     content += this.explainExplode()
 
