@@ -1,24 +1,18 @@
-const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
-const saved_roll_completers = require("../../completers/saved-roll-completers")
-const presenter = require("../../presenters/saved-roll-presenter")
-const { added } = require("../../presenters/addition-presenter")
-const { longReply } = require("../../util/long-reply")
-const { UserSavedRolls } = require("../../db/saved_rolls")
-const commonOpts = require("../../util/common-options")
-const present_command = require("../../presenters/command-name-presenter").present
-const { injectMention } = require("../../util/inject-user")
+const { SlashCommandSubcommandBuilder, inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
+const saved_roll_completers = require("../../completers/saved-roll-completers")
+const { UserSavedRolls } = require("../../db/saved_rolls")
+const present_command = require("../../presenters/command-name-presenter").present
 
 function change_target(bonus, change, changeable) {
-  if (!bonus) return undefined
   if (change && changeable.includes(change)) return change
   return changeable[0]
 }
 
 module.exports = {
-  name: "roll",
+  name: "grow",
   parent: "saved",
-  description: "Use one of your saved rolls",
+  description: "Make a small change to a saved roll",
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)
@@ -26,33 +20,19 @@ module.exports = {
       .addStringOption((option) =>
         option
           .setName("name")
-          .setDescription("Name of the saved roll to use")
+          .setDescription("Name of the saved roll to change")
           .setRequired(true)
           .setAutocomplete(true),
       )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A word or two about this roll. Defaults to the saved description.")
-          .setMaxLength(1500),
-      )
       .addIntegerOption((option) =>
-        option.setName("bonus").setDescription("A number to add or subtract from the roll"),
+        option.setName("adjustment").setDescription("A number to add or subtract from the roll"),
       )
       .addStringOption((option) =>
         option
           .setName("change")
-          .setDescription("Choose where to apply the bonus. Default is based on the saved command.")
+          .setDescription("Choose where to apply the adjustment. Default is based on the saved command.")
           .setAutocomplete(true),
-      )
-      .addIntegerOption((option) =>
-        option
-          .setName("rolls")
-          .setDescription("Roll this many times")
-          .setMinValue(1)
-          .setMaxValue(100),
-      )
-      .addBooleanOption(commonOpts.secret),
+      ),
   change_target,
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
@@ -73,7 +53,7 @@ module.exports = {
       return interaction.reply({
         content: oneLine`
           The saved options for that roll are not valid. You'll have to update them using
-          ${inlineCode("/saved manage")} before you can use this saved roll.
+          ${inlineCode("/saved manage")}.
         `,
         ephemeral: true,
       })
@@ -81,66 +61,62 @@ module.exports = {
 
     if (roll_detail.incomplete) {
       return interaction.reply({
-        content: "This roll is not finished. You have to save some options before you can use it.",
+        content: oneLine`
+          This roll is not finished. You have to save its name, description, and options before you can change
+          it.
+        `,
         ephemeral: true,
       })
     }
 
-    const description = interaction.options.getString("description") ?? roll_detail.description
-    roll_detail.options.description = description
+    const adjustment = interaction.options.getInteger("adjustment") ?? 0
 
-    const bonus = interaction.options.getInteger("bonus") ?? 0
+    if (adjustment === 0) {
+      return interaction.reply({
+        content: `An ${inlineCode("adjustment")} of zero won't change the roll, so it has been left alone.`,
+        ephemeral: true,
+      })
+    }
+
     const change = interaction.options.getString("change")
-    const rolls = interaction.options.getInteger("rolls") ?? 0
-    const secret = interaction.options.getBoolean("secret") ?? false
 
     const savable_commands = require("../index").savable()
     const command = savable_commands.get(roll_detail.command)
-    const target = change_target(bonus, change, command.changeable)
+    const target = change_target(adjustment, change, command.changeable)
 
-    if (target) {
-      if (!command.changeable.includes(target)) {
-        return interaction.reply({
-          content: oneLine`
-            Cannot change option ${inlineCode(target)}, since it does not exist for
-            ${present_command(command)}.
-          `,
-          ephemeral: true,
-        })
-      }
-
-      const old_number = roll_detail.options[target] ?? 0
-      roll_detail.options[target] = old_number + bonus
-      roll_detail.options.description += added(bonus)
+    if (!command.changeable.includes(target)) {
+      return interaction.reply({
+        content: oneLine`
+          Cannot change option ${inlineCode(target)}, since it does not exist for
+          ${present_command(command)}.
+        `,
+        ephemeral: true,
+      })
     }
 
-    if (rolls) roll_detail.options.rolls = rolls
+    const old_number = roll_detail.options[target] ?? 0
+    const new_number = old_number + adjustment
+    roll_detail.options[target] = new_number
 
     try {
       await command.schema.validateAsync(roll_detail.options)
     } catch (err) {
-      if (target) {
-        return interaction.reply({
-          content: oneLine`
-            This roll can no longer be made after changing the ${target}. The error is:\n* ${err.details[0].message}
-          `,
-          ephemeral: true,
-        })
-      } else {
-        saved_rolls.update(roll_detail.id, { invalid: true })
-        return interaction.reply({
-          content: oneLine`
-            The saved options for this roll are no longer valid. You'll have to update them before you can use
-            this saved roll.
-          `,
-          ephemeral: true,
-        })
-      }
+      return interaction.reply({
+        content: oneLine`
+          This roll can no longer be made after changing the ${inlineCode(target)}. The error is:\n* ${err.details[0].message}
+        `,
+        ephemeral: true,
+      })
     }
 
-    const partial_message = command.perform(roll_detail.options)
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    saved_rolls.update(roll_detail.id, { options: roll_detail.options })
+
+    return interaction.reply({
+      content: oneLine`
+        Updated ${inlineCode(target)} of ${italic(roll_detail.name)} from "${old_number}" to "${new_number}"
+      `,
+      ephemeral: true,
+    })
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

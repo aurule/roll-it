@@ -17,6 +17,7 @@ module.exports = {
       .setDescription(module.exports.description)
       .setDMPermission(false)
       .addSubcommand(subcommands.get("roll").data())
+      .addSubcommand(subcommands.get("grow").data())
       .addSubcommand(subcommands.get("list").data())
       .addSubcommand(subcommands.get("set").data())
       .addSubcommand(subcommands.get("manage").data())
@@ -46,7 +47,7 @@ module.exports = {
       "",
       oneLine`
         ${inlineCode("/saved manage")} lets you see the details of a saved roll, update it, and remove it from
-        the server.
+        the server. For small changes, you can use ${inlineCode("/saved grow")} instead.
       `,
       "",
       "Not all commands can be saved. Here is a list of the ones which can be used:",
