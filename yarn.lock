@@ -361,12 +361,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.24.8":
-  version: 7.25.0
-  resolution: "@babel/runtime@npm:7.25.0"
+"@babel/runtime@npm:^7.25.4":
+  version: 7.25.4
+  resolution: "@babel/runtime@npm:7.25.4"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
-  checksum: 10c0/bd3faf246170826cef2071a94d7b47b49d532351360ecd17722d03f6713fd93a3eb3dbd9518faa778d5e8ccad7392a7a604e56bd37aaad3f3aa68d619ccd983d
+  checksum: 10c0/33e937e685f0bfc2d40c219261e2e50d0df7381a6e7cbf56b770e0c5d77cb0c21bf4d97da566cf0164317ed7508e992082c7b6cce7aaa3b17da5794f93fbfb46
   languageName: node
   linkType: hard
 
@@ -3143,11 +3143,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:^13.0.3":
-  version: 13.0.3
-  resolution: "mathjs@npm:13.0.3"
+"mathjs@npm:^13.1.1":
+  version: 13.1.1
+  resolution: "mathjs@npm:13.1.1"
   dependencies:
-    "@babel/runtime": "npm:^7.24.8"
+    "@babel/runtime": "npm:^7.25.4"
     complex.js: "npm:^2.1.1"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
@@ -3158,7 +3158,7 @@ __metadata:
     typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10c0/ad270e980bf5d63b890e1d415bab50d2e68c561e4fb96f62a4ad75043af601475e10dd13fba2a6287b0cfda6cc8f6adfa84969e0e090a073bdd5849bedfa236a
+  checksum: 10c0/db0b9d822fed889fc5f2cf4a9875e3fa627a26c9f6b2efbe7e000e42bfe9c0d71c125124329d2c8fd27a9d22d08b8794681367744787ef1eb8465e8f95955fd3
   languageName: node
   linkType: hard
 
@@ -3946,7 +3946,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     jest: "npm:^29.7.0"
     joi: "npm:^17.13.3"
-    mathjs: "npm:^13.0.3"
+    mathjs: "npm:^13.1.1"
     nodemon: "npm:^3.1.4"
     pino: "npm:^9.3.2"
     pino-papertrail: "npm:^2.1.0"

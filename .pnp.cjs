@@ -35,7 +35,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.0.3"],\
+          ["mathjs", "npm:13.1.1"],\
           ["nodemon", "npm:3.1.4"],\
           ["pino", "npm:9.3.2"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -777,10 +777,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@babel/runtime", [\
-      ["npm:7.25.0", {\
-        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.25.0-a7bca33687-bd3faf2461.zip/node_modules/@babel/runtime/",\
+      ["npm:7.25.4", {\
+        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.25.4-0635cb2d0c-33e937e685.zip/node_modules/@babel/runtime/",\
         "packageDependencies": [\
-          ["@babel/runtime", "npm:7.25.0"],\
+          ["@babel/runtime", "npm:7.25.4"],\
           ["regenerator-runtime", "npm:0.14.1"]\
         ],\
         "linkType": "HARD"\
@@ -4072,11 +4072,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:13.0.3", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-13.0.3-6879fcfea7-ad270e980b.zip/node_modules/mathjs/",\
+      ["npm:13.1.1", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-13.1.1-1dcbece8d7-db0b9d822f.zip/node_modules/mathjs/",\
         "packageDependencies": [\
-          ["mathjs", "npm:13.0.3"],\
-          ["@babel/runtime", "npm:7.25.0"],\
+          ["mathjs", "npm:13.1.1"],\
+          ["@babel/runtime", "npm:7.25.4"],\
           ["complex.js", "npm:2.1.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["escape-latex", "npm:1.2.0"],\
@@ -4946,7 +4946,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.0.3"],\
+          ["mathjs", "npm:13.1.1"],\
           ["nodemon", "npm:3.1.4"],\
           ["pino", "npm:9.3.2"],\
           ["pino-papertrail", "npm:2.1.0"],\
