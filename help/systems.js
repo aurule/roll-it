@@ -58,11 +58,7 @@ module.exports = {
           ${inlineCode("/roll")} and ${inlineCode("/roll-formula")}. These commands don't do anything too
           crazy and will give you a plain result. For many games, that's enough!
         `,
-        oneLine`
-          Misc: ${inlineCode("/coin")} and ${inlineCode("/eightball")}. These don't really roll dice, but
-          they're fun.
-        `,
-      ])
+      ]),
     ].join("\n")
   },
 }
