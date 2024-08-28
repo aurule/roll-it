@@ -64,7 +64,7 @@ describe("change_target", () => {
       const change = "pool"
       const changeable = ["modifier", "pool"]
 
-      const result = saved_roll_command.change_target(bonus, change, changeable)
+      const result = saved_grow_command.change_target(bonus, change, changeable)
 
       expect(result).toMatch("pool")
     })
@@ -74,7 +74,7 @@ describe("change_target", () => {
       const change = "nope"
       const changeable = ["modifier", "pool"]
 
-      const result = saved_roll_command.change_target(bonus, change, changeable)
+      const result = saved_grow_command.change_target(bonus, change, changeable)
 
       expect(result).toMatch("modifier")
     })
@@ -85,7 +85,7 @@ describe("change_target", () => {
       const bonus = 1
       const changeable = ["modifier", "pool"]
 
-      const result = saved_roll_command.change_target(bonus, undefined, changeable)
+      const result = saved_grow_command.change_target(bonus, undefined, changeable)
 
       expect(result).toMatch("modifier")
     })
