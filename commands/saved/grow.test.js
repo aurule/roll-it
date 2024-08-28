@@ -52,9 +52,61 @@ describe("execute", () => {
     expect(interaction.replyContent).toMatch("not finished")
   })
 
-  it.todo("updates the roll")
-  it.todo("warns on zero adjustment")
-  it.todo("warns if the changed roll is invalid")
+  it("warns on zero adjustment", async () => {
+    saved_rolls.create({
+      name: "test",
+      description: "test",
+      command: "roll",
+      options: {
+        pool: 1,
+        sides: 6,
+      },
+    })
+    interaction.command_options.name = "test"
+
+    await saved_grow_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("won't change")
+  })
+
+  it("warns if the changed roll is invalid", async () => {
+    saved_rolls.create({
+      name: "test",
+      description: "test",
+      command: "roll",
+      options: {
+        pool: 1,
+        sides: 6,
+      },
+    })
+    interaction.command_options.name = "test"
+    interaction.command_options.adjustment = -1
+    interaction.command_options.change = "pool"
+
+    await saved_grow_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("be invalid")
+  })
+
+  it("updates the roll", async () => {
+    saved_rolls.create({
+      name: "test",
+      description: "test",
+      command: "roll",
+      options: {
+        pool: 1,
+        sides: 6,
+      },
+    })
+    interaction.command_options.name = "test"
+    interaction.command_options.adjustment = 3
+    interaction.command_options.change = "modifier"
+
+    await saved_grow_command.execute(interaction)
+
+    const details = saved_rolls.detail(undefined, "test")
+    expect(details.options.modifier).toEqual(3)
+  })
 })
 
 describe("change_target", () => {

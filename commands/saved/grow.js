@@ -103,7 +103,8 @@ module.exports = {
     } catch (err) {
       return interaction.reply({
         content: oneLine`
-          This roll can no longer be made after changing the ${inlineCode(target)}. The error is:\n* ${err.details[0].message}
+          This roll would be invalid after adding ${adjustment} to ${inlineCode(target)}, so it has not been
+          changed. The error is:\n* ${err.details[0].message}
         `,
         ephemeral: true,
       })
