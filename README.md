@@ -15,27 +15,37 @@ Once added, you'll automatically have access to all of its commands. You can lea
 Roll dice pools for a number of game systems:
 * World of Darkness MET's rock-paper-scissors using `/chop`
 * FATE fudge dice with `/fate`
-* New World of Darkness d10s with `/nwod`
+* New World of Darkness / Chronicles of Darkness d10s with `/nwod`
 * World of Darkness 20th Anniversary with `/wod20`
+* Dungeons & Dragons 5e with `/d20`
+* Don't Rest Your Head with `/drh`
+* Kids On Bikes with `/kob`
+* Shadowrun 4e, 5e, and 6e with `/shadowrun`
 
 And of course, you can roll whatever standard dice you want:
+* Roll d10s with `/d10`
 * Roll some d20s with `/d20`
 * Roll percentiles with `/d100`
 * Roll other dice with `/roll`
 * Do some dice math with `/roll-formula`
 
 Most commands include some really helpful options:
+* A `description` so you don't forget what you rolled for
 * The `rolls` option to re-roll the same pool multiple times (great for hoards of baddies!)
 * The `secret` option to keep the results to yourself
 * A handy `until` option so you can easily see how many checks it takes to reach a goal
 
 ### Teamwork!
 
-And a few commands like `/nwod` and `/wod20` have a special `teamwork` mode to let multiple people easily contribute to a shared roll. You can request specific helpers, and see who's added dice before you roll!
+And a few commands like `/nwod`, `/shadowrun`, and `/wod20` have a special `teamwork` mode to let multiple people easily contribute to a shared roll. You can request specific helpers, and see who's added dice before you roll!
 
 ### Tables!
 
 GMs can add random tables and roll on them to generate magic items, random encounters, and anything else! Check out `/help command:table` and `/help command:table add` to get started.
+
+### Saved Rolls!
+
+You can save a command and all its options to re-use later! Check out `/saved set` and `/help topic:Saved Rolls` to get started.
 
 ### Fun!
 
