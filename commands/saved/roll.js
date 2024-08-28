@@ -173,10 +173,8 @@ module.exports = {
       "",
       oneLine`
         The ${opts.change} option lets you override this behavior and choose which saved option to alter, like
-        if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")}. To support
-        ${inlineCode("/wod20")} and other commands with a commonly changed difficulty, you can also choose to
-        apply the ${opts.bonus} to the saved ${inlineCode("difficulty")} of the roll. The difficulty
-        will never be changed automatically.
+        if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")} or the
+        ${inlineCode("difficulty")} for ${inlineCode("/wod20")}.
       `,
     ].join("\n")
   },

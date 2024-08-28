@@ -201,7 +201,7 @@ module.exports = {
   },
   help({ command_name }) {
     return [
-      `${command_name} lets you change the details about a saved roll, or remove it entirely.`,
+      `${command_name} lets you change all of the details about a saved roll, or remove it entirely.`,
       "",
       oneLine`
         Just like saving a new roll, you can leave the edit process and come back later. However, you can only

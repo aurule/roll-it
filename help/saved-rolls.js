@@ -13,6 +13,7 @@ module.exports = {
     const roll = inlineCode("/saved roll")
     const list = inlineCode("/saved list")
     const manage = inlineCode("/saved manage")
+    const grow = inlineCode("/saved grow")
 
     return [
       oneLine`
@@ -106,8 +107,9 @@ module.exports = {
       `,
       "",
       oneLine`
-        So how do you update a saved roll? By using ${manage}! That command lets you remove or edit a roll as
-        needed. See the help for ${manage} to learn more.
+        So how do you update a saved roll? By using ${manage} or ${grow}! The ${grow} command lets you make
+        small changes to a roll to keep it in sync with a character sheet. The more involved ${manage} lets
+        you remove or edit a roll as needed. See the help for${grow} and ${manage} to learn more.
       `,
       heading("Advanced Usage: The Invocation", 2),
       oneLine`

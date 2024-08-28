@@ -133,26 +133,24 @@ module.exports = {
   },
   help({ command_name, ...opts }) {
     return [
-      `${command_name} lets you use a saved roll while tweaking its options.`,
+      `${command_name} lets you make a small change to a saved roll. As your character changes over time,
+      ${command_name} makes it easy to keep any saved rolls up to date.`,
       "",
       oneLine`
-        The ${opts.description} and ${opts.rolls} options will entirely replace what was
-        saved with the roll. If you leave them out, ${opts.rolls} will use the original value and
-        ${opts.description} will use the saved roll description.
-      `,
-      "",
-      oneLine`
-        If you give a ${opts.bonus}, it will automatically be added to the most appropriate number in the
+        The value of ${opts.adjustment} will automatically be added to the most appropriate number in the
         saved roll's options. Most commands apply the bonus to their ${inlineCode("modifier")} by default, but
-        some instead change the ${inlineCode("pool")} or another option entirely.
+        some instead change the ${inlineCode("pool")} or another number entirely.
       `,
       "",
       oneLine`
         The ${opts.change} option lets you override this behavior and choose which saved option to alter, like
-        if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")}. To support
-        ${inlineCode("/wod20")} and other commands with a commonly changed difficulty, you can also choose to
-        apply the ${opts.bonus} to the saved ${inlineCode("difficulty")} of the roll. The difficulty
-        will never be changed automatically.
+        if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")} or the
+        ${inlineCode("difficulty")} for ${inlineCode("/wod20")}.
+      `,
+      "",
+      oneLine`
+        ${command_name} is only able to change one number at a time in a saved roll. If you need to make
+        larger changes, use ${inlineCode("/saved manage")} instead.
       `,
     ].join("\n")
   },
