@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Roll It Documentation</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="_media/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="_media/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="_media/favicon-16x16.png">
+  <link rel="manifest" href="_media/site.webmanifest">
+  <link rel="mask-icon" href="_media/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#603cba">
+  <meta name="theme-color" content="#000000">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Features and information about the Roll It dicord bot">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
+  <style>
+    /**
+    - main title
+    */
+    .cover-main h1 a span {
+        color: #0c0c0c;
+        font-weight: bold;
+    }
+
+    /**
+     - main title's version number
+     */
+    .cover-main h1 a span small {
+        color: black;
+    }
+
+    /**
+    - description
+     */
+    .cover-main blockquote {
+        color: #6b0584;
+    }
+
+    /**
+     * details
+     */
+    .cover-main ul {
+      color: black;
+    }
+
+    /**
+    - buttons
+     */
+    section.cover .cover-main > p:last-child a {
+        color: black !important;
+    }
+
+    section.cover .cover-main > p:last-child a:hover {
+        color: black !important;
+    }
+
+    /**
+    - last button
+     */
+    section.cover .cover-main > p:last-child a:last-child {
+        color: white !important;
+    }
+
+    section.cover .cover-main > p:last-child a:last-child:hover {
+        color: #03b199 !important;
+    }
+
+    /**
+     * Sidebar header logo
+     */
+    .app-name img {
+      width: 64px;
+    }
+
+    /**
+     * Separator color between sidebar and main content
+     */
+    .sidebar {
+      border-right-color: rgb(40, 40, 40);
+    }
+</style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      coverpage: true,
+      homepage: 'home.md',
+      loadSidebar: true,
+      logo: '/_media/icon.svg',
+      name: 'Roll It Docs',
+      repo: 'aurule/roll-it',
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+</body>
+</html>
