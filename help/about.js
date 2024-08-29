@@ -17,7 +17,7 @@ module.exports = {
       "===== LICENSE =====",
       "MIT License",
       "",
-      "Copyright (c) 2022 Paige Andrews",
+      "Copyright (c) 2021-2024 Paige Andrews",
       "",
       oneLine`
         Permission is hereby granted, free of charge, to any person obtaining a copy
