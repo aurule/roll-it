@@ -17,6 +17,7 @@ module.exports = {
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
+      .setDescription(module.exports.description)
       .addStringOption((option) =>
         option
           .setName("formula")
@@ -25,7 +26,6 @@ module.exports = {
           .setMaxLength(1500)
           .setRequired(true),
       )
-      .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
