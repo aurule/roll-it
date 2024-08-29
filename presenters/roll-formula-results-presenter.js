@@ -48,7 +48,7 @@ function detail({ pools, raw, summed, labels }) {
       detail_line += ` from ${pool} [${raw[index]}]`
       return detail_line
     })
-    .join("\n")
+    .join("")
 }
 
 module.exports = {
