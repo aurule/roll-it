@@ -1,104 +1,32 @@
-# Roll It
+# Welcome to Roll It!
 
 Roll It is a Discord bot for rolling dice.
 
-I made it because I wanted to run tabletop games over Discord, and there weren't any dice rollers that correctly implemented the roll mechanics I wanted to use. Since tallying dice by hand is annoying on a digital screen, I made Roll It to do it for me!
-
-## Get Roll It
-
-[Add Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136) to your server using this link! It will request the absolute minimum permissions needed in order to work.
-
-Once added, you'll automatically have access to all of its commands. You can learn how it works using the help system. A good place to start is the `Commands` topic, which you can reach using `/help topic:Commands`. Since you may not need to roll every kind of dice that Roll It supports, you can use  `/roll-chooser` to pick which ones are available on your server.
+I made it because I wanted to run tabletop games over Discord, and there weren't any dice rollers that correctly implemented the roll mechanics I wanted to use. Since tallying dice by hand is annoying on a digital screen, I made Roll It to do it for me! Since then, it's grown to support more dice systems and have more features.
 
 ## Features
 
-Roll dice pools for a number of game systems:
-* World of Darkness MET's rock-paper-scissors using `/chop`
-* FATE fudge dice with `/fate`
-* New World of Darkness / Chronicles of Darkness d10s with `/nwod`
-* World of Darkness 20th Anniversary with `/wod20`
-* Dungeons & Dragons 5e with `/d20`
-* Don't Rest Your Head with `/drh`
-* Kids On Bikes with `/kob`
-* Shadowrun 4e, 5e, and 6e with `/shadowrun`
+* Commands for 8 distinct dice systems, supporting over a dozen distinct game lines.
+* Saving rolls for re-use without typing all the options again
+* Rolling random results on custom tables
+* And more!
 
-And of course, you can roll whatever standard dice you want:
-* Roll d10s with `/d10`
-* Roll some d20s with `/d20`
-* Roll percentiles with `/d100`
-* Roll other dice with `/roll`
-* Do some dice math with `/roll-formula`
+> One of the best things about Roll It is its ability to repeat a roll many times over. It's invaluable when I'm running a game and comes in handy when I'm playing a crafter, too. See the `rolls` option — and sometimes the `until` option — of a roller you're interested in to learn more.
 
-Most commands include some really helpful options:
-* A `description` so you don't forget what you rolled for
-* The `rolls` option to re-roll the same pool multiple times (great for hoards of baddies!)
-* The `secret` option to keep the results to yourself
-* A handy `until` option so you can easily see how many checks it takes to reach a goal
+## Quick Start
 
-### Teamwork!
+It's easy to use Roll It!
 
-And a few commands like `/nwod`, `/shadowrun`, and `/wod20` have a special `teamwork` mode to let multiple people easily contribute to a shared roll. You can request specific helpers, and see who's added dice before you roll!
-
-### Tables!
-
-GMs can add random tables and roll on them to generate magic items, random encounters, and anything else! Check out `/help command:table` and `/help command:table add` to get started.
-
-### Saved Rolls!
-
-You can save a command and all its options to re-use later! Check out `/saved set` and `/help topic:Saved Rolls` to get started.
-
-### Fun!
-
-There are a few commands thrown in just for fun, too:
-* Flip a coin with `/coin`
-* Seek advice from the Magic 8 Ball with `/eightball`
+1. Add the bot to your server: [Install Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136)
+2. Run the command `/roll-chooser` and pick which dice systems you want to have on your server
+3. Roll some dice!
 
 ## Getting Help
 
-Roll It has a built-in help system through the command `/help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
+If you aren't familiar with something, you can use Roll It's built-in `/help` command. This shows detailed help information about every command in Roll It and can walk you through more general help topics.
 
-If the `/help` command doesn't answer your question, you can open a ticket on the [Roll It Github](https://github.com/aurule/roll-it). You'll have to be patient with responses, though!
+If you aren't familiar with slash commands, don't worry! Discord has you covered. Check out this [help article](https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ) which explains them.
 
-## Giving Feedback
+# Privacy
 
-Got thoughts on something that works well, or that doesn't meet your needs? Have a dice system you'd like to see added to Roll It? Open a ticket on the [Roll It Github](https://github.com/aurule/roll-it)!
-
-## Privacy
-
-I take privacy pretty dang seriously. Roll It only requests permissions to accept slash commands (to roll the dice) and show custom emojis (to make the results of `/fate` all fancy). No message contents, no membership info, and nothing invasive.
-
-# Development
-
-## Contributions
-
-I'm open to pull requests, but please be aware that this is mostly a personal project for fun.
-
-If you want to make a PR, please make sure that the new code has 100% test coverage (you can run `yarn test` to find out) and clearly state what it adds or fixes. If you can't get 100% test coverage, explain in detail why that is.
-
-## Requirements
-
-* Node 18+
-* Yarn 4
-
-Roll-It currently uses Node 22.
-
-## Dev Installation
-
-1. Pull the repo
-    1. Roll It makes use of Yarn's plug-n-play (pnp) feature, so you shouldn't need a separate install step after pulling. It's always safe to run `yarn` if you aren't sure.
-2. Ensure the file `.env` has the correct environment variables. Especially double-check `DEV_GUILDS`.
-3. Run `yarn run live`
-4. Add Roll It to a discord server that you can spam for testing
-
-## ENVVARS
-
-* BOT_TOKEN: discord bot application token
-* CLIENT_ID: ID of the bot's discord user
-* NODE_ENV: one of "development", "test", "ci", or "production"
-* DEV_GUILDS: a JSON array of discord server IDs that should respond to the bot when you run it locally (like `[ "guild_snowflake" ]`). It's important that these servers are private, or at least don't mind you spamming bot messages and breaking things.
-* DEV_USERS: a JSON array of discord user IDs (like `[ "user_snowflake" ]`) to use when seeding certain database tables.
-* LOG_LEVEL: the minimum level of log statements to display. Defaults to `"info"` in development and `"warning"` in test. Using `"debug"` will print all sql statements to the console, for example. See [Pino log levels](https://github.com/pinojs/pino/blob/main/docs/api.md#logger-level) for more detail.
-
-## Versioning
-
-Roll It uses [semantic versioning](https://semver.org/). In addition to the standard version increment rules, the minor version may be bumped for new commands.
+I take privacy very seriously. Roll It only requests permissions to accept slash commands (to roll the dice) and show custom emojis (to make the results of `/fate` look fancy). No message contents, no membership info, and nothing invasive.
