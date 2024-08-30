@@ -93,7 +93,7 @@ module.exports = {
       .setCustomId("bonus_selector")
       .setPlaceholder("Select your bonus")
       .setMinValues(1)
-      .setMaxValues(11)
+      .setMaxValues(bonusOptions.length)
       .addOptions(...bonusOptions)
     const picker_row = new ActionRowBuilder().addComponents(bonus_selector)
     const helper_prompt = await interaction.followUp({
