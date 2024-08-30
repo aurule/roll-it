@@ -160,7 +160,7 @@ module.exports = {
       oneLine`
         The ${opts.teamwork} option starts a special teamwork roll that lets other people add dice to your
         pool by responding to a prompt. This is not compatible with the ${opts.rolls}, ${opts.until}, or
-        ${opts.secret} options.
+        ${opts.secret} options. Only useful for 4e and 6e.
       `,
     ].join("\n")
   },
