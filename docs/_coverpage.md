@@ -8,5 +8,5 @@
 - Save commonly used rolls
 - Roll on custom tables
 
-[GitHub](https://github.com/aurule/roll-it)
 [Install](https://discord.com/oauth2/authorize?client_id=1037522511509848136)
+[GitHub](https://github.com/aurule/roll-it)
