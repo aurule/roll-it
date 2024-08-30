@@ -122,7 +122,7 @@ module.exports = {
       `,
       "",
       oneLine`
-        The format for an invocation looks like ${inlineCode("/command option:value")}. So for exmaple,
+        The format for an invocation looks like ${inlineCode("/command option:value")}. So for example,
         ${inlineCode("/roll pool:2 sides:6")} or ${inlineCode("/wod20 pool:7 difficulty:6 specialty:true")}
         are both valid invocations. When you supply an invocation along with a name and description, the
         saved roll is complete and you can use it right away.
