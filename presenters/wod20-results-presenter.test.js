@@ -1,215 +1,378 @@
-const WodResultsPresenter = require("./wod20-results-presenter")
+const { WodPresenter } = require("./wod20-results-presenter")
 
-describe("formatSuccesses", () => {
-  it("returns botch for negative totals", () => {
-    const result = WodResultsPresenter.formatSuccesses(-2)
+describe("WodPresenter", () => {
+  describe("rolls", () => {
+    it("matches the number of results", () => {
+      const presenter = new WodPresenter({ raw: [[1], [2]] })
 
-    expect(result).toEqual("botch")
-  })
-
-  it("returns the number for positive totals", () => {
-    const result = WodResultsPresenter.formatSuccesses(2)
-
-    expect(result).toEqual("2")
-  })
-
-  it("returns the number for zero totals", () => {
-    const result = WodResultsPresenter.formatSuccesses(0)
-
-    expect(result).toEqual("0")
-  })
-})
-
-describe("presentOne", () => {
-  const defaultArgs = {
-    pool: 2,
-    difficulty: 6,
-    specialty: false,
-    description: "test roll",
-    raw: [[1, 8]],
-    summed: [0],
-  }
-
-  it("highlights final sum", () => {
-    const result = WodResultsPresenter.presentOne(defaultArgs)
-
-    expect(result).toMatch("**0**")
-  })
-
-  it("includes description if present", () => {
-    const result = WodResultsPresenter.presentOne(defaultArgs)
-
-    expect(result).toMatch(`"${defaultArgs.description}"`)
-  })
-
-  it("displays botches specially", () => {
-    let args = defaultArgs
-    args.summed = [-1]
-    const result = WodResultsPresenter.presentOne(args)
-
-    expect(result).toMatch("**botch**")
-  })
-})
-
-describe("detailOne", () => {
-  const defaultArgs = {
-    pool: 3,
-    difficulty: 6,
-    specialty: false,
-    raw: [1, 5, 8],
-  }
-
-  it("includes difficulty", () => {
-    const result = WodResultsPresenter.detailOne(defaultArgs)
-
-    expect(result).toMatch("diff 6")
-  })
-
-  it("strikes 1s", () => {
-    const result = WodResultsPresenter.detailOne(defaultArgs)
-
-    expect(result).toMatch("~~1~~")
-  })
-
-  it("bolds successes", () => {
-    const result = WodResultsPresenter.detailOne(defaultArgs)
-
-    expect(result).toMatch("**8**")
-  })
-
-  it("includes others", () => {
-    const result = WodResultsPresenter.detailOne(defaultArgs)
-
-    expect(result).toMatch("5")
-  })
-
-  describe("with specialty", () => {
-    const defaultArgs = {
-      pool: 2,
-      difficulty: 6,
-      specialty: true,
-      raw: [1, 10],
-    }
-
-    it("notes specialty rule is applied", () => {
-      const result = WodResultsPresenter.detailOne(defaultArgs)
-
-      expect(result).toMatch("specialty")
-    })
-
-    it("adds exclamations to 10s", () => {
-      const result = WodResultsPresenter.detailOne(defaultArgs)
-
-      expect(result).toMatch("**10!**")
+      expect(presenter.rolls).toEqual(2)
     })
   })
-})
 
-describe("presentMany", () => {
-  const defaultArgs = {
-    pool: 2,
-    difficulty: 6,
-    specialty: false,
-    description: "test roll",
-    raw: [
-      [1, 8],
-      [4, 6],
-    ],
-    summed: [0, 1],
-  }
+  describe("mode", () => {
+    describe("when until option true", () => {
+      it("returns 'until' with many rolls", () => {
+        const presenter = new WodPresenter({
+          until: 2,
+          raw: [[1], [2]],
+        })
 
-  it("includes description if present", () => {
-    const result = WodResultsPresenter.presentMany(defaultArgs)
+        expect(presenter.mode).toEqual("until")
+      })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
-  })
+      it("returns 'until' with one roll", () => {
+        const presenter = new WodPresenter({
+          until: 2,
+          raw: [[1]],
+        })
 
-  it("includes the difficulty", () => {
-    const result = WodResultsPresenter.presentMany(defaultArgs)
+        expect(presenter.mode).toEqual("until")
+      })
+    })
 
-    expect(result).toMatch(`diff 6`)
-  })
+    describe("when until option false", () => {
+      it("returns 'many' with multiple rolls", () => {
+        const presenter = new WodPresenter({
+          until: 0,
+          raw: [[1], [2]],
+        })
 
-  it("notes specialty rule is applied if present", () => {
-    let args = defaultArgs
-    args.specialty = true
-    const result = WodResultsPresenter.presentMany(args)
+        expect(presenter.mode).toEqual("many")
+      })
 
-    expect(result).toMatch("specialty")
-  })
-})
+      it("returns 'one' with one roll", () => {
+        const presenter = new WodPresenter({
+          until: 0,
+          raw: [[1]],
+        })
 
-describe("detailMany", () => {
-  const defaultArgs = {
-    pool: 2,
-    difficulty: 6,
-    specialty: false,
-    raw: [1, 8],
-  }
-
-  it("strikes 1s", () => {
-    const result = WodResultsPresenter.detailMany(defaultArgs)
-
-    expect(result).toMatch("~~1~~")
-  })
-
-  it("bolds successes", () => {
-    const result = WodResultsPresenter.detailMany(defaultArgs)
-
-    expect(result).toMatch("**8**")
-  })
-
-  describe("with specialty", () => {
-    const defaultArgs = {
-      pool: 2,
-      difficulty: 6,
-      specialty: true,
-      raw: [1, 10],
-    }
-
-    it("adds exclamations to 10s", () => {
-      const result = WodResultsPresenter.detailMany(defaultArgs)
-
-      expect(result).toMatch("**10!**")
+        expect(presenter.mode).toEqual("one")
+      })
     })
   })
-})
 
-describe("presentUntil", () => {
-  const defaultArgs = {
-    pool: 2,
-    difficulty: 6,
-    specialty: false,
-    until: 3,
-    description: "test roll",
-    raw: [
-      [9, 8],
-      [4, 6],
-    ],
-    summed: [2, 1],
-  }
+  describe("presentResults", () => {
+    describe("in until mode", () => {
+      it("shows target successes", () => {
+        const options = {
+          pool: 3,
+          raw: [[6, 2, 7], [2, 9, 10]],
+          summed: [2, 2],
+          until: 3,
+          difficulty: 6,
+        }
+        const presenter = new WodPresenter(options)
 
-  it("includes intermediate results", () => {
-    const result = WodResultsPresenter.presentUntil(defaultArgs)
+        const result = presenter.presentResults()
 
-    expect(result).toMatch("**2**")
+        expect(result).toMatch("until 3")
+      })
+
+      it("shows the pool", () => {
+        const options = {
+          pool: 3,
+          raw: [[6, 2, 7], [2, 9, 10]],
+          summed: [2, 2],
+          until: 3,
+          difficulty: 6,
+        }
+        const presenter = new WodPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("3 diff")
+      })
+
+      it("shows a final total", () => {
+        const options = {
+          pool: 3,
+          raw: [[6, 2, 7], [2, 9, 10]],
+          summed: [2, 2],
+          until: 3,
+          difficulty: 6,
+        }
+        const presenter = new WodPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("**4** of 3 in 2")
+      })
+    })
+
+    describe("in many mode", () => {
+      it("shows the number of rolls", () => {
+        const options = {
+          pool: 3,
+          raw: [[1, 2, 5], [2, 5, 5]],
+          summed: [1, 2],
+        }
+        const presenter = new WodPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("2 times")
+      })
+    })
+
+    describe("in single mode", () => {
+      it("shows the roll", () => {
+        const options = {
+          pool: 3,
+          raw: [[1, 2, 5]],
+          summed: [1],
+        }
+        const presenter = new WodPresenter(options)
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("**1**")
+      })
+    })
   })
 
-  it("describes the target", () => {
-    const result = WodResultsPresenter.presentUntil(defaultArgs)
+  describe("presentedDescription", () => {
+    describe("with no description", () => {
+      it("is an empty string", () => {
+        const presenter = new WodPresenter({})
 
-    expect(result).toMatch("until 3")
+        expect(presenter.presentedDescription).toEqual("")
+      })
+    })
+
+    describe("with a description", () => {
+      describe("in 'one' mode", () => {
+        it("includes extra word", () => {
+          const presenter = new WodPresenter({
+            raw: [[1]],
+            description: "test description",
+          })
+
+          expect(presenter.presentedDescription).toMatch("for")
+        })
+
+        it("wraps the description in quotes", () => {
+          const presenter = new WodPresenter({
+            raw: [[1]],
+            description: "test description",
+          })
+
+          expect(presenter.presentedDescription).toMatch('"test description"')
+        })
+      })
+
+      it("wraps the description in quotes", () => {
+        const presenter = new WodPresenter({
+          raw: [[1], [2]],
+          description: "test description",
+        })
+
+        expect(presenter.presentedDescription).toMatch('"test description"')
+      })
+    })
   })
 
-  it("displays the total number of rolls", () => {
-    const result = WodResultsPresenter.presentUntil(defaultArgs)
+  describe("explainPool", () => {
+    it("shows the pool size", () => {
+      const options = {
+        pool: 5,
+        raw: [[3, 4, 5, 5, 8]],
+        difficulty: 6,
+      }
+      const presenter = new WodPresenter(options)
 
-    expect(result).toMatch("in 2 rolls")
+      const result = presenter.explainPool()
+
+      expect(result).toMatch("5 diff")
+    })
+
+    it("shows the difficulty", () => {
+      const options = {
+        pool: 5,
+        raw: [[3, 4, 5, 5, 8]],
+        difficulty: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.explainPool()
+
+      expect(result).toMatch("diff 6")
+    })
+
+    it("shows specialty if present", () => {
+      const options = {
+        pool: 5,
+        raw: [[3, 4, 5, 5, 8]],
+        difficulty: 6,
+        specialty: true,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.explainPool()
+
+      expect(result).toMatch("with specialty")
+    })
   })
 
-  it("displays the final total of successes reached", () => {
-    const result = WodResultsPresenter.presentUntil(defaultArgs)
+  describe("notateDice", () => {
+    it("strikes ones", () => {
+      const options = {
+        raw: [[1, 4, 6, 8, 10]],
+        difficulty: 6,
+      }
+      const presenter = new WodPresenter(options)
 
-    expect(result).toMatch("**3** of 3")
+      const result = presenter.notateDice(0)
+
+      expect(result).toMatch("~~1~~")
+    })
+
+    it("highlights successes", () => {
+      const options = {
+        raw: [[1, 4, 6, 8, 10]],
+        difficulty: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.notateDice(0)
+
+      expect(result).toMatch("**6**")
+    })
+
+    it("underlines 10s with specialty", () => {
+      const options = {
+        raw: [[1, 4, 6, 8, 10]],
+        difficulty: 6,
+        specialty: true,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.notateDice(0)
+
+      expect(result).toMatch("**__10__**")
+    })
+  })
+
+  describe("explainTally", () => {
+    it("shows positive successes", () => {
+      const options = {
+        raw: [[1, 8, 3, 4, 6]],
+        summed: [1],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.explainTally(0)
+
+      expect(result).toMatch("**1**")
+    })
+
+    it("shows zero with negative successes", () => {
+      const options = {
+        raw: [[1, 8, 1, 1, 5]],
+        summed: [-2],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.explainTally(0)
+
+      expect(result).toMatch("**0**")
+    })
+
+    it("shows botch when botched", () => {
+      const options = {
+        raw: [[1, 5, 3, 4, 2]],
+        summed: [-1],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.explainTally(0)
+
+      expect(result).toMatch("botch")
+    })
+  })
+
+  describe("botch", () => {
+    it("is true with no successes and some ones", () => {
+      const options = {
+        raw: [[1, 5, 3, 4, 2]],
+        summed: [-1],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.botch(0)
+
+      expect(result).toBeTruthy()
+    })
+
+    it("is false with more successes than ones", () => {
+      const options = {
+        raw: [[1, 8, 3, 4, 6]],
+        summed: [1],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.botch(0)
+
+      expect(result).toBeFalsy()
+    })
+
+    it("is false with some successes and more ones", () => {
+      const options = {
+        raw: [[1, 8, 1, 1, 6]],
+        summed: [-1],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.botch(0)
+
+      expect(result).toBeFalsy()
+    })
+
+    it("is false with no successes and no ones", () => {
+      const options = {
+        raw: [[2, 3, 4, 4, 5]],
+        summed: [0],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.botch(0)
+
+      expect(result).toBeFalsy()
+    })
+
+    it("is false with equal successes and ones", () => {
+      const options = {
+        raw: [[1, 2, 3, 4, 6]],
+        summed: [0],
+        difficulty: 6,
+        specialty: true,
+        pool: 6,
+      }
+      const presenter = new WodPresenter(options)
+
+      const result = presenter.botch(0)
+
+      expect(result).toBeFalsy()
+    })
   })
 })
