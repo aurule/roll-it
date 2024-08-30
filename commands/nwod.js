@@ -128,11 +128,11 @@ module.exports = {
     const userFlake = interaction.user.id
 
     if (is_teamwork) {
-      if (rolls > 1 || until > 0 || secret || rote || !pool) {
+      if (rolls > 1 || until > 0 || secret || !pool) {
         return interaction.reply({
           content: oneLine`
-            You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("rote")},
-            ${inlineCode("until")}, or ${inlineCode("secret")} options, or if you have a chance die.
+            You cannot use teamwork with the ${inlineCode("rolls")} ${inlineCode("until")}, or
+            ${inlineCode("secret")} options, or if you have a chance die.
           `,
           ephemeral: true,
         })
@@ -147,6 +147,8 @@ module.exports = {
           roll({
             pool: final_pool,
             explode,
+            threshold,
+            rote,
             rolls,
           }),
         summer: (raw_results) => successes(raw_results, threshold),
@@ -156,6 +158,7 @@ module.exports = {
             pool: final_pool,
             explode,
             threshold,
+            rote,
             until,
             description: roll_description,
             raw: raw_results,
@@ -205,8 +208,8 @@ module.exports = {
       "",
       oneLine`
         The ${opts.teamwork} option starts a special teamwork roll that lets other people add dice to your
-        pool by responding to a prompt. This is not compatible with the ${opts.rolls}, ${opts.rote},
-        ${opts.until}, or ${opts.secret} options.
+        pool by responding to a prompt. This is not compatible with the ${opts.rolls}, ${opts.until}, or
+        ${opts.secret} options.
       `,
       "",
       oneLine`
