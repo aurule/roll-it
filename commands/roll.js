@@ -13,6 +13,7 @@ const { injectMention } = require("../util/inject-user")
 module.exports = {
   name: "roll",
   description: "Roll a set of plain dice",
+  global: true,
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
@@ -20,14 +21,14 @@ module.exports = {
       .addIntegerOption((option) =>
         option
           .setName("pool")
-          .setDescription("The number of dice to roll")
+          .setDescription("Number of dice to roll")
           .setMinValue(1)
           .setRequired(true),
       )
       .addIntegerOption((option) =>
         option
           .setName("sides")
-          .setDescription("The number of sides on the dice")
+          .setDescription("Number of sides on the dice")
           .setMinValue(2)
           .setRequired(true),
       )
