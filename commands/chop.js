@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
+const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { logger } = require("../util/logger")
