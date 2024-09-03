@@ -31,13 +31,13 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.15.3"],\
+          ["discord.js", "npm:14.16.1"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.1.1"],\
           ["nodemon", "npm:3.1.4"],\
-          ["pino", "npm:9.3.2"],\
+          ["pino", "npm:9.4.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.2"],\
           ["prettier", "npm:3.3.3"],\
@@ -839,17 +839,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/builders", [\
-      ["npm:1.8.2", {\
-        "packageLocation": "./.yarn/cache/@discordjs-builders-npm-1.8.2-96fe9f4963-108fe8903e.zip/node_modules/@discordjs/builders/",\
+      ["npm:1.9.0", {\
+        "packageLocation": "./.yarn/cache/@discordjs-builders-npm-1.9.0-defbf34d88-3287b87624.zip/node_modules/@discordjs/builders/",\
         "packageDependencies": [\
-          ["@discordjs/builders", "npm:1.8.2"],\
-          ["@discordjs/formatters", "npm:0.4.0"],\
-          ["@discordjs/util", "npm:1.1.0"],\
-          ["@sapphire/shapeshift", "npm:3.9.7"],\
-          ["discord-api-types", "npm:0.37.83"],\
+          ["@discordjs/builders", "npm:1.9.0"],\
+          ["@discordjs/formatters", "npm:0.5.0"],\
+          ["@discordjs/util", "npm:1.1.1"],\
+          ["@sapphire/shapeshift", "npm:4.0.0"],\
+          ["discord-api-types", "npm:0.37.97"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["ts-mixer", "npm:6.0.4"],\
-          ["tslib", "npm:2.6.2"]\
+          ["tslib", "npm:2.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -868,14 +868,21 @@ const RAW_RUNTIME_STATE =
           ["@discordjs/collection", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.1.1", {\
+        "packageLocation": "./.yarn/cache/@discordjs-collection-npm-2.1.1-fcbdb0bac5-7bbb007271.zip/node_modules/@discordjs/collection/",\
+        "packageDependencies": [\
+          ["@discordjs/collection", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@discordjs/formatters", [\
-      ["npm:0.4.0", {\
-        "packageLocation": "./.yarn/cache/@discordjs-formatters-npm-0.4.0-8330da5fdd-9788e00559.zip/node_modules/@discordjs/formatters/",\
+      ["npm:0.5.0", {\
+        "packageLocation": "./.yarn/cache/@discordjs-formatters-npm-0.5.0-b2233dfb3d-784e7a7cb8.zip/node_modules/@discordjs/formatters/",\
         "packageDependencies": [\
-          ["@discordjs/formatters", "npm:0.4.0"],\
-          ["discord-api-types", "npm:0.37.83"]\
+          ["@discordjs/formatters", "npm:0.5.0"],\
+          ["discord-api-types", "npm:0.37.97"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -896,6 +903,22 @@ const RAW_RUNTIME_STATE =
           ["undici", "npm:6.13.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.4.0", {\
+        "packageLocation": "./.yarn/cache/@discordjs-rest-npm-2.4.0-7a4e67299e-2de35ff6c0.zip/node_modules/@discordjs/rest/",\
+        "packageDependencies": [\
+          ["@discordjs/rest", "npm:2.4.0"],\
+          ["@discordjs/collection", "npm:2.1.1"],\
+          ["@discordjs/util", "npm:1.1.1"],\
+          ["@sapphire/async-queue", "npm:1.5.3"],\
+          ["@sapphire/snowflake", "npm:3.5.3"],\
+          ["@vladfrangu/async_event_emitter", "npm:2.4.6"],\
+          ["discord-api-types", "npm:0.37.97"],\
+          ["magic-bytes.js", "npm:1.10.0"],\
+          ["tslib", "npm:2.7.0"],\
+          ["undici", "npm:6.19.8"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@discordjs/util", [\
@@ -903,6 +926,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@discordjs-util-npm-1.1.0-508dbc4aa9-e4a7945b17.zip/node_modules/@discordjs/util/",\
         "packageDependencies": [\
           ["@discordjs/util", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.1.1", {\
+        "packageLocation": "./.yarn/cache/@discordjs-util-npm-1.1.1-0ab42a9708-a374648aae.zip/node_modules/@discordjs/util/",\
+        "packageDependencies": [\
+          ["@discordjs/util", "npm:1.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1341,13 +1371,20 @@ const RAW_RUNTIME_STATE =
           ["@sapphire/async-queue", "npm:1.5.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.5.3", {\
+        "packageLocation": "./.yarn/cache/@sapphire-async-queue-npm-1.5.3-694e00b70f-fcf860cdde.zip/node_modules/@sapphire/async-queue/",\
+        "packageDependencies": [\
+          ["@sapphire/async-queue", "npm:1.5.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@sapphire/shapeshift", [\
-      ["npm:3.9.7", {\
-        "packageLocation": "./.yarn/cache/@sapphire-shapeshift-npm-3.9.7-8f524c782d-29883d4c19.zip/node_modules/@sapphire/shapeshift/",\
+      ["npm:4.0.0", {\
+        "packageLocation": "./.yarn/cache/@sapphire-shapeshift-npm-4.0.0-4404f163f8-2abbfd2097.zip/node_modules/@sapphire/shapeshift/",\
         "packageDependencies": [\
-          ["@sapphire/shapeshift", "npm:3.9.7"],\
+          ["@sapphire/shapeshift", "npm:4.0.0"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["lodash", "npm:4.17.21"]\
         ],\
@@ -1557,6 +1594,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@vladfrangu-async_event_emitter-npm-2.2.4-0297e524e2-0f17294f0f.zip/node_modules/@vladfrangu/async_event_emitter/",\
         "packageDependencies": [\
           ["@vladfrangu/async_event_emitter", "npm:2.2.4"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.4.6", {\
+        "packageLocation": "./.yarn/cache/@vladfrangu-async_event_emitter-npm-2.4.6-6669c05897-1fe6348789.zip/node_modules/@vladfrangu/async_event_emitter/",\
+        "packageDependencies": [\
+          ["@vladfrangu/async_event_emitter", "npm:2.4.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2427,25 +2471,32 @@ const RAW_RUNTIME_STATE =
           ["discord-api-types", "npm:0.37.83"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:0.37.97", {\
+        "packageLocation": "./.yarn/cache/discord-api-types-npm-0.37.97-4b7670d471-1a08a0f44d.zip/node_modules/discord-api-types/",\
+        "packageDependencies": [\
+          ["discord-api-types", "npm:0.37.97"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["discord.js", [\
-      ["npm:14.15.3", {\
-        "packageLocation": "./.yarn/cache/discord.js-npm-14.15.3-0c74284e59-21a4e28541.zip/node_modules/discord.js/",\
+      ["npm:14.16.1", {\
+        "packageLocation": "./.yarn/cache/discord.js-npm-14.16.1-dc4b9e49ed-612b490f0f.zip/node_modules/discord.js/",\
         "packageDependencies": [\
-          ["discord.js", "npm:14.15.3"],\
-          ["@discordjs/builders", "npm:1.8.2"],\
+          ["discord.js", "npm:14.16.1"],\
+          ["@discordjs/builders", "npm:1.9.0"],\
           ["@discordjs/collection", "npm:1.5.3"],\
-          ["@discordjs/formatters", "npm:0.4.0"],\
-          ["@discordjs/rest", "npm:2.3.0"],\
-          ["@discordjs/util", "npm:1.1.0"],\
+          ["@discordjs/formatters", "npm:0.5.0"],\
+          ["@discordjs/rest", "npm:2.4.0"],\
+          ["@discordjs/util", "npm:1.1.1"],\
           ["@discordjs/ws", "npm:1.1.1"],\
           ["@sapphire/snowflake", "npm:3.5.3"],\
-          ["discord-api-types", "npm:0.37.83"],\
+          ["discord-api-types", "npm:0.37.97"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["lodash.snakecase", "npm:4.1.1"],\
-          ["tslib", "npm:2.6.2"],\
-          ["undici", "npm:6.13.0"]\
+          ["tslib", "npm:2.7.0"],\
+          ["undici", "npm:6.19.8"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4546,10 +4597,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.3.2", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.3.2-8da5956b19-698eb2ebfc.zip/node_modules/pino/",\
+      ["npm:9.4.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-9.4.0-ddd67db852-12a3d74968.zip/node_modules/pino/",\
         "packageDependencies": [\
-          ["pino", "npm:9.3.2"],\
+          ["pino", "npm:9.4.0"],\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
@@ -4942,13 +4993,13 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.15.3"],\
+          ["discord.js", "npm:14.16.1"],\
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.1.1"],\
           ["nodemon", "npm:3.1.4"],\
-          ["pino", "npm:9.3.2"],\
+          ["pino", "npm:9.4.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:11.2.2"],\
           ["prettier", "npm:3.3.3"],\
@@ -5512,6 +5563,13 @@ const RAW_RUNTIME_STATE =
           ["tslib", "npm:2.6.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.7.0", {\
+        "packageLocation": "./.yarn/cache/tslib-npm-2.7.0-21668f5c21-469e1d5bf1.zip/node_modules/tslib/",\
+        "packageDependencies": [\
+          ["tslib", "npm:2.7.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["tunnel-agent", [\
@@ -5565,6 +5623,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/undici-npm-6.13.0-1545cd855e-b1b0456e7d.zip/node_modules/undici/",\
         "packageDependencies": [\
           ["undici", "npm:6.13.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.19.8", {\
+        "packageLocation": "./.yarn/cache/undici-npm-6.19.8-a3341e0793-07fd8520bc.zip/node_modules/undici/",\
+        "packageDependencies": [\
+          ["undici", "npm:6.19.8"]\
         ],\
         "linkType": "HARD"\
       }]\

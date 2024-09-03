@@ -16,10 +16,10 @@
   "dependencies": {
     "better-sqlite3": "^11.2.1",
     "common-tags": "^1.8.2",
-    "discord.js": "^14.15.3",
+    "discord.js": "^14.16.1",
     "joi": "^17.13.3",
     "mathjs": "^13.1.1",
-    "pino": "^9.3.2",
+    "pino": "^9.4.0",
     "pino-papertrail": "^2.1.0"
   },
   "devDependencies": {
