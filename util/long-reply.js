@@ -1,3 +1,4 @@
+const {subtext}=require("discord.js")
 const { ceil } = require("mathjs")
 
 /**
@@ -44,7 +45,7 @@ function default_prefixer(idx, max) {
 function default_suffixer(idx, max) {
   let continuation = ""
   if (idx < max) continuation = "..."
-  return `${continuation}\n-# (message ${idx}/${max})`
+  return `${continuation}\n${subtext(`(message ${idx}/${max})`)}`
 }
 
 /**
