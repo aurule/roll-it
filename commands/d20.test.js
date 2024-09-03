@@ -61,7 +61,7 @@ describe("schema", () => {
       with: "advantage",
     }
 
-    const result = d20_command.schema.validate(options, {abortEarly: false})
+    const result = d20_command.schema.validate(options, { abortEarly: false })
 
     expect(result.error.message).toMatch("exclusive peers")
   })
@@ -71,7 +71,7 @@ describe("schema", () => {
       keep: "all",
     }
 
-    const result = d20_command.schema.validate(options, {abortEarly: false})
+    const result = d20_command.schema.validate(options, { abortEarly: false })
 
     expect(result.error).toBeFalsy()
   })
@@ -81,7 +81,7 @@ describe("schema", () => {
       with: "advantage",
     }
 
-    const result = d20_command.schema.validate(options, {abortEarly: false})
+    const result = d20_command.schema.validate(options, { abortEarly: false })
 
     expect(result.error).toBeFalsy()
   })
@@ -102,7 +102,7 @@ describe("perform", () => {
   it("overrides `keep` using `with`", () => {
     const options = {
       rolls: 1,
-      with: "advantage"
+      with: "advantage",
     }
 
     const result = d20_command.perform(options)

@@ -1,6 +1,4 @@
-const exceptions = new Map([
-  ["die", "dice"]
-])
+const exceptions = new Map([["die", "dice"]])
 
 module.exports = {
   exceptions,
@@ -20,5 +18,5 @@ module.exports = {
     if (Math.abs(number) === 1) return word
     if (exceptions.has(word)) return exceptions.get(word)
     return word + "s"
-  }
+  },
 }

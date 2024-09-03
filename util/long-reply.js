@@ -1,4 +1,4 @@
-const {subtext}=require("discord.js")
+const { subtext } = require("discord.js")
 const { ceil } = require("mathjs")
 
 /**

@@ -30,7 +30,9 @@ module.exports = {
       .addStringOption((option) =>
         option
           .setName("change")
-          .setDescription("Choose where to apply the adjustment. Default is based on the saved command.")
+          .setDescription(
+            "Choose where to apply the adjustment. Default is based on the saved command.",
+          )
           .setAutocomplete(true),
       ),
   change_target,

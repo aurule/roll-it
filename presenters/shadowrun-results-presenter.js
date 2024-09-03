@@ -134,11 +134,13 @@ class ShadowrunPresenter {
    * @return {str}              String with stylized die results
    */
   notateDice(result_index) {
-    return this.raw[result_index].map((die, idx) => {
-      if (die >= 5) return bold(die)
-      if (die === 1) return italic(die)
-      return die.toString()
-    }).join(", ")
+    return this.raw[result_index]
+      .map((die, idx) => {
+        if (die >= 5) return bold(die)
+        if (die === 1) return italic(die)
+        return die.toString()
+      })
+      .join(", ")
   }
 
   /**
@@ -169,7 +171,7 @@ class ShadowrunPresenter {
    */
   glitch(result_index) {
     const half = Math.floor(this.pool / 2)
-    const ones = this.raw[result_index].filter(d => d === 1).length
+    const ones = this.raw[result_index].filter((d) => d === 1).length
 
     return ones > half
   }

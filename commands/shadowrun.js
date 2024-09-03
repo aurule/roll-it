@@ -31,7 +31,7 @@ module.exports = {
       .addBooleanOption((option) =>
         option
           .setName("edge")
-          .setDescription("Whether edge was spent on the roll. Enables Rule of Six.")
+          .setDescription("Whether edge was spent on the roll. Enables Rule of Six."),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption((option) =>

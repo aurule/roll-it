@@ -103,14 +103,16 @@ class WodPresenter {
    * @return {str}              String with stylized die results
    */
   notateDice(result_index) {
-    return this.raw[result_index].map(die => {
-      if (die === 1) return strikethrough(die)
-      if (die >= this.difficulty) {
-        if (this.specialty && die === 10) return bold(underline(die))
-        return bold(die)
-      }
-      return die.toString()
-    }).join(", ")
+    return this.raw[result_index]
+      .map((die) => {
+        if (die === 1) return strikethrough(die)
+        if (die >= this.difficulty) {
+          if (this.specialty && die === 10) return bold(underline(die))
+          return bold(die)
+        }
+        return die.toString()
+      })
+      .join(", ")
   }
 
   /**
@@ -133,7 +135,7 @@ class WodPresenter {
    * @return {bool}             True if the roll results has 1s and no successes, false otherwise
    */
   botch(result_index) {
-    const ones = this.raw[result_index].filter(d => d === 1).length
+    const ones = this.raw[result_index].filter((d) => d === 1).length
     return ones > 0 && ones === -1 * this.summed[result_index]
   }
 
@@ -150,7 +152,6 @@ class WodPresenter {
       .join("")
   }
 }
-
 
 module.exports = {
   /**

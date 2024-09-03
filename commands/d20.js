@@ -12,7 +12,7 @@ const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
 
 function with_to_keep(value) {
-  switch(value) {
+  switch (value) {
     case "advantage":
       return "highest"
     case "disadvantage":
@@ -39,7 +39,10 @@ module.exports = {
           .setDescription(
             "Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of 2d20",
           )
-          .setChoices({ name: "Advantage", value: "advantage" }, { name: "Disadvantage", value: "disadvantage" }),
+          .setChoices(
+            { name: "Advantage", value: "advantage" },
+            { name: "Disadvantage", value: "disadvantage" },
+          ),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
@@ -101,7 +104,7 @@ module.exports = {
       "",
       oneLine`
         The invocation for ${command_name} can use either ${inlineCode("keep")} or ${opts.with}, but not both.
-      `
+      `,
     ].join("\n")
   },
 }

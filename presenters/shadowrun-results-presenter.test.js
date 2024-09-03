@@ -56,7 +56,10 @@ describe("ShadowrunPresenter", () => {
       it("shows target successes", () => {
         const options = {
           pool: 3,
-          raw: [[6, 2, 5], [2, 5, 5]],
+          raw: [
+            [6, 2, 5],
+            [2, 5, 5],
+          ],
           summed: [2, 2],
           until: 3,
         }
@@ -70,7 +73,10 @@ describe("ShadowrunPresenter", () => {
       it("shows the pool", () => {
         const options = {
           pool: 3,
-          raw: [[6, 2, 5], [2, 5, 5]],
+          raw: [
+            [6, 2, 5],
+            [2, 5, 5],
+          ],
           summed: [2, 2],
           until: 3,
         }
@@ -84,7 +90,10 @@ describe("ShadowrunPresenter", () => {
       it("shows a final total", () => {
         const options = {
           pool: 3,
-          raw: [[6, 2, 5], [2, 5, 5]],
+          raw: [
+            [6, 2, 5],
+            [2, 5, 5],
+          ],
           summed: [2, 2],
           until: 3,
         }
@@ -100,7 +109,10 @@ describe("ShadowrunPresenter", () => {
       it("shows the number of rolls", () => {
         const options = {
           pool: 3,
-          raw: [[1, 2, 5], [2, 5, 5]],
+          raw: [
+            [1, 2, 5],
+            [2, 5, 5],
+          ],
           summed: [1, 2],
         }
         const presenter = new ShadowrunPresenter(options)
@@ -196,7 +208,7 @@ describe("ShadowrunPresenter", () => {
   describe("explainExplode", () => {
     it("has rule of six with edge", () => {
       const options = {
-        edge: true
+        edge: true,
       }
       const presenter = new ShadowrunPresenter(options)
 
@@ -307,7 +319,7 @@ describe("ShadowrunPresenter", () => {
     it("is true with enough ones", () => {
       const options = {
         pool: 3,
-        raw: [[1, 1, 2]]
+        raw: [[1, 1, 2]],
       }
       const presenter = new ShadowrunPresenter(options)
 
@@ -319,7 +331,7 @@ describe("ShadowrunPresenter", () => {
     it("is false without enough ones", () => {
       const options = {
         pool: 3,
-        raw: [[2, 1, 2]]
+        raw: [[2, 1, 2]],
       }
       const presenter = new ShadowrunPresenter(options)
 
@@ -331,7 +343,10 @@ describe("ShadowrunPresenter", () => {
 
   describe("presentResultSet", () => {
     const options = {
-      raw: [[1, 2, 3], [1, 2, 5]],
+      raw: [
+        [1, 2, 3],
+        [1, 2, 5],
+      ],
       summed: [0, 1],
       edge: false,
       pool: 3,

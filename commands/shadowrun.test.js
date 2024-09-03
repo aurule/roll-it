@@ -33,7 +33,7 @@ describe("perform", () => {
     it("displays the description if present", () => {
       const options = {
         pool: 1,
-        description: "a test"
+        description: "a test",
       }
 
       const result = shadowrun_command.perform(options)
@@ -44,7 +44,7 @@ describe("perform", () => {
     it("displays a result", () => {
       const options = {
         pool: 1,
-        description: "a test"
+        description: "a test",
       }
 
       const result = shadowrun_command.perform(options)
@@ -58,7 +58,7 @@ describe("perform", () => {
       const options = {
         pool: 1,
         rolls: 3,
-        description: "a test"
+        description: "a test",
       }
 
       const result = shadowrun_command.perform(options)
@@ -70,7 +70,7 @@ describe("perform", () => {
       const options = {
         pool: 1,
         rolls: 3,
-        description: "a test"
+        description: "a test",
       }
 
       const result = shadowrun_command.perform(options)
@@ -85,7 +85,7 @@ describe("perform", () => {
         pool: 1,
         rolls: 3,
         until: 1,
-        description: "a test"
+        description: "a test",
       }
 
       const result = shadowrun_command.perform(options)
@@ -98,7 +98,7 @@ describe("perform", () => {
         pool: 1,
         rolls: 3,
         until: 1,
-        description: "a test"
+        description: "a test",
       }
 
       const result = shadowrun_command.perform(options)
@@ -156,4 +156,4 @@ describe("execute", () => {
   })
 })
 
-test_secret_option(shadowrun_command, {pool: 1})
+test_secret_option(shadowrun_command, { pool: 1 })

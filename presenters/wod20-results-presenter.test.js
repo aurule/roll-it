@@ -56,7 +56,10 @@ describe("WodPresenter", () => {
       it("shows target successes", () => {
         const options = {
           pool: 3,
-          raw: [[6, 2, 7], [2, 9, 10]],
+          raw: [
+            [6, 2, 7],
+            [2, 9, 10],
+          ],
           summed: [2, 2],
           until: 3,
           difficulty: 6,
@@ -71,7 +74,10 @@ describe("WodPresenter", () => {
       it("shows the pool", () => {
         const options = {
           pool: 3,
-          raw: [[6, 2, 7], [2, 9, 10]],
+          raw: [
+            [6, 2, 7],
+            [2, 9, 10],
+          ],
           summed: [2, 2],
           until: 3,
           difficulty: 6,
@@ -86,7 +92,10 @@ describe("WodPresenter", () => {
       it("shows a final total", () => {
         const options = {
           pool: 3,
-          raw: [[6, 2, 7], [2, 9, 10]],
+          raw: [
+            [6, 2, 7],
+            [2, 9, 10],
+          ],
           summed: [2, 2],
           until: 3,
           difficulty: 6,
@@ -103,7 +112,10 @@ describe("WodPresenter", () => {
       it("shows the number of rolls", () => {
         const options = {
           pool: 3,
-          raw: [[1, 2, 5], [2, 5, 5]],
+          raw: [
+            [1, 2, 5],
+            [2, 5, 5],
+          ],
           summed: [1, 2],
         }
         const presenter = new WodPresenter(options)
