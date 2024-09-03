@@ -1,4 +1,4 @@
-const { inlineCode, hideLinkEmbed } = require("discord.js")
+const { inlineCode, hideLinkEmbed, hyperlink, bold } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 module.exports = {
@@ -8,13 +8,20 @@ module.exports = {
   help() {
     return [
       oneLine`
+        ${hyperlink("Homepage", hideLinkEmbed("https://aurule.github.io/roll-it/#/"))} |
+        ${hyperlink("Source", hideLinkEmbed("https://github.com/aurule/roll-it"))} |
+        ${hyperlink("Privacy Policy", hideLinkEmbed("https://aurule.github.io/roll-it/#/privacy"))} |
+        ${hyperlink("Terms of Service", hideLinkEmbed("https://aurule.github.io/roll-it/#/terms"))}
+      `,
+      "",
+      oneLine`
         Roll It is a Discord bot for rolling dice, and a passion project by Paige Andrews. It
         is built on NodeJS using the excellent discord.js library, among others. Roll It is open source
         software released under the MIT license, reproduced below. The source code is available at
         ${hideLinkEmbed("https://github.com/aurule/roll-it")} and contributions are welcome!
       `,
       "",
-      "===== LICENSE =====",
+      "## LICENSE",
       "MIT License",
       "",
       "Copyright (c) 2021-2024 Paige Andrews",
