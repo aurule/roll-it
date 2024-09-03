@@ -3,9 +3,9 @@ const { singularize } = require("../util/singularize")
 
 const emoji = [
   null,
-  "<:fateneg:1038147643836203018>",
-  "<:fatezero:1038147645874647111>",
-  "<:fatepos:1038147644767350827>",
+  "<:fateneg:1280545320052330506>",
+  "<:fatezero:1280545382698324068>",
+  "<:fatepos:1280545364386119730>",
 ]
 const ladder = [
   "Impossible",
