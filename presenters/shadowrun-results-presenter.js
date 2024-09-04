@@ -1,4 +1,4 @@
-const { bold, userMention, italic } = require("discord.js")
+const { bold, userMention, strikethrough } = require("discord.js")
 
 const { pluralize } = require("../util/pluralize")
 
@@ -128,7 +128,7 @@ class ShadowrunPresenter {
   /**
    * Annotate the raw results with styling
    *
-   * Successes are in bold, ones are italicized
+   * Successes are in bold, ones are struck
    *
    * @param  {int} result_index Index of the roll to notate
    * @return {str}              String with stylized die results
@@ -137,7 +137,7 @@ class ShadowrunPresenter {
     return this.raw[result_index]
       .map((die, idx) => {
         if (die >= 5) return bold(die)
-        if (die === 1) return italic(die)
+        if (die === 1) return strikethrough(die)
         return die.toString()
       })
       .join(", ")

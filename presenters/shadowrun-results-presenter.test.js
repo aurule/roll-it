@@ -245,7 +245,7 @@ describe("ShadowrunPresenter", () => {
 
       const result = presenter.notateDice(0)
 
-      expect(result).toMatch("_1_")
+      expect(result).toMatch("~~1~~")
     })
 
     it("includes other dice", () => {
@@ -366,8 +366,8 @@ describe("ShadowrunPresenter", () => {
 
       const result = presenter.presentResultSet()
 
-      expect(result).toMatch("_1_, 2, 3")
-      expect(result).toMatch("_1_, 2, **5**")
+      expect(result).toMatch("~~1~~, 2, 3")
+      expect(result).toMatch("~~1~~, 2, **5**")
     })
   })
 })
