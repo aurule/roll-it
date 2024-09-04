@@ -8,14 +8,11 @@ Rolls a pool of 4 Fudge dice and adds up their results.
 
 * `modifier` is the number to add to the pool's sum
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /fate modifier:5
 ```
-
-gives
-
-```
-<@user> rolled **a Fair (+2)** : <:fatezero:1038147645874647111><:fateneg:1038147643836203018><:fateneg:1038147643836203018><:fateneg:1038147643836203018> + 5
-```
+<!-- div:right-panel -->
+<@user> rolled **a Fair (+2)** : ![zero](../_images/fate-zero.png ':class=emoji')![negative](../_images/fate-neg.png ':class=emoji')![negative](../_images/fate-neg.png ':class=emoji')![negative](../_images/fate-neg.png ':class=emoji') + 5
+<!-- panels:end -->

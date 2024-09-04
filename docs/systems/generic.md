@@ -18,17 +18,14 @@ The `/roll` command lets you roll one or more dice of the same type. The dice wi
 * `sides` is the number of sides on the dice. For this command, all dice have to have the same number of sides.
 * `modifier` is an optional number to add to the final result
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /roll pool:3 sides:6 modifier:2
 ```
-
-gives
-
-```
+<!-- div:right-panel -->
 @user rolled **13** (3d6: [3,5,3] + 2)
-```
+<!-- panels:end -->
 
 ## `/roll-formula`
 
@@ -38,20 +35,19 @@ The math is handled by the excellent [math.js](https://mathjs.org) library. Read
 
 * `formula` is the formula to evaluate
 
-Example:
-
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
+/roll-formula formula:2d6 + 1d8"fire" + 19
 ```
-/roll-formula formula: 2d6 + 1d8"fire" + 19
-```
-
-gives
-
-```
+<!-- div:right-panel -->
 <@user> rolled **30** on `2d6 + 1d8"fire" + 19`:
-    8 from 2d6 [6,2]
-    3 fire from 1d8 [3]
+<ul class="indented-lines">
+<li>8 from 2d6 [6,2]</li>
+<li>3 fire from 1d8 [3]</li>
+</ul>
 30 = 8 + 3 + 19
-```
+<!-- panels:end -->
 
 ## `/d10`
 

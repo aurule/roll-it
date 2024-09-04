@@ -10,14 +10,11 @@ Rolls one polyhedral die: 4, 6, 8, 10, 12, 20, or 100. The highest number explod
 
 * `modifier` is a number added to the die result.
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /kob sides:6
 ```
-
-gives
-
-```
+<!-- div:right-panel -->
 <@user> rolled **9** (d6: [**6**, 3])
-```
+<!-- panels:end -->

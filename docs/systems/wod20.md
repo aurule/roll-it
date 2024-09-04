@@ -16,14 +16,20 @@ For some extended tests, what really matters is how many rolls it takes to get t
 * `teamwork` turns on teamwork mode, making it easy to gather helpers' results.
 * `until` is the number of successes that are desired. The roll will be repeated until that number is met, or until you've rolled `rolls` number of times.
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /wod20 pool:8
 ```
+<!-- div:right-panel -->
+<@user> rolled **3** (8 diff 6: [3, **8**, **8**, ~~1~~, 2, **9**, **6**, 2])
+<!-- panels:end -->
 
-gives
-
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
+/wod20 pool:8 specialty:True
 ```
-<@user> rolled **5** (8 diff 6: [3, **8**, **8**, **8**, 2, **9**, **6**, 2])
-```
+<!-- div:right-panel -->
+<@user> rolled **7** (8 diff 6 with specialty: [**9**, ~~1~~, **9**, **8**, 4, **<u>10</u>**, **6**, **<u>10</u>**])
+<!-- panels:end -->

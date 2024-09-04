@@ -29,14 +29,11 @@ Roll a number of d10s and tally the results. Has special handling for Chronicles
 * `teamwork` turns on teamwork mode, making it easy to gather helpers' results.
 * `until` is the number of successes that are desired. The roll will be repeated until that number is met, or until you've rolled `rolls` number of times.
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /nwod pool:8 explode:9
 ```
-
-gives
-
-```
+<!-- div:right-panel -->
 <@user> rolled **3** (7 dice with 9-again: [4, **9!**, 6, 7, 1, 4, **9!**, **8**, 1])
-```
+<!-- panels:end -->

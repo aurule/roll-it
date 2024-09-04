@@ -9,14 +9,11 @@ Roll a 20-sided die. When `with` is either `Advantage` or `Disadvantage`, roll t
 * `modifier` an optional number to add to the result of the die
 * `with` lets you roll twice and keep the higher or lower result. Implemented for the [D&D 5e](/systems/dnd5e) system.
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /d20 modifier:6 with:Advantage
 ```
-
-gives
-
-```
+<!-- div:right-panel -->
 <@user> rolled **26** ([20, ~~6~~] + 6) with advantage
-```
+<!-- panels:end -->

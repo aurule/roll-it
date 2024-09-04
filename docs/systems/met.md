@@ -9,14 +9,20 @@ It also supports the `bomb` advantage, replacing the paper symbol with bomb. Thi
 * `static` shows pass-tie-fail instead of rock-paper-scissors
 * `bomb` replaces the paper result with bomb instead
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /chop
 ```
-
-gives
-
-```
+<!-- div:right-panel -->
 <@user> rolled :rock: rock
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
+/chop static:True
 ```
+<!-- div:right-panel -->
+<@user> rolled `tie`
+<!-- panels:end -->

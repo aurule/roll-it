@@ -27,18 +27,17 @@ Roll pools of d6s, tally, and compare results. Also applies special rules logic 
 * `madness` is the number of dice in the optional Madness pool
 * `talent` is the type of talent in use, if any
 
-Example:
-
-```
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
 /drh discipline:3 pain:4 exhaustion:1 madness:1 talent:Minor Exhaustion
 ```
-
-gives
-
-```
-<@user> rolled a **failure** dominated by **discipline** using a Minor Exhaustion talent
-    0 discipline (4, __6__, 4)
-    0 madness (4)
-    0 exhaustion (5)
-    _~~0~~ 1_ vs 3 pain (**2**, **1**, 5, **2**)
-```
+<!-- div:right-panel -->
+<@user> rolled a **failure** dominated by **discipline** using a Minor Exhaustion talent<br>
+<ul class="indented-lines">
+<li>0 discipline (4, <u>6</u>, 4)</li>
+<li>0 madness (4)</li>
+<li>0 exhaustion (5)</li>
+<li><i><s>0</s> 1</i> vs 3 pain (<b>2</b>, <b>1</b>, 5, <b>2</b>)</li>
+</ul>
+<!-- panels:end -->
