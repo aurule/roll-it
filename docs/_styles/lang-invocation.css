@@ -1,0 +1,20 @@
+/**
+ * Discord-like invocation code styling
+ */
+.language-invocation {
+  background-color: rgb(49, 51, 56);
+}
+.markdown-section pre.language-invocation::after {
+  color: rgb(220, 222, 225);
+}
+code.lang-invocation {
+  color: rgb(220, 222, 225);
+}
+code.lang-invocation span.token.value {
+  color: rgb(242, 243, 245);
+  font-weight: bold;
+}
+ul.indented-lines {
+  list-style: none;
+
+}
