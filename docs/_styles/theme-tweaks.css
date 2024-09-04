@@ -1,0 +1,13 @@
+/**
+ * Sidebar header logo
+ */
+.app-name img {
+  width: 64px;
+}
+
+/*
+ * nested lists
+ */
+.markdown-section ol ol {
+  list-style: lower-alpha;
+}
