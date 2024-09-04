@@ -18,3 +18,21 @@ Roll a pool of d6s, counting one success for each die that rolls a 5 or 6. Can r
 * `edge` is whether edge was spent on the roll. Turns on the Rule of Six benefit.
 * `teamwork` turns on teamwork mode, making it easy to gather helpers' results.
 * `until` is the number of successes that are desired. The roll will be repeated until that number is met, or until you've rolled `rolls` number of times.
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
+/shadowrun pool:8
+```
+<!-- div:right-panel -->
+<@user> rolled **2** (8 dice: [2, **6**, 2, 4, ~~1~~, ~~1~~, ~~1~~, **5**])
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+```invocation
+/shadowrun pool:8 edge:true
+```
+<!-- div:right-panel -->
+<@user> rolled **2** (8 dice with rule of six: [4, **6**, 3, 2, 2, 2, ~~1~~, 4, **5**])
+<!-- panels:end -->
