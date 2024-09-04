@@ -19,6 +19,9 @@ ul.indented-lines {
   list-style: none;
 }
 
+/*
+ * round off the corners of all regular images
+ */
 .markdown-section img {
   border-radius: var(--border-radius-m);
 }
