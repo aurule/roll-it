@@ -11,3 +11,10 @@
 .markdown-section ol ol {
   list-style: lower-alpha;
 }
+
+/*
+ * display indented lines in examples
+ */
+ul.indented-lines {
+  list-style: none;
+}
