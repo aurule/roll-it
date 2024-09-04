@@ -18,3 +18,7 @@
 ul.indented-lines {
   list-style: none;
 }
+
+.markdown-section img {
+  border-radius: var(--border-radius-m);
+}
