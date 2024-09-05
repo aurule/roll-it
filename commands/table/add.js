@@ -50,10 +50,10 @@ const options_schema = Joi.object({
   secret: Joi.boolean(),
   table_file: Joi.object({
     contentType: Joi.string()
-      .valid("text/plain")
+      .pattern(/text\/plain/, "plain text content type")
       .required()
       .messages({
-        "any.only": oneLine`
+        "string.pattern.name": oneLine`
           The file you uploaded does not look like a plain text file. Try again using a plain, basic text
           file (save as ${inlineCode(".txt")}) with one result per line (when word wrap is turned off).
         `,
@@ -122,13 +122,13 @@ module.exports = {
         option.setName("quiet").setDescription("Hide the new table announcement from other users"),
       ),
   async execute(interaction) {
-    interaction.deferReply()
+    await interaction.deferReply()
     const tables = new GuildRollables(interaction.guildId)
 
     const raw_options = {
       table_name: interaction.options.getString("name"),
       description: interaction.options.getString("description"),
-      secret: interaction.options.getBoolean("quiet"),
+      secret: interaction.options.getBoolean("quiet") ?? false,
       table_file: interaction.options.getAttachment("file"),
     }
 
