@@ -608,6 +608,20 @@ describe("NwodPresenter", () => {
         expect(result).toEqual("2!")
       })
 
+      it("displays 1s plain with a bang", () => {
+        const presenter = new NwodPresenter({
+          raw: [[1]],
+          threshold: 8,
+          explode: 10,
+          rote: true,
+          pool: 1,
+        })
+
+        const result = presenter.notateDice(0)
+
+        expect(result).toEqual("1!")
+      })
+
       it("does not add a bang after initial results", () => {
         const presenter = new NwodPresenter({
           raw: [[2, 3]],

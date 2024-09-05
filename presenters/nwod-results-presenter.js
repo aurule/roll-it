@@ -234,7 +234,7 @@ class NwodPresenter {
           // bold normal successes
           return bold(die)
         } else if (this.rote && idx + idx_mod < this.pool) {
-          if (idx === 0 && die === 1) {
+          if (this.chance && idx === 0 && die === 1) {
             // a dramatic failure on the first die does not get a rote re-roll
             return die
           }
