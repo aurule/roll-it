@@ -22,7 +22,7 @@ _Save this roll_ is the first context command in Roll It, so it might need some 
 
 _Save this roll_ lets you save a command that you've just used. To do so, use _Save this roll_ on the message with that command's results. It will read that result message and save the command and options that were used to create it. Then, it will prompt you to take the next step and use `/saved set` to finish up your saved roll with a name and a description.
 
-?> For an example, let's say you used [`/roll pool:2 sides:6` invocation] and Roll It replied with `@you rolled 9 (2d6: [5,4])`. By long pressing or right clicking on `@you rolled 9 (2d6: [5,4])`, you select `Apps` and then _Save this roll_. Roll It reads the message and determines that you used the `/roll` command with a `pool` of 2 and `sides` of 6. It saves that, and tells you to run `/saved set` to save the name and description. Once you do, you can use your roll!
+#> For an example, let's say you used [`/roll pool:2 sides:6` invocation] and Roll It replied with `@you rolled 9 (2d6: [5,4])`. By long pressing or right clicking on `@you rolled 9 (2d6: [5,4])`, you select `Apps` and then _Save this roll_. Roll It reads the message and determines that you used the `/roll` command with a `pool` of 2 and `sides` of 6. It saves that, and tells you to run `/saved set` to save the name and description. Once you do, you can use your roll!
 
 ![Discord message from Roll It explaining that a roll has been saved and instructing the user to use the /saved set command to save its name and description](../_images/examples/save-this-roll-result.png)
 

@@ -25,3 +25,17 @@ ul.indented-lines {
 .markdown-section img {
   border-radius: var(--border-radius-m);
 }
+
+/*
+ * Custom example callout
+ */
+.markdown-section .example {
+  border-color: green;
+  background-color: hsl(125, 60%, 96%);
+
+  &:before {
+    content: "";
+    color: #fff;
+    background: green url("../_images/code-icon.svg") center / 0.875em no-repeat;
+  }
+}
