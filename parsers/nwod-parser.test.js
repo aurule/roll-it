@@ -222,7 +222,7 @@ describe("roll until", () => {
     summed: [1, 2],
   }
 
-  it.failing("gets max rolls", async () => {
+  it("gets max rolls", async () => {
     const content = present({
       ...default_opts,
       rolls: 2,

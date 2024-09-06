@@ -1,20 +1,13 @@
 const { NwodPresenter } = require("./nwod-results-presenter")
 
 describe("NwodPresenter", () => {
-  describe("rolls", () => {
-    it("matches the number of results", () => {
-      const presenter = new NwodPresenter({ raw: [[1], [2]] })
-
-      expect(presenter.rolls).toEqual(2)
-    })
-  })
-
   describe("mode", () => {
     describe("when until option true", () => {
       it("returns 'until' with many rolls", () => {
         const presenter = new NwodPresenter({
           until: 2,
           raw: [[1], [2]],
+          rolls: 2,
         })
 
         expect(presenter.mode).toEqual("until")
@@ -24,6 +17,7 @@ describe("NwodPresenter", () => {
         const presenter = new NwodPresenter({
           until: 2,
           raw: [[1]],
+          rolls: 1,
         })
 
         expect(presenter.mode).toEqual("until")
@@ -35,6 +29,7 @@ describe("NwodPresenter", () => {
         const presenter = new NwodPresenter({
           until: 0,
           raw: [[1], [2]],
+          rolls: 2,
         })
 
         expect(presenter.mode).toEqual("many")
@@ -44,6 +39,7 @@ describe("NwodPresenter", () => {
         const presenter = new NwodPresenter({
           until: 0,
           raw: [[1]],
+          rolls: 1,
         })
 
         expect(presenter.mode).toEqual("one")
@@ -59,6 +55,7 @@ describe("NwodPresenter", () => {
           raw: [[8, 8, 8, 8, 8]],
           summed: [5],
           description: "a test",
+          rolls: 1,
         })
 
         const result = presenter.presentResults()
@@ -73,11 +70,27 @@ describe("NwodPresenter", () => {
           raw: [[8, 8, 8, 8, 8, 2]],
           summed: [5],
           description: "a test",
+          rolls: 1,
         })
 
         const result = presenter.presentResults()
 
         expect(result).toMatch("until 5")
+      })
+
+      it("describes the number of rolls", () => {
+        const presenter = new NwodPresenter({
+          until: 5,
+          pool: 6,
+          raw: [[8, 1, 6, 7, 8, 2], [8, 3, 4, 5, 8, 2]],
+          summed: [2, 2],
+          description: "a test",
+          rolls: 2,
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("2 times")
       })
 
       it("shows the pool", () => {
@@ -86,6 +99,7 @@ describe("NwodPresenter", () => {
           pool: 6,
           raw: [[8, 8, 8, 8, 8, 2]],
           summed: [5],
+          rolls: 1,
         })
 
         const result = presenter.presentResults()
@@ -102,6 +116,7 @@ describe("NwodPresenter", () => {
             [6, 1, 10, 2, 8, 9, 3],
           ],
           summed: [2, 3],
+          rolls: 2,
         })
 
         const result = presenter.presentResults()
@@ -119,6 +134,7 @@ describe("NwodPresenter", () => {
             [6, 1, 10, 2, 8, 9, 3],
           ],
           summed: [2, 3],
+          rolls: 2,
         })
 
         const result = presenter.presentResults()
@@ -137,6 +153,7 @@ describe("NwodPresenter", () => {
           ],
           summed: [2, 3],
           description: "a test",
+          rolls: 2,
         })
 
         const result = presenter.presentResults()
@@ -152,6 +169,7 @@ describe("NwodPresenter", () => {
             [6, 1, 10, 2, 8, 9, 3],
           ],
           summed: [2, 3],
+          rolls: 2,
         })
 
         const result = presenter.presentResults()
@@ -167,6 +185,7 @@ describe("NwodPresenter", () => {
             [6, 1, 10, 2, 8, 9, 3],
           ],
           summed: [2, 3],
+          rolls: 2,
         })
 
         const result = presenter.presentResults()
@@ -182,6 +201,7 @@ describe("NwodPresenter", () => {
             [6, 1, 10, 2, 8, 9, 3],
           ],
           summed: [2, 3],
+          rolls: 2,
         })
 
         const result = presenter.presentResults()
@@ -198,6 +218,7 @@ describe("NwodPresenter", () => {
           raw: [[8, 4, 9, 2, 1, 2]],
           summed: [2],
           description: "a test",
+         rolls: 1,
         })
 
         const result = presenter.presentResults()
@@ -210,6 +231,7 @@ describe("NwodPresenter", () => {
           pool: 6,
           raw: [[8, 4, 9, 2, 1, 2]],
           summed: [2],
+          rolls: 1,
         })
 
         const result = presenter.presentResults()
@@ -222,6 +244,7 @@ describe("NwodPresenter", () => {
           pool: 6,
           raw: [[8, 4, 9, 2, 1, 2]],
           summed: [2],
+          rolls: 1,
         })
 
         const result = presenter.presentResults()
@@ -235,6 +258,7 @@ describe("NwodPresenter", () => {
           raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
           summed: [11],
           description: "perception",
+          rolls: 1,
         })
 
         const result = presenter.presentResults()
@@ -251,6 +275,7 @@ describe("NwodPresenter", () => {
         raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
         summed: [11],
         description: "perception",
+        rolls: 1,
       })
 
       expect(presenter.hummingbird).toMatch("hummingbird")
@@ -262,6 +287,7 @@ describe("NwodPresenter", () => {
         raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
         summed: [11],
         description: "rolling perception",
+        rolls: 1,
       })
 
       expect(presenter.hummingbird).toMatch("hummingbird")
@@ -273,6 +299,7 @@ describe("NwodPresenter", () => {
         raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
         summed: [11],
         description: "trying to perceive",
+        rolls: 1,
       })
 
       expect(presenter.hummingbird).toMatch("hummingbird")
@@ -283,6 +310,7 @@ describe("NwodPresenter", () => {
         pool: 2,
         raw: [[4, 5]],
         summed: [0],
+        rolls: 2,
       })
 
       expect(presenter.hummingbird).toEqual("")
@@ -304,6 +332,7 @@ describe("NwodPresenter", () => {
           const presenter = new NwodPresenter({
             raw: [[1]],
             description: "test description",
+            rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch("for")
@@ -313,6 +342,7 @@ describe("NwodPresenter", () => {
           const presenter = new NwodPresenter({
             raw: [[1]],
             description: "test description",
+            rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch('"test description"')
@@ -323,10 +353,44 @@ describe("NwodPresenter", () => {
         const presenter = new NwodPresenter({
           raw: [[1], [2]],
           description: "test description",
+          rolls: 2,
         })
 
         expect(presenter.presentedDescription).toMatch('"test description"')
       })
+    })
+  })
+
+  describe("explainRolls", () => {
+    it("when 1, returns empty string", () => {
+      const presenter = new NwodPresenter({
+        rolls: 1,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toEqual("")
+    })
+
+    it("in until mode, returns correct description", () => {
+      const presenter = new NwodPresenter({
+        rolls: 3,
+        until: 5,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toMatch("max 3 times")
+    })
+
+    it("in many mode, returns correct description", () => {
+      const presenter = new NwodPresenter({
+        rolls: 3,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toMatch("3 times")
     })
   })
 
@@ -521,6 +585,7 @@ describe("NwodPresenter", () => {
           chance: true,
           raw: [[1]],
           summed: [[0]],
+          rolls: 1,
         })
 
         const result = presenter.explainTally(0)
@@ -533,6 +598,7 @@ describe("NwodPresenter", () => {
           chance: true,
           raw: [[1]],
           summed: [[0]],
+          rolls: 1,
         })
 
         const result = presenter.explainTally(0)
@@ -546,6 +612,7 @@ describe("NwodPresenter", () => {
         chance: false,
         raw: [[8], [5]],
         summed: [1, 0],
+        rolls: 2,
       })
 
       const result = presenter.explainTally(1)
@@ -558,6 +625,7 @@ describe("NwodPresenter", () => {
         chance: false,
         raw: [[8], [5]],
         summed: [1, 0],
+        rolls: 2,
       })
 
       const result = presenter.explainTally(1)
@@ -572,6 +640,7 @@ describe("NwodPresenter", () => {
         raw: [[2], [3]],
         threshold: 8,
         explode: 10,
+        rolls: 1,
       })
 
       const result = presenter.notateDice(1)
@@ -584,6 +653,7 @@ describe("NwodPresenter", () => {
         raw: [[2]],
         threshold: 8,
         explode: 10,
+        rolls: 1,
       })
 
       const result = presenter.notateDice(0)
@@ -596,6 +666,7 @@ describe("NwodPresenter", () => {
         raw: [[8]],
         threshold: 8,
         explode: 10,
+        rolls: 1,
       })
 
       const result = presenter.notateDice(0)
@@ -608,6 +679,7 @@ describe("NwodPresenter", () => {
         raw: [[10]],
         threshold: 8,
         explode: 10,
+        rolls: 1,
       })
 
       const result = presenter.notateDice(0)
@@ -623,6 +695,7 @@ describe("NwodPresenter", () => {
           explode: 10,
           rote: true,
           pool: 1,
+          rolls: 1,
         })
 
         const result = presenter.notateDice(0)
@@ -637,6 +710,7 @@ describe("NwodPresenter", () => {
           explode: 10,
           rote: true,
           pool: 1,
+          rolls: 1,
         })
 
         const result = presenter.notateDice(0)
@@ -651,6 +725,7 @@ describe("NwodPresenter", () => {
           explode: 10,
           rote: true,
           pool: 1,
+          rolls: 1,
         })
 
         const result = presenter.notateDice(0)
@@ -665,6 +740,7 @@ describe("NwodPresenter", () => {
           explode: 10,
           rote: true,
           pool: 3,
+          rolls: 1,
         })
 
         const result = presenter.notateDice(0)
@@ -679,6 +755,7 @@ describe("NwodPresenter", () => {
           explode: 10,
           rote: true,
           pool: 1,
+          rolls: 1,
         })
 
         const result = presenter.notateDice(0)
@@ -695,6 +772,7 @@ describe("NwodPresenter", () => {
             rote: true,
             chance: true,
             pool: 1,
+            rolls: 1,
           })
 
           const result = presenter.notateDice(0)
@@ -710,6 +788,7 @@ describe("NwodPresenter", () => {
             rote: true,
             chance: true,
             pool: 1,
+            rolls: 1,
           })
 
           const result = presenter.notateDice(0)
@@ -726,6 +805,7 @@ describe("NwodPresenter", () => {
           raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9], [1, 2, 3]],
           chance: false,
           decreasing: true,
+          rolls: 5,
         })
 
         const result = presenter.rollPool(2)
@@ -738,6 +818,7 @@ describe("NwodPresenter", () => {
           pool: 3,
           raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
           chance: false,
+          rolls: 4
         })
 
         const result = presenter.rollPool(2)
@@ -753,6 +834,7 @@ describe("NwodPresenter", () => {
           raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9], [1, 2, 3]],
           chance: false,
           decreasing: true,
+          rolls: 5,
         })
 
         const result = presenter.rollChance(3)
@@ -765,6 +847,7 @@ describe("NwodPresenter", () => {
           pool: 3,
           raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
           chance: false,
+          rolls: 4,
         })
 
         const result = presenter.rollChance(3)
@@ -781,6 +864,7 @@ describe("NwodPresenter", () => {
           chance: false,
           threshold: 9,
           decreasing: true,
+          rolls: 4,
         })
 
         const result = presenter.rollThreshold(3)
@@ -794,6 +878,7 @@ describe("NwodPresenter", () => {
           raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
           chance: false,
           threshold: 9,
+          rolls: 4,
         })
 
         const result = presenter.rollThreshold(3)
@@ -811,6 +896,7 @@ describe("NwodPresenter", () => {
           [4, 3],
         ],
         summed: [1, 0],
+        rolls: 2,
       })
 
       const result = presenter.presentResultSet()
@@ -826,6 +912,7 @@ describe("NwodPresenter", () => {
           [4, 3],
         ],
         summed: [1, 0],
+        rolls: 2,
       })
 
       const result = presenter.presentResultSet()

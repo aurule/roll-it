@@ -13,6 +13,7 @@ class NwodPresenter {
    * Create a new NwodPresenter object
    *
    * @param  {Int}       options.pool        Number of dice rolled
+   * @param  {Int}       options.rolls       Number of rolls made
    * @param  {bool}      options.chance      Whether this is the result of a chance roll
    * @param  {bool}      options.rote        Whether this is the result of a rote roll
    * @param  {Int}       options.threshold   Threshold for success
@@ -23,8 +24,9 @@ class NwodPresenter {
    * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
    */
-  constructor({ pool, chance, rote, threshold, explode, until, decreasing, description, raw, summed }) {
+  constructor({ pool, rolls, chance, rote, threshold, explode, until, decreasing, description, raw, summed }) {
     this.pool = pool
+    this.rolls = rolls
     this.chance = chance
     this.rote = rote
     this.threshold = threshold
@@ -34,15 +36,6 @@ class NwodPresenter {
     this.raw = raw
     this.summed = summed
     this.decreasing = decreasing
-  }
-
-  /**
-   * Get the number of rolls made in our result set
-   *
-   * @return {int} Number of rolls made
-   */
-  get rolls() {
-    return this.raw.length
   }
 
   /**
@@ -71,7 +64,9 @@ class NwodPresenter {
     switch (this.mode) {
       case "until":
         content += this.presentedDescription
-        content += ` until ${this.until} successes at ${this.explainPool()}:`
+        content += ` until ${this.until} successes`
+        content += this.explainRolls()
+        content += ` at ${this.explainPool()}:`
         content += this.presentResultSet()
 
         const finalSum = this.summed.reduce((prev, curr) => prev + curr, 0)
@@ -79,7 +74,7 @@ class NwodPresenter {
         break
       case "many":
         content += this.presentedDescription
-        content += ` ${this.rolls} times with ${this.explainPool()}:`
+        content += `${this.explainRolls()} times with ${this.explainPool()}:`
         content += this.presentResultSet()
         break
       case "one":
@@ -125,6 +120,23 @@ class NwodPresenter {
     if (this.mode == "one") return ` for "${this.description}"`
 
     return ` "${this.description}"`
+  }
+
+  /**
+   * Explain the number of rolls
+   *
+   * In many mode, this will describe the total rolls made. In until mode, this will indicate the maximum
+   * number of allowed rolls. In single mode, this returns an empty string.
+   *
+   * @return {str} Formatted description of rolls
+   */
+  explainRolls() {
+    if (this.rolls === 1) return ""
+
+    const content = ` ${this.rolls} times`
+
+    if (this.until) return ` (max${content})`
+    return content
   }
 
   /**
