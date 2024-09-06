@@ -70,7 +70,7 @@ class NwodPresenter {
         content += this.presentResultSet()
 
         const finalSum = this.summed.reduce((prev, curr) => prev + curr, 0)
-        content += `\n${bold(finalSum)} of ${this.until} in ${this.rolls} rolls`
+        content += `\n${bold(finalSum)} of ${this.until} in ${this.raw.length} rolls`
         break
       case "many":
         content += this.presentedDescription

@@ -1,20 +1,13 @@
 const { ShadowrunPresenter } = require("./shadowrun-results-presenter")
 
 describe("ShadowrunPresenter", () => {
-  describe("rolls", () => {
-    it("matches the number of results", () => {
-      const presenter = new ShadowrunPresenter({ raw: [[1], [2]] })
-
-      expect(presenter.rolls).toEqual(2)
-    })
-  })
-
   describe("mode", () => {
     describe("when until option true", () => {
       it("returns 'until' with many rolls", () => {
         const presenter = new ShadowrunPresenter({
           until: 2,
           raw: [[1], [2]],
+          rolls: 2,
         })
 
         expect(presenter.mode).toEqual("until")
@@ -24,6 +17,7 @@ describe("ShadowrunPresenter", () => {
         const presenter = new ShadowrunPresenter({
           until: 2,
           raw: [[1]],
+          rolls: 1,
         })
 
         expect(presenter.mode).toEqual("until")
@@ -35,6 +29,7 @@ describe("ShadowrunPresenter", () => {
         const presenter = new ShadowrunPresenter({
           until: 0,
           raw: [[1], [2]],
+          rolls: 2,
         })
 
         expect(presenter.mode).toEqual("many")
@@ -44,6 +39,7 @@ describe("ShadowrunPresenter", () => {
         const presenter = new ShadowrunPresenter({
           until: 0,
           raw: [[1]],
+          rolls: 1,
         })
 
         expect(presenter.mode).toEqual("one")
@@ -62,6 +58,7 @@ describe("ShadowrunPresenter", () => {
           ],
           summed: [2, 2],
           until: 3,
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -79,6 +76,7 @@ describe("ShadowrunPresenter", () => {
           ],
           summed: [2, 2],
           until: 3,
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -96,6 +94,7 @@ describe("ShadowrunPresenter", () => {
           ],
           summed: [2, 2],
           until: 3,
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -114,6 +113,7 @@ describe("ShadowrunPresenter", () => {
             [2, 5, 5],
           ],
           summed: [1, 2],
+          rolls: 2,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -129,6 +129,7 @@ describe("ShadowrunPresenter", () => {
           pool: 3,
           raw: [[1, 2, 5]],
           summed: [1],
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -154,6 +155,7 @@ describe("ShadowrunPresenter", () => {
           const presenter = new ShadowrunPresenter({
             raw: [[1]],
             description: "test description",
+          rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch("for")
@@ -163,6 +165,7 @@ describe("ShadowrunPresenter", () => {
           const presenter = new ShadowrunPresenter({
             raw: [[1]],
             description: "test description",
+          rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch('"test description"')
@@ -173,10 +176,44 @@ describe("ShadowrunPresenter", () => {
         const presenter = new ShadowrunPresenter({
           raw: [[1], [2]],
           description: "test description",
+          rolls: 1,
         })
 
         expect(presenter.presentedDescription).toMatch('"test description"')
       })
+    })
+  })
+
+  describe("explainRolls", () => {
+    it("when 1, returns empty string", () => {
+      const presenter = new ShadowrunPresenter({
+        rolls: 1,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toEqual("")
+    })
+
+    it("in until mode, returns correct description", () => {
+      const presenter = new ShadowrunPresenter({
+        rolls: 3,
+        until: 5,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toMatch("max 3 times")
+    })
+
+    it("in many mode, returns correct description", () => {
+      const presenter = new ShadowrunPresenter({
+        rolls: 3,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toMatch("3 times")
     })
   })
 
@@ -230,6 +267,7 @@ describe("ShadowrunPresenter", () => {
   describe("notateDice", () => {
     const options = {
       raw: [[1, 3, 6]],
+          rolls: 1,
     }
 
     it("highlights successes", () => {
@@ -264,6 +302,7 @@ describe("ShadowrunPresenter", () => {
           raw: [[2, 2, 4]],
           summed: [0],
           pool: 3,
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -277,6 +316,7 @@ describe("ShadowrunPresenter", () => {
           raw: [[1, 1, 4]],
           summed: [0],
           pool: 3,
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -292,6 +332,7 @@ describe("ShadowrunPresenter", () => {
           raw: [[2, 2, 5]],
           summed: [1],
           pool: 3,
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -305,6 +346,7 @@ describe("ShadowrunPresenter", () => {
           raw: [[1, 1, 5]],
           summed: [1],
           pool: 3,
+          rolls: 1,
         }
         const presenter = new ShadowrunPresenter(options)
 
@@ -320,6 +362,7 @@ describe("ShadowrunPresenter", () => {
       const options = {
         pool: 3,
         raw: [[1, 1, 2]],
+        rolls: 1,
       }
       const presenter = new ShadowrunPresenter(options)
 
@@ -332,6 +375,7 @@ describe("ShadowrunPresenter", () => {
       const options = {
         pool: 3,
         raw: [[2, 1, 2]],
+        rolls: 1,
       }
       const presenter = new ShadowrunPresenter(options)
 
@@ -350,6 +394,7 @@ describe("ShadowrunPresenter", () => {
       summed: [0, 1],
       edge: false,
       pool: 3,
+      rolls: 2,
     }
 
     it("shows the tally for each result", () => {

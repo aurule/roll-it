@@ -1,20 +1,13 @@
 const { WodPresenter } = require("./wod20-results-presenter")
 
 describe("WodPresenter", () => {
-  describe("rolls", () => {
-    it("matches the number of results", () => {
-      const presenter = new WodPresenter({ raw: [[1], [2]] })
-
-      expect(presenter.rolls).toEqual(2)
-    })
-  })
-
   describe("mode", () => {
     describe("when until option true", () => {
       it("returns 'until' with many rolls", () => {
         const presenter = new WodPresenter({
           until: 2,
           raw: [[1], [2]],
+          rolls: 1,
         })
 
         expect(presenter.mode).toEqual("until")
@@ -24,6 +17,7 @@ describe("WodPresenter", () => {
         const presenter = new WodPresenter({
           until: 2,
           raw: [[1]],
+          rolls: 1,
         })
 
         expect(presenter.mode).toEqual("until")
@@ -35,6 +29,7 @@ describe("WodPresenter", () => {
         const presenter = new WodPresenter({
           until: 0,
           raw: [[1], [2]],
+          rolls: 2,
         })
 
         expect(presenter.mode).toEqual("many")
@@ -44,6 +39,7 @@ describe("WodPresenter", () => {
         const presenter = new WodPresenter({
           until: 0,
           raw: [[1]],
+          rolls: 1,
         })
 
         expect(presenter.mode).toEqual("one")
@@ -53,8 +49,7 @@ describe("WodPresenter", () => {
 
   describe("presentResults", () => {
     describe("in until mode", () => {
-      it("shows target successes", () => {
-        const options = {
+      const default_opts = {
           pool: 3,
           raw: [
             [6, 2, 7],
@@ -63,8 +58,11 @@ describe("WodPresenter", () => {
           summed: [2, 2],
           until: 3,
           difficulty: 6,
+          rolls: 2,
         }
-        const presenter = new WodPresenter(options)
+
+      it("shows target successes", () => {
+        const presenter = new WodPresenter(default_opts)
 
         const result = presenter.presentResults()
 
@@ -72,17 +70,7 @@ describe("WodPresenter", () => {
       })
 
       it("shows the pool", () => {
-        const options = {
-          pool: 3,
-          raw: [
-            [6, 2, 7],
-            [2, 9, 10],
-          ],
-          summed: [2, 2],
-          until: 3,
-          difficulty: 6,
-        }
-        const presenter = new WodPresenter(options)
+        const presenter = new WodPresenter(default_opts)
 
         const result = presenter.presentResults()
 
@@ -90,17 +78,7 @@ describe("WodPresenter", () => {
       })
 
       it("shows a final total", () => {
-        const options = {
-          pool: 3,
-          raw: [
-            [6, 2, 7],
-            [2, 9, 10],
-          ],
-          summed: [2, 2],
-          until: 3,
-          difficulty: 6,
-        }
-        const presenter = new WodPresenter(options)
+        const presenter = new WodPresenter(default_opts)
 
         const result = presenter.presentResults()
 
@@ -117,6 +95,7 @@ describe("WodPresenter", () => {
             [2, 5, 5],
           ],
           summed: [1, 2],
+          rolls: 2,
         }
         const presenter = new WodPresenter(options)
 
@@ -132,6 +111,7 @@ describe("WodPresenter", () => {
           pool: 3,
           raw: [[1, 2, 5]],
           summed: [1],
+          rolls: 1,
         }
         const presenter = new WodPresenter(options)
 
@@ -157,6 +137,7 @@ describe("WodPresenter", () => {
           const presenter = new WodPresenter({
             raw: [[1]],
             description: "test description",
+            rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch("for")
@@ -166,6 +147,7 @@ describe("WodPresenter", () => {
           const presenter = new WodPresenter({
             raw: [[1]],
             description: "test description",
+            rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch('"test description"')
@@ -176,6 +158,7 @@ describe("WodPresenter", () => {
         const presenter = new WodPresenter({
           raw: [[1], [2]],
           description: "test description",
+          rolls: 2,
         })
 
         expect(presenter.presentedDescription).toMatch('"test description"')
@@ -183,14 +166,49 @@ describe("WodPresenter", () => {
     })
   })
 
+  describe("explainRolls", () => {
+    it("when 1, returns empty string", () => {
+      const presenter = new WodPresenter({
+        rolls: 1,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toEqual("")
+    })
+
+    it("in until mode, returns correct description", () => {
+      const presenter = new WodPresenter({
+        rolls: 3,
+        until: 5,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toMatch("max 3 times")
+    })
+
+    it("in many mode, returns correct description", () => {
+      const presenter = new WodPresenter({
+        rolls: 3,
+      })
+
+      const result = presenter.explainRolls()
+
+      expect(result).toMatch("3 times")
+    })
+  })
+
   describe("explainPool", () => {
+    const default_opts = {
+      pool: 5,
+      raw: [[3, 4, 5, 5, 8]],
+      difficulty: 6,
+      rolls: 1,
+    }
+
     it("shows the pool size", () => {
-      const options = {
-        pool: 5,
-        raw: [[3, 4, 5, 5, 8]],
-        difficulty: 6,
-      }
-      const presenter = new WodPresenter(options)
+      const presenter = new WodPresenter(default_opts)
 
       const result = presenter.explainPool()
 
@@ -198,12 +216,7 @@ describe("WodPresenter", () => {
     })
 
     it("shows the difficulty", () => {
-      const options = {
-        pool: 5,
-        raw: [[3, 4, 5, 5, 8]],
-        difficulty: 6,
-      }
-      const presenter = new WodPresenter(options)
+      const presenter = new WodPresenter(default_opts)
 
       const result = presenter.explainPool()
 
@@ -211,13 +224,10 @@ describe("WodPresenter", () => {
     })
 
     it("shows specialty if present", () => {
-      const options = {
-        pool: 5,
-        raw: [[3, 4, 5, 5, 8]],
-        difficulty: 6,
+      const presenter = new WodPresenter({
+        ...default_opts,
         specialty: true,
-      }
-      const presenter = new WodPresenter(options)
+      })
 
       const result = presenter.explainPool()
 
@@ -226,12 +236,14 @@ describe("WodPresenter", () => {
   })
 
   describe("notateDice", () => {
-    it("strikes ones", () => {
-      const options = {
+    const default_opts = {
         raw: [[1, 4, 6, 8, 10]],
         difficulty: 6,
+        rolls: 1,
       }
-      const presenter = new WodPresenter(options)
+
+    it("strikes ones", () => {
+      const presenter = new WodPresenter(default_opts)
 
       const result = presenter.notateDice(0)
 
@@ -239,11 +251,7 @@ describe("WodPresenter", () => {
     })
 
     it("highlights successes", () => {
-      const options = {
-        raw: [[1, 4, 6, 8, 10]],
-        difficulty: 6,
-      }
-      const presenter = new WodPresenter(options)
+      const presenter = new WodPresenter(default_opts)
 
       const result = presenter.notateDice(0)
 
@@ -251,12 +259,10 @@ describe("WodPresenter", () => {
     })
 
     it("underlines 10s with specialty", () => {
-      const options = {
-        raw: [[1, 4, 6, 8, 10]],
-        difficulty: 6,
+      const presenter = new WodPresenter({
+        ...default_opts,
         specialty: true,
-      }
-      const presenter = new WodPresenter(options)
+      })
 
       const result = presenter.notateDice(0)
 
@@ -272,6 +278,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 
@@ -287,6 +294,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 
@@ -302,6 +310,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 
@@ -319,6 +328,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 
@@ -334,6 +344,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 
@@ -349,6 +360,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 
@@ -364,6 +376,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 
@@ -379,6 +392,7 @@ describe("WodPresenter", () => {
         difficulty: 6,
         specialty: true,
         pool: 6,
+        rolls: 1,
       }
       const presenter = new WodPresenter(options)
 

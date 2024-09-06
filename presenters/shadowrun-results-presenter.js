@@ -14,27 +14,20 @@ class ShadowrunPresenter {
    *
    * @param  {Int}       options.pool        Number of dice rolled
    * @param  {Bool}      options.edge        Whether 6s were re-rolled
+   * @param  {Int}       options.rolls       Number of rolls made
    * @param  {Int}       options.until       Target number of successes from multiple rolls
    * @param  {String}    options.description Text describing the roll
    * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
    */
-  constructor({ pool, edge, until, description, raw, summed }) {
+  constructor({ pool, edge, rolls, until, description, raw, summed }) {
     this.pool = pool
     this.edge = edge
+    this.rolls = rolls
     this.until = until
     this.description = description
     this.raw = raw
     this.summed = summed
-  }
-
-  /**
-   * Get the number of rolls made in our result set
-   *
-   * @return {int} Number of rolls made
-   */
-  get rolls() {
-    return this.raw.length
   }
 
   /**
@@ -63,15 +56,17 @@ class ShadowrunPresenter {
     switch (this.mode) {
       case "until":
         content += this.presentedDescription
-        content += ` until ${this.until} successes at ${this.explainPool()}:`
+        content += ` until ${this.until} successes`
+        content += this.explainRolls()
+        content += ` at ${this.explainPool()}:`
         content += this.presentResultSet()
 
         const finalSum = this.summed.reduce((prev, curr) => prev + curr, 0)
-        content += `\n${bold(finalSum)} of ${this.until} in ${this.rolls} rolls`
+        content += `\n${bold(finalSum)} of ${this.until} in ${this.raw.length} rolls`
         break
       case "many":
         content += this.presentedDescription
-        content += ` ${this.rolls} times with ${this.explainPool()}:`
+        content += `${this.explainRolls()} times with ${this.explainPool()}:`
         content += this.presentResultSet()
         break
       case "one":
@@ -98,6 +93,23 @@ class ShadowrunPresenter {
     if (this.mode == "one") return ` for "${this.description}"`
 
     return ` "${this.description}"`
+  }
+
+  /**
+   * Explain the number of rolls
+   *
+   * In many mode, this will describe the total rolls made. In until mode, this will indicate the maximum
+   * number of allowed rolls. In single mode, this returns an empty string.
+   *
+   * @return {str} Formatted description of rolls
+   */
+  explainRolls() {
+    if (this.rolls === 1) return ""
+
+    const content = ` ${this.rolls} times`
+
+    if (this.until) return ` (max${content})`
+    return content
   }
 
   /**

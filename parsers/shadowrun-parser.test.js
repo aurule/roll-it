@@ -157,12 +157,15 @@ describe("roll until", () => {
     summed: [1, 2],
   }
 
-  it("skips rolls", async () => {
-    const content = present(default_opts)
+  it("gets max rolls", async () => {
+    const content = present({
+      ...default_opts,
+      rolls: 2,
+    })
 
     const result = await parse(content)
 
-    expect(result.rolls).toBeUndefined()
+    expect(result.rolls).toEqual(2)
   })
 
   it("gets until", async () => {
