@@ -1,6 +1,7 @@
 const Joi = require("joi")
-const { RollParseError } = require("../errors/roll-parse-error")
+
 const command = require("../commands/roll-formula")
+const { parseValueOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
 
 module.exports = {
   name: "roll-formula",
@@ -23,29 +24,13 @@ module.exports = {
    */
   async parse(content) {
     const formula_re = /`(?<formula>.*)`:/
-    const rolls_re = /(?<rolls>\d+) times/
-
-    const raw_options = {}
-
-    const formula_groups = formula_re.exec(content)?.groups
-    if (formula_groups) {
-      raw_options.formula = formula_groups.formula
-    }
 
     const stripped_content = content.replace(/".*"/, "")
+    const raw_options = {}
 
-    const rolls_groups = rolls_re.exec(stripped_content)?.groups
-    if (rolls_groups) {
-      raw_options.rolls = rolls_groups.rolls
-    }
+    raw_options.formula = parseValueOption(formula_re, content)
+    raw_options.rolls = parseRollsOption(stripped_content)
 
-    var validated_options
-    try {
-      validated_options = await command.schema.validateAsync(raw_options, { abortEarly: false })
-    } catch (err) {
-      throw new RollParseError(err.details.map((d) => d.message))
-    }
-
-    return validated_options
+    return await validateOptions(raw_options, command)
   },
 }

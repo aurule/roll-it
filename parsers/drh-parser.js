@@ -1,7 +1,8 @@
 const Joi = require("joi")
-const { RollParseError } = require("../errors/roll-parse-error")
+
 const command = require("../commands/drh")
 const { talentNames } = require("../presenters/drh-results-presenter")
+const { validateOptions, parseRollsOption } = require("../util/parser-helpers")
 
 module.exports = {
   name: "drh",
@@ -31,7 +32,6 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
-    const rolls_re = /(?<rolls>\d+) times/
     const pool_re = /_*(?<name>\w+?)_*?\s+\((?<dice>.*?)\)/gm
     const commas_re = /,/g
     const talent_re = /a (?<name>[\w\s]+) talent/
@@ -51,18 +51,8 @@ module.exports = {
       raw_options.talent = talentNames.findKey((n) => n === talent_groups.name)
     }
 
-    const rolls_groups = rolls_re.exec(stripped_content)?.groups
-    if (rolls_groups) {
-      raw_options.rolls = rolls_groups.rolls
-    }
+    raw_options.rolls = parseRollsOption(stripped_content)
 
-    var validated_options
-    try {
-      validated_options = await command.schema.validateAsync(raw_options, { abortEarly: false })
-    } catch (err) {
-      throw new RollParseError(err.details.map((d) => d.message))
-    }
-
-    return validated_options
+    return await validateOptions(raw_options, command)
   },
 }

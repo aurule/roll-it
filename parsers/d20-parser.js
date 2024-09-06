@@ -1,6 +1,7 @@
 const Joi = require("joi")
-const { RollParseError } = require("../errors/roll-parse-error")
+
 const command = require("../commands/d20")
+const { parseValueOption, parseModifierOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
 
 module.exports = {
   name: "d20",
@@ -22,37 +23,19 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
-    const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
-    const rolls_re = /(?<rolls>\d+) times/
     const keep_re = /with (?<low>dis)?advantage/
 
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 
-    const modifier_groups = modifier_re.exec(stripped_content)?.groups
-    if (modifier_groups) {
-      let mod = modifier_groups.modifier
-      if (modifier_groups.operator == "-") mod = -1 * mod
-      raw_options.modifier = mod
-    }
-
-    const rolls_groups = rolls_re.exec(stripped_content)?.groups
-    if (rolls_groups) {
-      raw_options.rolls = rolls_groups.rolls
-    }
+    raw_options.modifier = parseModifierOption(stripped_content)
+    raw_options.rolls = parseRollsOption(stripped_content)
 
     const has_keep = keep_re.exec(stripped_content)
     if (has_keep) {
       raw_options.keep = !!has_keep.groups.low ? "lowest" : "highest"
     }
 
-    var validated_options
-    try {
-      validated_options = await command.schema.validateAsync(raw_options, { abortEarly: false })
-    } catch (err) {
-      throw new RollParseError(err.details.map((d) => d.message))
-    }
-
-    return validated_options
+    return await validateOptions(raw_options, command)
   },
 }

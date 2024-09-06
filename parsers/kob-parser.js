@@ -1,6 +1,7 @@
 const Joi = require("joi")
-const { RollParseError } = require("../errors/roll-parse-error")
+
 const command = require("../commands/kob")
+const { parseValueOption, parseModifierOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
 
 module.exports = {
   name: "kob",
@@ -24,37 +25,15 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
-    const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
-    const rolls_re = /(?<rolls>\d+) times/
     const sides_re = /d(?<sides>\d+)/
 
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 
-    const sides_groups = sides_re.exec(stripped_content)?.groups
-    if (sides_groups) {
-      raw_options.sides = sides_groups.sides
-    }
+    raw_options.sides = parseValueOption(sides_re, stripped_content)
+    raw_options.rolls = parseRollsOption(stripped_content)
+    raw_options.modifier = parseModifierOption(stripped_content)
 
-    const modifier_groups = modifier_re.exec(stripped_content)?.groups
-    if (modifier_groups) {
-      let mod = modifier_groups.modifier
-      if (modifier_groups.operator == "-") mod = -1 * mod
-      raw_options.modifier = mod
-    }
-
-    const rolls_groups = rolls_re.exec(stripped_content)?.groups
-    if (rolls_groups) {
-      raw_options.rolls = rolls_groups.rolls
-    }
-
-    var validated_options
-    try {
-      validated_options = await command.schema.validateAsync(raw_options, { abortEarly: false })
-    } catch (err) {
-      throw new RollParseError(err.details.map((d) => d.message))
-    }
-
-    return validated_options
+    return await validateOptions(raw_options, command)
   },
 }

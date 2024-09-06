@@ -1,5 +1,7 @@
 const Joi = require("joi")
+
 const { RollParseError } = require("../errors/roll-parse-error")
+const { validateOptions } = require("../util/parser-helpers")
 
 module.exports = {
   name: "invocation",
@@ -40,12 +42,7 @@ module.exports = {
       throw new RollParseError([`cannot save "${command_name}"`])
     }
 
-    var validated_options
-    try {
-      validated_options = await command.schema.validateAsync(options, { abortEarly: false })
-    } catch (err) {
-      throw new RollParseError(err.details.map((d) => d.message))
-    }
+    const validated_options = await validateOptions(options, command)
 
     return {
       command: command_name,

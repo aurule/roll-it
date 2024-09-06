@@ -1,6 +1,7 @@
 const Joi = require("joi")
-const { RollParseError } = require("../errors/roll-parse-error")
+
 const command = require("../commands/wod20")
+const { parseValueOption, parseBooleanOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
 
 module.exports = {
   name: "wod20",
@@ -23,42 +24,20 @@ module.exports = {
    * @throws RollParseError On an invalid content string or invalid options.
    */
   async parse(content) {
-    const pool_re = /(?<pool>\d+) diff (?<difficulty>\d+)/
+    const pool_re = /(?<pool>\d+) diff/
+    const diff_re = /diff (?<difficulty>\d+)/
     const specialty_re = /specialty/
-    const rolls_re = /(?<rolls>\d+) times/
     const until_re = /until (?<until>\d+)/
 
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 
-    const pool_groups = pool_re.exec(stripped_content)?.groups
-    if (pool_groups) {
-      raw_options.pool = pool_groups.pool
-      raw_options.difficulty = pool_groups.difficulty
-    }
+    raw_options.pool = parseValueOption(pool_re, stripped_content)
+    raw_options.difficulty = parseValueOption(diff_re, stripped_content)
+    raw_options.specialty = parseBooleanOption(specialty_re, stripped_content)
+    raw_options.rolls = parseRollsOption(stripped_content)
+    raw_options.until = parseValueOption(until_re, stripped_content)
 
-    const has_specialty = specialty_re.test(stripped_content)
-    if (has_specialty) {
-      raw_options.specialty = true
-    }
-
-    const rolls_groups = rolls_re.exec(stripped_content)?.groups
-    if (rolls_groups) {
-      raw_options.rolls = rolls_groups.rolls
-    }
-
-    const until_groups = until_re.exec(stripped_content)?.groups
-    if (until_groups) {
-      raw_options.until = until_groups.until
-    }
-
-    var validated_options
-    try {
-      validated_options = await command.schema.validateAsync(raw_options, { abortEarly: false })
-    } catch (err) {
-      throw new RollParseError(err.details.map((d) => d.message))
-    }
-
-    return validated_options
+    return await validateOptions(raw_options, command)
   },
 }
