@@ -3,10 +3,10 @@ const { bold, userMention } = require("discord.js")
 const { pluralize } = require("../util/pluralize")
 
 /**
- * Class to more conveniently handle the complex presentation logic for an nwod roll
+ * Class to more conveniently handle the complex presentation logic for a /nwod roll
  *
  * The presenter is designed to handle a single roll or set of identical rolls. It must not be reused for
- * different rolls.
+ * different inputs.
  */
 class NwodPresenter {
   /**
@@ -18,11 +18,12 @@ class NwodPresenter {
    * @param  {Int}       options.threshold   Threshold for success
    * @param  {Bool}      options.explode     Whether 10s were re-rolled
    * @param  {Int}       options.until       Target number of successes from multiple rolls
+   * @param  {bool}      options.decreasing  Whether the pool of subsequent rolls is lowered
    * @param  {String}    options.description Text describing the roll
    * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
    */
-  constructor({ pool, chance, rote, threshold, explode, until, description, raw, summed }) {
+  constructor({ pool, chance, rote, threshold, explode, until, decreasing, description, raw, summed }) {
     this.pool = pool
     this.chance = chance
     this.rote = rote
@@ -32,6 +33,7 @@ class NwodPresenter {
     this.description = description
     this.raw = raw
     this.summed = summed
+    this.decreasing = decreasing
   }
 
   /**
@@ -145,14 +147,15 @@ class NwodPresenter {
     content += this.explainRote()
     content += this.explainThreshold()
     content += this.explainExplode()
+    content += this.explainDecreasing()
 
     return content
   }
 
   /**
-   * Get text describing the rote option
+   * Get text describing the rote flag
    *
-   * @return {str} Brief description of the rote option
+   * @return {str} Brief description of the rote flag, or empty if flag is false
    */
   explainRote() {
     if (this.rote) return " with rote"
@@ -192,6 +195,16 @@ class NwodPresenter {
   }
 
   /**
+   * Get text describing the decreasing flag
+   *
+   * @return {str} Brief description of the decreasing flag, or empty if flag is false
+   */
+  explainDecreasing() {
+    if (this.decreasing) return ", decreasing"
+    return ""
+  }
+
+  /**
    * Explain a single result
    *
    * If it's a chance roll, then a raw die of 1 is a dramatic failure.
@@ -201,7 +214,7 @@ class NwodPresenter {
    * @return {str}              A string describing the result
    */
   explainTally(result_index) {
-    if (this.chance && this.raw[result_index][0] === 1) {
+    if (this.rollChance(result_index) && this.raw[result_index][0] === 1) {
       return `a ${bold("dramatic failure")}`
     }
     return bold(this.summed[result_index])
@@ -220,11 +233,11 @@ class NwodPresenter {
     let skip = false
     return this.raw[result_index]
       .map((die, idx) => {
-        if (die >= this.threshold) {
+        if (die >= this.rollThreshold(result_index)) {
           if (die >= this.explode) {
             idx_mod--
             skip = true
-            if (this.rote && this.chance && idx === 0) {
+            if (this.rote && this.rollChance(result_index) && idx === 0) {
               // use the elusive double bang when a chance die has rote and rolls a 10
               return bold(`${die}!!`)
             }
@@ -233,8 +246,8 @@ class NwodPresenter {
           }
           // bold normal successes
           return bold(die)
-        } else if (this.rote && idx + idx_mod < this.pool) {
-          if (this.chance && idx === 0 && die === 1) {
+        } else if (this.rote && idx + idx_mod < this.rollPool(result_index)) {
+          if (this.rollChance(result_index) && idx === 0 && die === 1) {
             // a dramatic failure on the first die does not get a rote re-roll
             return die
           }
@@ -249,6 +262,45 @@ class NwodPresenter {
         return die
       })
       .join(", ")
+  }
+
+  /**
+   * Get the pool for a given roll
+   *
+   * When decreasing is true, a roll's pool is decreased by one for each after the first.
+   *
+   * @param  {int}  idx Index of the roll
+   * @return {bool}     Number of dice in the pool
+   */
+  rollPool(idx) {
+    if (this.decreasing) return this.pool - idx
+    return this.pool
+  }
+
+  /**
+   * Get whether a particular roll was a chance die
+   *
+   * When decreasing is true, a roll can become a chance die if its pool is reduced to zero.
+   *
+   * @param  {int}  idx Index of the roll
+   * @return {bool}     True if that roll was a chance die, false if not
+   */
+  rollChance(idx) {
+    if (this.decreasing) return idx >= this.pool
+    return this.chance
+  }
+
+  /**
+   * Get the success threshold for a roll
+   *
+   * When a pool turns into a chance die due to decreasing, the threshold automatically becomes 10.
+   *
+   * @param  {int} idx Index of the roll
+   * @return {int}     Threshold for success
+   */
+  rollThreshold(idx) {
+    if (this.rollChance(idx)) return 10
+    return this.threshold
   }
 
   /**

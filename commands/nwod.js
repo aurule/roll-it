@@ -2,8 +2,8 @@ const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
 const { stripIndent, oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { roll, NwodRollOptions } = require("../services/nwod-roller")
 const { rollUntil } = require("../services/until-roller")
-const { roll } = require("../services/nwod-roller")
 const { successes } = require("../services/tally")
 const { present } = require("../presenters/nwod-results-presenter")
 const { handleTeamwork } = require("../services/teamwork")
@@ -52,11 +52,6 @@ module.exports = {
           .setDescription("Re-roll any dice in your initial pool that do not score successes"),
       )
       .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption((option) =>
-        option
-          .setName("teamwork")
-          .setDescription("Begin a teamwork roll where others can contribute dice"),
-      )
       .addIntegerOption((option) =>
         option
           .setName("until")
@@ -65,6 +60,16 @@ module.exports = {
           )
           .setMinValue(1)
           .setMaxValue(100),
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("decreasing")
+          .setDescription("Remove 1 die from the pool for each roll after the first")
+      )
+      .addBooleanOption((option) =>
+        option
+          .setName("teamwork")
+          .setDescription("Begin a teamwork roll where others can contribute dice"),
       )
       .addBooleanOption(commonOpts.secret),
   savable: true,
@@ -77,27 +82,46 @@ module.exports = {
     rolls: commonSchemas.rolls,
     until: commonSchemas.until,
     description: commonSchemas.description,
+    decreasing: Joi.boolean().optional(),
   }),
-  perform({ pool, explode = 10, threshold = 8, rote, rolls = 1, until, description } = {}) {
+  perform({ pool, explode = 10, threshold = 8, rote, rolls = 1, until, description, decreasing } = {}) {
     const chance = !pool
     if (chance) {
       pool = 1
       explode = 10
       threshold = 10
+      decreasing = false
     }
 
     let raw_results
     let summed_results
 
     if (until) {
+      const rollOptions = new NwodRollOptions({
+        pool,
+        explode,
+        threshold,
+        chance,
+        rote,
+        decreasing,
+      })
       ;({ raw_results, summed_results } = rollUntil({
-        roll: () => roll({ pool, explode, rote, threshold, chance }),
-        tally: (currentResult) => successes(currentResult, threshold),
+        roll: () => roll(rollOptions),
+        tally: (currentResult) => successes(currentResult, rollOptions.threshold),
         max: rolls === 1 ? 0 : rolls,
         target: until,
       }))
     } else {
-      raw_results = roll({ pool, explode, rote, threshold, chance, rolls })
+      const options = new NwodRollOptions({
+        pool,
+        explode,
+        rote,
+        threshold,
+        chance,
+        rolls,
+        decreasing,
+      })
+      raw_results = roll(options)
       summed_results = successes(raw_results, threshold)
     }
 
@@ -109,6 +133,7 @@ module.exports = {
       explode,
       threshold,
       until,
+      decreasing,
       description,
       raw: raw_results,
       summed: summed_results,
@@ -121,6 +146,7 @@ module.exports = {
     const rote = interaction.options.getBoolean("rote") ?? false
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const until = interaction.options.getInteger("until") ?? 0
+    const decreasing = interaction.options.getBoolean("decreasing") ?? false
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
     const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
@@ -174,6 +200,7 @@ module.exports = {
       explode,
       threshold,
       until,
+      decreasing,
       description: roll_description,
     })
     const full_text = injectMention(partial_message, userFlake)
@@ -204,6 +231,13 @@ module.exports = {
         The ${opts.until} option tells Roll It to continue rolling the same pool and difficulty until the
         total successes meet or exceed the number supplied. When the ${opts.rolls} option is also present, it
         caps the number of attempted rolls.
+      `,
+      "",
+      oneLine`
+        When ${opts.decreasing} is true, each roll after the first has its ${opts.pool} lowered by one. So the
+        first roll uses the full pool, the second roll has a -1 penalty, the third has -2, etc. This
+        implements the book rule of a cumulative penalty on retries. No effect unless ${opts.rolls} is more
+        than 1 or ${opts.until} is used.
       `,
       "",
       oneLine`

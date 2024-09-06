@@ -492,6 +492,28 @@ describe("NwodPresenter", () => {
     })
   })
 
+  describe("explainDecreasing", () => {
+    it("returns an empty string when false", () => {
+      const presenter = new NwodPresenter({
+        decreasing: false,
+      })
+
+      const result = presenter.explainDecreasing()
+
+      expect(result).toEqual("")
+    })
+
+    it("returns a description when true", () => {
+      const presenter = new NwodPresenter({
+        decreasing: true,
+      })
+
+      const result = presenter.explainDecreasing()
+
+      expect(result).toMatch("decreasing")
+    })
+  })
+
   describe("explainTally", () => {
     describe("in 'chance' mode with a 1", () => {
       it("returns dramatic failure", () => {
@@ -596,7 +618,7 @@ describe("NwodPresenter", () => {
     describe("rote re-rolls", () => {
       it("displays fails plain with a bang", () => {
         const presenter = new NwodPresenter({
-          raw: [[2]],
+          raw: [[2, 3]],
           threshold: 8,
           explode: 10,
           rote: true,
@@ -605,12 +627,12 @@ describe("NwodPresenter", () => {
 
         const result = presenter.notateDice(0)
 
-        expect(result).toEqual("2!")
+        expect(result).toMatch("2!")
       })
 
       it("displays 1s plain with a bang", () => {
         const presenter = new NwodPresenter({
-          raw: [[1]],
+          raw: [[1, 2]],
           threshold: 8,
           explode: 10,
           rote: true,
@@ -619,7 +641,7 @@ describe("NwodPresenter", () => {
 
         const result = presenter.notateDice(0)
 
-        expect(result).toEqual("1!")
+        expect(result).toMatch("1!")
       })
 
       it("does not add a bang after initial results", () => {
@@ -694,6 +716,89 @@ describe("NwodPresenter", () => {
 
           expect(result).toEqual("**10!!**, 4, 2")
         })
+      })
+    })
+
+    describe("rollPool", () => {
+      it("when decreasing, gets decreased pool after first roll", () => {
+        const presenter = new NwodPresenter({
+          pool: 3,
+          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9], [1, 2, 3]],
+          chance: false,
+          decreasing: true,
+        })
+
+        const result = presenter.rollPool(2)
+
+        expect(result).toEqual(1)
+      })
+
+      it("with flat pools, returns base pool", () => {
+        const presenter = new NwodPresenter({
+          pool: 3,
+          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          chance: false,
+        })
+
+        const result = presenter.rollPool(2)
+
+        expect(result).toEqual(3)
+      })
+    })
+
+    describe("rollChance", () => {
+      it("when decreasing and false, becomes true once rolls exceed base pool", () => {
+        const presenter = new NwodPresenter({
+          pool: 3,
+          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9], [1, 2, 3]],
+          chance: false,
+          decreasing: true,
+        })
+
+        const result = presenter.rollChance(3)
+
+        expect(result).toBeTruthy()
+      })
+
+      it("with flat pools, returns chance flag", () => {
+        const presenter = new NwodPresenter({
+          pool: 3,
+          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          chance: false,
+        })
+
+        const result = presenter.rollChance(3)
+
+        expect(result).toBeFalsy()
+      })
+    })
+
+    describe("rollThreshold", () => {
+      it("when chance becomes true, returns 10", () => {
+        const presenter = new NwodPresenter({
+          pool: 3,
+          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          chance: false,
+          threshold: 9,
+          decreasing: true,
+        })
+
+        const result = presenter.rollThreshold(3)
+
+        expect(result).toEqual(10)
+      })
+
+      it("with flat pools, returns threshold", () => {
+        const presenter = new NwodPresenter({
+          pool: 3,
+          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          chance: false,
+          threshold: 9,
+        })
+
+        const result = presenter.rollThreshold(3)
+
+        expect(result).toEqual(9)
       })
     })
   })

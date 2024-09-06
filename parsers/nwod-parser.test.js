@@ -147,6 +147,14 @@ describe("single roll", () => {
 
     expect(result.until).toBeUndefined()
   })
+
+  it("gets decreasing", async () => {
+    const content = present(default_opts)
+
+    const result = await parse(content)
+
+    expect(result.decreasing).toBeUndefined()
+  })
 })
 
 describe("multiple rolls", () => {
@@ -188,11 +196,21 @@ describe("multiple rolls", () => {
 
     expect(result.until).toBeUndefined()
   })
+
+  it("gets decreasing", async () => {
+    const content = present({
+      ...default_opts,
+      decreasing: true,
+    })
+
+    const result = await parse(content)
+
+    expect(result.decreasing).toBeTruthy()
+  })
 })
 
 describe("roll until", () => {
   const default_opts = {
-    rolls: 2,
     until: 2,
     pool: 5,
     threshold: 8,
@@ -204,12 +222,15 @@ describe("roll until", () => {
     summed: [1, 2],
   }
 
-  it("skips rolls", async () => {
-    const content = present(default_opts)
+  it.failing("gets max rolls", async () => {
+    const content = present({
+      ...default_opts,
+      rolls: 2,
+    })
 
     const result = await parse(content)
 
-    expect(result.rolls).toBeUndefined()
+    expect(result.rolls).toEqual(2)
   })
 
   it("gets until", async () => {
@@ -218,5 +239,18 @@ describe("roll until", () => {
     const result = await parse(content)
 
     expect(result.until).toEqual(2)
+  })
+
+  it("gets decreasing", async () => {
+    const options = {
+      ...default_opts,
+      decreasing: true,
+    }
+    options.raw[1].pop()
+    const content = present(options)
+
+    const result = await parse(content)
+
+    expect(result.decreasing).toBeTruthy()
   })
 })

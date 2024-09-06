@@ -100,6 +100,28 @@ describe("schema", () => {
       expect(result.error).toBeFalsy()
     })
   })
+
+  describe("decreasing", () => {
+    const decreasing_schema = nwod_command.schema.extract("decreasing")
+
+    it("is optional", () => {
+      const result = decreasing_schema.validate()
+
+      expect(result.error).toBeFalsy()
+    })
+
+    it("is a bool", () => {
+      const result = decreasing_schema.validate("yes")
+
+      expect(result.error).toBeTruthy()
+    })
+
+    it("accepts expected values", () => {
+      const result = decreasing_schema.validate(true)
+
+      expect(result.error).toBeFalsy()
+    })
+  })
 })
 
 describe("perform", () => {

@@ -28,6 +28,7 @@ module.exports = {
     const rote_re = /rote/
     const rolls_re = /(?<rolls>\d+) times/
     const until_re = /until (?<until>\d+)/
+    const decreasing_re = /decreasing/
 
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
@@ -60,6 +61,11 @@ module.exports = {
     const until_groups = until_re.exec(stripped_content)?.groups
     if (until_groups) {
       raw_options.until = until_groups.until
+    }
+
+    const has_decreasing = decreasing_re.test(stripped_content)
+    if (has_decreasing) {
+      raw_options.decreasing = true
     }
 
     var validated_options
