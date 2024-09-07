@@ -7,21 +7,57 @@ const Database = require("better-sqlite3")
 require("dotenv").config()
 
 /**
+ * Get the correct database file path for our environment
+ *
+ * Dev and prod use a specific location. Other environments are expected to use an in-memory database, so
+ * this just returns the current directory for those.
+ *
+ * @return {str} String to the folder where sqlite db files should be stored
+ */
+function dbFileParent() {
+  switch (process.env.NODE_ENV) {
+    case "development":
+      return path.join(__dirname, "..", ".sqlite")
+    case "production":
+      return path.join(__dirname, "..", "..")
+    default:
+      return __dirname
+  }
+}
+
+/**
  * Get the correct database path for our environment
  *
  * Dev and prod both use real files, while test and ci environments use an in-memory database.
  *
- * @return {str} String to the sqlite database path to use
+ * @return {str} String to the sqlite database file to use
  */
-function pickDatabaseFile() {
+function mainDatabaseFile() {
   switch (process.env.NODE_ENV) {
     case "development":
-      return path.join(__dirname, "..", ".sqlite", "roll-it.dev.db")
-    case "test":
-    case "ci":
-      return ":memory:"
+      return path.join(dbFileParent(), "roll-it.dev.db")
     case "production":
-      return path.join(__dirname, "..", "..", "roll-it.prod.db")
+      return path.join(dbFileParent(), "roll-it.prod.db")
+    default:
+      return ":memory:"
+  }
+}
+
+/**
+ * Get the correct stats database path for our environment
+ *
+ * Dev and prod both use real files, while test and ci environments use an in-memory database.
+ *
+ * @return {str} String to the sqlite database file to use
+ */
+function statsDatabaseFile() {
+  switch (process.env.NODE_ENV) {
+    case "development":
+      return path.join(dbFileParent(), "roll-it-stats.dev.db")
+    case "production":
+      return path.join(dbFileParent(), "roll-it-stats.prod.db")
+    default:
+      return ":memory:"
   }
 }
 
@@ -34,7 +70,7 @@ function pickDatabaseFile() {
  * @return {Database}          Database connection object
  */
 function makeDB(db_options = {}) {
-  const db = new Database(pickDatabaseFile(), {
+  const db = new Database(mainDatabaseFile(), {
     verbose: (sql) => logger.debug(sql),
     ...db_options,
   })
@@ -51,5 +87,5 @@ function makeDB(db_options = {}) {
 module.exports = {
   db: makeDB(),
   makeDB,
-  pickDatabaseFile,
+  dbFileParent,
 }
