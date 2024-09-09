@@ -1,5 +1,6 @@
 const { logger } = require("../util/logger")
 const { getReplyFn } = require("../util/getReplyFn")
+const { metrics } = require("../db/stats")
 
 const PolicyChecker = require("../services/policy-checker")
 
@@ -23,6 +24,7 @@ async function handleCommand(interaction) {
     },
     `command ${interaction.commandName} called`,
   )
+  metrics.logCommand(interaction.guildId, interaction.commandName)
 
   const policyResult = await PolicyChecker.check(command.policy, interaction)
 
