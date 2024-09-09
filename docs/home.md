@@ -6,7 +6,7 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 
 ## Features
 
-* Commands for 8 distinct [dice systems](/systems, supporting over a dozen distinct game lines.
+* Commands for 8 distinct [dice systems](/systems), supporting over a dozen distinct game lines.
 * [Saving rolls](/features/saved) for re-use without typing all the options again
 * Rolling random results on [custom tables](/features/tables)
 * And more!
