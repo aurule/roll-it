@@ -5,7 +5,7 @@ const Joi = require("joi")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/d20-results-presenter")
-const { pickDice } = require("../services/pick")
+const { pickDice, strategies } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
@@ -50,7 +50,7 @@ module.exports = {
   changeable: ["modifier"],
   schema: Joi.object({
     modifier: commonSchemas.modifier,
-    keep: Joi.string().optional().valid("all", "highest", "lowest").messages({
+    keep: Joi.string().optional().valid(...strategies).messages({
       "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
     }),
     with: Joi.string().optional().valid("advantage", "disadvantage"),
