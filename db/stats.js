@@ -1,9 +1,28 @@
+const { oneLine } = require("common-tags")
+
 class Stats {
-  constructor(db) {
+  constructor(db_obj) {
     this.db = db_obj ?? require("./index").db
   }
 
-  log(guildFlake, commandName) {
-    const insert = `INSERT`
+  logCommand(guildFlake, commandName) {
+    const insert = this.db.prepare(oneLine`
+      INSERT INTO stats.commands (
+        guildFlake,
+        command
+      ) VALUES (
+        @guildFlake,
+        @command
+      )
+    `)
+    return insert.run({
+      guildFlake,
+      command: commandName,
+    })
   }
+}
+
+module.exports = {
+  Stats,
+  metrics: new Stats(),
 }
