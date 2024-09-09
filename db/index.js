@@ -75,6 +75,9 @@ function makeDB(db_options = {}) {
     ...db_options,
   })
 
+  const attach = db.prepare("ATTACH DATABASE ? AS stats")
+  attach.run(statsDatabaseFile())
+
   const sql_files = fs.readdirSync(__dirname).filter((str) => str.endsWith(".sql"))
   sql_files.forEach((sql_file) => {
     const setup_sql = fs.readFileSync(path.join(__dirname, sql_file), "utf8")
