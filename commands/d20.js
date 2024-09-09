@@ -5,7 +5,7 @@ const Joi = require("joi")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/d20-results-presenter")
-const { pick } = require("../services/pick")
+const { pickDice } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { longReply } = require("../util/long-reply")
@@ -63,7 +63,7 @@ module.exports = {
     const pool = keep == "all" ? 1 : 2
 
     const raw_results = roll(pool, 20, rolls)
-    const pick_results = pick(raw_results, 1, keep)
+    const pick_results = pickDice(raw_results, 1, keep)
 
     return present({
       rolls,
