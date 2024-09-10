@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits, inlineCode } = require("discord.js")
+const { SlashCommandBuilder, PermissionFlagsBits, inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
+const { siteLink } = require("../util/site-link")
 
 const subcommands = loadSubcommands("table")
 
@@ -28,6 +29,10 @@ module.exports = {
   },
   help({ command_name }) {
     return [
+      italic(oneLine`
+        You can also read about ${siteLink("Random Tables", "/tables")} on the Roll It Website.
+      `),
+      "",
       oneLine`
         The ${command_name} commands let you create and roll random results from a table. Each subcommand has
         its own help entry you can read for more details.

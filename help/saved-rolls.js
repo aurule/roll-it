@@ -1,6 +1,8 @@
 const { inlineCode, italic, heading, orderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
+
 const CommandNamePresenter = require("../presenters/command-name-presenter")
+const { siteLink } = require("../util/site-link")
 
 module.exports = {
   name: "saved",
@@ -16,6 +18,10 @@ module.exports = {
     const grow = inlineCode("/saved grow")
 
     return [
+      italic(oneLine`
+        You can also read about ${siteLink("Saved Rolls", "/saved")} on the Roll It Website.
+      `),
+      "",
       oneLine`
         When you need to use a complicated roll over and over again, Roll It can save that roll so you don't
         have to type out (and remember) the whole thing each time. In order to save a roll, you need three
