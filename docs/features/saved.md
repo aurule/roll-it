@@ -29,6 +29,7 @@ _Save this roll_ lets you save a command that you've just used. To do so, use _S
 ?> Not all commands can be saved. Some do not roll actual dice (like `/table roll` or `/help`), or don't have re-usable options (like `/coin`), or are so simple that it's more effort to use a saved roll than to just use the options (like [`/chop bomb:true` invocation] vs [`/saved roll name:gimme ties` invocation]).
 
 Here are the commands that can be saved:
+* `/curv` - Roll 3d6 for D&D 5e
 * `/d10` - Roll a single ten-sided die
 * `/d100` - Roll a single percentile (100-sided) die
 * `/d20` - Roll a single 20-sided die
