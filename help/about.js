@@ -1,6 +1,8 @@
 const { inlineCode, hideLinkEmbed, hyperlink, bold } = require("discord.js")
 const { oneLine } = require("common-tags")
 
+const { siteLink, rootLink } = require("../util/site-link")
+
 module.exports = {
   name: "about",
   title: "About Roll It",
@@ -8,10 +10,10 @@ module.exports = {
   help() {
     return [
       oneLine`
-        ${hyperlink("Homepage", hideLinkEmbed("https://aurule.github.io/roll-it/#/"))} |
+        ${rootLink("Homepage")} |
         ${hyperlink("Source", hideLinkEmbed("https://github.com/aurule/roll-it"))} |
-        ${hyperlink("Privacy Policy", hideLinkEmbed("https://aurule.github.io/roll-it/#/privacy"))} |
-        ${hyperlink("Terms of Service", hideLinkEmbed("https://aurule.github.io/roll-it/#/terms"))}
+        ${siteLink("Privacy Policy", "/privacy")} |
+        ${siteLink("Terms of Service", "/terms")}
       `,
       "",
       oneLine`
