@@ -10,7 +10,7 @@ Here are the supported systems:
 * [FATE](/systems/fate) fudge dice with `/fate`
 * [Chronicles of Darkness](/systems/nwod) (2e and 1e, aka New World of Darkness) d10s with `/nwod`
 * [World of Darkness 20th Anniversary](/systems/wod20) with `/wod20`
-* [Dungeons & Dragons 5e](/systems/dnd5e) with `/d20`
+* [Dungeons & Dragons 5e](/systems/dnd5e) with `/d20` or `/curv`
 * [Don't Rest Your Head](/systems/drh) with `/drh`
 * [Kids On Bikes](/systems/kob) with `/kob`
 * [Shadowrun](/systems/shadowrun) 4e, 5e, and 6e with `/shadowrun`
