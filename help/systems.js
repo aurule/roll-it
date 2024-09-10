@@ -2,6 +2,7 @@ const { inlineCode, italic, unorderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { present } = require("../presenters/command-name-presenter")
+const { siteLink } = require("../util/site-link")
 
 module.exports = {
   name: "systems",
@@ -21,8 +22,8 @@ module.exports = {
       "",
       oneLine`
         Here's the list of game systems whose dice mechanics have a command in Roll It, along with any
-        caveats. As always, the help info for a specific command will have more detail than what's here. To
-        read even more, see the [Systems](https://aurule.github.io/roll-it/#/systems) page on Roll It's website.
+        caveats. As always, the help info for a specific command will have more info than what's here. To
+        read in more detail, see the ${siteLink("Systems page", "/systems")} on Roll It's website.
       `,
       "",
       unorderedList([
