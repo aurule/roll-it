@@ -1,8 +1,7 @@
 const { SlashCommandBuilder, hideLinkEmbed, hyperlink } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
+const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
-const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/fate-results-presenter")
 const { fudge } = require("../services/tally")

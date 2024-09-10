@@ -7,8 +7,6 @@ module.exports = {
   title: "Commands",
   description: "How to use slash commands and what's available",
   help() {
-    const commands = require("../commands")
-
     return [
       oneLine`
         Roll It uses slash commands to roll dice using different built-in dice mechanics. Slash commands are

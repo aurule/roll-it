@@ -1,4 +1,4 @@
-const { bold, strikethrough } = require("discord.js")
+const { bold } = require("discord.js")
 const { added } = require("./addition-presenter")
 
 /**
@@ -62,7 +62,7 @@ function presentMany({ sides, description, raw, summed, modifier }) {
 function detail({ sides, raw, modifier }) {
   let detail = `(d${sides}: [`
   detail += raw
-    .map((die, _idx) => {
+    .map((die) => {
       if (die == sides) return bold(die)
       return die.toString()
     })

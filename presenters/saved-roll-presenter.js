@@ -1,4 +1,4 @@
-const { italic, inlineCode, bold } = require("discord.js")
+const { italic, inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 /**

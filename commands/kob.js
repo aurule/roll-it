@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
+const { SlashCommandBuilder } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
@@ -79,8 +79,8 @@ module.exports = {
     return [
       oneLine`
       If a die rolls its highest number, it explodes and adds another die to the pool. Since Roll It doesn't
-      know the difficulty of the test, dice will keep exploding indefinitely. This is technically a break from
-      the Kids On Bikes rules, where dice stop exploding once a roll succeeds.
+      know the difficulty of the test, ${command_name} will keep exploding indefinitely. This is technically a
+      break from the Kids On Bikes rules, where dice stop exploding once a roll succeeds.
     `,
       "",
       oneLine`

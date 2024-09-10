@@ -36,7 +36,7 @@ module.exports = {
     const full_text = heading(topic.title) + "\n" + topic.help()
     return longReply(interaction, full_text, { ephemeral: true })
   },
-  help({ command_name }) {
+  help() {
     return ["Here are the available help topics:", TopicNamePresenter.list()].join("\n")
   },
 }

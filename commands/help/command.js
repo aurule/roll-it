@@ -43,7 +43,7 @@ module.exports = {
         return Completers.all(partialText)
     }
   },
-  help({ command_name }) {
+  help() {
     return ["Here are all the available commands:", CommandNamePresenter.list()].join("\n")
   },
 }

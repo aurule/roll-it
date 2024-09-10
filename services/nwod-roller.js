@@ -149,7 +149,7 @@ class NwodRollOptions {
 function roll(options) {
   if (options.explode === 1) throw new RangeError("explode must be greater than 1")
 
-  const output = Array.from(options, (roll_options, idx) => {
+  const output = Array.from(options, (roll_options) => {
     let base_dice = roll_options.pool
     let rote_dice = 0
     const subresult = []

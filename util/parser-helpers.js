@@ -32,7 +32,7 @@ module.exports = {
    * @return {int|undefined}          Modifier value. Undefined if modifier is not found.
    */
   parseModifierOption(content, override) {
-    mod_re = override ?? modifier_re
+    const mod_re = override ?? modifier_re
     mod_re.lastIndex = 0
 
     const groups = mod_re.exec(content)?.groups

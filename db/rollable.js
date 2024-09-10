@@ -302,7 +302,7 @@ function seed() {
     for (const r of seed_rollables) {
       try {
         rollables.create(r.name, r.description, r.contents)
-      } catch (e) {
+      } catch {
         continue
       }
     }

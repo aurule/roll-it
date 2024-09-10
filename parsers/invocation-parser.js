@@ -1,5 +1,3 @@
-const Joi = require("joi")
-
 const { RollParseError } = require("../errors/roll-parse-error")
 const { validateOptions } = require("../util/parser-helpers")
 

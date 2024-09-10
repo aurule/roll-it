@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, inlineCode, hideLinkEmbed, hyperlink, italic } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
+const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
@@ -41,14 +41,14 @@ module.exports = {
     const results = []
     const labels = []
 
-    for (roll_idx in Array.from({ length: rolls }, (i) => i)) {
+    for (const roll_idx in Array.from({ length: rolls }, (i) => i)) {
       const raw_pools = []
       const raw_results = []
       const summed_results = []
 
       let rolled_formula = formula.replace(
         /(\d+)d(\d+)(?:"(.*?)")?/g,
-        (match, pool, sides, label, _offset, _wholeString) => {
+        (match, pool, sides, label) => {
           raw_pools.push(`${pool}d${sides}`)
           let raw = roll(pool, sides)
           raw_results.push(raw[0])

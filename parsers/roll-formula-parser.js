@@ -1,5 +1,3 @@
-const Joi = require("joi")
-
 const command = require("../commands/roll-formula")
 const { parseValueOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
 

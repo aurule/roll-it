@@ -1,5 +1,4 @@
 const { bold, inlineCode } = require("discord.js")
-const { evaluate } = require("mathjs")
 
 const { create, all } = require("mathjs")
 

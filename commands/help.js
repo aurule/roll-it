@@ -1,9 +1,8 @@
-const { SlashCommandBuilder, italic } = require("discord.js")
+const { SlashCommandBuilder } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const TopicNamePresenter = require("../presenters/topic-name-presenter")
-const Topics = require("../help")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 
 const subcommands = loadSubcommands("help")
@@ -27,8 +26,7 @@ module.exports = {
   async autocomplete(interaction) {
     return dispatch(interaction, module.exports.subcommands, "autocomplete")
   },
-  help({ command_name }) {
-    const commands = require("./index")
+  help() {
     return [
       oneLine`
         Both sub-commands let you pick from a list, so you don't need to memorize command or topic names.

@@ -1,4 +1,4 @@
-const { italic, bold } = require("discord.js")
+const { italic } = require("discord.js")
 
 const faces = [
   null,
@@ -33,7 +33,7 @@ module.exports = {
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
    * @return {String}                         String describing this roll
    */
-  present: ({ question, doit, raw, userFlake }) => {
+  present: ({ question, doit, raw }) => {
     const num = raw[0][0]
     let result = faces[num]
     if (doit) result = "Do it"

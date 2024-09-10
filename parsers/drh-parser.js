@@ -1,5 +1,3 @@
-const Joi = require("joi")
-
 const command = require("../commands/drh")
 const { talentNames } = require("../presenters/drh-results-presenter")
 const { validateOptions, parseRollsOption } = require("../util/parser-helpers")
@@ -39,6 +37,7 @@ module.exports = {
     const stripped_content = content.replace(/".*"/, "")
     const raw_options = {}
 
+    let pool_match
     while ((pool_match = pool_re.exec(stripped_content)) !== null) {
       const pool_name = pool_match.groups.name
       const pool_value = (pool_match.groups.dice.match(commas_re) || []).length + 1

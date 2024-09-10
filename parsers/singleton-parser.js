@@ -1,5 +1,3 @@
-const Joi = require("joi")
-
 const command = require("../commands/d10")
 const { parseRollsOption, parseModifierOption, validateOptions } = require("../util/parser-helpers")
 

@@ -1,5 +1,3 @@
-const Joi = require("joi")
-
 const command = require("../commands/shadowrun")
 const { parseValueOption, parseBooleanOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
 

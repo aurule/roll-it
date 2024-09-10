@@ -1,4 +1,4 @@
-const { bold, userMention, strikethrough } = require("discord.js")
+const { strikethrough, bold } = require("discord.js")
 
 const { pluralize } = require("../util/pluralize")
 
@@ -147,7 +147,7 @@ class ShadowrunPresenter {
    */
   notateDice(result_index) {
     return this.raw[result_index]
-      .map((die, idx) => {
+      .map((die) => {
         if (die >= 5) return bold(die)
         if (die === 1) return strikethrough(die)
         return die.toString()

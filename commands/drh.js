@@ -9,7 +9,6 @@ const {
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
-const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/drh-results-presenter")
 const commonOpts = require("../util/common-options")
@@ -109,7 +108,7 @@ module.exports = {
       ["madness", madness],
     ])
 
-    const tests = Array.from({ length: rolls }, (i) => {
+    const tests = Array.from({ length: rolls }, () => {
       return pool_options.mapValues(module.exports.roll_pool).filter((pool) => pool !== undefined)
     })
 

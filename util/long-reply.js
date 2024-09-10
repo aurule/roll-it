@@ -26,10 +26,9 @@ function longReply(interaction, content, options = {}) {
  * Default prefix generator
  *
  * @param  {int} idx Current page number, indexed from 1
- * @param  {int} max Maximum page number
  * @return {str}     Prefix string
  */
-function default_prefixer(idx, max) {
+function default_prefixer(idx) {
   if (idx === 1) return ""
 
   return `...`
@@ -75,18 +74,18 @@ function splitMessage(
   let pagenum = 1
   const max_pages = ceil(current_message.length / max_length)
   const page_length =
-    max_length - prefixer(max_pages, max_pages).length - 3 - suffixer(max_pages, max_pages).length
+    max_length - prefixer(max_pages).length - 3 - suffixer(max_pages, max_pages).length
   while (current_message.length > page_length) {
     breakpos = current_message.lastIndexOf(separator, page_length)
     messages.push(
-      prefixer(pagenum, max_pages) +
+      prefixer(pagenum) +
         current_message.slice(0, breakpos) +
         suffixer(pagenum, max_pages),
     )
     current_message = current_message.slice(breakpos + separator.length)
     pagenum++
   }
-  messages.push(prefixer(pagenum, max_pages) + current_message + suffixer(pagenum, max_pages))
+  messages.push(prefixer(pagenum) + current_message + suffixer(pagenum, max_pages))
 
   return messages
 }

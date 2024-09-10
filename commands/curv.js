@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
+const { SlashCommandBuilder, inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
@@ -60,7 +60,7 @@ module.exports = {
     if (others.with) keep = with_to_keep(others.with)
 
     const advantage_rolls = keep == "all" ? 1 : 2
-    const raw_results = Array.from({length: rolls}, (_) => roll(3, 6, advantage_rolls))
+    const raw_results = Array.from({length: rolls}, () => roll(3, 6, advantage_rolls))
     const sums = raw_results.map(roll_set => {
       return roll_set.map(result => {
         return result.reduce((acc, curr) => acc + curr, 0)

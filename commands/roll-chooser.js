@@ -7,7 +7,7 @@ const {
   ButtonStyle,
   ButtonBuilder,
 } = require("discord.js")
-const { stripIndent, oneLine } = require("common-tags")
+const { oneLine } = require("common-tags")
 
 const commandNamePresenter = require("../presenters/command-name-presenter")
 const CommandSelectTransformer = require("../transformers/command-select-transformer")
@@ -89,7 +89,7 @@ module.exports = {
               break
             }
             // if selection matches deployed_commands, say no changes
-            api.setGuildCommands(interaction.guildId, selection).then((result) => {
+            api.setGuildCommands(interaction.guildId, selection).then(() => {
               interaction.editReply({
                 content: oneLine`
                   Updated server commands to: ${selection.join(", ")}
@@ -103,7 +103,7 @@ module.exports = {
             break
         }
       },
-      (timeoutEvent) => {
+      () => {
         interaction.editReply({
           content: "Ran out of time. Leaving server commands unchanged.",
           components: [],

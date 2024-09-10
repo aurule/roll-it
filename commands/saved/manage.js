@@ -8,10 +8,8 @@ const {
   inlineCode,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
-const Joi = require("joi")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
-const { splitMessage } = require("../../util/long-reply")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
 
 module.exports = {
@@ -82,7 +80,7 @@ module.exports = {
         case "edit":
           try {
             saved_rolls.update(detail.id, { incomplete: true })
-          } catch (err) {
+          } catch {
             return manage_prompt.edit({
               content: oneLine`
                 You already have an incomplete roll in progress. Finish that first using
@@ -167,7 +165,7 @@ module.exports = {
                 ephemeral: true,
               })
             })
-            .catch((err) => {
+            .catch(() => {
               manage_prompt.delete()
               return interaction
             })

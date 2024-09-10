@@ -1,4 +1,4 @@
-const { inlineCode, hideLinkEmbed, hyperlink, bold } = require("discord.js")
+const { hideLinkEmbed, hyperlink } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { siteLink, rootLink } = require("../util/site-link")

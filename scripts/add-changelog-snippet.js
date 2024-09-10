@@ -35,7 +35,7 @@ const prompts = require("prompts")
         response.message,
       )
     })
-    .catch((err) => {
+    .catch(() => {
       console.log("Cancelled")
     })
 })()

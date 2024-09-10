@@ -5,7 +5,6 @@ const {
   italic,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
-const Joi = require("joi")
 const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 
@@ -77,7 +76,7 @@ module.exports = {
 
     try {
       await saved_roll_schema.validateAsync(saved_details)
-    } catch (err) {
+    } catch {
       return interaction.reply({
         content: oneLine`
           You've saved the command for a new roll. Now use ${inlineCode("/saved set")} to set its name and

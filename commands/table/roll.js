@@ -33,7 +33,7 @@ module.exports = {
     const table_name = interaction.options.getString("table") ?? "0"
     const table_id = parseInt(table_name)
 
-    const results = Array.from({ length: rolls }, (v) => tables.random(table_id, table_name))
+    const results = Array.from({ length: rolls }, () => tables.random(table_id, table_name))
 
     if (results[0] === undefined) {
       return interaction.reply({

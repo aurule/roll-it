@@ -89,7 +89,6 @@ class CurvPresenter {
    */
   explainSum(rollIndex) {
     const picked_index = this.picked[rollIndex]
-    const selected_roll = this.raw[rollIndex][picked_index]
     const result = this.sums[rollIndex][picked_index] + this.modifier
     return bold(result)
   }

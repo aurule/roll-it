@@ -27,7 +27,7 @@ module.exports = {
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
    * @return {String}                         String describing this roll
    */
-  presentOne: ({ modifier, description, raw, userFlake }) => {
+  presentOne: ({ modifier, description, raw }) => {
     let content = "{{userMention}} rolled " + module.exports.detail(raw[0][0], modifier)
     if (description) content += ` for "${description}"`
     return content
@@ -41,7 +41,7 @@ module.exports = {
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
    * @return {String}                         String describing this roll
    */
-  presentMany: ({ modifier, description, raw, userFlake }) => {
+  presentMany: ({ modifier, description, raw }) => {
     let content = "{{userMention}} rolled"
     if (description) {
       content += ` "${description}"`

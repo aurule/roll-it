@@ -2,7 +2,6 @@ const { SlashCommandSubcommandBuilder } = require("discord.js")
 const { presentList } = require("../../presenters/saved-roll-presenter")
 const { longReply } = require("../../util/long-reply")
 const { UserSavedRolls } = require("../../db/saved_rolls")
-const { oneLine } = require("common-tags")
 
 module.exports = {
   name: "list",
@@ -19,7 +18,7 @@ module.exports = {
 
     return longReply(interaction, full_text, { separator: "\n", ephemeral: true })
   },
-  help({ command_name }) {
+  help() {
     return [
       `:warning: marks incomplete rolls which are missing their name or options.`,
       `:x: marks rolls whose options are out of date`,

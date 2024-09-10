@@ -1,8 +1,7 @@
-const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
+const { SlashCommandBuilder, inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
-const { logger } = require("../util/logger")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/chop-results-presenter")
 const commonOpts = require("../util/common-options")

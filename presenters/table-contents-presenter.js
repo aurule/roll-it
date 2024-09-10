@@ -1,5 +1,3 @@
-const { userMention, italic, inlineCode } = require("discord.js")
-
 module.exports = {
   /**
    * Present the contents array of a table

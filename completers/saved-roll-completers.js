@@ -40,7 +40,7 @@ module.exports = {
     const search = partialText.toLowerCase()
 
     const name = interaction_options.getString("name")
-    saved_roll = saved_rolls.find((r) => r.id == name || r.name == name)
+    const saved_roll = saved_rolls.find((r) => r.id == name || r.name == name)
 
     const commands = require("../commands")
     const command = commands.get(saved_roll.command)

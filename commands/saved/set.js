@@ -1,13 +1,10 @@
-const { SlashCommandSubcommandBuilder, inlineCode, userMention, italic } = require("discord.js")
+const { SlashCommandSubcommandBuilder, inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const { parse } = require("../../parsers/invocation-parser")
 const commonSchemas = require("../../util/common-schemas")
-
-const MAX_UPLOAD_SIZE = 5_242_880
-const MAX_ENTRY_LENGTH = 1500
 
 /**
  * Validate that the given value is not in use as a name for a saved roll.
@@ -85,7 +82,6 @@ module.exports = {
       ),
   async execute(interaction) {
     // validate the name and description
-    const savable_commands = require("../index").savable()
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
     const raw_options = {
@@ -137,13 +133,13 @@ module.exports = {
     // let the db insert or update as appropriate
     // when new data is incomplete, an existing incomplete record will be created or updated
     // when new data is complete, a new record will be created
-    const record_result = saved_rolls.upsert(saved_roll_params)
+    saved_rolls.upsert(saved_roll_params)
     const saved_details = saved_rolls.detail(undefined, saved_roll_params.name)
 
     // see if the changes complete the saved roll
     try {
       await saved_roll_schema.validateAsync(saved_details)
-    } catch (err) {
+    } catch {
       return interaction.reply({
         content: oneLine`
           You've saved the name "${command_options.name}" for a new roll. Right click or long press on the

@@ -7,7 +7,7 @@ const { version } = require("../package.json")
 function getChangelog(changelog_version) {
   try {
     return fs.readFileSync(path.join(__dirname, "../changelog", `${changelog_version}.md`))
-  } catch (error) {
+  } catch {
     return `no changelog for ${changelog_version}`
   }
 }

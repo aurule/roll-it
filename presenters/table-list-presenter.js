@@ -1,4 +1,4 @@
-const { userMention, italic, inlineCode } = require("discord.js")
+const { italic, inlineCode } = require("discord.js")
 
 module.exports = {
   /**

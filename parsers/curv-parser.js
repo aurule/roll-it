@@ -1,7 +1,5 @@
-const Joi = require("joi")
-
 const command = require("../commands/curv")
-const { parseValueOption, parseModifierOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
+const { parseModifierOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
 
 module.exports = {
   name: "curv",

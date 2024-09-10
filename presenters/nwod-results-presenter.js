@@ -1,4 +1,4 @@
-const { bold, userMention } = require("discord.js")
+const { bold } = require("discord.js")
 
 const { pluralize } = require("../util/pluralize")
 
