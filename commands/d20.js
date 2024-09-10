@@ -97,7 +97,7 @@ module.exports = {
       `${command_name} rolls a single 20-sided die.`,
       "",
       oneLine`
-        The ${opts.with} option lets you roll twice and take either the higher or lower result, like the D&D
+        The ${opts.with} option lets you roll twice and take either the higher or lower result, using the D&D
         5e mechanic of advantage. Set it to ${inlineCode("Advantage")} to use the higher result, and
         ${inlineCode("Disadvantage")} to use the lower.
       `,
