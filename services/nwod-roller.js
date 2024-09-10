@@ -29,7 +29,6 @@ function doRote(die, threshold, chance) {
  * Store and manipulate the options for the nwod roll function
  */
 class NwodRollOptions {
-
   /**
    * Make a new NwodRollOptions object
    *
@@ -40,7 +39,7 @@ class NwodRollOptions {
    * @param  {bool} obj.chance    Whether this is a special single-die chance roll
    * @param  {Int}  obj.rolls     Number of times to repeat the roll
    */
-  constructor({pool, explode, rote, threshold, chance, rolls, decreasing}) {
+  constructor({ pool, explode, rote, threshold, chance, rolls, decreasing }) {
     this.pool = pool
     this.explode = explode ?? 10
     this.threshold = threshold ?? 8
@@ -116,7 +115,7 @@ class NwodRollOptions {
    */
   return(_val) {
     this.next_index = 0
-    return {value: _val, done: true}
+    return { value: _val, done: true }
   }
 
   /**
@@ -161,7 +160,8 @@ function roll(options) {
     while (base_dice) {
       currentRoll = rand()
       subresult.push(currentRoll)
-      if (options.rote && doRote(currentRoll, roll_options.threshold, roll_options.chance)) rote_dice++
+      if (options.rote && doRote(currentRoll, roll_options.threshold, roll_options.chance))
+        rote_dice++
       base_dice--
     }
 

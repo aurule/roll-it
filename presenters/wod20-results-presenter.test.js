@@ -50,16 +50,16 @@ describe("WodPresenter", () => {
   describe("presentResults", () => {
     describe("in until mode", () => {
       const default_opts = {
-          pool: 3,
-          raw: [
-            [6, 2, 7],
-            [2, 9, 10],
-          ],
-          summed: [2, 2],
-          until: 3,
-          difficulty: 6,
-          rolls: 2,
-        }
+        pool: 3,
+        raw: [
+          [6, 2, 7],
+          [2, 9, 10],
+        ],
+        summed: [2, 2],
+        until: 3,
+        difficulty: 6,
+        rolls: 2,
+      }
 
       it("shows target successes", () => {
         const presenter = new WodPresenter(default_opts)
@@ -237,10 +237,10 @@ describe("WodPresenter", () => {
 
   describe("notateDice", () => {
     const default_opts = {
-        raw: [[1, 4, 6, 8, 10]],
-        difficulty: 6,
-        rolls: 1,
-      }
+      raw: [[1, 4, 6, 8, 10]],
+      difficulty: 6,
+      rolls: 1,
+    }
 
     it("strikes ones", () => {
       const presenter = new WodPresenter(default_opts)

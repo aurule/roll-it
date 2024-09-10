@@ -121,11 +121,13 @@ class CurvPresenter {
    * @return {str}           Formatted string showing the dice of each pool
    */
   explainRoll(rollIndex) {
-    return this.raw[rollIndex].map((raw_roll, roll_idx) => {
-      const result = `${this.sums[rollIndex][roll_idx]} [${raw_roll}]`
-      if (this.picked[rollIndex] !== roll_idx) return strikethrough(result)
-      return result
-    }).join(", ")
+    return this.raw[rollIndex]
+      .map((raw_roll, roll_idx) => {
+        const result = `${this.sums[rollIndex][roll_idx]} [${raw_roll}]`
+        if (this.picked[rollIndex] !== roll_idx) return strikethrough(result)
+        return result
+      })
+      .join(", ")
   }
 
   /**
@@ -145,9 +147,11 @@ class CurvPresenter {
    * @return {str} Formatted roll results
    */
   presentResultSet() {
-    return this.raw.map((roll, roll_idx) => {
-      return `\t${this.explainSum(roll_idx)} (${this.explainRoll(roll_idx)}${this.explainModifier(roll_idx)})`
-    }).join("\n")
+    return this.raw
+      .map((roll, roll_idx) => {
+        return `\t${this.explainSum(roll_idx)} (${this.explainRoll(roll_idx)}${this.explainModifier(roll_idx)})`
+      })
+      .join("\n")
   }
 
   /**

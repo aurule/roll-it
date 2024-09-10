@@ -49,9 +49,12 @@ module.exports = {
   changeable: ["modifier"],
   schema: Joi.object({
     modifier: commonSchemas.modifier,
-    keep: Joi.string().optional().valid(...strategies).messages({
-      "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
-    }),
+    keep: Joi.string()
+      .optional()
+      .valid(...strategies)
+      .messages({
+        "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
+      }),
     with: Joi.string().optional().valid("advantage", "disadvantage"),
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
@@ -60,9 +63,9 @@ module.exports = {
     if (others.with) keep = with_to_keep(others.with)
 
     const advantage_rolls = keep == "all" ? 1 : 2
-    const raw_results = Array.from({length: rolls}, () => roll(3, 6, advantage_rolls))
-    const sums = raw_results.map(roll_set => {
-      return roll_set.map(result => {
+    const raw_results = Array.from({ length: rolls }, () => roll(3, 6, advantage_rolls))
+    const sums = raw_results.map((roll_set) => {
+      return roll_set.map((result) => {
         return result.reduce((acc, curr) => acc + curr, 0)
       })
     })

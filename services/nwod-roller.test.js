@@ -25,12 +25,14 @@ describe("roll", () => {
 
   describe("rote", () => {
     it("re-rolls failed dice from the initial pool", () => {
-      const results = roll(new NwodRollOptions({
-        pool: 5,
-        explode: 11,
-        rote: true,
-        threshold: 10,
-      }))
+      const results = roll(
+        new NwodRollOptions({
+          pool: 5,
+          explode: 11,
+          rote: true,
+          threshold: 10,
+        }),
+      )
 
       expect(results[0].length).toBeGreaterThan(5)
     })
@@ -46,7 +48,9 @@ describe("roll", () => {
 
   describe("decreasing", () => {
     it("rolls fewer dice in each pool", () => {
-      const allResults = roll(new NwodRollOptions({ pool: 5, explode: 11, rolls: 3, decreasing: true }))
+      const allResults = roll(
+        new NwodRollOptions({ pool: 5, explode: 11, rolls: 3, decreasing: true }),
+      )
 
       expect(allResults[0].length).toEqual(5)
       expect(allResults[1].length).toEqual(4)
@@ -57,24 +61,20 @@ describe("roll", () => {
 
 describe("NwodRollOptions", () => {
   describe("constructor", () => {
-    it.each([
-      ['explode'],
-      ['threshold'],
-      ['chance'],
-      ['rote'],
-      ['rolls'],
-      ['decreasing'],
-    ])("sets the default %s", (attr_name) => {
-      const options = new NwodRollOptions({pool: 5})
+    it.each([["explode"], ["threshold"], ["chance"], ["rote"], ["rolls"], ["decreasing"]])(
+      "sets the default %s",
+      (attr_name) => {
+        const options = new NwodRollOptions({ pool: 5 })
 
-      expect(options[attr_name]).not.toBeUndefined()
-    })
+        expect(options[attr_name]).not.toBeUndefined()
+      },
+    )
   })
 
   describe("next", () => {
     describe("flat pools", () => {
       it("leaves pool unchanged", () => {
-        const options = new NwodRollOptions({pool: 5})
+        const options = new NwodRollOptions({ pool: 5 })
 
         options.next()
 
@@ -84,7 +84,7 @@ describe("NwodRollOptions", () => {
 
     describe("with decreasing pools", () => {
       it("first roll uses original pool", () => {
-        const options = new NwodRollOptions({pool: 5, decreasing: true})
+        const options = new NwodRollOptions({ pool: 5, decreasing: true })
 
         options.next()
 
@@ -92,7 +92,7 @@ describe("NwodRollOptions", () => {
       })
 
       it("second roll uses decreased pool", () => {
-        const options = new NwodRollOptions({pool: 5, decreasing: true})
+        const options = new NwodRollOptions({ pool: 5, decreasing: true })
 
         options.next()
         options.next()
@@ -103,7 +103,7 @@ describe("NwodRollOptions", () => {
 
     describe("when pool would decrease to zero", () => {
       it("sets chance to true", () => {
-        const options = new NwodRollOptions({pool: 2, decreasing: true})
+        const options = new NwodRollOptions({ pool: 2, decreasing: true })
 
         options.next()
         options.next()
@@ -113,7 +113,7 @@ describe("NwodRollOptions", () => {
       })
 
       it("sets explode to 10", () => {
-        const options = new NwodRollOptions({pool: 2, decreasing: true})
+        const options = new NwodRollOptions({ pool: 2, decreasing: true })
 
         options.next()
         options.next()
@@ -123,7 +123,7 @@ describe("NwodRollOptions", () => {
       })
 
       it("sets threshold to 10", () => {
-        const options = new NwodRollOptions({pool: 2, decreasing: true})
+        const options = new NwodRollOptions({ pool: 2, decreasing: true })
 
         options.next()
         options.next()
@@ -133,7 +133,7 @@ describe("NwodRollOptions", () => {
       })
 
       it("sets pool to 1", () => {
-        const options = new NwodRollOptions({pool: 2, decreasing: true})
+        const options = new NwodRollOptions({ pool: 2, decreasing: true })
 
         options.next()
         options.next()
@@ -146,7 +146,7 @@ describe("NwodRollOptions", () => {
 
   describe("done", () => {
     it("is false before iterations are complete", () => {
-      const options = new NwodRollOptions({pool: 5, rolls: 2})
+      const options = new NwodRollOptions({ pool: 5, rolls: 2 })
 
       options.next()
 
@@ -154,7 +154,7 @@ describe("NwodRollOptions", () => {
     })
 
     it("is true when iterations are complete", () => {
-      const options = new NwodRollOptions({pool: 5, rolls: 2})
+      const options = new NwodRollOptions({ pool: 5, rolls: 2 })
 
       options.next()
       options.next()
@@ -166,7 +166,7 @@ describe("NwodRollOptions", () => {
 
   describe("value", () => {
     it("returns index when done", () => {
-      const options = new NwodRollOptions({pool: 5, rolls: 1})
+      const options = new NwodRollOptions({ pool: 5, rolls: 1 })
 
       options.next()
       options.next()
@@ -175,17 +175,17 @@ describe("NwodRollOptions", () => {
     })
 
     it("returns roll options object while iterating", () => {
-      const options = new NwodRollOptions({pool: 5, rolls: 1})
+      const options = new NwodRollOptions({ pool: 5, rolls: 1 })
 
       options.next()
 
-      expect(options.value).toMatchObject({pool: 5})
+      expect(options.value).toMatchObject({ pool: 5 })
     })
   })
 
   describe("return", () => {
     it("allows new iteration", () => {
-      const options = new NwodRollOptions({pool: 5, rolls: 2})
+      const options = new NwodRollOptions({ pool: 5, rolls: 2 })
       options.next()
       options.next()
       options.next()
@@ -196,7 +196,7 @@ describe("NwodRollOptions", () => {
     })
 
     it("returns done as true", () => {
-      const options = new NwodRollOptions({pool: 5, rolls: 2})
+      const options = new NwodRollOptions({ pool: 5, rolls: 2 })
       options.next()
       options.next()
       options.next()

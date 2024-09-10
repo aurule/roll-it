@@ -82,7 +82,10 @@ describe("NwodPresenter", () => {
         const presenter = new NwodPresenter({
           until: 5,
           pool: 6,
-          raw: [[8, 1, 6, 7, 8, 2], [8, 3, 4, 5, 8, 2]],
+          raw: [
+            [8, 1, 6, 7, 8, 2],
+            [8, 3, 4, 5, 8, 2],
+          ],
           summed: [2, 2],
           description: "a test",
           rolls: 2,
@@ -218,7 +221,7 @@ describe("NwodPresenter", () => {
           raw: [[8, 4, 9, 2, 1, 2]],
           summed: [2],
           description: "a test",
-         rolls: 1,
+          rolls: 1,
         })
 
         const result = presenter.presentResults()
@@ -802,7 +805,13 @@ describe("NwodPresenter", () => {
       it("when decreasing, gets decreased pool after first roll", () => {
         const presenter = new NwodPresenter({
           pool: 3,
-          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9], [1, 2, 3]],
+          raw: [
+            [4, 5, 6],
+            [2, 3, 4],
+            [5, 6, 7],
+            [7, 8, 9],
+            [1, 2, 3],
+          ],
           chance: false,
           decreasing: true,
           rolls: 5,
@@ -816,9 +825,14 @@ describe("NwodPresenter", () => {
       it("with flat pools, returns base pool", () => {
         const presenter = new NwodPresenter({
           pool: 3,
-          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          raw: [
+            [4, 5, 6],
+            [2, 3, 4],
+            [5, 6, 7],
+            [7, 8, 9],
+          ],
           chance: false,
-          rolls: 4
+          rolls: 4,
         })
 
         const result = presenter.rollPool(2)
@@ -831,7 +845,13 @@ describe("NwodPresenter", () => {
       it("when decreasing and false, becomes true once rolls exceed base pool", () => {
         const presenter = new NwodPresenter({
           pool: 3,
-          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9], [1, 2, 3]],
+          raw: [
+            [4, 5, 6],
+            [2, 3, 4],
+            [5, 6, 7],
+            [7, 8, 9],
+            [1, 2, 3],
+          ],
           chance: false,
           decreasing: true,
           rolls: 5,
@@ -845,7 +865,12 @@ describe("NwodPresenter", () => {
       it("with flat pools, returns chance flag", () => {
         const presenter = new NwodPresenter({
           pool: 3,
-          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          raw: [
+            [4, 5, 6],
+            [2, 3, 4],
+            [5, 6, 7],
+            [7, 8, 9],
+          ],
           chance: false,
           rolls: 4,
         })
@@ -860,7 +885,12 @@ describe("NwodPresenter", () => {
       it("when chance becomes true, returns 10", () => {
         const presenter = new NwodPresenter({
           pool: 3,
-          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          raw: [
+            [4, 5, 6],
+            [2, 3, 4],
+            [5, 6, 7],
+            [7, 8, 9],
+          ],
           chance: false,
           threshold: 9,
           decreasing: true,
@@ -875,7 +905,12 @@ describe("NwodPresenter", () => {
       it("with flat pools, returns threshold", () => {
         const presenter = new NwodPresenter({
           pool: 3,
-          raw: [[4, 5, 6], [2, 3, 4], [5, 6, 7], [7, 8, 9]],
+          raw: [
+            [4, 5, 6],
+            [2, 3, 4],
+            [5, 6, 7],
+            [7, 8, 9],
+          ],
           chance: false,
           threshold: 9,
           rolls: 4,

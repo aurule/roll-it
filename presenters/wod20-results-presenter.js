@@ -17,8 +17,7 @@ class WodPresenter {
     this.pool = pool
     this.difficulty = difficulty
     this.specialty = specialty
-    this.rolls = rolls,
-    this.until = until
+    ;(this.rolls = rolls), (this.until = until)
     this.description = description
     this.raw = raw
     this.summed = summed

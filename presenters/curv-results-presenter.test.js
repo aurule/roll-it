@@ -27,7 +27,7 @@ describe("CurvPresenter", () => {
           raw: [[[3, 4, 5]], [[2, 4, 6]]],
           sums: [[12], [12]],
           picked: [0, 0],
-          description: "a test"
+          description: "a test",
         })
 
         const result = presenter.presentResults()
@@ -51,8 +51,20 @@ describe("CurvPresenter", () => {
       it("shows advantage if present", () => {
         const presenter = new CurvPresenter({
           rolls: 2,
-          raw: [[[3, 4, 5], [1, 2, 3]], [[2, 4, 6], [2, 3, 4]]],
-          sums: [[12, 6], [12, 9]],
+          raw: [
+            [
+              [3, 4, 5],
+              [1, 2, 3],
+            ],
+            [
+              [2, 4, 6],
+              [2, 3, 4],
+            ],
+          ],
+          sums: [
+            [12, 6],
+            [12, 9],
+          ],
           picked: [0, 0],
           keep: "highest",
         })
@@ -108,7 +120,12 @@ describe("CurvPresenter", () => {
       it("shows advantage if present", () => {
         const presenter = new CurvPresenter({
           rolls: 1,
-          raw: [[[3, 4, 5], [1, 2, 3]]],
+          raw: [
+            [
+              [3, 4, 5],
+              [1, 2, 3],
+            ],
+          ],
           sums: [[12]],
           picked: [0],
           keep: "highest",
@@ -284,7 +301,12 @@ describe("CurvPresenter", () => {
       it("strikes the dropped pool", () => {
         const presenter = new CurvPresenter({
           rolls: 1,
-          raw: [[[2, 3, 4], [5, 6, 4]]],
+          raw: [
+            [
+              [2, 3, 4],
+              [5, 6, 4],
+            ],
+          ],
           sums: [[9, 15]],
           picked: [1],
           keep: "highest",

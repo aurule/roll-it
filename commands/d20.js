@@ -49,9 +49,12 @@ module.exports = {
   changeable: ["modifier"],
   schema: Joi.object({
     modifier: commonSchemas.modifier,
-    keep: Joi.string().optional().valid(...strategies).messages({
-      "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
-    }),
+    keep: Joi.string()
+      .optional()
+      .valid(...strategies)
+      .messages({
+        "any.only": "Keep must be one of 'all', 'highest', or 'lowest'.",
+      }),
     with: Joi.string().optional().valid("advantage", "disadvantage"),
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,

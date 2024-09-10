@@ -1,5 +1,10 @@
 const command = require("../commands/kob")
-const { parseValueOption, parseModifierOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
+const {
+  parseValueOption,
+  parseModifierOption,
+  validateOptions,
+  parseRollsOption,
+} = require("../util/parser-helpers")
 
 module.exports = {
   name: "kob",

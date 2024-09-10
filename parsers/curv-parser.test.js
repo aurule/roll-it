@@ -153,7 +153,7 @@ describe("multiple rolls", () => {
       raw: [[[3, 4, 2]], [[5, 1, 5]]],
       picked: [0, 0],
       sums: [9, 11],
-      description: "5 times!"
+      description: "5 times!",
     })
 
     const result = await parse(content)

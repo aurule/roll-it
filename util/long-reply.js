@@ -78,9 +78,7 @@ function splitMessage(
   while (current_message.length > page_length) {
     breakpos = current_message.lastIndexOf(separator, page_length)
     messages.push(
-      prefixer(pagenum) +
-        current_message.slice(0, breakpos) +
-        suffixer(pagenum, max_pages),
+      prefixer(pagenum) + current_message.slice(0, breakpos) + suffixer(pagenum, max_pages),
     )
     current_message = current_message.slice(breakpos + separator.length)
     pagenum++

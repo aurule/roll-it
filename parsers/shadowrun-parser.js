@@ -1,5 +1,10 @@
 const command = require("../commands/shadowrun")
-const { parseValueOption, parseBooleanOption, validateOptions, parseRollsOption } = require("../util/parser-helpers")
+const {
+  parseValueOption,
+  parseBooleanOption,
+  validateOptions,
+  parseRollsOption,
+} = require("../util/parser-helpers")
 
 module.exports = {
   name: "shadowrun",

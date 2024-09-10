@@ -64,7 +64,7 @@ module.exports = {
       .addBooleanOption((option) =>
         option
           .setName("decreasing")
-          .setDescription("Remove 1 die from the pool for each roll after the first")
+          .setDescription("Remove 1 die from the pool for each roll after the first"),
       )
       .addBooleanOption((option) =>
         option
@@ -84,7 +84,16 @@ module.exports = {
     description: commonSchemas.description,
     decreasing: Joi.boolean().optional(),
   }),
-  perform({ pool, explode = 10, threshold = 8, rote, rolls = 1, until, description, decreasing } = {}) {
+  perform({
+    pool,
+    explode = 10,
+    threshold = 8,
+    rote,
+    rolls = 1,
+    until,
+    description,
+    decreasing,
+  } = {}) {
     const chance = !pool
     if (chance) {
       pool = 1

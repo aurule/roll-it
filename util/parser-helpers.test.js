@@ -103,7 +103,7 @@ describe("validateOptions", () => {
     const result = await helpers.validateOptions(options, command)
 
     expect(result).toMatchObject({
-      pool: 6
+      pool: 6,
     })
   })
 
@@ -113,8 +113,6 @@ describe("validateOptions", () => {
       pool: "0",
     }
 
-    await expect(helpers.validateOptions(options, command))
-      .rejects
-      .toThrow()
+    await expect(helpers.validateOptions(options, command)).rejects.toThrow()
   })
 })

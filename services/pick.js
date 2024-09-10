@@ -1,4 +1,3 @@
-
 /**
  * All strategy names that are supported
  * @type {Array}

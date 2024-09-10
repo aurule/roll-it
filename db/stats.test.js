@@ -7,9 +7,7 @@ let getOne
 beforeEach(() => {
   db = makeDB()
   getOne = db.prepare("SELECT * FROM stats.commands WHERE id = @id")
-
 })
-
 
 describe("Stats", () => {
   describe("logCommand", () => {
@@ -18,7 +16,7 @@ describe("Stats", () => {
 
       const inserted = stats.logCommand("testGuild", "testCommand")
 
-      const result = getOne.get({id: inserted.lastInsertRowid})
+      const result = getOne.get({ id: inserted.lastInsertRowid })
       expect(result.guildFlake).toEqual("testGuild")
     })
 
@@ -27,7 +25,7 @@ describe("Stats", () => {
 
       const inserted = stats.logCommand("testGuild", "testCommand")
 
-      const result = getOne.get({id: inserted.lastInsertRowid})
+      const result = getOne.get({ id: inserted.lastInsertRowid })
       expect(result.command).toEqual("testCommand")
     })
   })

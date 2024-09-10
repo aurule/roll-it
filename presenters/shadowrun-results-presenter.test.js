@@ -155,7 +155,7 @@ describe("ShadowrunPresenter", () => {
           const presenter = new ShadowrunPresenter({
             raw: [[1]],
             description: "test description",
-          rolls: 1,
+            rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch("for")
@@ -165,7 +165,7 @@ describe("ShadowrunPresenter", () => {
           const presenter = new ShadowrunPresenter({
             raw: [[1]],
             description: "test description",
-          rolls: 1,
+            rolls: 1,
           })
 
           expect(presenter.presentedDescription).toMatch('"test description"')
@@ -267,7 +267,7 @@ describe("ShadowrunPresenter", () => {
   describe("notateDice", () => {
     const options = {
       raw: [[1, 3, 6]],
-          rolls: 1,
+      rolls: 1,
     }
 
     it("highlights successes", () => {
