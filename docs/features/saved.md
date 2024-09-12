@@ -42,6 +42,8 @@ Here are the commands that can be saved:
 * `/shadowrun` - Roll a pool of d6s for Shadowrun
 * `/wod20` - Roll a pool of d10s using rules for World of Darkness 20th Anniversary
 
+!> It is not possible to save secret rolls. If you want to save something, it has to be publicly visible. This is because Discord does not show a context menu for secret messages, so those messages can never be sent to *Save this roll*.
+
 ## Starting With a Name
 
 As noted, you can also begin making a new saved roll with `/saved set` and supplying a `name` and `description`. `/saved set` will reply with instructions to use _Save this roll_ to save the command and options. Once you do, your roll is ready to go!
