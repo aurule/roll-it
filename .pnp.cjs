@@ -27,11 +27,11 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.2.1"],\
+          ["better-sqlite3", "npm:11.3.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.16.1"],\
+          ["discord.js", "npm:14.16.2"],\
           ["dotenv", "npm:16.4.5"],\
           ["eslint", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:9.10.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
@@ -2090,10 +2090,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:11.2.1", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.2.1-cdb5f378b2/node_modules/better-sqlite3/",\
+      ["npm:11.3.0", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.3.0-bb6daeeeaa/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.2.1"],\
+          ["better-sqlite3", "npm:11.3.0"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -2702,10 +2702,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["discord.js", [\
-      ["npm:14.16.1", {\
-        "packageLocation": "./.yarn/cache/discord.js-npm-14.16.1-dc4b9e49ed-612b490f0f.zip/node_modules/discord.js/",\
+      ["npm:14.16.2", {\
+        "packageLocation": "./.yarn/cache/discord.js-npm-14.16.2-92629a6367-2b4289d6a3.zip/node_modules/discord.js/",\
         "packageDependencies": [\
-          ["discord.js", "npm:14.16.1"],\
+          ["discord.js", "npm:14.16.2"],\
           ["@discordjs/builders", "npm:1.9.0"],\
           ["@discordjs/collection", "npm:1.5.3"],\
           ["@discordjs/formatters", "npm:0.5.0"],\
@@ -5608,11 +5608,11 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["roll-it", "workspace:."],\
-          ["better-sqlite3", "npm:11.2.1"],\
+          ["better-sqlite3", "npm:11.3.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.16.1"],\
+          ["discord.js", "npm:14.16.2"],\
           ["dotenv", "npm:16.4.5"],\
           ["eslint", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:9.10.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
