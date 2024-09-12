@@ -5,8 +5,12 @@ const {
   italic,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
+
 const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
+
+require("dotenv").config()
+const botId = process.env.CLIENT_ID
 
 module.exports = {
   name: "Save this roll",
@@ -22,9 +26,15 @@ module.exports = {
     const parsers = require("../parsers")
 
     const message = interaction.targetMessage
+    if (message.author.id != botId) {
+      return interaction.reply({
+        content: "That message was not sent by a Roll It command.",
+        ephemeral: true,
+      })
+    }
+
     const command_name = message.interaction?.commandName
     const command = commands.get(command_name)
-
     if (!command) {
       return interaction.reply({
         content: "That message was not sent by a Roll It command.",

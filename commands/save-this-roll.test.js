@@ -3,6 +3,9 @@ const { Interaction } = require("../testing/interaction")
 
 const save_roll_command = require("./save-this-roll")
 
+require("dotenv").config()
+const botId = process.env.CLIENT_ID
+
 describe("execute", () => {
   let interaction
   let saved_rolls
@@ -11,8 +14,21 @@ describe("execute", () => {
     saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
   })
 
+  it("warns on bad author ID", async () => {
+    interaction.targetMessage = {
+      author: { id: "wasnt_me" },
+      interaction: { commandName: "gobbledegook" },
+      content: "lorem ipsum",
+    }
+
+    await save_roll_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("not sent by a Roll It command")
+  })
+
   it("warns on no command", async () => {
     interaction.targetMessage = {
+      author: { id: botId },
       content: "lorem ipsum",
     }
 
@@ -23,6 +39,7 @@ describe("execute", () => {
 
   it("warns on unknown command", async () => {
     interaction.targetMessage = {
+      author: { id: botId },
       interaction: { commandName: "gobbledegook" },
       content: "lorem ipsum",
     }
@@ -34,6 +51,7 @@ describe("execute", () => {
 
   it("warns on non-savable command", async () => {
     interaction.targetMessage = {
+      author: { id: botId },
       interaction: { commandName: "chop" },
       content: "lorem ipsum",
     }
@@ -45,6 +63,7 @@ describe("execute", () => {
 
   it("warns on invalid options", async () => {
     interaction.targetMessage = {
+      author: { id: botId },
       interaction: { commandName: "d10" },
       content: "0 times",
     }
@@ -57,6 +76,7 @@ describe("execute", () => {
   describe("with no incomplete roll", () => {
     beforeEach(() => {
       interaction.targetMessage = {
+        author: { id: botId },
         interaction: { commandName: "d10" },
         content: '<@12345> rolled **7** (3 + 4) for "a roll"',
       }
@@ -103,6 +123,7 @@ describe("execute", () => {
         record_id = created.lastInsertRowid
 
         interaction.targetMessage = {
+          author: { id: botId },
           interaction: { commandName: "d10" },
           content: '<@12345> rolled **7** (3 + 4) for "a roll"',
         }
@@ -150,6 +171,7 @@ describe("execute", () => {
         record_id = created.lastInsertRowid
 
         interaction.targetMessage = {
+          author: { id: botId },
           interaction: { commandName: "d10" },
           content: '<@12345> rolled **7** (3 + 4) for "a roll"',
         }
