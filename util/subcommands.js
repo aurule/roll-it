@@ -61,13 +61,12 @@ module.exports = {
         subcommand: subcommand_name,
       }
       logger.error(error_contents, "No such subcommand")
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           Something went wrong while handling that command. You can try again in a couple of minutes, but
           it might be a while until the problem is fixed.
         `,
-        ephemeral: true,
-      })
+      )
     }
 
     return subcommand[funktion](interaction)

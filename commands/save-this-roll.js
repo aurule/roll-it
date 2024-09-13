@@ -27,47 +27,42 @@ module.exports = {
 
     const message = interaction.targetMessage
     if (message.author.id != botId) {
-      return interaction.reply({
-        content: "That message was not sent by a Roll It command.",
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        "That message was not sent by a Roll It command."
+      )
     }
 
     const command_name = message.interaction?.commandName
     const command = commands.get(command_name)
     if (!command) {
-      return interaction.reply({
-        content: "That message was not sent by a Roll It command.",
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        "That message was not sent by a Roll It command."
+      )
     }
 
     if (!command.savable) {
-      return interaction.reply({
-        content: `The command ${inlineCode(command_name)} cannot be saved.`,
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        `The command ${inlineCode(command_name)} cannot be saved.`
+      )
     }
 
     const parser = parsers.get(command_name)
     if (!parser) {
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           You found a bug! There is no parser for the options of ${inlineCode(command_name)}, but there should be.
           Please report this error if you can.
-        `,
-        ephemeral: true,
-      })
+        `
+      )
     }
 
     let parsed_options
     try {
       parsed_options = await parser.parse(message.content)
     } catch (err) {
-      return interaction.reply({
-        content: `There was a problem saving ${inlineCode(command_name)}:\n` + err.message,
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        `There was a problem saving ${inlineCode(command_name)}:\n` + err.message,
+      )
     }
 
     const saved_roll_params = {
@@ -87,25 +82,23 @@ module.exports = {
     try {
       await saved_roll_schema.validateAsync(saved_details)
     } catch {
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           You've saved the command for a new roll. Now use ${inlineCode("/saved set")} to set its name and
           description.
         `,
-        ephemeral: true,
-      })
+      )
     }
 
     // the roll is finished
     saved_rolls.update(record_id, { incomplete: false })
 
-    return interaction.reply({
-      content: oneLine`
+    return interaction.whisper(
+      oneLine`
         You've saved the roll ${italic(saved_details.name)}! Try it out with
         ${inlineCode("/saved roll name:" + saved_details.name)}.
       `,
-      ephemeral: true,
-    })
+    )
   },
   help({ command_name }) {
     const savable_commands = require("./index").savable()

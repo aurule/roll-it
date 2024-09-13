@@ -36,11 +36,9 @@ module.exports = {
     const detail = saved_rolls.detail(roll_id, roll_name)
 
     if (detail === undefined) {
-      return interaction.reply({
-        content:
-          "That saved roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        "That saved roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
+      )
     }
 
     let manage_text = saved_roll_presenter.present(detail)

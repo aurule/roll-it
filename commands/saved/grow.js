@@ -44,40 +44,35 @@ module.exports = {
 
     const roll_detail = saved_rolls.detail(roll_id, roll_name)
     if (roll_detail === undefined) {
-      return interaction.reply({
-        content:
-          "That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        "That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
+      )
     }
 
     if (roll_detail.invalid) {
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           The saved options for that roll are not valid. You'll have to update them using
           ${inlineCode("/saved manage")}.
-        `,
-        ephemeral: true,
-      })
+        `
+      )
     }
 
     if (roll_detail.incomplete) {
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           This roll is not finished. You have to save its name, description, and options before you can change
           it.
         `,
-        ephemeral: true,
-      })
+      )
     }
 
     const adjustment = interaction.options.getInteger("adjustment") ?? 0
 
     if (adjustment === 0) {
-      return interaction.reply({
-        content: `An ${inlineCode("adjustment")} of zero won't change the roll, so it has been left alone.`,
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        `An ${inlineCode("adjustment")} of zero won't change the roll, so it has been left alone.`,
+      )
     }
 
     const change = interaction.options.getString("change")
@@ -87,13 +82,12 @@ module.exports = {
     const target = change_target(adjustment, change, command.changeable)
 
     if (!command.changeable.includes(target)) {
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           Cannot change option ${inlineCode(target)}, since it does not exist for
           ${present_command(command)}.
-        `,
-        ephemeral: true,
-      })
+        `
+      )
     }
 
     const old_number = roll_detail.options[target] ?? 0
@@ -103,23 +97,21 @@ module.exports = {
     try {
       await command.schema.validateAsync(roll_detail.options)
     } catch (err) {
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           This roll would be invalid after adding ${adjustment} to ${inlineCode(target)}, so it has not been
           changed. The error is:\n* ${err.details[0].message}
-        `,
-        ephemeral: true,
-      })
+        `
+      )
     }
 
     saved_rolls.update(roll_detail.id, { options: roll_detail.options })
 
-    return interaction.reply({
-      content: oneLine`
+    return interaction.whisper(
+      oneLine`
         Updated ${inlineCode(target)} of ${italic(roll_detail.name)} from "${old_number}" to "${new_number}"
-      `,
-      ephemeral: true,
-    })
+      `
+    )
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

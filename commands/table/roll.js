@@ -36,11 +36,9 @@ module.exports = {
     const results = Array.from({ length: rolls }, () => tables.random(table_id, table_name))
 
     if (results[0] === undefined) {
-      return interaction.reply({
-        content:
-          "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables."
+      )
     }
 
     const detail = tables.detail(table_id, table_name)

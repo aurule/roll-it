@@ -106,13 +106,12 @@ module.exports = {
 
     if (is_teamwork) {
       if (rolls > 1 || until > 0 || secret) {
-        return interaction.reply({
-          content: oneLine`
+        return interaction.whisper(
+          oneLine`
             You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("until")}, or
             ${inlineCode("secret")} options.
           `,
-          ephemeral: true,
-        })
+        )
       }
 
       return handleTeamwork({

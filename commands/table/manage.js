@@ -36,11 +36,9 @@ module.exports = {
     const detail = tables.detail(table_id, table_name)
 
     if (detail === undefined) {
-      return interaction.reply({
-        content:
-          "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables."
+      )
     }
 
     const show_button = new ButtonBuilder()

@@ -26,10 +26,9 @@ module.exports = {
     const command = interaction.client.commands.get(command_name)
 
     if (!command?.help)
-      return interaction.reply({
-        content: `No help is available for the command "${command_name}"`,
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        `No help is available for the command "${command_name}"`
+      )
 
     const full_text = CommandHelpPresenter.present(command)
     return longReply(interaction, full_text, { ephemeral: true })

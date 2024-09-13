@@ -133,17 +133,15 @@ module.exports = {
       case "minor":
       case "major":
         if (exhaustion === 0) {
-          return interaction.reply({
-            content: `You need at least 1 ${inlineCode("exhaustion")} to use an exhaustion talent.`,
-            ephemeral: true,
-          })
+          return interaction.whisper(
+            `You need at least 1 ${inlineCode("exhaustion")} to use an exhaustion talent.`,
+          )
         }
       case "madness":
         if (madness === 0) {
-          return interaction.reply({
-            content: `You need at least 1 ${inlineCode("madness")} to use a madness talent.`,
-            ephemeral: true,
-          })
+          return interaction.whisper(
+            `You need at least 1 ${inlineCode("madness")} to use a madness talent.`,
+          )
         }
     }
 

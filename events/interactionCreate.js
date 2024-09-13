@@ -29,10 +29,7 @@ async function handleCommand(interaction) {
   const policyResult = await PolicyChecker.check(command.policy, interaction)
 
   if (!policyResult.allowed) {
-    return interaction.reply({
-      content: policyResult.errorMessages.join(". "),
-      ephemeral: true,
-    })
+    return interaction.whisper(policyResult.errorMessages.join(". "))
   }
 
   return command.execute(interaction)

@@ -61,28 +61,24 @@ module.exports = {
 
     const roll_detail = saved_rolls.detail(roll_id, roll_name)
     if (roll_detail === undefined) {
-      return interaction.reply({
-        content:
+      return interaction.whisper(
           "That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
-        ephemeral: true,
-      })
+      )
     }
 
     if (roll_detail.invalid) {
-      return interaction.reply({
-        content: oneLine`
+      return interaction.whisper(
+        oneLine`
           The saved options for that roll are not valid. You'll have to update them using
           ${inlineCode("/saved manage")} before you can use this saved roll.
         `,
-        ephemeral: true,
-      })
+      )
     }
 
     if (roll_detail.incomplete) {
-      return interaction.reply({
-        content: "This roll is not finished. You have to save some options before you can use it.",
-        ephemeral: true,
-      })
+      return interaction.whisper(
+        "This roll is not finished. You have to save some options before you can use it.",
+      )
     }
 
     const description = interaction.options.getString("description") ?? roll_detail.description
@@ -99,13 +95,12 @@ module.exports = {
 
     if (target) {
       if (!command.changeable.includes(target)) {
-        return interaction.reply({
-          content: oneLine`
+        return interaction.whisper(
+           oneLine`
             Cannot change option ${inlineCode(target)}, since it does not exist for
             ${present_command(command)}.
           `,
-          ephemeral: true,
-        })
+        )
       }
 
       const old_number = roll_detail.options[target] ?? 0
@@ -119,21 +114,19 @@ module.exports = {
       await command.schema.validateAsync(roll_detail.options)
     } catch (err) {
       if (target) {
-        return interaction.reply({
-          content: oneLine`
+        return interaction.whisper(
+           oneLine`
             This roll can no longer be made after changing the ${target}. The error is:\n* ${err.details[0].message}
           `,
-          ephemeral: true,
-        })
+        )
       } else {
         saved_rolls.update(roll_detail.id, { invalid: true })
-        return interaction.reply({
-          content: oneLine`
+        return interaction.whisper(
+           oneLine`
             The saved options for this roll are no longer valid. You'll have to update them before you can use
             this saved roll.
           `,
-          ephemeral: true,
-        })
+        )
       }
     }
 
