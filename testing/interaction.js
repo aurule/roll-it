@@ -90,6 +90,13 @@ class Interaction {
     return real_message
   }
 
+  async whisper(msg) {
+    if (typeof msg !== "string") {
+      return Promise.reject("Whisper only accepts a string")
+    }
+    return this.reply(msg)
+  }
+
   async editReply(msg) {
     if (!this.replied) return Promise.reject("cannot editReply: interaction has no reply to edit")
     const real_message = this.normalizeMessage(msg)

@@ -1,6 +1,8 @@
 // Load envvars
 require("dotenv").config()
 
+require("./patches/whisper").patch()
+
 const { version } = require("./package.json")
 
 // Require the necessary discord.js classes
