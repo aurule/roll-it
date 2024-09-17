@@ -1,5 +1,6 @@
 const { UserSavedRolls } = require("../db/saved_rolls")
 const { Interaction } = require("../testing/interaction")
+const interactionCache = require("../services/interaction-cache")
 
 const save_roll_command = require("./save-this-roll")
 
@@ -8,53 +9,43 @@ const botId = process.env.CLIENT_ID
 
 describe("execute", () => {
   let interaction
+  let past_interaction
   let saved_rolls
   beforeEach(() => {
     interaction = new Interaction()
+    past_interaction = new Interaction(interaction.guildId)
+    interaction.targetMessage = {
+      guildId: interaction.guildId,
+      interactionMetadata: {
+        id: past_interaction.id,
+      },
+      author: { id: botId },
+    }
     saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
   })
 
+  const cacheCommand = (commandName, commandOptions = {}) => {
+    past_interaction.commandName = commandName
+    past_interaction.options.data = Object.entries(commandOptions).map(([name, value]) => ({name, value}))
+    interactionCache.store(past_interaction)
+  }
+
   it("warns on bad author ID", async () => {
-    interaction.targetMessage = {
-      author: { id: "wasnt_me" },
-      interaction: { commandName: "gobbledegook" },
-      content: "lorem ipsum",
-    }
+    interaction.targetMessage.author.id = "wasnt_me"
 
     await save_roll_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("not sent by a Roll It command")
   })
 
-  it("warns on no command", async () => {
-    interaction.targetMessage = {
-      author: { id: botId },
-      content: "lorem ipsum",
-    }
-
+  it("warns on cache miss", async () => {
     await save_roll_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch("not sent by a Roll It command")
-  })
-
-  it("warns on unknown command", async () => {
-    interaction.targetMessage = {
-      author: { id: botId },
-      interaction: { commandName: "gobbledegook" },
-      content: "lorem ipsum",
-    }
-
-    await save_roll_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("not sent by a Roll It command")
+    expect(interaction.replyContent).toMatch("cannot be found")
   })
 
   it("warns on non-savable command", async () => {
-    interaction.targetMessage = {
-      author: { id: botId },
-      interaction: { commandName: "chop" },
-      content: "lorem ipsum",
-    }
+    cacheCommand("chop")
 
     await save_roll_command.execute(interaction)
 
@@ -62,24 +53,16 @@ describe("execute", () => {
   })
 
   it("warns on invalid options", async () => {
-    interaction.targetMessage = {
-      author: { id: botId },
-      interaction: { commandName: "d10" },
-      content: "0 times",
-    }
+    cacheCommand("d20", {keep: "none"})
 
     await save_roll_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch("problem saving")
+    expect(interaction.replyContent).toMatch("options cannot be saved")
   })
 
   describe("with no incomplete roll", () => {
     beforeEach(() => {
-      interaction.targetMessage = {
-        author: { id: botId },
-        interaction: { commandName: "d10" },
-        content: '<@12345> rolled **7** (3 + 4) for "a roll"',
-      }
+      cacheCommand("d10", {modifier: 4})
     })
 
     it("saves the command", async () => {
@@ -108,6 +91,15 @@ describe("execute", () => {
 
       expect(interaction.replyContent).toMatch("set its name and description")
     })
+
+    it("skips description option", async () => {
+      cacheCommand("d10", { modifier: 3, description: "something" })
+
+      await save_roll_command.execute(interaction)
+
+      const detail = saved_rolls.incomplete()
+      expect(detail.options.description).toBeUndefined()
+    })
   })
 
   describe("with an incomplete roll", () => {
@@ -122,11 +114,7 @@ describe("execute", () => {
         })
         record_id = created.lastInsertRowid
 
-        interaction.targetMessage = {
-          author: { id: botId },
-          interaction: { commandName: "d10" },
-          content: '<@12345> rolled **7** (3 + 4) for "a roll"',
-        }
+        cacheCommand("d10", {modifier: 4})
       })
 
       it("saves the command", async () => {
@@ -158,7 +146,7 @@ describe("execute", () => {
     })
 
     describe("with command and options", () => {
-      var record_id
+      let record_id
 
       beforeEach(() => {
         const created = saved_rolls.create({
@@ -170,11 +158,7 @@ describe("execute", () => {
         })
         record_id = created.lastInsertRowid
 
-        interaction.targetMessage = {
-          author: { id: botId },
-          interaction: { commandName: "d10" },
-          content: '<@12345> rolled **7** (3 + 4) for "a roll"',
-        }
+        cacheCommand("d10", {modifier: 4})
       })
 
       it("overwrites the command", async () => {

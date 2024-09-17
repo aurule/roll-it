@@ -8,6 +8,7 @@ const { oneLine } = require("common-tags")
 
 const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
+const interactionCache = require("../services/interaction-cache")
 
 require("dotenv").config()
 const botId = process.env.CLIENT_ID
@@ -23,7 +24,6 @@ module.exports = {
       .setType(ApplicationCommandType.Message),
   async execute(interaction) {
     const commands = require("./index")
-    const parsers = require("../parsers")
 
     const message = interaction.targetMessage
     if (message.author.id != botId) {
@@ -32,42 +32,34 @@ module.exports = {
       )
     }
 
-    const command_name = message.interaction?.commandName
-    const command = commands.get(command_name)
-    if (!command) {
-      return interaction.whisper(
-        "That message was not sent by a Roll It command."
-      )
+    const cachedInvocation = interactionCache.findByMessage(interaction.targetMessage)
+    if (!cachedInvocation) {
+      return interaction.whisper("That message's command cannot be found, because the message may be too old. Try sending its command again, then saving the new message.")
     }
 
+    const command = commands.get(cachedInvocation.commandName)
     if (!command.savable) {
       return interaction.whisper(
-        `The command ${inlineCode(command_name)} cannot be saved.`
+        `The command ${inlineCode(command.name)} cannot be saved.`
       )
     }
 
-    const parser = parsers.get(command_name)
-    if (!parser) {
-      return interaction.whisper(
-        oneLine`
-          You found a bug! There is no parser for the options of ${inlineCode(command_name)}, but there should be.
-          Please report this error if you can.
-        `
-      )
-    }
-
-    let parsed_options
+    let validated_options
     try {
-      parsed_options = await parser.parse(message.content)
+      validated_options = await command.schema.validateAsync(cachedInvocation.options, { abortEarly: false })
     } catch (err) {
       return interaction.whisper(
-        `There was a problem saving ${inlineCode(command_name)}:\n` + err.message,
+        oneLine`
+          That command's options cannot be saved, which means you found a bug! This is what went wrong while
+          saving ${inlineCode(command.name)}:\n
+        ` + err.details.map((d) => d.message).join("\n"),
       )
     }
+    delete validated_options.description
 
     const saved_roll_params = {
-      command: command_name,
-      options: parsed_options,
+      command: command.name,
+      options: validated_options,
       incomplete: true,
       invalid: false,
     }
