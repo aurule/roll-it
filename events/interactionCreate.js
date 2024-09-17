@@ -1,8 +1,8 @@
 const { logger } = require("../util/logger")
 const { getReplyFn } = require("../util/getReplyFn")
 const { metrics } = require("../db/stats")
-
 const PolicyChecker = require("../services/policy-checker")
+const interactionCache = require("../services/interaction-cache")
 
 /**
  * Handle command interactions
@@ -32,6 +32,7 @@ async function handleCommand(interaction) {
     return interaction.whisper(policyResult.errorMessages.join(". "))
   }
 
+  interactionCache.store(interaction)
   return command.execute(interaction)
 }
 
