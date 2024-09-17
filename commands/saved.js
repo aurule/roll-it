@@ -37,9 +37,9 @@ module.exports = {
       `,
       "",
       oneLine`
-        In general, you'll use ${inlineCode("/saved set")} and ${italic("Save this roll")} to save one or more
-        rolls and their options. Then, ${inlineCode("/saved roll")} to use one of them. Check out the help
-        for ${inlineCode("/saved set")} and ${italic("Save this roll")} to learn more about how they work
+        In general, you'll use ${inlineCode("/saved set")} and ${italic("Save this roll")} to save some rolls
+        and their options. Then, ${inlineCode("/saved roll")} to use one of them. Check out the help for
+        ${inlineCode("/saved set")} and ${italic("Save this roll")} to learn more about how they work
         together.
       `,
       "",
