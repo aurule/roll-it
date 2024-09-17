@@ -14,6 +14,7 @@ class Interaction {
     this.partial_text = "partial"
     this.focused_option = "test"
     this.options = {
+      data: [],
       getString: (key) => this.command_options[key]?.toString(),
       getBoolean: (key) => !!this.command_options[key],
       getChannel: (key) => this.command_options[key],
@@ -34,7 +35,7 @@ class Interaction {
     }
     this.guildId = guildId ?? simpleflake()
     this.guild = {
-      id: guildId,
+      id: this.guildId,
       members: [],
       name: "test guild",
     }
@@ -42,11 +43,11 @@ class Interaction {
     this.channel = {
       id: simpleflake(),
       isThread: () => false,
-      guildId: guildId,
+      guildId: this.guildId,
       parentId: simpleflake(),
       messages: {},
     }
-    this.message = {}
+    this.message = new Message({guildId: this.guildId, channelId: this.channel.id})
     this.user = new User(member_snowflake)
     this.member = {
       id: member_snowflake,
