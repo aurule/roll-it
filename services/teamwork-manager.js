@@ -140,6 +140,7 @@ module.exports = {
 
     const rollHandler = (event) => {
       bonus_collector.stop()
+      requested_collector.stop()
       leader_prompt.delete()
 
       if (event.customId == "cancel_button") {
