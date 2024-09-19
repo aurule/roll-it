@@ -1,7 +1,7 @@
 const { simpleflake } = require("simpleflakes")
 const { Collection } = require("discord.js")
 
-const teamwork = require("./teamwork")
+const teamwork = require("./teamwork-manager")
 
 describe("teamwork", () => {
   describe("increasePool", () => {
