@@ -58,7 +58,7 @@ module.exports = {
     lines.push(
       oneLine`
         . Since the roll has been made, dice may no longer be added. See
-        ${hyperlink("the result!", messageLink(resultMessage, false))}
+        ${hyperlink("the result!", messageLink(resultMessage))}
       `,
     )
     return lines.join("")
@@ -97,7 +97,7 @@ module.exports = {
       leaderRollSummary,
       oneLine`
         This is the result of a
-        ${hyperlink("teamwork roll", messageLink(promptMessage, false))}.
+        ${hyperlink("teamwork roll", messageLink(promptMessage))}.
         Here's who contributed:
       `,
     ]

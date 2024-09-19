@@ -26,15 +26,15 @@ describe("messageLink", () => {
     expect(result).toMatch(message.channelId.toString())
   })
 
-  it("shows embed by default", () => {
+  it("hides embed by default", () => {
     const result = messageLink(message)
 
-    expect(result).not.toMatch(/^\<.*\>$/)
+    expect(result).toMatch(/^\<.*\>$/)
   })
 
-  it("can hide the embed", () => {
-    const result = messageLink(message, false)
+  it("can show the embed", () => {
+    const result = messageLink(message, true)
 
-    expect(result).toMatch(/^\<.*\>$/)
+    expect(result).not.toMatch(/^\<.*\>$/)
   })
 })
