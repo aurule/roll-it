@@ -59,8 +59,7 @@ module.exports = {
     let selection = deployed_commands
 
     const collector = prompt.createMessageComponentCollector({
-      ComponentType: ComponentType.Button,
-      time: 60_000,
+      time: 60_000, // 1 minute timeout
     })
     collector.on(
       "collect",
@@ -71,6 +70,7 @@ module.exports = {
               content: "Cancelled. Leaving server commands unchanged.",
               components: [],
             })
+            collector.stop()
             break
           case "go_button":
             if (!selection.length) {
@@ -97,20 +97,24 @@ module.exports = {
                 components: [],
               })
             })
+            collector.stop()
             break
           case "chooser":
             event.deferUpdate()
             selection = event.values
             break
         }
-      },
-      () => {
-        interaction.editReply({
-          content: "Ran out of time. Leaving server commands unchanged.",
-          components: [],
-        })
-      },
-    )
+      })
+    collector.on("end", (_, reason) => {
+      switch(reason) {
+        case "time":
+          interaction.editReply({
+            content: "Ran out of time. Leaving server commands unchanged.",
+            components: [],
+          })
+          break;
+      }
+    })
   },
   help({ command_name }) {
     const guild_commands = require("./index").guild()
