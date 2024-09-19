@@ -65,32 +65,32 @@ module.exports = {
     collector.on(
       "collect",
       (event) => {
-        event.deferUpdate()
         switch (event.customId) {
           case "cancel_button":
-            interaction.editReply({
+            event.update({
               content: "Cancelled. Leaving server commands unchanged.",
               components: [],
             })
             break
           case "go_button":
             if (!selection.length) {
-              interaction.editReply({
+              event.update({
                 content:
                   "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:",
               })
               break
             }
             if (arrayEq(selection, deployed_commands)) {
-              interaction.editReply({
+              event.update({
                 content: "Commands match. Leaving server commands unchanged.",
                 components: [],
               })
               break
             }
             // if selection matches deployed_commands, say no changes
+            event.deferUpdate()
             api.setGuildCommands(interaction.guildId, selection).then(() => {
-              interaction.editReply({
+              event.editReply({
                 content: oneLine`
                   Updated server commands to: ${selection.join(", ")}
                 `,
@@ -99,6 +99,7 @@ module.exports = {
             })
             break
           case "chooser":
+            event.deferUpdate()
             selection = event.values
             break
         }
