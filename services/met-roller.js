@@ -11,7 +11,7 @@ function rand() {
 }
 
 /**
- * Get a MET result
+ * Get MET results
  *
  * @param  {Boolean} bomb  Whether to sub bomb for paper
  * @param  {Number}  rolls Number of results to get
@@ -54,7 +54,28 @@ function compare(first, second) {
   }
 }
 
+/**
+ * Generate an array of results from a request
+ *
+ * The request can be a named symbol, or one of "rand" or "rand-bomb".
+ *
+ * @param  {str}   request Symbol or set name
+ * @param  {int}   rolls   Number of results to create
+ * @return {str[]}         Array of result strings.
+ */
+function handleRequest(request, rolls) {
+  switch(request) {
+    case "rand":
+      return roll(false, rolls)
+    case "rand-bomb":
+      return roll(true, rolls)
+    default:
+      return Array.from({length: rolls}, () => request)
+  }
+}
+
 module.exports = {
   roll,
   compare,
+  handleRequest,
 }

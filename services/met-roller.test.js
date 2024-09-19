@@ -1,4 +1,4 @@
-const { roll, compare } = require("./met-roller")
+const { roll, compare, handleRequest } = require("./met-roller")
 
 describe("roll", () => {
   it("without bomb, returns rps", () => {
@@ -41,6 +41,50 @@ describe("compare", () => {
       const result = compare(first, second)
 
       expect(result).toEqual(outcome)
+    })
+  })
+})
+
+describe("handleRequest", () => {
+  describe("with rand request", () => {
+    it("returns an rps array", () => {
+      const result = handleRequest("rand", 60)
+
+      expect(result).toContain("paper")
+    })
+
+    it("array is correct length", () => {
+      const result = handleRequest("rand", 15)
+
+      expect(result.length).toEqual(15)
+    })
+  })
+
+  describe("with rand-bomb request", () => {
+    it("returns an rbs array", () => {
+      const result = handleRequest("rand-bomb", 60)
+
+      expect(result).toContain("bomb")
+    })
+
+    it("array is correct length", () => {
+      const result = handleRequest("rand-bomb", 15)
+
+      expect(result.length).toEqual(15)
+    })
+  })
+
+  describe("with other request", () => {
+    it("returns array of static request string", () => {
+      const result = handleRequest("test", 1)
+
+      expect(result).toEqual(["test"])
+    })
+
+    it("array is correct length", () => {
+      const result = handleRequest("test", 15)
+
+      expect(result.length).toEqual(15)
     })
   })
 })
