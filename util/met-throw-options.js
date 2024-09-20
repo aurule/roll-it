@@ -21,6 +21,10 @@ module.exports = {
     return choices
   },
 
+  throwOptions(bomb = false) {
+    return module.exports.throwChoices(bomb).map((choice) => ({label: choice.name, value: choice.value}))
+  },
+
   /**
    * Get select menu options for random MET throw results
    *
