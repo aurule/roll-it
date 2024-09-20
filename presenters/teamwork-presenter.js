@@ -7,6 +7,7 @@ const {
   inlineCode,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
+
 const { timeout_ms } = require("../util/teamwork-settings")
 const { messageLink } = require("../util/message-link")
 
