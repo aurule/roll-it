@@ -14,8 +14,6 @@ module.exports = {
     return new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
-      .setDMPermission(false)
-      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
       .addSubcommand(subcommands.get("static").data())
       .addSubcommand(subcommands.get("opposed").data())
   },
