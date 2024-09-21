@@ -7,15 +7,15 @@ module.exports = {
    */
   throwChoices(bomb = false) {
     const choices = [
-      { name: "🪨 Rock", value: "rock" },
+      { name: "⛰️ Rock", value: "rock" },
       { name: "📜 Paper", value: "paper" },
       { name: "✂️ Scissors", value: "scissors" },
-      { name: "🔀🪨📜✂️ Random Rock-Paper-Scissors", value: "rand" },
+      { name: "🔀⛰️📜✂️ Random Rock-Paper-Scissors", value: "rand" },
     ]
 
     if (bomb) {
       choices.splice(2, 0, { name: "🧨 Bomb", value: "bomb" })
-      choices.push({ name: "🔀🪨🧨✂️ Random Rock-Bomb-Scissors", value: "rand-bomb" })
+      choices.push({ name: "🔀⛰️🧨✂️ Random Rock-Bomb-Scissors", value: "rand-bomb" })
     }
 
     return choices
@@ -33,11 +33,11 @@ module.exports = {
    */
   randomChoices(bomb = false) {
     const choices = [
-      { name: "🔀🪨📜✂️ Random Rock-Paper-Scissors", value: "rand" },
+      { name: "🔀⛰️📜✂️ Random Rock-Paper-Scissors", value: "rand" },
     ]
 
     if (bomb) {
-      choices.push({ name: "🔀🪨🧨✂️ Random Rock-Bomb-Scissors", value: "rand-bomb" })
+      choices.push({ name: "🔀⛰️🧨✂️ Random Rock-Bomb-Scissors", value: "rand-bomb" })
     }
 
     return choices
