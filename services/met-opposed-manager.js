@@ -80,7 +80,7 @@ class MetOpposedManager {
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
       .setCustomId("picker")
-      .setPlaceholder("Select your response")
+      .setPlaceholder("Respond with...")
       .setMinValues(1)
       .setMaxValues(1)
       .addOptions(...throwOptions(this.defender.bomb))
@@ -111,6 +111,7 @@ class MetOpposedManager {
       content: presenter.initialMessage(this),
       components: this.initialComponents(),
       allowedMentions: {users: [this.defender.id]},
+      fetchReply: true,
     })
     this.add_message_link(prompt)
 
@@ -122,7 +123,7 @@ class MetOpposedManager {
       (event) => {
         switch (event.customId) {
           case "throw":
-            if (event.user.id !== this.defender.id) {
+            if (!this.fromDefender(event)) {
               break
             }
 
@@ -135,13 +136,14 @@ class MetOpposedManager {
             }
 
             collector.stop()
+            this.current_test.rollAll()
             return event.update({
               content: presenter.initialMessageSummary(this),
               components: [],
               allowedMentions: {},
             }).then(() => this.statusPrompt())
           case "relent":
-            if (event.user.id !== this.defender.id) {
+            if (!this.fromDefender(event)) {
               event.deferUpdate()
               break
             }
@@ -153,7 +155,7 @@ class MetOpposedManager {
               allowedMentions: {},
             }).then(() => this.relentMessage())
           case "cancel":
-            if (event.user.id !== this.attacker.id) {
+            if (!this.fromAttacker(event)) {
               event.deferUpdate()
               break
             }
@@ -166,13 +168,13 @@ class MetOpposedManager {
             }).then(() => this.cancelMessage())
           case "picker":
             event.deferUpdate()
-            if (event.user.id !== this.defender.id) {
+            if (!this.fromDefender(event)) {
               break
             }
             this.current_test.chop(this.defender, event.values[0])
             break
           case "bomb":
-            if (event.user.id !== this.defender.id) {
+            if (!this.fromDefender(event)) {
               event.deferUpdate()
               break
             }
@@ -182,7 +184,7 @@ class MetOpposedManager {
             })
             break
           case "ties":
-            if (event.user.id !== this.defender.id) {
+            if (!this.fromDefender(event)) {
               event.deferUpdate()
               break
             }
@@ -205,28 +207,69 @@ class MetOpposedManager {
   }
 
   async relentMessage() {
-    return interaction.followUp(presenter.relentMessage(this))
+    return this.interaction.followUp(presenter.relentMessage(this))
   }
 
   async cancelMessage() {
-    return interaction.followUp(presenter.cancelMessage(this))
+    return this.interaction.followUp(presenter.cancelMessage(this))
   }
 
   async timeoutRelent() {
-    return interaction.followUp(presenter.timeoutRelentMessage(this))
+    return this.interaction.followUp(presenter.timeoutRelentMessage(this))
+  }
+
+  allowDone(userId) {
+    if (!this.participants.has(userId)) return false
+
+    const leader = this.current_test.leader
+    return !(leader && userId === leader.id)
+  }
+
+  fromDefender(event) {
+    return event.user.id === this.defender.id
+  }
+
+  fromAttacker(event) {
+    return event.user.id === this.attacker.id
+  }
+
+  fromParticipant(event) {
+    return this.participants.has(event.user.id)
   }
 
   async statusPrompt() {
     const leader = this.current_test.leader
 
-    // create action rows
+    const rowRetest = new ActionRowBuilder()
+    const reasonPicker = new StringSelectMenuBuilder()
+      .setCustomId("picker")
+      .setPlaceholder("Retest with...")
+      .setMinValues(1)
+      .setMaxValues(1)
+      .addOptions({label: this.retest_ability, value: this.retest_ability, description: "Named retest"})
+    rowRetest.addComponents(reasonPicker)
+
+    const rowButtons = new ActionRowBuilder()
+    const retestButton = new ButtonBuilder()
+      .setCustomId("retest")
+      .setLabel("Retest")
+      .setEmoji("🔄")
+      .setStyle(ButtonStyle.Secondary)
+    rowButtons.addComponents(retestButton)
+    const doneButton = new ButtonBuilder()
+      .setCustomId("done")
+      .setLabel("Done")
+      .setStyle(ButtonStyle.Primary)
+    rowButtons.addComponents(doneButton)
+
     const prompt = await this.interaction.followUp({
-      content: "current results",
-      components: [],
+      content: presenter.statusPrompt(this),
+      components: [rowRetest, rowButtons],
+      fetchReply: true,
     })
+    this.add_message_link(prompt)
 
-    return
-
+    let retest_reason
     const collector = prompt.createMessageComponentCollector({
       time: this.constructor.step_timeout,
     })
@@ -235,18 +278,32 @@ class MetOpposedManager {
       (event) => {
         switch (event.customId) {
           case "retest":
+            if (!this.fromParticipant(event)) {
+              event.deferUpdate()
+              break
+            }
             // update prompt
             // return retestPrompt() with retest user and their selection
             collector.stop()
             break
           case "done":
-            // only ok from loser, or either person if tied
-            // update prompt
-            // return doneMessage()
+            if (!this.allowDone(event.user.id)) {
+              event.deferUpdate()
+              break
+            }
+
             collector.stop()
-            break
+            return event.update({
+              content: presenter.statusSummary(this),
+              components: [],
+            }).then(() => this.resultMessage())
           case "picker":
-            // store retest reason by retest user
+            if (!this.fromParticipant(event)) {
+              event.deferUpdate()
+              break
+            }
+            event.deferUpdate()
+            retest_reason = event.values[0]
             break
         }
       }
@@ -262,19 +319,30 @@ class MetOpposedManager {
     })
   }
 
-  async doneMessage() {
-    return interaction.followUp("all done")
+  async resultMessage() {
+    return this.interaction.followUp(presenter.resultMessage(this))
   }
 
   async timeoutMessage() {
-    return interaction.followUp("timed out")
+    return this.interaction.followUp("timed out")
   }
 
   async retestPrompt(retester, reason) {
     // create action rows
+    const rowResponse = new ActionRowBuilder()
+    const responsePicker = new StringSelectMenuBuilder()
+      .setCustomId("picker")
+      .setPlaceholder("Select your response")
+      .setMinValues(1)
+      .setMaxValues(1)
+      .addOptions(...throwOptions(this.defender.bomb || this.attacker.bomb))
+    rowResponse.addComponents(responsePicker)
+    const rowCancel = new ActionRowBuilder()
+    const rowButtons = new ActionRowBuilder()
+
     const prompt = await interaction.followUp({
       content: "roll again",
-      components: [],
+      // components: [rowResponse, rowCancel, rowButtons],
     })
 
     const collector = prompt.createMessageComponentCollector({

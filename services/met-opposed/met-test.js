@@ -1,4 +1,4 @@
-const { Collection } = require("discord.js")
+const { Collection, italic } = require("discord.js")
 
 const Chop = require("./chop")
 const { compare } = require("../met-roller")
@@ -68,6 +68,10 @@ module.exports = class Test {
     return this.chops
   }
 
+  has(id) {
+    return this.chops.has(id)
+  }
+
   /**
    * Get a string describing this test
    *
@@ -117,7 +121,7 @@ module.exports = class Test {
    * @return {str} Decorated chop results
    */
   explainChops() {
-    return `${this.chops.get(this.attacker.id).present()} vs ${this.chops.get(this.defender.id).present()}`
+    return `${this.chops.get(this.attacker.id).present()} ${italic("vs")} ${this.chops.get(this.defender.id).present()}`
   }
 
   /**
