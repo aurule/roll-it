@@ -27,6 +27,7 @@ class MetOpposedManager {
   retest_ability
   description
   test_recorder
+  prompt_ends_at
 
   participants = new Collection()
   message_links = []
@@ -41,7 +42,6 @@ class MetOpposedManager {
     this.retest_ability = retest_ability
     this.description = description
     this.test_recorder = new TestRecorder(this.attacker, this.defender)
-    this.prompt_ends_at = new Date(Date.now() + STEP_TIMEOUT)
 
     this.test_recorder.addTest()
   }
@@ -106,7 +106,13 @@ class MetOpposedManager {
     return [rowAdvantages, rowResponse, rowActions]
   }
 
+  updateDeadline() {
+    this.prompt_ends_at = new Date(Date.now() + STEP_TIMEOUT)
+    return this.prompt_ends_at
+  }
+
   async begin() {
+    this.updateDeadline()
     const prompt = await this.interaction.reply({
       content: presenter.initialMessage(this),
       components: this.initialComponents(),
@@ -124,13 +130,13 @@ class MetOpposedManager {
         switch (event.customId) {
           case "throw":
             if (!this.fromDefender(event)) {
+              event.deferUpdate()
               break
             }
 
             if (!this.current_test.has(this.defender.id)) {
               event.update({
                 content: presenter.initialMessage(this, "You must select a response before you can throw."),
-                allowedMentions: {},
               })
               break
             }
@@ -140,7 +146,6 @@ class MetOpposedManager {
             return event.update({
               content: presenter.initialMessageSummary(this),
               components: [],
-              allowedMentions: {},
             }).then(() => this.statusPrompt())
           case "relent":
             if (!this.fromDefender(event)) {
@@ -152,7 +157,6 @@ class MetOpposedManager {
             return event.update({
               content: presenter.initialMessageSummary(this),
               components: [],
-              allowedMentions: {},
             }).then(() => this.relentMessage())
           case "cancel":
             if (!this.fromAttacker(event)) {
@@ -164,7 +168,6 @@ class MetOpposedManager {
             return event.update({
               content: presenter.initialMessageSummary(this),
               components: [],
-              allowedMentions: {},
             }).then(() => this.cancelMessage())
           case "picker":
             event.deferUpdate()
@@ -198,10 +201,9 @@ class MetOpposedManager {
     )
 
     collector.on("end", (_, reason) => {
-      if (reason === "time") return event.update({
+      if (reason === "time") return prompt.edit({
           content: presenter.initialMessageSummary(this),
           components: [],
-          allowedMentions: {},
         }).then(() => this.timeoutRelent())
     })
   }
@@ -238,6 +240,7 @@ class MetOpposedManager {
   }
 
   async statusPrompt() {
+    this.updateDeadline()
     const leader = this.current_test.leader
 
     const rowRetest = new ActionRowBuilder()
@@ -246,7 +249,7 @@ class MetOpposedManager {
       .setPlaceholder("Retest with...")
       .setMinValues(1)
       .setMaxValues(1)
-      .addOptions({label: this.retest_ability, value: this.retest_ability, description: "Named retest"})
+      .addOptions(...presenter.retestOptions(this))
     rowRetest.addComponents(reasonPicker)
 
     const rowButtons = new ActionRowBuilder()
@@ -282,10 +285,19 @@ class MetOpposedManager {
               event.deferUpdate()
               break
             }
-            // update prompt
-            // return retestPrompt() with retest user and their selection
+
+            if (!retest_reason) {
+              event.update({
+                content: presenter.statusPrompt(this, "You have to pick what to retest with before you can retest.")
+              })
+              break
+            }
+
             collector.stop()
-            break
+            this.test_recorder.addRetest(this.participants.get(event.user.id), retest_reason)
+            return event.update({
+              components: [],
+            }).then(() => this.retestPrompt())
           case "done":
             if (!this.allowDone(event.user.id)) {
               event.deferUpdate()
@@ -298,11 +310,10 @@ class MetOpposedManager {
               components: [],
             }).then(() => this.resultMessage())
           case "picker":
+            event.deferUpdate()
             if (!this.fromParticipant(event)) {
-              event.deferUpdate()
               break
             }
-            event.deferUpdate()
             retest_reason = event.values[0]
             break
         }
@@ -310,12 +321,10 @@ class MetOpposedManager {
     )
 
     collector.on("end", (_, reason) => {
-      switch(reason) {
-        case "time":
-          // update prompt
-          // return finalResult()
-          break;
-      }
+      if (reason === "time") return prompt.edit({
+          content: presenter.initialMessageSummary(this),
+          components: [],
+        }).then(() => this.timeoutResult())
     })
   }
 
@@ -323,28 +332,59 @@ class MetOpposedManager {
     return this.interaction.followUp(presenter.resultMessage(this))
   }
 
-  async timeoutMessage() {
-    return this.interaction.followUp("timed out")
+  async timeoutResult() {
+    return this.interaction.followUp(presenter.timeoutResultMessage(this))
   }
 
-  async retestPrompt(retester, reason) {
-    // create action rows
+  opposition(userId) {
+    return this.participants.find(p => p.id !== userId)
+  }
+
+  async retestPrompt() {
+    const retester = this.current_test.retester
+    const non_retester = this.opposition(retester.id)
+
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
-      .setCustomId("picker")
-      .setPlaceholder("Select your response")
+      .setCustomId("throw-picker")
+      .setPlaceholder("Choose what to throw")
       .setMinValues(1)
       .setMaxValues(1)
       .addOptions(...throwOptions(this.defender.bomb || this.attacker.bomb))
     rowResponse.addComponents(responsePicker)
+
     const rowCancel = new ActionRowBuilder()
-    const rowButtons = new ActionRowBuilder()
+    const cancelPicker = new StringSelectMenuBuilder()
+      .setCustomId("cancel-picker")
+      .setPlaceholder("Cancel with...")
+      .setMinValues(1)
+      .setMaxValues(1)
+      .addOptions(...presenter.cancelOptions)
+    rowCancel.addComponents(cancelPicker)
 
-    const prompt = await interaction.followUp({
-      content: "roll again",
-      // components: [rowResponse, rowCancel, rowButtons],
+    const rowButtonsCancel = new ActionRowBuilder()
+    const cancelButton = new ButtonBuilder()
+      .setCustomId("cancel")
+      .setLabel("Cancel")
+      .setStyle(ButtonStyle.Primary)
+    rowButtonsCancel.addComponents(cancelButton)
+
+    const rowButtonsGo = new ActionRowBuilder()
+    const throwButton = new ButtonBuilder()
+      .setCustomId("throw")
+      .setLabel("Throw!")
+      .setStyle(ButtonStyle.Success)
+    rowButtonsGo.addComponents(throwButton)
+
+    const prompt = await this.interaction.followUp({
+      content: presenter.retestPrompt(this),
+      components: [rowResponse, rowButtonsGo, rowCancel, rowButtonsCancel],
+      fetchReply: true,
     })
+    this.add_message_link(prompt)
 
+    let throws = new Collection()
+    let cancel_reason
     const collector = prompt.createMessageComponentCollector({
       time: this.constructor.step_timeout,
     })
@@ -353,37 +393,86 @@ class MetOpposedManager {
       (event) => {
         switch (event.customId) {
           case "throw":
-            // update prompt with participant readiness
-            // if both ready...
-            //  update prompt
-            //  return resultPrompt()
-            collector.stop()
+            if (!this.fromParticipant(event)) {
+              event.deferUpdate()
+              break
+            }
+
+            if (!throws.has(event.user.id)) {
+              event.update({
+                content: presenter.retestPrompt(this, throws, "You have to choose what to throw before you can throw it")
+              })
+              break
+            }
+
+            if (throws.has(this.opposition(event.user.id).id)) {
+              collector.stop()
+              return event.update({
+                content: presenter.retestPrompt(this),
+                components: [],
+              }).then(() => {
+                const retest = this.current_test
+                retest.chop(this.attacker, throws.get(this.attacker.id))
+                retest.chop(this.defender, throws.get(this.defender.id))
+                retest.rollAll()
+                return this.statusPrompt()
+              })
+            }
+
+            event.update({
+              content: presenter.retestPrompt(this, throws)
+            })
             break
           case "cancel":
-            // only ok from non-retester
-            // update prompt
-            // return resultPrompt()
+            if (event.user.id !== non_retester.id) {
+              event.deferUpdate()
+              break
+            }
+
+            if (!cancel_reason) {
+              event.update({
+                content: presenter.retestPrompt(this, throws, "You have to pick what to cancel with before you can cancel")
+              })
+              break
+            }
+
             collector.stop()
+            this.current_test.cancel(this.participants.get(event.user.id), cancel_reason)
+            return event.update({
+              components: [],
+            }).then(() => this.retestCancelMessage())
             break
           case "throw-picker":
-            // update respective user's participant object
+            event.deferUpdate()
+            if (!this.fromParticipant(event)) {
+              break
+            }
+            throws.set(event.user.id, event.values[0])
             break
           case "cancel-picker":
-            // only ok from non-retester
-            // store cancel reason
+            event.deferUpdate()
+            if (event.user.id !== non_retester.id) {
+              break
+            }
+            cancel_reason = event.values[0]
             break
         }
       }
     )
 
     collector.on("end", (_, reason) => {
-      switch(reason) {
-        case "time":
-          // update prompt
-          // return resultPrompt()
-          break;
-      }
+      if (reason === "time") return prompt.edit({
+          components: [],
+        }).then(() => this.timeoutRetest())
     })
+  }
+
+  timeoutRetest() {
+    return this.interaction.followUp(presenter.retestTimeoutMessage(this)).then(() => this.statusPrompt())
+  }
+
+  retestCancelMessage() {
+    return this.interaction.followUp(presenter.retestCancelMessage(this)).then(() => this.statusPrompt())
   }
 }
 

@@ -1,4 +1,4 @@
-const { bold } = require("discord.js")
+const { bold, italic } = require("discord.js")
 
 /**
  * Decorate raw result strings
@@ -50,7 +50,7 @@ function presentMany({rolls, thrown, vs, compared, description}) {
   let content = `{{userMention}} rolled ${rolls} times`
   if (description) content += ` for "${description}"`
   content += ":\n"
-  content += thrown.map((first, idx) => `\t${bold(compared[idx])} (${pretty(thrown[idx])} vs ${pretty(vs[idx])})`).join("\n")
+  content += thrown.map((first, idx) => `\t${bold(compared[idx])} (${pretty(thrown[idx])} ${italic("vs")} ${pretty(vs[idx])})`).join("\n")
   return content
 }
 

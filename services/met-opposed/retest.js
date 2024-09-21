@@ -71,8 +71,8 @@ module.exports = class Retest extends Test {
     return [
       this.explainLeader(),
       " (",
-      this.explainRetest(),
       this.explainChops(),
+      this.explainRetest(),
       this.explainTies(),
       ")",
     ].join("")
@@ -98,7 +98,7 @@ module.exports = class Retest extends Test {
    */
   explainChops() {
     if (this.cancelled) return ""
-    return super.explainChops()
+    return super.explainChops() + ", "
   }
 
   /**
