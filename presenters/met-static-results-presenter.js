@@ -31,9 +31,24 @@ function pretty(result) {
  * @return {str}                       Fully presented roll
  */
 function presentOne({thrown, vs, compared, description}) {
-  let content = `{{userMention}} rolled ${bold(compared[0])}`
+  const result = compared[0]
+  const user_throw = thrown[0]
+  const bot_throw = vs[0]
+
+  let content = "{{userMention}} rolled "
+
+  if (result) {
+    content += bold(result)
+  } else {
+    content += pretty(user_throw)
+  }
+
   if (description) content += ` for "${description}"`
-  content += ` (${pretty(thrown[0])} vs ${pretty(vs[0])})`
+
+  if (result) {
+    content += ` (${pretty(user_throw)} ${italic("vs")} ${pretty(bot_throw)})`
+  }
+
   return content
 }
 
@@ -50,7 +65,10 @@ function presentMany({rolls, thrown, vs, compared, description}) {
   let content = `{{userMention}} rolled ${rolls} times`
   if (description) content += ` for "${description}"`
   content += ":\n"
-  content += thrown.map((first, idx) => `\t${bold(compared[idx])} (${pretty(thrown[idx])} ${italic("vs")} ${pretty(vs[idx])})`).join("\n")
+  content += thrown.map((first, idx) => {
+    if (compared[idx]) return `\t${bold(compared[idx])} (${pretty(thrown[idx])} ${italic("vs")} ${pretty(vs[idx])})`
+    return `\t${pretty(thrown[idx])}`
+  }).join("\n")
   return content
 }
 

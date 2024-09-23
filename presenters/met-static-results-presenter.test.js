@@ -37,7 +37,29 @@ describe("presentOne", () => {
   it("shows breakdown", () => {
     const result = presentOne(default_opts)
 
-    expect(result).toMatch("bomb vs")
+    expect(result).toMatch("bomb _vs_")
+  })
+
+  describe("with no opponent", () => {
+    it("shows the user's symbol", () => {
+      const result = presentOne({
+        ...default_opts,
+        vs: ["none"],
+        compared: [""],
+      })
+
+      expect(result).toMatch("bomb")
+    })
+
+    it("does not show a comparison", () => {
+      const result = presentOne({
+        ...default_opts,
+        vs: ["none"],
+        compared: [""],
+      })
+
+      expect(result).not.toMatch("vs")
+    })
   })
 })
 
@@ -71,7 +93,30 @@ describe("presentMany", () => {
   it("shows each breakdown", () => {
     const result = presentMany(default_opts)
 
-    expect(result).toMatch("rock vs")
-    expect(result).toMatch("scissors vs")
+    expect(result).toMatch("rock _vs_")
+    expect(result).toMatch("scissors _vs_")
+  })
+
+  describe("with no opponent", () => {
+    it("shows the user's symbols", () => {
+      const result = presentMany({
+        ...default_opts,
+        vs: ["none", "none"],
+        compared: ["", ""],
+      })
+
+      expect(result).toMatch("rock")
+      expect(result).toMatch("scissors")
+    })
+
+    it("does not show comparisons", () => {
+      const result = presentMany({
+        ...default_opts,
+        vs: ["none", "none"],
+        compared: ["", ""],
+      })
+
+      expect(result).not.toMatch("vs")
+    })
   })
 })

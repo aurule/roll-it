@@ -1,4 +1,4 @@
-const { throwChoices, randomChoices } = require("./met-throw-options")
+const { throwChoices, throwOptions } = require("./met-throw-options")
 
 describe("throwChoices", () => {
   it("without bomb, omits bomb options", () => {
@@ -18,18 +18,26 @@ describe("throwChoices", () => {
   })
 })
 
-describe("randomChoices", () => {
-  it("without bomb, omits bomb option", () => {
-    const result = randomChoices(false)
+describe("throwOptions", () => {
+  it("without bomb, omits bomb options", () => {
+    const result = throwOptions(false)
 
     const values = result.map(r => r.value)
+    expect(values).not.toContain("bomb")
     expect(values).not.toContain("rand-bomb")
   })
 
-  it("with bomb, includes bomb option", () => {
-    const result = randomChoices(true)
+  it("with bomb, includes bomb options", () => {
+    const result = throwOptions(true)
 
     const values = result.map(r => r.value)
+    expect(values).toContain("bomb")
     expect(values).toContain("rand-bomb")
+  })
+
+  it("uses label for name", () => {
+    const result = throwOptions()
+
+    expect(result[0]).toMatchObject({label: "⛰️ Rock"})
   })
 })

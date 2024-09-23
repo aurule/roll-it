@@ -3,7 +3,7 @@ const { oneLine } = require("common-tags")
 
 const { longReply } = require("../../util/long-reply")
 const commonOpts = require("../../util/common-options")
-const { throwChoices, randomChoices } = require("../../util/met-throw-options")
+const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { roll, compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/met-static-results-presenter")
 const { injectMention } = require("../../util/inject-user")
@@ -27,7 +27,7 @@ module.exports = {
         option
           .setName("vs")
           .setDescription("Symbols your virtual opponent can use against you. Default is R/P/S.")
-          .setChoices(...randomChoices(true)),
+          .setChoices(...vsChoices),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

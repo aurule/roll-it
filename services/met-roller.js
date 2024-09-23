@@ -1,6 +1,8 @@
 const rps = ["rock", "paper", "scissors"]
 const rbs = ["rock", "bomb", "scissors"]
 
+const request_keywords = ["rock", "paper", "scissors", "bomb", "rand", "rand-bomb", "none"]
+
 /**
  * Roll a d3 for MET
  *
@@ -37,6 +39,7 @@ function roll(bomb = false, rolls = 1) {
  */
 function compare(first, second) {
   if (first == second) return "tie"
+  if (second === "none") return ""
 
   switch(first) {
     case "rock":
@@ -78,4 +81,5 @@ module.exports = {
   roll,
   compare,
   handleRequest,
+  request_keywords,
 }

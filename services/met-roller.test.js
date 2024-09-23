@@ -23,6 +23,14 @@ describe("compare", () => {
     })
   })
 
+  describe("when second is 'none'", () => {
+    it("returns empty string", () => {
+      const result = compare("bomb", "none")
+
+      expect(result).toEqual("")
+    })
+  })
+
   describe.each([
     ["rock",     "paper",    "lose"],
     ["rock",     "scissors", "win"],
