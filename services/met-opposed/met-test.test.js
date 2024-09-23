@@ -69,7 +69,7 @@ describe("Test", () => {
 
       const result = test.present()
 
-      expect(result).toMatch("rock vs :scroll:")
+      expect(result).toMatch("rock _vs_ :scroll:")
     })
 
     it("shows ties", () => {
@@ -136,7 +136,7 @@ describe("Test", () => {
 
       const result = test.explainChops()
 
-      expect(result).toMatch(":rock: rock vs")
+      expect(result).toMatch(":rock: rock _vs_")
     })
 
     it("shows the defender's chop second", () => {
@@ -146,7 +146,7 @@ describe("Test", () => {
 
       const result = test.explainChops()
 
-      expect(result).toMatch("vs :scroll: paper")
+      expect(result).toMatch("_vs_ :scroll: paper")
     })
   })
 
