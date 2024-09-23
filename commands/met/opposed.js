@@ -32,7 +32,7 @@ module.exports = {
       )
       .addStringOption(option =>
         option
-          .setName("retest")
+          .setName("rt-ability")
           .setDescription("Ability to use for a retest")
           .setRequired(true)
       )
@@ -53,6 +53,11 @@ module.exports = {
         option
           .setName("ties")
           .setDescription("Whether you win on ties. Defaults to false.")
+      )
+      .addBooleanOption(option =>
+        option
+          .setName("one-throw")
+          .setDescription("Whether to limit the test to a single opposed throw with no retests. Defaults to false.")
       ),
   async execute(interaction) {
     const manager = new MetOpposedManager({
@@ -60,9 +65,11 @@ module.exports = {
       attackerId: interaction.user.id,
       defenderId: interaction.options.getUser("opponent").id,
       attribute: interaction.options.getString("attribute"),
-      retest_ability: interaction.options.getString("retest"),
-      description: interaction.options.getString("description")
+      retest_ability: interaction.options.getString("rt-ability"),
     })
+    manager.description = interaction.options.getString("description") ?? ""
+    manager.allow_retests = !interaction.options.getBoolean("one-throw")
+    manager.allow_retests = interaction.options.getBoolean("ret")
     manager.attacker.bomb = interaction.options.getBoolean("bomb") ?? false
     manager.attacker.ties = interaction.options.getBoolean("ties") ?? false
     manager.current_test.chop(manager.attacker, interaction.options.getString("throw"))
