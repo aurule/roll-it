@@ -8,7 +8,7 @@ describe("execute", () => {
 
   beforeEach(() => {
     interaction = new Interaction()
-    interaction.command_options.subcommand_name = "met"
+    interaction.command_options.subcommand_name = "static"
   })
 
   it("rolls a single result", async () => {
