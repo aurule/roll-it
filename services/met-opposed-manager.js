@@ -25,14 +25,15 @@ class MetOpposedManager {
   defender
   attribute
   retest_ability
-  description
   test_recorder
   prompt_ends_at
+  description = ""
+  allow_retests = true
 
   participants = new Collection()
   message_links = []
 
-  constructor({interaction, attackerId, defenderId, attribute, retest_ability, description}) {
+  constructor({interaction, attackerId, defenderId, attribute, retest_ability}) {
     this.interaction = interaction
     this.attacker = new Participant(attackerId)
     this.defender = new Participant(defenderId)
@@ -40,26 +41,111 @@ class MetOpposedManager {
     this.participants.set(defenderId, this.defender)
     this.attribute = attribute
     this.retest_ability = retest_ability
-    this.description = description
     this.test_recorder = new TestRecorder(this.attacker, this.defender)
 
     this.test_recorder.addTest()
   }
 
+  /**
+   * Get the latest Test from our test recorder
+   * @type {Test}
+   */
   get current_test() {
     return this.test_recorder.latest
   }
 
-  get last_message_link() {
-    return this.message_links.at(-1)
-  }
-
+  /**
+   * Store a link to a message
+   *
+   * @param  {Message} message Discord message object
+   * @return {str}             Markdown link to the message
+   */
   add_message_link(message) {
     const link = messageLink(message)
     this.message_links.push(link)
     return link
   }
 
+  /**
+   * Get the latest saved message link
+   * @type {str}
+   */
+  get last_message_link() {
+    return this.message_links.at(-1)
+  }
+
+  /**
+   * Generate and save a message response deadline timestamp
+   * @return {Date} Date object for the response cutoff
+   */
+  updateDeadline() {
+    this.prompt_ends_at = new Date(Date.now() + STEP_TIMEOUT)
+    return this.prompt_ends_at
+  }
+
+  /**
+   * Get whether a user ID is allowed to end the challenge
+   *
+   * False for non-participants. True when tied. Otherwise, only true for the participant who is not leading.
+   *
+   * @param  {str}  userId ID of the user to test
+   * @return {bool}        True if the user is allowed to end the test, false if not
+   */
+  allowDone(userId) {
+    if (!this.participants.has(userId)) return false
+
+    const leader = this.current_test.leader
+    return !(leader && userId === leader.id)
+  }
+
+  /**
+   * Get whether an event interaction is from the defending participant
+   *
+   * @param  {Interaction} event Discord component interaction
+   * @return {bool}              True if event is from the defender, false if not
+   */
+  fromDefender(event) {
+    return event.user.id === this.defender.id
+  }
+
+  /**
+   * Get whether an event interaction is from the attacking participant
+   *
+   * @param  {Interaction} event Discord component interaction
+   * @return {bool}              True if event is from the attacker, false if not
+   */
+  fromAttacker(event) {
+    return event.user.id === this.attacker.id
+  }
+
+  /**
+   * Get whether an event interaction is from a participant
+   *
+   * @param  {Interaction} event Discord component interaction
+   * @return {bool}              True if event is from a participant, false if not
+   */
+  fromParticipant(event) {
+    return this.participants.has(event.user.id)
+  }
+
+  /**
+   * Get the participant whose id does not match
+   *
+   * This assumes that the participantId passed matches one of the participants. If it does not, the result will be
+   * a random participant.
+   *
+   * @param  {str}         participantId ID of the participant to avoid
+   * @return {Participant}               Participant whose id does not match
+   */
+  opposition(participantId) {
+    return this.participants.find(p => p.id !== participantId)
+  }
+
+  /**
+   * Create the components for the first message
+   *
+   * @return {ActionRowBuilder[]} Array of action rows with components
+   */
   initialComponents() {
     const rowAdvantages = new ActionRowBuilder()
     const bombButton = new ButtonBuilder()
@@ -106,11 +192,11 @@ class MetOpposedManager {
     return [rowAdvantages, rowResponse, rowActions]
   }
 
-  updateDeadline() {
-    this.prompt_ends_at = new Date(Date.now() + STEP_TIMEOUT)
-    return this.prompt_ends_at
-  }
-
+  /**
+   * Show the first message and handle user interactions
+   *
+   * @return {Interaction} Interaction response
+   */
   async begin() {
     this.updateDeadline()
     const prompt = await this.interaction.reply({
@@ -208,40 +294,43 @@ class MetOpposedManager {
     })
   }
 
+  /**
+   * Send the message for the defender relenting
+   * @return {Interaction} Interaction response
+   */
   async relentMessage() {
     return this.interaction.followUp(presenter.relentMessage(this))
   }
 
+  /**
+   * Send the message for the attacker cancelling
+   * @return {Interaction} Interaction response
+   */
   async cancelMessage() {
     return this.interaction.followUp(presenter.cancelMessage(this))
   }
 
+  /**
+   * Send the message for automatic relent on initial prompt timeout
+   * @return {Interaction} Interaction response
+   */
   async timeoutRelent() {
     return this.interaction.followUp(presenter.timeoutRelentMessage(this))
   }
 
-  allowDone(userId) {
-    if (!this.participants.has(userId)) return false
-
-    const leader = this.current_test.leader
-    return !(leader && userId === leader.id)
-  }
-
-  fromDefender(event) {
-    return event.user.id === this.defender.id
-  }
-
-  fromAttacker(event) {
-    return event.user.id === this.attacker.id
-  }
-
-  fromParticipant(event) {
-    return this.participants.has(event.user.id)
-  }
-
+  /**
+   * Send the challenge status message and handle interactions
+   * @return {Interaction} Interaction response
+   */
   async statusPrompt() {
     this.updateDeadline()
     const leader = this.current_test.leader
+
+    if (!this.allow_retests) {
+      return this.interaction.followUp({
+        content: presenter.statusSummary(this),
+      }).then(() => this.resultMessage())
+    }
 
     const rowRetest = new ActionRowBuilder()
     const reasonPicker = new StringSelectMenuBuilder()
@@ -297,7 +386,7 @@ class MetOpposedManager {
             this.test_recorder.addRetest(this.participants.get(event.user.id), retest_reason)
             return event.update({
               components: [],
-            }).then(() => this.retestPrompt())
+            }).then(() => this.retestCancelPrompt())
           case "done":
             if (!this.allowDone(event.user.id)) {
               event.deferUpdate()
@@ -328,18 +417,120 @@ class MetOpposedManager {
     })
   }
 
+  /**
+   * Send the final results message
+   * @return {Interaction} Interaction response
+   */
   async resultMessage() {
     return this.interaction.followUp(presenter.resultMessage(this))
   }
 
+  /**
+   * Send the final results message due to status message interaction timeout
+   * @return {Interaction} Interaction response
+   */
   async timeoutResult() {
     return this.interaction.followUp(presenter.timeoutResultMessage(this))
   }
 
-  opposition(userId) {
-    return this.participants.find(p => p.id !== userId)
+  /**
+   * Send the prompt to cancel a retest and handle interactions
+   * @return {Interaction} Interaction response
+   */
+  async retestCancelPrompt() {
+    const retester = this.current_test.retester
+    const non_retester = this.opposition(retester.id)
+
+    const rowCancel = new ActionRowBuilder()
+    const cancelPicker = new StringSelectMenuBuilder()
+      .setCustomId("cancel-picker")
+      .setPlaceholder("Cancel with...")
+      .setMinValues(1)
+      .setMaxValues(1)
+      .addOptions(...presenter.cancelOptions)
+    rowCancel.addComponents(cancelPicker)
+
+    const rowButtonsCancel = new ActionRowBuilder()
+    const continueButton = new ButtonBuilder()
+      .setCustomId("continue")
+      .setLabel("Do Retest")
+      .setStyle(ButtonStyle.Success)
+    rowButtonsCancel.addComponents(continueButton)
+    const cancelButton = new ButtonBuilder()
+      .setCustomId("cancel")
+      .setLabel("Cancel Retest")
+      .setEmoji("🚫")
+      .setStyle(ButtonStyle.Secondary)
+    rowButtonsCancel.addComponents(cancelButton)
+
+    const prompt = await this.interaction.followUp({
+      content: presenter.retestCancelPrompt(this),
+      components: [rowCancel, rowButtonsCancel],
+      fetchReply: true,
+    })
+    this.add_message_link(prompt)
+
+    collector.on(
+      "collect",
+      (event) => {
+        switch (event.customId) {
+          case "cancel":
+            if (event.user.id !== non_retester.id) {
+              event.deferUpdate()
+              break
+            }
+
+            if (!cancel_reason) {
+              event.update({
+                content: presenter.retestCancelPrompt(this, throws, "You have to pick what to cancel with before you can cancel")
+              })
+              break
+            }
+
+            collector.stop()
+            this.current_test.cancel(this.participants.get(event.user.id), cancel_reason)
+            return event.update({
+              components: [],
+            }).then(() => this.retestCancelMessage())
+          case "continue":
+            if (event.user.id !== non_retester.id) {
+              event.deferUpdate()
+              break
+            }
+
+            prompt.delete()
+            return this.retestPrompt()
+          case "cancel-picker":
+            event.deferUpdate()
+            if (event.user.id !== non_retester.id) {
+              break
+            }
+            cancel_reason = event.values[0]
+            break
+        }
+      }
+    )
+
+    collector.on("end", (_, reason) => {
+      if (reason === "time") return prompt.edit({
+          content: presenter.timeoutCancelRetestMessage(),
+          components: [],
+        }).then(() => this.retestPrompt())
+    })
   }
 
+  /**
+   * Show the message when a retest is cancelled
+   * @return {Interaction} Interaction response
+   */
+  retestCancelMessage() {
+    return this.interaction.followUp(presenter.retestCancelMessage(this)).then(() => this.statusPrompt())
+  }
+
+  /**
+   * Show the retest response prompt and handle interactions
+   * @return {Interaction} Interaction response
+   */
   async retestPrompt() {
     const retester = this.current_test.retester
     const non_retester = this.opposition(retester.id)
@@ -353,22 +544,6 @@ class MetOpposedManager {
       .addOptions(...throwOptions(this.defender.bomb || this.attacker.bomb))
     rowResponse.addComponents(responsePicker)
 
-    const rowCancel = new ActionRowBuilder()
-    const cancelPicker = new StringSelectMenuBuilder()
-      .setCustomId("cancel-picker")
-      .setPlaceholder("Cancel with...")
-      .setMinValues(1)
-      .setMaxValues(1)
-      .addOptions(...presenter.cancelOptions)
-    rowCancel.addComponents(cancelPicker)
-
-    const rowButtonsCancel = new ActionRowBuilder()
-    const cancelButton = new ButtonBuilder()
-      .setCustomId("cancel")
-      .setLabel("Cancel")
-      .setStyle(ButtonStyle.Primary)
-    rowButtonsCancel.addComponents(cancelButton)
-
     const rowButtonsGo = new ActionRowBuilder()
     const throwButton = new ButtonBuilder()
       .setCustomId("throw")
@@ -378,7 +553,7 @@ class MetOpposedManager {
 
     const prompt = await this.interaction.followUp({
       content: presenter.retestPrompt(this),
-      components: [rowResponse, rowButtonsGo, rowCancel, rowButtonsCancel],
+      components: [rowResponse, rowButtonsGo],
       fetchReply: true,
     })
     this.add_message_link(prompt)
@@ -408,7 +583,7 @@ class MetOpposedManager {
             if (throws.has(this.opposition(event.user.id).id)) {
               collector.stop()
               return event.update({
-                content: presenter.retestPrompt(this),
+                content: presenter.retestPrompt(this, throws),
                 components: [],
               }).then(() => {
                 const retest = this.current_test
@@ -423,38 +598,18 @@ class MetOpposedManager {
               content: presenter.retestPrompt(this, throws)
             })
             break
-          case "cancel":
-            if (event.user.id !== non_retester.id) {
-              event.deferUpdate()
-              break
-            }
-
-            if (!cancel_reason) {
-              event.update({
-                content: presenter.retestPrompt(this, throws, "You have to pick what to cancel with before you can cancel")
-              })
-              break
-            }
-
-            collector.stop()
-            this.current_test.cancel(this.participants.get(event.user.id), cancel_reason)
-            return event.update({
-              components: [],
-            }).then(() => this.retestCancelMessage())
-            break
           case "throw-picker":
             event.deferUpdate()
             if (!this.fromParticipant(event)) {
               break
             }
-            throws.set(event.user.id, event.values[0])
-            break
-          case "cancel-picker":
-            event.deferUpdate()
-            if (event.user.id !== non_retester.id) {
-              break
-            }
-            cancel_reason = event.values[0]
+
+            const request = event.values[0]
+            const participant = this.participants.get(event.user.id)
+
+            if (request.contains("bomb") && !participant.bomb) break
+
+            throws.set(participant.id, request)
             break
         }
       }
@@ -467,12 +622,15 @@ class MetOpposedManager {
     })
   }
 
+  /**
+   * Show the retest timeout message
+   *
+   * Unlike other timeouts, this shows the status prompt again instead of ending the challenge.
+   *
+   * @return {Interaction} Interaction response
+   */
   timeoutRetest() {
     return this.interaction.followUp(presenter.retestTimeoutMessage(this)).then(() => this.statusPrompt())
-  }
-
-  retestCancelMessage() {
-    return this.interaction.followUp(presenter.retestCancelMessage(this)).then(() => this.statusPrompt())
   }
 }
 
