@@ -66,6 +66,11 @@ module.exports = {
         picker to use rock-bomb-scissors for ${opts.throw} or for ${opts.vs}, in order to make a simple test
         against a more powerful opponent. You can also pick bomb directly for ${opts.throw}.
       `,
+      "",
+      oneLine`
+        If you just want to get a random result for yourself and don't need a win/tie/lose result, you can
+        set ${opts.vs} to ${inlineCode("None")}.
+      `,
     ].join("\n")
   },
 }
