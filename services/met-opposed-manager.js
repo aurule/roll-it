@@ -1,15 +1,10 @@
 const {
-  time,
-  TimestampStyles,
-  hyperlink,
   Collection,
   StringSelectMenuBuilder,
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
-  ComponentType,
 } = require("discord.js")
-const { oneLine } = require("common-tags")
 
 const { throwOptions } = require("../util/met-throw-options")
 const { messageLink } = require("../util/message-link")
@@ -333,7 +328,6 @@ class MetOpposedManager {
    */
   async statusPrompt() {
     this.updateDeadline()
-    const leader = this.current_test.leader
 
     if (!this.allow_retests) {
       return this.interaction
@@ -488,6 +482,10 @@ class MetOpposedManager {
     })
     this.add_message_link(prompt)
 
+    let cancel_reason
+    const collector = prompt.createMessageComponentCollector({
+      time: this.constructor.step_timeout,
+    })
     collector.on("collect", (event) => {
       switch (event.customId) {
         case "cancel":
@@ -500,7 +498,6 @@ class MetOpposedManager {
             event.update({
               content: presenter.retestCancelPrompt(
                 this,
-                throws,
                 "You have to pick what to cancel with before you can cancel",
               ),
             })
@@ -558,9 +555,6 @@ class MetOpposedManager {
    * @return {Interaction} Interaction response
    */
   async retestPrompt() {
-    const retester = this.current_test.retester
-    const non_retester = this.opposition(retester.id)
-
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
       .setCustomId("throw-picker")
@@ -585,7 +579,6 @@ class MetOpposedManager {
     this.add_message_link(prompt)
 
     let throws = new Collection()
-    let cancel_reason
     const collector = prompt.createMessageComponentCollector({
       time: this.constructor.step_timeout,
     })

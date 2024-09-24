@@ -1,7 +1,6 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const { oneLine } = require("common-tags")
 
-const { longReply } = require("../../util/long-reply")
 const commonOpts = require("../../util/common-options")
 const { throwChoices } = require("../../util/met-throw-options")
 const { MetOpposedManager } = require("../../services/met-opposed-manager")

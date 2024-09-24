@@ -496,6 +496,12 @@ describe("retestCancelPrompt", () => {
 
     expect(result).toMatch("you, <@testdef>")
   })
+
+  it("shows error message if present", () => {
+    const result = presenter.retestCancelPrompt(default_manager, "just a test")
+
+    expet(result).toMatch("just a test")
+  })
 })
 
 describe("retestCancelMessage", () => {

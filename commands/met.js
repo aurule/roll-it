@@ -1,8 +1,7 @@
-const { SlashCommandBuilder, PermissionFlagsBits, inlineCode, italic } = require("discord.js")
+const { SlashCommandBuilder, inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
-const { siteLink } = require("../util/site-link")
 
 const subcommands = loadSubcommands("met")
 

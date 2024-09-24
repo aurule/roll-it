@@ -3,7 +3,6 @@ const {
   PermissionFlagsBits,
   ActionRowBuilder,
   StringSelectMenuBuilder,
-  ComponentType,
   ButtonStyle,
   ButtonBuilder,
 } = require("discord.js")

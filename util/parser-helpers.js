@@ -1,8 +1,5 @@
 const { RollParseError } = require("../errors/roll-parse-error")
 
-const modifier_re = /(?<operator>\+|\-) (?<modifier>\d+)\)/
-const rolls_re = /(?<rolls>\d+) times/
-
 module.exports = {
   /**
    * Validate an object of command options against a command using its schema

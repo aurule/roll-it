@@ -282,13 +282,15 @@ const cancelOptions = [
  * @param  {MetOpposedManager} manager Object controlling information about the challenge
  * @return {str}                       Formatted cancel prompt message
  */
-function retestCancelPrompt(manager) {
+function retestCancelPrompt(manager, error_message) {
   const retest = manager.current_test
   const other = manager.opposition(retest.retester.id)
-  return oneLine`
+  let content = oneLine`
     ${retest.retester.mention} is retesting against you, ${other.mention} with ${retest.reason}. Are you able
     to cancel their retest?
   `
+  if (error_message) content += "\n" + subtext(error_message)
+  return content
 }
 
 /**
