@@ -279,8 +279,9 @@ const cancelOptions = [
 /**
  * Get the text to prompt a user to cancel a retest
  *
- * @param  {MetOpposedManager} manager Object controlling information about the challenge
- * @return {str}                       Formatted cancel prompt message
+ * @param  {MetOpposedManager} manager       Object controlling information about the challenge
+ * @param  {str}               error_message Optional error text to include in the message
+ * @return {str}                             Formatted cancel prompt message
  */
 function retestCancelPrompt(manager, error_message) {
   const retest = manager.current_test
