@@ -42,7 +42,12 @@ function initialMessage(manager, error_message = "") {
     If you don't respond ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)}, the challenge will
     end and ${manager.attacker.mention} will likely succeed.
   `
-  if (!manager.allow_retests) content += "\n" + subtext("This test is being made without interactive retests. Retest options will not be shown.")
+  if (!manager.allow_retests)
+    content +=
+      "\n" +
+      subtext(
+        "This test is being made without interactive retests. Retest options will not be shown.",
+      )
   if (error_message) content += "\n" + subtext(error_message)
   return content
 }
@@ -113,7 +118,9 @@ function timeoutRelentMessage(manager) {
 function statusPrompt(manager, error_message) {
   let lines = [
     statusSummary(manager),
-    subtext(`Without a retest, the challenge will end ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)}.`)
+    subtext(
+      `Without a retest, the challenge will end ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)}.`,
+    ),
   ]
   if (error_message) lines.push(`${subtext(error_message)}`)
   return lines.join("\n")
@@ -130,7 +137,7 @@ function statusPrompt(manager, error_message) {
 function statusSummary(manager) {
   let lines = [
     initialMessageSummary(manager) + ` The named retest is ${manager.retest_ability}.`,
-    orderedList(manager.test_recorder.tests.map(test => test.present())),
+    orderedList(manager.test_recorder.tests.map((test) => test.present())),
   ]
   return lines.join("\n")
 }
@@ -227,7 +234,7 @@ function retestOptions(manager) {
     {
       label: manager.retest_ability,
       value: manager.retest_ability,
-      description: "Named retest"
+      description: "Named retest",
     },
     ...default_options,
   ]
@@ -327,8 +334,14 @@ function retestPrompt(manager, throws, error_message) {
   content += advantages(retester)
   content += advantages(other)
   if (throws) {
-    content += "\n* " + (throws.get(manager.attacker.id) ? ":white_check_mark: ":":black_large_square: ") + manager.attacker.mention
-    content += "\n* " + (throws.get(manager.defender.id) ? ":white_check_mark: ":":black_large_square: ") + manager.defender.mention
+    content +=
+      "\n* " +
+      (throws.get(manager.attacker.id) ? ":white_check_mark: " : ":black_large_square: ") +
+      manager.attacker.mention
+    content +=
+      "\n* " +
+      (throws.get(manager.defender.id) ? ":white_check_mark: " : ":black_large_square: ") +
+      manager.defender.mention
   }
   if (error_message) content += `\n${subtext(error_message)}`
   return content

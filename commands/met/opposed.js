@@ -15,12 +15,9 @@ module.exports = {
       .setName(module.exports.name)
       .setDescription(module.exports.description)
       .addUserOption((option) =>
-        option
-          .setName("opponent")
-          .setDescription("User you are challenging")
-          .setRequired(true)
+        option.setName("opponent").setDescription("User you are challenging").setRequired(true),
       )
-      .addStringOption(option =>
+      .addStringOption((option) =>
         option
           .setName("attribute")
           .setDescription("Type of attribute this test uses")
@@ -29,13 +26,13 @@ module.exports = {
             { name: "Social", value: "social" },
             { name: "Physical", value: "physical" },
           )
-          .setRequired(true)
+          .setRequired(true),
       )
-      .addStringOption(option =>
+      .addStringOption((option) =>
         option
           .setName("rt-ability")
           .setDescription("Named ability to use for a retest")
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
@@ -45,20 +42,18 @@ module.exports = {
           .setRequired(true),
       )
       .addStringOption(commonOpts.description)
-      .addBooleanOption(option =>
-        option
-          .setName("bomb")
-          .setDescription("Whether you can throw Bomb. Defaults to false.")
+      .addBooleanOption((option) =>
+        option.setName("bomb").setDescription("Whether you can throw Bomb. Defaults to false."),
       )
-      .addBooleanOption(option =>
-        option
-          .setName("ties")
-          .setDescription("Whether you win on ties. Defaults to false.")
+      .addBooleanOption((option) =>
+        option.setName("ties").setDescription("Whether you win on ties. Defaults to false."),
       )
-      .addBooleanOption(option =>
+      .addBooleanOption((option) =>
         option
           .setName("one-throw")
-          .setDescription("Whether to limit the test to a single opposed throw with no retests. Defaults to false.")
+          .setDescription(
+            "Whether to limit the test to a single opposed throw with no retests. Defaults to false.",
+          ),
       ),
   async execute(interaction) {
     const manager = new MetOpposedManager({

@@ -7,7 +7,6 @@ const { Collection, LimitedCollection } = require("discord.js")
  * is looked up by the `Save this command` context-menu command in order to know what to save.
  */
 class InteractionCache extends Collection {
-
   /**
    * Create a guild-level interaction cache
    *
@@ -29,7 +28,7 @@ class InteractionCache extends Collection {
   store(interaction) {
     const options = new Object()
     try {
-      interaction.options.data.map(discordOption => {
+      interaction.options.data.map((discordOption) => {
         options[discordOption.name] = discordOption.value
       })
     } catch {

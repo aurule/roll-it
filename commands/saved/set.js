@@ -97,7 +97,7 @@ module.exports = {
       })
     } catch (err) {
       return interaction.whisper(
-        `There was a problem saving that name and description:\n` + err.details[0].message
+        `There was a problem saving that name and description:\n` + err.details[0].message,
       )
     }
 

@@ -37,7 +37,7 @@ module.exports = {
 
     if (detail === undefined) {
       return interaction.whisper(
-        "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables."
+        "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
       )
     }
 

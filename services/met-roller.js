@@ -22,7 +22,7 @@ function rand() {
 function roll(bomb = false, rolls = 1) {
   let fn = () => rps.at(rand())
   if (bomb) fn = () => rbs.at(rand())
-  return Array.from({length: rolls}, fn)
+  return Array.from({ length: rolls }, fn)
 }
 
 /**
@@ -41,7 +41,7 @@ function compare(first, second) {
   if (first == second) return "tie"
   if (second === "none") return ""
 
-  switch(first) {
+  switch (first) {
     case "rock":
       if (second == "scissors") return "win"
       return "lose"
@@ -67,13 +67,13 @@ function compare(first, second) {
  * @return {str[]}         Array of result strings.
  */
 function handleRequest(request, rolls) {
-  switch(request) {
+  switch (request) {
     case "rand":
       return roll(false, rolls)
     case "rand-bomb":
       return roll(true, rolls)
     default:
-      return Array.from({length: rolls}, () => request)
+      return Array.from({ length: rolls }, () => request)
   }
 }
 

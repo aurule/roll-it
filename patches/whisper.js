@@ -9,11 +9,11 @@ module.exports = {
    * Create the whisper method
    */
   patch() {
-    CommandInteraction.prototype.whisper = function(content) {
+    CommandInteraction.prototype.whisper = function (content) {
       this.reply({
         content,
         ephemeral: true,
       })
     }
-  }
+  },
 }

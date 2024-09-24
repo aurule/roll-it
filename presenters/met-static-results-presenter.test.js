@@ -23,7 +23,7 @@ describe("presentOne", () => {
   })
 
   it("includes description if present", () => {
-    const result = presentOne({...default_opts, description: "just a test"})
+    const result = presentOne({ ...default_opts, description: "just a test" })
 
     expect(result).toMatch("just a test")
   })
@@ -78,7 +78,7 @@ describe("presentMany", () => {
   })
 
   it("includes description if present", () => {
-    const result = presentMany({...default_opts, description: "just a test"})
+    const result = presentMany({ ...default_opts, description: "just a test" })
 
     expect(result).toMatch("userMention")
   })

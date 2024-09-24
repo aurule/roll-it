@@ -9,7 +9,7 @@ const { bold, italic } = require("discord.js")
  * @return {str}        Decorated result string
  */
 function pretty(result) {
-  switch(result) {
+  switch (result) {
     case "rock":
       return ":rock: rock"
     case "paper":
@@ -30,7 +30,7 @@ function pretty(result) {
  * @param  {str}   options.description Description for the roll
  * @return {str}                       Fully presented roll
  */
-function presentOne({thrown, vs, compared, description}) {
+function presentOne({ thrown, vs, compared, description }) {
   const result = compared[0]
   const user_throw = thrown[0]
   const bot_throw = vs[0]
@@ -61,14 +61,17 @@ function presentOne({thrown, vs, compared, description}) {
  * @param  {str}   options.description Description for the roll
  * @return {str}                       Fully presented roll
  */
-function presentMany({rolls, thrown, vs, compared, description}) {
+function presentMany({ rolls, thrown, vs, compared, description }) {
   let content = `{{userMention}} rolled ${rolls} times`
   if (description) content += ` for "${description}"`
   content += ":\n"
-  content += thrown.map((first, idx) => {
-    if (compared[idx]) return `\t${bold(compared[idx])} (${pretty(thrown[idx])} ${italic("vs")} ${pretty(vs[idx])})`
-    return `\t${pretty(thrown[idx])}`
-  }).join("\n")
+  content += thrown
+    .map((first, idx) => {
+      if (compared[idx])
+        return `\t${bold(compared[idx])} (${pretty(thrown[idx])} ${italic("vs")} ${pretty(vs[idx])})`
+      return `\t${pretty(thrown[idx])}`
+    })
+    .join("\n")
   return content
 }
 
@@ -76,8 +79,8 @@ module.exports = {
   pretty,
   presentOne,
   presentMany,
-  present({rolls, ...opts}) {
-    if (rolls > 1) return presentMany({rolls, ...opts})
+  present({ rolls, ...opts }) {
+    if (rolls > 1) return presentMany({ rolls, ...opts })
     return presentOne(opts)
-  }
+  },
 }

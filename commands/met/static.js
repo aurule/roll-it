@@ -48,7 +48,7 @@ module.exports = {
       thrown,
       vs,
       compared,
-      description: roll_description
+      description: roll_description,
     })
     const full_text = injectMention(partial_message, interaction.user.id)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })

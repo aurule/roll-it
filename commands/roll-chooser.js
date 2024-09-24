@@ -61,58 +61,56 @@ module.exports = {
     const collector = prompt.createMessageComponentCollector({
       time: 60_000, // 1 minute timeout
     })
-    collector.on(
-      "collect",
-      (event) => {
-        switch (event.customId) {
-          case "cancel_button":
+    collector.on("collect", (event) => {
+      switch (event.customId) {
+        case "cancel_button":
+          event.update({
+            content: "Cancelled. Leaving server commands unchanged.",
+            components: [],
+          })
+          collector.stop()
+          break
+        case "go_button":
+          if (!selection.length) {
             event.update({
-              content: "Cancelled. Leaving server commands unchanged.",
+              content:
+                "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:",
+            })
+            break
+          }
+          if (arrayEq(selection, deployed_commands)) {
+            event.update({
+              content: "Commands match. Leaving server commands unchanged.",
               components: [],
             })
-            collector.stop()
             break
-          case "go_button":
-            if (!selection.length) {
-              event.update({
-                content:
-                  "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:",
-              })
-              break
-            }
-            if (arrayEq(selection, deployed_commands)) {
-              event.update({
-                content: "Commands match. Leaving server commands unchanged.",
-                components: [],
-              })
-              break
-            }
-            // if selection matches deployed_commands, say no changes
-            event.deferUpdate()
-            api.setGuildCommands(interaction.guildId, selection).then(() => {
-              event.editReply({
-                content: oneLine`
+          }
+          // if selection matches deployed_commands, say no changes
+          event.deferUpdate()
+          api.setGuildCommands(interaction.guildId, selection).then(() => {
+            event.editReply({
+              content: oneLine`
                   Updated server commands to: ${selection.join(", ")}
                 `,
-                components: [],
-              })
+              components: [],
             })
-            collector.stop()
-            break
-          case "chooser":
-            event.deferUpdate()
-            selection = event.values
-            break
-        }
-      })
+          })
+          collector.stop()
+          break
+        case "chooser":
+          event.deferUpdate()
+          selection = event.values
+          break
+      }
+    })
     collector.on("end", (_, reason) => {
-      switch(reason) {
+      switch (reason) {
         case "time":
           interaction.editReply({
             content: "Ran out of time. Leaving server commands unchanged.",
             components: [],
           })
-          break;
+          break
       }
     })
   },

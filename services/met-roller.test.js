@@ -32,18 +32,18 @@ describe("compare", () => {
   })
 
   describe.each([
-    ["rock",     "paper",    "lose"],
-    ["rock",     "scissors", "win"],
-    ["rock",     "bomb",     "lose"],
-    ["paper",    "rock",     "win"],
-    ["paper",    "scissors", "lose"],
-    ["paper",    "bomb",     "lose"],
-    ["scissors", "rock",     "lose"],
-    ["scissors", "paper",    "win"],
-    ["scissors", "bomb",     "win"],
-    ["bomb",     "rock",     "win"],
-    ["bomb",     "paper",    "win"],
-    ["bomb",     "scissors", "lose"],
+    ["rock", "paper", "lose"],
+    ["rock", "scissors", "win"],
+    ["rock", "bomb", "lose"],
+    ["paper", "rock", "win"],
+    ["paper", "scissors", "lose"],
+    ["paper", "bomb", "lose"],
+    ["scissors", "rock", "lose"],
+    ["scissors", "paper", "win"],
+    ["scissors", "bomb", "win"],
+    ["bomb", "rock", "win"],
+    ["bomb", "paper", "win"],
+    ["bomb", "scissors", "lose"],
   ])("%s", (first, second, outcome) => {
     it(`${first} vs ${second} will ${outcome}`, () => {
       const result = compare(first, second)

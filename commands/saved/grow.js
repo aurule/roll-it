@@ -54,7 +54,7 @@ module.exports = {
         oneLine`
           The saved options for that roll are not valid. You'll have to update them using
           ${inlineCode("/saved manage")}.
-        `
+        `,
       )
     }
 
@@ -86,7 +86,7 @@ module.exports = {
         oneLine`
           Cannot change option ${inlineCode(target)}, since it does not exist for
           ${present_command(command)}.
-        `
+        `,
       )
     }
 
@@ -101,7 +101,7 @@ module.exports = {
         oneLine`
           This roll would be invalid after adding ${adjustment} to ${inlineCode(target)}, so it has not been
           changed. The error is:\n* ${err.details[0].message}
-        `
+        `,
       )
     }
 
@@ -110,7 +110,7 @@ module.exports = {
     return interaction.whisper(
       oneLine`
         Updated ${inlineCode(target)} of ${italic(roll_detail.name)} from "${old_number}" to "${new_number}"
-      `
+      `,
     )
   },
   async autocomplete(interaction) {

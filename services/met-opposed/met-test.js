@@ -64,7 +64,7 @@ module.exports = class Test {
    * @return {Collection<Chop>} Our chops collection
    */
   rollAll() {
-    this.chops.forEach(c => c.roll())
+    this.chops.forEach((c) => c.roll())
     return this.chops
   }
 
@@ -80,13 +80,7 @@ module.exports = class Test {
    * @return {str} Explanation of the test
    */
   present() {
-    return [
-      this.explainLeader(),
-      " (",
-      this.explainChops(),
-      this.explainTies(),
-      ")",
-    ].join("")
+    return [this.explainLeader(), " (", this.explainChops(), this.explainTies(), ")"].join("")
   }
 
   /**
@@ -133,7 +127,10 @@ module.exports = class Test {
    */
   get outcome() {
     if (this.#_outcome === undefined) {
-      this.#_outcome = compare(this.chops.get(this.attacker.id).result, this.chops.get(this.defender.id).result)
+      this.#_outcome = compare(
+        this.chops.get(this.attacker.id).result,
+        this.chops.get(this.defender.id).result,
+      )
     }
     return this.#_outcome
   }

@@ -27,10 +27,7 @@ module.exports = {
     const topic_name = interaction.options.getString("topic") ?? ""
 
     const topic = Topics.get(topic_name)
-    if (!topic)
-      return interaction.whisper(
-        `No help is available for the topic "${topic_name}"`
-      )
+    if (!topic) return interaction.whisper(`No help is available for the topic "${topic_name}"`)
 
     const full_text = heading(topic.title) + "\n" + topic.help()
     return longReply(interaction, full_text, { ephemeral: true })

@@ -125,8 +125,8 @@ describe("MetOpposedManager", () => {
     it("true when the event is from the defender", () => {
       const event = {
         user: {
-          id: defender.id
-        }
+          id: defender.id,
+        },
       }
 
       const result = manager.fromDefender(event)
@@ -137,8 +137,8 @@ describe("MetOpposedManager", () => {
     it("false when event is from different user", () => {
       const event = {
         user: {
-          id: attacker.id
-        }
+          id: attacker.id,
+        },
       }
 
       const result = manager.fromDefender(event)
@@ -151,8 +151,8 @@ describe("MetOpposedManager", () => {
     it("true when the event is from the attacker", () => {
       const event = {
         user: {
-          id: attacker.id
-        }
+          id: attacker.id,
+        },
       }
 
       const result = manager.fromAttacker(event)
@@ -163,8 +163,8 @@ describe("MetOpposedManager", () => {
     it("false when event is from different user", () => {
       const event = {
         user: {
-          id: defender.id
-        }
+          id: defender.id,
+        },
       }
 
       const result = manager.fromAttacker(event)
@@ -177,8 +177,8 @@ describe("MetOpposedManager", () => {
     it("true when event is from attacker", () => {
       const event = {
         user: {
-          id: attacker.id
-        }
+          id: attacker.id,
+        },
       }
 
       const result = manager.fromParticipant(event)
@@ -189,8 +189,8 @@ describe("MetOpposedManager", () => {
     it("true when event is from defender", () => {
       const event = {
         user: {
-          id: defender.id
-        }
+          id: defender.id,
+        },
       }
 
       const result = manager.fromParticipant(event)
@@ -201,8 +201,8 @@ describe("MetOpposedManager", () => {
     it("false when event is from different user", () => {
       const event = {
         user: {
-          id: "nahbrah"
-        }
+          id: "nahbrah",
+        },
       }
 
       const result = manager.fromParticipant(event)

@@ -31,7 +31,9 @@ module.exports = {
    * @return {obj[]}        Array of option objects
    */
   throwOptions(bomb = false) {
-    return module.exports.throwChoices(bomb).map((choice) => ({label: choice.name, value: choice.value}))
+    return module.exports
+      .throwChoices(bomb)
+      .map((choice) => ({ label: choice.name, value: choice.value }))
   },
 
   /**
@@ -43,5 +45,5 @@ module.exports = {
     { name: "🔀⛰️📜✂️ Random Rock-Paper-Scissors", value: "rand" },
     { name: "🔀⛰️🧨✂️ Random Rock-Bomb-Scissors", value: "rand-bomb" },
     { name: "🚫 None", value: "none" },
-  ]
+  ],
 }

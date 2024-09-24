@@ -1,7 +1,7 @@
 const { Collection } = require("discord.js")
 
 const Participant = require("../services/met-opposed/participant")
-const {MetOpposedManager} = require("../services/met-opposed-manager")
+const { MetOpposedManager } = require("../services/met-opposed-manager")
 
 const presenter = require("./met-opposed-presenter")
 
@@ -83,7 +83,7 @@ describe("initialMessage", () => {
   it("shows description if present", () => {
     const result = presenter.initialMessage({
       ...default_manager,
-      description: "just a test"
+      description: "just a test",
     })
 
     expect(result).toMatch("just a test")
@@ -155,7 +155,7 @@ describe("initialMessageSummary", () => {
   it("shows description if present", () => {
     const result = presenter.initialMessageSummary({
       ...default_manager,
-      description: "just a test"
+      description: "just a test",
     })
 
     expect(result).toMatch("just a test")
@@ -445,14 +445,14 @@ describe("retestOptions", () => {
   it("inserts named retest", () => {
     const options = presenter.retestOptions(default_manager)
 
-    const values = options.map(o => o.value)
+    const values = options.map((o) => o.value)
     expect(values).toContain("Occult")
   })
 
   it("shows static options", () => {
     const options = presenter.retestOptions(default_manager)
 
-    const values = options.map(o => o.value)
+    const values = options.map((o) => o.value)
     expect(values).toContain("automatic")
   })
 })

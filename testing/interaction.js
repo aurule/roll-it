@@ -47,7 +47,7 @@ class Interaction {
       parentId: simpleflake(),
       messages: {},
     }
-    this.message = new Message({guildId: this.guildId, channelId: this.channel.id})
+    this.message = new Message({ guildId: this.guildId, channelId: this.channel.id })
     this.user = new User(member_snowflake)
     this.member = {
       id: member_snowflake,

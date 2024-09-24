@@ -62,7 +62,7 @@ module.exports = {
     const roll_detail = saved_rolls.detail(roll_id, roll_name)
     if (roll_detail === undefined) {
       return interaction.whisper(
-          "That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
+        "That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
       )
     }
 
@@ -96,7 +96,7 @@ module.exports = {
     if (target) {
       if (!command.changeable.includes(target)) {
         return interaction.whisper(
-           oneLine`
+          oneLine`
             Cannot change option ${inlineCode(target)}, since it does not exist for
             ${present_command(command)}.
           `,
@@ -115,14 +115,14 @@ module.exports = {
     } catch (err) {
       if (target) {
         return interaction.whisper(
-           oneLine`
+          oneLine`
             This roll can no longer be made after changing the ${target}. The error is:\n* ${err.details[0].message}
           `,
         )
       } else {
         saved_rolls.update(roll_detail.id, { invalid: true })
         return interaction.whisper(
-           oneLine`
+          oneLine`
             The saved options for this roll are no longer valid. You'll have to update them before you can use
             this saved roll.
           `,

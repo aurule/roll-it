@@ -168,7 +168,7 @@ module.exports = {
           oneLine`
             You cannot use teamwork with the ${inlineCode("rolls")} ${inlineCode("until")}, or
             ${inlineCode("secret")} options, or if you have a chance die.
-          `
+          `,
         )
       }
 

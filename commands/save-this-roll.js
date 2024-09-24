@@ -27,26 +27,26 @@ module.exports = {
 
     const message = interaction.targetMessage
     if (message.author.id != botId) {
-      return interaction.whisper(
-        "That message was not sent by a Roll It command."
-      )
+      return interaction.whisper("That message was not sent by a Roll It command.")
     }
 
     const cachedInvocation = interactionCache.findByMessage(interaction.targetMessage)
     if (!cachedInvocation) {
-      return interaction.whisper("That message's command cannot be found, because the message may be too old. Try sending its command again, then saving the new message.")
+      return interaction.whisper(
+        "That message's command cannot be found, because the message may be too old. Try sending its command again, then saving the new message.",
+      )
     }
 
     const command = commands.get(cachedInvocation.commandName)
     if (!command.savable) {
-      return interaction.whisper(
-        `The command ${inlineCode(command.name)} cannot be saved.`
-      )
+      return interaction.whisper(`The command ${inlineCode(command.name)} cannot be saved.`)
     }
 
     let validated_options
     try {
-      validated_options = await command.schema.validateAsync(cachedInvocation.options, { abortEarly: false })
+      validated_options = await command.schema.validateAsync(cachedInvocation.options, {
+        abortEarly: false,
+      })
     } catch (err) {
       return interaction.whisper(
         oneLine`

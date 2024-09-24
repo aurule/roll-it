@@ -26,7 +26,10 @@ describe("execute", () => {
 
   const cacheCommand = (commandName, commandOptions = {}) => {
     past_interaction.commandName = commandName
-    past_interaction.options.data = Object.entries(commandOptions).map(([name, value]) => ({name, value}))
+    past_interaction.options.data = Object.entries(commandOptions).map(([name, value]) => ({
+      name,
+      value,
+    }))
     interactionCache.store(past_interaction)
   }
 
@@ -53,7 +56,7 @@ describe("execute", () => {
   })
 
   it("warns on invalid options", async () => {
-    cacheCommand("d20", {keep: "none"})
+    cacheCommand("d20", { keep: "none" })
 
     await save_roll_command.execute(interaction)
 
@@ -62,7 +65,7 @@ describe("execute", () => {
 
   describe("with no incomplete roll", () => {
     beforeEach(() => {
-      cacheCommand("d10", {modifier: 4})
+      cacheCommand("d10", { modifier: 4 })
     })
 
     it("saves the command", async () => {
@@ -114,7 +117,7 @@ describe("execute", () => {
         })
         record_id = created.lastInsertRowid
 
-        cacheCommand("d10", {modifier: 4})
+        cacheCommand("d10", { modifier: 4 })
       })
 
       it("saves the command", async () => {
@@ -158,7 +161,7 @@ describe("execute", () => {
         })
         record_id = created.lastInsertRowid
 
-        cacheCommand("d10", {modifier: 4})
+        cacheCommand("d10", { modifier: 4 })
       })
 
       it("overwrites the command", async () => {

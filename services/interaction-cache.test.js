@@ -44,7 +44,7 @@ describe("store", () => {
   it("stores the command options", () => {
     const interaction = new Interaction()
     interaction.commandName = "d10"
-    interaction.options.data = [{name: "modifier", value: 3}]
+    interaction.options.data = [{ name: "modifier", value: 3 }]
 
     interactionCache.store(interaction)
 
@@ -85,7 +85,7 @@ describe("findByIds", () => {
   it("returns command and options when found", () => {
     const interaction = new Interaction()
     interaction.commandName = "d10"
-    interaction.options.data = [{name: "modifier", value: 3}]
+    interaction.options.data = [{ name: "modifier", value: 3 }]
     interactionCache.store(interaction)
 
     const result = interactionCache.findByIds(interaction.guildId, interaction.id)
