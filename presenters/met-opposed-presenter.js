@@ -225,6 +225,10 @@ function retestOptions(manager) {
       value: "automatic",
     },
     {
+      label: "pve",
+      value: "pve",
+    },
+    {
       label: "other",
       value: "other",
       description: "Something else not listed here",
