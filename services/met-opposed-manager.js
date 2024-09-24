@@ -350,7 +350,7 @@ class MetOpposedManager {
     rowButtons.addComponents(retestButton)
     const doneButton = new ButtonBuilder()
       .setCustomId("done")
-      .setLabel("Done")
+      .setLabel("Concede")
       .setStyle(ButtonStyle.Primary)
     rowButtons.addComponents(doneButton)
 
