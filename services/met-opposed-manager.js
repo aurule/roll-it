@@ -616,9 +616,12 @@ class MetOpposedManager {
     )
 
     collector.on("end", (_, reason) => {
-      if (reason === "time") return prompt.edit({
+      if (reason === "time") {
+        this.current_test.cancel(null, "time")
+        return prompt.edit({
           components: [],
         }).then(() => this.timeoutRetest())
+      }
     })
   }
 

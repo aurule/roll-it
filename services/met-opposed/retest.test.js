@@ -146,7 +146,7 @@ describe("Retest", () => {
       expect(result).toMatch("<@attacker> retested with merit")
     })
 
-    it("cancelled, shows retest and cancel", () => {
+    it("cancelled by player, shows retest and cancel", () => {
       const retest = new Retest(attacker, "merit", retest_target)
       retest.cancel(defender, "ability")
 
@@ -154,6 +154,16 @@ describe("Retest", () => {
 
       expect(result).toMatch("<@attacker> retested with merit")
       expect(result).toMatch("<@defender> cancelled with ability")
+    })
+
+    it("cancelled by system, shows retest and cancel without canceller", () => {
+      const retest = new Retest(attacker, "merit", retest_target)
+      retest.cancel(null, "time")
+
+      const result = retest.explainRetest()
+
+      expect(result).toMatch("<@attacker> retested with merit")
+      expect(result).toMatch(", cancelled for time")
     })
   })
 

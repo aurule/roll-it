@@ -47,8 +47,8 @@ module.exports = class Retest extends Test {
 
   /**
    * Cancel this retest
-   * @param  {Participant} canceller Prticipant cancelling the retest
-   * @param  {str}         reason    Reason given for cancelling
+   * @param  {?Participant} canceller Participant cancelling the retest, or null for system reason
+   * @param  {str}          reason    Reason given for cancelling
    * @return {undefined}
    */
   cancel(canceller, reason) {
@@ -87,7 +87,11 @@ module.exports = class Retest extends Test {
    */
   explainRetest() {
     let content = `${this.retester.mention} retested with ${this.reason}`
-    if (this.cancelled) content += `, ${this.canceller.mention} cancelled with ${this.cancelled_with}`
+    if (this.cancelled) {
+      if (this.canceller === null) content += `, cancelled for `
+      else content += `, ${this.canceller.mention} cancelled with `
+    }
+    content += this.cancelled_with
     return content
   }
 
