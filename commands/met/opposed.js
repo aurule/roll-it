@@ -55,10 +55,17 @@ module.exports = {
           ),
       ),
   async execute(interaction) {
+    const attackerId = interaction.user.id
+    const defenderId = interaction.options.getUser("opponent").id
+
+    if (attackerId === defenderId) {
+      return interaction.whisper("You cannot challenge yourself to an opposed test.")
+    }
+
     const manager = new MetOpposedManager({
       interaction,
-      attackerId: interaction.user.id,
-      defenderId: interaction.options.getUser("opponent").id,
+      attackerId,
+      defenderId,
       attribute: interaction.options.getString("attribute"),
       retest_ability: interaction.options.getString("rt-ability"),
     })
