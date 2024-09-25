@@ -13,7 +13,7 @@ Once added, you'll automatically have access to all of its commands. You can lea
 ## Features
 
 Roll dice pools for a number of game systems:
-* World of Darkness MET's rock-paper-scissors using `/chop`
+* World of Darkness MET's rock-paper-scissors using `/met static` and `/met opposed`
 * FATE fudge dice with `/fate`
 * New World of Darkness / Chronicles of Darkness d10s with `/nwod`
 * World of Darkness 20th Anniversary with `/wod20`

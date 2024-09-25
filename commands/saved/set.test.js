@@ -74,7 +74,7 @@ describe("execute", () => {
       })
 
       it("warns on non-savable command", async () => {
-        interaction.command_options.invocation = "/chop"
+        interaction.command_options.invocation = "/coin"
 
         await set_command.execute(interaction)
 

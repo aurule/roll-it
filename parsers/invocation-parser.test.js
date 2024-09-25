@@ -14,7 +14,7 @@ describe("with an unknown command", () => {
 
 describe("with a non-savable command", () => {
   it("errors early", async () => {
-    await expect(parse("/chop")).rejects.toThrow("cannot save")
+    await expect(parse("/coin")).rejects.toThrow("cannot save")
   })
 })
 
