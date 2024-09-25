@@ -84,30 +84,30 @@ module.exports = {
   help({ command_name, ...opts }) {
     return [
       oneLine`
-        ${command_name} starts an interactive challenge by prompting ${opts.opponent} with the details of the
-        challenge: the given ${opts.attribute} and your declared ${opts.bomb} and ${opts.ties}. They have the
-        option to set their own ${opts.bomb} and ${opts.ties} before picking the symbol to use against your
-        ${opts.throw}. They can also relent without contesting the challenge.
+        ${command_name} starts an interactive challenge by prompting your ${opts.opponent} with the details of
+        the challenge: the given ${opts.attribute} and your declared ${opts.bomb} and ${opts.ties}. They have
+        the option to set their own ${opts.bomb} and ${opts.ties} before picking the symbol to use against
+        your ${opts.throw}. They can also relent without contesting the challenge.
       `,
       "",
       oneLine`
-        As the one who started the test, you can cancel it before your ${opts.opponent} responds. This lets
-        you quickly clear the challenge in case you tagged the wrong person, or realize the challenge isn't
+        As the one who started the test, you can cancel it before your oppponent responds. This lets you
+        quickly clear the challenge in case you tagged the wrong person, or realize the challenge isn't
         necessary.
       `,
       "",
       oneLine`
         Once your opponent responds, the symbols you both threw will be shown along with the current winner.
-        Roll It will show the entire history of the chops so you always know what's been thrown so far.
         The currently losing player at this point can try a retest, which lets you both choose a new symbol.
         The currently winning player can cancel that retest, if appropriate, before each picks a new symbol.
+        As you retest back and forth, Roll It will show the entire history of the chops so you always know
+        what's been thrown so far.
       `,
       "",
       oneLine`
         ${command_name} takes into account whether either of you has ${opts.ties}, i.e. a power that declares
         you win tied tests automatically. If neither of you has ties (or both of you have ties), then you'll
-        have to compare bids on your own. Once you have, either player can retest or concede the test as
-        appropriate.
+        have to compare bids on your own. Once you have, either player can retest or concede as appropriate.
       `,
     ].join("\n")
   },

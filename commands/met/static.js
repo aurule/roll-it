@@ -68,7 +68,7 @@ module.exports = {
       `,
       "",
       oneLine`
-        If you just want to get a random result for yourself and don't need a win/tie/lose result, you can
+        If you just want to get a random symbol for yourself and don't need a win/tie/lose result, you can
         set ${opts.vs} to ${inlineCode("None")}.
       `,
     ].join("\n")
