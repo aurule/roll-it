@@ -26,7 +26,7 @@ _Save this roll_ lets you save a command that you've just used. To do so, use _S
 
 ![Discord message from Roll It explaining that a roll has been saved and instructing the user to use the /saved set command to save its name and description](../_images/examples/save-this-roll-result.png)
 
-?> Not all commands can be saved. Some do not roll actual dice (like `/table roll` or `/help`), or don't have re-usable options (like `/coin`), or are so simple that it's more effort to use a saved roll than to just use the options (like [`/chop bomb:true` invocation] vs [`/saved roll name:gimme ties` invocation]).
+?> Not all commands can be saved. Some do not roll actual dice (like `/table roll` or `/help`), or don't have re-usable options (like `/coin`), or are so simple that it's more effort to use a saved roll than to just use the options.
 
 Here are the commands that can be saved:
 * `/curv` - Roll 3d6 for D&D 5e

@@ -83,9 +83,8 @@ module.exports = {
       oneLine`
         Not all commands can be saved. Some do not roll actual dice (like ${inlineCode("/table roll")} or
         ${inlineCode("/help")}), or don't have re-usable options (like ${inlineCode("/coin")}), or are so
-        simple that it's more effort to use a saved roll than to just use the options (like
-        ${inlineCode("/chop bomb:true")} vs ${inlineCode("/saved roll name:gimme ties")}). Here are the
-        commands that can be saved:
+        simple that it's more effort to use a saved roll than to just use the options. Here are the commands
+        that can be saved:
       `,
       CommandNamePresenter.list(savable_commands),
       heading("Starting With a Name", 2),

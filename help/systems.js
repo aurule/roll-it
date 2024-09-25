@@ -43,8 +43,8 @@ module.exports = {
           does not stop after the test is passed, since it doesn't know the difficulty.
         `,
         oneLine`
-          MET Revised: ${cmd.get("chop")}. It's rock-paper-scissors with proper support for
-          ${inlineCode("bomb")} and static tests.
+          MET Revised: ${cmd.get("met static")} and ${cmd.get("met opposed")}. It's rock-paper-scissors with
+          proper support for ${inlineCode("bomb")} and interactive opposed tests.
         `,
         oneLine`
           New World of Darkness / Chronicles of Darkness: ${cmd.get("nwod")}. Works for both first and

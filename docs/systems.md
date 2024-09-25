@@ -6,7 +6,7 @@ Since Roll It has commands for so many dice systems, you should probably use the
 
 Here are the supported systems:
 
-* [World of Darkness MET](/systems/met) rock-paper-scissors using `/chop`
+* [World of Darkness MET](/systems/met) rock-paper-scissors using `/met static` and `/met opposed`
 * [FATE](/systems/fate) fudge dice with `/fate`
 * [Chronicles of Darkness](/systems/nwod) (2e and 1e, aka New World of Darkness) d10s with `/nwod`
 * [World of Darkness 20th Anniversary](/systems/wod20) with `/wod20`
