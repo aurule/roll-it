@@ -213,6 +213,10 @@ function retestOptions(manager) {
       value: "a merit",
     },
     {
+      label: "overbid",
+      value: "overbid",
+    },
+    {
       label: "background",
       value: "a background",
     },
