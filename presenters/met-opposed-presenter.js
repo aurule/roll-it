@@ -262,22 +262,6 @@ const cancelOptions = [
     value: "a power",
   },
   {
-    label: "item",
-    value: "an item",
-  },
-  {
-    label: "merit",
-    value: "a merit",
-  },
-  {
-    label: "background",
-    value: "a background",
-  },
-  {
-    label: "willpower",
-    value: "willpower",
-  },
-  {
     label: "other",
     value: "other",
     description: "Something else not listed here",
