@@ -90,8 +90,8 @@ module.exports = class Retest extends Test {
     if (this.cancelled) {
       if (this.canceller === null) content += `, cancelled for `
       else content += `, ${this.canceller.mention} cancelled with `
+      content += this.cancelled_with
     }
-    content += this.cancelled_with
     return content
   }
 
@@ -102,7 +102,7 @@ module.exports = class Retest extends Test {
    */
   explainChops() {
     if (this.cancelled) return ""
-    return super.explainChops() + ", "
+    return super.explainChops() + ", after "
   }
 
   /**
