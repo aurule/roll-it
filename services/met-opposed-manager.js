@@ -515,6 +515,11 @@ class MetOpposedManager {
       .setEmoji("🚫")
       .setStyle(ButtonStyle.Secondary)
     rowButtonsCancel.addComponents(cancelButton)
+    const withdrawButton = new ButtonBuilder()
+      .setCustomId("withdraw")
+      .setLabel("Withdraw Retest")
+      .setStyle(ButtonStyle.Secondary)
+    rowButtonsCancel.addComponents(withdrawButton)
 
     const prompt = await this.interaction.followUp({
       content: presenter.retestCancelPrompt(this),
@@ -553,13 +558,26 @@ class MetOpposedManager {
             })
             .then(() => this.retestCancelMessage())
         case "continue":
-          if (event.user.id !== non_retester.id) {
+          event.deferUpdate()
+          if (event.user.id !== non_retester.id) break
+
+          collector.stop()
+          prompt.delete()
+          return this.retestPrompt()
+        case "withdraw":
+          if (event.user.id !== retester.id) {
             event.deferUpdate()
             break
           }
 
-          prompt.delete()
-          return this.retestPrompt()
+          collector.stop()
+          return event.update({
+            content: presenter.retestWithdrawMessage(this),
+            components: [],
+          }).then(() => {
+            this.test_recorder.tests.pop()
+            return this.statusPrompt()
+          })
         case "cancel-picker":
           event.deferUpdate()
           if (event.user.id !== non_retester.id) {
@@ -596,6 +614,8 @@ class MetOpposedManager {
    * @return {Interaction} Interaction response
    */
   async retestPrompt() {
+    const retester = this.current_test.retester
+
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
       .setCustomId("throw-picker")
@@ -611,6 +631,11 @@ class MetOpposedManager {
       .setLabel("Ready!")
       .setStyle(ButtonStyle.Success)
     rowButtonsGo.addComponents(throwButton)
+    const withdrawButton = new ButtonBuilder()
+      .setCustomId("withdraw")
+      .setLabel("Withdraw Retest")
+      .setStyle(ButtonStyle.Secondary)
+    rowButtonsGo.addComponents(withdrawButton)
 
     const prompt = await this.interaction.followUp({
       content: presenter.retestPrompt(this),
@@ -662,6 +687,20 @@ class MetOpposedManager {
             content: presenter.retestPrompt(this, throws),
           })
           break
+        case "withdraw":
+          if (event.user.id !== retester.id) {
+            event.deferUpdate()
+            break
+          }
+
+          collector.stop()
+          return event.update({
+            content: presenter.retestWithdrawMessage(this),
+            components: [],
+          }).then(() => {
+            this.test_recorder.tests.pop()
+            return this.statusPrompt()
+          })
         case "throw-picker":
           event.deferUpdate()
           if (!this.fromParticipant(event)) {

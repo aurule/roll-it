@@ -311,9 +311,20 @@ function retestCancelMessage(manager) {
  * @return {str}                       Formatted retest cancellation timeout message
  */
 function timeoutCancelRetestMessage(manager) {
-  const retest = manager.current_test
-  const other = manager.opposition(retest.retester.id)
-  return `${other.mention} ran out of time to cancel the retest by ${retest.retester.mention}.`
+  const retester = manager.current_test.retester
+  const other = manager.opposition(retester.id)
+  return `${other.mention} ran out of time to cancel the retest by ${retester.mention}.`
+}
+
+/**
+ * Get the text to show when a retester withdraws their retest
+ *
+ * @param  {MetOpposedManager} manager Object controlling information about the challenge
+ * @return {str}                       Formatted retest withdraw message
+ */
+function retestWithdrawMessage(manager) {
+  const retester = manager.current_test.retester
+  return `${retester.mention} withdrew their retest`
 }
 
 /**
@@ -375,6 +386,7 @@ module.exports = {
   retestCancelPrompt,
   retestCancelMessage,
   timeoutCancelRetestMessage,
+  retestWithdrawMessage,
   retestPrompt,
   retestTimeoutMessage,
 }

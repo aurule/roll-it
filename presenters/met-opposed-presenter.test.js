@@ -585,6 +585,41 @@ describe("timeoutCancelRetestMessage", () => {
   })
 })
 
+describe("retestWithdrawMessage", () => {
+  let default_manager
+
+  beforeEach(() => {
+    default_manager = new MetOpposedManager({
+      attackerId: "testatk",
+      defenderId: "testdef",
+      attribute: "Mental",
+      retest_ability: "Occult",
+    })
+
+    const attacker = default_manager.attacker
+    const defender = default_manager.defender
+
+    const test = default_manager.current_test
+    test.chop(attacker, "rock")
+    test.chop(defender, "paper")
+    test.rollAll()
+
+    default_manager.test_recorder.addRetest(attacker, "a power")
+  })
+
+  it("shows who started the retest", () => {
+    const result = presenter.retestWithdrawMessage(default_manager)
+
+    expect(result).toMatch("<@testatk>")
+  })
+
+  it("says they withdrew", () => {
+    const result = presenter.retestWithdrawMessage(default_manager)
+
+    expect(result).toMatch("withdrew")
+  })
+})
+
 describe("retestPrompt", () => {
   let default_manager
   let attacker
