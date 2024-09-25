@@ -73,7 +73,7 @@ module.exports = {
       retest_ability: interaction.options.getString("retest"),
     })
     manager.description = interaction.options.getString("description") ?? ""
-    manager.allow_retests = interaction.options.getBoolean("retests") ?? true
+    manager.allow_retests = interaction.options.getBoolean("use-retests") ?? true
     manager.attacker.bomb = interaction.options.getBoolean("bomb") ?? false
     manager.attacker.ties = interaction.options.getBoolean("ties") ?? false
     manager.attacker.cancels = interaction.options.getBoolean("cancels") ?? false
