@@ -608,7 +608,7 @@ class MetOpposedManager {
     const rowButtonsGo = new ActionRowBuilder()
     const throwButton = new ButtonBuilder()
       .setCustomId("throw")
-      .setLabel("Throw!")
+      .setLabel("Ready!")
       .setStyle(ButtonStyle.Success)
     rowButtonsGo.addComponents(throwButton)
 
@@ -671,7 +671,7 @@ class MetOpposedManager {
           const request = event.values[0]
           const participant = this.participants.get(event.user.id)
 
-          if (request.contains("bomb") && !participant.bomb) break
+          if (request.includes("bomb") && !participant.bomb) break
 
           throws.set(participant.id, request)
           break

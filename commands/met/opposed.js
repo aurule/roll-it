@@ -70,7 +70,7 @@ module.exports = {
       attackerId,
       defenderId,
       attribute: interaction.options.getString("attribute"),
-      retest_ability: interaction.options.getString("ability"),
+      retest_ability: interaction.options.getString("retest"),
     })
     manager.description = interaction.options.getString("description") ?? ""
     manager.allow_retests = interaction.options.getBoolean("retests") ?? true
