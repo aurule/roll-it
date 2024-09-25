@@ -27,34 +27,6 @@ describe("MetOpposedManager", () => {
     })
   })
 
-  describe("add_message_link", () => {
-    it("returns a new link", () => {
-      const message = new Message()
-
-      const link = manager.add_message_link(message)
-
-      expect(link).toMatch(/discord.com\/channels\/\d+\/\d+\/\d+/)
-    })
-
-    it("stores a new link for a message", () => {
-      const message = new Message()
-
-      const link = manager.add_message_link(message)
-
-      expect(link).toEqual(manager.last_message_link)
-    })
-  })
-
-  describe("last_message_link", () => {
-    it("is the most recent message link", () => {
-      const message = new Message()
-
-      const link = manager.add_message_link(message)
-
-      expect(manager.last_message_link).toEqual(link)
-    })
-  })
-
   describe("updateDeadline", () => {
     it("returns a new deadline timestamp in the future", () => {
       const now = new Date().getTime()

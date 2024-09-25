@@ -14,20 +14,102 @@ const TestRecorder = require("./met-opposed/test-recorder")
 
 const STEP_TIMEOUT = 300_000 // 5 minute timeout per prompt
 
+/**
+ * Class to manage the state of an opposed challenge
+ */
 class MetOpposedManager {
+  /**
+   * Active interaction object
+   *
+   * This object is overwritten as the participants respond to prompts. This should always be an Interaction
+   * that can still accept followUp calls.
+   *
+   * @type {Interaction}
+   */
   interaction
+
+  /**
+   * Participant who initiated the challenge
+   *
+   * @type {Participant}
+   */
   attacker
+
+  /**
+   * Participant who was challenged
+   *
+   * @type {Participant}
+   */
   defender
+
+  /**
+   * Name of the attribute type to use for determining total traits
+   *
+   * This is purely informational and is not used programmatically.
+   *
+   * @type {str}
+   */
   attribute
+
+  /**
+   * Name of the ability most likely used for starting a retest
+   *
+   * @type {str}
+   */
   retest_ability
+
+  /**
+   * Test recorder object to keep track of individual tests
+   *
+   * @type {TestRecorder}
+   */
   test_recorder
+
+  /**
+   * Timestamp used to store the deadline at which message component interactions will be disabled
+   *
+   * @type {DateTime}
+   */
   prompt_ends_at
+
+  /**
+   * Link to the first message of the challenge
+   *
+   * @type {String}
+   */
+  initial_message_link
+
+  /**
+   * Description of the challenge
+   *
+   * @type {String}
+   */
   description = ""
+
+  /**
+   * Whether or not retests are being allowed at all
+   *
+   * @type {Boolean}
+   */
   allow_retests = true
 
+  /**
+   * Collection of participants who are part of the challenge
+   *
+   * @type {Collection<Participant>}
+   */
   participants = new Collection()
-  message_links = []
 
+
+  /**
+   * Create a new MetOpposedManager
+   *
+   * @param  {Interaction} interaction    The initial interaction that started the challenge
+   * @param  {str}         attackerId     Discord user ID of the user who initiated the challenge
+   * @param  {str}         defenderId     Discord user ID of the user who was challenged
+   * @param  {str}         attribute      Name of the gross attribute used to determine trait totals for the challenge. Informational only.
+   * @param  {str}         retest_ability Name of the game ability most likely to be used to retest an outcome
+   */
   constructor({ interaction, attackerId, defenderId, attribute, retest_ability }) {
     this.interaction = interaction
     this.attacker = new Participant(attackerId)
@@ -43,6 +125,7 @@ class MetOpposedManager {
 
   /**
    * Get the latest Test from our test recorder
+   *
    * @type {Test}
    */
   get current_test() {
@@ -50,27 +133,8 @@ class MetOpposedManager {
   }
 
   /**
-   * Store a link to a message
-   *
-   * @param  {Message} message Discord message object
-   * @return {str}             Markdown link to the message
-   */
-  add_message_link(message) {
-    const link = messageLink(message)
-    this.message_links.push(link)
-    return link
-  }
-
-  /**
-   * Get the latest saved message link
-   * @type {str}
-   */
-  get last_message_link() {
-    return this.message_links.at(-1)
-  }
-
-  /**
    * Generate and save a message response deadline timestamp
+   *
    * @return {Date} Date object for the response cutoff
    */
   updateDeadline() {
@@ -231,7 +295,7 @@ class MetOpposedManager {
       allowedMentions: { users: [this.defender.id] },
       fetchReply: true,
     })
-    this.add_message_link(prompt)
+    this.initial_message_link = messageLink(prompt)
 
     const collector = prompt.createMessageComponentCollector({
       time: STEP_TIMEOUT,
@@ -341,6 +405,7 @@ class MetOpposedManager {
 
   /**
    * Send the message for the defender relenting
+   *
    * @return {Interaction} Interaction response
    */
   async relentMessage() {
@@ -348,7 +413,8 @@ class MetOpposedManager {
   }
 
   /**
-   * Send the message for the attacker cancelling
+   * Send the message for the attacker cancelling the entire challenge
+   *
    * @return {Interaction} Interaction response
    */
   async cancelMessage() {
@@ -357,6 +423,7 @@ class MetOpposedManager {
 
   /**
    * Send the message for automatic relent on initial prompt timeout
+   *
    * @return {Interaction} Interaction response
    */
   async timeoutRelent() {
@@ -365,6 +432,7 @@ class MetOpposedManager {
 
   /**
    * Send the challenge status message and handle interactions
+   *
    * @return {Interaction} Interaction response
    */
   async statusPrompt() {
@@ -405,7 +473,6 @@ class MetOpposedManager {
       components: [rowRetest, rowButtons],
       fetchReply: true,
     })
-    this.add_message_link(prompt)
 
     let retest_reason
     const collector = prompt.createMessageComponentCollector({
@@ -432,6 +499,7 @@ class MetOpposedManager {
           collector.stop()
           const retester = this.participants.get(event.user.id)
           const retest = this.test_recorder.addRetest(retester, retest_reason)
+          this.interaction = event
           return event
             .update({
               components: [],
@@ -447,6 +515,7 @@ class MetOpposedManager {
           }
 
           collector.stop()
+          this.interaction = event
           return event
             .update({
               content: presenter.statusSummary(this),
@@ -476,6 +545,7 @@ class MetOpposedManager {
 
   /**
    * Send the final results message
+   *
    * @return {Interaction} Interaction response
    */
   async resultMessage() {
@@ -484,6 +554,7 @@ class MetOpposedManager {
 
   /**
    * Send the final results message due to status message interaction timeout
+   *
    * @return {Interaction} Interaction response
    */
   async timeoutResult() {
@@ -492,6 +563,7 @@ class MetOpposedManager {
 
   /**
    * Send the prompt to cancel a retest and handle interactions
+   *
    * @return {Interaction} Interaction response
    */
   async retestCancelPrompt() {
@@ -530,7 +602,6 @@ class MetOpposedManager {
       components: [rowCancel, rowButtonsCancel],
       fetchReply: true,
     })
-    this.add_message_link(prompt)
 
     let cancel_reason
     const collector = prompt.createMessageComponentCollector({
@@ -556,6 +627,7 @@ class MetOpposedManager {
 
           collector.stop()
           this.current_test.cancel(this.participants.get(event.user.id), cancel_reason)
+          this.interaction = event
           return event
             .update({
               components: [],
@@ -575,6 +647,7 @@ class MetOpposedManager {
           }
 
           collector.stop()
+          this.interaction = event
           return event.update({
             content: presenter.retestWithdrawMessage(this),
             components: [],
@@ -605,6 +678,7 @@ class MetOpposedManager {
 
   /**
    * Show the message when a retest is cancelled
+   *
    * @return {Interaction} Interaction response
    */
   retestCancelMessage() {
@@ -615,6 +689,7 @@ class MetOpposedManager {
 
   /**
    * Show the retest response prompt and handle interactions
+   *
    * @return {Interaction} Interaction response
    */
   async retestPrompt() {
@@ -646,7 +721,6 @@ class MetOpposedManager {
       components: [rowResponse, rowButtonsGo],
       fetchReply: true,
     })
-    this.add_message_link(prompt)
 
     let throws = new Collection()
     const collector = prompt.createMessageComponentCollector({
@@ -673,6 +747,7 @@ class MetOpposedManager {
 
           if (throws.has(this.opposition(event.user.id).id)) {
             collector.stop()
+            this.interaction = event
             return event
               .update({
                 content: presenter.retestPrompt(this, throws),
@@ -698,6 +773,7 @@ class MetOpposedManager {
           }
 
           collector.stop()
+          this.interaction = event
           return event.update({
             content: presenter.retestWithdrawMessage(this),
             components: [],

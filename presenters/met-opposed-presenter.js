@@ -166,7 +166,7 @@ function resultMessage(manager) {
   } else {
     content += bold("won")
   }
-  content += ` the ${hyperlink("opposed test", manager.last_message_link)} against `
+  content += ` the ${hyperlink("opposed test", manager.initial_message_link)} against `
   const loser = manager.opposition(leader.id)
   content += loser.mention
   if (manager.description) content += ` for "${manager.description}"`
@@ -255,6 +255,7 @@ function retestOptions(manager) {
 
 /**
  * Array of component select menu options for cancelling a retest.
+ *
  * @type {obj[]}
  */
 const cancelOptions = [
