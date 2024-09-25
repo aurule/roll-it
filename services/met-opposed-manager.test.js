@@ -218,4 +218,41 @@ describe("MetOpposedManager", () => {
       expect(result).toEqual(defender)
     })
   })
+
+  describe("canCancel", () => {
+    it("returns true with cancels", () => {
+      manager.test_recorder.addRetest(attacker, "ability")
+      attacker.cancels = true
+
+      const result = manager.canCancel(attacker)
+
+      expect(result).toBeTruthy()
+    })
+
+    it("returns false with ability retest", () => {
+      manager.test_recorder.addRetest(attacker, "ability")
+
+      const result = manager.canCancel(attacker)
+
+      expect(result).toBeFalsy()
+    })
+
+    it("returns false with ability cancel", () => {
+      const retest = manager.test_recorder.addRetest(defender, "ability")
+      retest.cancel(attacker, "ability")
+
+      const result = manager.canCancel(attacker)
+
+      expect(result).toBeFalsy()
+    })
+
+    it("returns true with no ability retest or cancel", () => {
+      const retest = manager.test_recorder.addRetest(attacker, "item")
+      retest.cancel(defender, "ability")
+
+      const result = manager.canCancel(attacker)
+
+      expect(result).toBeTruthy()
+    })
+  })
 })

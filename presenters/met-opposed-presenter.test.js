@@ -13,7 +13,7 @@ describe("advantages", () => {
 
     const result = presenter.advantages(actor)
 
-    expect(result).toMatch("bomb and ties")
+    expect(result).toMatch("bomb, ties")
   })
 
   it("shows bomb alone", () => {
@@ -36,7 +36,16 @@ describe("advantages", () => {
     expect(result).toMatch("ties")
   })
 
-  it("returns empty string with neither bomb nor ties", () => {
+  it("shows cancels", () => {
+    const actor = new Participant("testman")
+    actor.cancels = true
+
+    const result = presenter.advantages(actor)
+
+    expect(result).toMatch("cancels")
+  })
+
+  it("returns empty string with no advantages", () => {
     const actor = new Participant()
 
     const result = presenter.advantages(actor)
@@ -524,7 +533,7 @@ describe("retestCancelMessage", () => {
     test.rollAll()
 
     const retest = default_manager.test_recorder.addRetest(attacker, "a power")
-    retest.cancel(defender, "item")
+    retest.cancel(defender, "other")
   })
 
   it("says who cancelled", () => {
@@ -536,7 +545,7 @@ describe("retestCancelMessage", () => {
   it("gives the cancel reason", () => {
     const result = presenter.retestCancelMessage(default_manager)
 
-    expect(result).toMatch("cancelled with item")
+    expect(result).toMatch("cancelled with other")
   })
 })
 

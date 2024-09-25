@@ -137,6 +137,25 @@ class MetOpposedManager {
   }
 
   /**
+   * Get whether a user can cancel a retest
+   *
+   * If the user has cancels, they can always cancel a retest. Otherwise, they can only cancel if there are
+   * no retests from them using abilities, or if there are no retests they have cancelled.
+   *
+   * @param  {Participant} participant The participant to check
+   * @return {bool}                    True if the participant can cancel a retest, false if not
+   */
+  canCancel(participant) {
+    if (participant.cancels) return true
+
+    return !this.test_recorder.tests.find(t => (
+        (t.canceller === participant && t.reason.includes("ability"))
+        || (t.retester === participant && (t.reason.includes("ability") || t.reason.includes(this.retest_ability)))
+      )
+    )
+  }
+
+  /**
    * Create the components for the first message
    *
    * @return {ActionRowBuilder[]} Array of action rows with components
@@ -157,6 +176,13 @@ class MetOpposedManager {
       .setStyle(ButtonStyle.Secondary)
     if (this.defender.ties) tiesButton.setEmoji("✅")
     rowAdvantages.addComponents(tiesButton)
+    const cancelsButton = new ButtonBuilder()
+      .setCustomId("cancels")
+      .setLabel("I can cancel w/o abilities")
+      .setEmoji("⬛")
+      .setStyle(ButtonStyle.Secondary)
+    if (this.defender.cancels) cancelsButton.setEmoji("✅")
+    rowAdvantages.addComponents(cancelsButton)
 
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
@@ -270,6 +296,16 @@ class MetOpposedManager {
             break
           }
           this.defender.bomb = !this.defender.bomb
+          event.update({
+            components: this.initialComponents(),
+          })
+          break
+        case "cancels":
+          if (!this.fromDefender(event)) {
+            event.deferUpdate()
+            break
+          }
+          this.defender.cancels = !this.defender.cancels
           event.update({
             components: this.initialComponents(),
           })
@@ -389,12 +425,17 @@ class MetOpposedManager {
           }
 
           collector.stop()
-          this.test_recorder.addRetest(this.participants.get(event.user.id), retest_reason)
+          const retester = this.participants.get(event.user.id)
+          const canceller = this.opposition(retester.id)
+          this.test_recorder.addRetest(retester, retest_reason)
           return event
             .update({
               components: [],
             })
-            .then(() => this.retestCancelPrompt())
+            .then(() => {
+              if (this.canCancel(canceller)) return this.retestCancelPrompt()
+              else return this.retestPrompt()
+            })
         case "done":
           if (!this.allowDone(event.user.id)) {
             event.deferUpdate()

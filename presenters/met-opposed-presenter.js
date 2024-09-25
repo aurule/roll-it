@@ -13,10 +13,15 @@ const { oneLine } = require("common-tags")
  * @return {str}                     String describing their bomb and ties status
  */
 function advantages(participant) {
-  if (participant.bomb && participant.ties) return ` ${participant.mention} has bomb and ties.`
-  else if (participant.bomb) return ` ${participant.mention} has bomb.`
-  else if (participant.ties) return ` ${participant.mention} has ties.`
-  return ""
+  const benefits = []
+
+  if (participant.bomb) benefits.push("bomb")
+  if (participant.ties) benefits.push("ties")
+  if (participant.cancels) benefits.push("cancels")
+
+  if (!benefits.length) return ""
+
+  return ` ${participant.mention} has ` + benefits.join(", ") + "."
 }
 
 /**

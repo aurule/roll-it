@@ -29,7 +29,7 @@ module.exports = {
       )
       .addStringOption((option) =>
         option
-          .setName("rt-ability")
+          .setName("retest")
           .setDescription("Named ability to use for a retest")
           .setRequired(true),
       )
@@ -42,16 +42,19 @@ module.exports = {
       )
       .addStringOption(commonOpts.description)
       .addBooleanOption((option) =>
-        option.setName("bomb").setDescription("Whether you can throw Bomb. Defaults to false."),
+        option.setName("bomb").setDescription("Can you throw Bomb? Defaults to false."),
       )
       .addBooleanOption((option) =>
-        option.setName("ties").setDescription("Whether you win on ties. Defaults to false."),
+        option.setName("ties").setDescription("Do you automatically win on ties? Defaults to false."),
+      )
+      .addBooleanOption((option) =>
+        option.setName("cancels").setDescription("Can you cancel a retest after abilities (Orisha's Fortune, etc)? Defaults to false."),
       )
       .addBooleanOption((option) =>
         option
-          .setName("one-throw")
+          .setName("use-retests")
           .setDescription(
-            "Whether to limit the test to a single opposed throw with no retests. Defaults to false.",
+            "Whether to allow retests, or use a single opposed throw. Defaults to true (allow retests).",
           ),
       ),
   async execute(interaction) {
@@ -67,13 +70,13 @@ module.exports = {
       attackerId,
       defenderId,
       attribute: interaction.options.getString("attribute"),
-      retest_ability: interaction.options.getString("rt-ability"),
+      retest_ability: interaction.options.getString("ability"),
     })
     manager.description = interaction.options.getString("description") ?? ""
-    manager.allow_retests = !interaction.options.getBoolean("one-throw")
-    manager.allow_retests = interaction.options.getBoolean("ret")
+    manager.allow_retests = interaction.options.getBoolean("retests") ?? true
     manager.attacker.bomb = interaction.options.getBoolean("bomb") ?? false
     manager.attacker.ties = interaction.options.getBoolean("ties") ?? false
+    manager.attacker.cancels = interaction.options.getBoolean("cancels") ?? false
     manager.current_test.chop(manager.attacker, interaction.options.getString("throw"))
 
     return manager.begin()

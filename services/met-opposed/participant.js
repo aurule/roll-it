@@ -31,6 +31,13 @@ module.exports = class Participant {
   ties = false
 
   /**
+   * Whether we can cancel retests outside the normal ability cancel rules
+   * @type {Boolean}
+   * @default false
+   */
+  cancels = false
+
+  /**
    * Create a new Participant
    *
    * Saves the ID and a static user mention string for later use
