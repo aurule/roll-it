@@ -46,7 +46,7 @@ After your opponent sends their symbol, Roll It will show a status message detai
 
 image of the first status prompt
 
-The user who is currently losing can concede or retest from here. If you both are truly tied, then *either* player can concede or retest.
+The user who is currently losing can concede from here. If you both are truly tied, then *either* player can concede. Regardless of ties, either player can retest the current result.
 
 ?> `/met opposed` accounts for the declared `ties` advantage of both players when it determines who is winning a given test. If both symbols match, but one player has ties, then they will be declared the leader. If the symbols match and *both* have ties (or neither has ties), then the outcome will be a true tie and treated a little differently.
 
