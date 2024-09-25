@@ -137,22 +137,27 @@ class MetOpposedManager {
   }
 
   /**
-   * Get whether a user can cancel a retest
+   * Get whether a non-retester can cancel a retest
    *
-   * If the user has cancels, they can always cancel a retest. Otherwise, they can only cancel if there are
-   * no retests from them using abilities, or if there are no retests they have cancelled.
+   * If the non-retesting user has cancels, they can always cancel a retest. Otherwise, they can only cancel
+   * if all conditions are met:
+   * * The retest uses the named retest ability or the other ability option
+   * * The canceller has not used the named retest ability or the other ability option to initiate a retest
+   * * The canceller has not cancelled another retest using an ability
    *
-   * @param  {Participant} participant The participant to check
-   * @return {bool}                    True if the participant can cancel a retest, false if not
+   * @param  {Retest} retest The retest to check
+   * @return {bool}          True if the retest's non-initiator can cancel that retest, false if not
    */
-  canCancel(participant) {
-    if (participant.cancels) return true
+  canCancel(retest) {
+    const canceller = this.opposition(retest.retester.id)
+    if (canceller.cancels) return true
 
-    return !this.test_recorder.tests.find(t => (
-        (t.canceller === participant && t.reason.includes("ability"))
-        || (t.retester === participant && (t.reason.includes("ability") || t.reason.includes(this.retest_ability)))
+    return (retest.reason.includes("ability") || retest.reason.includes(this.retest_ability))
+      && !this.test_recorder.tests.find(t => (
+          (t.canceller === canceller && t.cancelled_with.includes("ability"))
+          || (t.retester === canceller && (t.reason.includes("ability") || t.reason.includes(this.retest_ability)))
+        )
       )
-    )
   }
 
   /**
@@ -426,14 +431,13 @@ class MetOpposedManager {
 
           collector.stop()
           const retester = this.participants.get(event.user.id)
-          const canceller = this.opposition(retester.id)
-          this.test_recorder.addRetest(retester, retest_reason)
+          const retest = this.test_recorder.addRetest(retester, retest_reason)
           return event
             .update({
               components: [],
             })
             .then(() => {
-              if (this.canCancel(canceller)) return this.retestCancelPrompt()
+              if (this.canCancel(retest)) return this.retestCancelPrompt()
               else return this.retestPrompt()
             })
         case "done":

@@ -221,38 +221,58 @@ describe("MetOpposedManager", () => {
 
   describe("canCancel", () => {
     it("returns true with cancels", () => {
-      manager.test_recorder.addRetest(attacker, "ability")
-      attacker.cancels = true
+      const retest = manager.test_recorder.addRetest(attacker, "ability")
+      defender.cancels = true
 
-      const result = manager.canCancel(attacker)
+      const result = manager.canCancel(retest)
 
       expect(result).toBeTruthy()
     })
 
-    it("returns false with ability retest", () => {
+    it("returns false when canceller has retested with an ability", () => {
       manager.test_recorder.addRetest(attacker, "ability")
-
-      const result = manager.canCancel(attacker)
-
-      expect(result).toBeFalsy()
-    })
-
-    it("returns false with ability cancel", () => {
       const retest = manager.test_recorder.addRetest(defender, "ability")
-      retest.cancel(attacker, "ability")
 
-      const result = manager.canCancel(attacker)
+      const result = manager.canCancel(retest)
 
       expect(result).toBeFalsy()
     })
 
-    it("returns true with no ability retest or cancel", () => {
-      const retest = manager.test_recorder.addRetest(attacker, "item")
-      retest.cancel(defender, "ability")
+    it("returns false when canceller has retested with the named ability", () => {
+      manager.test_recorder.addRetest(attacker, manager.retest_ability)
+      const retest = manager.test_recorder.addRetest(defender, "ability")
 
-      const result = manager.canCancel(attacker)
+      const result = manager.canCancel(retest)
+
+      expect(result).toBeFalsy()
+    })
+
+    it("returns false when cancelleer has cancelled another retest with an ability", () => {
+      const old_retest = manager.test_recorder.addRetest(defender, "ability")
+      old_retest.cancel(attacker, "ability")
+      const retest = manager.test_recorder.addRetest(defender, "ability")
+
+      const result = manager.canCancel(retest)
+
+      expect(result).toBeFalsy()
+    })
+
+    it("returns true when canceller has not retested or cancelled with an ability", () => {
+      const old_retest = manager.test_recorder.addRetest(attacker, "item")
+      old_retest.cancel(defender, "ability")
+      const retest = manager.test_recorder.addRetest(defender, "ability")
+
+      const result = manager.canCancel(retest)
 
       expect(result).toBeTruthy()
+    })
+
+    it("returns false when retest does not use an ability", () => {
+      const retest = manager.test_recorder.addRetest(attacker, "item")
+
+      const result = manager.canCancel(retest)
+
+      expect(result).toBeFalsy()
     })
   })
 })

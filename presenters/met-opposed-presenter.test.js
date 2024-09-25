@@ -468,6 +468,8 @@ describe("retestOptions", () => {
 
 describe("retestCancelPrompt", () => {
   let default_manager
+  let attacker
+  let defender
 
   beforeEach(() => {
     default_manager = new MetOpposedManager({
@@ -477,8 +479,8 @@ describe("retestCancelPrompt", () => {
       retest_ability: "Occult",
     })
 
-    const attacker = default_manager.attacker
-    const defender = default_manager.defender
+    attacker = default_manager.attacker
+    defender = default_manager.defender
 
     const test = default_manager.current_test
     test.chop(attacker, "rock")
@@ -504,6 +506,14 @@ describe("retestCancelPrompt", () => {
     const result = presenter.retestCancelPrompt(default_manager)
 
     expect(result).toMatch("you, <@testdef>")
+  })
+
+  it("notifies if non-retester has cancels", () => {
+    defender.cancels = true
+
+    const result = presenter.retestCancelPrompt(default_manager)
+
+    expect(result).toMatch("prompt for every retest")
   })
 
   it("shows error message if present", () => {
