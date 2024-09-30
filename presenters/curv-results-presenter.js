@@ -53,7 +53,7 @@ class CurvPresenter {
         content += this.presentResultSet()
         break
       case "one":
-        content += ` ${this.explainSum(0)}`
+        content += ` ${this.explainOutcome(0)}`
         content += this.presentedDescription
         content += this.explainAdvantage()
         content += ` (${this.explainRoll(0)}`
@@ -82,15 +82,22 @@ class CurvPresenter {
   }
 
   /**
-   * Show the sum of a given roll
+   * Show the outcome of a given roll
+   *
+   * This usually shows a bolded sum. If the dice sum is 16 or more, it notes that the outcome is a critical
+   * success as well as showing the final sum.
    *
    * @param  {int} rollIndex Index of the roll to sum
    * @return {str}           Summed dice from the roll after keep is applied, plus modifier
    */
-  explainSum(rollIndex) {
+  explainOutcome(rollIndex) {
     const picked_index = this.picked[rollIndex]
-    const result = this.sums[rollIndex][picked_index] + this.modifier
-    return bold(result)
+    const dice_sum = this.sums[rollIndex][picked_index]
+    const final_sum = dice_sum + this.modifier
+
+    if (dice_sum >= 16) return `${bold("a crit!")} with ${final_sum}`
+
+    return bold(final_sum)
   }
 
   /**
@@ -149,7 +156,7 @@ class CurvPresenter {
   presentResultSet() {
     return this.raw
       .map((roll, roll_idx) => {
-        return `\t${this.explainSum(roll_idx)} (${this.explainRoll(roll_idx)}${this.explainModifier(roll_idx)})`
+        return `\t${this.explainOutcome(roll_idx)} (${this.explainRoll(roll_idx)}${this.explainModifier(roll_idx)})`
       })
       .join("\n")
   }

@@ -209,32 +209,64 @@ describe("CurvPresenter", () => {
     })
   })
 
-  describe("explainSum", () => {
-    it("sums the pool", () => {
-      const presenter = new CurvPresenter({
-        rolls: 1,
-        raw: [[[2, 3, 4]]],
-        sums: [[9]],
-        picked: [0],
+  describe("explainOutcome", () => {
+    describe("without a crit", () => {
+      it("sums the pool", () => {
+        const presenter = new CurvPresenter({
+          rolls: 1,
+          raw: [[[2, 3, 4]]],
+          sums: [[9]],
+          picked: [0],
+        })
+
+        const result = presenter.explainOutcome(0)
+
+        expect(result).toEqual("**9**")
       })
 
-      const result = presenter.explainSum(0)
+      it("adds the modifier", () => {
+        const presenter = new CurvPresenter({
+          rolls: 1,
+          raw: [[[2, 3, 4]]],
+          sums: [[9]],
+          picked: [0],
+          modifier: 1,
+        })
 
-      expect(result).toEqual("**9**")
+        const result = presenter.explainOutcome(0)
+
+        expect(result).toEqual("**10**")
+      })
     })
 
-    it("adds the modifier", () => {
-      const presenter = new CurvPresenter({
-        rolls: 1,
-        raw: [[[2, 3, 4]]],
-        sums: [[9]],
-        picked: [0],
-        modifier: 1,
+    describe("with a crit", () => {
+      it("says it's a crit", () => {
+        const presenter = new CurvPresenter({
+          rolls: 1,
+          raw: [[[6, 5, 5]]],
+          sums: [[16]],
+          picked: [0],
+          modifier: 2,
+        })
+
+        const result = presenter.explainOutcome(0)
+
+        expect(result).toMatch("a crit")
       })
 
-      const result = presenter.explainSum(0)
+      it("shows the sum", () => {
+        const presenter = new CurvPresenter({
+          rolls: 1,
+          raw: [[[6, 5, 5]]],
+          sums: [[16]],
+          picked: [0],
+          modifier: 2,
+        })
 
-      expect(result).toEqual("**10**")
+        const result = presenter.explainOutcome(0)
+
+        expect(result).toMatch("18")
+      })
     })
   })
 
