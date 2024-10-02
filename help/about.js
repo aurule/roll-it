@@ -16,6 +16,8 @@ module.exports = {
         ${siteLink("Terms of Service", "/terms")}
       `,
       "",
+      hyperlink("<:KofiCoffee_112:1291129201767743578> Support me on Ko-fi", hideLinkEmbed("https://ko-fi.com/paige2501")),
+      "",
       oneLine`
         Roll It is a Discord bot for rolling dice, and a passion project by Paige Andrews. It
         is built on NodeJS using the excellent discord.js library, among others. Roll It is open source
