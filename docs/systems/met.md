@@ -110,3 +110,80 @@ It also supports the `bomb` advantage, replacing the paper symbol with bomb. Thi
 <!-- div:right-panel -->
 <@user> rolled `tie`
 <!-- panels:end -->
+
+### Migrating to `/met static`
+
+This section covers how to use `/met static` to replicate existing uses of `/chop`. The existing `description`, `rolls`, and `secret` options remain unchanged, so they are omitted here.
+
+<!-- panels:start -->
+<!-- div:title-panel -->
+**Throw a random symbol**
+<!-- div:left-panel -->
+```invocation
+/chop
+```
+<@user> rolled :rock: rock
+<!-- div:right-panel -->
+```invocation
+/met static vs:None
+```
+<@user> rolled :rock: rock
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:title-panel -->
+**Make a simple test**
+<!-- div:left-panel -->
+```invocation
+/chop static:true
+```
+<@user> rolled `tie`
+<!-- div:right-panel -->
+```invocation
+/met static
+```
+<@user> rolled **tie** (:rock: rock _vs_ :rock: rock)
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:title-panel -->
+**Make a static test, with bomb**
+
+?> `/chop` always throws a random symbol on your behalf against an opponent who always throws :scroll: paper. Duplicating this behavior is not quite possible with `/met static`, since it always rolls the opponent's throw randomly. This is as close as it gets to a direct translation.
+<!-- div:left-panel -->
+```invocation
+/chop bomb:true static:true
+```
+<@user> rolled `pass`
+<!-- div:right-panel -->
+```invocation
+/met static throw:Random Rock-Bomb-Scissors
+```
+<@user> rolled **win** (:firecracker: bomb _vs_ :rock: rock)
+<!-- panels:end -->
+
+---
+
+And here are some things that `/chop` *can't* do:
+
+<!-- panels:start -->
+<!-- panels:title -->
+**Make a static test against an *opponent* with bomb**
+<!-- div:left-panel -->
+```invocation
+/met static vs:Random Rock-Bomb-Scissors
+```
+<!-- div:right-panel -->
+<@user> rolled **lose** (:rock: rock _vs_ :firecracker: bomb)
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- panels:title -->
+**Make a simple test where you throw paper**
+<!-- div:left-panel -->
+```invocation
+/met static throw:paper
+```
+<!-- div:right-panel -->
+<@user> rolled **win** (:scroll: paper _vs_ :rock: rock)
+<!-- panels:end -->
