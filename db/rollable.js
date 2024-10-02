@@ -9,6 +9,18 @@ const { oneLine } = require("common-tags")
  * that result five times in its contents.
  */
 class GuildRollables {
+  /**
+   * ID of the guild to use
+   * @type str
+   */
+  guildId
+
+  /**
+   * Database object
+   * @type Database
+   */
+  db
+
   constructor(guildId, db_obj) {
     this.guildId = guildId
     this.db = db_obj ?? require("./index").db

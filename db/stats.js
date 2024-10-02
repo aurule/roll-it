@@ -1,6 +1,12 @@
 const { oneLine } = require("common-tags")
 
 class Stats {
+  /**
+   * Database object
+   * @type Database
+   */
+  db
+
   constructor(db_obj) {
     this.db = db_obj ?? require("./index").db
   }

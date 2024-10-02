@@ -55,6 +55,24 @@ function makeUpdateFields(data, safe = true) {
  * Class for manipulating saved_rolls database records tied to a guild and a user
  */
 class UserSavedRolls {
+  /**
+   * ID of the guild to use
+   * @type str
+   */
+  guildId
+
+  /**
+   * ID of the user to use
+   * @type str
+   */
+  userId
+
+  /**
+   * Database object
+   * @type Database
+   */
+  db
+
   constructor(guildId, userId, db_obj) {
     this.guildId = guildId
     this.userId = userId
