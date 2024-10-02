@@ -476,7 +476,7 @@ class MetOpposedManager {
 
     let retest_reason
     const collector = prompt.createMessageComponentCollector({
-      time: this.constructor.step_timeout,
+      time: STEP_TIMEOUT,
     })
     collector.on("collect", (event) => {
       switch (event.customId) {
@@ -605,7 +605,7 @@ class MetOpposedManager {
 
     let cancel_reason
     const collector = prompt.createMessageComponentCollector({
-      time: this.constructor.step_timeout,
+      time: STEP_TIMEOUT,
     })
     collector.on("collect", (event) => {
       switch (event.customId) {
@@ -724,7 +724,7 @@ class MetOpposedManager {
 
     let throws = new Collection()
     const collector = prompt.createMessageComponentCollector({
-      time: this.constructor.step_timeout,
+      time: STEP_TIMEOUT,
     })
     collector.on("collect", (event) => {
       switch (event.customId) {
