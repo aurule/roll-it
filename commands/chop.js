@@ -62,14 +62,18 @@ module.exports = {
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name, ...opts }) {
-    return oneLine`
-      ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
-      emoji and a word describing the outcome, like "\:rock: rock". The ${opts.static} option changes this to
-      display ${inlineCode("pass")}, ${inlineCode("tie")}, or ${inlineCode("fail")}, to make it easier to
-      interpret the result of an uncontested challenge. The ${opts.bomb} option replaces the paper result with
-      bomb, which wins against rock and paper. Setting both ${opts.static} and ${opts.bomb} will change the
-      ${inlineCode("tie")} result to ${inlineCode("pass")}, as the bomb result wins against the assumed paper
-      result of the static opponent.
-    `
+    return [
+      `:warning: ${command_name} is deprecated. Please use ${inlineCode("/met static")} instead.`,
+      "",
+      oneLine`
+        ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
+        emoji and a word describing the outcome, like "\:rock: rock". The ${opts.static} option changes this to
+        display ${inlineCode("pass")}, ${inlineCode("tie")}, or ${inlineCode("fail")}, to make it easier to
+        interpret the result of an uncontested challenge. The ${opts.bomb} option replaces the paper result with
+        bomb, which wins against rock and paper. Setting both ${opts.static} and ${opts.bomb} will change the
+        ${inlineCode("tie")} result to ${inlineCode("pass")}, as the bomb result wins against the assumed paper
+        result of the static opponent.
+      `,
+    ].join("\n")
   },
 }
