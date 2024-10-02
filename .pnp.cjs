@@ -36,7 +36,7 @@ const RAW_RUNTIME_STATE =
           ["eslint", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:9.11.1"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.1.1"],\
+          ["mathjs", "npm:13.2.0"],\
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.4.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -778,10 +778,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@babel/runtime", [\
-      ["npm:7.25.4", {\
-        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.25.4-0635cb2d0c-33e937e685.zip/node_modules/@babel/runtime/",\
+      ["npm:7.25.7", {\
+        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.25.7-67dab27f3f-86b7829d2f.zip/node_modules/@babel/runtime/",\
         "packageDependencies": [\
-          ["@babel/runtime", "npm:7.25.4"],\
+          ["@babel/runtime", "npm:7.25.7"],\
           ["regenerator-runtime", "npm:0.14.1"]\
         ],\
         "linkType": "HARD"\
@@ -4631,11 +4631,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:13.1.1", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-13.1.1-1dcbece8d7-db0b9d822f.zip/node_modules/mathjs/",\
+      ["npm:13.2.0", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-13.2.0-789284b4ed-75a3f7ff8e.zip/node_modules/mathjs/",\
         "packageDependencies": [\
-          ["mathjs", "npm:13.1.1"],\
-          ["@babel/runtime", "npm:7.25.4"],\
+          ["mathjs", "npm:13.2.0"],\
+          ["@babel/runtime", "npm:7.25.7"],\
           ["complex.js", "npm:2.1.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["escape-latex", "npm:1.2.0"],\
@@ -5582,7 +5582,7 @@ const RAW_RUNTIME_STATE =
           ["eslint", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:9.11.1"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.1.1"],\
+          ["mathjs", "npm:13.2.0"],\
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.4.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
