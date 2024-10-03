@@ -13,7 +13,7 @@ describe("GuildRollables", () => {
       const rollables = new GuildRollables("test-create", db)
       const contents = ["first", "second", "third"]
 
-      const result = rollables.create("test", "a test", contents)
+      rollables.create("test", "a test", contents)
 
       expect(rollables.count()).toEqual(1)
     })
