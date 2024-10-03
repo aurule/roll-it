@@ -45,10 +45,16 @@ module.exports = {
         option.setName("bomb").setDescription("Can you throw Bomb? Defaults to false."),
       )
       .addBooleanOption((option) =>
-        option.setName("ties").setDescription("Do you automatically win on ties? Defaults to false."),
+        option
+          .setName("ties")
+          .setDescription("Do you automatically win on ties? Defaults to false."),
       )
       .addBooleanOption((option) =>
-        option.setName("cancels").setDescription("Can you cancel a retest after abilities (Orisha's Fortune, etc)? Defaults to false."),
+        option
+          .setName("cancels")
+          .setDescription(
+            "Can you cancel a retest after abilities (Orisha's Fortune, etc)? Defaults to false.",
+          ),
       )
       .addBooleanOption((option) =>
         option

@@ -100,7 +100,6 @@ class MetOpposedManager {
    */
   participants = new Collection()
 
-
   /**
    * Create a new MetOpposedManager
    *
@@ -216,12 +215,15 @@ class MetOpposedManager {
     const canceller = this.opposition(retest.retester.id)
     if (canceller.cancels) return true
 
-    return (retest.reason.includes("ability") || retest.reason.includes(this.retest_ability))
-      && !this.test_recorder.tests.find(t => (
-          (t.canceller === canceller && t.cancelled_with.includes("ability"))
-          || (t.retester === canceller && (t.reason.includes("ability") || t.reason.includes(this.retest_ability)))
-        )
+    return (
+      (retest.reason.includes("ability") || retest.reason.includes(this.retest_ability)) &&
+      !this.test_recorder.tests.find(
+        (t) =>
+          (t.canceller === canceller && t.cancelled_with.includes("ability")) ||
+          (t.retester === canceller &&
+            (t.reason.includes("ability") || t.reason.includes(this.retest_ability))),
       )
+    )
   }
 
   /**
@@ -648,13 +650,15 @@ class MetOpposedManager {
 
           collector.stop()
           this.interaction = event
-          return event.update({
-            content: presenter.retestWithdrawMessage(this),
-            components: [],
-          }).then(() => {
-            this.test_recorder.tests.pop()
-            return this.statusPrompt()
-          })
+          return event
+            .update({
+              content: presenter.retestWithdrawMessage(this),
+              components: [],
+            })
+            .then(() => {
+              this.test_recorder.tests.pop()
+              return this.statusPrompt()
+            })
         case "cancel-picker":
           event.deferUpdate()
           if (event.user.id !== non_retester.id) {
@@ -774,13 +778,15 @@ class MetOpposedManager {
 
           collector.stop()
           this.interaction = event
-          return event.update({
-            content: presenter.retestWithdrawMessage(this),
-            components: [],
-          }).then(() => {
-            this.test_recorder.tests.pop()
-            return this.statusPrompt()
-          })
+          return event
+            .update({
+              content: presenter.retestWithdrawMessage(this),
+              components: [],
+            })
+            .then(() => {
+              this.test_recorder.tests.pop()
+              return this.statusPrompt()
+            })
         case "throw-picker":
           event.deferUpdate()
           if (!this.fromParticipant(event)) {

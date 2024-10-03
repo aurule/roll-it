@@ -289,7 +289,12 @@ function retestCancelPrompt(manager, error_message) {
     ${retester.mention} is retesting against you, ${other.mention} with ${retest.reason}. Are you able to
     cancel their retest?
   `
-  if (other.cancels) content += "\n" + subtext(`You can cancel without using an ability, so you will see this prompt for every retest from ${retester.mention}.`)
+  if (other.cancels)
+    content +=
+      "\n" +
+      subtext(
+        `You can cancel without using an ability, so you will see this prompt for every retest from ${retester.mention}.`,
+      )
   if (error_message) content += "\n" + subtext(error_message)
   return content
 }

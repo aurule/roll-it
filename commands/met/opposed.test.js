@@ -15,7 +15,7 @@ describe("execute", () => {
   })
 
   it("errors on self opponent", () => {
-    interaction.command_options.opponent = {id: interaction.user.id}
+    interaction.command_options.opponent = { id: interaction.user.id }
 
     met_opposed_command.execute(interaction)
 
