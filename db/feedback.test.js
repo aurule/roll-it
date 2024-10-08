@@ -9,10 +9,14 @@ beforeEach(() => {
 })
 
 describe("Feedback", () => {
+  let feedback
+
+  beforeEach(() => {
+    feedback = new Feedback(db)
+  })
+
   describe("create", () => {
     it("makes a new record", () => {
-      const feedback = new Feedback(db)
-
       feedback.create({
         userId: "testuser",
         content: "testing",
@@ -22,8 +26,6 @@ describe("Feedback", () => {
     })
 
     it("saves the user ID", () => {
-      const feedback = new Feedback(db)
-
       const result = feedback.create({
         userId: "testuser",
         content: "testing",
@@ -34,8 +36,6 @@ describe("Feedback", () => {
     })
 
     it("saves the feedback contents", () => {
-      const feedback = new Feedback(db)
-
       const result = feedback.create({
         userId: "testuser",
         content: "testing",
@@ -47,8 +47,6 @@ describe("Feedback", () => {
 
     describe("optional fields", () => {
       it("saves the guild ID when present", () => {
-        const feedback = new Feedback(db)
-
         const result = feedback.create({
           userId: "testuser",
           content: "testing",
@@ -60,8 +58,6 @@ describe("Feedback", () => {
       })
 
       it("saves the command name if present", () => {
-        const feedback = new Feedback(db)
-
         const result = feedback.create({
           userId: "testuser",
           content: "testing",
@@ -73,8 +69,6 @@ describe("Feedback", () => {
       })
 
       it("notes if replies are allowed", () => {
-        const feedback = new Feedback(db)
-
         const result = feedback.create({
           userId: "testuser",
           content: "testing",
@@ -89,7 +83,6 @@ describe("Feedback", () => {
 
   describe("count", () => {
     it("counts all feedback records", () => {
-      const feedback = new Feedback(db)
       feedback.create({
         userId: "test1",
         content: "testing",
@@ -107,7 +100,6 @@ describe("Feedback", () => {
 
   describe("detail", () => {
     it("gets a single record", () => {
-      const feedback = new Feedback(db)
       const record_output = feedback.create({
         userId: "test1",
         content: "testing",
@@ -120,7 +112,6 @@ describe("Feedback", () => {
     })
 
     it("ensures canReply is a boolean", () => {
-      const feedback = new Feedback(db)
       const record_output = feedback.create({
         userId: "test1",
         content: "testing",
@@ -133,11 +124,37 @@ describe("Feedback", () => {
     })
 
     it("returns undefined on bad id", () => {
-      const feedback = new Feedback(db)
-
       const result = feedback.detail(25)
 
       expect(result).toBeUndefined()
+    })
+  })
+
+  describe("all", () => {
+    it("lists all feedback records", () => {
+      feedback.create({
+        userId: "test1",
+        content: "testing",
+      })
+      feedback.create({
+        userId: "test2",
+        content: "testing",
+      })
+
+      const result = feedback.all()
+
+      expect(result.length).toEqual(2)
+    })
+
+    it("converts canReply to a boolean", () => {
+      feedback.create({
+        userId: "test1",
+        content: "testing",
+      })
+
+      const result = feedback.all()
+
+      expect(result[0].canReply).toEqual(false)
     })
   })
 })

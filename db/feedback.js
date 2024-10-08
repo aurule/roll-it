@@ -92,6 +92,23 @@ class Feedback {
       canReply: !!raw_out.canReply,
     }
   }
+
+  /**
+   * Get an array of all feedback records
+   *
+   * Each object represents a single piece of feedback
+   *
+   * @return {obj[]} Array of feedback objects
+   */
+  all() {
+    const select = this.db.prepare("SELECT * from feedback")
+    const raw_out = select.all()
+
+    return raw_out.map((raw) => ({
+      ...raw,
+      canReply: !!raw.canReply,
+    }))
+  }
 }
 
 module.exports = {
