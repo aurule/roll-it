@@ -240,6 +240,7 @@ class MetOpposedManager {
       .setStyle(ButtonStyle.Secondary)
     if (this.defender.bomb) bombButton.setEmoji("✅")
     rowAdvantages.addComponents(bombButton)
+
     const tiesButton = new ButtonBuilder()
       .setCustomId("ties")
       .setLabel("I have Ties")
@@ -247,13 +248,16 @@ class MetOpposedManager {
       .setStyle(ButtonStyle.Secondary)
     if (this.defender.ties) tiesButton.setEmoji("✅")
     rowAdvantages.addComponents(tiesButton)
-    const cancelsButton = new ButtonBuilder()
-      .setCustomId("cancels")
-      .setLabel("I can cancel w/o abilities")
-      .setEmoji("⬛")
-      .setStyle(ButtonStyle.Secondary)
-    if (this.defender.cancels) cancelsButton.setEmoji("✅")
-    rowAdvantages.addComponents(cancelsButton)
+
+    if (this.allow_retests) {
+      const cancelsButton = new ButtonBuilder()
+        .setCustomId("cancels")
+        .setLabel("I can cancel w/o abilities")
+        .setEmoji("⬛")
+        .setStyle(ButtonStyle.Secondary)
+      if (this.defender.cancels) cancelsButton.setEmoji("✅")
+      rowAdvantages.addComponents(cancelsButton)
+    }
 
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
@@ -322,12 +326,14 @@ class MetOpposedManager {
 
           collector.stop()
           this.current_test.rollAll()
-          return event
+          const boop = event
             .update({
               content: presenter.initialMessageSummary(this),
               components: [],
             })
-            .then(() => this.statusPrompt())
+
+          if (this.allow_retests) return boop.then(() => this.statusPrompt())
+          return boop.then(() => this.resultMessage())
         case "relent":
           if (!this.fromDefender(event)) {
             event.deferUpdate()
