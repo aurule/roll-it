@@ -183,7 +183,7 @@ class UserSavedRolls {
    *
    * Each object in the array represents a single saved roll.
    *
-   * @return {[type]} [description]
+   * @return {obj[]} Array of saved roll objects
    */
   all() {
     const select = this.db.prepare(oneLine`
@@ -470,7 +470,7 @@ class GlobalSavedRolls {
    *
    * Each object in the array represents a single saved roll.
    *
-   * @return {[type]} [description]
+   * @return {obj[]}  Array of saved roll objects
    */
   all() {
     const select = this.db.prepare(oneLine`
