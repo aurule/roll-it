@@ -42,6 +42,10 @@ function initialMessage(manager, error_message = "") {
   if (manager.description) content += ` for "${manager.description}"`
   content += "."
   content += advantages(manager.attacker)
+  content += " If you have"
+  if (manager.allow_retests) content += " bomb, ties, or special cancels"
+  else content += " bomb or ties"
+  content += ", you must declare them now."
   content += "\n"
   content += oneLine`
     If you don't respond ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)}, the challenge will
