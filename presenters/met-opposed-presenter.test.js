@@ -279,7 +279,7 @@ describe("statusPrompt", () => {
   it("shows the chops", () => {
     const result = presenter.statusPrompt(default_manager)
 
-    expect(result).toMatch("rock _vs_ :scroll:")
+    expect(result).toMatch("paper _vs_ <@testatk>'s :rock:")
   })
 
   describe("with an error", () => {
@@ -320,7 +320,7 @@ describe("statusSummary", () => {
   it("shows the chops", () => {
     const result = presenter.statusSummary(default_manager)
 
-    expect(result).toMatch("rock _vs_ :scroll:")
+    expect(result).toMatch("paper _vs_ <@testatk>'s :rock:")
   })
 })
 

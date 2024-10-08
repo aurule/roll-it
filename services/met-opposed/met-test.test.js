@@ -21,6 +21,26 @@ describe("Test", () => {
     expect(test.defender).toBe(defender)
   })
 
+  describe("opposition", () => {
+    it("with attacker, returns defender", () => {
+      const result = test.opposition(attacker.id)
+
+      expect(result).toEqual(defender)
+    })
+
+    it("with defender, returns attacker", () => {
+      const result = test.opposition(defender.id)
+
+      expect(result).toEqual(attacker)
+    })
+
+    it("with unknown, returns attacker", () => {
+      const result = test.opposition(null)
+
+      expect(result).toEqual(attacker)
+    })
+  })
+
   describe("chop", () => {
     it("sets the chop for the given user", () => {
       test.chop(attacker, "rock")
@@ -69,7 +89,7 @@ describe("Test", () => {
 
       const result = test.present()
 
-      expect(result).toMatch("rock _vs_ :scroll:")
+      expect(result).toMatch("paper _vs_ <@attacker>'s :rock:")
     })
 
     it("shows ties", () => {
@@ -129,24 +149,38 @@ describe("Test", () => {
   })
 
   describe("explainChops", () => {
-    it("shows the attacker's chop first", () => {
-      test.chop(attacker, "rock")
-      test.chop(defender, "paper")
-      test.rollAll()
+    describe("with a leader", () => {
+      it("shows the leader's chop first", () => {
+        test.chop(attacker, "rock")
+        test.chop(defender, "paper")
+        test.rollAll()
 
-      const result = test.explainChops()
+        const result = test.explainChops()
 
-      expect(result).toMatch(":rock: rock _vs_")
+        expect(result).toMatch(":scroll: paper _vs_")
+      })
+
+      it("shows the non-leader's chop second", () => {
+        test.chop(attacker, "rock")
+        test.chop(defender, "paper")
+        test.rollAll()
+
+        const result = test.explainChops()
+
+        expect(result).toMatch("_vs_ <@attacker>'s :rock: rock")
+      })
     })
 
-    it("shows the defender's chop second", () => {
-      test.chop(attacker, "rock")
-      test.chop(defender, "paper")
-      test.rollAll()
+    describe("with no leader", () => {
+      it("shows attacker's chop first", () => {
+        test.chop(attacker, "paper")
+        test.chop(defender, "paper")
+        test.rollAll()
 
-      const result = test.explainChops()
+        const result = test.explainChops()
 
-      expect(result).toMatch("_vs_ :scroll: paper")
+        expect(result).toMatch("paper _vs_ <@defender>'s :scroll: paper")
+      })
     })
   })
 

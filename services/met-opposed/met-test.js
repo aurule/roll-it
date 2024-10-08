@@ -39,6 +39,20 @@ module.exports = class Test {
   }
 
   /**
+   * Get the participant whose id does not match the given id
+   *
+   * This assumes that the participantId passed matches one of the participants. If it does not, the result
+   * will be the attacker.
+   *
+   * @param  {str}         participantId ID of the participant to avoid
+   * @return {Participant}               Participant whose id does not match
+   */
+  opposition(participantId) {
+    if (this.attacker.id === participantId) return this.defender
+    return this.attacker
+  }
+
+  /**
    * Save the chop request for a user
    * @param  {Participant} participant Participant making the chop
    * @param  {str}         request     Chop request
@@ -68,6 +82,12 @@ module.exports = class Test {
     return this.chops
   }
 
+  /**
+   * Get whether this test has a chop from a given id
+   *
+   * @param  {str}     id The id to test
+   * @return {Boolean}    True if there's a chop for the id, false if not
+   */
   has(id) {
     return this.chops.has(id)
   }
@@ -115,7 +135,14 @@ module.exports = class Test {
    * @return {str} Decorated chop results
    */
   explainChops() {
-    return `${this.chops.get(this.attacker.id).present()} ${italic("vs")} ${this.chops.get(this.defender.id).present()}`
+    const first = this.leader ?? this.attacker
+    const second = this.opposition(first.id)
+    return [
+      this.chops.get(first.id).present(),
+      italic("vs"),
+      `${second.mention}'s`,
+      this.chops.get(second.id).present(),
+    ].join(" ")
   }
 
   /**

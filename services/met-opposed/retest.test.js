@@ -122,7 +122,7 @@ describe("Retest", () => {
 
       const result = retest.present()
 
-      expect(result).toMatch("scissors _vs_ :scroll: paper")
+      expect(result).toMatch("scissors _vs_ <@defender>'s :scroll: paper")
     })
 
     it("shows ties", () => {
