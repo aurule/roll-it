@@ -575,6 +575,7 @@ class MetOpposedManager {
    * @return {Interaction} Interaction response
    */
   async retestCancelPrompt() {
+    this.updateDeadline()
     const retester = this.current_test.retester
     const non_retester = this.opposition(retester.id)
 
@@ -627,7 +628,7 @@ class MetOpposedManager {
             event.update({
               content: presenter.retestCancelPrompt(
                 this,
-                "You have to pick what to cancel with before you can cancel",
+                "You have to pick what to cancel with before you can cancel.",
               ),
             })
             break
@@ -646,8 +647,10 @@ class MetOpposedManager {
           if (event.user.id !== non_retester.id) break
 
           collector.stop()
-          prompt.delete()
-          return this.retestPrompt()
+          return event.update({
+            content: presenter.retestContinueMessage(this),
+            components: [],
+          }).then(() => this.retestPrompt())
         case "withdraw":
           if (event.user.id !== retester.id) {
             event.deferUpdate()
@@ -703,6 +706,7 @@ class MetOpposedManager {
    * @return {Interaction} Interaction response
    */
   async retestPrompt() {
+    this.updateDeadline()
     const retester = this.current_test.retester
 
     const rowResponse = new ActionRowBuilder()

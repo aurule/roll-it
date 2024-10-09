@@ -291,7 +291,8 @@ function retestCancelPrompt(manager, error_message) {
   const other = manager.opposition(retester.id)
   let content = oneLine`
     ${retester.mention} is retesting against you, ${other.mention} with ${retest.reason}. Are you able to
-    cancel their retest?
+    cancel their retest? If you don't cancel ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)},
+    the retest will proceed.
   `
   if (other.cancels)
     content +=
@@ -336,7 +337,18 @@ function timeoutCancelRetestMessage(manager) {
  */
 function retestWithdrawMessage(manager) {
   const retester = manager.current_test.retester
-  return `${retester.mention} withdrew their retest`
+  return `${retester.mention} withdrew their retest.`
+}
+
+/**
+ * Get the text to show when a canceller
+ * @param  {[type]} manager [description]
+ * @return {[type]}         [description]
+ */
+function retestContinueMessage(manager) {
+  const retester = manager.current_test.retester
+  const canceller = manager.opposition(retester.id)
+  return `${canceller.mention} did not cancel the retest by ${retester.mention}.`
 }
 
 /**
@@ -356,6 +368,11 @@ function retestPrompt(manager, throws, error_message) {
   let content = `${retest.retester.mention} is retesting against ${other.mention} with ${retest.reason}.`
   content += advantages(retester)
   content += advantages(other)
+  content += "\n"
+  content += oneLine`
+    You both have to make your throw ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)} or the
+    retest will be cancelled for time.
+  `
   if (throws) {
     content +=
       "\n* " +
@@ -399,6 +416,7 @@ module.exports = {
   retestCancelMessage,
   timeoutCancelRetestMessage,
   retestWithdrawMessage,
+  retestContinueMessage,
   retestPrompt,
   retestTimeoutMessage,
 }

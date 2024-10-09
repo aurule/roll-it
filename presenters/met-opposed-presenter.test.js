@@ -630,6 +630,35 @@ describe("retestWithdrawMessage", () => {
   })
 })
 
+describe("retestContinueMessage", () => {
+  let default_manager
+
+  beforeEach(() => {
+    default_manager = new MetOpposedManager({
+      attackerId: "testatk",
+      defenderId: "testdef",
+      attribute: "Mental",
+      retest_ability: "Occult",
+    })
+
+    const attacker = default_manager.attacker
+    const defender = default_manager.defender
+
+    const test = default_manager.current_test
+    test.chop(attacker, "rock")
+    test.chop(defender, "paper")
+    test.rollAll()
+
+    default_manager.test_recorder.addRetest(attacker, "a power")
+  })
+
+  it("says retester did not cancel", () => {
+    const result = presenter.retestContinueMessage(default_manager)
+
+    expect(result).toMatch("did not cancel")
+  })
+})
+
 describe("retestPrompt", () => {
   let default_manager
   let attacker
@@ -682,6 +711,12 @@ describe("retestPrompt", () => {
     const result = presenter.retestPrompt(default_manager, throws)
 
     expect(result).toMatch("<@testdef> has bomb")
+  })
+
+  it("shows the timer", () => {
+    const result = presenter.retestPrompt(default_manager, throws)
+
+    expect(result).toMatch(/<t:\d+:R>/)
   })
 
   describe("with throws", () => {
