@@ -165,12 +165,14 @@ function resultMessage(manager) {
   }
 
   let content = `${leader.mention} `
-  if (tied) {
-    content += bold("tied")
+  content += tied ? bold("tied") : bold("won")
+
+  if (leader.id === manager.attacker.id) {
+    content += ` their ${hyperlink("opposed test", manager.initial_message_link)} against `
   } else {
-    content += bold("won")
+    content += ` the ${hyperlink("opposed test", manager.initial_message_link)} from `
   }
-  content += ` the ${hyperlink("opposed test", manager.initial_message_link)} against `
+
   const loser = manager.opposition(leader.id)
   content += loser.mention
   if (manager.description) content += ` for "${manager.description}"`

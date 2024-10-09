@@ -374,40 +374,69 @@ describe("resultMessage", () => {
 
       expect(result).toMatch("just a test")
     })
+
+    it("uses possessive message", () => {
+        const result = presenter.resultMessage(default_manager)
+
+        expect(result).toMatch(/their \[opposed test\]\(\w+\) against/)
+      })
   })
 
-  describe("with winner", () => {
-    beforeEach(() => {
-      const test = default_manager.current_test
-      test.chop(attacker, "paper")
-      test.chop(defender, "scissors")
-      test.rollAll()
+  describe("with a winner", () => {
+    describe("when attacker wins", () => {
+      beforeEach(() => {
+        const test = default_manager.current_test
+        test.chop(attacker, "paper")
+        test.chop(defender, "rock")
+        test.rollAll()
+      })
+
+      it("uses possessive message", () => {
+        const result = presenter.resultMessage(default_manager)
+
+        expect(result).toMatch(/their \[opposed test\]\(\w+\) against/)
+      })
     })
 
-    it("shows the leading participant", () => {
-      const result = presenter.resultMessage(default_manager)
+    describe("when defender wins", () => {
+      beforeEach(() => {
+        const test = default_manager.current_test
+        test.chop(attacker, "paper")
+        test.chop(defender, "scissors")
+        test.rollAll()
+      })
 
-      expect(result).toMatch(/^<@testdef>/)
-    })
+      it("shows the leading participant", () => {
+        const result = presenter.resultMessage(default_manager)
 
-    it("shows win status", () => {
-      const result = presenter.resultMessage(default_manager)
+        expect(result).toMatch(/^<@testdef>/)
+      })
 
-      expect(result).toMatch("**won**")
-    })
+      it("shows win status", () => {
+        const result = presenter.resultMessage(default_manager)
 
-    it("mentions loser", () => {
-      const result = presenter.resultMessage(default_manager)
+        expect(result).toMatch("**won**")
+      })
 
-      expect(result).toMatch("against <@testatk>")
-    })
+      it("mentions loser", () => {
+        const result = presenter.resultMessage(default_manager)
 
-    it("shows description if present", () => {
-      default_manager.description = "just a test"
+        expect(result).toMatch("from <@testatk>")
+      })
 
-      const result = presenter.resultMessage(default_manager)
+      it("shows description if present", () => {
+        default_manager.description = "just a test"
 
-      expect(result).toMatch("just a test")
+        const result = presenter.resultMessage(default_manager)
+
+        expect(result).toMatch("just a test")
+      })
+
+      it("uses othering message", () => {
+        const result = presenter.resultMessage(default_manager)
+
+        expect(result).toMatch(/the \[opposed test\]\(\w+\) from/)
+      })
     })
   })
 })
