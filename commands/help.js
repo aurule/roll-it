@@ -29,14 +29,14 @@ module.exports = {
   },
   help(command_name) {
     return [
-      `The ${command_name} commands let you read about how Roll It works, and send feedback to the creator.`,
+      `The ${command_name} commands let you read about how Roll It works, and send feedback to the developer.`,
       "",
       oneLine`
         Use ${inlineCode("/help command")} and ${inlineCode("/help topic")} to read about Roll It's commands
         and general usage. Both let you pick from a list, so you don't need to memorize command or topic names.
       `,
       "",
-      `Use ${inlineCode("/help feedback")} to send feedback to the creator.`,
+      `Use ${inlineCode("/help feedback")} to send feedback to Roll It's developer.`,
       "",
       "Here are the available help topics:",
       TopicNamePresenter.list(),
