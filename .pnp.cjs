@@ -986,7 +986,7 @@ const RAW_RUNTIME_STATE =
           ["@eslint/eslintrc", "npm:3.1.0"],\
           ["ajv", "npm:6.12.6"],\
           ["debug", "virtual:c9e1a4b59e37cb479517edede3bf2093b28c0ca1a9d0e517f3c345075bd1e468980b94b4957e389116607ee7155441dfd7d09e19a4229d5d09bcf06244401590#npm:4.3.7"],\
-          ["espree", "npm:10.1.0"],\
+          ["espree", "npm:10.2.0"],\
           ["globals", "npm:14.0.0"],\
           ["ignore", "npm:5.3.2"],\
           ["import-fresh", "npm:3.3.0"],\
@@ -1059,7 +1059,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@humanfs/node", "npm:0.16.5"],\
           ["@humanfs/core", "npm:0.19.0"],\
-          ["@humanwhocodes/retry", "npm:0.3.0"]\
+          ["@humanwhocodes/retry", "npm:0.3.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1074,13 +1074,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@humanwhocodes/retry", [\
-      ["npm:0.3.0", {\
-        "packageLocation": "./.yarn/cache/@humanwhocodes-retry-npm-0.3.0-fd8faa0baa-7111ec4e09.zip/node_modules/@humanwhocodes/retry/",\
-        "packageDependencies": [\
-          ["@humanwhocodes/retry", "npm:0.3.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:0.3.1", {\
         "packageLocation": "./.yarn/cache/@humanwhocodes-retry-npm-0.3.1-9d87bf92c6-f0da1282df.zip/node_modules/@humanwhocodes/retry/",\
         "packageDependencies": [\
@@ -1760,10 +1753,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:6847541ce4a3dcf7a9a6a3e4dde955afca0e2dd6c48216b83d71222ffd93cf79a6473d48f3e37dabb82467ce0f37e8b8b4a49925ee47dda6e8922eae0b01ab6f#npm:5.3.2", {\
-        "packageLocation": "./.yarn/__virtual__/acorn-jsx-virtual-316726bcca/0/cache/acorn-jsx-npm-5.3.2-d7594599ea-4c54868fbe.zip/node_modules/acorn-jsx/",\
+      ["virtual:a85a38e94ff4153143d9118248172cf65f3ce2c8a76410901ac8f3eecd964379e6a504059514148764a5a48966df6db7724e6c01e80c5f161c6ad661ee42a01a#npm:5.3.2", {\
+        "packageLocation": "./.yarn/__virtual__/acorn-jsx-virtual-6416e6a0b3/0/cache/acorn-jsx-npm-5.3.2-d7594599ea-4c54868fbe.zip/node_modules/acorn-jsx/",\
         "packageDependencies": [\
-          ["acorn-jsx", "virtual:6847541ce4a3dcf7a9a6a3e4dde955afca0e2dd6c48216b83d71222ffd93cf79a6473d48f3e37dabb82467ce0f37e8b8b4a49925ee47dda6e8922eae0b01ab6f#npm:5.3.2"],\
+          ["acorn-jsx", "virtual:a85a38e94ff4153143d9118248172cf65f3ce2c8a76410901ac8f3eecd964379e6a504059514148764a5a48966df6db7724e6c01e80c5f161c6ad661ee42a01a#npm:5.3.2"],\
           ["@types/acorn", null],\
           ["acorn", "npm:8.12.1"]\
         ],\
@@ -2917,13 +2910,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/eslint-visitor-keys-npm-4.0.0-9098eefd77-76619f42cf.zip/node_modules/eslint-visitor-keys/",\
-        "packageDependencies": [\
-          ["eslint-visitor-keys", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.1.0", {\
         "packageLocation": "./.yarn/cache/eslint-visitor-keys-npm-4.1.0-463e4b09f7-5483ef114c.zip/node_modules/eslint-visitor-keys/",\
         "packageDependencies": [\
@@ -2933,22 +2919,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["espree", [\
-      ["npm:10.1.0", {\
-        "packageLocation": "./.yarn/cache/espree-npm-10.1.0-6847541ce4-52e6feaa77.zip/node_modules/espree/",\
-        "packageDependencies": [\
-          ["espree", "npm:10.1.0"],\
-          ["acorn", "npm:8.12.1"],\
-          ["acorn-jsx", "virtual:6847541ce4a3dcf7a9a6a3e4dde955afca0e2dd6c48216b83d71222ffd93cf79a6473d48f3e37dabb82467ce0f37e8b8b4a49925ee47dda6e8922eae0b01ab6f#npm:5.3.2"],\
-          ["eslint-visitor-keys", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:10.2.0", {\
         "packageLocation": "./.yarn/cache/espree-npm-10.2.0-a85a38e94f-2b6bfb683e.zip/node_modules/espree/",\
         "packageDependencies": [\
           ["espree", "npm:10.2.0"],\
           ["acorn", "npm:8.12.1"],\
-          ["acorn-jsx", "virtual:6847541ce4a3dcf7a9a6a3e4dde955afca0e2dd6c48216b83d71222ffd93cf79a6473d48f3e37dabb82467ce0f37e8b8b4a49925ee47dda6e8922eae0b01ab6f#npm:5.3.2"],\
+          ["acorn-jsx", "virtual:a85a38e94ff4153143d9118248172cf65f3ce2c8a76410901ac8f3eecd964379e6a504059514148764a5a48966df6db7724e6c01e80c5f161c6ad661ee42a01a#npm:5.3.2"],\
           ["eslint-visitor-keys", "npm:4.1.0"]\
         ],\
         "linkType": "HARD"\
