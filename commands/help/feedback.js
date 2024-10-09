@@ -66,7 +66,7 @@ module.exports = {
         return Completers.all(partialText)
     }
   },
-  help({command_name, ...opts}) {
+  help({ command_name, ...opts }) {
     return [
       oneLine`
         ${command_name} is an easy way to send your thoughts about Roll It to its developer. Good things,
@@ -93,7 +93,7 @@ module.exports = {
       subtext(oneLine`
         In legal language: I reserve the right to ban any user, at my sole discretion and at any time and for
         any duration, from sending messages via ${command_name}.
-      `)
+      `),
     ].join("\n")
   },
 }

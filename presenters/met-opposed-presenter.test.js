@@ -376,10 +376,10 @@ describe("resultMessage", () => {
     })
 
     it("uses possessive message", () => {
-        const result = presenter.resultMessage(default_manager)
+      const result = presenter.resultMessage(default_manager)
 
-        expect(result).toMatch(/their \[opposed test\]\(\w+\) against/)
-      })
+      expect(result).toMatch(/their \[opposed test\]\(\w+\) against/)
+    })
   })
 
   describe("with a winner", () => {

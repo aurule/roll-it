@@ -51,7 +51,7 @@ describe("execute", () => {
       feedback_help_command.execute(interaction)
 
       const feedbacks = new Feedback()
-      const messages = feedbacks.all().map(f => f.content)
+      const messages = feedbacks.all().map((f) => f.content)
       expect(messages).toContain("test message")
     })
 
@@ -62,7 +62,7 @@ describe("execute", () => {
       feedback_help_command.execute(interaction)
 
       const feedbacks = new Feedback()
-      const commands = feedbacks.all().map(f => f.commandName)
+      const commands = feedbacks.all().map((f) => f.commandName)
       expect(commands).toContain("d20")
     })
 
@@ -73,7 +73,7 @@ describe("execute", () => {
       feedback_help_command.execute(interaction)
 
       const feedbacks = new Feedback()
-      const consents = feedbacks.all().map(f => f.canReply)
+      const consents = feedbacks.all().map((f) => f.canReply)
       expect(consents).toContain(true)
     })
   })

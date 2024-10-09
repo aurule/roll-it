@@ -326,14 +326,13 @@ class MetOpposedManager {
 
           collector.stop()
           this.current_test.rollAll()
-          const boop = event
-            .update({
-              content: presenter.initialMessageSummary(this),
-              components: [],
-            })
+          const update = event.update({
+            content: presenter.initialMessageSummary(this),
+            components: [],
+          })
 
-          if (this.allow_retests) return boop.then(() => this.statusPrompt())
-          return boop.then(() => this.resultMessage())
+          if (this.allow_retests) return update.then(() => this.statusPrompt())
+          return update.then(() => this.resultMessage())
         case "relent":
           if (!this.fromDefender(event)) {
             event.deferUpdate()
@@ -647,10 +646,12 @@ class MetOpposedManager {
           if (event.user.id !== non_retester.id) break
 
           collector.stop()
-          return event.update({
-            content: presenter.retestContinueMessage(this),
-            components: [],
-          }).then(() => this.retestPrompt())
+          return event
+            .update({
+              content: presenter.retestContinueMessage(this),
+              components: [],
+            })
+            .then(() => this.retestPrompt())
         case "withdraw":
           if (event.user.id !== retester.id) {
             event.deferUpdate()
