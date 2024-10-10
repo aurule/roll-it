@@ -8,6 +8,7 @@ The command object looks like this:
 {
     name: string;                       // "command-name"
     parent?: string;                    // "parent-name"
+    replacement?: string;               // "other-command-name"
     description: string;                // "user visible description"
     type?: string;                      // "slash"
     policy?: Object|Array<Object>;      // ManagerPolicy
@@ -30,6 +31,9 @@ Requirements:
 
 * The `name` *must* be the same as used in the builder.setName() call within `data`
 * The `parent` field is required for subcommands. It must be the same as the parent command's `name`.
+* The `replacement` field indicates that this command is being replaced by the named command. Must be the name of a top-level command, not a subcommand.
+    - removes the current command from the choosable commands to deploy
+    - causes the replacement command to be deployed to all servers that have the current command
 * The `description` should be the same as used in the builder.setDescription() call
 * `type` is optional and describes the type of command: "menu" or "slash". `Undefined` is interpreted as `"slash"`.
 * `policy` is optional and contains a policy object (or array of them) for allowing access to the command. `Undefined` allows all users. This is mostly superceded by Discord's `setDefaultMemberPermissions()` method on the command builder.
