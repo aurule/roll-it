@@ -28,7 +28,7 @@ commands.global = function () {
   return this.filter((c) => c.global && !c.parent)
 }
 commands.guild = function () {
-  return this.filter((c) => !c.global && !c.parent)
+  return this.filter((c) => !(c.global || c.parent))
 }
 commands.savable = function () {
   return this.filter((c) => !!c.savable)
