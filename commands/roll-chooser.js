@@ -63,12 +63,11 @@ module.exports = {
     collector.on("collect", (event) => {
       switch (event.customId) {
         case "cancel_button":
-          event.update({
+          collector.stop()
+          return event.update({
             content: "Cancelled. Leaving server commands unchanged.",
             components: [],
           })
-          collector.stop()
-          break
         case "go_button":
           if (!selection.length) {
             event.update({
@@ -77,16 +76,17 @@ module.exports = {
             })
             break
           }
+          collector.stop()
+
           if (arrayEq(selection, deployed_commands)) {
-            event.update({
+            return event.update({
               content: "Commands match. Leaving server commands unchanged.",
               components: [],
             })
-            break
           }
-          // if selection matches deployed_commands, say no changes
+
           event.deferUpdate()
-          api.setGuildCommands(interaction.guildId, selection).then(() => {
+          return api.setGuildCommands(interaction.guildId, selection).then(() => {
             event.editReply({
               content: oneLine`
                   Updated server commands to: ${selection.join(", ")}
@@ -94,8 +94,6 @@ module.exports = {
               components: [],
             })
           })
-          collector.stop()
-          break
         case "chooser":
           event.deferUpdate()
           selection = event.values
@@ -103,13 +101,11 @@ module.exports = {
       }
     })
     collector.on("end", (_, reason) => {
-      switch (reason) {
-        case "time":
-          interaction.editReply({
-            content: "Ran out of time. Leaving server commands unchanged.",
-            components: [],
-          })
-          break
+      if (reason === "time") {
+        return interaction.editReply({
+          content: "Ran out of time. Leaving server commands unchanged.",
+          components: [],
+        })
       }
     })
   },
