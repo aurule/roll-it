@@ -93,7 +93,7 @@ module.exports = {
     )
   },
   help({ command_name }) {
-    const savable_commands = require("./index").savable()
+    const savable_commands = require("./index").savable
     return [
       oneLine`
         ${command_name} is a context menu command that helps create a new saved roll for you on this server.

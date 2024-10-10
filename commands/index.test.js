@@ -16,14 +16,14 @@ it("excludes the index", () => {
 
 describe("global collection", () => {
   it("only includes global commands", () => {
-    const global_commands = commands.global()
+    const global_commands = commands.global
 
     expect(global_commands.has("help")).toBeTruthy()
     expect(global_commands.has("fate")).toBeFalsy()
   })
 
   it("excludes subcommands", () => {
-    const global_commands = commands.global()
+    const global_commands = commands.global
 
     expect(global_commands.has("help topic")).toBeFalsy()
   })
@@ -31,27 +31,56 @@ describe("global collection", () => {
 
 describe("guild collection", () => {
   it("only includes guild commands", () => {
-    const guild_commands = commands.guild()
+    const guild_commands = commands.guild
 
     expect(guild_commands.has("help")).toBeFalsy()
     expect(guild_commands.has("fate")).toBeTruthy()
   })
 
   it("excludes subcommands", () => {
-    const guild_commands = commands.guild()
+    const guild_commands = commands.guild
 
     expect(guild_commands.has("table add")).toBeFalsy()
+  })
+})
+
+describe("deployable collection", () => {
+  it("only includes guild commands", () => {
+    const deployable_commands = commands.deployable
+
+    expect(deployable_commands.has("help")).toBeFalsy()
+    expect(deployable_commands.has("fate")).toBeTruthy()
+  })
+
+  it("excludes subcommands", () => {
+    const deployable_commands = commands.deployable
+
+    expect(deployable_commands.has("table add")).toBeFalsy()
+  })
+
+  it("excludes replaced commands", () => {
+    const deployable_commands = commands.deployable
+
+    expect(deployable_commands.has("chop")).toBeFalsy()
+  })
+})
+
+describe("savable collection", () => {
+  it("includes savable commands", () => {
+    expect(commands.savable.has("fate")).toBeTruthy()
   })
 })
 
 describe("all_choices", () => {
   it("includes top-level names", () => {
     const names = commands.all_choices.map((c) => c.name)
+
     expect(names).toContain("coin")
   })
 
   it("includes subcommand names", () => {
     const names = commands.all_choices.map((c) => c.name)
+
     expect(names).toContain("help command")
   })
 })

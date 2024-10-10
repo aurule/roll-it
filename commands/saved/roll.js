@@ -89,7 +89,7 @@ module.exports = {
     const rolls = interaction.options.getInteger("rolls") ?? 0
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const savable_commands = require("../index").savable()
+    const savable_commands = require("../index").savable
     const command = savable_commands.get(roll_detail.command)
     const target = change_target(bonus, change, command.changeable)
 

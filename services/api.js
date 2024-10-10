@@ -54,7 +54,7 @@ module.exports = {
    */
   async setGlobalCommands() {
     const commands = require("../commands")
-    const global_json = commandsToJSON(commands.global())
+    const global_json = commandsToJSON(commands.global)
 
     logger.info("Begin setting global commands")
     return client
@@ -81,7 +81,7 @@ module.exports = {
    */
   async updateGlobalCommand(commandName, commandId) {
     const commands = require("../commands")
-    const command_json = commands.globals().get(commandName).data().toJSON()
+    const command_json = commands.global.get(commandName).data().toJSON()
 
     logger.info({ command: commandName }, "Begin updating global command")
     return client
@@ -144,7 +144,7 @@ module.exports = {
    */
   async setGuildCommands(guildId, commandNames) {
     const commands = require("../commands")
-    const guild_commands = commands.guild()
+    const guild_commands = commands.guild
     let new_commands = guild_commands
     if (typeof commandNames !== "undefined") {
       new_commands = guild_commands.filter((c) => commandNames.includes(c.name))
@@ -177,7 +177,7 @@ module.exports = {
    */
   async updateGuildCommand(guildId, commandName, commandId) {
     const commands = require("../commands")
-    const command_json = commands.guild().get(commandName).data().toJSON()
+    const command_json = commands.guild.get(commandName).data().toJSON()
 
     logger.info({ guild: guildId, command: commandName }, "Begin updating guild command")
     return client

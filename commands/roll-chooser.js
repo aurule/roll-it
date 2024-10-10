@@ -26,7 +26,7 @@ module.exports = {
   },
   async execute(interaction) {
     const commands = require("./index")
-    const guild_commands = commands.guild()
+    const deployable_commands = commands.deployable
     const deployed_commands = await api
       .getGuildCommands(interaction.guildId)
       .then((res) => res.map((c) => c.name))
@@ -35,8 +35,8 @@ module.exports = {
       .setCustomId("chooser")
       .setPlaceholder("Pick one or more")
       .setMinValues(1)
-      .setMaxValues(guild_commands.size)
-      .addOptions(...CommandSelectTransformer.transform(guild_commands, deployed_commands))
+      .setMaxValues(deployable_commands.size)
+      .addOptions(...CommandSelectTransformer.transform(deployable_commands, deployed_commands))
     const picker_row = new ActionRowBuilder().addComponents(picker)
 
     const go_button = new ButtonBuilder()
@@ -110,7 +110,7 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    const guild_commands = require("./index").guild()
+    const deployable_commands = require("./index").deployable
     return [
       oneLine`
         ${command_name} sets which roll commands are available on the server.
@@ -120,7 +120,7 @@ module.exports = {
       `${command_name} can only be used by server managers.`,
       "",
       "These are the commands which you can add or remove:",
-      guild_commands
+      deployable_commands
         .filter((c) => c.type !== "menu")
         .map((c) => `• ${commandNamePresenter.present(c)} - ${c.description}`)
         .join("\n"),

@@ -29,7 +29,7 @@ module.exports = {
     return dispatch(interaction, module.exports.subcommands, "autocomplete")
   },
   help({ command_name }) {
-    const savable_commands = require("./index").savable()
+    const savable_commands = require("./index").savable
     return [
       oneLine`
         The ${command_name} commands let you save commonly used rolls and easily re-use them. Each subcommand

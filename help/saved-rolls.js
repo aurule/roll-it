@@ -9,7 +9,7 @@ module.exports = {
   title: "Saved Rolls",
   description: "How to save rolls and use them later",
   help() {
-    const savable_commands = require("../commands").savable()
+    const savable_commands = require("../commands").savable
     const saved_set = inlineCode("/saved set")
     const save_roll = italic("Save this roll")
     const roll = inlineCode("/saved roll")

@@ -157,7 +157,7 @@ module.exports = {
     )
   },
   help({ command_name, ...opts }) {
-    const savable_commands = require("../index").savable()
+    const savable_commands = require("../index").savable
     return [
       oneLine`
         ${command_name} helps create a new saved roll for you on this server by setting the name and

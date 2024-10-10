@@ -77,7 +77,7 @@ module.exports = {
 
     const change = interaction.options.getString("change")
 
-    const savable_commands = require("../index").savable()
+    const savable_commands = require("../index").savable
     const command = savable_commands.get(roll_detail.command)
     const target = change_target(adjustment, change, command.changeable)
 
