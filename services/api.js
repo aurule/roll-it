@@ -149,6 +149,14 @@ module.exports = {
     if (typeof commandNames !== "undefined") {
       new_commands = guild_commands.filter((c) => commandNames.includes(c.name))
     }
+
+    new_commands.forEach((command, key) => {
+      if(command.replacement) {
+        const replacement_command = guild_commands.get(command.replacement)
+        new_commands.ensure(command.replacement, () => replacement_command)
+      }
+    })
+
     const guild_json = commandsToJSON(new_commands)
 
     logger.info({ guild: guildId, commands: commandNames }, "Begin setting guild commands")
