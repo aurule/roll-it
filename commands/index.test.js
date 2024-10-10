@@ -87,6 +87,14 @@ describe("all_choices", () => {
 
 const command_objects = Array.from(commands.values())
 describe.each(command_objects)("minimal correctness", (command) => {
+  describe(`${pretty(command)} replacement`, () => {
+    it("is optional, names a valid command", () => {
+      const replacement_name = command.replacement
+
+      if (replacement_name) expect(commands.has(replacement_name))
+    })
+  })
+
   describe(`${pretty(command)} data`, () => {
     it("returns data", () => {
       const result = command.data()
@@ -100,6 +108,7 @@ describe.each(command_objects)("minimal correctness", (command) => {
       expect(result.name).toEqual(command.name)
     })
   })
+
   describe(`${pretty(command)} help`, () => {
     it("returns a string", () => {
       const result = command.help({ command_name: command.name })
