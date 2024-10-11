@@ -4,8 +4,6 @@ const { oneLine } = require("common-tags")
 const { logger } = require("../util/logger")
 
 function guildAnnouncementChannel(guild) {
-  if (guild.systemChannel) return guild.systemChannel
-
   return guild.channels.cache.find(
     (channel) =>
       channel.type === "GUILD_TEXT" && channel.permissionsFor(guild.me).has("SEND_MESSAGES"),
