@@ -62,3 +62,21 @@ Commands live in the `/commands` directory. Subcommands live in `/commands/<pare
 ## Error Handling
 
 The `interactionCreate` event handler catches any errors and replies with a friendly message to the user. Commands only need to catch errors if there is some special logic to apply, and can otherwise raise them up the chain.
+
+## Deprecation
+
+If a command is to be replaced by a newer one:
+
+1. Add the `replacement` attribute to the old command
+    - for guild commands, this prevents the command from appearing in the command chooser and ensures the replacement is deployed to servers using the old command
+    - for global commands, this has no immediate effect
+2. Deploy at least once for guild commands.
+3. Add a deprecation notice to the output of the old command.
+4. Convert the old command to actually call the new one, if it makes sense
+5. Remove the old command
+
+If a command is to be removed without replacement:
+
+1. Add a removal notice to the output of the command
+2. Wait a *while*
+3. Remove the old command
