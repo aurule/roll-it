@@ -25,6 +25,8 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(interaction) {
+    interaction.deferReply()
+
     const commands = require("./index")
     const deployable_commands = commands.deployable
     const deployed_commands = await api

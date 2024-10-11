@@ -1,0 +1,1 @@
+Slow API responses from Discord will no longer cause `/roll-chooser` to fail
