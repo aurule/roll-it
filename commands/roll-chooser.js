@@ -25,7 +25,7 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(interaction) {
-    interaction.deferReply()
+    await interaction.deferReply()
 
     const commands = require("./index")
     const deployable_commands = commands.deployable
@@ -51,7 +51,7 @@ module.exports = {
       .setStyle(ButtonStyle.Secondary)
     const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
 
-    const prompt = await interaction.reply({
+    const prompt = await interaction.editReply({
       content: "Choose the Roll It commands you want to make available on this server:",
       components: [picker_row, buttons_row],
       ephemeral: true,
