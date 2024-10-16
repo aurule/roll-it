@@ -52,14 +52,6 @@ As noted, you can also begin making a new saved roll with `/saved set` and suppl
 
 !> The name of the roll has a single special limitation: you, personally, cannot have two rolls in the same server with the same name.
 
-# Rolling It
-
-Once you have a saved roll, you can start using it with `/saved roll`. It takes the name of a saved roll and runs the command and options you stored. It also takes a `bonus`, which lets you add to the command's options on the fly. See the help for `/saved roll` to learn more.
-
-You can see the rolls you've saved by using the `/saved list` command. That will also warn you if you have an unfinished roll, or one whose options are no longer valid. In either case, you'll have to update the roll in order to use it.
-
-So how do you update a saved roll? By using `/saved manage` or `/saved grow`! The `/saved grow` command lets you make small changes to a roll to keep it in sync with a character sheet. The more involved `/saved manage` lets you remove or edit a roll as needed. See the help for`/saved grow` and `/saved manage` to learn more.
-
 ## Advanced Usage: The Invocation
 
 So far we've assumed that you're using both `/saved set` and _Save this roll_ in order to build your saved commands. But what if you're a power user in a rush? Well, `/saved set` has you covered. It has an advanced third option called `invocation` which lets you save a command and its options alongside the name and description for the saved roll. The only catch is that you have to type the whole command manually in a specific format, remembering the option names and everything. That's why I suggest using the _Save this roll_ command instead of entering an `invocation`.
@@ -67,3 +59,11 @@ So far we've assumed that you're using both `/saved set` and _Save this roll_ in
 ![Discord message from Roll It explaining that a new saved roll was successfully created](../_images/examples/saved-set-invocation.png)
 
 The format for an invocation looks like [`/command option:value` invocation]. So for example, [`/roll pool:2 sides:6` invocation] or [`/wod20 pool:7 difficulty:6 specialty:true` invocation] are both valid invocations. When you supply an invocation along with a name and description, the saved roll is complete and you can use it right away.
+
+# Rolling It
+
+Once you have a saved roll, you can start using it with `/saved roll`. It takes the name of a saved roll and runs the command and options you stored. It also takes a `bonus`, which lets you add to the command's options on the fly. See the help for `/saved roll` to learn more.
+
+You can see the rolls you've saved by using the `/saved list` command. That will also warn you if you have an unfinished roll, or one whose options are no longer valid. In either case, you'll have to update the roll in order to use it.
+
+So how do you update a saved roll? By using `/saved manage` or `/saved grow`! The `/saved grow` command lets you make small changes to a roll to keep it in sync with a character sheet. The more involved `/saved manage` lets you remove or edit a roll as needed. See the help for`/saved grow` and `/saved manage` to learn more.
