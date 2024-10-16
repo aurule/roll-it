@@ -2,6 +2,24 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## 1.9.3 <small>Released Oct 16, 2024</small>
+
+### Added
+
+* The `/chop` command now shows a deprecation messagecommand
+* Docs: Added version history to the website
+
+### Changed
+
+* Made wording of the final message clearer when the defender wins in `/met opposed`
+
+### Fixed
+
+* Slow API responses from Discord will no longer cause `/roll-chooser` to fail
+* Added missing timeout notices to cancel and retest prompts in `/met opposed`
+* Expired timers are all hidden now in `/met opposed`
+
+
 ## 1.9.2 <small>Released Oct 8, 2024</small>
 
 ### Added
