@@ -4,11 +4,13 @@ The FATE system uses special Fudge dice, which are six-sided and numbered -1, -1
 
 ## `/fate`
 
-Rolls a pool of 4 Fudge dice and adds up their results.
+Roll a pool of 4 Fudge dice and add up their results.
 
 * `modifier` is the number to add to the pool's sum
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /fate modifier:5

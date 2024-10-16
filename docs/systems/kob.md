@@ -6,11 +6,13 @@ This is an exceptionally elegant system. Roll a single die and explode on the hi
 
 ## `/kob`
 
-Rolls one polyhedral die: 4, 6, 8, 10, 12, 20, or 100. The highest number explodes.
+Roll one polyhedral die: 4, 6, 8, 10, 12, 20, or 100. The highest number explodes.
 
 * `modifier` is a number added to the die result.
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /kob sides:6

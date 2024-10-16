@@ -10,6 +10,8 @@ For some extended tests, what really matters is how many rolls it takes to get t
 
 ## `/wod20`
 
+Roll a number of d10s and tally the results. Has special handling for World of Darkness dice mechanics.
+
 * `pool` is the number of dice to roll
 * `difficulty` is the threshold a die needs to reach to be a success. Default 6.
 * `specialty` whether to count each ten as two successes
@@ -17,6 +19,8 @@ For some extended tests, what really matters is how many rolls it takes to get t
 * `until` is the number of successes that are desired. The roll will be repeated until that number is met, or until you've rolled `rolls` number of times.
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /wod20 pool:8
@@ -26,6 +30,8 @@ For some extended tests, what really matters is how many rolls it takes to get t
 <!-- panels:end -->
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /wod20 pool:8 specialty:True

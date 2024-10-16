@@ -10,6 +10,8 @@ Roll a 20-sided die. When `with` is either `Advantage` or `Disadvantage`, roll t
 * `with` lets you roll twice and keep the higher or lower result. Implemented for the [D&D 5e](/systems/dnd5e) system.
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /d20 modifier:6 with:Advantage
@@ -26,6 +28,8 @@ Roll a pool of 3d6. When `with` is either `Advantage` or `Disadvantage`, roll tw
 * `with` lets you roll twice and keep the higher or lower result. Implemented for the [D&D 5e](/systems/dnd5e) system.
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /curv modifier:6 with:Advantage

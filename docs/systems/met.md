@@ -4,14 +4,18 @@ The MET system makes use of two commands, `/met static` and `/met opposed`.
 
 The `/met static` command lets a user throw a rock-paper-scissors chop against a randomly-rolling opponent, suitable for static and simple tests. It can roll many such tests at once, which is handy for streamlining ST rolls or group actions.
 
-The `/met opposed` command is much more involved and starts an interactive opposed challenge against a named player. Each participant has a chance to choose what they throw and retest multiple times -- with cancels -- in order to resolve the challenge.
+The `/met opposed` command is much more involved and starts an interactive opposed challenge against a named user. Each participant has a chance to choose what they throw and retest multiple times -- with cancels -- in order to resolve the challenge.
 
 ## `/met static`
+
+Compare the user's throw against a randomly generated rock-paper-scissors throw.
 
 * `throw` is the symbol you want to use. Can be random or chosen specifically from one of rock, paper, bomb, or scissors. Default is random rock-paper-scissors.
 * `vs` is the set of symbols your virtual opponent should pick from. The default is random rock, paper, or scissors, but you can set this to random rock, bomb, or scissors to represent a more dangerous opponent. You can also set `vs` to `None`, in which case only your own symbol is shown.
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /met static
@@ -22,6 +26,8 @@ The `/met opposed` command is much more involved and starts an interactive oppos
 
 ## `/met opposed`
 
+Start an interactive challenge against another user.
+
 * `opponent` is the user you wish to challenge
 * `attribute` is the attribute used to determine total traits. One of Mental, Social, or Physical.
 * `retest` is the name of the default ability that can be used to retest a chop during this challenge
@@ -31,6 +37,8 @@ The `/met opposed` command is much more involved and starts an interactive oppos
 * `ties` is whether you have an ability that lets you automatically win a tied chop
 * `cancels` is whether you have an ability that lets you retest a chop without using an ability. Things like Orisha's Fortune, etc.
 * `use-retests` is whether retests are allowed at all
+
+Example:
 
 ```invocation
 /met opposed opponent:@RicePilaf attribute:Physical retest:brawl throw:scissors bomb:true ties:true
@@ -94,6 +102,8 @@ It also supports the `bomb` advantage, replacing the paper symbol with bomb. Thi
 * `bomb` replaces the paper result with bomb instead
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /chop

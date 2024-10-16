@@ -28,6 +28,8 @@ Roll pools of d6s, tally, and compare results. Also applies special rules logic 
 * `talent` is the type of talent in use, if any
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /drh discipline:3 pain:4 exhaustion:1 madness:1 talent:Minor Exhaustion

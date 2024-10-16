@@ -33,6 +33,8 @@ Roll a number of d10s and tally the results. Has special handling for Chronicles
 * `teamwork` turns on teamwork mode, making it easy to gather helpers' results.
 
 <!-- panels:start -->
+<!-- panels:title -->
+Example:
 <!-- div:left-panel -->
 ```invocation
 /nwod pool:8 explode:9
