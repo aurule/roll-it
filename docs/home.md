@@ -27,6 +27,8 @@ If you aren't familiar with something, you can use Roll It's built-in `/help` co
 
 If you aren't familiar with slash commands, don't worry! Discord has you covered. Check out this [help article](https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ) which explains them.
 
+If you have any feedback to send about Roll It, you can use `/help feedback` to make sure it gets to us.
+
 # Support
 
 Like Roll It? Want to help continue its development? You can [support me on Ko-fi ![ko-fi logo](../_images/KofiCoffee_112.png ':class=emoji')](https://ko-fi.com/paige2501) ! If you're feeling especially generous, a monthly subscription goes a *long* way toward paying for hosting costs.
