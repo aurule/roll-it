@@ -27,6 +27,10 @@ If you aren't familiar with something, you can use Roll It's built-in `/help` co
 
 If you aren't familiar with slash commands, don't worry! Discord has you covered. Check out this [help article](https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ) which explains them.
 
+# Support
+
+Like Roll It? Want to help continue its development? You can [support me on Ko-fi ![ko-fi logo](../_images/KofiCoffee_112.png ':class=emoji')](https://ko-fi.com/paige2501) ! If you're feeling especially generous, a monthly subscription goes a *long* way toward paying for hosting costs.
+
 # Privacy
 
 I take privacy very seriously. Roll It only requests permissions to send its own messages (used very sparingly), use application commands (to roll the dice), and use external emojis (to make the results of `/fate` look fancy). It does not collect any message contents, membership info, or anything else invasive. For the full details, see our [Privacy Policy](/privacy).
