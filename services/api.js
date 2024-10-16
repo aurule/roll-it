@@ -150,8 +150,8 @@ module.exports = {
       new_commands = guild_commands.filter((c) => commandNames.includes(c.name))
     }
 
-    new_commands.forEach((command, key) => {
-      if(command.replacement) {
+    new_commands.forEach((command) => {
+      if (command.replacement) {
         const replacement_command = guild_commands.get(command.replacement)
         new_commands.ensure(command.replacement, () => replacement_command)
       }
