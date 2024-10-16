@@ -60,7 +60,8 @@ module.exports = {
     })
 
     let full_text = injectMention(partial_message, interaction.user.id)
-    full_text += "\n" + subtext(`This command is being replaced. Use ${inlineCode("/met static")} instead.`)
+    full_text +=
+      "\n" + subtext(`This command is being replaced. Use ${inlineCode("/met static")} instead.`)
     return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
   },
   help({ command_name, ...opts }) {

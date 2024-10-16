@@ -33,7 +33,7 @@ module.exports = {
           `Have fun! Now go roll some dice!`,
         ].join("\n"),
       )
-    } catch(error) {
+    } catch (error) {
       // this is not a critical message, so just log that we couldn't send it
       logger.warn(error, "Could not send welcome message")
     }
