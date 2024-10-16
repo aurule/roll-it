@@ -1,6 +1,5 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const { presentList } = require("../../presenters/table-list-presenter")
-const { longReply } = require("../../util/long-reply")
 const { GuildRollables } = require("../../db/rollable")
 
 module.exports = {
@@ -15,8 +14,11 @@ module.exports = {
     const tables = new GuildRollables(interaction.guildId)
 
     const full_text = presentList(tables.all())
-
-    return longReply(interaction, full_text, { separator: "\n", ephemeral: true })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n",
+      ephemeral: true,
+    })
   },
   help({ command_name }) {
     return `${command_name} shows the tables that are available on this server.`

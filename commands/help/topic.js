@@ -1,7 +1,6 @@
 const { SlashCommandSubcommandBuilder, heading } = require("discord.js")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const Topics = require("../../help")
-const { longReply } = require("../../util/long-reply")
 
 module.exports = {
   name: "topic",
@@ -30,7 +29,10 @@ module.exports = {
     if (!topic) return interaction.whisper(`No help is available for the topic "${topic_name}"`)
 
     const full_text = heading(topic.title) + "\n" + topic.help()
-    return longReply(interaction, full_text, { ephemeral: true })
+    return interaction.paginate({
+      content: full_text,
+      ephemeral: true,
+    })
   },
   help() {
     return ["Here are the available help topics:", TopicNamePresenter.list()].join("\n")

@@ -10,7 +10,6 @@ const { oneLine } = require("common-tags")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
 const { presentContents } = require("../../presenters/table-contents-presenter")
-const { splitMessage } = require("../../util/long-reply")
 
 module.exports = {
   name: "manage",
@@ -78,16 +77,11 @@ module.exports = {
             `These are the entries in the ${italic(detail.name)} table:\n` +
             presentContents(detail.contents)
 
-          const split_contents = splitMessage(full_text, "\n")
-
-          for (const msg of split_contents) {
-            interaction.followUp({
-              content: msg,
-              ephemeral: true,
-            })
-          }
-
-          return interaction
+          return interaction.paginate({
+            content: full_text,
+            split_on: "\n",
+            ephemeral: true,
+          })
         case "remove":
           const remove_cancel = new ButtonBuilder()
             .setCustomId("remove_cancel")

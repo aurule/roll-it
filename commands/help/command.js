@@ -1,7 +1,6 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const CommandHelpPresenter = require("../../presenters/command-help-presenter")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
-const { longReply } = require("../../util/long-reply")
 const Completers = require("../../completers/command-completers")
 
 module.exports = {
@@ -29,7 +28,10 @@ module.exports = {
       return interaction.whisper(`No help is available for the command "${command_name}"`)
 
     const full_text = CommandHelpPresenter.present(command)
-    return longReply(interaction, full_text, { ephemeral: true })
+    return interaction.paginate({
+      content: full_text,
+      ephemeral: true,
+    })
   },
   async autocomplete(interaction) {
     const focusedOption = interaction.options.getFocused(true)

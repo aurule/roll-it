@@ -2,6 +2,7 @@
 require("dotenv").config()
 
 require("./patches/whisper").patch()
+require("./patches/paginate").patch()
 
 const { version } = require("./package.json")
 

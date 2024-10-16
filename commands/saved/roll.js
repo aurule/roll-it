@@ -1,7 +1,6 @@
 const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { added } = require("../../presenters/addition-presenter")
-const { longReply } = require("../../util/long-reply")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const commonOpts = require("../../util/common-options")
 const present_command = require("../../presenters/command-name-presenter").present
@@ -132,7 +131,11 @@ module.exports = {
 
     const partial_message = command.perform(roll_detail.options)
     const full_text = injectMention(partial_message, interaction.user.id)
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n\t",
+      ephemeral: secret,
+    })
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

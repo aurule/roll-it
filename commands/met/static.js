@@ -1,7 +1,6 @@
 const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
-const { longReply } = require("../../util/long-reply")
 const commonOpts = require("../../util/common-options")
 const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
@@ -51,7 +50,11 @@ module.exports = {
       description: roll_description,
     })
     const full_text = injectMention(partial_message, interaction.user.id)
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n\t",
+      ephemeral: secret,
+    })
   },
   help({ command_name, ...opts }) {
     return [

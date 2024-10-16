@@ -9,7 +9,6 @@ const { present } = require("../presenters/nwod-results-presenter")
 const { handleTeamwork } = require("../services/teamwork-manager")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
 
 module.exports = {
@@ -212,8 +211,11 @@ module.exports = {
       description: roll_description,
     })
     const full_text = injectMention(partial_message, userFlake)
-
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n\t",
+      ephemeral: secret,
+    })
   },
   help({ command_name, ...opts }) {
     return [

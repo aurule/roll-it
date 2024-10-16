@@ -7,7 +7,6 @@ const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
 
 module.exports = {
@@ -79,7 +78,11 @@ module.exports = {
       description: roll_description,
     })
     const full_text = injectMention(partial_message, interaction.user.id)
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n\t",
+      ephemeral: secret,
+    })
   },
   help({ command_name, ...opts }) {
     return oneLine`

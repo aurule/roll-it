@@ -1,7 +1,6 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const Completers = require("../../completers/table-completers")
 const { present } = require("../../presenters/table-results-presenter")
-const { longReply } = require("../../util/long-reply")
 const { GuildRollables } = require("../../db/rollable")
 
 const commonOpts = require("../../util/common-options")
@@ -50,7 +49,11 @@ module.exports = {
       results,
       description: roll_description,
     })
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n\t",
+      ephemeral: secret,
+    })
   },
   async autocomplete(interaction) {
     const tables = new GuildRollables(interaction.guildId)

@@ -6,7 +6,6 @@ const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/chop-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
 
 module.exports = {
@@ -62,7 +61,11 @@ module.exports = {
     let full_text = injectMention(partial_message, interaction.user.id)
     full_text +=
       "\n" + subtext(`This command is being replaced. Use ${inlineCode("/met static")} instead.`)
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n\t",
+      ephemeral: secret,
+    })
   },
   help({ command_name, ...opts }) {
     return [

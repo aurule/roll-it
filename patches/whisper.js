@@ -8,9 +8,17 @@ module.exports = {
   /**
    * Create the whisper method
    */
-  patch() {
-    CommandInteraction.prototype.whisper = function (content) {
-      this.reply({
+  patch(klass) {
+    if (!klass) klass = CommandInteraction
+
+    /**
+     * Reply with an ephemeral message
+     *
+     * @param  {str}     content The message contents to send
+     * @return {Promise}         Interaction response promise
+     */
+    klass.prototype.whisper = function (content) {
+      return this.reply({
         content,
         ephemeral: true,
       })

@@ -13,7 +13,6 @@ const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/drh-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { longReply } = require("../util/long-reply")
 const { injectMention } = require("../util/inject-user")
 const { DrhPool } = require("../util/rolls/drh-pool")
 
@@ -156,7 +155,11 @@ module.exports = {
     })
 
     const full_text = injectMention(partial_message, interaction.user.id)
-    return longReply(interaction, full_text, { separator: "\n\t", ephemeral: secret })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n\t",
+      ephemeral: secret,
+    })
   },
   help({ command_name, ...opts }) {
     return [

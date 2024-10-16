@@ -1,6 +1,5 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const { presentList } = require("../../presenters/saved-roll-presenter")
-const { longReply } = require("../../util/long-reply")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 
 module.exports = {
@@ -15,8 +14,11 @@ module.exports = {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
     const full_text = presentList(saved_rolls.all())
-
-    return longReply(interaction, full_text, { separator: "\n", ephemeral: true })
+    return interaction.paginate({
+      content: full_text,
+      split_on: "\n",
+      ephemeral: true,
+    })
   },
   help() {
     return [
