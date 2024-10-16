@@ -1,8 +1,10 @@
-const { hideLinkEmbed } = require("discord.js")
+const { hideLinkEmbed, hyperlink } = require("discord.js")
 const fs = require("fs")
 const path = require("path")
+const { oneLine } = require("common-tags")
 
 const { version } = require("../package.json")
+const { siteLink } = require("../util/site-link")
 
 function getChangelog(changelog_version) {
   try {
@@ -21,7 +23,10 @@ module.exports = {
       `Roll It is on version ${version}. Here's what's new!`,
       "",
       getChangelog(version),
-      `Older change logs can be found on github: ${hideLinkEmbed("https://github.com/aurule/roll-it/tree/master/changelog")}`,
+      oneLine`
+        Older change logs can be found on ${siteLink("Roll It's website", "/versions")} or on
+        ${hyperlink("github", hideLinkEmbed("https://github.com/aurule/roll-it/tree/master/changelog"))}
+      `,
     ].join("\n")
   },
 

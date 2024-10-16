@@ -21,8 +21,10 @@
     + [Flip a Coin](/fun/coin)
     + [Magic 8 Ball](/fun/8ball)
 
+- [Versions](/versions "Version History | Roll It Docs")
 
 - [Support Roll It ![ko-fi logo](../_images/KofiCoffee_112.png ':class=emoji')](https://ko-fi.com/paige2501)
+
 - Legal
 
     + [License](/license "License | Roll It Docs")
