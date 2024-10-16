@@ -15,7 +15,7 @@ Here are the supported systems:
 * [Kids On Bikes](/systems/kob) with `/kob`
 * [Shadowrun](/systems/shadowrun) 4e, 5e, and 6e with `/shadowrun`
 
-## Command Options
+## Common Options
 
 Each command has its own options to specify things like the number of dice, how many sides they have, or system-specific rules. They all also have the following shared options:
 
