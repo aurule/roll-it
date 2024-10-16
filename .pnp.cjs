@@ -38,9 +38,9 @@ const RAW_RUNTIME_STATE =
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.2.0"],\
           ["nodemon", "npm:3.1.7"],\
-          ["pino", "npm:9.4.0"],\
+          ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:11.2.2"],\
+          ["pino-pretty", "npm:11.3.0"],\
           ["prettier", "npm:3.3.3"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
@@ -5106,14 +5106,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.4.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.4.0-ddd67db852-12a3d74968.zip/node_modules/pino/",\
+      ["npm:9.5.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-9.5.0-c25201092d-b06590c5f4.zip/node_modules/pino/",\
         "packageDependencies": [\
-          ["pino", "npm:9.4.0"],\
+          ["pino", "npm:9.5.0"],\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino-abstract-transport", "npm:1.2.0"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
           ["pino-std-serializers", "npm:7.0.0"],\
           ["process-warning", "npm:4.0.0"],\
           ["quick-format-unescaped", "npm:4.0.4"],\
@@ -5126,11 +5126,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-abstract-transport", [\
-      ["npm:1.2.0", {\
-        "packageLocation": "./.yarn/cache/pino-abstract-transport-npm-1.2.0-8567d0d819-b4ab59529b.zip/node_modules/pino-abstract-transport/",\
+      ["npm:2.0.0", {\
+        "packageLocation": "./.yarn/cache/pino-abstract-transport-npm-2.0.0-696dba31d0-02c05b8f2f.zip/node_modules/pino-abstract-transport/",\
         "packageDependencies": [\
-          ["pino-abstract-transport", "npm:1.2.0"],\
-          ["readable-stream", "npm:4.5.2"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
           ["split2", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\
@@ -5154,10 +5153,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
-      ["npm:11.2.2", {\
-        "packageLocation": "./.yarn/cache/pino-pretty-npm-11.2.2-32484c2dea-3ce1769907.zip/node_modules/pino-pretty/",\
+      ["npm:11.3.0", {\
+        "packageLocation": "./.yarn/cache/pino-pretty-npm-11.3.0-340ad11955-8e4d842bfc.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
-          ["pino-pretty", "npm:11.2.2"],\
+          ["pino-pretty", "npm:11.3.0"],\
           ["colorette", "npm:2.0.20"],\
           ["dateformat", "npm:4.6.3"],\
           ["fast-copy", "npm:3.0.2"],\
@@ -5166,7 +5165,7 @@ const RAW_RUNTIME_STATE =
           ["joycon", "npm:3.1.1"],\
           ["minimist", "npm:1.2.8"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino-abstract-transport", "npm:1.2.0"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
           ["pump", "npm:3.0.0"],\
           ["readable-stream", "npm:4.5.2"],\
           ["secure-json-parse", "npm:2.7.0"],\
@@ -5534,9 +5533,9 @@ const RAW_RUNTIME_STATE =
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:13.2.0"],\
           ["nodemon", "npm:3.1.7"],\
-          ["pino", "npm:9.4.0"],\
+          ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:11.2.2"],\
+          ["pino-pretty", "npm:11.3.0"],\
           ["prettier", "npm:3.3.3"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
