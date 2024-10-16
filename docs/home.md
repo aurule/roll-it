@@ -11,7 +11,7 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 * Rolling random results on [custom tables](/features/tables)
 * And more!
 
-> One of the best things about Roll It is its ability to repeat a roll many times over. It's invaluable when I'm running a game and comes in handy when I'm playing a crafter, too. See the `rolls` option — and sometimes the `until` option — of a roller you're interested in to learn more.
+> One of the best things about Roll It is its ability to repeat a roll many times over. It's invaluable when I'm running a game and comes in handy when I'm playing a crafter, too. See the `rolls` [common option](/systems?id=common-options) — and sometimes the `until` option — of a roller you're interested in to learn more.
 
 ## Quick Start
 
