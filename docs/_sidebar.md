@@ -20,7 +20,6 @@
 
     + [Flip a Coin](/fun/coin)
     + [Magic 8 Ball](/fun/8ball)
-    + [Rock-Paper-Scissors](/fun/rps)
 
 - Legal
 
