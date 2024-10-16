@@ -29,4 +29,4 @@ If you aren't familiar with slash commands, don't worry! Discord has you covered
 
 # Privacy
 
-I take privacy very seriously. Roll It only requests permissions to accept slash commands (to roll the dice) and show custom emojis (to make the results of `/fate` look fancy). No message contents, no membership info, and nothing invasive.
+I take privacy very seriously. Roll It only requests permissions to send its own messages (used very sparingly), use application commands (to roll the dice), and use external emojis (to make the results of `/fate` look fancy). It does not collect any message contents, membership info, or anything else invasive. For the full details, see our [Privacy Policy](/privacy).
