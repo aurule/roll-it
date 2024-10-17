@@ -1,5 +1,5 @@
 const changesTopic = require("./recent-changes")
-const { version } = require("../package.json")
+const { version } = require("../../package.json")
 
 describe("getChangelog", () => {
   it("reads changelog file when present", () => {

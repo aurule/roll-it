@@ -1,6 +1,6 @@
 const { SlashCommandSubcommandBuilder, heading } = require("discord.js")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
-const Topics = require("../../help")
+const topics = require("../../data").help_topics
 
 module.exports = {
   name: "topic",
@@ -15,7 +15,7 @@ module.exports = {
           .setName("topic")
           .setDescription("The topic you want help with")
           .setChoices(
-            ...Topics.map((t) => {
+            ...topics.map((t) => {
               return { name: `${t.title}`, value: `${t.name}` }
             }),
           )
@@ -25,7 +25,7 @@ module.exports = {
   execute(interaction) {
     const topic_name = interaction.options.getString("topic") ?? ""
 
-    const topic = Topics.get(topic_name)
+    const topic = topics.get(topic_name)
     if (!topic) return interaction.whisper(`No help is available for the topic "${topic_name}"`)
 
     const full_text = heading(topic.title) + "\n" + topic.help()

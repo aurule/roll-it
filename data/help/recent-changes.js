@@ -3,12 +3,12 @@ const fs = require("fs")
 const path = require("path")
 const { oneLine } = require("common-tags")
 
-const { version } = require("../package.json")
-const { siteLink } = require("../util/site-link")
+const { version } = require("../../package.json")
+const { siteLink } = require("../../util/site-link")
 
 function getChangelog(changelog_version) {
   try {
-    return fs.readFileSync(path.join(__dirname, "../changelog", `${changelog_version}.md`))
+    return fs.readFileSync(path.join(__dirname, "../../changelog", `${changelog_version}.md`))
   } catch {
     return `no changelog for ${changelog_version}`
   }

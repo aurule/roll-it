@@ -1,6 +1,7 @@
 const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
-const commandNamePresenter = require("../presenters/command-name-presenter")
+
+const commandNamePresenter = require("../../presenters/command-name-presenter")
 
 module.exports = {
   name: "commands",

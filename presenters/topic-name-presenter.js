@@ -7,7 +7,7 @@ const { italic } = require("discord.js")
  * @return {str}                   Markdown-formatted string of all topics
  */
 function list(all_topics) {
-  const topics = all_topics ?? require("../help")
+  const topics = all_topics ?? require("../data").help_topics
   return topics.map((t) => `* ${italic(t.title)} - ${t.description}`).join("\n")
 }
 

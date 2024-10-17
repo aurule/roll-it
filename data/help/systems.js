@@ -1,15 +1,15 @@
 const { inlineCode, italic, unorderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 
-const { present } = require("../presenters/command-name-presenter")
-const { siteLink } = require("../util/site-link")
+const { present } = require("../../presenters/command-name-presenter")
+const { siteLink } = require("../../util/site-link")
 
 module.exports = {
   name: "systems",
   title: "Dice Systems",
   description: "The dice mechanics that Roll It supports",
   help() {
-    const commands = require("../commands")
+    const commands = require("../../commands")
     const cmd = commands.mapValues(present)
     return [
       oneLine`
