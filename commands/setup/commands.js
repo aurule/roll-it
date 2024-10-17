@@ -34,7 +34,6 @@ module.exports = {
     const deployed_command_names = await api
       .getGuildCommands(interaction.guildId)
       .then((res) => res.map((c) => c.name))
-    deployed_command_names.push("chop")
 
     const picker = new StringSelectMenuBuilder()
       .setCustomId("chooser")
