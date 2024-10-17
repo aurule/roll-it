@@ -14,6 +14,7 @@ commands.guild = new Collection()
 commands.deployable = new Collection()
 commands.savable = new Collection()
 commands.all_choices = []
+commands.deprecated = new Collection()
 
 const contents = fs
   .readdirSync(commandsDir)
@@ -44,7 +45,10 @@ contents.forEach((command_file) => {
     commands.global.set(command.name, command)
   } else {
     commands.guild.set(command.name, command)
-    if (!command.replacement) commands.deployable.set(command.name, command)
+    if (!command.hidden) {
+      if (command.replacement) commands.deprecated.set(command.name, command)
+      else commands.deployable.set(command.name, command)
+    }
   }
 })
 
