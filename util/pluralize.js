@@ -1,4 +1,9 @@
-const exceptions = new Map([["die", "dice"]])
+const exceptions = new Map([
+  ["die", "dice"],
+  ["it", "they"],
+  ["is", "are"],
+  ["does", "do"],
+])
 
 module.exports = {
   exceptions,
