@@ -13,6 +13,7 @@ The command object looks like this:
     type?: string;                      // "slash"
     policy?: Object|Array<Object>;      // ManagerPolicy
     global?: bool;                      // Whether the command is a global command or a guild command
+    hidden?: bool;                      // Whether it's hidden from the rest of the UI
     subcommands?: Collection<Object>;   // Collection of subcommand objects
     data(options?): Builder;            // SlashCommandBuilder
     savable?: boolean;                  // Whether this command can be saved
