@@ -5,6 +5,6 @@ module.exports = {
   commands: {
     required: ["d20"],
     recommended: ["roll-formula", "d100"],
-    optional: ["curv"],
+    optional: ["curv", "table"],
   },
 }

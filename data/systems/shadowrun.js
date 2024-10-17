@@ -4,5 +4,6 @@ module.exports = {
   notes: "Handles glitches, the rule of six, and has an interactive teamwork mode.",
   commands: {
     required: ["shadowrun"],
+    recommended: ["roll-formula"],
   },
 }
