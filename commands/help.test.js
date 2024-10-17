@@ -56,6 +56,6 @@ describe("help", () => {
   it("includes command names", () => {
     const help_text = help_command.help({})
 
-    expect(help_text).toMatch("roll-chooser")
+    expect(help_text).toMatch("fate")
   })
 })
