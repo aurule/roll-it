@@ -144,12 +144,11 @@ module.exports = {
       leader_prompt.delete()
 
       if (event.customId == "cancel_button") {
-        helper_prompt.edit({
+        return helper_prompt.edit({
           content: teamworkPresenter.helperCancelledMessage(userFlake, description),
           components: [],
           embeds: [],
         })
-        return
       }
 
       const bonuses = bonusesFromSelections(helper_bonuses)
