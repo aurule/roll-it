@@ -100,6 +100,7 @@ module.exports = {
       content: teamworkPresenter.helperPromptMessage(userFlake, description),
       components: [picker_row],
       fetchReply: true,
+      allowedMentions: {},
     })
 
     const helper_bonuses = new Collection()
