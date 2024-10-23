@@ -22,8 +22,13 @@ module.exports = {
     lines.push(
       oneLine`
         . If you are assisting them, choose the number of dice you're adding to their pool from the menu. If
-        you are adding more than ten dice, choose multiple bonuses. Dice can be added until
-        ${user_ref} rolls, or ${time(expiry, TimestampStyles.RelativeTime)}.
+        you are adding more than ten dice, choose multiple bonuses.
+      `,
+      "\n",
+      oneLine`
+        Any helpers that ${user_ref} specifically requests will be shown below along with whether or not they
+        have responded. Dice can be added until ${user_ref} rolls. The roll will be made automatically
+        ${time(expiry, TimestampStyles.RelativeTime)}.
       `,
     )
     return lines.join("")
@@ -82,16 +87,16 @@ module.exports = {
   },
   leaderPromptMessage(userFlake) {
     const expiry = new Date(Date.now() + timeout_ms)
-    const lines = [
-      "When your helpers are finished, ",
-      userMention(userFlake),
-      ", click ",
-      inlineCode("Roll It!"),
-      " to roll the final pool. The roll will happen automatically ",
-      time(expiry, TimestampStyles.RelativeTime),
-      ". If there are a few specific people whose help you need, select them here to notify them.",
-    ]
-    return lines.join("")
+    return [
+      oneLine`
+        You have started a teamwork roll, ${userMention(userFlake)}. When your helpers are finished, click
+        the ${inlineCode("Roll It!")} button on this message to make your roll using any bonuses they added.
+      `,
+      oneLine`
+        The roll will happen automatically ${time(expiry, TimestampStyles.RelativeTime)}. If there are a few
+        specific people whose help you need, select them here and their status will be added to the prompt.
+      `
+    ].join("\n")
   },
   teamworkSummaryMessage(leaderRollSummary, promptMessage) {
     const lines = [
