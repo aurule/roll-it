@@ -2,11 +2,20 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## 1.9.4 <small>Released Oct 23, 2024</small>
+
+### Fixed
+
+* Message from `/roll-chooser` is back to only being visible to the command's user
+* Teamwork mode properly tallies helper results and correctly rolls the final pool for nwod
+* Docs: Incorrect url in one of the changelog notes
+* Docs: Fixed typo in changelog notes for 1.9.3
+
 ## 1.9.3 <small>Released Oct 16, 2024</small>
 
 ### Added
 
-* The `/chop` command now shows a deprecation messagecommand
+* The `/chop` command now shows a deprecation message
 * Docs: Added version history to the website
 
 ### Changed

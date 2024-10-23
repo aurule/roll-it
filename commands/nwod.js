@@ -176,14 +176,16 @@ module.exports = {
         userFlake,
         description: roll_description,
         initialPool: pool,
-        roller: (final_pool) =>
-          roll({
+        roller: (final_pool) => {
+          const options = new NwodRollOptions({
             pool: final_pool,
             explode,
-            threshold,
             rote,
+            threshold,
             rolls,
-          }),
+          })
+          return roll(options)
+        },
         summer: (raw_results) => successes(raw_results, threshold),
         presenter: (final_pool, raw_results, summed_results) =>
           present({

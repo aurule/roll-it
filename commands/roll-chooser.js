@@ -27,7 +27,7 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(interaction) {
-    await interaction.deferReply()
+    await interaction.deferReply({ ephemeral: true })
 
     const commands = require("./index")
     const deployable_commands = commands.deployable
@@ -66,7 +66,6 @@ module.exports = {
     const prompt = await interaction.editReply({
       content: prompt_content,
       components: [picker_row, buttons_row],
-      ephemeral: true,
     })
 
     let selection = deployed_commands
