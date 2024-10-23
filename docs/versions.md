@@ -6,7 +6,7 @@ These are the change logs for Roll It, from newest to oldest. You can also find 
 
 ### Added
 
-* The `/chop` command now shows a deprecation messagecommand
+* The `/chop` command now shows a deprecation message
 * Docs: Added version history to the website
 
 ### Changed
