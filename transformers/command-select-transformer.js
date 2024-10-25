@@ -9,9 +9,9 @@ module.exports = {
   transform: (commands, deployed = []) => {
     return commands.map((command) => {
       return {
-        label: `${command.name}`,
-        description: `${command.description}`,
-        value: `${command.name}`,
+        label: command.name,
+        description: command.description,
+        value: command.name,
         default: deployed.includes(command.name),
       }
     })

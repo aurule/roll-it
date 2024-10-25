@@ -1,4 +1,6 @@
-const { SlashCommandSubcommandBuilder,
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
   ActionRowBuilder,
   StringSelectMenuBuilder,
   ButtonStyle,
@@ -8,40 +10,71 @@ const { SlashCommandSubcommandBuilder,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 
-const api = require("../../services/api")
-const present_command = require("../../presenters/command-name-presenter").present
-const CommandSelectTransformer = require("../../transformers/command-select-transformer")
-const { inline } = require("../../util/inline-list")
-const { capitalize } = require("../../util/capitalize")
-const { arrayEq } = require("../../util/array-eq")
+const commandNamePresenter = require("../presenters/command-name-presenter")
+const CommandSelectTransformer = require("../transformers/command-select-transformer")
+const SystemSelectTransformer = require("../transformers/system-select-transformer")
+const api = require("../services/api")
+const { arrayEq } = require("../util/array-eq")
+const { systems } = require("../data")
 
 module.exports = {
-  name: "commands",
-  parent: "setup",
-  description: "Set available commands exactly as you like",
+  name: "setup-roll-it",
+  description: "Set up Roll It with the commands you need",
+  // global: true,
+  global: false,
   data() {
-    return new SlashCommandSubcommandBuilder()
+    return new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
+      .setDMPermission(false)
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: true })
 
-    const commands = require("../index")
+    const commands = require("./index")
     const deployable_commands = commands.deployable
     const deprecated_commands = commands.deprecated
+    const deployed_system_names = [] // systems whose required command(s) appear in deployed_command_names
 
     const deployed_command_names = await api
       .getGuildCommands(interaction.guildId)
       .then((res) => res.map((c) => c.name))
 
-    const picker = new StringSelectMenuBuilder()
-      .setCustomId("chooser")
-      .setPlaceholder("Pick one or more")
-      .setMinValues(1)
+    // prompt for systems as well as for systems
+
+    // handling for systems
+    // make a picker
+    // select systems based on whether the deployed commands include the system's required commands
+    // selector for non-system commands
+
+    // add deprecation warning
+
+    // handle the prompt collector
+    // on select, set based on selected systems' required and recommended commands, plus fun things
+    // on go, set commands
+
+    // prompt to select systems
+    // set required and recommended commands
+    // offer to set optional commands, too
+    // only remove commands from the deploy list if they were removed due to user deselection of systems
+
+
+    const system_picker = new StringSelectMenuBuilder()
+      .setCustomId("system_picker")
+      .setPlaceholder("Choose game systems")
+      .setMinValues(0)
+      .setMaxValues(systems.size)
+      .addOptions(SystemSelectTransformer.transform(systems, deployed_system_names))
+    const system_row = new ActionRowBuilder().addComponents(system_picker)
+
+    const command_picker = new StringSelectMenuBuilder()
+      .setCustomId("command_picker")
+      .setPlaceholder("Choose individual commands")
+      .setMinValues(0)
       .setMaxValues(deployable_commands.size)
       .addOptions(...CommandSelectTransformer.transform(deployable_commands, deployed_command_names))
-    const picker_row = new ActionRowBuilder().addComponents(picker)
+    const command_row = new ActionRowBuilder().addComponents(command_picker)
 
     const go_button = new ButtonBuilder()
       .setCustomId("go_button")
@@ -53,7 +86,10 @@ module.exports = {
       .setStyle(ButtonStyle.Secondary)
     const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
 
-    let prompt_content = "Choose the Roll It commands you want to make available on this server:"
+    let prompt_content = oneLine`
+      Choose a game system to add all of its relevant commands to the server. Use the second picker to add or
+      remove individual commands.
+    `
     if (deprecated_commands.hasAny(deployed_command_names)) {
       const replaced = deprecated_commands.filter((c) => deployed_command_names.includes(c.name))
 
@@ -74,7 +110,7 @@ module.exports = {
     }
     const prompt = await interaction.editReply({
       content: prompt_content,
-      components: [picker_row, buttons_row],
+      components: [system_row, command_row, buttons_row],
     })
 
     let selection = deployed_command_names
@@ -116,9 +152,10 @@ module.exports = {
               components: [],
             })
           })
-        case "chooser":
+        case "command_picker":
           event.deferUpdate()
           selection = event.values
+          // update both select menus in the prompt
           break
       }
     })
@@ -132,12 +169,12 @@ module.exports = {
     })
   },
   help({ command_name }) {
-    const deployable_commands = require("../index").deployable
+    const deployable_commands = require("./index").deployable
     return [
       oneLine`
         Since Roll It has so many rollers, it can be helpful to only make specific ones available on your
-        server. ${command_name} directly sets which roll commands are available. To set them based on game
-        systems, use ${inlineCode("/setup systems")}.
+        server. ${command_name} lets you change which ones can be used. Use it when you first add Roll It,
+        and any time you want to add or remove commands.
       `,
       "",
       `${command_name} can only be used by server managers.`,
@@ -145,7 +182,7 @@ module.exports = {
       "These are the commands which you can add or remove:",
       deployable_commands
         .filter((c) => c.type !== "menu")
-        .map((c) => `• ${present_command(c)} - ${c.description}`)
+        .map((c) => `• ${commandNamePresenter.present(c)} - ${c.description}`)
         .join("\n"),
     ].join("\n")
   },

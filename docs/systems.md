@@ -2,7 +2,7 @@
 
 Roll It has commands to roll dice for various game systems, in addition to plain dice (see the [Generic section](/systems/generic)).
 
-Since Roll It has commands for so many dice systems, you should probably use the `/roll-chooser` command to pick which ones are available on your server. This command is only available to server managers by default, but they can change that as they want.
+Since Roll It has commands for so many dice systems, you should use the `/setup-roll-it` command to pick which ones are available on your server. This command is only available to server managers by default, but they can change that as they want.
 
 Here are the supported systems:
 

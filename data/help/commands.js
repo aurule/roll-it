@@ -27,7 +27,7 @@ module.exports = {
       "",
       oneLine`
         Server managers can set which roll commands are available. See the help for the
-        ${inlineCode("/roll-chooser")} command to learn more.
+        ${inlineCode("/setup-roll-it")} command to learn more.
       `,
       "",
       "Here are all of the commands that Roll It knows:",

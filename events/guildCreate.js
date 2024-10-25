@@ -25,7 +25,7 @@ module.exports = {
         [
           oneLine`
           You've added Roll It! It's full of dice. ${italic("So many dice.")} Admins, please use the
-          ${inlineCode("/roll-chooser")} command to set which dice rollers are availble on this server. You can
+          ${inlineCode("/setup-roll-it")} command to set which dice rollers are availble on this server. You can
           use ${inlineCode("/help topic:Dice Systems")} to see what Roll It supports if you aren't sure what
           will suit your needs. If you want to know more about a command, use ${inlineCode("/help command")} to
           read up on it.`,
