@@ -15,7 +15,13 @@ module.exports = {
    * @return {str}       Inline string representation of the array
    */
   inline(arr) {
-    let content = arr.slice(0, arr.length - 1).join(", ")
+    const length = arr.length
+
+    if (!length) return ""
+    if (length === 1) return arr[0]
+    if (length === 2) return arr.join(" and ")
+
+    let content = arr.slice(0, length - 1).join(", ")
     content += ", and "
     content += arr.at(-1)
     return content
