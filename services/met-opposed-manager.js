@@ -12,7 +12,7 @@ const presenter = require("../presenters/met-opposed-presenter")
 const Participant = require("./met-opposed/participant")
 const TestRecorder = require("./met-opposed/test-recorder")
 
-const STEP_TIMEOUT = 300_000 // 5 minute timeout per prompt
+const STEP_TIMEOUT = 600_000 // 10 minute timeout per prompt
 
 /**
  * Class to manage the state of an opposed challenge
