@@ -1,6 +1,6 @@
 const { arrayEq } = require("./array-eq")
 
-it("returns true for identical objects", () => {
+it("returns true for self", () => {
   const arr1 = [1, 2, 3]
 
   const result = arrayEq(arr1, arr1)
