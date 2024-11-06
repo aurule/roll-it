@@ -642,8 +642,10 @@ class MetOpposedManager {
             })
             .then(() => this.retestCancelMessage())
         case "continue":
-          event.deferUpdate()
-          if (event.user.id !== non_retester.id) break
+          if (event.user.id !== non_retester.id) {
+            event.deferUpdate()
+            break
+          }
 
           collector.stop()
           return event
