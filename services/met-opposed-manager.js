@@ -481,7 +481,7 @@ class MetOpposedManager {
       fetchReply: true,
     })
 
-    let retest_reason
+    let retest_reason = new Collection()
     const collector = prompt.createMessageComponentCollector({
       time: STEP_TIMEOUT,
     })
@@ -493,7 +493,7 @@ class MetOpposedManager {
             break
           }
 
-          if (!retest_reason) {
+          if (!retest_reason.has(event.user.id)) {
             event.update({
               content: presenter.statusPrompt(
                 this,
@@ -505,7 +505,7 @@ class MetOpposedManager {
 
           collector.stop()
           const retester = this.participants.get(event.user.id)
-          const retest = this.test_recorder.addRetest(retester, retest_reason)
+          const retest = this.test_recorder.addRetest(retester, retest_reason.get(event.user.id))
           this.interaction = event
           return event
             .update({
@@ -534,7 +534,7 @@ class MetOpposedManager {
           if (!this.fromParticipant(event)) {
             break
           }
-          retest_reason = event.values[0]
+          retest_reason.set(event.user.id, event.values[0])
           break
       }
     })
