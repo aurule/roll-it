@@ -356,14 +356,18 @@ function retestContinueMessage(manager) {
 /**
  * Get the text for the retest message
  *
- * This shows the chop request status of each user using the `throws` arg.
+ * This shows the chop request status of each user using the `responses` map. Each key of `responses` must
+ * be a keyword:
+ * - "choice" for selection made, but Throw button not clicked
+ * - "commit" for selection made and Throw button clicked
+ * - any other value for no selection made and no button clicked
  *
  * @param  {MetOpposedManager} manager       Object controlling information about the challenge
- * @param  {Collection}        throws        Collection of throw requests by user ID
+ * @param  {Collection}        responses     Collection of responses by user ID
  * @param  {str}               error_message Optional error text to include in the message
  * @return {str}                             Message string
  */
-function retestPrompt(manager, throws, error_message) {
+function retestPrompt(manager, responses, error_message) {
   const retest = manager.current_test
   const retester = manager.current_test.retester
   const other = manager.opposition(retest.retester.id)
@@ -375,16 +379,20 @@ function retestPrompt(manager, throws, error_message) {
     You both have to make your throw ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)} or the
     retest will be cancelled for time.
   `
-  if (throws) {
-    content +=
-      "\n* " +
-      (throws.get(manager.attacker.id) ? ":white_check_mark: " : ":black_large_square: ") +
-      manager.attacker.mention
-    content +=
-      "\n* " +
-      (throws.get(manager.defender.id) ? ":white_check_mark: " : ":black_large_square: ") +
-      manager.defender.mention
+
+  const symbol = (response) => {
+    switch(response) {
+      case "choice":
+        return ":thought_balloon: "
+      case "commit":
+        return "<:rpsgo:1303828291492515932> "
+      default:
+        return ":black_large_square: "
+    }
   }
+
+  content += "\n* " + symbol(responses.get(manager.attacker.id)) + manager.attacker.mention
+  content += "\n* " + symbol(responses.get(manager.defender.id)) + manager.defender.mention
   if (error_message) content += `\n${subtext(error_message)}`
   return content
 }

@@ -692,7 +692,7 @@ describe("retestPrompt", () => {
   let default_manager
   let attacker
   let defender
-  let throws
+  let responses
 
   beforeEach(() => {
     default_manager = new MetOpposedManager({
@@ -711,17 +711,17 @@ describe("retestPrompt", () => {
     test.rollAll()
 
     default_manager.test_recorder.addRetest(attacker, "a power")
-    throws = new Collection()
+    responses = new Collection()
   })
 
   it("says who started the retest", () => {
-    const result = presenter.retestPrompt(default_manager, throws)
+    const result = presenter.retestPrompt(default_manager, responses)
 
     expect(result).toMatch("<@testatk> is retesting")
   })
 
   it("states retest reason", () => {
-    const result = presenter.retestPrompt(default_manager, throws)
+    const result = presenter.retestPrompt(default_manager, responses)
 
     expect(result).toMatch("with a power")
   })
@@ -729,7 +729,7 @@ describe("retestPrompt", () => {
   it("shows retester advantages", () => {
     attacker.bomb = true
 
-    const result = presenter.retestPrompt(default_manager, throws)
+    const result = presenter.retestPrompt(default_manager, responses)
 
     expect(result).toMatch("<@testatk> has bomb")
   })
@@ -737,30 +737,36 @@ describe("retestPrompt", () => {
   it("shows other's advantages", () => {
     defender.bomb = true
 
-    const result = presenter.retestPrompt(default_manager, throws)
+    const result = presenter.retestPrompt(default_manager, responses)
 
     expect(result).toMatch("<@testdef> has bomb")
   })
 
   it("shows the timer", () => {
-    const result = presenter.retestPrompt(default_manager, throws)
+    const result = presenter.retestPrompt(default_manager, responses)
 
     expect(result).toMatch(/<t:\d+:R>/)
   })
 
-  describe("with throws", () => {
-    it("shows thrown user with check mark", () => {
-      throws.set(attacker.id, "scissors")
+  describe("with responses", () => {
+    it("shows thrown user with throw emoji", () => {
+      responses.set(attacker.id, "commit")
 
-      const result = presenter.retestPrompt(default_manager, throws)
+      const result = presenter.retestPrompt(default_manager, responses)
 
-      expect(result).toMatch(":white_check_mark: <@testatk>")
+      expect(result).toMatch(/<:rpsgo:\d+> <@testatk>/)
+    })
+
+    it("shows selected user with thought bubble", () => {
+      responses.set(attacker.id, "choice")
+
+      const result = presenter.retestPrompt(default_manager, responses)
+
+      expect(result).toMatch(":thought_balloon: <@testatk>")
     })
 
     it("shows waiting user with empty box", () => {
-      throws.set(defender.id, "scissors")
-
-      const result = presenter.retestPrompt(default_manager, throws)
+      const result = presenter.retestPrompt(default_manager, responses)
 
       expect(result).toMatch(":black_large_square: <@testatk>")
     })
@@ -768,7 +774,7 @@ describe("retestPrompt", () => {
 
   describe("with error", () => {
     it("shows the error message", () => {
-      const result = presenter.retestPrompt(default_manager, throws, "just a test")
+      const result = presenter.retestPrompt(default_manager, responses, "just a test")
 
       expect(result).toMatch("just a test")
     })

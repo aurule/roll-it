@@ -733,13 +733,14 @@ class MetOpposedManager {
       .setStyle(ButtonStyle.Secondary)
     rowButtonsGo.addComponents(withdrawButton)
 
+    const responses = new Collection()
     const prompt = await this.interaction.followUp({
-      content: presenter.retestPrompt(this),
+      content: presenter.retestPrompt(this, responses),
       components: [rowResponse, rowButtonsGo],
       fetchReply: true,
     })
 
-    let throws = new Collection()
+    const throws = new Collection()
     const collector = prompt.createMessageComponentCollector({
       time: STEP_TIMEOUT,
     })
@@ -762,12 +763,13 @@ class MetOpposedManager {
             break
           }
 
-          if (throws.has(this.opposition(event.user.id).id)) {
+          responses.set(event.user.id, "commit")
+          if (responses.hasAll(event.user.id, this.opposition(event.user.id).id) && responses.every(r => r === "commit")) {
             collector.stop()
             this.interaction = event
             return event
               .update({
-                content: presenter.retestPrompt(this, throws),
+                content: presenter.retestPrompt(this, responses),
                 components: [],
               })
               .then(() => {
@@ -780,7 +782,7 @@ class MetOpposedManager {
           }
 
           event.update({
-            content: presenter.retestPrompt(this, throws),
+            content: presenter.retestPrompt(this, responses),
           })
           break
         case "withdraw":
@@ -801,8 +803,8 @@ class MetOpposedManager {
               return this.statusPrompt()
             })
         case "throw-picker":
-          event.deferUpdate()
           if (!this.fromParticipant(event)) {
+            event.deferUpdate()
             break
           }
 
@@ -812,6 +814,8 @@ class MetOpposedManager {
           if (request.includes("bomb") && !participant.bomb) break
 
           throws.set(participant.id, request)
+          responses.set(participant.id, "choice")
+          event.update({content: presenter.retestPrompt(this, responses)})
           break
       }
     })
