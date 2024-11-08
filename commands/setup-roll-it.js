@@ -7,6 +7,8 @@ const {
   ButtonBuilder,
   subtext,
   inlineCode,
+  time,
+  TimestampStyles
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 
@@ -16,6 +18,8 @@ const SystemSelectTransformer = require("../transformers/system-select-transform
 const api = require("../services/api")
 const { arrayEq } = require("../util/array-eq")
 const { systems } = require("../data")
+
+const timeout_ms = 120_000 // 2 minute timeout
 
 module.exports = {
   name: "setup-roll-it",
@@ -35,13 +39,18 @@ module.exports = {
     const commands = require("./index")
     const deployable_commands = commands.deployable
     const deprecated_commands = commands.deprecated
-    const deployed_system_names = [] // systems whose required command(s) appear in deployed_command_names
 
     const deployed_command_names = await api
       .getGuildCommands(interaction.guildId)
       .then((res) => res.map((c) => c.name))
 
-    // prompt for systems as well as for systems
+    const deployed_set = new Set(deployed_command_names)
+    const deployed_system_names = systems.filter((system) => {
+      const system_set = new Set(system.commands.required)
+      return deployed_set.isSupersetOf(system_set)
+    }).map(s => s.name)
+
+    // prompt for commands as well as for systems
 
     // handling for systems
     // make a picker
@@ -59,13 +68,12 @@ module.exports = {
     // offer to set optional commands, too
     // only remove commands from the deploy list if they were removed due to user deselection of systems
 
-
     const system_picker = new StringSelectMenuBuilder()
       .setCustomId("system_picker")
       .setPlaceholder("Choose game systems")
       .setMinValues(0)
       .setMaxValues(systems.size)
-      .addOptions(SystemSelectTransformer.transform(systems, deployed_system_names))
+      .addOptions(...SystemSelectTransformer.withCommands(systems, deployed_system_names))
     const system_row = new ActionRowBuilder().addComponents(system_picker)
 
     const command_picker = new StringSelectMenuBuilder()
@@ -86,9 +94,11 @@ module.exports = {
       .setStyle(ButtonStyle.Secondary)
     const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
 
+    const expiry = new Date(Date.now() + timeout_ms)
     let prompt_content = oneLine`
-      Choose a game system to add all of its relevant commands to the server. Use the second picker to add or
-      remove individual commands.
+      Choose a game system to add all of its listed commands to the server. Use the second picker to add or
+      remove individual commands. If you don't update the commands ${time(expiry, TimestampStyles.RelativeTime)},
+      they will be left unchanged.
     `
     if (deprecated_commands.hasAny(deployed_command_names)) {
       const replaced = deprecated_commands.filter((c) => deployed_command_names.includes(c.name))
@@ -113,10 +123,10 @@ module.exports = {
       components: [system_row, command_row, buttons_row],
     })
 
-    let selection = deployed_command_names
+    let selection = deployedSet
 
     const collector = prompt.createMessageComponentCollector({
-      time: 120_000, // 2 minute timeout
+      time: timeout_ms,
     })
     collector.on("collect", (event) => {
       switch (event.customId) {
@@ -127,16 +137,17 @@ module.exports = {
             components: [],
           })
         case "go_button":
-          if (!selection.length) {
+          if (!selection.size) {
             event.update({
               content:
-                "You need to pick at least one command. Choose the Roll It commands you want to make available on this server:",
+                "You need to pick at least one command. Choose the systems or commands you want to make available on this server:",
             })
             break
           }
           collector.stop()
 
-          if (arrayEq(selection, deployed_command_names)) {
+          const selected_commands = Array.from(selection)
+          if (arrayEq(selected_commands, deployed_command_names)) {
             return event.update({
               content: "Commands match. Leaving server commands unchanged.",
               components: [],
@@ -144,17 +155,22 @@ module.exports = {
           }
 
           event.deferUpdate()
-          return api.setGuildCommands(interaction.guildId, selection).then(() => {
+          return api.setGuildCommands(interaction.guildId, selected_commands).then(() => {
             event.editReply({
               content: oneLine`
-                  Updated server commands to: ${selection.join(", ")}
+                  Updated server commands to: ${selected_commands.join(", ")}
                 `,
               components: [],
             })
           })
         case "command_picker":
           event.deferUpdate()
-          selection = event.values
+          selection = new Set(event.values)
+          // update both select menus in the prompt
+          break
+        case "system_picker":
+          event.deferUpdate()
+          // set selection somehow
           // update both select menus in the prompt
           break
       }
