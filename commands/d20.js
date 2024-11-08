@@ -16,7 +16,7 @@ function with_to_keep(value) {
     case "disadvantage":
       return "lowest"
     default:
-      "all"
+      return "all"
   }
 }
 
