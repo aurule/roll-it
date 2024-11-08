@@ -15,7 +15,10 @@ module.exports = {
 
     if (bomb) {
       choices.splice(2, 0, { name: "🧨 Bomb", value: "bomb" })
-      choices.push({ name: "🔀⛰️🧨✂️ Random Rock-Bomb-Scissors", value: "rand-bomb" })
+      choices.push({
+        name: "🔀⛰️🧨✂️ Random Rock-Bomb-Scissors",
+        value: "rand-bomb",
+      })
     }
 
     return choices

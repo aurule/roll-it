@@ -49,7 +49,12 @@ describe("roll", () => {
   describe("decreasing", () => {
     it("rolls fewer dice in each pool", () => {
       const allResults = roll(
-        new NwodRollOptions({ pool: 5, explode: 11, rolls: 3, decreasing: true }),
+        new NwodRollOptions({
+          pool: 5,
+          explode: 11,
+          rolls: 3,
+          decreasing: true,
+        }),
       )
 
       expect(allResults[0].length).toEqual(5)

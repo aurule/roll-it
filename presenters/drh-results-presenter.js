@@ -96,7 +96,10 @@ class DrhPresenter {
         content += ` ${this.rolls} times`
         content += this.presentedTalent()
         content += this.tests.map((pools) => {
-          const roll_presenter = new DrhRollPresenter({ strengths: pools, talent: this.talent })
+          const roll_presenter = new DrhRollPresenter({
+            strengths: pools,
+            talent: this.talent,
+          })
           return (
             `\n${bold(roll_presenter.resultWord)} dominated by ${bold(roll_presenter.dominating_strength)}\n` +
             roll_presenter.present()

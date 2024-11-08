@@ -7,7 +7,6 @@ const { version } = require("../package.json")
 function buildSection(bucket) {
   return bucket.map((item) => `* ${item}`).join("\n")
 }
-
 ;(async () => {
   const lines = [`# Changelog for Roll It v${version}`]
 

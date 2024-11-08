@@ -8,7 +8,7 @@ const {
   subtext,
   inlineCode,
   time,
-  TimestampStyles
+  TimestampStyles,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 
@@ -45,10 +45,12 @@ module.exports = {
       .then((res) => res.map((c) => c.name))
 
     const deployed_set = new Set(deployed_command_names)
-    const deployed_system_names = systems.filter((system) => {
-      const system_set = new Set(system.commands.required)
-      return deployed_set.isSupersetOf(system_set)
-    }).map(s => s.name)
+    const deployed_system_names = systems
+      .filter((system) => {
+        const system_set = new Set(system.commands.required)
+        return deployed_set.isSupersetOf(system_set)
+      })
+      .map((s) => s.name)
 
     // prompt for commands as well as for systems
 
@@ -81,7 +83,9 @@ module.exports = {
       .setPlaceholder("Choose individual commands")
       .setMinValues(0)
       .setMaxValues(deployable_commands.size)
-      .addOptions(...CommandSelectTransformer.transform(deployable_commands, deployed_command_names))
+      .addOptions(
+        ...CommandSelectTransformer.transform(deployable_commands, deployed_command_names),
+      )
     const command_row = new ActionRowBuilder().addComponents(command_picker)
 
     const go_button = new ButtonBuilder()
@@ -103,15 +107,17 @@ module.exports = {
     if (deprecated_commands.hasAny(deployed_command_names)) {
       const replaced = deprecated_commands.filter((c) => deployed_command_names.includes(c.name))
 
-      const replaced_names = replaced.map(c => present_command(c))
-      const replacement_names = replaced.map(c => present_command(commands.get(c.replacement)))
+      const replaced_names = replaced.map((c) => present_command(c))
+      const replacement_names = replaced.map((c) => present_command(commands.get(c.replacement)))
       const num_replaced = replaced.length
       const pronoun = pluralize("it", num_replaced)
       const cap_pronoun = capitalize(pronoun)
       const verb_is = pluralize("is", num_replaced)
       const verb_does = pluralize("does", num_replaced)
 
-      prompt_content += "\n" + subtext(oneline`
+      prompt_content +=
+        "\n" +
+        subtext(oneline`
         This server uses the deprecated ${pluralize("command", num_replaced)} ${inline(replaced_names)}.
         ${cap_pronoun} ${verb_is} being replaced by ${inline(replacement_names)}, which is why ${pronoun}
         ${verb_does} not appear on this list. ${cap_pronoun} will be removed automatically in the future. If

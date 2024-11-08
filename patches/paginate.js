@@ -38,11 +38,7 @@ function suffixer(page_num, page_count) {
  * @param  {Number}   max_length Maximum length of a single string
  * @return {String[]}            Array of strings
  */
-function splitMessage(
-  message,
-  separator = " ",
-  max_length = 2000,
-) {
+function splitMessage(message, separator = " ", max_length = 2000) {
   if (message.length <= max_length) {
     return [message]
   }
@@ -85,7 +81,7 @@ module.exports = {
      * @param  {int}         max_length Maximum length of a single message
      * @return {Interaction}            Interaction object
      */
-    klass.prototype.paginate = async function ({content, ephemeral, split_on, max_length}) {
+    klass.prototype.paginate = async function ({ content, ephemeral, split_on, max_length }) {
       const contents = splitMessage(content, split_on, max_length)
 
       for (let idx = 0; idx < contents.length; idx++) {
@@ -94,7 +90,7 @@ module.exports = {
           ephemeral: !!ephemeral,
         }
 
-        if(this.replied) await this.followUp(reply_args)
+        if (this.replied) await this.followUp(reply_args)
         else await this.reply(reply_args)
       }
 

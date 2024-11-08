@@ -1,33 +1,13 @@
 const { inlineCode } = require("discord.js")
 
 // prettier-ignore
-const emojiFlat = [
-  null,
-  ":rock: rock",
-  ":scroll: paper",
-  ":scissors: scissors"
-]
+const emojiFlat = [null, ":rock: rock", ":scroll: paper", ":scissors: scissors"]
 // prettier-ignore
-const emojiStatic = [
-  null,
-  inlineCode("pass"),
-  inlineCode("tie"),
-  inlineCode("fail"),
-]
+const emojiStatic = [null, inlineCode("pass"), inlineCode("tie"), inlineCode("fail")]
 // prettier-ignore
-const emojiBomb = [
-  null,
-  ":rock: rock",
-  ":firecracker: bomb",
-  ":scissors: scissors",
-]
+const emojiBomb = [null, ":rock: rock", ":firecracker: bomb", ":scissors: scissors"]
 // prettier-ignore
-const emojiStaticBomb = [
-  null,
-  inlineCode("pass"),
-  inlineCode("pass"),
-  inlineCode("fail"),
-]
+const emojiStaticBomb = [null, inlineCode("pass"), inlineCode("pass"), inlineCode("fail")]
 
 module.exports = {
   /**

@@ -58,7 +58,8 @@ describe("paginate", () => {
       const fake = new PatchMePaginate()
 
       await fake.paginate({
-        content: "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
+        content:
+          "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
         max_length: 100,
       })
 
@@ -69,7 +70,8 @@ describe("paginate", () => {
       const fake = new PatchMePaginate()
 
       await fake.paginate({
-        content: "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
+        content:
+          "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
         max_length: 100,
         ephemeral: true,
       })

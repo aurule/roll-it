@@ -106,7 +106,11 @@ module.exports = {
             .then((remove_event) => {
               remove_event.deferUpdate()
               if (remove_event.customId == "remove_cancel") {
-                manage_prompt.edit({ content: "Cancelled!", components: [], ephemeral: true })
+                manage_prompt.edit({
+                  content: "Cancelled!",
+                  components: [],
+                  ephemeral: true,
+                })
                 return interaction
               }
 

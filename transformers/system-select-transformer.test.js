@@ -12,7 +12,7 @@ const test_systems = [
     notes: "Is a test",
     commands: {
       required: ["fate"],
-    }
+    },
   },
   {
     name: "test 2",
@@ -22,7 +22,7 @@ const test_systems = [
     commands: {
       required: ["fate"],
       recommended: ["drh"],
-    }
+    },
   },
 ]
 

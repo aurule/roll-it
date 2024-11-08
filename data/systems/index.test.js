@@ -3,9 +3,7 @@ const commands = require("../../commands")
 const { systems } = require("../index")
 
 describe("systems", () => {
-  describe.each(
-    systems.map((value, key) => [key, value]))
-  ("%s", (name, system) => {
+  describe.each(systems.map((value, key) => [key, value]))("%s", (name, system) => {
     it("has a name", () => {
       expect(system.name).toBeTruthy()
     })

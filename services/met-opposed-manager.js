@@ -764,7 +764,10 @@ class MetOpposedManager {
           }
 
           responses.set(event.user.id, "commit")
-          if (responses.hasAll(event.user.id, this.opposition(event.user.id).id) && responses.every(r => r === "commit")) {
+          if (
+            responses.hasAll(event.user.id, this.opposition(event.user.id).id) &&
+            responses.every((r) => r === "commit")
+          ) {
             collector.stop()
             this.interaction = event
             return event
@@ -815,7 +818,7 @@ class MetOpposedManager {
 
           throws.set(participant.id, request)
           responses.set(participant.id, "choice")
-          event.update({content: presenter.retestPrompt(this, responses)})
+          event.update({ content: presenter.retestPrompt(this, responses) })
           break
       }
     })

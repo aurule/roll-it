@@ -6,7 +6,7 @@ const { jsNoTests, noDotFiles } = require("../util/filters.js")
 
 function load_dir(dirname) {
   const datas = new Collection()
-  
+
   const data_dir = path.join(__dirname, dirname)
   fs.readdirSync(data_dir)
     .filter(jsNoTests)
@@ -15,7 +15,7 @@ function load_dir(dirname) {
       const data_obj = require(path.join(data_dir, file))
       datas.set(data_obj.name, data_obj)
     })
-  
+
   return datas
 }
 

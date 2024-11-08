@@ -33,7 +33,10 @@ describe("saved_roll", () => {
   })
 
   it("sends up to 25 options", () => {
-    const rolls = Array.from({ length: 30 }, (_x, idx) => ({ name: `test${idx}`, id: idx }))
+    const rolls = Array.from({ length: 30 }, (_x, idx) => ({
+      name: `test${idx}`,
+      id: idx,
+    }))
 
     const result = saved_roll_completers.saved_roll("test", rolls)
 

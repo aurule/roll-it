@@ -381,7 +381,7 @@ function retestPrompt(manager, responses, error_message) {
   `
 
   const symbol = (response) => {
-    switch(response) {
+    switch (response) {
       case "choice":
         return ":thought_balloon: "
       case "commit":

@@ -95,7 +95,7 @@ module.exports = {
       oneLine`
         The roll will happen automatically ${time(expiry, TimestampStyles.RelativeTime)}. If there are a few
         specific people whose help you need, select them here and their status will be added to the prompt.
-      `
+      `,
     ].join("\n")
   },
   teamworkSummaryMessage(leaderRollSummary, promptMessage) {

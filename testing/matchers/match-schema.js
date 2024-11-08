@@ -1,4 +1,4 @@
-const {expect} = require('@jest/globals');
+const { expect } = require("@jest/globals")
 
 /**
  * Test whether the given value matches the given Joi schema
@@ -12,12 +12,14 @@ function toMatchSchema(actual, schema) {
 
   if (result.error === undefined) {
     return {
-      message: () => `expected ${this.utils.printReceived(actual)} not to match the ${this.utils.printExpected("schema")}`,
+      message: () =>
+        `expected ${this.utils.printReceived(actual)} not to match the ${this.utils.printExpected("schema")}`,
       pass: true,
     }
   } else {
     return {
-      message: () => `expected ${this.utils.printReceived(actual)} to match the ${this.utils.printExpected("schema")}`,
+      message: () =>
+        `expected ${this.utils.printReceived(actual)} to match the ${this.utils.printExpected("schema")}`,
       pass: false,
     }
   }

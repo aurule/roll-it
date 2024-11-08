@@ -2,7 +2,12 @@ const presenter = require("./saved-roll-presenter")
 
 describe("present", () => {
   it("shows the name", () => {
-    const saved_roll = { name: "test1", description: "a description", options: {}, command: "nwod" }
+    const saved_roll = {
+      name: "test1",
+      description: "a description",
+      options: {},
+      command: "nwod",
+    }
 
     const result = presenter.present(saved_roll)
 
@@ -10,7 +15,12 @@ describe("present", () => {
   })
 
   it("shows the description", () => {
-    const saved_roll = { name: "test1", description: "a description", options: {}, command: "nwod" }
+    const saved_roll = {
+      name: "test1",
+      description: "a description",
+      options: {},
+      command: "nwod",
+    }
 
     const result = presenter.present(saved_roll)
 
@@ -18,7 +28,12 @@ describe("present", () => {
   })
 
   it("shows the command", () => {
-    const saved_roll = { name: "test1", description: "a description", options: {}, command: "nwod" }
+    const saved_roll = {
+      name: "test1",
+      description: "a description",
+      options: {},
+      command: "nwod",
+    }
 
     const result = presenter.present(saved_roll)
 
@@ -67,8 +82,18 @@ describe("presentList", () => {
 
   it("shows each invocation", () => {
     const rolls = [
-      { name: "test1", description: "a description", options: {}, command: "nwod" },
-      { name: "test2", description: "a description", options: {}, command: "fate" },
+      {
+        name: "test1",
+        description: "a description",
+        options: {},
+        command: "nwod",
+      },
+      {
+        name: "test2",
+        description: "a description",
+        options: {},
+        command: "fate",
+      },
     ]
 
     const result = presenter.presentList(rolls)
@@ -112,7 +137,11 @@ describe("presentRollName", () => {
   })
 
   it("marks incomplete", () => {
-    const roll = { name: "test", description: "a description", incomplete: true }
+    const roll = {
+      name: "test",
+      description: "a description",
+      incomplete: true,
+    }
 
     const result = presenter.presentRollName(roll)
 
@@ -128,7 +157,12 @@ describe("presentRollName", () => {
   })
 
   it("marks both invalid and incomplete", () => {
-    const roll = { name: "test", description: "a description", incomplete: true, invalid: true }
+    const roll = {
+      name: "test",
+      description: "a description",
+      incomplete: true,
+      invalid: true,
+    }
 
     const result = presenter.presentRollName(roll)
 

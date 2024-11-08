@@ -25,5 +25,5 @@ module.exports = {
     content += ", and "
     content += arr.at(-1)
     return content
-  }
+  },
 }

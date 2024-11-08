@@ -236,7 +236,10 @@ describe("GuildRollables", () => {
       const insertion = rollables.create(old_name, old_desc, ["one"])
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(rollableId, { name: new_name, description: new_desc })
+      const result = rollables.update(rollableId, {
+        name: new_name,
+        description: new_desc,
+      })
 
       const detail = rollables.detail(rollableId)
       expect(detail.name).toEqual(new_name)
@@ -262,7 +265,10 @@ describe("GuildRollables", () => {
       const insertion = rollables.create("test", "a test", ["one"])
       const rollableId = insertion.lastInsertRowid
 
-      const result = rollables.update(rollableId, { id: rollableId + 5, description: "new desc" })
+      const result = rollables.update(rollableId, {
+        id: rollableId + 5,
+        description: "new desc",
+      })
 
       const detail = rollables.detail(rollableId + 5)
       expect(detail).toBeUndefined()

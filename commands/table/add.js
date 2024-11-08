@@ -134,7 +134,9 @@ module.exports = {
 
     let normalized_options
     try {
-      normalized_options = await options_schema.validateAsync(raw_options, { context: { tables } })
+      normalized_options = await options_schema.validateAsync(raw_options, {
+        context: { tables },
+      })
     } catch (err) {
       return interaction.editReply({
         content: err.details[0].message,
