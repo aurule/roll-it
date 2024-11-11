@@ -40,7 +40,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:12.1.0"],\
+          ["pino-pretty", "npm:13.0.0"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
@@ -1659,16 +1659,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["abort-controller", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/abort-controller-npm-3.0.0-2f3a9a2bcb-90ccc50f01.zip/node_modules/abort-controller/",\
-        "packageDependencies": [\
-          ["abort-controller", "npm:3.0.0"],\
-          ["event-target-shim", "npm:5.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["agent-base", [\
       ["npm:7.1.1", {\
         "packageLocation": "./.yarn/cache/agent-base-npm-7.1.1-c9e1a4b59e-e59ce7bed9.zip/node_modules/agent-base/",\
@@ -2052,15 +2042,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/buffer-npm-5.7.1-513ef8259e-27cac81cff.zip/node_modules/buffer/",\
         "packageDependencies": [\
           ["buffer", "npm:5.7.1"],\
-          ["base64-js", "npm:1.5.1"],\
-          ["ieee754", "npm:1.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.0.3", {\
-        "packageLocation": "./.yarn/cache/buffer-npm-6.0.3-cd90dfedfe-2a905fbbcd.zip/node_modules/buffer/",\
-        "packageDependencies": [\
-          ["buffer", "npm:6.0.3"],\
           ["base64-js", "npm:1.5.1"],\
           ["ieee754", "npm:1.2.1"]\
         ],\
@@ -2705,24 +2686,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/esprima-npm-4.0.1-1084e98778-ad4bab9ead.zip/node_modules/esprima/",\
         "packageDependencies": [\
           ["esprima", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["event-target-shim", [\
-      ["npm:5.0.1", {\
-        "packageLocation": "./.yarn/cache/event-target-shim-npm-5.0.1-cb48709025-0255d9f936.zip/node_modules/event-target-shim/",\
-        "packageDependencies": [\
-          ["event-target-shim", "npm:5.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["events", [\
-      ["npm:3.3.0", {\
-        "packageLocation": "./.yarn/cache/events-npm-3.3.0-c280bc7e48-d6b6f2adbc.zip/node_modules/events/",\
-        "packageDependencies": [\
-          ["events", "npm:3.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4696,10 +4659,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
-      ["npm:12.1.0", {\
-        "packageLocation": "./.yarn/cache/pino-pretty-npm-12.1.0-67bd97dbf1-76518ced4e.zip/node_modules/pino-pretty/",\
+      ["npm:13.0.0", {\
+        "packageLocation": "./.yarn/cache/pino-pretty-npm-13.0.0-70bb86dd46-015dac2500.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
-          ["pino-pretty", "npm:12.1.0"],\
+          ["pino-pretty", "npm:13.0.0"],\
           ["colorette", "npm:2.0.20"],\
           ["dateformat", "npm:4.6.3"],\
           ["fast-copy", "npm:3.0.2"],\
@@ -4710,7 +4673,6 @@ const RAW_RUNTIME_STATE =
           ["on-exit-leak-free", "npm:2.1.2"],\
           ["pino-abstract-transport", "npm:2.0.0"],\
           ["pump", "npm:3.0.0"],\
-          ["readable-stream", "npm:4.5.2"],\
           ["secure-json-parse", "npm:2.7.0"],\
           ["sonic-boom", "npm:4.0.1"],\
           ["strip-json-comments", "npm:3.1.1"]\
@@ -4800,15 +4762,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/proc-log-npm-4.2.0-4d65296a9d-17db4757c2.zip/node_modules/proc-log/",\
         "packageDependencies": [\
           ["proc-log", "npm:4.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["process", [\
-      ["npm:0.11.10", {\
-        "packageLocation": "./.yarn/cache/process-npm-0.11.10-aeb3b641ae-40c3ce4b7e.zip/node_modules/process/",\
-        "packageDependencies": [\
-          ["process", "npm:0.11.10"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4926,18 +4879,6 @@ const RAW_RUNTIME_STATE =
           ["util-deprecate", "npm:1.0.2"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:4.5.2", {\
-        "packageLocation": "./.yarn/cache/readable-stream-npm-4.5.2-4a1062e2a4-a2c80e0e53.zip/node_modules/readable-stream/",\
-        "packageDependencies": [\
-          ["readable-stream", "npm:4.5.2"],\
-          ["abort-controller", "npm:3.0.0"],\
-          ["buffer", "npm:6.0.3"],\
-          ["events", "npm:3.3.0"],\
-          ["process", "npm:0.11.10"],\
-          ["string_decoder", "npm:1.3.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["readdirp", [\
@@ -5044,7 +4985,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:12.1.0"],\
+          ["pino-pretty", "npm:13.0.0"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
