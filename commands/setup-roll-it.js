@@ -70,13 +70,13 @@ module.exports = {
     // offer to set optional commands, too
     // only remove commands from the deploy list if they were removed due to user deselection of systems
 
-    const system_picker = new StringSelectMenuBuilder()
-      .setCustomId("system_picker")
-      .setPlaceholder("Choose game systems")
-      .setMinValues(0)
-      .setMaxValues(systems.size)
-      .addOptions(...SystemSelectTransformer.withCommands(systems, deployed_system_names))
-    const system_row = new ActionRowBuilder().addComponents(system_picker)
+    // const system_picker = new StringSelectMenuBuilder()
+    //   .setCustomId("system_picker")
+    //   .setPlaceholder("Choose game systems")
+    //   .setMinValues(0)
+    //   .setMaxValues(systems.size)
+    //   .addOptions(...SystemSelectTransformer.withCommands(systems, deployed_system_names))
+    // const system_row = new ActionRowBuilder().addComponents(system_picker)
 
     const command_picker = new StringSelectMenuBuilder()
       .setCustomId("command_picker")
@@ -99,9 +99,13 @@ module.exports = {
     const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
 
     const expiry = new Date(Date.now() + timeout_ms)
+    // let prompt_content = oneLine`
+    //   Choose a game system to add all of its listed commands to the server. Use the second picker to add or
+    //   remove individual commands. If you don't update the commands ${time(expiry, TimestampStyles.RelativeTime)},
+    //   they will be left unchanged.
+    // `
     let prompt_content = oneLine`
-      Choose a game system to add all of its listed commands to the server. Use the second picker to add or
-      remove individual commands. If you don't update the commands ${time(expiry, TimestampStyles.RelativeTime)},
+      Add or remove dice roller commands from this server. If you don't update the commands ${time(expiry, TimestampStyles.RelativeTime)},
       they will be left unchanged.
     `
     if (deprecated_commands.hasAny(deployed_command_names)) {
@@ -126,7 +130,8 @@ module.exports = {
     }
     const prompt = await interaction.editReply({
       content: prompt_content,
-      components: [system_row, command_row, buttons_row],
+      // components: [system_row, command_row, buttons_row],
+      components: [command_row, buttons_row],
     })
 
     let selection = deployed_set
