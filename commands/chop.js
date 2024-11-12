@@ -10,7 +10,7 @@ const { injectMention } = require("../util/inject-user")
 
 module.exports = {
   name: "chop",
-  replacement: "met",
+  // replacement: "met",
   description: "Make a rock-paper-scissors roll",
   data: () =>
     new SlashCommandBuilder()
