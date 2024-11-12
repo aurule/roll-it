@@ -129,7 +129,7 @@ module.exports = {
       components: [system_row, command_row, buttons_row],
     })
 
-    let selection = deployedSet
+    let selection = deployed_set
 
     const collector = prompt.createMessageComponentCollector({
       time: timeout_ms,
