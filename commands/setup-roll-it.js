@@ -24,8 +24,7 @@ const timeout_ms = 120_000 // 2 minute timeout
 module.exports = {
   name: "setup-roll-it",
   description: "Set up Roll It with the commands you need",
-  // global: true,
-  global: false,
+  global: true,
   data() {
     return new SlashCommandBuilder()
       .setName(module.exports.name)
