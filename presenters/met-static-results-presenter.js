@@ -3,34 +3,53 @@ const { bold, italic } = require("discord.js")
 /**
  * Decorate raw result strings
  *
- * This just adds the standard result emoji to each string
+ * This primarily adds the standard result emoji to each string. If the request is provided, the result
+ * will be tagged as random and having bomb as appropriate.
  *
  * @param  {str} result Raw result string
  * @return {str}        Decorated result string
  */
-function pretty(result) {
+function pretty(result, request = "") {
+  let output = ""
+
   switch (result) {
     case "rock":
-      return ":rock: rock"
+      output = ":rock: rock"
+      break
     case "paper":
-      return ":scroll: paper"
+      output = ":scroll: paper"
+      break
     case "scissors":
-      return ":scissors: scissors"
+      output = ":scissors: scissors"
+      break
     case "bomb":
-      return ":firecracker: bomb"
+      output = ":firecracker: bomb"
+      break
   }
+
+  if (request.includes("rand")) {
+    output += " [random"
+    if (request.includes("bomb")) {
+      output += " w/bomb"
+    }
+    output += "]"
+  }
+
+  return output
 }
 
 /**
  * Present the results of a single MET roll
  *
- * @param  {str[]} options.thrown      Array of user results
- * @param  {str[]} options.vs          Array of automated opponent results
- * @param  {str[]} options.compared    Array of win/tie/lose comparisons, from the user's POV
- * @param  {str}   options.description Description for the roll
- * @return {str}                       Fully presented roll
+ * @param  {str}   options.throw_request Keyword for the user's request
+ * @param  {str}   options.vs_request    Keyword for the automated opponent request
+ * @param  {str[]} options.thrown        Array of user results
+ * @param  {str[]} options.vs            Array of automated opponent results
+ * @param  {str[]} options.compared      Array of win/tie/lose comparisons, from the user's POV
+ * @param  {str}   options.description   Description for the roll
+ * @return {str}                         Fully presented roll
  */
-function presentOne({ thrown, vs, compared, description }) {
+function presentOne({ throw_request, vs_request, thrown, vs, compared, description }) {
   const result = compared[0]
   const user_throw = thrown[0]
   const bot_throw = vs[0]
@@ -40,13 +59,13 @@ function presentOne({ thrown, vs, compared, description }) {
   if (result) {
     content += bold(result)
   } else {
-    content += pretty(user_throw)
+    content += pretty(user_throw, throw_request)
   }
 
   if (description) content += ` for "${description}"`
 
   if (result) {
-    content += ` (${pretty(user_throw)} ${italic("vs")} ${pretty(bot_throw)})`
+    content += ` (${pretty(user_throw, throw_request)} ${italic("vs")} ${pretty(bot_throw, vs_request)})`
   }
 
   return content
@@ -55,21 +74,23 @@ function presentOne({ thrown, vs, compared, description }) {
 /**
  * Present the results of multiple MET rolls
  *
- * @param  {str[]} options.thrown      Array of user results
- * @param  {str[]} options.vs          Array of automated opponent results
- * @param  {str[]} options.compared    Array of win/tie/lose comparisons, from the user's POV
- * @param  {str}   options.description Description for the roll
- * @return {str}                       Fully presented roll
+ * @param  {str}   options.throw_request Keyword for the user's request
+ * @param  {str}   options.vs_request    Keyword for the automated opponent request
+ * @param  {str[]} options.thrown        Array of user results
+ * @param  {str[]} options.vs            Array of automated opponent results
+ * @param  {str[]} options.compared      Array of win/tie/lose comparisons, from the user's POV
+ * @param  {str}   options.description   Description for the roll
+ * @return {str}                         Fully presented roll
  */
-function presentMany({ rolls, thrown, vs, compared, description }) {
+function presentMany({ throw_request, vs_request, rolls, thrown, vs, compared, description }) {
   let content = `{{userMention}} rolled ${rolls} times`
   if (description) content += ` for "${description}"`
   content += ":\n"
   content += thrown
     .map((elem, idx) => {
       if (compared[idx])
-        return `\t${bold(compared[idx])} (${pretty(elem)} ${italic("vs")} ${pretty(vs[idx])})`
-      return `\t${pretty(elem)}`
+        return `\t${bold(compared[idx])} (${pretty(elem, throw_request)} ${italic("vs")} ${pretty(vs[idx], vs_request)})`
+      return `\t${pretty(elem, throw_request)}`
     })
     .join("\n")
   return content

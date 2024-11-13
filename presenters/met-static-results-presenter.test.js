@@ -6,6 +6,20 @@ describe("pretty", () => {
 
     expect(result).toMatch(":")
   })
+
+  describe("with request", () => {
+    it("adds random if rand", () => {
+      const result = pretty("paper", "rand")
+
+      expect(result).toMatch("random")
+    })
+
+    it("adds bomb note if bomb", () => {
+      const result = pretty("rock", "rand-bomb")
+
+      expect(result).toMatch("w/bomb")
+    })
+  })
 })
 
 describe("presentOne", () => {
@@ -59,6 +73,52 @@ describe("presentOne", () => {
       })
 
       expect(result).not.toMatch("vs")
+    })
+  })
+
+  describe("random throws", () => {
+    it("notes random user symbol", () => {
+      const result = presentOne({
+        ...default_opts,
+        throw_request: "rand",
+        thrown: ["rock"],
+      })
+
+      expect(result).toMatch("random")
+    })
+
+    it("notes random user symbol with bomb", () => {
+      const result = presentOne({
+        ...default_opts,
+        throw_request: "rand-bomb",
+        thrown: ["rock"],
+      })
+
+      expect(result).toMatch("bomb")
+    })
+
+    it("notes random vs symbol", () => {
+      const result = presentOne({
+        ...default_opts,
+        throw_request: "rock",
+        thrown: ["rock"],
+        vs_request: "rand",
+        vs: ["paper"],
+      })
+
+      expect(result).toMatch("random")
+    })
+
+    it("notes random vs symbol with bomb", () => {
+      const result = presentOne({
+        ...default_opts,
+        throw_request: "rock",
+        thrown: ["rock"],
+        vs_request: "rand-bomb",
+        vs: ["paper"],
+      })
+
+      expect(result).toMatch("bomb")
     })
   })
 })

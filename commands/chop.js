@@ -7,8 +7,6 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/inject-user")
 const metStatic = require("./met/static")
-const { handleRequest } = require("../../services/met-roller")
-const { present } = require("../presenters/chop-results-presenter")
 
 module.exports = {
   name: "chop",
@@ -18,6 +16,11 @@ module.exports = {
       .setName(module.exports.name)
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
+      .addBooleanOption((option) =>
+        option
+          .setName("static")
+          .setDescription("Display win-tie-lose against a random opponent, for static challenges"),
+      )
       .addBooleanOption((option) =>
         option.setName("bomb").setDescription("Replace paper with the special bomb result"),
       )
@@ -31,23 +34,14 @@ module.exports = {
   }),
   perform({ static_test, bomb, rolls, description }) {
     const throw_request = bomb ? "rand-bomb" : "rand"
-    if (static_test) {
-      return metStatic.perform({
-        throw_request,
-        vs_request: "rand",
-        rolls,
-        description,
-      })
-    }
+    const vs_request = static_test ? "rand" : "none"
 
-    const result = handleRequest(throw_request, rolls)
-
-    // return present({
-    //   result,
-    //   bomb,
-    //   rolls,
-    //   description,
-    // })
+    return metStatic.perform({
+      throw_request,
+      vs_request,
+      rolls,
+      description,
+    })
   },
   execute(interaction) {
     const static_test = interaction.options.getBoolean("static") ?? false

@@ -37,6 +37,8 @@ module.exports = {
     const compared = thrown.map((elem, idx) => compare(elem, vs[idx]))
 
     return present({
+      throw_request,
+      vs_request,
       rolls,
       thrown,
       vs,
