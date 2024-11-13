@@ -3,34 +3,36 @@ const { test_secret_option } = require("../../testing/shared/execute-secret")
 
 const met_static_command = require("./static")
 
+describe("perform", () => {
+  it("rolls a single result", () => {
+    const result = met_static_command.perform({})
+
+    expect(result).toMatch("rolled")
+  })
+
+  it("rolls multiple results", () => {
+    const result = met_static_command.perform({
+      rolls: 2,
+    })
+
+    expect(result).toMatch("2 times")
+  })
+
+  it("shows description if present", () => {
+    const result = met_static_command.perform({
+      description: "a test",
+    })
+
+    expect(result).toMatch("a test")
+  })
+})
+
 describe("execute", () => {
   var interaction
 
   beforeEach(() => {
     interaction = new Interaction()
     interaction.command_options.subcommand_name = "static"
-  })
-
-  it("rolls a single result", async () => {
-    await met_static_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("rolled")
-  })
-
-  it("rolls multiple results", async () => {
-    interaction.command_options.rolls = 2
-
-    await met_static_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("2 times")
-  })
-
-  it("shows description if present", async () => {
-    interaction.command_options.description = "a test"
-
-    await met_static_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("a test")
   })
 
   test_secret_option(met_static_command)

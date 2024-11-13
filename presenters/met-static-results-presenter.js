@@ -66,10 +66,10 @@ function presentMany({ rolls, thrown, vs, compared, description }) {
   if (description) content += ` for "${description}"`
   content += ":\n"
   content += thrown
-    .map((first, idx) => {
+    .map((elem, idx) => {
       if (compared[idx])
-        return `\t${bold(compared[idx])} (${pretty(thrown[idx])} ${italic("vs")} ${pretty(vs[idx])})`
-      return `\t${pretty(thrown[idx])}`
+        return `\t${bold(compared[idx])} (${pretty(elem)} ${italic("vs")} ${pretty(vs[idx])})`
+      return `\t${pretty(elem)}`
     })
     .join("\n")
   return content

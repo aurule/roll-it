@@ -30,6 +30,20 @@ module.exports = {
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  perform({throw_request = "rand", vs_request = "rand", description = "", rolls = 1}) {
+    const thrown = handleRequest(throw_request, rolls)
+    const vs = handleRequest(vs_request, rolls)
+
+    const compared = thrown.map((elem, idx) => compare(elem, vs[idx]))
+
+    return present({
+      rolls,
+      thrown,
+      vs,
+      compared,
+      description,
+    })
+  },
   async execute(interaction) {
     const throw_request = interaction.options.getString("throw") ?? "rand"
     const vs_request = interaction.options.getString("vs") ?? "rand"
@@ -37,17 +51,11 @@ module.exports = {
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const thrown = handleRequest(throw_request, rolls)
-    const vs = handleRequest(vs_request, rolls)
-
-    const compared = thrown.map((first, idx) => compare(first, vs[idx]))
-
-    const partial_message = present({
-      rolls,
-      thrown,
-      vs,
-      compared,
+    const partial_message = module.exports.perform({
+      throw_request,
+      vs_request,
       description: roll_description,
+      rolls,
     })
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.paginate({

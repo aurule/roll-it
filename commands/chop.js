@@ -3,25 +3,21 @@ const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/chop-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/inject-user")
+const metStatic = require("./met/static")
+const { handleRequest } = require("../../services/met-roller")
+const { present } = require("../presenters/chop-results-presenter")
 
 module.exports = {
   name: "chop",
-  // replacement: "met",
   description: "Make a rock-paper-scissors roll",
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
-      .addBooleanOption((option) =>
-        option
-          .setName("static")
-          .setDescription("Display results as pass-tie-fail, for static challenges"),
-      )
       .addBooleanOption((option) =>
         option.setName("bomb").setDescription("Replace paper with the special bomb result"),
       )
@@ -34,15 +30,24 @@ module.exports = {
     static_test: Joi.boolean().optional(),
   }),
   perform({ static_test, bomb, rolls, description }) {
-    const raw_results = roll(1, 3, rolls)
+    const throw_request = bomb ? "rand-bomb" : "rand"
+    if (static_test) {
+      return metStatic.perform({
+        throw_request,
+        vs_request: "rand",
+        rolls,
+        description,
+      })
+    }
 
-    return present({
-      rolls,
-      static_test,
-      bomb,
-      description,
-      raw: raw_results,
-    })
+    const result = handleRequest(throw_request, rolls)
+
+    // return present({
+    //   result,
+    //   bomb,
+    //   rolls,
+    //   description,
+    // })
   },
   execute(interaction) {
     const static_test = interaction.options.getBoolean("static") ?? false

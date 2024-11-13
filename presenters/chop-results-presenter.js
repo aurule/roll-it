@@ -1,13 +1,6 @@
 const { inlineCode } = require("discord.js")
 
-// prettier-ignore
-const emojiFlat = [null, ":rock: rock", ":scroll: paper", ":scissors: scissors"]
-// prettier-ignore
-const emojiStatic = [null, inlineCode("pass"), inlineCode("tie"), inlineCode("fail")]
-// prettier-ignore
-const emojiBomb = [null, ":rock: rock", ":firecracker: bomb", ":scissors: scissors"]
-// prettier-ignore
-const emojiStaticBomb = [null, inlineCode("pass"), inlineCode("pass"), inlineCode("fail")]
+const { pretty } = require("./met-static-results-presenter")
 
 module.exports = {
   /**
@@ -27,16 +20,15 @@ module.exports = {
   /**
    * Create a string describing the results of a rock-paper-scissors roll
    *
-   * @param  {Bool}     options.static_test   Whether the roll should be interpreted as pass-tie-fail
+   * @param  {Bool}     options.thrown      Whether the roll should be interpreted as pass-tie-fail
    * @param  {Bool}     options.bomb          Whether paper is replaced with bomb
-   * @param  {String}   options.description   Text describing the roll
-   * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @return {String}                         String describing this roll
+   * @param  {String}   options.description Text describing the roll
+   * @return {String}                       String describing this roll
    */
-  presentOne: ({ static_test, bomb, description, raw }) => {
+  presentOne: ({ thrown, bomb, description }) => {
     let content = [
-      "{{userMention}} rolled",
-      module.exports.rollToEmoji(raw[0][0], static_test, bomb),
+      "{{userMention}} rolled ",
+      pretty(thrown[0]),
     ]
     if (description) content.push(`for "${description}"`)
     return content.join(" ")
@@ -45,13 +37,12 @@ module.exports = {
   /**
    * Create a string describing the results of many rock-paper-scissors rolls
    *
-   * @param  {Bool}     options.static_test   Whether the roll should be interpreted as pass-tie-fail
+   * @param  {Bool}     options.thrown RPS results
    * @param  {Bool}     options.bomb          Whether paper is replaced with bomb
    * @param  {String}   options.description   Text describing the roll
-   * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
    * @return {String}                         String describing this roll
    */
-  presentMany: ({ static_test, bomb, description, raw }) => {
+  presentMany: ({ thrown, description, rolls }) => {
     let content = ["{{userMention}} rolled"]
     if (description) {
       content.push(`"${description}"`)
