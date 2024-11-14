@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, inlineCode, subtext } = require("discord.js")
+const { SlashCommandBuilder, inlineCode, subtext, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
@@ -59,7 +59,7 @@ module.exports = {
 
     let full_text = injectMention(partial_message, interaction.user.id)
     full_text +=
-      "\n" + subtext(`This command is being replaced. Use ${inlineCode("/met static")} instead.`)
+      "\n" + subtext(`This command is a shortcut. Try ${inlineCode("/met static")} instead.`)
     return interaction.paginate({
       content: full_text,
       split_on: "\n\t",
@@ -68,17 +68,22 @@ module.exports = {
   },
   help({ command_name, ...opts }) {
     return [
-      `:warning: ${command_name} is deprecated. Please use ${inlineCode("/met static")} instead.`,
-      "",
       oneLine`
         ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
-        emoji and a word describing the outcome, like "\:rock: rock". The ${opts.static} option changes this to
-        display ${inlineCode("pass")}, ${inlineCode("tie")}, or ${inlineCode("fail")}, to make it easier to
-        interpret the result of an uncontested challenge. The ${opts.bomb} option replaces the paper result with
-        bomb, which wins against rock and paper. Setting both ${opts.static} and ${opts.bomb} will change the
-        ${inlineCode("tie")} result to ${inlineCode("pass")}, as the bomb result wins against the assumed paper
-        result of the static opponent.
+        emoji and a word describing your throw, like "\:rock: rock". The ${opts.static} option adds a virtual
+        opponent and displays the outcome as a win, tie, or fail.
       `,
+      "",
+      oneLine`
+        By default, ${command_name} picks one of rock, paper, or scissors for you. The ${opts.bomb} option
+        replaces the paper symbol with bomb, which wins against rock ${italic("and")} paper. The virtual
+        opponent from ${opts.static} always picks from rock, paper, or scissors, never bomb.
+      `,
+      "",
+      oneLine`
+        ${command_name} is a shortcut for the more powerful ${inlineCode("/met static")} command. Use that
+        one to pick your thrown symbol and make static tests against an opponent who can throw bomb.
+      `
     ].join("\n")
   },
 }

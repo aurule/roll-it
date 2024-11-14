@@ -6,6 +6,8 @@ The `/met static` command lets a user throw a rock-paper-scissors chop against a
 
 The `/met opposed` command is much more involved and starts an interactive opposed challenge against a named user. Each participant has a chance to choose what they throw and retest multiple times -- with cancels -- in order to resolve the challenge.
 
+?> The old `/chop` command is just a shortcut for `/met static`.
+
 ## `/met static`
 
 Compare the user's throw against a randomly generated rock-paper-scissors throw.
@@ -22,6 +24,24 @@ Example:
 ```
 <!-- div:right-panel -->
 <@user> rolled **win** (:rock: rock _vs_ :scissors: scissors)
+<!-- panels:end -->
+
+## `/chop`
+
+The `/chop` command is a shortcut to `/met static` with simplified options. It defaults to displaying a single random symbol.
+
+* `static` is whether to show your result against a virtual opponent
+* `bomb` is whether to pick randomly from rock/bomb/scissors instead rock/paper/scissors
+
+<!-- panels:start -->
+<!-- panels:title -->
+Example:
+<!-- div:left-panel -->
+```invocation
+/chop
+```
+<!-- div:right-panel -->
+<@user> rolled :rock: rock
 <!-- panels:end -->
 
 ## `/met opposed`
@@ -89,111 +109,3 @@ The retest prompt simply lets you and your opponent choose a new symbol. Once yo
 The status after a completed retest:
 
 ![The status message showing that the retest was made](../_images/examples/met/status_retested.png)
-
-## `/chop`
-
-!> The `/chop` command is deprecated and will be removed in a future release. At that time, all servers using `/chop` will have it automatically replaced with the `/met` commands. In the meantime, I recommend switching to `/met static` as a replacement, as it generates more accurate results for simple and static tests.
-
-The `/chop` roller creates a single rock-paper-scissors symbol, with options to convert it automatically to pass-tie-fail to simulate a static test.
-
-It also supports the `bomb` advantage, replacing the paper symbol with bomb. This wins against rock and paper, so static results become pass-pass-fail.
-
-* `static` shows pass-tie-fail instead of rock-paper-scissors
-* `bomb` replaces the paper result with bomb instead
-
-<!-- panels:start -->
-<!-- panels:title -->
-Example:
-<!-- div:left-panel -->
-```invocation
-/chop
-```
-<!-- div:right-panel -->
-<@user> rolled :rock: rock
-<!-- panels:end -->
-
-<!-- panels:start -->
-<!-- div:left-panel -->
-```invocation
-/chop static:True
-```
-<!-- div:right-panel -->
-<@user> rolled `tie`
-<!-- panels:end -->
-
-### Migrating to `/met static`
-
-This section covers how to use `/met static` to replicate existing uses of `/chop`. The existing `description`, `rolls`, and `secret` options remain unchanged, so they are omitted here.
-
-<!-- panels:start -->
-<!-- div:title-panel -->
-**Throw a random symbol**
-<!-- div:left-panel -->
-```invocation
-/chop
-```
-<@user> rolled :rock: rock
-<!-- div:right-panel -->
-```invocation
-/met static vs:None
-```
-<@user> rolled :rock: rock
-<!-- panels:end -->
-
-<!-- panels:start -->
-<!-- div:title-panel -->
-**Make a simple test**
-<!-- div:left-panel -->
-```invocation
-/chop static:true
-```
-<@user> rolled `tie`
-<!-- div:right-panel -->
-```invocation
-/met static
-```
-<@user> rolled **tie** (:rock: rock _vs_ :rock: rock)
-<!-- panels:end -->
-
-<!-- panels:start -->
-<!-- div:title-panel -->
-**Make a static test, with bomb**
-
-?> `/chop` always throws a random symbol on your behalf against an opponent who always throws :scroll: paper. Duplicating this behavior is not quite possible with `/met static`, since it always rolls the opponent's throw randomly. This is as close as it gets to a direct translation.
-<!-- div:left-panel -->
-```invocation
-/chop bomb:true static:true
-```
-<@user> rolled `pass`
-<!-- div:right-panel -->
-```invocation
-/met static throw:Random Rock-Bomb-Scissors
-```
-<@user> rolled **win** (:firecracker: bomb _vs_ :rock: rock)
-<!-- panels:end -->
-
----
-
-And here are some things that `/chop` *can't* do:
-
-<!-- panels:start -->
-<!-- panels:title -->
-**Make a static test against an *opponent* with bomb**
-<!-- div:left-panel -->
-```invocation
-/met static vs:Random Rock-Bomb-Scissors
-```
-<!-- div:right-panel -->
-<@user> rolled **lose** (:rock: rock _vs_ :firecracker: bomb)
-<!-- panels:end -->
-
-<!-- panels:start -->
-<!-- panels:title -->
-**Make a simple test where you throw paper**
-<!-- div:left-panel -->
-```invocation
-/met static throw:paper
-```
-<!-- div:right-panel -->
-<@user> rolled **win** (:scroll: paper _vs_ :rock: rock)
-<!-- panels:end -->
