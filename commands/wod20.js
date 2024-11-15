@@ -9,7 +9,7 @@ const { present } = require("../presenters/wod20-results-presenter")
 const { handleTeamwork } = require("../services/teamwork-manager")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/inject-user")
+const { injectMention } = require("../util/formatters")
 
 module.exports = {
   name: "wod20",

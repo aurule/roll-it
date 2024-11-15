@@ -5,7 +5,7 @@ const commonOpts = require("../../util/common-options")
 const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/met-static-results-presenter")
-const { injectMention } = require("../../util/inject-user")
+const { injectMention } = require("../../util/formatters")
 
 module.exports = {
   name: "static",

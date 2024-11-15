@@ -9,6 +9,7 @@ const { capitalize } = require("./capitalize")
 const { inlineList } = require("./inline-list")
 const { siteLink, rootLink } = require("./site-link")
 const { messageLink } = require("./message-link")
+const { injectMention } = require("./inject-user")
 
 module.exports = {
   signed,
@@ -19,4 +20,5 @@ module.exports = {
   siteLink,
   rootLink,
   messageLink,
+  injectMention,
 }

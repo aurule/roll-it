@@ -7,7 +7,7 @@ const { sum } = require("../services/tally")
 const { present } = require("../presenters/roll-formula-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/inject-user")
+const { injectMention } = require("../util/formatters")
 const { signed } = require("../util/formatters")
 
 module.exports = {

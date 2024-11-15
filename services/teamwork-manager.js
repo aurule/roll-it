@@ -18,7 +18,7 @@ const {
 } = require("discord.js")
 const teamworkPresenter = require("../presenters/teamwork-presenter")
 const { bonusOptions, timeout_ms } = require("../util/teamwork-settings")
-const { injectMention } = require("../util/inject-user")
+const { injectMention } = require("../util/formatters")
 
 function increasePool(initial_pool, bonuses) {
   let final_pool = bonuses.reduce((acc, curr) => acc + curr, initial_pool)
