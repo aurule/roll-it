@@ -1,3 +1,7 @@
+/**
+ * Module with static data for the teamwork manager
+ */
+
 module.exports = {
   timeout_ms: 300_000,
   bonusOptions: [
