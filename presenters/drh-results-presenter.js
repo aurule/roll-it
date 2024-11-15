@@ -1,6 +1,6 @@
 const { bold, underline, italic, strikethrough, Collection } = require("discord.js")
 
-const { singularize } = require("../util/singularize")
+const { indeterminate } = require("../util/formatters")
 
 /**
  * Map of talent keywords to displayable names
@@ -323,7 +323,7 @@ class DrhRollPresenter {
   get resultWord() {
     if (this.playerTotal >= this.painTotal) {
       const degree = Math.min(4, this.playerTotal - this.painTotal)
-      return `${singularize(successDegrees[degree])} success`
+      return `${indeterminate(successDegrees[degree])} success`
     }
     return "failure"
   }

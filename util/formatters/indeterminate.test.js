@@ -1,25 +1,25 @@
-const { singularize } = require("./singularize")
+const { indeterminate } = require("./indeterminate")
 
 it("uses a for consonants", () => {
-  const result = singularize("seat")
+  const result = indeterminate("seat")
 
   expect(result).toEqual("a seat")
 })
 
 it("uses an for vowels", () => {
-  const result = singularize("apple")
+  const result = indeterminate("apple")
 
   expect(result).toEqual("an apple")
 })
 
 it("handles upper case", () => {
-  const result = singularize("Sedan")
+  const result = indeterminate("Sedan")
 
   expect(result).toEqual("a Sedan")
 })
 
 it("ignores empty word", () => {
-  const result = singularize()
+  const result = indeterminate()
 
   expect(result).toBeUndefined()
 })

@@ -1,5 +1,5 @@
 const { signed } = require("../util/formatters")
-const { singularize } = require("../util/singularize")
+const { indeterminate } = require("../util/formatters")
 
 const emoji = [
   null,
@@ -98,7 +98,7 @@ module.exports = {
   toLadder: (num) => {
     const index = num + 5
 
-    let content = ["**", singularize(ladder[index]), " ("]
+    let content = ["**", indeterminate(ladder[index]), " ("]
     if (num > 0) content.push("+")
     content.push(num)
     content.push(")**")
