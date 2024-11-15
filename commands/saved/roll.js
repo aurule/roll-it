@@ -1,6 +1,6 @@
 const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
-const { added } = require("../../presenters/addition-presenter")
+const { signed } = require("../../util/formatters")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const commonOpts = require("../../util/common-options")
 const present_command = require("../../presenters/command-name-presenter").present
@@ -104,7 +104,7 @@ module.exports = {
 
       const old_number = roll_detail.options[target] ?? 0
       roll_detail.options[target] = old_number + bonus
-      roll_detail.options.description += added(bonus)
+      roll_detail.options.description += signed(bonus)
     }
 
     if (rolls) roll_detail.options.rolls = rolls

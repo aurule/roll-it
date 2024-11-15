@@ -1,19 +1,19 @@
-const { added } = require("./addition-presenter")
+const { signed } = require("./signed")
 
 it("renders positive addition", () => {
-  const result = added(5)
+  const result = signed(5)
 
   expect(result).toMatch(" + 5")
 })
 
 it("renders negative addition", () => {
-  const result = added(-5)
+  const result = signed(-5)
 
   expect(result).toMatch(" - 5")
 })
 
 it("ignores zero", () => {
-  const result = added(0)
+  const result = signed(0)
 
   expect(result).toMatch("")
 })

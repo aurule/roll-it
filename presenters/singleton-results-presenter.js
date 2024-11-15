@@ -1,5 +1,5 @@
 const { bold } = require("discord.js")
-const { added } = require("./addition-presenter")
+const { signed } = require("../util/formatters")
 
 module.exports = {
   /**
@@ -61,7 +61,7 @@ module.exports = {
   detail: (result, modifier = 0) => {
     const content = [bold(result + modifier)]
     if (modifier) {
-      content.push(`(${result}${added(modifier)})`)
+      content.push(`(${result}${signed(modifier)})`)
     }
     return content.join(" ")
   },

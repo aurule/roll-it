@@ -1,5 +1,5 @@
 const { bold, strikethrough, Collection } = require("discord.js")
-const { added } = require("./addition-presenter")
+const { signed } = require("../util/formatters")
 
 const keep_strings = new Collection([
   ["all", ""],
@@ -72,7 +72,7 @@ function detail(result, indexes, modifier = 0) {
 
   let breakdown = ""
   if (modifier) {
-    breakdown = `(${selection}${added(modifier)})`
+    breakdown = `(${selection}${signed(modifier)})`
     content.push(breakdown)
   } else if (result.length > 1) {
     content.push(selection)

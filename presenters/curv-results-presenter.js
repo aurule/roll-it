@@ -1,5 +1,5 @@
 const { strikethrough, bold } = require("discord.js")
-const { added } = require("./addition-presenter")
+const { signed } = require("../util/formatters")
 
 class CurvPresenter {
   /**
@@ -145,7 +145,7 @@ class CurvPresenter {
   explainModifier() {
     if (!this.modifier) return ""
 
-    return added(this.modifier)
+    return signed(this.modifier)
   }
 
   /**

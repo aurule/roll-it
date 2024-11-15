@@ -1,5 +1,5 @@
 const { bold } = require("discord.js")
-const { added } = require("./addition-presenter")
+const { signed } = require("../util/formatters")
 
 /**
  * Describe the results of a single roll
@@ -70,7 +70,7 @@ function detail({ sides, raw, modifier }) {
   detail += "]"
 
   if (modifier) {
-    detail += added(modifier)
+    detail += signed(modifier)
   }
 
   return detail + ")"

@@ -1,4 +1,4 @@
-const { added } = require("./addition-presenter")
+const { signed } = require("../util/formatters")
 const { singularize } = require("../util/singularize")
 
 const emoji = [
@@ -119,7 +119,7 @@ module.exports = {
     })
 
     if (modifier) {
-      detail.push(added(modifier))
+      detail.push(signed(modifier))
     }
 
     return detail.join("")
