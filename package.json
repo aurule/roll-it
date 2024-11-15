@@ -18,7 +18,7 @@
     "common-tags": "^1.8.2",
     "discord.js": "^14.16.3",
     "joi": "^17.13.3",
-    "mathjs": "^13.2.1",
+    "mathjs": "^13.2.2",
     "pino": "^9.5.0",
     "pino-papertrail": "^2.1.0"
   },
