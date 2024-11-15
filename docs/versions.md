@@ -2,6 +2,20 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.9.5 <small>Released Nov 12, 2024</small>
+
+### Changed
+
+* Renamed `/roll-chooser` to `/setup-roll-it`
+* Increases the response timer for `/met opposed` from 5 to 10 minutes
+* Require both participants to click Throw during a retest in `/met opposed`
+* Show new rps chop emoji when a throw is confirmed in `/met opposed` retests
+
+### Fixed
+
+* The prompt to cancel a retest during `/met opposed` should work again
+* Retest reason is now saved per user, so you won't accidentally retest using the other participant's reason
+
 ## 1.9.4 <small>Released Oct 23, 2024</small>
 
 ### Fixed
