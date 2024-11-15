@@ -15,5 +15,5 @@ module.exports = {
     if (interaction.replied) return "followUp"
     if (interaction.deferred) return "editReply"
     return "reply"
-  }
+  },
 }

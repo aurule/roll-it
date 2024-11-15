@@ -83,7 +83,7 @@ module.exports = {
       oneLine`
         ${command_name} is a shortcut for the more powerful ${inlineCode("/met static")} command. Use that
         one to pick your thrown symbol and make static tests against an opponent who can throw bomb.
-      `
+      `,
     ].join("\n")
   },
 }
