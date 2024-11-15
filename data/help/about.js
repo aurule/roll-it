@@ -1,7 +1,7 @@
 const { hideLinkEmbed, hyperlink } = require("discord.js")
 const { oneLine } = require("common-tags")
 
-const { siteLink, rootLink } = require("../../util/site-link")
+const { siteLink, rootLink } = require("../../util/formatters")
 
 module.exports = {
   name: "about",

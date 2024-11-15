@@ -2,7 +2,7 @@ const { inlineCode, italic, unorderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { present } = require("../../presenters/command-name-presenter")
-const { siteLink } = require("../../util/site-link")
+const { siteLink } = require("../../util/formatters")
 
 module.exports = {
   name: "systems",

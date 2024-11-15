@@ -2,7 +2,7 @@ const { inlineCode, italic, heading, orderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
-const { siteLink } = require("../../util/site-link")
+const { siteLink } = require("../../util/formatters")
 
 module.exports = {
   name: "saved",

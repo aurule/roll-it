@@ -2,7 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits, inlineCode, italic } = require
 const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
-const { siteLink } = require("../util/site-link")
+const { siteLink } = require("../util/formatters")
 
 const subcommands = loadSubcommands("table")
 
