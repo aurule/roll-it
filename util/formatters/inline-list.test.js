@@ -1,11 +1,11 @@
-const { inline } = require("./inline-list")
+const { inlineList } = require("./inline-list")
 
-describe("inline", () => {
+describe("inlineList", () => {
   describe("with zero items", () => {
     const test_array = []
 
     it("returns an empty string", () => {
-      const result = inline(test_array)
+      const result = inlineList(test_array)
 
       expect(result).toEqual("")
     })
@@ -15,7 +15,7 @@ describe("inline", () => {
     const test_array = ["single"]
 
     it("returns the item", () => {
-      const result = inline(test_array)
+      const result = inlineList(test_array)
 
       expect(result).toEqual("single")
     })
@@ -25,7 +25,7 @@ describe("inline", () => {
     const test_array = ["first", "second"]
 
     it("returns both items separated by 'and'", () => {
-      const result = inline(test_array)
+      const result = inlineList(test_array)
 
       expect(result).toEqual("first and second")
     })
@@ -35,19 +35,19 @@ describe("inline", () => {
     const test_array = ["first", "second", "third"]
 
     it("separates first few with a comma", () => {
-      const result = inline(test_array)
+      const result = inlineList(test_array)
 
       expect(result).toMatch("first, second")
     })
 
     it("uses 'and' to attach final entry", () => {
-      const result = inline(test_array)
+      const result = inlineList(test_array)
 
       expect(result).toMatch("and third")
     })
 
     it("adds an oxford comma", () => {
-      const result = inline(test_array)
+      const result = inlineList(test_array)
 
       expect(result).toMatch(", and")
     })

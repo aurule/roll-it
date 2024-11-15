@@ -7,14 +7,14 @@ module.exports = {
    *
    * @example
    * ```js
-   * inline(["first", "second", "third"])
+   * inlineList(["first", "second", "third"])
    * // returns "first, second, and third"
    * ```
    *
    * @param  {str[]} arr Array of printable elements
    * @return {str}       Inline string representation of the array
    */
-  inline(arr) {
+  inlineList(arr) {
     const length = arr.length
 
     if (!length) return ""

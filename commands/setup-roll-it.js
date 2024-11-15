@@ -18,7 +18,7 @@ const SystemSelectTransformer = require("../transformers/system-select-transform
 const api = require("../services/api")
 const { arrayEq } = require("../util/array-eq")
 const { systems } = require("../data")
-const { pluralize, capitalize } = require("../util/formatters")
+const { pluralize, capitalize, inlineList } = require("../util/formatters")
 
 const timeout_ms = 120_000 // 2 minute timeout
 
@@ -122,8 +122,8 @@ module.exports = {
       prompt_content +=
         "\n" +
         subtext(oneline`
-        This server uses the deprecated ${pluralize("command", num_replaced)} ${inline(replaced_names)}.
-        ${cap_pronoun} ${verb_is} being replaced by ${inline(replacement_names)}, which is why ${pronoun}
+        This server uses the deprecated ${pluralize("command", num_replaced)} ${inlineList(replaced_names)}.
+        ${cap_pronoun} ${verb_is} being replaced by ${inlineList(replacement_names)}, which is why ${pronoun}
         ${verb_does} not appear on this list. ${cap_pronoun} will be removed automatically in the future. If
         you update the server's commands, ${pronoun} will be removed immediately.
       `)
