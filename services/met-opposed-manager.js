@@ -7,7 +7,7 @@ const {
 } = require("discord.js")
 
 const { throwOptions } = require("../util/met-throw-options")
-const { messageLink } = require("../util/message-link")
+const { messageLink } = require("../util/formatters")
 const presenter = require("../presenters/met-opposed-presenter")
 const Participant = require("./met-opposed/participant")
 const TestRecorder = require("./met-opposed/test-recorder")

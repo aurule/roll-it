@@ -9,7 +9,7 @@ const {
 const { oneLine } = require("common-tags")
 
 const { timeout_ms } = require("../util/teamwork-settings")
-const { messageLink } = require("../util/message-link")
+const { messageLink } = require("../util/formatters")
 
 module.exports = {
   helperPromptMessage(userFlake, description) {
