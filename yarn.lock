@@ -2112,10 +2112,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fraction.js@npm:^4.3.7":
-  version: 4.3.7
-  resolution: "fraction.js@npm:4.3.7"
-  checksum: 10c0/df291391beea9ab4c263487ffd9d17fed162dbb736982dee1379b2a8cc94e4e24e46ed508c6d278aded9080ba51872f1bc5f3a5fd8d7c74e5f105b508ac28711
+"fraction.js@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "fraction.js@npm:5.2.1"
+  checksum: 10c0/4d20062e928d19fa5d1cca031b669785ac3f5817fbd60d4987ebf5c90947a7c602f740218500a5fcbc9bdcf831f729330fa403888561d277ce602fff76e6f015
   languageName: node
   linkType: hard
 
@@ -3215,22 +3215,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:^13.2.2":
-  version: 13.2.2
-  resolution: "mathjs@npm:13.2.2"
+"mathjs@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "mathjs@npm:14.0.0"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
     complex.js: "npm:^2.2.5"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
-    fraction.js: "npm:^4.3.7"
+    fraction.js: "npm:^5.2.1"
     javascript-natural-sort: "npm:^0.7.1"
     seedrandom: "npm:^3.0.5"
     tiny-emitter: "npm:^2.1.0"
     typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10c0/1726dc312a29cb1ad2ab06c956d92e18460fbe71bd1f7bcd278c14fd04d40ecf0ee02a51ffe4269c114e1ad4e3a93b9d4092f2f118b59d014c5a6311a28da519
+  checksum: 10c0/2033d50799dcd74b02ef28541f023c63a8aead5e5eb72b135ba70edf1582dda28ee9c622b20747c9d56d8cc986061a898e15f609422ad76fe38555ce6e1f8ed1
   languageName: node
   linkType: hard
 
@@ -3988,7 +3988,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     jest: "npm:^29.7.0"
     joi: "npm:^17.13.3"
-    mathjs: "npm:^13.2.2"
+    mathjs: "npm:^14.0.0"
     nodemon: "npm:^3.1.7"
     pino: "npm:^9.5.0"
     pino-papertrail: "npm:^2.1.0"

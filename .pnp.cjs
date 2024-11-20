@@ -36,7 +36,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.2.2"],\
+          ["mathjs", "npm:14.0.0"],\
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -2855,10 +2855,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fraction.js", [\
-      ["npm:4.3.7", {\
-        "packageLocation": "./.yarn/cache/fraction.js-npm-4.3.7-c2c7e95a8e-df291391be.zip/node_modules/fraction.js/",\
+      ["npm:5.2.1", {\
+        "packageLocation": "./.yarn/cache/fraction.js-npm-5.2.1-722e0c258f-4d20062e92.zip/node_modules/fraction.js/",\
         "packageDependencies": [\
-          ["fraction.js", "npm:4.3.7"]\
+          ["fraction.js", "npm:5.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4138,15 +4138,15 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:13.2.2", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-13.2.2-e58b684632-1726dc312a.zip/node_modules/mathjs/",\
+      ["npm:14.0.0", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-14.0.0-ca7524927b-2033d50799.zip/node_modules/mathjs/",\
         "packageDependencies": [\
-          ["mathjs", "npm:13.2.2"],\
+          ["mathjs", "npm:14.0.0"],\
           ["@babel/runtime", "npm:7.26.0"],\
           ["complex.js", "npm:2.4.2"],\
           ["decimal.js", "npm:10.4.3"],\
           ["escape-latex", "npm:1.2.0"],\
-          ["fraction.js", "npm:4.3.7"],\
+          ["fraction.js", "npm:5.2.1"],\
           ["javascript-natural-sort", "npm:0.7.1"],\
           ["seedrandom", "npm:3.0.5"],\
           ["tiny-emitter", "npm:2.1.0"],\
@@ -4981,7 +4981,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.5"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:13.2.2"],\
+          ["mathjs", "npm:14.0.0"],\
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
