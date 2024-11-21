@@ -7,7 +7,7 @@ describe("execute", () => {
     const interaction = new Interaction()
     interaction.command_options.subcommand_name = "list"
     const contents = ["first"]
-    rollables = new GuildRollables(interaction.guildId)
+    const rollables = new GuildRollables(interaction.guildId)
     rollables.create("test1", "a test", contents)
     rollables.create("test2", "a test", contents)
 
@@ -21,7 +21,7 @@ describe("execute", () => {
     const interaction = new Interaction()
     interaction.command_options.subcommand_name = "list"
     const contents = ["first"]
-    rollables = new GuildRollables(interaction.guildId)
+    const rollables = new GuildRollables(interaction.guildId)
     rollables.create("test1", "test desc 1", contents)
     rollables.create("test2", "test desc 2", contents)
 
