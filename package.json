@@ -37,6 +37,7 @@
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "test:ci": "NODE_ENV=ci jest --ci",
+    "coverage": "NODE_ENV=test jest --coverage",
     "changelog:build": "node scripts/build-changelog.js",
     "changelog:add": "node scripts/add-changelog-snippet.js",
     "start": "node index.js",
