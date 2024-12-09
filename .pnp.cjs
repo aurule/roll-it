@@ -28,12 +28,12 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@biomejs/biome", "npm:1.9.4"],\
-          ["better-sqlite3", "npm:11.5.0"],\
+          ["better-sqlite3", "npm:11.7.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.16.3"],\
-          ["dotenv", "npm:16.4.5"],\
+          ["dotenv", "npm:16.4.7"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:14.0.0"],\
@@ -1934,10 +1934,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:11.5.0", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.5.0-648ad161b6/node_modules/better-sqlite3/",\
+      ["npm:11.7.0", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.7.0-4c4b220f9d/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.5.0"],\
+          ["better-sqlite3", "npm:11.7.0"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -2535,10 +2535,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["dotenv", [\
-      ["npm:16.4.5", {\
-        "packageLocation": "./.yarn/cache/dotenv-npm-16.4.5-bcb20eb95d-48d9287007.zip/node_modules/dotenv/",\
+      ["npm:16.4.7", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-16.4.7-29680c94f8-be9f597e36.zip/node_modules/dotenv/",\
         "packageDependencies": [\
-          ["dotenv", "npm:16.4.5"]\
+          ["dotenv", "npm:16.4.7"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4973,12 +4973,12 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["roll-it", "workspace:."],\
           ["@biomejs/biome", "npm:1.9.4"],\
-          ["better-sqlite3", "npm:11.5.0"],\
+          ["better-sqlite3", "npm:11.7.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.16.3"],\
-          ["dotenv", "npm:16.4.5"],\
+          ["dotenv", "npm:16.4.7"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:14.0.0"],\
