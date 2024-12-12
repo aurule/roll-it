@@ -36,7 +36,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.7"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:14.0.0"],\
+          ["mathjs", "npm:14.0.1"],\
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -4138,10 +4138,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:14.0.0", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-14.0.0-ca7524927b-2033d50799.zip/node_modules/mathjs/",\
+      ["npm:14.0.1", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-14.0.1-ce17ee391f-909769564b.zip/node_modules/mathjs/",\
         "packageDependencies": [\
-          ["mathjs", "npm:14.0.0"],\
+          ["mathjs", "npm:14.0.1"],\
           ["@babel/runtime", "npm:7.26.0"],\
           ["complex.js", "npm:2.4.2"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -4981,7 +4981,7 @@ const RAW_RUNTIME_STATE =
           ["dotenv", "npm:16.4.7"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:14.0.0"],\
+          ["mathjs", "npm:14.0.1"],\
           ["nodemon", "npm:3.1.7"],\
           ["pino", "npm:9.5.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
