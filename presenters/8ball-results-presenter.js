@@ -26,7 +26,7 @@ const faces = [
 
 module.exports = {
   /**
-   * Create a string describing the results of a coin flip
+   * Create a string describing the results of a roll of the magic 8 ball
    *
    * @param  {String}   options.question      Question the roll is for
    * @param  {bool}     options.doit          Whether to always reply "Do it"

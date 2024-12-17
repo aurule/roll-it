@@ -2,13 +2,13 @@ const { SlashCommandBuilder } = require("discord.js")
 const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/eightball-results-presenter")
+const { present } = require("../presenters/8ball-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 
 module.exports = {
-  name: "eightball",
+  name: "8ball",
   description: "Get an answer from the Magic 8 Ball",
   data: () =>
     new SlashCommandBuilder()

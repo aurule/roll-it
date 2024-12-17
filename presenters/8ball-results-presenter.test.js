@@ -1,4 +1,4 @@
-const EightBallResultsPresenter = require("./eightball-results-presenter")
+const EightBallResultsPresenter = require("./8ball-results-presenter")
 
 describe("present", () => {
   const defaultArgs = {

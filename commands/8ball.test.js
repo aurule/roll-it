@@ -1,4 +1,4 @@
-const eightball_command = require("./eightball")
+const eightball_command = require("./8ball")
 
 const { Interaction } = require("../testing/interaction")
 const { test_secret_option } = require("../testing/shared/execute-secret")
