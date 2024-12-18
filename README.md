@@ -51,7 +51,7 @@ You can save a command and all its options to re-use later! Check out `/saved se
 
 There are a few commands thrown in just for fun, too:
 * Flip a coin with `/coin`
-* Seek advice from the Magic 8 Ball with `/eightball`
+* Seek advice from the Magic 8 Ball with `/8ball`
 
 ## Getting Help
 
