@@ -47,6 +47,6 @@ module.exports = {
    * @return {SlashCommandIntegerOption}        Populated option
    */
   pool(option) {
-    return option.setName("pool").setDescription("Number of dice to roll").setMinValue(1).setRequired(true)
+    return option.setName("pool").setDescription("Number of dice to roll").setMinValue(1)
   }
 }
