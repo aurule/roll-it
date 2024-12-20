@@ -17,7 +17,7 @@ module.exports = {
     new SlashCommandBuilder()
       .setName(module.exports.name)
       .setDescription(module.exports.description)
-      .addIntegerOption(commonOpts.pool(opt).setRequired(true))
+      .addIntegerOption(opt => commonOpts.pool(opt).setRequired(true))
       .addIntegerOption((option) =>
         option
           .setName("sides")
