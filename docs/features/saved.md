@@ -31,6 +31,7 @@ _Save this roll_ lets you save a command that you've just used. To do so, use _S
 Here are the commands that can be saved:
 * `/curv` - Roll 3d6 for D&D 5e
 * `/d6` - Roll some six-sided dice
+* `/2d6` - Roll two six-sided dice (accelerator for `/d6`)
 * `/d10` - Roll a single ten-sided die
 * `/d100` - Roll a single percentile (100-sided) die
 * `/d20` - Roll a single 20-sided die
