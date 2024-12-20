@@ -14,6 +14,7 @@ Here are the supported systems:
 * [Don't Rest Your Head](/systems/drh) with `/drh`
 * [Kids On Bikes](/systems/kob) with `/kob`
 * [Shadowrun](/systems/shadowrun) 4e, 5e, and 6e with `/shadowrun`
+* [Powered by the Apocalypse](/systems/pba) with `/2d6`
 
 ## Common Options
 
