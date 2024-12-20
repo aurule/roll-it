@@ -2,6 +2,17 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.9.6 <small>Released Dec 20, 2024</small>
+
+### Added
+
+* Output for `/met static` and `/chop` now tag each roll as random or with bomb
+
+### Changed
+
+* Renamed `/eightball` command to `/8ball`
+* Rework `/chop` as a simplified shortcut to `/met static`
+
 ## v1.9.5 <small>Released Nov 12, 2024</small>
 
 ### Changed
