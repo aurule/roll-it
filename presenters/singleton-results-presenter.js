@@ -20,7 +20,7 @@ module.exports = {
   },
 
   /**
-   * Create a string describing the results of a rock-paper-scissors roll
+   * Create a string describing the results of a one-die roll
    *
    * @param  {Int}      options.modifier      Number to add to the roll's summed result
    * @param  {String}   options.description   Text describing the roll
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   /**
-   * Create a string describing the results of many rock-paper-scissors rolls
+   * Create a string describing the results of many one-die rolls
    *
    * @param  {Int}      options.modifier      Number to add to the roll's summed result
    * @param  {String}   options.description   Text describing the roll

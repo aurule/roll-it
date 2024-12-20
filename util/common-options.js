@@ -39,4 +39,14 @@ module.exports = {
   secret(option) {
     return option.setName("secret").setDescription("Hide the results from everyone but you")
   },
+
+  /**
+   * Pool option
+   *
+   * @param  {SlashCommandIntegerOption} option Option to populate
+   * @return {SlashCommandIntegerOption}        Populated option
+   */
+  pool(option) {
+    return option.setName("pool").setDescription("Number of dice to roll").setMinValue(1).setRequired(true)
+  }
 }

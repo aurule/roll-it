@@ -23,9 +23,10 @@ Roll dice pools for a number of game systems:
 * Shadowrun 4e, 5e, and 6e with `/shadowrun`
 
 And of course, you can roll whatever standard dice you want:
-* Roll d10s with `/d10`
-* Roll some d20s with `/d20`
-* Roll percentiles with `/d100`
+* Roll some d6s with `/d6`
+* Roll a d10 with `/d10`
+* Roll a d20 with `/d20`
+* Roll a percentile with `/d100`
 * Roll other dice with `/roll`
 * Do some dice math with `/roll-formula`
 

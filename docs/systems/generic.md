@@ -6,9 +6,10 @@ Roll It supports these in a few ways, depending on what you want to do:
 
 * `/roll` rolls one or more dice with the same number of sides
 * `/roll-formula` rolls as many sets of dice as you want, along with powerful modifiers
-* `/d10` rolls some d10s
-* `/d20` rolls some d20s
-* `/d100` rolls some percentiles
+* `/d6` rolls one d6
+* `/d10` rolls one d10
+* `/d20` rolls one d20
+* `/d100` rolls one percentile
 
 ## `/roll`
 
@@ -49,9 +50,15 @@ The math is handled by the excellent [math.js](https://mathjs.org) library. Read
 30 = 8 + 3 + 19
 <!-- panels:end -->
 
+## `/d6`
+
+This just rolls some 6-sided dice.
+
+* `modifier` an optional number to add to the result of the die
+
 ## `/d10`
 
-This just rolls a single 10-sided die.
+This rolls a single 10-sided die.
 
 * `modifier` an optional number to add to the result of the die
 
@@ -66,6 +73,6 @@ This one rolls a single 20-sided die.
 
 This rolls a single 100-sided die.
 
-Percentiles are often called for when rolling on a table. Have a look at the [Rollable Tables](/features/tables) feature if that's something you need to do often.
+?> Percentiles are often called for when rolling on a table. Have a look at the [Rollable Tables](/features/tables) feature if that's something you need to do often.
 
 * `modifier` an optional number to add to the result of the die
