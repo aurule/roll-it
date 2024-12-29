@@ -38,7 +38,7 @@ const RAW_RUNTIME_STATE =
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:14.0.1"],\
           ["nodemon", "npm:3.1.9"],\
-          ["pino", "npm:9.5.0"],\
+          ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
           ["prompts", "npm:2.4.2"],\
@@ -4612,10 +4612,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.5.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.5.0-c25201092d-b06590c5f4.zip/node_modules/pino/",\
+      ["npm:9.6.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-9.6.0-043d7ccc5e-bcd1e9d9b3.zip/node_modules/pino/",\
         "packageDependencies": [\
-          ["pino", "npm:9.5.0"],\
+          ["pino", "npm:9.6.0"],\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
@@ -4983,7 +4983,7 @@ const RAW_RUNTIME_STATE =
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:14.0.1"],\
           ["nodemon", "npm:3.1.9"],\
-          ["pino", "npm:9.5.0"],\
+          ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
           ["prompts", "npm:2.4.2"],\
@@ -11454,18 +11454,20 @@ Require stack:
     }
     return false;
   };
-  const originalExtensionJSFunction = require$$0.Module._extensions[`.js`];
-  require$$0.Module._extensions[`.js`] = function(module, filename) {
-    if (filename.endsWith(`.js`)) {
-      const pkg = readPackageScope(filename);
-      if (pkg && pkg.data?.type === `module`) {
-        const err = ERR_REQUIRE_ESM(filename, module.parent?.filename);
-        Error.captureStackTrace(err);
-        throw err;
+  if (!process.features.require_module) {
+    const originalExtensionJSFunction = require$$0.Module._extensions[`.js`];
+    require$$0.Module._extensions[`.js`] = function(module, filename) {
+      if (filename.endsWith(`.js`)) {
+        const pkg = readPackageScope(filename);
+        if (pkg && pkg.data?.type === `module`) {
+          const err = ERR_REQUIRE_ESM(filename, module.parent?.filename);
+          Error.captureStackTrace(err);
+          throw err;
+        }
       }
-    }
-    originalExtensionJSFunction.call(this, module, filename);
-  };
+      originalExtensionJSFunction.call(this, module, filename);
+    };
+  }
   const originalDlopen = process.dlopen;
   process.dlopen = function(...args) {
     const [module, filename, ...rest] = args;
