@@ -1,4 +1,4 @@
-const x2d6_command = require("./2d6")
+const pba_command = require("./pba")
 
 const { Interaction } = require("../testing/interaction")
 const { test_secret_option } = require("../testing/shared/execute-secret")
@@ -15,7 +15,7 @@ describe("perform", () => {
       description: "this is a test",
     }
 
-    const result = x2d6_command.perform(options)
+    const result = pba_command.perform(options)
 
     expect(result).toMatch("this is a test")
   })
@@ -23,7 +23,7 @@ describe("perform", () => {
 
 describe("execute", () => {
   describe("with one roll", () => {
-    test_secret_option(x2d6_command, { rolls: 1 })
+    test_secret_option(pba_command, { rolls: 1 })
   })
 
   describe("with multiple rolls", () => {
@@ -35,7 +35,7 @@ describe("execute", () => {
       const description_text = "this is a test"
       interaction.command_options.description = description_text
 
-      x2d6_command.execute(interaction)
+      pba_command.execute(interaction)
 
       expect(interaction.replyContent).toMatch(description_text)
     })

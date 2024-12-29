@@ -21,7 +21,7 @@ Roll dice pools for a number of game systems:
 * Don't Rest Your Head with `/drh`
 * Kids On Bikes with `/kob`
 * Shadowrun 4e, 5e, and 6e with `/shadowrun`
-* Powered by the Apocalypse with `/2d6`
+* Powered by the Apocalypse with `/pba`
 * Stars Without Number (and friends) with `/d20` and `/2d6`
 
 And of course, you can roll whatever standard dice you want:

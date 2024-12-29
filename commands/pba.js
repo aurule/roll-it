@@ -10,7 +10,7 @@ const { injectMention } = require("../util/formatters")
 const d6 = require("./d6")
 
 module.exports = {
-  name: "2d6",
+  name: "pba",
   description: "Roll and sum two six-sided dice",
   data: () =>
     new SlashCommandBuilder()
@@ -59,8 +59,8 @@ module.exports = {
   help({ command_name }) {
     return [
       oneLine`
-        ${command_name} rolls two six-sided dice and adds the results. This is to make it easy to roll skill
-        checks in systems like Powered by the Apocalypse, or Stars Without Number.
+        ${command_name} rolls two six-sided dice and adds the results, as appropriate for Powered by the
+        Apocalypse.
       `,
       "",
       `This command is just a speedy way to roll ${inlineCode("/d6 pool:2")}.`,
