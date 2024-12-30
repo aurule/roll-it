@@ -14,8 +14,8 @@ i18next
     initAsync: false,
     ns: ["translation", "commands"],
     backend: {
-      loadPath: join(__dirname, './{{lng}}/{{ns}}.json'),
-      addPath: join(__dirname, './{{lng}}/{{ns}}.missing.json'),
+      loadPath: join(__dirname, './{{lng}}/{{ns}}.yaml'),
+      addPath: join(__dirname, './{{lng}}/{{ns}}.missing.yaml'),
     },
     interpolation: {
       escapeValue: false,
