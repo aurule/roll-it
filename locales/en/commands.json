@@ -1,0 +1,56 @@
+{
+  "chop": {
+    "response": {
+      "shortcut": "This command is a shortcut. Try `/met static` instead."
+    }
+  },
+  "drh": {
+    "options": {
+      "talent": {
+        "validation": {
+          "exhaustion": "You need at least 1 `exhaustion` to use an exhaustion talent.",
+          "madness": "You need at least 1 `madness` to use a madness talent."
+        }
+      }
+    }
+  },
+  "nwod": {
+    "options": {
+      "teamwork": {
+        "validation": {
+          "conflict": "You cannot use teamwork with the `rolls`, `until`, or `secret` options, or if you have a chance die."
+        }
+      }
+    }
+  },
+  "save-this-roll": {
+    "response": {
+      "incomplete": "You've saved the command for a new roll. Now use `/saved set` to set its name and description.",
+      "complete": "You've saved the roll *{{saved_details.name}}*! Try it out with `/saved roll name:{{saved_details.name}}`."
+    },
+    "validation": {
+      "foreign": "That message was not sent by a Roll It command.",
+      "missing": "That message's command cannot be found, because the message may be too old. Try sending its command again, then saving the new message.",
+      "unsavable": "The command `{{command.name}}` cannot be saved.",
+      "options": "That command's options cannot be saved, which means you found a bug! This is what went wrong while saving `{{command.name}}`:\n {{messages}}"
+    }
+  },
+  "shadowrun": {
+    "options": {
+      "teamwork": {
+        "validation": {
+          "conflict": "You cannot use teamwork with the `rolls`, `until`, or `secret` options."
+        }
+      }
+    }
+  },
+  "wod20": {
+    "options": {
+      "teamwork": {
+        "validation": {
+          "conflict": "You cannot use teamwork with the `rolls`, `until`, or `secret` options."
+        }
+      }
+    }
+  }
+}

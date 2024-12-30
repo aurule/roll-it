@@ -15,6 +15,7 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { DrhPool } = require("../util/rolls/drh-pool")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "drh",
@@ -128,18 +129,20 @@ module.exports = {
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "drh")
+
     switch (talent) {
       case "minor":
       case "major":
         if (exhaustion === 0) {
           return interaction.whisper(
-            `You need at least 1 ${inlineCode("exhaustion")} to use an exhaustion talent.`,
+            t("options.talent.validation.exhaustion")
           )
         }
       case "madness":
         if (madness === 0) {
           return interaction.whisper(
-            `You need at least 1 ${inlineCode("madness")} to use a madness talent.`,
+            t("options.talent.validation.madness")
           )
         }
     }

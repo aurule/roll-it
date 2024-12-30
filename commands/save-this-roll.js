@@ -9,6 +9,7 @@ const { oneLine } = require("common-tags")
 const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const interactionCache = require("../services/interaction-cache")
+const { i18n } = require("../locales")
 
 require("dotenv").config()
 const botId = process.env.CLIENT_ID
@@ -25,21 +26,21 @@ module.exports = {
   async execute(interaction) {
     const commands = require("./index")
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "save-this-roll")
+
     const message = interaction.targetMessage
     if (message.author.id != botId) {
-      return interaction.whisper("That message was not sent by a Roll It command.")
+      return interaction.whisper(t("validation.foreign"))
     }
 
     const cachedInvocation = interactionCache.findByMessage(interaction.targetMessage)
     if (!cachedInvocation) {
-      return interaction.whisper(
-        "That message's command cannot be found, because the message may be too old. Try sending its command again, then saving the new message.",
-      )
+      return interaction.whisper(t("validation.missing"))
     }
 
     const command = commands.get(cachedInvocation.commandName)
     if (!command.savable) {
-      return interaction.whisper(`The command ${inlineCode(command.name)} cannot be saved.`)
+      return interaction.whisper(t("validation.unsavable", { command }))
     }
 
     let validated_options
@@ -48,12 +49,7 @@ module.exports = {
         abortEarly: false,
       })
     } catch (err) {
-      return interaction.whisper(
-        oneLine`
-          That command's options cannot be saved, which means you found a bug! This is what went wrong while
-          saving ${inlineCode(command.name)}:\n
-        ` + err.details.map((d) => d.message).join("\n"),
-      )
+      return interaction.whisper(t("validation.options", { command, messages: err.details.map((d) => d.message).join("\n")}))
     }
     delete validated_options.description
 
@@ -74,23 +70,13 @@ module.exports = {
     try {
       await saved_roll_schema.validateAsync(saved_details)
     } catch {
-      return interaction.whisper(
-        oneLine`
-          You've saved the command for a new roll. Now use ${inlineCode("/saved set")} to set its name and
-          description.
-        `,
-      )
+      return interaction.whisper(t("response.incomplete"))
     }
 
     // the roll is finished
     saved_rolls.update(record_id, { incomplete: false })
 
-    return interaction.whisper(
-      oneLine`
-        You've saved the roll ${italic(saved_details.name)}! Try it out with
-        ${inlineCode("/saved roll name:" + saved_details.name)}.
-      `,
-    )
+    return interaction.whisper(t("response.complete", { saved_details }))
   },
   help({ command_name }) {
     const savable_commands = require("./index").savable

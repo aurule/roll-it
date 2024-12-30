@@ -12,6 +12,7 @@ i18next
     supportedLngs: ['en'],
     nonExplicitSupportedLngs: true,
     initAsync: false,
+    ns: ["translation", "commands"],
     backend: {
       loadPath: join(__dirname, './{{lng}}/{{ns}}.json'),
       addPath: join(__dirname, './{{lng}}/{{ns}}.missing.json'),
@@ -23,5 +24,4 @@ i18next
 
 module.exports = {
   i18n: i18next,
-  t: i18next.t,
 }

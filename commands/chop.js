@@ -7,6 +7,7 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const metStatic = require("./met/static")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "chop",
@@ -50,6 +51,8 @@ module.exports = {
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "chop")
+
     const partial_message = module.exports.perform({
       rolls,
       static_test,
@@ -59,7 +62,7 @@ module.exports = {
 
     let full_text = injectMention(partial_message, interaction.user.id)
     full_text +=
-      "\n" + subtext(`This command is a shortcut. Try ${inlineCode("/met static")} instead.`)
+      "\n" + subtext(t("response.shortcut"))
     return interaction.paginate({
       content: full_text,
       split_on: "\n\t",

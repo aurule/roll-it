@@ -10,6 +10,7 @@ const { handleTeamwork } = require("../services/teamwork-manager")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "shadowrun",
@@ -93,16 +94,13 @@ module.exports = {
     const secret = interaction.options.getBoolean("secret") ?? false
     const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "shadowrun")
+
     const userFlake = interaction.user.id
 
     if (is_teamwork) {
       if (rolls > 1 || until > 0 || secret) {
-        return interaction.whisper(
-          oneLine`
-            You cannot use teamwork with the ${inlineCode("rolls")}, ${inlineCode("until")}, or
-            ${inlineCode("secret")} options.
-          `,
-        )
+        return interaction.whisper(t("options.teamwork.validation.conflict"))
       }
 
       const explode = edge ? 6 : 7
