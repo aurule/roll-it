@@ -8,11 +8,11 @@ const keep_strings = new Collection([
 ])
 
 /**
- * Create a string describing the results of a rock-paper-scissors roll
+ * Create a string describing the results of a d20 roll
  *
  * @param  {Int}          modifier    Number to add to the roll's summed result
  * @param  {String}       description Text describing the roll
- * @param  {Array<int[]>} raw         An array of one array with one numeric value for the die
+ * @param  {Array<int[]>} raw         An array of one array with one or two numeric values for the dice
  * @param  {obj}          picked      Object of results and indexes after picking highest or lowest
  * @param  {str}          keep        The method used to pick dice to keep. One of "all", "highest", or "lowest".
  * @return {String}                   String describing this roll
@@ -25,12 +25,13 @@ function presentOne({ modifier, description, raw, picked, keep }) {
 }
 
 /**
- * Create a string describing the results of many rock-paper-scissors rolls
+ * Create a string describing the results of many d20 rolls
  *
  * @param  {Int}       options.modifier     Number to add to the roll's summed result
  * @param  {String}    options.description  Text describing the roll
- * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
+ * @param  {Array<Array<Int>>} options.raw  An array of multiple arrays with one or two numeric values for the dice
  * @param  {obj[]}     options.picked       Array of objects of results and indexes after picking highest or lowest
+ * @param  {str}       options.keep         The method used to pick dice to keep. One of "all", "highest", or "lowest".
  * @return {String}                         String describing this roll
  */
 function presentMany({ modifier, description, raw, picked, keep }) {
@@ -47,10 +48,10 @@ function presentMany({ modifier, description, raw, picked, keep }) {
 /**
  * Describe a single roll result
  *
- * @param  {Int[]} result   Array of raw die numbers
- * @param  {int[]} indexes  Array of indexes kept after rolling
- * @param  {Int} modifier Number to add to the raw die
- * @return {string}       Description of the result and modifier
+ * @param  {Int[]} result    Array of raw die numbers
+ * @param  {int[]} indexes   Array of indexes kept after rolling
+ * @param  {Int}   modifier  Number to add to the raw die
+ * @return {string}          Description of the result and modifier
  */
 function detail(result, indexes, modifier = 0) {
   const die = result[indexes[0]]
