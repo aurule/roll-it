@@ -34,6 +34,8 @@ const RAW_RUNTIME_STATE =
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.16.3"],\
           ["dotenv", "npm:16.4.7"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.0"],\
+          ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:14.0.1"],\
@@ -3111,6 +3113,38 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["i18next", [\
+      ["npm:24.2.0", {\
+        "packageLocation": "./.yarn/cache/i18next-npm-24.2.0-e5d7c82147-3c41a4e214.zip/node_modules/i18next/",\
+        "packageDependencies": [\
+          ["i18next", "npm:24.2.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.0", {\
+        "packageLocation": "./.yarn/__virtual__/i18next-virtual-24f48e0e19/0/cache/i18next-npm-24.2.0-e5d7c82147-3c41a4e214.zip/node_modules/i18next/",\
+        "packageDependencies": [\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.0"],\
+          ["@babel/runtime", "npm:7.26.0"],\
+          ["@types/typescript", null],\
+          ["typescript", null]\
+        ],\
+        "packagePeers": [\
+          "@types/typescript",\
+          "typescript"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["i18next-fs-backend", [\
+      ["npm:2.6.0", {\
+        "packageLocation": "./.yarn/cache/i18next-fs-backend-npm-2.6.0-b85f3b7ff2-d54169d0fe.zip/node_modules/i18next-fs-backend/",\
+        "packageDependencies": [\
+          ["i18next-fs-backend", "npm:2.6.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["iconv-lite", [\
       ["npm:0.6.3", {\
         "packageLocation": "./.yarn/cache/iconv-lite-npm-0.6.3-24b8aae27e-98102bc66b.zip/node_modules/iconv-lite/",\
@@ -4979,6 +5013,8 @@ const RAW_RUNTIME_STATE =
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.16.3"],\
           ["dotenv", "npm:16.4.7"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.0"],\
+          ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["mathjs", "npm:14.0.1"],\
