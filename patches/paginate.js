@@ -4,6 +4,7 @@
 
 const { CommandInteraction, subtext } = require("discord.js")
 const { ceil } = require("mathjs")
+const { i18n } = require("../locales")
 
 /**
  * Default prefix generator
@@ -27,7 +28,7 @@ function prefixer(page_num) {
 function suffixer(page_num, page_count) {
   let continuation = ""
   if (page_num < page_count) continuation = "…"
-  return `${continuation}\n${subtext(`(message ${page_num}/${page_count})`)}`
+  return `${continuation}\n${subtext(i18n.t("pagination.suffix", { page_num, page_count }))}`
 }
 
 /**
