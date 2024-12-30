@@ -1,29 +1,74 @@
 const tallyService = require("./tally")
 
 describe("sum", () => {
-  it("generates one number per array of the result set", () => {
-    const resultSets = [
-      [5, 10],
-      [2, 3],
-      [3, 4],
-    ]
+  const resultSets = [
+    [5, 10],
+    [2, 3],
+    [3, 4],
+  ]
 
+  it("generates one number per array of the result set", () => {
     const sums = tallyService.sum(resultSets)
 
     expect(sums.length).toEqual(3)
   })
 
   it("sums each result set", () => {
-    const resultSets = [
-      [5, 10],
-      [2, 3],
-      [3, 4],
-    ]
     const expectedSums = [15, 5, 7]
 
     const sums = tallyService.sum(resultSets)
 
     expect(sums).toEqual(expectedSums)
+  })
+})
+
+describe("pickedSum", () => {
+  describe("when all dice are picked", () => {
+    const resultSets = [
+      [5, 10],
+      [2, 3],
+      [3, 4],
+    ]
+    const pickedDice = [
+      { indexes: [0, 1] },
+      { indexes: [0, 1] },
+      { indexes: [0, 1] },
+    ]
+
+    it("generates one number per array of the result set", () => {
+      const sums = tallyService.pickedSum(resultSets, pickedDice)
+
+      expect(sums.length).toEqual(3)
+    })
+
+    it("sums each result set", () => {
+      const expectedSums = [15, 5, 7]
+
+      const sums = tallyService.pickedSum(resultSets, pickedDice)
+
+      expect(sums).toEqual(expectedSums)
+    })
+  })
+
+  describe("when only some dice are picked", () => {
+    const resultSets = [
+      [5, 10, 6],
+      [2, 3, 9],
+      [3, 4, 1],
+    ]
+    const pickedDice = [
+      { indexes: [0, 2] },
+      { indexes: [1, 2] },
+      { indexes: [0, 1] },
+    ]
+
+    it("sums the picked pickedDice", () => {
+      const expectedSums = [11, 12, 7]
+
+      const sums = tallyService.pickedSum(resultSets, pickedDice)
+
+      expect(sums).toEqual(expectedSums)
+    })
   })
 })
 
