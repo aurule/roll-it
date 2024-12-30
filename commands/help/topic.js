@@ -1,6 +1,7 @@
 const { SlashCommandSubcommandBuilder, heading } = require("discord.js")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const topics = require("../../data").help_topics
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "topic",
@@ -25,8 +26,10 @@ module.exports = {
   execute(interaction) {
     const topic_name = interaction.options.getString("topic") ?? ""
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "help.topic")
+
     const topic = topics.get(topic_name)
-    if (!topic) return interaction.whisper(`No help is available for the topic "${topic_name}"`)
+    if (!topic) return interaction.whisper(t("options.topic.validation.unavailable", { topic_name }))
 
     const full_text = heading(topic.title) + "\n" + topic.help()
     return interaction.paginate({

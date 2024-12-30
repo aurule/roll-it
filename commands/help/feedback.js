@@ -4,6 +4,7 @@ const { oneLine } = require("common-tags")
 const Completers = require("../../completers/command-completers")
 const { UserBans } = require("../../db/bans")
 const { Feedback } = require("../../db/feedback")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "feedback",
@@ -37,9 +38,11 @@ module.exports = {
       )
   },
   execute(interaction) {
+    const t = i18n.getFixedT(interaction.locale, "commands", "help.feedback")
+
     const bans = new UserBans(interaction.user.id)
     if (bans.is_banned()) {
-      return interaction.whisper("You are not allowed to use this command right now.")
+      return interaction.whisper(t("response.banned"))
     }
 
     const message = interaction.options.getString("message") ?? ""
@@ -55,7 +58,7 @@ module.exports = {
       canReply: consent === "yes",
     })
 
-    return interaction.whisper("Thank you! Your feedback has been recorded.")
+    return interaction.whisper(t("response.success"))
   },
   async autocomplete(interaction) {
     const focusedOption = interaction.options.getFocused(true)

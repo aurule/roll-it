@@ -2,6 +2,7 @@ const { SlashCommandSubcommandBuilder } = require("discord.js")
 const CommandHelpPresenter = require("../../presenters/command-help-presenter")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const Completers = require("../../completers/command-completers")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "command",
@@ -22,10 +23,12 @@ module.exports = {
   execute(interaction) {
     const command_name = interaction.options.getString("command") ?? ""
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "help.command")
+
     const command = interaction.client.commands.get(command_name)
 
     if (!command?.help)
-      return interaction.whisper(`No help is available for the command "${command_name}"`)
+      return interaction.whisper(t("options.command.validation.unavailable", { command_name }))
 
     const full_text = CommandHelpPresenter.present(command)
     return interaction.paginate({
