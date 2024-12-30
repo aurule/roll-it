@@ -8,6 +8,7 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { pickDice } = require("../services/pick")
+const { pickedSum } = require("../services/tally")
 
 module.exports = {
   name: "swn",
@@ -20,12 +21,13 @@ module.exports = {
       .addIntegerOption((option) =>
         option.setName("modifier").setDescription("A number to add to the die's result")
       )
+      .addIntegerOption(option => option.setName("pool").setDescription("Number of dice to roll. Default 2.").setMinValue(2))
       .addIntegerOption(commonOpts.rolls)
-      .addIntegerOption(option => option.setName("pool").setDescription("Number of dice to roll").setMinValue(2))
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: ["modifier"],
+  changeable: ["modifier", "pool"],
   schema: Joi.object({
+    pool: commonSchemas.pool.min(2),
     description: commonSchemas.description,
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
@@ -33,6 +35,7 @@ module.exports = {
   perform({ pool = 2, rolls = 1, modifier = 0, description } = {}) {
     const raw_results = roll(pool, 6, rolls)
     const pick_results = pickDice(raw_results, 2, "highest")
+    const summed_results = pickedSum(raw_results, pick_results)
 
     return present({
       rolls,
@@ -40,6 +43,7 @@ module.exports = {
       description,
       raw: raw_results,
       picked: pick_results,
+      summed: summed_results,
     })
   },
   execute(interaction) {
@@ -63,14 +67,18 @@ module.exports = {
       ephemeral: secret,
     })
   },
-  help({ command_name }) {
+  help({ command_name, ...opts }) {
     return [
       oneLine`
-        ${command_name} rolls two six-sided dice and adds the results, as appropriate for Powered by the
-        Apocalypse.
+        ${command_name} rolls two six-sided dice and adds the results, as appropriate for Stars Without Number
+        and its sister games.
       `,
       "",
-      `This command is just a speedy way to roll ${inlineCode("/d6 pool:2")}.`,
+      oneLine`
+        Occasionally, a character is able to roll 3 or more dice and keep the highest two. This is fully
+        supported by using the ${opts.pool} option. When more than two dice are rolled using ${command_name},
+        only the highest two are kept.
+      `
     ].join("\n")
   },
 }
