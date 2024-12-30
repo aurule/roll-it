@@ -6,7 +6,7 @@ require("./patches/paginate").patch()
 
 const { version } = require("./package.json")
 
-// Require the necessary discord.js classes
+// Require the necessary packages
 const fs = require("fs")
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js")
 const { jsNoTests } = require("./util/filters")
