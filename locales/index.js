@@ -16,6 +16,9 @@ i18next
       loadPath: join(__dirname, './{{lng}}/{{ns}}.json'),
       addPath: join(__dirname, './{{lng}}/{{ns}}.missing.json'),
     },
+    interpolation: {
+      escapeValue: false,
+    },
   })
 
 module.exports = {
