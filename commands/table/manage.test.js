@@ -28,7 +28,7 @@ describe("execute", () => {
 
     await table_manage_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch("_Name:_ test")
+    expect(interaction.replyContent).toMatch("*Name:* test")
     expect(interaction.replyContent).toMatch("1")
   })
 
