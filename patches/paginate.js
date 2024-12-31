@@ -25,10 +25,11 @@ function prefixer(page_num) {
  * @param  {int} page_count Maximum page number
  * @return {str}            Suffix string
  */
-function suffixer(page_num, page_count) {
+function suffixer(page_num, page_count, locale = "en") {
+  const t = i18n.getFixedT(locale)
   let continuation = ""
   if (page_num < page_count) continuation = "…"
-  return `${continuation}\n${subtext(i18n.t("pagination.suffix", { page_num, page_count }))}`
+  return `${continuation}\n${subtext(t("pagination.suffix", { page_num, page_count }))}`
 }
 
 /**
@@ -39,7 +40,7 @@ function suffixer(page_num, page_count) {
  * @param  {Number}   max_length Maximum length of a single string
  * @return {String[]}            Array of strings
  */
-function splitMessage(message, separator = " ", max_length = 2000) {
+function splitMessage(message, separator = " ", max_length = 2000, locale = "en") {
   if (message.length <= max_length) {
     return [message]
   }
@@ -83,7 +84,7 @@ module.exports = {
      * @return {Interaction}            Interaction object
      */
     klass.prototype.paginate = async function ({ content, ephemeral, split_on, max_length }) {
-      const contents = splitMessage(content, split_on, max_length)
+      const contents = splitMessage(content, split_on, max_length, this.locale)
 
       for (let idx = 0; idx < contents.length; idx++) {
         const reply_args = {

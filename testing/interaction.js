@@ -13,6 +13,7 @@ class Interaction {
     this.command_options = {}
     this.partial_text = "partial"
     this.focused_option = "test"
+    this.locale = "en-US"
     this.options = {
       data: [],
       getString: (key) => this.command_options[key]?.toString(),
