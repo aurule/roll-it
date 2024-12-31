@@ -5,6 +5,7 @@ const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const { parse } = require("../../parsers/invocation-parser")
 const commonSchemas = require("../../util/common-schemas")
+const { i18n } = require("../../locales")
 
 /**
  * Validate that the given value is not in use as a name for a saved roll.
@@ -84,6 +85,8 @@ module.exports = {
     // validate the name and description
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "saved.set")
+
     const raw_options = {
       name: interaction.options.getString("name"),
       description: interaction.options.getString("description"),
@@ -96,9 +99,7 @@ module.exports = {
         context: { saved_rolls },
       })
     } catch (err) {
-      return interaction.whisper(
-        `There was a problem saving that name and description:\n` + err.details[0].message,
-      )
+      return interaction.whisper(t("response.error.name", { message: err.details[0].message }))
     }
 
     // name, desc, and incomplete flag are the expected state
@@ -116,9 +117,7 @@ module.exports = {
       try {
         parsed_invocation = await parse(invocation)
       } catch (err) {
-        return interaction.whisper(
-          `There was a problem saving the invocation for "${raw_options.name})":\n` + err.message,
-        )
+        return interaction.whisper(t("response.error.invocation", { name: raw_options.name, message: err.message }))
       }
 
       // with a valid invocation, we can skip the incomplete flag and make a new saved roll directly
@@ -137,24 +136,13 @@ module.exports = {
     try {
       await saved_roll_schema.validateAsync(saved_details)
     } catch {
-      return interaction.whisper(
-        oneLine`
-          You've saved the name "${command_options.name}" for a new roll. Right click or long press on the
-          result of a Roll It command and choose ${italic("Apps -> Save this roll")} to add that command and
-          its options to "${command_options.name}".
-        `,
-      )
+      return interaction.whisper(t("response.partial", { name: command_options.name }))
     }
 
     // the roll is finished
     saved_rolls.update(saved_details.id, { incomplete: false })
 
-    return interaction.whisper(
-      oneLine`
-        You've saved the roll ${italic(command_options.name)}! Try it out with
-        ${inlineCode("/saved roll name:" + command_options.name)}.
-      `,
-    )
+    return interaction.whisper(t("response.complete", { name: command_options.name }))
   },
   help({ command_name, ...opts }) {
     const savable_commands = require("../index").savable

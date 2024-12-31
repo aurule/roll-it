@@ -6,6 +6,7 @@ const commonOpts = require("../../util/common-options")
 const present_command = require("../../presenters/command-name-presenter").present
 const { injectMention } = require("../../util/formatters")
 const { oneLine } = require("common-tags")
+const { i18n } = require("../../locales")
 
 function change_target(bonus, change, changeable) {
   if (!bonus) return undefined
@@ -55,29 +56,22 @@ module.exports = {
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "saved.roll")
+
     const roll_name = interaction.options.getString("name") ?? ""
     const roll_id = parseInt(roll_name)
 
     const roll_detail = saved_rolls.detail(roll_id, roll_name)
     if (roll_detail === undefined) {
-      return interaction.whisper(
-        "That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
-      )
+      return interaction.whisper(t("options.name.validation.missing"))
     }
 
     if (roll_detail.invalid) {
-      return interaction.whisper(
-        oneLine`
-          The saved options for that roll are not valid. You'll have to update them using
-          ${inlineCode("/saved manage")} before you can use this saved roll.
-        `,
-      )
+      return interaction.whisper(t("options.name.validation.invalid"))
     }
 
     if (roll_detail.incomplete) {
-      return interaction.whisper(
-        "This roll is not finished. You have to save some options before you can use it.",
-      )
+      return interaction.whisper(t("options.name.validation.incomplete"))
     }
 
     const description = interaction.options.getString("description") ?? roll_detail.description
@@ -94,12 +88,7 @@ module.exports = {
 
     if (target) {
       if (!command.changeable.includes(target)) {
-        return interaction.whisper(
-          oneLine`
-            Cannot change option ${inlineCode(target)}, since it does not exist for
-            ${present_command(command)}.
-          `,
-        )
+        return interaction.whisper(t("options.change.validation.missing", { target, command: present_command(command) }))
       }
 
       const old_number = roll_detail.options[target] ?? 0
@@ -113,19 +102,10 @@ module.exports = {
       await command.schema.validateAsync(roll_detail.options)
     } catch (err) {
       if (target) {
-        return interaction.whisper(
-          oneLine`
-            This roll can no longer be made after changing the ${target}. The error is:\n* ${err.details[0].message}
-          `,
-        )
+        return interaction.whisper(t("validation.invalidated", { target, message: err.details[0].message }))
       } else {
         saved_rolls.update(roll_detail.id, { invalid: true })
-        return interaction.whisper(
-          oneLine`
-            The saved options for this roll are no longer valid. You'll have to update them before you can use
-            this saved roll.
-          `,
-        )
+        return interaction.whisper(t("validation.invalid"))
       }
     }
 

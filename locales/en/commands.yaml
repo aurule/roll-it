@@ -42,7 +42,7 @@ save-this-roll:
     unsavable: The command `{{command.name}}` cannot be saved.
     options: |-
       That command's options cannot be saved, which means you found a bug! This is what went wrong while saving `{{command.name}}`:
-       {{messages}}
+      * {{messages}}
 saved:
   grow:
     options:
@@ -60,9 +60,37 @@ saved:
     response:
       success: Updated `{{target}}` of *{{name}}* from "{{old}}" to "{{new}}"
     validation:
-      invalid: "This roll would be invalid after adding {{adjustment}} to `{{target}}`, so it has not been changed. The error is:\n* {{message}}"
-  roll: {}
-  set: {}
+      invalid: |-
+        This roll would be invalid after adding {{adjustment}} to `{{target}}`, so it has not been changed. The error is:
+        * {{message}}
+  roll:
+    options:
+      name:
+        validation:
+          missing: That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
+          invalid: The saved options for that roll are not valid. You'll have to update them using `/saved manage` before you can use this saved roll.
+          incomplete: This roll is not finished. You have to save some options before you can use it.
+      change:
+        validation:
+          missing: Cannot change option `{{target}}`, since it does not exist for `{{command}}`.
+    validation:
+      invalidated: |-
+        This roll can no longer be made after changing the `{{target}}`. The error is:
+        * {{message}}
+      invalid: The saved options for this roll are no longer valid. You'll have to update them before you can use this saved roll.
+  set:
+    response:
+      error:
+        name: |-
+          There was a problem saving that name and description:
+          * {{message}}
+        invocation: |-
+          There was a problem saving the invocation for "{{name})":
+          * {{message}}
+      partial: >-
+        You've saved the name "{{name}}" for a new roll. Right click or long press on the result of a Roll It
+        command and choose *Apps -> Save this roll* to add that command and its options to "{{name}}".
+      complete: You've saved the roll *{{name}}*! Try it out with `/saved roll name:{{name}}`.
 shadowrun:
   options:
     teamwork:
