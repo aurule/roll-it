@@ -23,6 +23,12 @@ help:
       topic:
         validation:
           unavailable: No help is available for the topic "{{topic_name}}"
+met:
+  opposed:
+    options:
+      opponent:
+        validation:
+          self: You cannot challenge yourself to an opposed test.
 nwod:
   options:
     teamwork:

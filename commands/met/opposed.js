@@ -4,6 +4,7 @@ const { oneLine } = require("common-tags")
 const commonOpts = require("../../util/common-options")
 const { throwChoices } = require("../../util/met-throw-options")
 const { MetOpposedManager } = require("../../services/met-opposed-manager")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "opposed",
@@ -67,8 +68,10 @@ module.exports = {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "met.opposed")
+
     if (attackerId === defenderId) {
-      return interaction.whisper("You cannot challenge yourself to an opposed test.")
+      return interaction.whisper(t("options.opponent.validation.self"))
     }
 
     const manager = new MetOpposedManager({
