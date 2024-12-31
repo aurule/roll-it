@@ -13,7 +13,7 @@ i18next
     supportedLngs: ['en'],
     nonExplicitSupportedLngs: true,
     initAsync: false,
-    ns: ["translation", "commands"],
+    ns: ["translation", "commands", "teamwork"],
     backend: {
       loadPath: join(__dirname, './{{lng}}/{{ns}}.yaml'),
       addPath: join(__dirname, './{{lng}}/{{ns}}.missing.yaml'),

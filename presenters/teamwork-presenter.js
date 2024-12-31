@@ -12,29 +12,22 @@ const { timeout_ms } = require("../util/teamwork-settings")
 const { messageLink } = require("../util/formatters")
 
 module.exports = {
-  helperPromptMessage(userFlake, description) {
+  helperPromptMessage(userFlake, t, description) {
     const expiry = new Date(Date.now() + timeout_ms)
-    const user_ref = userMention(userFlake)
-    const lines = [user_ref, " is starting a teamwork roll"]
+    const lines = []
     if (description) {
-      lines.push(` for "${description}"`)
+      lines.push(t("helper.prompt.withDescription", { leader: userMention(userFlake), description }))
+    } else {
+      lines.push(t("helper.prompt.withoutDescription", { leader: userMention(userFlake) }))
     }
-    lines.push(
-      oneLine`
-        . If you are assisting them, choose the number of dice you're adding to their pool from the menu. If
-        you are adding more than ten dice, choose multiple bonuses.
-      `,
-      "\n",
-      oneLine`
-        Any helpers that ${user_ref} specifically requests will be shown below along with whether or not they
-        have responded. Dice can be added until ${user_ref} rolls. The roll will be made automatically
-        ${time(expiry, TimestampStyles.RelativeTime)}.
-      `,
-    )
-    return lines.join("")
+    lines.push("\n")
+    lines.push(t("helper.prompt.p2", { leader: userMention(userFlake), timeout: time(expiry, TimestampStyles.RelativeTime) }))
+    return lines.join("\n")
   },
-  helperProgressEmbed(bonuses, requested) {
-    const embed = new EmbedBuilder().setColor("#03b199").setTitle("Helpers so far...")
+  helperProgressEmbed(bonuses, requested, t) {
+    const embed = new EmbedBuilder()
+      .setColor("#03b199")
+      .setTitle(t("helper.embed.title"))
 
     const iconChooser = (snowflake) => {
       return bonuses.hasAny(snowflake) ? ":white_check_mark:" : ":x:"
@@ -42,84 +35,69 @@ module.exports = {
 
     if (requested.length > 0) {
       embed.addFields({
-        name: "Requested",
+        name: t("helper.embed.pending"),
         value: requested.map((user) => `${iconChooser(user)} ${userMention(user)}`).join("\n"),
         inline: false,
       })
     }
     if (bonuses.size) {
       embed.addFields({
-        name: "Rolled",
+        name: t("helper.embed.submitted"),
         value: bonuses.map((bonus, user) => `+${bonus} ${userMention(user)}`).join("\n"),
         inline: false,
       })
     }
     return embed
   },
-  helperRolledMessage(userFlake, description, resultMessage) {
-    const lines = [userMention(userFlake), " led a teamwork roll"]
+  helperRolledMessage(userFlake, description, resultMessage, t) {
+    let parts = []
     if (description) {
-      lines.push(` for "${description}"`)
+      parts.push(t("helper.finished.withDescription", { leader: userMention(userFlake), description }))
+    } else {
+      parts.push(t("helper.finished.withoutDescription", { leader: userMention(userFlake) }))
     }
-    lines.push(
-      oneLine`
-        . Since the roll has been made, dice may no longer be added. See
-        ${hyperlink("the result!", messageLink(resultMessage))}
-      `,
-    )
-    return lines.join("")
+    const link = hyperlink(t("helper.finished.reference.linkText"), messageLink(resultMessage))
+    parts.push(t("helper.finished.reference.plainText", { link }))
+    return parts.join(" ")
   },
-  helperCancelledMessage(userFlake, description) {
-    const lines = [userMention(userFlake), " cancelled a teamwork roll"]
+  helperCancelledMessage(userFlake, description, t) {
     if (description) {
-      lines.push(` for "${description}"`)
+      return t("helper.cancelled.withDescription", { leader: userMention(userFlake), description })
     }
-    lines.push(".")
-    return lines.join("")
+    return t("helper.cancelled.withoutDescription", { leader: userMention(userFlake) })
   },
-  helperTimeoutMessage(userFlake, description) {
-    const lines = ["The teamwork roll led by ", userMention(userFlake)]
+  helperTimeoutMessage(userFlake, description, t) {
     if (description) {
-      lines.push(` for "${description}"`)
+      return t("helper.timeout.withDescription", { leader: userMention(userFlake), description })
     }
-    lines.push(" timed out without a roll. It has been cancelled.")
-    return lines.join("")
+    return t("helper.timeout.withoutDescription", { leader: userMention(userFlake) })
   },
-  leaderPromptMessage(userFlake) {
+  leaderPromptMessage(userFlake, t) {
     const expiry = new Date(Date.now() + timeout_ms)
     return [
-      oneLine`
-        You have started a teamwork roll, ${userMention(userFlake)}. When your helpers are finished, click
-        the ${inlineCode("Roll It!")} button on this message to make your roll using any bonuses they added.
-      `,
-      oneLine`
-        The roll will happen automatically ${time(expiry, TimestampStyles.RelativeTime)}. If there are a few
-        specific people whose help you need, select them here and their status will be added to the prompt.
-      `,
+      t("leader.prompt.p1", { leader: userMention(userFlake) }),
+      t("leader.prompt.p2", { timeout: time(expiry, TimestampStyles.RelativeTime) }),
     ].join("\n")
   },
-  teamworkSummaryMessage(leaderRollSummary, promptMessage) {
+  teamworkSummaryMessage(leaderRollSummary, promptMessage, t) {
+    const link = hyperlink(t("response.summary.linkText"), messageLink(promptMessage))
     const lines = [
       leaderRollSummary,
-      oneLine`
-        This is the result of a
-        ${hyperlink("teamwork roll", messageLink(promptMessage))}.
-        Here's who contributed:
-      `,
+      t("response.summary.body", { link }),
     ]
     return lines.join("\n")
   },
-  contributorEmbed(userFlake, initialPool, bonuses) {
+  contributorEmbed(userFlake, initialPool, bonuses, t) {
     const embed = new EmbedBuilder().setColor("#03b199").addFields({
-      name: "Leader",
-      value: `${userMention(userFlake)} with ${initialPool} dice`,
+      name: t("response.embed.leader.header"),
+      value: t("response.embed.leader.body", { leader: userMention(userFlake), pool: initialPool }),
       inline: false,
     })
 
     if (bonuses.size) {
       embed.addFields({
-        name: "Helper",
-        value: bonuses.map((bonus, user) => `+${bonus} ${userMention(user)}`).join("\n"),
+        name: t("response.embed.helpers.header"),
+        value: bonuses.map((bonus, helperFlake) => t("response.embed.helpers.line", { bonus, helper: userMention(helperFlake) })).join("\n"),
         inline: false,
       })
     }

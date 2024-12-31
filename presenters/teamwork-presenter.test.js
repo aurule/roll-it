@@ -1,18 +1,21 @@
 const { Collection } = require("discord.js")
 const { Message } = require("../testing/message")
 const { simpleflake } = require("simpleflakes")
+const { i18n } = require("../locales")
 
 const teamworkPresenter = require("./teamwork-presenter")
 
 describe("teamworkPresenter", () => {
+  const t = i18n.getFixedT("en", "teamwork")
+
   describe("helperPromptMessage", () => {
     it("references the user", () => {
-      const result = teamworkPresenter.helperPromptMessage("testflake")
+      const result = teamworkPresenter.helperPromptMessage("testflake", t)
 
       expect(result).toMatch("testflake")
     })
     it("includes description if given", () => {
-      const result = teamworkPresenter.helperPromptMessage("testflake", "test description")
+      const result = teamworkPresenter.helperPromptMessage("testflake", t, "test description")
 
       expect(result).toMatch('"test description"')
     })
@@ -24,7 +27,7 @@ describe("teamworkPresenter", () => {
         const bonuses = new Collection()
         const requested = ["testflake"]
 
-        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested, t)
 
         expect(result.data.fields[0].name).toEqual("Requested")
       })
@@ -32,7 +35,7 @@ describe("teamworkPresenter", () => {
         const bonuses = new Collection()
         const requested = ["testflake"]
 
-        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested, t)
 
         expect(result.data.fields[0].value).toMatch(":x:")
       })
@@ -40,7 +43,7 @@ describe("teamworkPresenter", () => {
         const bonuses = new Collection([["testflake", 2]])
         const requested = ["testflake"]
 
-        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+        const result = teamworkPresenter.helperProgressEmbed(bonuses, requested, t)
 
         expect(result.data.fields[0].value).toMatch(":white_check_mark:")
       })
@@ -49,7 +52,7 @@ describe("teamworkPresenter", () => {
       const bonuses = new Collection([["testflake", 2]])
       const requested = []
 
-      const result = teamworkPresenter.helperProgressEmbed(bonuses, requested)
+      const result = teamworkPresenter.helperProgressEmbed(bonuses, requested, t)
 
       expect(result.data.fields[0].name).toEqual("Rolled")
     })
@@ -59,21 +62,21 @@ describe("teamworkPresenter", () => {
     it("references the user", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperRolledMessage("testflake", "", message)
+      const result = teamworkPresenter.helperRolledMessage("testflake", "", message, t)
 
       expect(result).toMatch("testflake")
     })
     it("includes the description if given", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperRolledMessage("testflake", "test description", message)
+      const result = teamworkPresenter.helperRolledMessage("testflake", "test description", message, t)
 
       expect(result).toMatch('"test description"')
     })
     it("links to the result message", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperRolledMessage("testflake", "", message)
+      const result = teamworkPresenter.helperRolledMessage("testflake", "", message, t)
 
       expect(result).toMatch(message.id.toString())
     })
@@ -83,7 +86,7 @@ describe("teamworkPresenter", () => {
     it("references the user", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperCancelledMessage("testflake", "", message)
+      const result = teamworkPresenter.helperCancelledMessage("testflake", "", t)
 
       expect(result).toMatch("testflake")
     })
@@ -93,7 +96,7 @@ describe("teamworkPresenter", () => {
       const result = teamworkPresenter.helperCancelledMessage(
         "testflake",
         "test description",
-        message,
+        t,
       )
 
       expect(result).toMatch('"test description"')
@@ -104,7 +107,7 @@ describe("teamworkPresenter", () => {
     it("references the user", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperTimeoutMessage("testflake", "", message)
+      const result = teamworkPresenter.helperTimeoutMessage("testflake", "", t)
 
       expect(result).toMatch("testflake")
     })
@@ -114,7 +117,7 @@ describe("teamworkPresenter", () => {
       const result = teamworkPresenter.helperTimeoutMessage(
         "testflake",
         "test description",
-        message,
+        t,
       )
 
       expect(result).toMatch('"test description"')
@@ -123,7 +126,7 @@ describe("teamworkPresenter", () => {
 
   describe("leaderPromptMessage", () => {
     it("references the user", () => {
-      const result = teamworkPresenter.leaderPromptMessage("testflake")
+      const result = teamworkPresenter.leaderPromptMessage("testflake", t)
 
       expect(result).toMatch("testflake")
     })
@@ -134,7 +137,7 @@ describe("teamworkPresenter", () => {
       const message = new Message()
       const reactions = new Collection()
 
-      const result = teamworkPresenter.teamworkSummaryMessage("leader summary", message)
+      const result = teamworkPresenter.teamworkSummaryMessage("leader summary", message, t)
 
       expect(result).toMatch("leader summary")
     })
@@ -143,7 +146,7 @@ describe("teamworkPresenter", () => {
       const message = new Message()
       const reactions = new Collection()
 
-      const result = teamworkPresenter.teamworkSummaryMessage("leader summary", message)
+      const result = teamworkPresenter.teamworkSummaryMessage("leader summary", message, t)
 
       expect(result).toMatch(message.id.toString())
     })
@@ -154,7 +157,7 @@ describe("teamworkPresenter", () => {
       const userFlake = simpleflake()
       const bonuses = new Collection()
 
-      result = await teamworkPresenter.contributorEmbed(userFlake, 3, bonuses)
+      result = await teamworkPresenter.contributorEmbed(userFlake, 3, bonuses, t)
 
       expect(result.data.fields[0].value).toMatch(userFlake.toString())
     })
@@ -162,7 +165,7 @@ describe("teamworkPresenter", () => {
       const userFlake = simpleflake()
       const bonuses = new Collection([["testflake", 1]])
 
-      result = await teamworkPresenter.contributorEmbed(userFlake, 3, bonuses)
+      result = await teamworkPresenter.contributorEmbed(userFlake, 3, bonuses, t)
 
       expect(result.data.fields[1].value).toMatch("testflake")
     })

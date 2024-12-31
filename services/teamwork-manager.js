@@ -19,6 +19,7 @@ const {
 const teamworkPresenter = require("../presenters/teamwork-presenter")
 const { bonusOptions, timeout_ms } = require("../util/teamwork-settings")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 function increasePool(initial_pool, bonuses) {
   let final_pool = bonuses.reduce((acc, curr) => acc + curr, initial_pool)
@@ -69,35 +70,37 @@ module.exports = {
     summer,
     presenter,
   }) {
+    const t = i18n.getFixedT(interaction.locale)
+
     const user_menu = new UserSelectMenuBuilder()
       .setCustomId("helpers")
-      .setPlaceholder("Request help from these users")
+      .setPlaceholder(t("leader.prompt.ui.helpers"))
       .setMaxValues(25)
     const user_row = new ActionRowBuilder().addComponents(user_menu)
     const go_button = new ButtonBuilder()
       .setCustomId("go_button")
-      .setLabel("Roll It!")
+      .setLabel(t("leader.prompt.ui.go"))
       .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel_button")
-      .setLabel("Cancel")
+      .setLabel(t("leader.prompt.ui.cancel"))
       .setStyle(ButtonStyle.Secondary)
     const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
     const leader_prompt = await interaction.reply({
-      content: teamworkPresenter.leaderPromptMessage(userFlake),
+      content: teamworkPresenter.leaderPromptMessage(userFlake, t),
       components: [user_row, buttons_row],
       ephemeral: true,
     })
 
     const bonus_selector = new StringSelectMenuBuilder()
       .setCustomId("bonus_selector")
-      .setPlaceholder("Select your bonus")
+      .setPlaceholder(t("helper.prompt.ui.selector"))
       .setMinValues(1)
       .setMaxValues(bonusOptions.length)
       .addOptions(...bonusOptions)
     const picker_row = new ActionRowBuilder().addComponents(bonus_selector)
     const helper_prompt = await interaction.followUp({
-      content: teamworkPresenter.helperPromptMessage(userFlake, description),
+      content: teamworkPresenter.helperPromptMessage(userFlake, t, description),
       components: [picker_row],
       fetchReply: true,
       allowedMentions: {},
@@ -117,6 +120,7 @@ module.exports = {
       const progress_embed = teamworkPresenter.helperProgressEmbed(
         helper_bonuses,
         requested_helpers,
+        t,
       )
       helper_prompt.edit({
         embeds: [progress_embed],
@@ -133,6 +137,7 @@ module.exports = {
       const progress_embed = teamworkPresenter.helperProgressEmbed(
         helper_bonuses,
         requested_helpers,
+        t,
       )
       helper_prompt.edit({
         embeds: [progress_embed],
@@ -146,7 +151,7 @@ module.exports = {
 
       if (event.customId == "cancel_button") {
         return helper_prompt.edit({
-          content: teamworkPresenter.helperCancelledMessage(userFlake, description),
+          content: teamworkPresenter.helperCancelledMessage(userFlake, description, t),
           components: [],
           embeds: [],
         })
@@ -155,17 +160,17 @@ module.exports = {
       const bonuses = bonusesFromSelections(helper_bonuses)
       const final_pool = increasePool(initialPool, bonuses)
       const leader_summary = makeLeaderResults(final_pool, roller, summer, presenter, userFlake)
-      const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses)
+      const helper_embed = teamworkPresenter.contributorEmbed(userFlake, initialPool, bonuses, t)
 
       interaction
         .followUp({
-          content: teamworkPresenter.teamworkSummaryMessage(leader_summary, helper_prompt),
+          content: teamworkPresenter.teamworkSummaryMessage(leader_summary, helper_prompt, t),
           embeds: [helper_embed],
           fetchReply: true,
         })
         .then((result_message) => {
           helper_prompt.edit({
-            content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message),
+            content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message, t),
             components: [],
             embeds: [],
           })

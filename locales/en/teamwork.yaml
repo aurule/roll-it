@@ -1,0 +1,62 @@
+---
+helper:
+  prompt:
+    withDescription: |-
+      {{leader}} is starting a teamwork roll for "{{description}}". $t{p1}
+    withoutDescription: |-
+      {{leader}} is starting a teamwork roll. $t{p1}
+    p1: |-
+      If you are assisting them, choose the number of dice you're adding to their pool from the menu. If you
+      are adding more than ten dice, choose multiple bonuses.
+    p2: |-
+      Any helpers that {{leader}} specifically requests will be shown below along with whether or not they
+      have responded. Dice can be added until {{leader}} rolls. The roll will be made automatically {{timeout}}.
+    ui:
+      selector: Select your bonus
+  embed:
+    title: Helpers so far…
+    pending: Requested
+    submitted: Rolled
+  finished:
+    withDescription: |-
+      {{leader}} led a teamwork roll for "{{description}}". Since the roll has been made, dice may no longer be added. See the result!
+    withoutDescription: |-
+      {{leader}} led a teamwork roll. Since the roll has been made, dice may no longer be added. See the result!
+    reference:
+      plainText: See {{link}}
+      linkText: the result!
+  cancelled:
+    withDescription: |-
+      {{leader}} cancelled a teamwork roll for "{{description}}".
+    withoutDescription: |-
+      {{leader}} cancelled a teamwork roll.
+  timeout:
+    withDescription: |-
+      The teamwork roll led by {{leader}} for "{{description}}"" timed out without a roll. It has been cancelled.
+    withoutDescription: |-
+      The teamwork roll led by {{leader}} timed out without a roll. It has been cancelled.
+leader:
+  prompt:
+    ui:
+      helpers: Request help from these users
+      go: Roll It!
+      cancel: Cancel
+    p1: |-
+      You have started a teamwork roll, {{leader}}. When your helpers are finished, click the `$t{ui.go}`
+      button on this message to make your roll using any bonuses they added.
+    p2: |-
+      The roll will happen automatically {{timeout}}. If there are a few specific people whose help you need,
+      select them here and their status will be added to the prompt.
+response:
+  summary:
+    body: |-
+      This is the result of a {{link}}. Here's who contributed:
+    linkText: teamwork roll
+  embed:
+    leader:
+      header: Leader
+      body: |-
+        {{leader}} with {{pool}} dice
+    helpers:
+      header: Helper
+      line: +{{bonus}} {{helper}}
