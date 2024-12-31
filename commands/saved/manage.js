@@ -11,6 +11,7 @@ const { oneLine } = require("common-tags")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "manage",
@@ -30,41 +31,42 @@ module.exports = {
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "saved.manage")
+
     const roll_name = interaction.options.getString("name")
     const roll_id = parseInt(roll_name)
 
     const detail = saved_rolls.detail(roll_id, roll_name)
 
     if (detail === undefined) {
-      return interaction.whisper(
-        "That saved roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.",
-      )
+      return interaction.whisper(t("options.name.validation.missing"))
     }
 
     let manage_text = saved_roll_presenter.present(detail)
-    manage_text += "\n\nWhat do you want to do?"
+    manage_text += "\n\n"
+    manage_text += t("state.initial.prompt")
 
     const manage_actions = new ActionRowBuilder()
     if (detail.incomplete) {
       const no_edit_button = new ButtonBuilder()
         .setCustomId("no-edit")
-        .setLabel("Stop Editing")
+        .setLabel(t("state.initial.buttons.stop"))
         .setStyle(ButtonStyle.Success)
       manage_actions.addComponents(no_edit_button)
     } else {
       const edit_button = new ButtonBuilder()
         .setCustomId("edit")
-        .setLabel("Edit Roll")
+        .setLabel(t("state.initial.buttons.edit"))
         .setStyle(ButtonStyle.Primary)
       manage_actions.addComponents(edit_button)
     }
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
-      .setLabel("Cancel")
+        .setLabel(t("state.initial.buttons.cancel"))
       .setStyle(ButtonStyle.Secondary)
     const remove_button = new ButtonBuilder()
       .setCustomId("remove")
-      .setLabel("Remove Roll")
+        .setLabel(t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
     manage_actions.addComponents(cancel_button, remove_button)
     const manage_prompt = await interaction.reply({
@@ -80,22 +82,14 @@ module.exports = {
             saved_rolls.update(detail.id, { incomplete: true })
           } catch {
             return manage_prompt.edit({
-              content: oneLine`
-                You already have an incomplete roll in progress. Finish that first using
-                ${inlineCode("/saved set")} for the name and description, or right click/long press on the
-                result of a Roll It command and choose ${italic("Apps -> Save this roll")} to save that
-                command. Then you can edit ${italic(detail.name)}.
-              `,
+              content: t("state.edit.response.incomplete", { name: detail.name }),
               components: [],
               ephemeral: true,
             })
           }
 
           return manage_prompt.edit({
-            content: oneLine`
-              The roll ${italic(detail.name)} is ready for editing. Use ${inlineCode("/saved set")} or
-              ${italic("Apps -> Save this roll")} to make the changes you want!
-            `,
+            content: t("state.edit.response.success", { name: detail.name }),
             components: [],
             ephemeral: true,
           })
@@ -107,14 +101,8 @@ module.exports = {
           } catch (err) {
             saved_rolls.update(detail.id, { incomplete: false, invalid: true })
 
-            const edit_lines = [
-              `The roll ${italic(detail.name)} is no longer marked for editing, but it has some errors:`,
-              err.message,
-              "You will need to fix them before you can use the roll.",
-            ]
-
             return manage_prompt.edit({
-              content: edit_lines.join("\n"),
+              content: t("state.stop.response.invalid", { name: detail.name }),
               components: [],
               ephemeral: true,
             })
@@ -123,22 +111,22 @@ module.exports = {
           saved_rolls.update(detail.id, { incomplete: false, invalid: false })
 
           return manage_prompt.edit({
-            content: `The roll ${italic(detail.name)} is no longer marked for editing and is ready to use.`,
+            content: t("state.stop.response.success"),
             components: [],
             ephemeral: true,
           })
         case "remove":
           const remove_cancel = new ButtonBuilder()
             .setCustomId("remove_cancel")
-            .setLabel("Cancel")
+            .setLabel(t("state.remove.buttons.cancel"))
             .setStyle(ButtonStyle.Secondary)
           const remove_confirm = new ButtonBuilder()
             .setCustomId("remove_confirm")
-            .setLabel("Remove")
+            .setLabel(t("state.remove.buttons.confirm"))
             .setStyle(ButtonStyle.Danger)
           const remove_actions = new ActionRowBuilder().addComponents(remove_cancel, remove_confirm)
           const remove_chicken = await manage_prompt.edit({
-            content: `Are you sure you want to remove the roll ${italic(detail.name)}? This action is permanent.`,
+            content: t("state.remove.prompt"),
             components: [remove_actions],
             ephemeral: true,
           })
@@ -152,7 +140,7 @@ module.exports = {
               remove_event.deferUpdate()
               if (remove_event.customId == "remove_cancel") {
                 manage_prompt.edit({
-                  content: "Cancelled!",
+                  content: t("state.remove.response.cancel"),
                   components: [],
                   ephemeral: true,
                 })
@@ -162,7 +150,7 @@ module.exports = {
               saved_rolls.destroy(detail.id)
 
               return manage_prompt.edit({
-                content: `The roll ${italic(detail.name)} has been removed.`,
+                content: t("state.remove.response.success", { name: detail.name }),
                 components: [],
                 ephemeral: true,
               })

@@ -10,6 +10,7 @@ const { oneLine } = require("common-tags")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
 const { presentContents } = require("../../presenters/table-contents-presenter")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "manage",
@@ -29,28 +30,28 @@ module.exports = {
   async execute(interaction) {
     const tables = new GuildRollables(interaction.guildId)
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "table.manage")
+
     const table_name = interaction.options.getString("table")
     const table_id = parseInt(table_name)
 
     const detail = tables.detail(table_id, table_name)
 
     if (detail === undefined) {
-      return interaction.whisper(
-        "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
-      )
+      return interaction.whisper(t("options.name.validation.missing"))
     }
 
     const show_button = new ButtonBuilder()
       .setCustomId("show")
-      .setLabel("Show Entries")
+      .setLabel(t("state.initial.buttons.show"))
       .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
-      .setLabel("Cancel")
+      .setLabel(t("state.initial.buttons.cancel"))
       .setStyle(ButtonStyle.Secondary)
     const remove_button = new ButtonBuilder()
       .setCustomId("remove")
-      .setLabel("Remove Table")
+      .setLabel(t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
     const manage_actions = new ActionRowBuilder().addComponents(
       show_button,
@@ -59,11 +60,8 @@ module.exports = {
     )
     const manage_prompt = await interaction.reply({
       content: [
-        "All about this table:",
-        `${italic("Name:")} ${detail.name}`,
-        `${italic("Description:")} ${detail.description}`,
-        `${italic("Total Entries:")} ${detail.die}`,
-        "What do you want to do?",
+        t("state.initial.details", { table: detail }),
+        t("state.initial.prompt"),
       ].join("\n"),
       components: [manage_actions],
       ephemeral: true,
@@ -73,8 +71,7 @@ module.exports = {
       switch (event.customId) {
         case "show":
           manage_prompt.delete()
-          const full_text =
-            `These are the entries in the ${italic(detail.name)} table:\n` +
+          const full_text = t("state.show.response.success", { name: detail.name }) +
             presentContents(detail.contents)
 
           return interaction.paginate({
@@ -85,15 +82,15 @@ module.exports = {
         case "remove":
           const remove_cancel = new ButtonBuilder()
             .setCustomId("remove_cancel")
-            .setLabel("Cancel")
+            .setLabel(t("state.remove.buttons.cancel"))
             .setStyle(ButtonStyle.Secondary)
           const remove_confirm = new ButtonBuilder()
             .setCustomId("remove_confirm")
-            .setLabel("Remove")
+            .setLabel(t("state.remove.buttons.confirm"))
             .setStyle(ButtonStyle.Danger)
           const remove_actions = new ActionRowBuilder().addComponents(remove_cancel, remove_confirm)
           const remove_chicken = await manage_prompt.edit({
-            content: `Are you sure you want to remove the table ${italic(detail.name)}? This action is permanent.`,
+            content: t("state.remove.prompt", { name: detail.name }),
             components: [remove_actions],
             ephemeral: true,
           })
@@ -107,7 +104,7 @@ module.exports = {
               remove_event.deferUpdate()
               if (remove_event.customId == "remove_cancel") {
                 manage_prompt.edit({
-                  content: "Cancelled!",
+                  content: t("state.remove.response.cancel"),
                   components: [],
                   ephemeral: true,
                 })
@@ -117,7 +114,7 @@ module.exports = {
               tables.destroy(detail.id)
 
               return manage_prompt.edit({
-                content: `The table ${italic(detail.name)} has been removed.`,
+                content: t("state.remove.response.success", { name: detail.name }),
                 components: [],
                 ephemeral: true,
               })

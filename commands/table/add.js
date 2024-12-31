@@ -3,6 +3,7 @@ const { oneLine } = require("common-tags")
 const Joi = require("joi")
 const { GuildRollables } = require("../../db/rollable")
 const { fetchLines } = require("../../util/attachment-lines")
+const { i18n } = require("../../locales")
 
 const MAX_UPLOAD_SIZE = 5_242_880
 const MAX_ENTRY_LENGTH = 1500
@@ -125,6 +126,8 @@ module.exports = {
     await interaction.deferReply()
     const tables = new GuildRollables(interaction.guildId)
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "table.add")
+
     const raw_options = {
       table_name: interaction.options.getString("name"),
       description: interaction.options.getString("description"),
@@ -159,10 +162,7 @@ module.exports = {
 
     tables.create(table_name, description, contents)
     return interaction.editReply({
-      content: oneLine`
-        ${userMention(interaction.user.id)} created the table ${italic(table_name)}! You can roll on it with
-        ${inlineCode("/table roll")}.
-      `,
+      content: t("response.success", { user: userMention(interaction.user.id), name: table_name }),
       ephemeral: secret,
     })
   },

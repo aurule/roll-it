@@ -2,6 +2,7 @@ const { SlashCommandSubcommandBuilder } = require("discord.js")
 const Completers = require("../../completers/table-completers")
 const { present } = require("../../presenters/table-results-presenter")
 const { GuildRollables } = require("../../db/rollable")
+const { i18n } = require("../../locales")
 
 const commonOpts = require("../../util/common-options")
 
@@ -26,6 +27,8 @@ module.exports = {
   async execute(interaction) {
     const tables = new GuildRollables(interaction.guildId)
 
+    const t = i18n.getFixedT(interaction.locale, "commands", "table.roll")
+
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
@@ -35,9 +38,7 @@ module.exports = {
     const results = Array.from({ length: rolls }, () => tables.random(table_id, table_name))
 
     if (results[0] === undefined) {
-      return interaction.whisper(
-        "That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.",
-      )
+      return interaction.whisper(t("options.name.validation.missing"))
     }
 
     const detail = tables.detail(table_id, table_name)

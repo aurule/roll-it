@@ -63,6 +63,41 @@ saved:
       invalid: |-
         This roll would be invalid after adding {{adjustment}} to `{{target}}`, so it has not been changed. The error is:
         * {{message}}
+  manage:
+    options:
+      name:
+        validation:
+          missing: That saved roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
+    state:
+      initial:
+        prompt: What do you want to do?
+        buttons:
+          stop: Stop Editing
+          edit: Edit Roll
+          cancel: Cancel
+          remove: Remove Roll
+      edit:
+        response:
+          incomplete: |-
+            You already have an incomplete roll in progress. Finish that first using `/saved set` for the name
+            and description, or right click/long press on the result of a Roll It command and choose *Apps ->
+            Save this roll* to save that command. Then you can edit *{{name}}*.
+          success: The roll *{{name}}* is ready for editing. Use `/saved set` or *Apps -> Save this roll* to make the changes you want!
+      stop:
+        response:
+          invalid: >-
+            The roll *{{name}}* is no longer marked for editing, but it has some errors:
+            * err.message
+            You will need to fix them before you can use the roll.
+          success: The roll *{{name}}* is no longer marked for editing and is ready to use.
+      remove:
+        buttons:
+          cancel: Cancel
+          confirm: Remove
+        prompt: Are you sure you want to remove the roll *{{name}}*? This action is permanent.
+        response:
+          cancel: Cancelled!
+          success: The roll *{{name}}* has been removed.
   roll:
     options:
       name:
@@ -96,6 +131,44 @@ shadowrun:
     teamwork:
       validation:
         conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options.
+table:
+  add:
+    response:
+      success: >
+        {{user}} created the table *{{name}}*! You can roll on it with `/table roll name:{{name}}`.
+  manage:
+    options:
+      name:
+        validation:
+          missing: That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.
+    state:
+      initial:
+        buttons:
+          show: Show Entries
+          cancel: Cancel
+          remove: Remove Table
+        details: |-
+          All about this table:
+          *Name:* {{table.name}}
+          *Description:* {{table.description}}
+          *Total Entries:* {{table.die}}
+        prompt: What do you want to do?
+      remove:
+        buttons:
+          cancel: Cancel
+          confirm: Remove
+        prompt: Are you sure you want to remove the table *{{name}}*? This action is permanent.
+        response:
+          cancel: Cancelled!
+          success: The table *{{name}}* has been removed.
+      show:
+        response:
+          success: "These are the entries in the *{{name}}* table:"
+  roll:
+    options:
+      name:
+        validation:
+          missing: That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.
 wod20:
   options:
     teamwork:
