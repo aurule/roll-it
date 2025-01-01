@@ -11,6 +11,7 @@ const { messageLink } = require("../util/formatters")
 const presenter = require("../presenters/met-opposed-presenter")
 const Participant = require("./met-opposed/participant")
 const TestRecorder = require("./met-opposed/test-recorder")
+const { i18n } = require("../locales")
 
 const STEP_TIMEOUT = 600_000 // 10 minute timeout per prompt
 
@@ -118,6 +119,9 @@ class MetOpposedManager {
     this.attribute = attribute
     this.retest_ability = retest_ability
     this.test_recorder = new TestRecorder(this.attacker, this.defender)
+
+    const locale = interaction?.locale ?? "en-US"
+    this.t = i18n.getFixedT(locale, "opposed")
 
     this.test_recorder.addTest()
   }

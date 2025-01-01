@@ -2,6 +2,7 @@ const { Collection, italic } = require("discord.js")
 
 const Chop = require("./chop")
 const { compare } = require("../met-roller")
+const { i18n } = require("../../locales")
 
 /**
  * Class for managing a single back-and-forth test as part of a larger challenge
@@ -20,6 +21,12 @@ module.exports = class Test {
   defender
 
   /**
+   * Translation function
+   * @type {i18n.t}
+   */
+  t
+
+  /**
    * Collection of chops for the participants in this test
    * @type {Collection<Chop>}
    */
@@ -33,9 +40,10 @@ module.exports = class Test {
    * @param  {Participant} attacker Attacking participant
    * @param  {Participant} defender Defending participant
    */
-  constructor(attacker, defender) {
+  constructor(attacker, defender, locale = "en") {
     this.attacker = attacker
     this.defender = defender
+    this.t = i18n.getFixedT(locale, "opposed", "test")
   }
 
   /**
@@ -116,18 +124,6 @@ module.exports = class Test {
   }
 
   /**
-   * Explain who leads if the chops are tied.
-   *
-   * This only matters when a single participant has `ties` true.
-   *
-   * @return {str} Explanation of win via having ties, or an empty string
-   */
-  explainTies() {
-    if (this.leader && this.outcome === "tie") return `, ${this.leader.mention} has ties`
-    return ""
-  }
-
-  /**
    * Show the chop results
    *
    * Always shows attacker result vs defender result, in that order.
@@ -143,6 +139,18 @@ module.exports = class Test {
       `${second.mention}'s`,
       this.chops.get(second.id).present(),
     ].join(" ")
+  }
+
+  /**
+   * Explain who leads if the chops are tied.
+   *
+   * This only matters when a single participant has `ties` true.
+   *
+   * @return {str} Explanation of win via having ties, or an empty string
+   */
+  explainTies() {
+    if (this.leader && this.outcome === "tie") return `, ${this.leader.mention} has ties`
+    return ""
   }
 
   /**

@@ -1,0 +1,11 @@
+---
+test:
+  response:
+    tied:
+      equal: tied ({{chops}})
+      broken: |-
+        {{leader}} leads ({{chops}}, {{leader}} has ties)
+    outright: |-
+        {{leader}} leads ({{chops}})
+  chop: |-
+    {{leaderResult}} vs {{opponent}}'s {{opponentResult}}

@@ -1,4 +1,5 @@
 const Test = require("./met-test")
+const { i18n } = require("../../locales")
 
 /**
  * Class for managing a followup back-and-forth test referencing a previous test
@@ -30,6 +31,12 @@ module.exports = class Retest extends Test {
   cancelled_with
 
   /**
+   * Translation function
+   * @type {i18n.t}
+   */
+  t
+
+  /**
    * Create a new Retest
    *
    * Duplicates the chops of retest_target to provide data in case the retest is cancelled.
@@ -38,11 +45,12 @@ module.exports = class Retest extends Test {
    * @param  {str}         reason        Reason given for the retest
    * @param  {Test}        retest_target The original test that is being retested
    */
-  constructor(retester, reason, retest_target) {
+  constructor(retester, reason, retest_target, locale = "en") {
     super(retest_target.attacker, retest_target.defender)
     this.retester = retester
     this.reason = reason
     this.chops = retest_target.chops.clone()
+    this.t = i18n.getFixedT(locale, "opposed")
   }
 
   /**
