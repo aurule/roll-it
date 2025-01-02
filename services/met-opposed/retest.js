@@ -31,12 +31,6 @@ module.exports = class Retest extends Test {
   cancelled_with
 
   /**
-   * Translation function
-   * @type {i18n.t}
-   */
-  t
-
-  /**
    * Create a new Retest
    *
    * Duplicates the chops of retest_target to provide data in case the retest is cancelled.
@@ -46,16 +40,15 @@ module.exports = class Retest extends Test {
    * @param  {Test}        retest_target The original test that is being retested
    */
   constructor(retester, reason, retest_target, locale = "en") {
-    super(retest_target.attacker, retest_target.defender)
+    super(retest_target.attacker, retest_target.defender, locale)
     this.retester = retester
     this.reason = reason
     this.chops = retest_target.chops.clone()
-    this.t = i18n.getFixedT(locale, "opposed")
   }
 
   /**
    * Cancel this retest
-   * @param  {?Participant} canceller Participant cancelling the retest, or null for system reason
+   * @param  {?Participant} canceller Participant cancelling the retest, or null if cancelled automatically
    * @param  {str}          reason    Reason given for cancelling
    * @return {undefined}
    */
@@ -76,50 +69,36 @@ module.exports = class Retest extends Test {
    * @inheritdoc
    */
   present() {
-    return [
-      this.explainLeader(),
-      " (",
-      this.explainChops(),
-      this.explainRetest(),
-      this.explainTies(),
-      ")",
-    ].join("")
-  }
+    const leader = this.leader ?? this.attacker
+    const opponent = this.opposition(leader.id)
+    const chops = this.t(this.chopsKey, { opponent })
 
-  /**
-   * Explain the status of this retest
-   *
-   * Includes a description of cancellation if cancelled.
-   *
-   * @return {str} Description of the retest and cancellation
-   */
-  explainRetest() {
-    let content = `${this.retester.mention} retested with ${this.reason}`
-    if (this.cancelled) {
-      if (this.canceller === null) content += `, cancelled for `
-      else content += `, ${this.canceller.mention} cancelled with `
-      content += this.cancelled_with
+    const t_args = {
+      leader,
+      chops,
+      retester: this.retester,
+      reason: this.reason,
+      canceller: this.canceller,
+      cancel: this.cancelled_with,
     }
-    return content
-  }
 
-  /**
-   * Chops string, or empty if cancelled
-   * @return {str} Explanation of our chops, or an empty string
-   * @see Test.explainChops
-   */
-  explainChops() {
-    if (this.cancelled) return ""
-    return super.explainChops() + ", after "
-  }
+    if (this.cancelled) {
+      const cancel_key = this.canceller === null ? "automatic" : "manual"
+      if (this.outcome === "tie") {
+        if (this.leader) {
+          return this.t(`retest.response.cancelled.tied.broken.${cancel_key}`, t_args)
+        }
+        return this.t(`retest.response.cancelled.tied.equal.${cancel_key}`, t_args)
+      }
+      return this.t(`retest.response.cancelled.outright.${cancel_key}`, t_args)
+    }
 
-  /**
-   * Ties string, or empty if cancelled
-   * @return {str} Explanation of ties
-   * @see Test.explainTies
-   */
-  explainTies() {
-    if (this.cancelled) return ""
-    return super.explainTies()
+    if (this.outcome === "tie") {
+      if (this.leader) {
+        return this.t("retest.response.tied.broken", t_args)
+      }
+      return this.t("retest.response.tied.equal", t_args)
+    }
+    return this.t("retest.response.outright", t_args)
   }
 }

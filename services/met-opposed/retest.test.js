@@ -122,7 +122,7 @@ describe("Retest", () => {
 
       const result = retest.present()
 
-      expect(result).toMatch("scissors _vs_ <@defender>'s :scroll: paper")
+      expect(result).toMatch("scissors *vs* <@defender>'s :scroll: paper")
     })
 
     it("shows ties", () => {
@@ -134,58 +134,6 @@ describe("Retest", () => {
       const result = retest.present()
 
       expect(result).toMatch("tied")
-    })
-  })
-
-  describe("explainRetest", () => {
-    it("not cancelled, shows retest", () => {
-      const retest = new Retest(attacker, "merit", retest_target)
-
-      const result = retest.explainRetest()
-
-      expect(result).toMatch("<@attacker> retested with merit")
-    })
-
-    it("cancelled by player, shows retest and cancel", () => {
-      const retest = new Retest(attacker, "merit", retest_target)
-      retest.cancel(defender, "ability")
-
-      const result = retest.explainRetest()
-
-      expect(result).toMatch("<@attacker> retested with merit")
-      expect(result).toMatch("<@defender> cancelled with ability")
-    })
-
-    it("cancelled by system, shows retest and cancel without canceller", () => {
-      const retest = new Retest(attacker, "merit", retest_target)
-      retest.cancel(null, "time")
-
-      const result = retest.explainRetest()
-
-      expect(result).toMatch("<@attacker> retested with merit")
-      expect(result).toMatch(", cancelled for time")
-    })
-  })
-
-  describe("explainChops", () => {
-    it("when cancelled, returns empty string", () => {
-      const retest = new Retest(attacker, "merit", retest_target)
-      retest.cancel(defender, "ability")
-
-      const result = retest.explainChops()
-
-      expect(result).toEqual("")
-    })
-  })
-
-  describe("explainTies", () => {
-    it("when cancelled, returns empty string", () => {
-      const retest = new Retest(attacker, "merit", retest_target)
-      retest.cancel(defender, "ability")
-
-      const result = retest.explainTies()
-
-      expect(result).toEqual("")
     })
   })
 })

@@ -43,7 +43,7 @@ module.exports = class Test {
   constructor(attacker, defender, locale = "en") {
     this.attacker = attacker
     this.defender = defender
-    this.t = i18n.getFixedT(locale, "opposed", "test")
+    this.t = i18n.getFixedT(locale, "opposed")
   }
 
   /**
@@ -113,13 +113,11 @@ module.exports = class Test {
     const chops = this.t(this.chopsKey, { opponent })
     if (this.outcome === "tie") {
       if (this.leader) {
-        return this.t("response.tied.broken", { leader, chops })
+        return this.t("test.response.tied.broken", { leader, chops })
       }
-      return this.t("response.tied.equal", { chops })
+      return this.t("test.response.tied.equal", { chops })
     }
-    return this.t("response.outright", { leader, chops })
-
-    // return [this.explainLeader(), " (", this.explainChops(), this.explainTies(), ")"].join("")
+    return this.t("test.response.outright", { leader, chops })
   }
 
   get chopsKey() {

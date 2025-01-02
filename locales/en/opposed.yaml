@@ -1,4 +1,15 @@
 ---
+chops:
+  rock-rock: ":rock: rock *vs* {{opponent.mention}}'s :rock: rock"
+  rock-scissors: ":rock: rock *vs* {{opponent.mention}}'s :scissors: scissors"
+  paper-rock: ":scroll: paper *vs* {{opponent.mention}}'s :rock: rock"
+  paper-paper: ":scroll: paper *vs* {{opponent.mention}}'s :scroll: paper"
+  scissors-paper: ":scissors: scissors *vs* {{opponent.mention}}'s :scroll: paper"
+  scissors-scissors: ":scissors: scissors *vs* {{opponent.mention}}'s :scissors: scissors"
+  scissors-bomb: ":scissors: scissors *vs* {{opponent.mention}}'s :firecracker: bomb"
+  bomb-rock: ":firecracker: bomb *vs* {{opponent.mention}}'s :rock: rock"
+  bomb-paper: ":firecracker: bomb *vs* {{opponent.mention}}'s :scroll: paper"
+  bomb-bomb: ":firecracker: bomb *vs* {{opponent.mention}}'s :firecracker: bomb"
 test:
   response:
     tied:
@@ -7,14 +18,26 @@ test:
         {{leader.mention}} leads ({{chops}}, {{leader.mention}} has ties)
     outright: |-
         {{leader.mention}} leads ({{chops}})
-  chops:
-    rock-rock: ":rock: rock *vs* {{opponent.mention}}'s :rock: rock"
-    rock-scissors: ":rock: rock *vs* {{opponent.mention}}'s :scissors: scissors"
-    paper-rock: ":scroll: paper *vs* {{opponent.mention}}'s :rock: rock"
-    paper-paper: ":scroll: paper *vs* {{opponent.mention}}'s :scroll: paper"
-    scissors-paper: ":scissors: scissors *vs* {{opponent.mention}}'s :scroll: paper"
-    scissors-scissors: ":scissors: scissors *vs* {{opponent.mention}}'s :scissors: scissors"
-    scissors-bomb: ":scissors: scissors *vs* {{opponent.mention}}'s :firecracker: bomb"
-    bomb-rock: ":firecracker: bomb *vs* {{opponent.mention}}'s :rock: rock"
-    bomb-paper: ":firecracker: bomb *vs* {{opponent.mention}}'s :scroll: paper"
-    bomb-bomb: ":firecracker: bomb *vs* {{opponent.mention}}'s :firecracker: bomb"
+retest:
+  response:
+    tied:
+      equal: tied ({{chops}}, after {{retester.mention}})
+      broken: |-
+        {{leader.mention}} leads ({{chops}}, after {{retester.mention}} retested with {{reason}}, {{leader.mention}} has ties)
+    outright: |-
+        {{leader.mention}} leads ({{chops}}, after {{retester.mention}} retested with {{reason}})
+    cancelled:
+      tied:
+        equal:
+          automatic: tied ({{retester.mention}} retested with {{reason}}, cancelled for {{cancel}})
+          manual: tied ({{retester.mention}} retested with {{reason}}, {{canceller.mention}} cancelled with {{cancel}})
+        broken:
+          automatic: |-
+            {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, cancelled for {{cancel}}, {{leader.mention}} has ties)
+          manual: |-
+            {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, {{canceller.mention}} cancelled with {{cancel}}, {{leader.mention}} has ties)
+      outright:
+        automatic: |-
+          {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, cancelled for {{cancel}})
+        manual: |-
+          {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, {{canceller.mention}} cancelled with {{cancel}})
