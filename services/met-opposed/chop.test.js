@@ -30,15 +30,4 @@ describe("Chop", () => {
       expect(chop.result).toEqual("rock")
     })
   })
-
-  describe("present", () => {
-    it("adds emoji to the result", () => {
-      const chop = new Chop("rock")
-      chop.roll()
-
-      const result = chop.present()
-
-      expect(result).toMatch(":rock:")
-    })
-  })
 })

@@ -1,4 +1,3 @@
-const { pretty } = require("../../presenters/met-static-results-presenter")
 const { handleRequest } = require("../met-roller")
 
 /**
@@ -51,14 +50,5 @@ module.exports = class Chop {
       this.#_result = handleRequest(this.#_request, 1)[0]
     }
     return this.#_result
-  }
-
-  /**
-   * Display this chop nicely
-   *
-   * @return {str} Decorated chop result
-   */
-  present() {
-    return pretty(this.result)
   }
 }

@@ -4,8 +4,17 @@ test:
     tied:
       equal: tied ({{chops}})
       broken: |-
-        {{leader}} leads ({{chops}}, {{leader}} has ties)
+        {{leader.mention}} leads ({{chops}}, {{leader.mention}} has ties)
     outright: |-
-        {{leader}} leads ({{chops}})
-  chop: |-
-    {{leaderResult}} vs {{opponent}}'s {{opponentResult}}
+        {{leader.mention}} leads ({{chops}})
+  chops:
+    rock-rock: ":rock: rock *vs* {{opponent.mention}}'s :rock: rock"
+    rock-scissors: ":rock: rock *vs* {{opponent.mention}}'s :scissors: scissors"
+    paper-rock: ":scroll: paper *vs* {{opponent.mention}}'s :rock: rock"
+    paper-paper: ":scroll: paper *vs* {{opponent.mention}}'s :scroll: paper"
+    scissors-paper: ":scissors: scissors *vs* {{opponent.mention}}'s :scroll: paper"
+    scissors-scissors: ":scissors: scissors *vs* {{opponent.mention}}'s :scissors: scissors"
+    scissors-bomb: ":scissors: scissors *vs* {{opponent.mention}}'s :firecracker: bomb"
+    bomb-rock: ":firecracker: bomb *vs* {{opponent.mention}}'s :rock: rock"
+    bomb-paper: ":firecracker: bomb *vs* {{opponent.mention}}'s :scroll: paper"
+    bomb-bomb: ":firecracker: bomb *vs* {{opponent.mention}}'s :firecracker: bomb"

@@ -108,49 +108,24 @@ module.exports = class Test {
    * @return {str} Explanation of the test
    */
   present() {
-    return [this.explainLeader(), " (", this.explainChops(), this.explainTies(), ")"].join("")
+    const leader = this.leader ?? this.attacker
+    const opponent = this.opposition(leader.id)
+    const chops = this.t(this.chopsKey, { opponent })
+    if (this.outcome === "tie") {
+      if (this.leader) {
+        return this.t("response.tied.broken", { leader, chops })
+      }
+      return this.t("response.tied.equal", { chops })
+    }
+    return this.t("response.outright", { leader, chops })
+
+    // return [this.explainLeader(), " (", this.explainChops(), this.explainTies(), ")"].join("")
   }
 
-  /**
-   * Get a description of the test's leader
-   *
-   * All chops must have a result.
-   *
-   * @return {str} Name of the leader, or "tied"
-   */
-  explainLeader() {
-    if (!this.leader) return "tied"
-    return `${this.leader.mention} leads`
-  }
-
-  /**
-   * Show the chop results
-   *
-   * Always shows attacker result vs defender result, in that order.
-   *
-   * @return {str} Decorated chop results
-   */
-  explainChops() {
+  get chopsKey() {
     const first = this.leader ?? this.attacker
     const second = this.opposition(first.id)
-    return [
-      this.chops.get(first.id).present(),
-      italic("vs"),
-      `${second.mention}'s`,
-      this.chops.get(second.id).present(),
-    ].join(" ")
-  }
-
-  /**
-   * Explain who leads if the chops are tied.
-   *
-   * This only matters when a single participant has `ties` true.
-   *
-   * @return {str} Explanation of win via having ties, or an empty string
-   */
-  explainTies() {
-    if (this.leader && this.outcome === "tie") return `, ${this.leader.mention} has ties`
-    return ""
+    return `chops.${this.chops.get(first.id).result}-${this.chops.get(second.id).result}`
   }
 
   /**
