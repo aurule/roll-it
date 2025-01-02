@@ -1,5 +1,4 @@
 const Test = require("./met-test")
-const { i18n } = require("../../locales")
 
 /**
  * Class for managing a followup back-and-forth test referencing a previous test

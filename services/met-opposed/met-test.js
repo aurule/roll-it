@@ -1,4 +1,4 @@
-const { Collection, italic } = require("discord.js")
+const { Collection } = require("discord.js")
 
 const Chop = require("./chop")
 const { compare } = require("../met-roller")
