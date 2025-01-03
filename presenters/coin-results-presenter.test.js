@@ -11,6 +11,12 @@ describe("present", () => {
     userFlake: simpleflake(),
   }
 
+  it("includes the user placeholder", () => {
+    const result = CoinResultsPresenter.present(defaultArgs)
+
+    expect(result).toMatch("{{userMention}}")
+  })
+
   it("includes description if present", () => {
     const result = CoinResultsPresenter.present(defaultArgs)
 

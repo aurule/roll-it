@@ -1,6 +1,5 @@
 const { bold } = require("discord.js")
-
-const faces = [null, "heads", "tails"]
+const { i18n } = require("../locales")
 
 module.exports = {
   /**
@@ -11,19 +10,16 @@ module.exports = {
    * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
    * @return {String}                         String describing this roll
    */
-  present: ({ call, description, raw }) => {
+  present: ({ call, description, raw, locale = "en-US" }) => {
+    const t = i18n.getFixedT(locale, "commands", "coin")
     const num = raw[0][0]
 
-    let content = "{{userMention}}"
-    if (call) {
-      content += ` called ${call} and`
-    }
-    content += ` flipped a coin`
-    if (description) {
-      content += ` for "${description}"`
-    }
-    content += `. They got ${bold(faces[num])}.`
+    const result = t(`faces.${num}`)
 
-    return content
+    const key_part = call ? "response.call" : "response.bare"
+    if (description) {
+      return t(`${key_part}.withDescription`, { call, result, description })
+    }
+    return t(`${key_part}.withoutDescription`, { call, result, description })
   },
 }

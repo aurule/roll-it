@@ -25,6 +25,22 @@
   doit: Do it
   response: |-
     {{userMention}} asked "{{question}}" :8ball: *{{result}}*
+coin:
+  faces:
+    - null
+    - heads
+    - tails
+  response:
+    call:
+      withDescription: >-
+        {{userMention}} called {{call}} and flipped a coin for "{{description}}". They got **{{result}}**.
+      withoutDescription: >-
+        {{userMention}} called {{call}} and flipped a coin. They got **{{result}}**.
+    bare:
+      withDescription: >-
+        {{userMention}} flipped a coin for "{{description}}". They got **{{result}}**.
+      withoutDescription: >-
+        {{userMention}} flipped a coin. They got **{{result}}**.
 chop:
   response:
     shortcut: This command is a shortcut. Try `/met static` instead.

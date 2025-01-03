@@ -28,13 +28,14 @@ module.exports = {
       "any.only": 'Call must be either "heads" or "tails".',
     }),
   }),
-  perform({ description, call }) {
+  perform({ description, call, locale = "en-US" }) {
     const raw_results = roll(1, 2, 1)
 
     return present({
       call,
       description,
       raw: raw_results,
+      locale,
     })
   },
   async execute(interaction) {
@@ -45,6 +46,7 @@ module.exports = {
     const partial_message = module.exports.perform({
       call,
       description: roll_description,
+      locale: interaction.locale,
     })
 
     return interaction.reply({
