@@ -81,6 +81,12 @@ class MetOpposedManager {
   initial_message_link
 
   /**
+   * Translation function
+   * @type {i18n.t}
+   */
+  t
+
+  /**
    * Description of the challenge
    *
    * @type {String}
@@ -239,7 +245,7 @@ class MetOpposedManager {
     const rowAdvantages = new ActionRowBuilder()
     const bombButton = new ButtonBuilder()
       .setCustomId("bomb")
-      .setLabel("I have Bomb")
+      .setLabel(this.t("state.initial.buttons.bomb"))
       .setEmoji("⬛")
       .setStyle(ButtonStyle.Secondary)
     if (this.defender.bomb) bombButton.setEmoji("✅")
@@ -247,7 +253,7 @@ class MetOpposedManager {
 
     const tiesButton = new ButtonBuilder()
       .setCustomId("ties")
-      .setLabel("I have Ties")
+      .setLabel(this.t("state.initial.buttons.ties"))
       .setEmoji("⬛")
       .setStyle(ButtonStyle.Secondary)
     if (this.defender.ties) tiesButton.setEmoji("✅")
@@ -256,7 +262,7 @@ class MetOpposedManager {
     if (this.allow_retests) {
       const cancelsButton = new ButtonBuilder()
         .setCustomId("cancels")
-        .setLabel("I can cancel w/o abilities")
+        .setPlaceholder(this.t("state.initial.buttons.cancels"))
         .setEmoji("⬛")
         .setStyle(ButtonStyle.Secondary)
       if (this.defender.cancels) cancelsButton.setEmoji("✅")
@@ -266,7 +272,7 @@ class MetOpposedManager {
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
       .setCustomId("picker")
-      .setPlaceholder("Respond with...")
+      .setPlaceholder(this.t("state.initial.picker"))
       .setMinValues(1)
       .setMaxValues(1)
       .addOptions(...throwOptions(this.defender.bomb))
@@ -275,17 +281,17 @@ class MetOpposedManager {
     const rowActions = new ActionRowBuilder()
     const throwButton = new ButtonBuilder()
       .setCustomId("throw")
-      .setLabel("Throw!")
+      .setLabel(this.t("state.initial.buttons.throw"))
       .setStyle(ButtonStyle.Primary)
     rowActions.addComponents(throwButton)
     const relentButton = new ButtonBuilder()
       .setCustomId("relent")
-      .setLabel("Relent")
+      .setLabel(this.t("state.initial.buttons.relent"))
       .setStyle(ButtonStyle.Secondary)
     rowActions.addComponents(relentButton)
     const cancelButton = new ButtonBuilder()
       .setCustomId("cancel")
-      .setLabel("Cancel Test")
+      .setLabel(this.t("state.initial.buttons.cancel"))
       .setStyle(ButtonStyle.Danger)
     rowActions.addComponents(cancelButton)
 
@@ -322,7 +328,7 @@ class MetOpposedManager {
             event.update({
               content: presenter.initialMessage(
                 this,
-                "You must select a response before you can throw.",
+                this.t("state.initial.validation.response")
               ),
             })
             break
@@ -460,22 +466,22 @@ class MetOpposedManager {
     const rowRetest = new ActionRowBuilder()
     const reasonPicker = new StringSelectMenuBuilder()
       .setCustomId("picker")
-      .setPlaceholder("Retest with...")
+      .setPlaceholder(this.t("state.status.picker"))
       .setMinValues(1)
       .setMaxValues(1)
-      .addOptions(...presenter.retestOptions(this))
+      .addOptions(...this.t("state.status.retests", { returnObjects: true, ability: this.retest_ability }))
     rowRetest.addComponents(reasonPicker)
 
     const rowButtons = new ActionRowBuilder()
     const retestButton = new ButtonBuilder()
       .setCustomId("retest")
-      .setLabel("Retest")
+      .setLabel(this.t("state.status.buttons.retest"))
       .setEmoji("🔄")
       .setStyle(ButtonStyle.Secondary)
     rowButtons.addComponents(retestButton)
     const doneButton = new ButtonBuilder()
       .setCustomId("done")
-      .setLabel("Concede")
+      .setLabel(this.t("state.status.buttons.concede"))
       .setStyle(ButtonStyle.Primary)
     rowButtons.addComponents(doneButton)
 
@@ -501,7 +507,7 @@ class MetOpposedManager {
             event.update({
               content: presenter.statusPrompt(
                 this,
-                "You have to pick what to retest with before you can retest.",
+                this.t("state.status.validation.reason")
               ),
             })
             break
@@ -585,27 +591,27 @@ class MetOpposedManager {
     const rowCancel = new ActionRowBuilder()
     const cancelPicker = new StringSelectMenuBuilder()
       .setCustomId("cancel-picker")
-      .setPlaceholder("Cancel with...")
+      .setPlaceholder(this.t("state.cancel.picker"))
       .setMinValues(1)
       .setMaxValues(1)
-      .addOptions(...presenter.cancelOptions)
+      .addOptions(...this.t("state.cancel.options", { returnObjects: true }))
     rowCancel.addComponents(cancelPicker)
 
     const rowButtonsCancel = new ActionRowBuilder()
     const continueButton = new ButtonBuilder()
       .setCustomId("continue")
-      .setLabel("Do Retest")
+      .setLabel(this.t("state.cancel.buttons.continue"))
       .setStyle(ButtonStyle.Success)
     rowButtonsCancel.addComponents(continueButton)
     const cancelButton = new ButtonBuilder()
       .setCustomId("cancel")
-      .setLabel("Cancel Retest")
+      .setLabel(this.t("state.cancel.buttons.cancel"))
       .setEmoji("🚫")
       .setStyle(ButtonStyle.Secondary)
     rowButtonsCancel.addComponents(cancelButton)
     const withdrawButton = new ButtonBuilder()
       .setCustomId("withdraw")
-      .setLabel("Withdraw Retest")
+      .setLabel(this.t("state.cancel.buttons.withdraw"))
       .setStyle(ButtonStyle.Secondary)
     rowButtonsCancel.addComponents(withdrawButton)
 
@@ -631,7 +637,7 @@ class MetOpposedManager {
             event.update({
               content: presenter.retestCancelPrompt(
                 this,
-                "You have to pick what to cancel with before you can cancel.",
+                this.t("state.cancel.validation.reason")
               ),
             })
             break
@@ -719,7 +725,7 @@ class MetOpposedManager {
     const rowResponse = new ActionRowBuilder()
     const responsePicker = new StringSelectMenuBuilder()
       .setCustomId("throw-picker")
-      .setPlaceholder("Choose what to throw")
+      .setPlaceholder(this.t("state.retest.picker"))
       .setMinValues(1)
       .setMaxValues(1)
       .addOptions(...throwOptions(this.defender.bomb || this.attacker.bomb))
@@ -728,12 +734,12 @@ class MetOpposedManager {
     const rowButtonsGo = new ActionRowBuilder()
     const throwButton = new ButtonBuilder()
       .setCustomId("throw")
-      .setLabel("Ready!")
+      .setLabel(this.t("state.retest.buttons.throw"))
       .setStyle(ButtonStyle.Success)
     rowButtonsGo.addComponents(throwButton)
     const withdrawButton = new ButtonBuilder()
       .setCustomId("withdraw")
-      .setLabel("Withdraw Retest")
+      .setLabel(this.t("state.retest.buttons.withdraw"))
       .setStyle(ButtonStyle.Secondary)
     rowButtonsGo.addComponents(withdrawButton)
 
@@ -761,7 +767,7 @@ class MetOpposedManager {
               content: presenter.retestPrompt(
                 this,
                 throws,
-                "You have to choose what to throw before you can throw it",
+                this.t("state.retest.validation.throw")
               ),
             })
             break

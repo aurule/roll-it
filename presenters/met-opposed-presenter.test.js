@@ -5,55 +5,6 @@ const { MetOpposedManager } = require("../services/met-opposed-manager")
 
 const presenter = require("./met-opposed-presenter")
 
-describe("advantages", () => {
-  it("calls out bomb and ties", () => {
-    const actor = new Participant()
-    actor.bomb = true
-    actor.ties = true
-
-    const result = presenter.advantages(actor)
-
-    expect(result).toMatch("bomb, ties")
-  })
-
-  it("shows bomb alone", () => {
-    const actor = new Participant()
-    actor.bomb = true
-
-    const result = presenter.advantages(actor)
-
-    expect(result).toMatch("bomb")
-    expect(result).not.toMatch("ties")
-  })
-
-  it("shows ties alone", () => {
-    const actor = new Participant("testman")
-    actor.ties = true
-
-    const result = presenter.advantages(actor)
-
-    expect(result).not.toMatch("bomb")
-    expect(result).toMatch("ties")
-  })
-
-  it("shows cancels", () => {
-    const actor = new Participant("testman")
-    actor.cancels = true
-
-    const result = presenter.advantages(actor)
-
-    expect(result).toMatch("cancels")
-  })
-
-  it("returns empty string with no advantages", () => {
-    const actor = new Participant()
-
-    const result = presenter.advantages(actor)
-
-    expect(result).toEqual("")
-  })
-})
-
 describe("initialMessage", () => {
   let default_manager
   let attacker
@@ -103,7 +54,7 @@ describe("initialMessage", () => {
 
     const result = presenter.initialMessage(default_manager)
 
-    expect(result).toMatch("@testatk> has bomb")
+    expect(result).toMatch("They have bomb")
   })
 
   it("shows deadline", () => {
@@ -467,31 +418,6 @@ describe("timeoutResultMessage", () => {
     const result = presenter.timeoutResultMessage(default_manager)
 
     expect(result).toMatch("Time ran out")
-  })
-})
-
-describe("retestOptions", () => {
-  beforeEach(() => {
-    default_manager = new MetOpposedManager({
-      attackerId: "testatk",
-      defenderId: "testdef",
-      attribute: "Mental",
-      retest_ability: "Occult",
-    })
-  })
-
-  it("inserts named retest", () => {
-    const options = presenter.retestOptions(default_manager)
-
-    const values = options.map((o) => o.value)
-    expect(values).toContain("Occult")
-  })
-
-  it("shows static options", () => {
-    const options = presenter.retestOptions(default_manager)
-
-    const values = options.map((o) => o.value)
-    expect(values).toContain("automatic")
   })
 })
 

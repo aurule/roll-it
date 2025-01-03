@@ -7,21 +7,23 @@ const { time, TimestampStyles, subtext, hyperlink, orderedList, bold } = require
 const { oneLine } = require("common-tags")
 
 /**
- * Show the special advantages a participant has
+ * Transform a participant's advantages into a list
  *
- * @param  {Participant} participant Participant to describe
- * @return {str}                     String describing their bomb and ties status
+ * @param  {Participant} participant Participant object
+ * @param  {i18n.t}      t           Translation function
+ * @return {str[]}                   String array of advantage words
  */
-function advantages(participant) {
+function advantages(participant, t) {
   const benefits = []
 
-  if (participant.bomb) benefits.push("bomb")
-  if (participant.ties) benefits.push("ties")
-  if (participant.cancels) benefits.push("cancels")
+  if (participant.bomb) benefits.push(t("advantages.bomb"))
+  if (participant.ties) benefits.push(t("advantages.ties"))
+  if (participant.cancels) benefits.push(t("advantages.cancels"))
 
-  if (!benefits.length) return ""
-
-  return ` ${participant.mention} has ` + benefits.join(", ") + "."
+  if (benefits.length === 0) {
+    benefits.push(t("advantages.none"))
+  }
+  return benefits
 }
 
 /**
@@ -38,27 +40,34 @@ function advantages(participant) {
  * @return {str}                             Detailed prompt message
  */
 function initialMessage(manager, error_message = "") {
-  let content = `${manager.attacker.mention} is challenging you, ${manager.defender.mention} with a ${manager.attribute} test`
-  if (manager.description) content += ` for "${manager.description}"`
-  content += "."
-  content += advantages(manager.attacker)
-  content += " If you have"
-  if (manager.allow_retests) content += " bomb, ties, or special cancels"
-  else content += " bomb or ties"
-  content += ", you must declare them now."
-  content += "\n"
-  content += oneLine`
-    If you don't respond ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)}, the challenge will
-    end and ${manager.attacker.mention} will likely succeed.
-  `
-  if (!manager.allow_retests)
-    content +=
-      "\n" +
-      subtext(
-        "This test is being made without interactive retests. Retest options will not be shown.",
-      )
-  if (error_message) content += "\n" + subtext(error_message)
-  return content
+  const t = manager.t
+  const lines = []
+
+  const allowed_advantages = manager.allow_retests ? ["bomb", "ties", "cancels"] : ["bomb", "ties"] // extern
+
+  const main_args = {
+    attacker: manager.attacker,
+    defender: manager.defender,
+    attribute: manager.attribute,
+    description: manager.description,
+    advantages: advantages(manager.attacker, t),
+    allowed_advantages,
+  }
+
+  if (manager.description) {
+    lines.push(t("state.initial.prompt.withDescription", main_args))
+  } else {
+    lines.push(t("state.initial.prompt.withoutDescription", main_args))
+  }
+
+  lines.push(t("state.initial.prompt.timeliness", { attacker: manager.attacker, timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime) }))
+
+  if (!manager.allow_retests) {
+    lines.push(subtext(t("state.initial.prompt.noRetest")))
+  }
+  if (error_message) lines.push(subtext(error_message))
+
+  return lines.join("\n")
 }
 
 /**
@@ -68,14 +77,20 @@ function initialMessage(manager, error_message = "") {
  * @return {str}                       Detailed summary message
  */
 function initialMessageSummary(manager) {
-  let content = oneLine`
-    ${manager.attacker.mention} is challenging ${manager.defender.mention} with a ${manager.attribute} test
-  `
-  if (manager.description) content += ` for "${manager.description}"`
-  content += "."
-  content += advantages(manager.attacker)
-  content += advantages(manager.defender)
-  return content
+  const t = manager.t
+  const t_args = {
+    attacker: manager.attacker,
+    defender: manager.defender,
+    attribute: manager.attribute,
+    description: manager.description,
+    attacker_advantages: advantages(manager.attacker, t),
+    defender_advantages: advantages(manager.defender, t),
+  }
+
+  if (manager.description) {
+    return(t("state.initial.summary.withDescription", t_args))
+  }
+  return(t("state.initial.summary.withoutDescription", t_args))
 }
 
 /**
@@ -87,7 +102,11 @@ function initialMessageSummary(manager) {
  * @return {str}                       Detailed relented message
  */
 function relentMessage(manager) {
-  return `${manager.defender.mention} relented to the opposed test from ${manager.attacker.mention}.`
+  const t_args = {
+    attacker: manager.attacker,
+    defender: manager.defender,
+  }
+  return manager.t("state.initial.response.relent", t_args)
 }
 
 /**
@@ -99,7 +118,11 @@ function relentMessage(manager) {
  * @return {str}                       Detailed cancellation message
  */
 function cancelMessage(manager) {
-  return `${manager.attacker.mention} cancelled their opposed test against ${manager.defender.mention}.`
+  const t_args = {
+    attacker: manager.attacker,
+    defender: manager.defender,
+  }
+  return manager.t("state.initial.response.cancel", t_args)
 }
 
 /**
@@ -111,7 +134,11 @@ function cancelMessage(manager) {
  * @return {str}                       Detailed timeout message
  */
 function timeoutRelentMessage(manager) {
-  return `${manager.defender.mention} did not respond to the opposed test from ${manager.attacker.mention}.`
+  const t_args = {
+    attacker: manager.attacker,
+    defender: manager.defender,
+  }
+  return manager.t("state.initial.response.timeout", t_args)
 }
 
 /**
@@ -128,10 +155,10 @@ function statusPrompt(manager, error_message) {
   let lines = [
     statusSummary(manager),
     subtext(
-      `Without a retest, the challenge will end ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)}.`,
+      manager.t("state.status.prompt.timer", { timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime) })
     ),
   ]
-  if (error_message) lines.push(`${subtext(error_message)}`)
+  if (error_message) lines.push(subtext(error_message))
   return lines.join("\n")
 }
 
@@ -145,7 +172,7 @@ function statusPrompt(manager, error_message) {
  */
 function statusSummary(manager) {
   let lines = [
-    initialMessageSummary(manager) + ` The named retest is ${manager.retest_ability}.`,
+    initialMessageSummary(manager) + " " + manager.t("state.status.summary.retest", { retest_ability: manager.retest_ability }),
     orderedList(manager.test_recorder.tests.map((test) => test.present())),
   ]
   return lines.join("\n")
@@ -158,26 +185,29 @@ function statusSummary(manager) {
  * @return {str}                       Detailed result message
  */
 function resultMessage(manager) {
-  let leader = manager.current_test.leader
-  const tied = !leader
-  if (tied) {
-    leader = manager.attacker
+  const t = manager.t
+  const link = hyperlink(t("state.done.linkText"), manager.initial_message_link)
+  const t_args = {
+    attacker: manager.attacker,
+    defender: manager.defender,
+    description: manager.description,
+    link,
   }
+  const leader = manager.current_test.leader
+  let key_part = ""
 
-  let content = `${leader.mention} `
-  content += tied ? bold("tied") : bold("won")
-
-  if (leader.id === manager.attacker.id) {
-    content += ` their ${hyperlink("opposed test", manager.initial_message_link)} against `
+  if (!leader) {
+    key_part = "state.done.attacker.tie"
+  } else if (leader.id === manager.attacker.id) {
+    key_part = "state.done.attacker.win"
   } else {
-    content += ` the ${hyperlink("opposed test", manager.initial_message_link)} from `
+    key_part = "state.done.defender.win"
   }
 
-  const loser = manager.opposition(leader.id)
-  content += loser.mention
-  if (manager.description) content += ` for "${manager.description}"`
-  content += "."
-  return content
+  if (manager.description) {
+    return t(`${key_part}.withDescription`, t_args)
+  }
+  return t(`${key_part}.withoutDescription`, t_args)
 }
 
 /**
@@ -190,95 +220,9 @@ function resultMessage(manager) {
  */
 function timeoutResultMessage(manager) {
   let content = resultMessage(manager)
-  content += " Time ran out to retest the result."
+  content += " " + manager.t("state.done.timeout")
   return content
 }
-
-/**
- * Get the options for retesting a chop
- *
- * We don't do any logic around limiting what can be used when, so this just inserts the named retest before
- * a set of default options.
- *
- * @param  {MetOpposedManager} manager Object controlling information about the challenge
- * @return {obj[]}                     Array of option objects.
- */
-function retestOptions(manager) {
-  const default_options = [
-    {
-      label: "other ability",
-      value: "another ability",
-      description: "An ability other than the named retest",
-    },
-    {
-      label: "power",
-      value: "a power",
-      description: "For example, Might",
-    },
-    {
-      label: "item",
-      value: "an item",
-    },
-    {
-      label: "merit",
-      value: "a merit",
-    },
-    {
-      label: "overbid",
-      value: "overbid",
-    },
-    {
-      label: "background",
-      value: "a background",
-    },
-    {
-      label: "willpower",
-      value: "willpower",
-    },
-    {
-      label: "automatic",
-      value: "automatic",
-    },
-    {
-      label: "pve",
-      value: "pve",
-    },
-    {
-      label: "other",
-      value: "other",
-      description: "Something else not listed here",
-    },
-  ]
-  return [
-    {
-      label: manager.retest_ability,
-      value: manager.retest_ability,
-      description: "Named retest",
-    },
-    ...default_options,
-  ]
-}
-
-/**
- * Array of component select menu options for cancelling a retest.
- *
- * @type {obj[]}
- */
-const cancelOptions = [
-  {
-    label: "ability",
-    value: "an ability",
-  },
-  {
-    label: "power",
-    value: "a power",
-  },
-  {
-    label: "other",
-    value: "other",
-    description: "Something else not listed here",
-  },
-]
 
 /**
  * Get the text to prompt a user to cancel a retest
@@ -288,22 +232,17 @@ const cancelOptions = [
  * @return {str}                             Formatted cancel prompt message
  */
 function retestCancelPrompt(manager, error_message) {
+  const t = manager.t
   const retest = manager.current_test
   const retester = retest.retester
   const other = manager.opposition(retester.id)
-  let content = oneLine`
-    ${retester.mention} is retesting against you, ${other.mention} with ${retest.reason}. Are you able to
-    cancel their retest? If you don't cancel ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)},
-    the retest will proceed.
-  `
-  if (other.cancels)
-    content +=
-      "\n" +
-      subtext(
-        `You can cancel without using an ability, so you will see this prompt for every retest from ${retester.mention}.`,
-      )
-  if (error_message) content += "\n" + subtext(error_message)
-  return content
+
+  const lines = [t("state.cancel.prompt", { retester, other, reason: retest.reason, timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime) })]
+
+  if (other.cancels) lines.push(subtext(t("state.cancel.special", { retester })))
+  if (error_message) lines.push(subtext(error_message))
+
+  return lines.join("\n")
 }
 
 /**
@@ -315,8 +254,7 @@ function retestCancelPrompt(manager, error_message) {
 function retestCancelMessage(manager) {
   const retest = manager.current_test
   const canceller = retest.canceller
-  let content = `${canceller.mention} cancelled with ${retest.cancelled_with}.`
-  return content
+  return manager.t("state.cancel.response.cancelled", { canceller, cancelled_with: retest.cancelled_with })
 }
 
 /**
@@ -328,7 +266,7 @@ function retestCancelMessage(manager) {
 function timeoutCancelRetestMessage(manager) {
   const retester = manager.current_test.retester
   const other = manager.opposition(retester.id)
-  return `${other.mention} ran out of time to cancel the retest by ${retester.mention}.`
+  return manager.t("state.cancel.response.timeout", { retester, other })
 }
 
 /**
@@ -339,18 +277,19 @@ function timeoutCancelRetestMessage(manager) {
  */
 function retestWithdrawMessage(manager) {
   const retester = manager.current_test.retester
+  return manager.t("state.retest.response.withdraw", { retester })
   return `${retester.mention} withdrew their retest.`
 }
 
 /**
- * Get the text to show when a canceller
+ * Get the text to show when a canceller allows the retest.
  * @param  {[type]} manager [description]
  * @return {[type]}         [description]
  */
 function retestContinueMessage(manager) {
   const retester = manager.current_test.retester
   const canceller = manager.opposition(retester.id)
-  return `${canceller.mention} did not cancel the retest by ${retester.mention}.`
+  return manager.t("state.cancel.response.waived", { retester, canceller })
 }
 
 /**
@@ -368,17 +307,20 @@ function retestContinueMessage(manager) {
  * @return {str}                             Message string
  */
 function retestPrompt(manager, responses, error_message) {
+  const t = manager.t
   const retest = manager.current_test
   const retester = manager.current_test.retester
   const other = manager.opposition(retest.retester.id)
-  let content = `${retest.retester.mention} is retesting against ${other.mention} with ${retest.reason}.`
-  content += advantages(retester)
-  content += advantages(other)
-  content += "\n"
-  content += oneLine`
-    You both have to make your throw ${time(manager.prompt_ends_at, TimestampStyles.RelativeTime)} or the
-    retest will be cancelled for time.
-  `
+
+  const t_args = {
+    retester,
+    retester_advantages: advantages(retester, t),
+    other,
+    other_advantages: advantages(other, t),
+    reason: retest.reason,
+    timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime),
+  }
+  let content = t("state.retest.prompt", t_args)
 
   const symbol = (response) => {
     switch (response) {
@@ -405,8 +347,7 @@ function retestPrompt(manager, responses, error_message) {
  */
 function retestTimeoutMessage(manager) {
   const retester = manager.current_test.retester
-  let content = `${retester.mention}'s retest timed out.`
-  return content
+  return manager.t("state.retest.response.timeout", { retester })
 }
 
 module.exports = {
@@ -420,8 +361,6 @@ module.exports = {
   statusSummary,
   resultMessage,
   timeoutResultMessage,
-  retestOptions,
-  cancelOptions,
   retestCancelPrompt,
   retestCancelMessage,
   timeoutCancelRetestMessage,
