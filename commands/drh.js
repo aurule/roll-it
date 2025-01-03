@@ -139,12 +139,14 @@ module.exports = {
             t("options.talent.validation.exhaustion")
           )
         }
+        break;
       case "madness":
         if (madness === 0) {
           return interaction.whisper(
             t("options.talent.validation.madness")
           )
         }
+        break;
     }
 
     const partial_message = module.exports.perform({
