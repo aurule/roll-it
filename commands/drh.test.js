@@ -323,7 +323,7 @@ describe("execute", () => {
 
     await drh_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch("need at least 1")
+    expect(interaction.replyContent).toMatch("need at least 1 `exhaustion`")
   })
 
   it("with minor talent, requires exhaustion", async () => {
@@ -333,7 +333,7 @@ describe("execute", () => {
 
     await drh_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch("need at least 1")
+    expect(interaction.replyContent).toMatch("need at least 1 `exhaustion`")
   })
 
   it("with madness talent, requires madness", async () => {
@@ -343,7 +343,18 @@ describe("execute", () => {
 
     await drh_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch("need at least 1")
+    expect(interaction.replyContent).toMatch("need at least 1 `madness`")
+  })
+
+  it("allows exhaustion talent with exhaustion pool", async () => {
+    interaction.command_options.talent = "minor"
+    interaction.command_options.discipline = 1
+    interaction.command_options.exhaustion = 1
+    interaction.command_options.pain = 1
+
+    await drh_command.execute(interaction)
+
+    expect(interaction.replyContent).toMatch("dominated")
   })
 
   test_secret_option(drh_command, { discipline: 1, pain: 1 })
