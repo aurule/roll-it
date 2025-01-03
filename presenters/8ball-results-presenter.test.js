@@ -7,6 +7,12 @@ describe("present", () => {
     raw: [[1]],
   }
 
+  it("includes the user placeholder", () => {
+    const result = EightBallResultsPresenter.present(defaultArgs)
+
+    expect(result).toMatch("{{userMention}}")
+  })
+
   it("includes the question", () => {
     const result = EightBallResultsPresenter.present(defaultArgs)
 

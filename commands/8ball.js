@@ -28,13 +28,14 @@ module.exports = {
     description: commonSchemas.description,
     doit: Joi.boolean().optional(),
   }),
-  perform({ question, doit }) {
+  perform({ question, doit, locale = "en-US" }) {
     const raw_results = roll(1, 20, 1)
 
     return present({
       question,
       doit,
       raw: raw_results,
+      locale,
     })
   },
   async execute(interaction) {
@@ -42,7 +43,7 @@ module.exports = {
     const doit = interaction.options.getBoolean("doit") ?? false
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const partial_message = module.exports.perform({ question, doit })
+    const partial_message = module.exports.perform({ question, doit, locale: interaction.locale })
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.reply({
       content: full_text,
