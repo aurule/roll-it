@@ -165,50 +165,6 @@ describe("CurvPresenter", () => {
     })
   })
 
-  describe("presentedDescription", () => {
-    describe("with no description", () => {
-      it("is an empty string", () => {
-        const presenter = new CurvPresenter({})
-
-        expect(presenter.presentedDescription).toEqual("")
-      })
-    })
-
-    describe("with a description", () => {
-      describe("in 'one' mode", () => {
-        it("includes extra word", () => {
-          const presenter = new CurvPresenter({
-            raw: [[1]],
-            description: "test description",
-            rolls: 1,
-          })
-
-          expect(presenter.presentedDescription).toMatch("for")
-        })
-
-        it("wraps the description in quotes", () => {
-          const presenter = new CurvPresenter({
-            raw: [[1]],
-            description: "test description",
-            rolls: 1,
-          })
-
-          expect(presenter.presentedDescription).toMatch('"test description"')
-        })
-      })
-
-      it("wraps the description in quotes", () => {
-        const presenter = new CurvPresenter({
-          raw: [[1], [2]],
-          description: "test description",
-          rolls: 2,
-        })
-
-        expect(presenter.presentedDescription).toMatch('"test description"')
-      })
-    })
-  })
-
   describe("explainOutcome", () => {
     describe("without a crit", () => {
       it("sums the pool", () => {
@@ -267,36 +223,6 @@ describe("CurvPresenter", () => {
 
         expect(result).toMatch("18")
       })
-    })
-  })
-
-  describe("explainAdvantage", () => {
-    it("returns advantage when keep is highest", () => {
-      const presenter = new CurvPresenter({
-        keep: "highest",
-      })
-
-      const result = presenter.explainAdvantage()
-
-      expect(result).toMatch("with advantage")
-    })
-
-    it("returns disadvantage when keep is lowest", () => {
-      const presenter = new CurvPresenter({
-        keep: "lowest",
-      })
-
-      const result = presenter.explainAdvantage()
-
-      expect(result).toMatch("with disadvantage")
-    })
-
-    it("returns empty string by default", () => {
-      const presenter = new CurvPresenter({})
-
-      const result = presenter.explainAdvantage()
-
-      expect(result).toEqual("")
     })
   })
 
@@ -398,18 +324,6 @@ describe("CurvPresenter", () => {
 
       expect(result).toMatch("1,2,3")
       expect(result).toMatch("4,5,6")
-    })
-  })
-
-  describe("explainRolls", () => {
-    it("returns description of the number of rolls", () => {
-      const presenter = new CurvPresenter({
-        rolls: 3,
-      })
-
-      const result = presenter.explainRolls()
-
-      expect(result).toMatch("3 times")
     })
   })
 })

@@ -1,5 +1,6 @@
 const { strikethrough, bold } = require("discord.js")
 const { signed } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 class CurvPresenter {
   /**
@@ -13,7 +14,7 @@ class CurvPresenter {
    * @param {str}                 description Text describing the roll
    * @param {int}                 modifier    Number to add to each pool result
    */
-  constructor({ raw, picked, sums, rolls, keep, description, modifier }) {
+  constructor({ raw, picked, sums, rolls, keep, description, modifier, locale = "en-US" }) {
     this.raw = raw
     this.picked = picked
     this.sums = sums
@@ -21,6 +22,7 @@ class CurvPresenter {
     this.keep = keep
     this.description = description
     this.modifier = modifier ?? 0
+    this.t = i18n.getFixedT(locale, "commands", "curv")
   }
 
   /**
@@ -42,43 +44,36 @@ class CurvPresenter {
    * @return {str} A string describing the results of our roll(s)
    */
   presentResults() {
-    let content = "{{userMention}} rolled"
+    const key_parts = ["response"]
+    const t_args = {}
 
-    switch (this.mode) {
-      case "many":
-        content += this.presentedDescription
-        content += this.explainRolls()
-        content += this.explainAdvantage()
-        content += ":\n"
-        content += this.presentResultSet()
-        break
-      case "one":
-        content += ` ${this.explainOutcome(0)}`
-        content += this.presentedDescription
-        content += this.explainAdvantage()
-        content += ` (${this.explainRoll(0)}`
-        content += this.explainModifier()
-        content += ")"
-        break
+    if (this.mode === "many") {
+      key_parts.push("many")
+      t_args.rolls = this.rolls
+      t_args.results = this.presentResultSet()
+    } else {
+      key_parts.push("one")
+      t_args.result = this.explainOutcome(0)
+      t_args.explanation = this.explainRoll(0) + this.explainModifier()
     }
 
-    return content
-  }
+    if (this.description) {
+      key_parts.push("withDescription")
+      t_args.description = this.description
+    } else {
+      key_parts.push("withoutDescription")
+    }
 
-  /**
-   * Format the description
-   *
-   * Formatted string accounts for whether the description is present and whether we're presenting a single
-   * roll or multiples.
-   *
-   * @return {str} Formatted description string
-   */
-  get presentedDescription() {
-    if (!this.description) return ""
+    if (this.keep === "highest") {
+      key_parts.push("advantage")
+    } else if (this.keep === "lowest") {
+      key_parts.push("disadvantage")
+    } else {
+      key_parts.push("bare")
+    }
 
-    if (this.mode == "one") return ` for "${this.description}"`
-
-    return ` "${this.description}"`
+    const key = key_parts.join(".")
+    return this.t(key, t_args)
   }
 
   /**
@@ -95,27 +90,9 @@ class CurvPresenter {
     const dice_sum = this.sums[rollIndex][picked_index]
     const final_sum = dice_sum + this.modifier
 
-    if (dice_sum >= 16) return `${bold("a crit!")} with ${final_sum}`
+    if (dice_sum >= 16) return this.t("crit", { sum: final_sum })
 
     return bold(final_sum)
-  }
-
-  /**
-   * Describe the kept dice
-   *
-   * This translates back from the internal keep strategies to D&D-friendly advantage and disadvantage.
-   *
-   * @return {str} Formatted description of which dice were kept
-   */
-  explainAdvantage() {
-    switch (this.keep) {
-      case "highest":
-        return " with advantage"
-      case "lowest":
-        return " with disadvantage"
-      default:
-        return ""
-    }
   }
 
   /**
@@ -159,15 +136,6 @@ class CurvPresenter {
         return `\t${this.explainOutcome(roll_idx)} (${this.explainRoll(roll_idx)}${this.explainModifier(roll_idx)})`
       })
       .join("\n")
-  }
-
-  /**
-   * Show the number of rolls made
-   *
-   * @return {str} Description of the number of rolls
-   */
-  explainRolls() {
-    return ` ${this.rolls} times`
   }
 }
 

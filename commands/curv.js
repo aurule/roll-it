@@ -58,7 +58,7 @@ module.exports = {
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
   }).oxor("keep", "with"),
-  perform({ keep = "all", rolls = 1, modifier = 0, description, ...others } = {}) {
+  perform({ keep = "all", rolls = 1, modifier = 0, locale = "en-US", description, ...others } = {}) {
     if (others.with) keep = with_to_keep(others.with)
 
     const advantage_rolls = keep == "all" ? 1 : 2
@@ -78,6 +78,7 @@ module.exports = {
       description,
       keep,
       raw: raw_results,
+      locale,
     })
   },
   with_to_keep,
@@ -93,6 +94,7 @@ module.exports = {
       modifier,
       description: roll_description,
       keep,
+      locale: interaction.locale,
     })
 
     const full_text = injectMention(partial_message, interaction.user.id)
