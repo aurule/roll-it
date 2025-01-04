@@ -5,7 +5,7 @@ module.exports = {
   notes: "Supports rolling d20s with advantage or disadvantage.",
   commands: {
     required: ["d20"],
-    recommended: ["roll-formula", "d100"],
+    recommended: ["roll-formula", "d100", "d6"],
     optional: ["curv", "table"],
   },
 }
