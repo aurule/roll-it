@@ -1,4 +1,5 @@
 const d20Presenter = require("./d20-results-presenter")
+const { i18n } = require("../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {
@@ -6,6 +7,8 @@ describe("presentOne", () => {
     description: "test roll",
     raw: [[1]],
     picked: [{ indexes: [0] }],
+    keep: "all",
+    t: i18n.getFixedT("en-US", "commands", "d20")
   }
 
   it("includes description if present", () => {
@@ -31,7 +34,9 @@ describe("presentMany", () => {
     modifier: 0,
     description: "test roll",
     raw: [[1], [2]],
+    keep: "all",
     picked: [{ indexes: [0] }, { indexes: [0] }],
+    t: i18n.getFixedT("en-US", "commands", "d20")
   }
 
   it("includes description if present", () => {
@@ -52,45 +57,57 @@ describe("presentMany", () => {
   })
 })
 
+describe("rollResult", () => {
+  describe("with a single die", () => {
+    it("uses that die", () => {
+      const result = d20Presenter.rollResult([5], [0], 0)
+
+      expect(result).toEqual(5)
+    })
+
+    it("adds a modifier", () => {
+      const result = d20Presenter.rollResult([5], [0], 2)
+
+      expect(result).toEqual(7)
+    })
+  })
+
+  describe("with multiple dice", () => {
+    it("uses the picked die", () => {
+      const result = d20Presenter.rollResult([5, 18], [1], 0)
+
+      expect(result).toEqual(18)
+    })
+
+    it("adds a modifier", () => {
+      const result = d20Presenter.rollResult([5, 18], [1], 2)
+
+      expect(result).toEqual(20)
+    })
+  })
+})
+
 describe("detail", () => {
   describe("single die", () => {
     describe("when modifier is zero", () => {
-      it("bolds the final result", () => {
+      it("returns a simple breakdown", () => {
         const result = d20Presenter.detail([5], [0], 0)
 
-        expect(result).toMatch("**5**")
-      })
-
-      it("has no breakdown", () => {
-        const result = d20Presenter.detail([5], [0], 0)
-
-        expect(result).not.toMatch("(")
+        expect(result).toMatch("[5]")
       })
     })
 
     describe("when modifier is non-zero", () => {
-      it("bolds the final result", () => {
+      it("includes the modifier", () => {
         const result = d20Presenter.detail([5], [0], 3)
 
-        expect(result).toMatch("**8**")
-      })
-
-      it("includes breakdown", () => {
-        const result = d20Presenter.detail([5], [0], 3)
-
-        expect(result).toMatch("(")
+        expect(result).toMatch("[5] + 3")
       })
     })
   })
 
   describe("two dice", () => {
     describe("when modifier is zero", () => {
-      it("bolds the final result", () => {
-        const result = d20Presenter.detail([5, 18], [1], 0)
-
-        expect(result).toMatch("**18**")
-      })
-
       it("shows the rejected die", () => {
         const result = d20Presenter.detail([5, 18], [1], 0)
 
@@ -99,12 +116,6 @@ describe("detail", () => {
     })
 
     describe("when modifier is non-zero", () => {
-      it("bolds the final result", () => {
-        const result = d20Presenter.detail([5, 18], [1], 5)
-
-        expect(result).toMatch("**23**")
-      })
-
       it("shows the rejected die", () => {
         const result = d20Presenter.detail([5, 18], [1], 5)
 

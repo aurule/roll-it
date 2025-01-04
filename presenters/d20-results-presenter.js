@@ -1,11 +1,6 @@
 const { bold, strikethrough, Collection } = require("discord.js")
 const { signed } = require("../util/formatters")
-
-const keep_strings = new Collection([
-  ["all", ""],
-  ["highest", " with advantage"],
-  ["lowest", " with disadvantage"],
-])
+const { i18n } = require("../locales")
 
 /**
  * Create a string describing the results of a d20 roll
@@ -15,13 +10,42 @@ const keep_strings = new Collection([
  * @param  {Array<int[]>} raw         An array of one array with one or two numeric values for the dice
  * @param  {obj}          picked      Object of results and indexes after picking highest or lowest
  * @param  {str}          keep        The method used to pick dice to keep. One of "all", "highest", or "lowest".
+ * @param  {i18n.t}       t           Translation function
  * @return {String}                   String describing this roll
  */
-function presentOne({ modifier, description, raw, picked, keep }) {
-  let content = "{{userMention}} rolled " + detail(raw[0], picked[0].indexes, modifier)
-  if (description) content += ` for "${description}"`
-  content += keep_strings.get(keep)
-  return content
+function presentOne({ modifier, description, raw, picked, keep, t }) {
+  const t_args = {
+    result: rollResult(raw[0], picked[0].indexes, modifier),
+    description,
+    explanation: detail(raw[0], picked[0].indexes, modifier),
+  }
+
+  let key_parts = ["response", "one"]
+  if (description) {
+    key_parts.push("withDescription")
+  } else {
+    key_parts.push("withoutDescription")
+  }
+
+  switch (keep) {
+    case "all":
+      key_parts.push("bare")
+      if (modifier === 0) {
+        key_parts.push("simple")
+      } else {
+        key_parts.push("mod")
+      }
+      break
+    case "highest":
+      key_parts.push("advantage")
+      break
+    case "lowest":
+      key_parts.push("disadvantage")
+      break
+  }
+
+  const key = key_parts.join(".")
+  return(t(key, t_args))
 }
 
 /**
@@ -32,17 +56,63 @@ function presentOne({ modifier, description, raw, picked, keep }) {
  * @param  {Array<Array<Int>>} options.raw  An array of multiple arrays with one or two numeric values for the dice
  * @param  {obj[]}     options.picked       Array of objects of results and indexes after picking highest or lowest
  * @param  {str}       options.keep         The method used to pick dice to keep. One of "all", "highest", or "lowest".
+ * @param  {i18n.t}    options.t            Translation function
  * @return {String}                         String describing this roll
  */
-function presentMany({ modifier, description, raw, picked, keep }) {
-  let content = "{{userMention}} rolled"
-  if (description) {
-    content += ` "${description}"`
+function presentMany({ modifier, description, raw, picked, keep, t }) {
+  let result_key
+  if (modifier === 0 && keep === "all") {
+    result_key = "response.many.result.simple"
+  } else {
+    result_key = "response.many.result.explain"
   }
-  content += keep_strings.get(keep)
-  content += ` ${raw.length} times:`
-  content += raw.map((result, idx) => `\n\t${detail(result, picked[idx].indexes, modifier)}`)
-  return content
+
+  const results = raw.map((res, idx) => {
+    const result = rollResult(res, picked[idx].indexes, modifier)
+    const explanation = detail(res, picked[idx].indexes, modifier)
+    return "\t" + t(result_key, { result, explanation })
+  })
+
+  const t_args = {
+    description,
+    rolls: raw.length,
+    results: results.join("\n"),
+  }
+
+  const key_parts = ["response", "many"]
+
+  if (description) {
+    key_parts.push("withDescription")
+  } else {
+    key_parts.push("withoutDescription")
+  }
+
+  switch (keep) {
+    case "all":
+      key_parts.push("bare")
+      break
+    case "highest":
+      key_parts.push("advantage")
+      break
+    case "lowest":
+      key_parts.push("disadvantage")
+      break
+  }
+
+  const key = key_parts.join(".")
+  return t(key, t_args)
+}
+
+/**
+ * Get the result of a single roll
+ * @param  {int[]}  result   Array of die results
+ * @param  {int[]}  indexes  Array of a single number containing the index of the die to keep
+ * @param  {Number} modifier Number to add to the roll
+ * @return {Number}          Final die result
+ */
+function rollResult(result, indexes, modifier = 0) {
+  const die = result[indexes[0]]
+  return die + modifier
 }
 
 /**
@@ -55,30 +125,23 @@ function presentMany({ modifier, description, raw, picked, keep }) {
  */
 function detail(result, indexes, modifier = 0) {
   const die = result[indexes[0]]
-  const content = [bold(die + modifier)]
 
-  let selection = `${die}`
-  if (result.length > 1) {
-    const nums = result
-      .map((res, idx) => {
-        if (indexes.includes(idx)) {
-          return `${res}`
-        } else {
-          return strikethrough(res)
-        }
-      })
-      .join(", ")
-    selection = `[${nums}]`
-  }
+  const nums = result
+    .map((res, idx) => {
+      if (indexes.includes(idx)) {
+        return `${res}`
+      } else {
+        return strikethrough(res)
+      }
+    })
+    .join(", ")
+  const selection = `[${nums}]`
 
-  let breakdown = ""
   if (modifier) {
-    breakdown = `(${selection}${signed(modifier)})`
-    content.push(breakdown)
-  } else if (result.length > 1) {
-    content.push(selection)
+    return `${selection}${signed(modifier)}`
   }
-  return content.join(" ")
+
+  return selection
 }
 
 module.exports = {
@@ -87,15 +150,23 @@ module.exports = {
    *
    * @param  {Int}        options.rolls       Total number of rolls to show
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
+   * @param  {str}        options.locale      Locale name
    * @return {String}                         String describing the roll results
    */
-  present: ({ rolls, ...rollOptions }) => {
-    if (rolls == 1) {
-      return presentOne(rollOptions)
+  present: ({ rolls, locale, ...rollOptions }) => {
+    const t = i18n.getFixedT(locale, "commands", "d20")
+    const presenter_options = {
+      t,
+      ...rollOptions
     }
-    return presentMany(rollOptions)
+
+    if (rolls == 1) {
+      return presentOne(presenter_options)
+    }
+    return presentMany(presenter_options)
   },
   presentOne,
   presentMany,
   detail,
+  rollResult,
 }

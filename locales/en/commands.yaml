@@ -83,6 +83,55 @@ curv:
           {{userMention}} rolled **{{result}}** with disadvantage ({{explanation}})
         bare: >-
           {{userMention}} rolled **{{result}}** ({{explanation}})
+d20:
+  response:
+    many:
+      result:
+        explain: >-
+          **{{result}}** ({{explanation}})
+        simple: >-
+          **{{result}}**
+      withDescription:
+        advantage: |-
+          {{userMention}} rolled "{{description}}" {{rolls}} times with advantage:
+          {{results}}
+        disadvantage: |-
+          {{userMention}} rolled "{{description}}" {{rolls}} times with disadvantage:
+          {{results}}
+        bare: |-
+          {{userMention}} rolled "{{description}}" {{rolls}} times:
+          {{results}}
+      withoutDescription:
+        advantage: |-
+          {{userMention}} rolled {{rolls}} times with advantage:
+          {{results}}
+        disadvantage: |-
+          {{userMention}} rolled {{rolls}} times with disadvantage:
+          {{results}}
+        bare: |-
+          {{userMention}} rolled {{rolls}} times:
+          {{results}}
+    one:
+      withDescription:
+        advantage: >-
+          {{userMention}} rolled **{{result}}** for "{{description}}" with advantage ({{explanation}})
+        disadvantage: >-
+          {{userMention}} rolled **{{result}}** for "{{description}}" with disadvantage ({{explanation}})
+        bare:
+          mod: >-
+            {{userMention}} rolled **{{result}}** for "{{description}}" ({{explanation}})
+          simple: >-
+            {{userMention}} rolled **{{result}}** for "{{description}}"
+      withoutDescription:
+        advantage: >-
+          {{userMention}} rolled **{{result}}** with advantage ({{explanation}})
+        disadvantage: >-
+          {{userMention}} rolled **{{result}}** with disadvantage ({{explanation}})
+        bare:
+          mod: >-
+            {{userMention}} rolled **{{result}}** ({{explanation}})
+          simple: >-
+            {{userMention}} rolled **{{result}}**
 drh:
   options:
     talent:
