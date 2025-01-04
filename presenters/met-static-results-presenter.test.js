@@ -77,26 +77,6 @@ describe("presentOne", () => {
   })
 
   describe("random throws", () => {
-    it("notes random user symbol", () => {
-      const result = presentOne({
-        ...default_opts,
-        throw_request: "rand",
-        thrown: ["rock"],
-      })
-
-      expect(result).toMatch("random")
-    })
-
-    it("notes random user symbol with bomb", () => {
-      const result = presentOne({
-        ...default_opts,
-        throw_request: "rand-bomb",
-        thrown: ["rock"],
-      })
-
-      expect(result).toMatch("bomb")
-    })
-
     it("notes random vs symbol", () => {
       const result = presentOne({
         ...default_opts,

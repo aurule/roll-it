@@ -59,13 +59,13 @@ function presentOne({ throw_request, vs_request, thrown, vs, compared, descripti
   if (result) {
     content += bold(result)
   } else {
-    content += pretty(user_throw, throw_request)
+    content += pretty(user_throw)
   }
 
   if (description) content += ` for "${description}"`
 
   if (result) {
-    content += ` (${pretty(user_throw, throw_request)} ${italic("vs")} ${pretty(bot_throw, vs_request)})`
+    content += ` (${pretty(user_throw)} ${italic("vs")} ${pretty(bot_throw, vs_request)})`
   }
 
   return content
@@ -87,10 +87,10 @@ function presentMany({ throw_request, vs_request, rolls, thrown, vs, compared, d
   if (description) content += ` for "${description}"`
   content += ":\n"
   content += thrown
-    .map((elem, idx) => {
+    .map((user_throw, idx) => {
       if (compared[idx])
-        return `\t${bold(compared[idx])} (${pretty(elem, throw_request)} ${italic("vs")} ${pretty(vs[idx], vs_request)})`
-      return `\t${pretty(elem, throw_request)}`
+        return `\t${bold(compared[idx])} (${pretty(user_throw)} ${italic("vs")} ${pretty(vs[idx], vs_request)})`
+      return `\t${pretty(user_throw)}`
     })
     .join("\n")
   return content
