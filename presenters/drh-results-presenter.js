@@ -15,15 +15,6 @@ const talentNames = new Collection([
 ])
 
 /**
- * Names of the degree of success
- *
- * Indexed by the difference between the player successes and pain successes.
- *
- * @type {str[]}
- */
-const successDegrees = ["narrow", "competant", "impressive", "extraordinary", "fantastic"]
-
-/**
  * List of strength names in descending order
  *
  * Order is used for breaking ties if all die results are identical.
@@ -65,7 +56,7 @@ class DrhPresenter {
 
   t
 
-  constructor({ tests, description, talent, rolls, locale = "en-US" }) {
+  constructor({ tests, description, talent = "none", rolls, locale = "en-US" } = {}) {
     this.tests = tests
     this.description = description
     this.talent = talent
@@ -92,74 +83,43 @@ class DrhPresenter {
    * @return {str} Presented roll results
    */
   presentResults() {
-    let content = "{{userMention}} rolled"
-
-    switch (this.mode) {
-      case "many":
-        // {{userMention}} rolled {{rolls}} times for {{description}} using a Minor Exhaustion talent:
-        // **a competant success** dominated by **discipline**
-        //     2 discipline (6, **2**, __**1**__)
-        //     2 *vs* 1 pain (6, **2**)
-        content += this.presentedDescription()
-        content += ` ${this.rolls} times`
-        content += this.presentedTalent()
-        content += this.tests.map((pools) => {
-          const roll_presenter = new DrhRollPresenter({
-            strengths: pools,
-            talent: this.talent,
-          })
-          return (
-            `\n${bold(roll_presenter.resultWord)} dominated by ${bold(roll_presenter.dominating_strength)}\n` +
-            roll_presenter.present()
-          )
-        })
-        break
-      case "one":
-        // {{userMention}} rolled a **competant success** dominated by **discipline** for {{description}} using a Minor Exhaustion talent
-        //     2 discipline (6, **2**, __**1**__)
-        //     2 *vs* 1 pain (6, **2**)
-        const roll_presenter = new DrhRollPresenter({
-          strengths: this.tests[0],
-          talent: this.talent,
-        })
-        content += " a " + bold(roll_presenter.resultWord)
-        content += this.presentedDescription()
-        content += ` dominated by ${bold(roll_presenter.dominating_strength)}`
-        content += this.presentedTalent() + "\n"
-        content += roll_presenter.present()
-        break
+    const t_args = {
+      description: this.description,
+      count: this.rolls,
+      rolls: this.rolls,
     }
 
-    return content
-  }
+    const key_parts = ["response"]
+    if (this.description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
+    key_parts.push(this.talent)
 
-  /**
-   * Format the description
-   *
-   * Formatted string accounts for whether the description is present and whether we're presenting a single
-   * roll or multiples.
-   *
-   * @return {str} Formatted description string
-   */
-  presentedDescription() {
-    if (!this.description) return ""
+    if (this.rolls === 1) {
+      const roll_presenter = new DrhRollPresenter({
+        strengths: this.tests[0],
+        talent: this.talent,
+      })
+      t_args.pools = roll_presenter.present()
+      t_args.result = this.t(`response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`)
+    } else {
+      t_args.results = this.tests.map((pools) => {
+        const roll_presenter = new DrhRollPresenter({
+          strengths: pools,
+          talent: this.talent,
+        })
+        const lines = [
+          this.t(`response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`),
+          roll_presenter.present(),
+        ]
+        return lines.join("\n")
+      }).join("\n")
+    }
 
-    if (this.mode == "one") return ` for "${this.description}"`
-
-    return ` "${this.description}"`
-  }
-
-  /**
-   * Format the talent
-   *
-   * Returned string includes the proper name of the talent as well as connecting words.
-   *
-   * @return {str} Formatted talent string
-   */
-  presentedTalent() {
-    if (!this.talent) return ""
-
-    return ` using a ${talentNames.get(this.talent)} talent`
+    const key = key_parts.join(".")
+    return this.t(key, t_args)
   }
 }
 
@@ -174,7 +134,7 @@ class DrhRollPresenter {
   /**
    * The name of the talent used
    *
-   * @type {str | undefined}
+   * @type {str}
    */
   talent
 
@@ -324,19 +284,18 @@ class DrhRollPresenter {
   }
 
   /**
-   * The words which describe the final result
+   * The final result
    *
-   * Compares the player total against the pain total. Main word is "success" or "failure", with an extra
-   * descriptor for success.
+   * Compares the player total against the pain total, capped at 4. Failure is index 5.
    *
-   * @return {str} String describing the roll result
+   * @return {int} Roll result
    */
-  get resultWord() {
+  get result() {
     if (this.playerTotal >= this.painTotal) {
       const degree = Math.min(4, this.playerTotal - this.painTotal)
-      return `${indeterminate(successDegrees[degree])} success`
+      return degree
     }
-    return "failure"
+    return 5
   }
 
   /**

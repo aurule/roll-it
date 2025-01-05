@@ -100,7 +100,7 @@ module.exports = {
 
     return new DrhPool(pool_name, raw)
   },
-  perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description, locale = "en-US" } = {}) {
+  perform({ discipline, pain, exhaustion, madness, talent = "none", rolls = 1, description, locale = "en-US" } = {}) {
     const pool_options = new Collection([
       ["discipline", discipline],
       ["pain", pain],
@@ -125,7 +125,7 @@ module.exports = {
     const pain = interaction.options.getInteger("pain") ?? 1
     const exhaustion = interaction.options.getInteger("exhaustion") ?? 0
     const madness = interaction.options.getInteger("madness") ?? 0
-    const talent = interaction.options.getString("talent") ?? ""
+    const talent = interaction.options.getString("talent") ?? "none"
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false

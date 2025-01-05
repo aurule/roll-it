@@ -35,7 +35,7 @@ describe("DrhPresenter", () => {
             ]),
           ],
           rolls: 1,
-          talent: "",
+          talent: "none",
           description: "test roll",
         }
         const presenter = new DrhPresenter(options)
@@ -54,7 +54,7 @@ describe("DrhPresenter", () => {
             ]),
           ],
           rolls: 1,
-          talent: "",
+          talent: "none",
           description: "test roll",
         }
         const presenter = new DrhPresenter(options)
@@ -74,7 +74,7 @@ describe("DrhPresenter", () => {
             ]),
           ],
           rolls: 1,
-          talent: "",
+          talent: "none",
           description: "test roll",
         }
         const presenter = new DrhPresenter(options)
@@ -100,7 +100,7 @@ describe("DrhPresenter", () => {
             ]),
           ],
           rolls: 2,
-          talent: "",
+          talent: "none",
           description: "test roll",
         }
         const presenter = new DrhPresenter(options)
@@ -123,7 +123,7 @@ describe("DrhPresenter", () => {
             ]),
           ],
           rolls: 2,
-          talent: "",
+          talent: "none",
           description: "test roll",
         }
         const presenter = new DrhPresenter(options)
@@ -147,7 +147,7 @@ describe("DrhPresenter", () => {
             ]),
           ],
           rolls: 2,
-          talent: "",
+          talent: "none",
           description: "test roll",
         }
         const presenter = new DrhPresenter(options)
@@ -157,81 +157,6 @@ describe("DrhPresenter", () => {
         expect(result).toMatch("dominated by **discipline**")
         expect(result).toMatch("ominated by **pain**")
       })
-    })
-  })
-
-  describe("presentedDescription", () => {
-    it("without description, returns empty string", () => {
-      options = {}
-      const presenter = new DrhPresenter(options)
-
-      const result = presenter.presentedDescription()
-
-      expect(result).toEqual("")
-    })
-
-    describe("with a description", () => {
-      describe("in single mode", () => {
-        it("includes the description text", () => {
-          options = {
-            rolls: 1,
-            description: "test description",
-          }
-          const presenter = new DrhPresenter(options)
-
-          const result = presenter.presentedDescription()
-
-          expect(result).toMatch("test description")
-        })
-
-        it("prefixes with 'for'", () => {
-          options = {
-            rolls: 1,
-            description: "test description",
-          }
-          const presenter = new DrhPresenter(options)
-
-          const result = presenter.presentedDescription()
-
-          expect(result).toMatch("for")
-        })
-      })
-
-      describe("in many mode", () => {
-        it("includes the description text", () => {
-          options = {
-            rolls: 5,
-            description: "test description",
-          }
-          const presenter = new DrhPresenter(options)
-
-          const result = presenter.presentedDescription()
-
-          expect(result).toMatch("test description")
-        })
-      })
-    })
-  })
-
-  describe("presentedTalent", () => {
-    it("without talent, returns empty string", () => {
-      const options = {}
-      const presenter = new DrhPresenter(options)
-
-      const result = presenter.presentedTalent()
-
-      expect(result).toEqual("")
-    })
-
-    it("with talent, includes full talent name", () => {
-      const options = {
-        talent: "minor",
-      }
-      const presenter = new DrhPresenter(options)
-
-      const result = presenter.presentedTalent()
-
-      expect(result).toMatch("Minor Exhaustion")
     })
   })
 })
@@ -570,79 +495,6 @@ describe("DrhRollPresenter", () => {
       const presenter = new DrhRollPresenter(options)
 
       expect(presenter.painTotal).toEqual(5)
-    })
-  })
-
-  describe("resultWord", () => {
-    describe("total is equal to pain", () => {
-      it("returns success", () => {
-        const options = {
-          talent: "major",
-          strengths: new Collection([
-            ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-            ["exhaustion", new DrhPool("exhaustion", [[1, 4, 4]])],
-            ["pain", new DrhPool("pain", [[1, 1, 3, 5]])],
-          ]),
-        }
-        const presenter = new DrhRollPresenter(options)
-
-        expect(presenter.resultWord).toMatch("success")
-      })
-    })
-    describe("total is gt pain", () => {
-      it("returns success", () => {
-        const options = {
-          talent: "major",
-          strengths: new Collection([
-            ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-            ["exhaustion", new DrhPool("exhaustion", [[1, 4, 4]])],
-            ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
-          ]),
-        }
-        const presenter = new DrhRollPresenter(options)
-
-        expect(presenter.resultWord).toMatch("success")
-      })
-
-      it("uses the degree word", () => {
-        const options = {
-          talent: "major",
-          strengths: new Collection([
-            ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-            ["exhaustion", new DrhPool("exhaustion", [[1, 4, 4]])],
-            ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
-          ]),
-        }
-        const presenter = new DrhRollPresenter(options)
-
-        expect(presenter.resultWord).toMatch("competant")
-      })
-
-      it("caps degree at fantastic", () => {
-        const options = {
-          talent: "major",
-          strengths: new Collection([
-            ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-            ["exhaustion", new DrhPool("exhaustion", [[1, 4, 4]])],
-            ["pain", new DrhPool("pain", [[4, 5]])],
-          ]),
-        }
-        const presenter = new DrhRollPresenter(options)
-
-        expect(presenter.resultWord).toMatch("fantastic")
-      })
-    })
-
-    it("is failure when total is lt pain", () => {
-      const options = {
-        strengths: new Collection([
-          ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-          ["pain", new DrhPool("pain", [[1, 1, 3, 5]])],
-        ]),
-      }
-      const presenter = new DrhRollPresenter(options)
-
-      expect(presenter.resultWord).toEqual("failure")
     })
   })
 
