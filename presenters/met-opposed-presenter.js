@@ -3,8 +3,7 @@
  * @module met-opposed-presenter
  */
 
-const { time, TimestampStyles, subtext, hyperlink, orderedList, bold } = require("discord.js")
-const { oneLine } = require("common-tags")
+const { time, TimestampStyles, subtext, hyperlink, orderedList } = require("discord.js")
 
 /**
  * Transform a participant's advantages into a list
