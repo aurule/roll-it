@@ -45,7 +45,7 @@ chop:
   response:
     shortcut: This command is a shortcut. Try `/met static` instead.
 curv:
-  crit: __a crit!__ with {{sum}}
+  crit: "**a crit!** with {{sum}}"
   response:
     many:
       withDescription:
