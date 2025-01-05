@@ -209,6 +209,20 @@ drh:
         madness: a **failure** dominated by **madness**
         exhaustion: a **failure** dominated by **exhaustion**
         pain: a **failure** dominated by **pain**
+fate:
+  response:
+    withDescription_one: |-
+      {{userMention}} rolled {{result}} for "{{description}}": {{detail}}
+    withDescription_other: |-
+      {{userMention}} rolled {{count}} times for "{{description}}":
+      {{results}}
+    withoutDescription_one: |-
+      {{userMention}} rolled {{result}}: {{detail}}
+    withoutDescription_other: |-
+      {{userMention}} rolled {{count}} times:
+      {{results}}
+    result: |-
+      {{ladder}} result: {{detail}}
 help:
   command:
     options:

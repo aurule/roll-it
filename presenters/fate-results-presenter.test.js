@@ -1,4 +1,5 @@
 const FateResultsPresenter = require("./fate-results-presenter")
+const { i18n } = require("../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {
@@ -6,6 +7,7 @@ describe("presentOne", () => {
     raw: [[1, 1, 2, 3]],
     summed: [-1],
     modifier: 2,
+    t: i18n.getFixedT("en-US", "commands", "fate"),
   }
 
   it("includes the ladder word for the sum", () => {
@@ -36,6 +38,7 @@ describe("presentMany", () => {
     ],
     summed: [2, 0],
     modifier: 5,
+    t: i18n.getFixedT("en-US", "commands", "fate"),
   }
 
   it("highlights final sum", () => {

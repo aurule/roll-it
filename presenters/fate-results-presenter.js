@@ -1,5 +1,6 @@
 const { signed } = require("../util/formatters")
 const { indeterminate } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 const emoji = [
   null,
@@ -32,11 +33,15 @@ module.exports = {
    * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
    * @return {String}                         String describing the roll results
    */
-  present: ({ rolls, ...rollOptions }) => {
-    if (rolls == 1) {
-      return module.exports.presentOne(rollOptions)
+  present: ({ rolls, locale = "en-US", ...rollOptions } = {}) => {
+    const presenter_options = {
+      ...rollOptions,
+      t: i18n.getFixedT(locale, "commands", "fate"),
     }
-    return module.exports.presentMany(rollOptions)
+    if (rolls == 1) {
+      return module.exports.presentOne(presenter_options)
+    }
+    return module.exports.presentMany(presenter_options)
   },
 
   /**
@@ -48,16 +53,23 @@ module.exports = {
    * @param  {Int}    options.modifier        Number to add to the roll's summed result
    * @return {String}                         String describing the roll results
    */
-  presentOne: ({ description, raw, summed, modifier }) => {
-    let content = ["{{userMention}} rolled"]
-    content.push(module.exports.toLadder(summed[0] + modifier))
-    if (description) {
-      content.push("for")
-      content.push(`"${description}"`)
+  presentOne: ({ description, raw, summed, modifier, t }) => {
+    const t_args = {
+      description,
+      result: module.exports.toLadder(summed[0] + modifier),
+      detail: module.exports.detail(raw[0], modifier),
+      count: raw.length,
     }
-    content.push(":")
-    content.push(module.exports.detail(raw[0], modifier))
-    return content.join(" ")
+
+    const key_parts = ["response"]
+    if (description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
+
+    const key = key_parts.join(".")
+    return t(key, t_args)
   },
 
   /**
@@ -69,24 +81,28 @@ module.exports = {
    * @param  {Int}    options.modifier        Number to add to the roll's summed result
    * @return {String}                         String describing the roll results
    */
-  presentMany: ({ description, raw, summed, modifier }) => {
-    let content = ["{{userMention}} rolled"]
-    if (description) {
-      content.push(`"${description}"`)
+  presentMany: ({ description, raw, summed, modifier, t }) => {
+    const t_args = {
+      description,
+      count: raw.length,
+      results: raw.map((result, index) => {
+        const res_args = {
+          ladder: module.exports.toLadder(summed[index] + modifier),
+          detail: module.exports.detail(result, modifier),
+        }
+        return `\t${t("response.result", res_args)}`
+      }).join("\n")
     }
-    content.push(raw.length)
-    content.push("times:")
-    return content
-      .concat(
-        raw.map((result, index) => {
-          return [
-            `\n\t${module.exports.toLadder(summed[index] + modifier)}`,
-            "result:",
-            module.exports.detail(result, modifier),
-          ].join(" ")
-        }),
-      )
-      .join(" ")
+
+    const key_parts = ["response"]
+    if (description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
+
+    const key = key_parts.join(".")
+    return t(key, t_args)
   },
 
   /**
