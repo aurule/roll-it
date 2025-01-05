@@ -133,11 +133,102 @@ d20:
           simple: >-
             {{userMention}} rolled **{{result}}**
 drh:
+  strength:
+    discipline: discipline
+    madness: madness
+    exhaustion: exhaustion
+    pain: pain
   options:
     talent:
       validation:
         exhaustion: You need at least 1 `exhaustion` to use an exhaustion talent.
         madness: You need at least 1 `madness` to use a madness talent.
+  response:
+    many:
+      withDescription:
+        bare: |-
+          {{userMention}} rolled {{rolls}} times for "{{description}}":
+          {{results}}
+        minor: |-
+          {{userMention}} rolled {{rolls}} times for "{{description}}" using a Minor Exhaustion talent:
+          {{results}}
+        major: |-
+          {{userMention}} rolled {{rolls}} times for "{{description}}" using a Major Exhaustion talent:
+          {{results}}
+        madness: |-
+          {{userMention}} rolled {{rolls}} times for "{{description}}" using a Madness talent:
+          {{results}}
+      withoutDescription:
+        bare: |-
+          {{userMention}} rolled {{rolls}} times:
+          {{results}}
+        minor: |-
+          {{userMention}} rolled {{rolls}} times using a Minor Exhaustion talent:
+          {{results}}
+        major: |-
+          {{userMention}} rolled {{rolls}} times using a Major Exhaustion talent:
+          {{results}}
+        madness: |-
+          {{userMention}} rolled {{rolls}} times using a Madness talent:
+          {{results}}
+    one:
+      withDescription:
+        bare: |-
+          {{userMention}} rolled {{result}} for "{{description}}"
+          {{pools}}
+        minor: |-
+          {{userMention}} rolled {{result}} for "{{description}}" using a Minor Exhaustion talent
+          {{pools}}
+        major: |-
+          {{userMention}} rolled {{result}} for "{{description}}" using a Major Exhaustion talent
+          {{pools}}
+        madness: |-
+          {{userMention}} rolled {{result}} for "{{description}}" using a Madness talent
+          {{pools}}
+      withoutDescription:
+        bare: |-
+          {{userMention}} rolled {{result}}
+          {{pools}}
+        minor: |-
+          {{userMention}} rolled {{result}} using a Minor Exhaustion talent
+          {{pools}}
+        major: |-
+          {{userMention}} rolled {{result}} using a Major Exhaustion talent
+          {{pools}}
+        madness: |-
+          {{userMention}} rolled {{result}} using a Madness talent
+          {{pools}}
+    result:
+      narrow:
+        discipline: a **narrow success** dominated by **discipline**
+        madness: a **narrow success** dominated by **madness**
+        exhaustion: a **narrow success** dominated by **exhaustion**
+        pain: a **narrow success** dominated by **pain**
+      competant:
+        discipline: a **competant success** dominated by **discipline**
+        madness: a **competant success** dominated by **madness**
+        exhaustion: a **competant success** dominated by **exhaustion**
+        pain: a **competant success** dominated by **pain**
+      impressive:
+        discipline: an **impressive success** dominated by **discipline**
+        madness: an **impressive success** dominated by **madness**
+        exhaustion: an **impressive success** dominated by **exhaustion**
+        pain: an **impressive success** dominated by **pain**
+      extraordinary:
+        discipline: an **extraordinary success** dominated by **discipline**
+        madness: an **extraordinary success** dominated by **madness**
+        exhaustion: an **extraordinary success** dominated by **exhaustion**
+        pain: an **extraordinary success** dominated by **pain**
+      fantastic:
+        discipline: a **fantastic success** dominated by **discipline**
+        madness: a **fantastic success** dominated by **madness**
+        exhaustion: a **fantastic success** dominated by **exhaustion**
+        pain: a **fantastic success** dominated by **pain**
+      failure:
+        discipline: a **failure** dominated by **discipline**
+        madness: a **failure** dominated by **madness**
+        exhaustion: a **failure** dominated by **exhaustion**
+        pain: a **failure** dominated by **pain**
 help:
   command:
     options:

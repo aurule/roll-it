@@ -100,7 +100,7 @@ module.exports = {
 
     return new DrhPool(pool_name, raw)
   },
-  perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description } = {}) {
+  perform({ discipline, pain, exhaustion, madness, talent, rolls = 1, description, locale = "en-US" } = {}) {
     const pool_options = new Collection([
       ["discipline", discipline],
       ["pain", pain],
@@ -117,6 +117,7 @@ module.exports = {
       description,
       talent,
       rolls,
+      locale,
     })
   },
   execute(interaction) {
@@ -157,6 +158,7 @@ module.exports = {
       madness,
       talent,
       description: roll_description,
+      locale: interaction.locale,
     })
 
     const full_text = injectMention(partial_message, interaction.user.id)

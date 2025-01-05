@@ -1,6 +1,7 @@
 const { bold, underline, italic, strikethrough, Collection } = require("discord.js")
 
 const { indeterminate } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 /**
  * Map of talent keywords to displayable names
@@ -62,11 +63,14 @@ class DrhPresenter {
    */
   rolls
 
-  constructor({ tests, description, talent, rolls }) {
+  t
+
+  constructor({ tests, description, talent, rolls, locale = "en-US" }) {
     this.tests = tests
     this.description = description
     this.talent = talent
     this.rolls = rolls
+    this.t = i18n.getFixedT(locale, "commands", "drh")
   }
 
   /**
@@ -92,6 +96,10 @@ class DrhPresenter {
 
     switch (this.mode) {
       case "many":
+        // {{userMention}} rolled {{rolls}} times for {{description}} using a Minor Exhaustion talent:
+        // **a competant success** dominated by **discipline**
+        //     2 discipline (6, **2**, __**1**__)
+        //     2 *vs* 1 pain (6, **2**)
         content += this.presentedDescription()
         content += ` ${this.rolls} times`
         content += this.presentedTalent()
@@ -107,6 +115,9 @@ class DrhPresenter {
         })
         break
       case "one":
+        // {{userMention}} rolled a **competant success** dominated by **discipline** for {{description}} using a Minor Exhaustion talent
+        //     2 discipline (6, **2**, __**1**__)
+        //     2 *vs* 1 pain (6, **2**)
         const roll_presenter = new DrhRollPresenter({
           strengths: this.tests[0],
           talent: this.talent,
