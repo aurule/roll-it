@@ -18,9 +18,10 @@ function presentOne({ modifier, description, raw, picked, keep, t }) {
     result: rollResult(raw[0], picked[0].indexes, modifier),
     description,
     explanation: detail(raw[0], picked[0].indexes, modifier),
+    count: 1,
   }
 
-  let key_parts = ["response", "one"]
+  let key_parts = ["response"]
   if (description) {
     key_parts.push("withDescription")
   } else {
@@ -29,11 +30,11 @@ function presentOne({ modifier, description, raw, picked, keep, t }) {
 
   switch (keep) {
     case "all":
-      key_parts.push("bare")
       if (modifier === 0) {
-        key_parts.push("simple")
+        key_parts.push("nomod")
+        t_args.count = undefined
       } else {
-        key_parts.push("mod")
+        key_parts.push("simple")
       }
       break
     case "highest":
@@ -62,9 +63,9 @@ function presentOne({ modifier, description, raw, picked, keep, t }) {
 function presentMany({ modifier, description, raw, picked, keep, t }) {
   let result_key
   if (modifier === 0 && keep === "all") {
-    result_key = "response.many.result.simple"
+    result_key = "response.result.simple"
   } else {
-    result_key = "response.many.result.explain"
+    result_key = "response.result.explain"
   }
 
   const results = raw.map((res, idx) => {
@@ -76,10 +77,11 @@ function presentMany({ modifier, description, raw, picked, keep, t }) {
   const t_args = {
     description,
     rolls: raw.length,
+    count: raw.length,
     results: results.join("\n"),
   }
 
-  const key_parts = ["response", "many"]
+  const key_parts = ["response"]
 
   if (description) {
     key_parts.push("withDescription")
@@ -89,7 +91,7 @@ function presentMany({ modifier, description, raw, picked, keep, t }) {
 
   switch (keep) {
     case "all":
-      key_parts.push("bare")
+      key_parts.push("simple")
       break
     case "highest":
       key_parts.push("advantage")

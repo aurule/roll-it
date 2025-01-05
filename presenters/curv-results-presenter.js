@@ -45,14 +45,14 @@ class CurvPresenter {
    */
   presentResults() {
     const key_parts = ["response"]
-    const t_args = {}
+    const t_args = {
+      count: this.rolls
+    }
 
     if (this.mode === "many") {
-      key_parts.push("many")
       t_args.rolls = this.rolls
       t_args.results = this.presentResultSet()
     } else {
-      key_parts.push("one")
       t_args.result = this.explainOutcome(0)
       t_args.explanation = this.explainRoll(0) + this.explainModifier()
     }
@@ -69,7 +69,7 @@ class CurvPresenter {
     } else if (this.keep === "lowest") {
       key_parts.push("disadvantage")
     } else {
-      key_parts.push("bare")
+      key_parts.push("simple")
     }
 
     const key = key_parts.join(".")
