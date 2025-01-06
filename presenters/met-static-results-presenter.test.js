@@ -1,33 +1,14 @@
 const { pretty, presentOne, presentMany } = require("./met-static-results-presenter")
-
-describe("pretty", () => {
-  it("adds emoji", () => {
-    const result = pretty("paper")
-
-    expect(result).toMatch(":")
-  })
-
-  describe("with request", () => {
-    it("adds random if rand", () => {
-      const result = pretty("paper", "rand")
-
-      expect(result).toMatch("random")
-    })
-
-    it("adds bomb note if bomb", () => {
-      const result = pretty("rock", "rand-bomb")
-
-      expect(result).toMatch("w/bomb")
-    })
-  })
-})
+const { i18n } = require("../locales")
 
 describe("presentOne", () => {
   const default_opts = {
     rolls: 1,
     thrown: ["bomb"],
+    vs_request: "rand",
     vs: ["paper"],
     compared: ["lose"],
+    t: i18n.getFixedT("en-US", "commands", "met.static"),
   }
 
   it("includes user mention", () => {
@@ -51,7 +32,7 @@ describe("presentOne", () => {
   it("shows breakdown", () => {
     const result = presentOne(default_opts)
 
-    expect(result).toMatch("bomb _vs_")
+    expect(result).toMatch("bomb *vs*")
   })
 
   describe("with no opponent", () => {
@@ -108,7 +89,9 @@ describe("presentMany", () => {
     rolls: 2,
     thrown: ["rock", "scissors"],
     vs: ["paper", "scissors"],
+    vs_request: "rand",
     compared: ["lose", "tie"],
+    t: i18n.getFixedT("en-US", "commands", "met.static"),
   }
 
   it("includes user mention", () => {
@@ -133,8 +116,8 @@ describe("presentMany", () => {
   it("shows each breakdown", () => {
     const result = presentMany(default_opts)
 
-    expect(result).toMatch("rock _vs_")
-    expect(result).toMatch("scissors _vs_")
+    expect(result).toMatch("rock *vs*")
+    expect(result).toMatch("scissors *vs*")
   })
 
   describe("with no opponent", () => {

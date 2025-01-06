@@ -33,7 +33,7 @@ module.exports = {
     rolls: commonSchemas.rolls,
     static_test: Joi.boolean().optional(),
   }),
-  perform({ static_test, bomb, rolls, description }) {
+  perform({ static_test, bomb, rolls, description, locale = "en-US" } = {}) {
     const throw_request = bomb ? "rand-bomb" : "rand"
     const vs_request = static_test ? "rand" : "none"
 
@@ -42,6 +42,7 @@ module.exports = {
       vs_request,
       rolls,
       description,
+      locale,
     })
   },
   execute(interaction) {
@@ -58,6 +59,7 @@ module.exports = {
       static_test,
       bomb,
       description: roll_description,
+      locale: interaction.locale,
     })
 
     let full_text = injectMention(partial_message, interaction.user.id)

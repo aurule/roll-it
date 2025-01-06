@@ -226,12 +226,12 @@ fate:
 kob:
   response:
     withDescription_one: |-
-      {{userMention}} rolled **{{result}}** for "{{description}}": ({{detail}})
+      {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}})
     withDescription_other: |-
       {{userMention}} rolled {{count}} times for "{{description}}":
       {{results}}
     withoutDescription_one: |-
-      {{userMention}} rolled **{{result}}**: ({{detail}})
+      {{userMention}} rolled **{{result}}** ({{detail}})
     withoutDescription_other: |-
       {{userMention}} rolled {{count}} times:
       {{results}}
@@ -258,6 +258,77 @@ met:
       opponent:
         validation:
           self: You cannot challenge yourself to an opposed test.
+  static:
+    response:
+      outcome:
+        win: win
+        tie: tie
+        lose: lose
+      chops:
+        random:
+          rock-rock: ":rock: rock *vs* :rock: rock [random]"
+          rock-paper: ":rock: rock *vs* :scroll: paper [random]"
+          rock-scissors: ":rock: rock *vs* :scissors: scissors [random]"
+          rock-bomb: ":rock: rock *vs* :firecracker: bomb [random]"
+          paper-rock: ":scroll: paper *vs* :rock: rock [random]"
+          paper-paper: ":scroll: paper *vs* :scroll: paper [random]"
+          paper-scissors: ":scroll: paper *vs* :scissors: scissors [random]"
+          paper-bomb: ":scroll: paper *vs* :firecracker: bomb [random]"
+          scissors-rock: ":scissors: scissors *vs* :rock: rock [random]"
+          scissors-paper: ":scissors: scissors *vs* :scroll: paper [random]"
+          scissors-scissors: ":scissors: scissors *vs* :scissors: scissors [random]"
+          scissors-bomb: ":scissors: scissors *vs* :firecracker: bomb [random]"
+          bomb-rock: ":firecracker: bomb *vs* :rock: rock [random]"
+          bomb-paper: ":firecracker: bomb *vs* :scroll: paper [random]"
+          bomb-scissors: ":firecracker: bomb *vs* :scissors: scissors [random]"
+          bomb-bomb: ":firecracker: bomb *vs* :firecracker: bomb [random]"
+        bomb:
+          rock-rock: ":rock: rock *vs* :rock: rock [random w/bomb]"
+          rock-paper: ":rock: rock *vs* :scroll: paper [random w/bomb]"
+          rock-scissors: ":rock: rock *vs* :scissors: scissors [random w/bomb]"
+          rock-bomb: ":rock: rock *vs* :firecracker: bomb [random w/bomb]"
+          paper-rock: ":scroll: paper *vs* :rock: rock [random w/bomb]"
+          paper-paper: ":scroll: paper *vs* :scroll: paper [random w/bomb]"
+          paper-scissors: ":scroll: paper *vs* :scissors: scissors [random w/bomb]"
+          paper-bomb: ":scroll: paper *vs* :firecracker: bomb [random w/bomb]"
+          scissors-rock: ":scissors: scissors *vs* :rock: rock [random w/bomb]"
+          scissors-paper: ":scissors: scissors *vs* :scroll: paper [random w/bomb]"
+          scissors-scissors: ":scissors: scissors *vs* :scissors: scissors [random w/bomb]"
+          scissors-bomb: ":scissors: scissors *vs* :firecracker: bomb [random w/bomb]"
+          bomb-rock: ":firecracker: bomb *vs* :rock: rock [random w/bomb]"
+          bomb-paper: ":firecracker: bomb *vs* :scroll: paper [random w/bomb]"
+          bomb-scissors: ":firecracker: bomb *vs* :scissors: scissors [random w/bomb]"
+          bomb-bomb: ":firecracker: bomb *vs* :firecracker: bomb [random w/bomb]"
+        bare:
+          rock: ":rock: rock"
+          paper: ":scroll: paper"
+          scissors: ":scissors: scissors"
+          bomb: ":firecracker: bomb"
+      vs:
+        withDescription_one: |-
+          {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}})
+        withDescription_other: |-
+          {{userMention}} rolled {{count}} times for "{{description}}":
+          {{results}}
+        withoutDescription_one: |-
+          {{userMention}} rolled **{{result}}** ({{detail}})
+        withoutDescription_other: |-
+          {{userMention}} rolled {{count}} times:
+          {{results}}
+        result: |-
+          **{{result}}** ({{detail}})
+      bare:
+        withDescription_one: |-
+          {{userMention}} rolled {{result}} for "{{description}}"
+        withDescription_other: |-
+          {{userMention}} rolled {{count}} times for "{{description}}":
+          {{results}}
+        withoutDescription_one: |-
+          {{userMention}} rolled {{result}}
+        withoutDescription_other: |-
+          {{userMention}} rolled {{count}} times:
+          {{results}}
+
 nwod:
   options:
     teamwork:
