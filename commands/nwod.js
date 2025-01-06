@@ -93,6 +93,7 @@ module.exports = {
     until,
     description,
     decreasing,
+    locale = "en-US",
   } = {}) {
     const chance = !pool
     if (chance) {
@@ -146,6 +147,7 @@ module.exports = {
       description,
       raw: raw_results,
       summed: summed_results,
+      locale,
     })
   },
   execute(interaction) {
@@ -209,6 +211,7 @@ module.exports = {
       until,
       decreasing,
       description: roll_description,
+      locale: interaction.locale,
     })
     const full_text = injectMention(partial_message, userFlake)
     return interaction.paginate({

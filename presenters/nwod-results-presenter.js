@@ -1,6 +1,7 @@
 const { bold } = require("discord.js")
 
 const { pluralize } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 /**
  * Class to more conveniently handle the complex presentation logic for a /nwod roll
@@ -36,7 +37,8 @@ class NwodPresenter {
     description,
     raw,
     summed,
-  }) {
+    locale = "en-US",
+  } = {}) {
     this.pool = pool
     this.rolls = rolls
     this.chance = chance
@@ -48,21 +50,7 @@ class NwodPresenter {
     this.raw = raw
     this.summed = summed
     this.decreasing = decreasing
-  }
-
-  /**
-   * Get the mode we're operating under
-   *
-   * @return {string} Presentation mode based on number of rolls and the "until" option
-   */
-  get mode() {
-    if (this.until) {
-      return "until"
-    } else if (this.rolls > 1) {
-      return "many"
-    } else {
-      return "one"
-    }
+    this.t = i18n.getFixedT(locale, "commands", "nwod")
   }
 
   /**
@@ -71,33 +59,77 @@ class NwodPresenter {
    * @return {str} A string describing the results of our roll(s)
    */
   presentResults() {
-    let content = "{{userMention}} rolled"
-
-    switch (this.mode) {
-      case "until":
-        content += this.presentedDescription
-        content += ` until ${this.until} successes`
-        content += this.explainRolls()
-        content += ` at ${this.explainPool()}:`
-        content += this.presentResultSet()
-
-        const finalSum = this.summed.reduce((prev, curr) => prev + curr, 0)
-        content += `\n${bold(finalSum)} of ${this.until} in ${this.raw.length} rolls`
-        break
-      case "many":
-        content += this.presentedDescription
-        content += `${this.explainRolls()} times with ${this.explainPool()}:`
-        content += this.presentResultSet()
-        break
-      case "one":
-        content += ` ${this.explainTally(0)}`
-        content += this.presentedDescription
-        content += ` (${this.explainPool()}: [${this.notateDice(0)}])`
-        content += this.hummingbird
-        break
+    const t_args = {
+      description: this.description,
+      results: this.raw.map((result, index) => {
+        return "\t" + this.t("response.result", { tally: this.xtally(index), detail: this.notateDice(index) })
+      }).join("\n"),
+      tally: this.xtally(0),
+      detail: this.notateDice(0),
+      pool: this.xpool(),
     }
 
+    const key_parts = ["response"]
+    if (this.until) {
+      t_args.until = this.t("response.target-desc", { count: this.until })
+      t_args.count = this.raw.length
+      t_args.rolls = this.t("response.rolls", { count: this.rolls })
+      t_args.final = this.summed.reduce((prev, curr) => prev + curr, 0)
+      t_args.target = this.until
+      key_parts.push("until")
+      const capped = this.rolls === 1 ? "unlimited" : "limited"
+      key_parts.push(capped)
+    } else {
+      t_args.count = this.rolls
+      key_parts.push("regular")
+    }
+
+    if (this.description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
+
+    const key = key_parts.join(".")
+    const content = this.t(key, t_args)
+
+    // handle hummingbird easter egg
+    // if summed[0] == 11 and has a description and description includes t("response.hummingbird.triggers")
+    // insert t("response.hummingbird.message") into content
+
     return content
+  }
+
+  xtally(result_index) {
+    if (this.rollChance(result_index) && this.raw[result_index][0] === 1) {
+      return this.t("response.tally.fail")
+    }
+    return this.t("response.tally.number", { tally: this.summed[result_index] })
+  }
+
+  xpool() {
+    const dice_key = this.chance ? "response.pool.dice.chance" : "response.pool.dice.total"
+    const dice = this.t(dice_key, { count: this.pool })
+
+    const threshold_key = this.threshold === 10 ? "response.pool.threshold.max" : "response.pool.threshold.lower"
+    const threshold = this.t(threshold_key, { threshold: this.threshold })
+
+    const explode_key = this.explode > 10 ? "response.pool.explode.none" : "response.pool.explode.less"
+    const explode = this.t(explode_key, { explode: this.explode })
+
+    const key_parts = ["response.pool.explanation"]
+
+    if (this.rote) key_parts.push("rote")
+    if (this.threshold !== 8) key_parts.push("threshold")
+    if (this.explode !== 10) key_parts.push("explode")
+    if (this.decreasing) {
+      key_parts.push("decreasing")
+    } else {
+      key_parts.push("solo")
+    }
+
+    const key = key_parts.join(".")
+    return this.t(key, { dice, threshold, explode })
   }
 
   /**
@@ -116,132 +148,6 @@ class NwodPresenter {
     }
 
     return ""
-  }
-
-  /**
-   * Format the description
-   *
-   * Formatted string accounts for whether the description is present and whether we're presenting a single
-   * roll or multiples.
-   *
-   * @return {str} Formatted description string
-   */
-  get presentedDescription() {
-    if (!this.description) return ""
-
-    if (this.mode == "one") return ` for "${this.description}"`
-
-    return ` "${this.description}"`
-  }
-
-  /**
-   * Explain the number of rolls
-   *
-   * In many mode, this will describe the total rolls made. In until mode, this will indicate the maximum
-   * number of allowed rolls. In single mode, this returns an empty string.
-   *
-   * @return {str} Formatted description of rolls
-   */
-  explainRolls() {
-    if (this.rolls === 1) return ""
-
-    const content = ` ${this.rolls} times`
-
-    if (this.until) return ` (max${content})`
-    return content
-  }
-
-  /**
-   * Explain the dice pool used
-   *
-   * This includes breakdowns for the rote, threshold, and explode options.
-   *
-   * In chance mode, the string "a chance die" replaces the count of dice, since the base pool is always one.
-   *
-   * @return {str} Formatted dice pool explanation
-   */
-  explainPool() {
-    let content = `${this.pool}`
-    if (this.chance) {
-      content = "a chance"
-    }
-
-    content += " " + pluralize("die", this.pool)
-
-    content += this.explainRote()
-    content += this.explainThreshold()
-    content += this.explainExplode()
-    content += this.explainDecreasing()
-
-    return content
-  }
-
-  /**
-   * Get text describing the rote flag
-   *
-   * @return {str} Brief description of the rote flag, or empty if flag is false
-   */
-  explainRote() {
-    if (this.rote) return " with rote"
-    return ""
-  }
-
-  /**
-   * Get text describing the success threshold
-   *
-   * >=8: empy string
-   * other: "succeeding on 9 and up"
-   *
-   * @return {String} Brief description of the success threshold
-   */
-  explainThreshold() {
-    if (this.threshold == 8) return ""
-
-    let content = ` succeeding on ${this.threshold}`
-    if (this.threshold < 10) content += " and up"
-
-    return content
-  }
-
-  /**
-   * Get text describing the n-again option
-   *
-   * For 10-again: empty string
-   * <10-again: "with 8-again"
-   * >10: "with no 10-again"
-   *
-   * @return {String} Brief description of the n-again in play
-   */
-  explainExplode() {
-    if (this.explode == 10) return ""
-    if (this.explode > 10) return " with no 10-again"
-    return ` with ${this.explode}-again`
-  }
-
-  /**
-   * Get text describing the decreasing flag
-   *
-   * @return {str} Brief description of the decreasing flag, or empty if flag is false
-   */
-  explainDecreasing() {
-    if (this.decreasing) return ", decreasing"
-    return ""
-  }
-
-  /**
-   * Explain a single result
-   *
-   * If it's a chance roll, then a raw die of 1 is a dramatic failure.
-   * Otherwise, return the summed result as usual.
-   *
-   * @param  {int} result_index Index in the raw resultset of the result to present
-   * @return {str}              A string describing the result
-   */
-  explainTally(result_index) {
-    if (this.rollChance(result_index) && this.raw[result_index][0] === 1) {
-      return `a ${bold("dramatic failure")}`
-    }
-    return bold(this.summed[result_index])
   }
 
   /**
@@ -325,19 +231,6 @@ class NwodPresenter {
   rollThreshold(idx) {
     if (this.rollChance(idx)) return 10
     return this.threshold
-  }
-
-  /**
-   * Describe the results of all rolls
-   *
-   * @return {str} String describing the roll results
-   */
-  presentResultSet() {
-    return this.raw
-      .map((result, index) => {
-        return `\n\t${this.explainTally(index)} (${this.notateDice(index)})`
-      })
-      .join("")
   }
 }
 

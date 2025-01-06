@@ -328,13 +328,108 @@ met:
         withoutDescription_other: |-
           {{userMention}} rolled {{count}} times:
           {{results}}
-
 nwod:
   options:
     teamwork:
       validation:
         conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options,
           or if you have a chance die.
+  response:
+    regular:
+      withDescription_one: >-
+        {{userMention}} rolled {{tally}} for "{{description}}" ({{pool}}: {{detail}})
+      withDescription_other: |-
+        {{userMention}} rolled "{{description}}" {{count}} times at {{pool}}:
+        {{results}}
+      withoutDescription_one: >-
+        {{userMention}} rolled {{tally}} ({{pool}}: {{detail}})
+      withoutDescription_other: |-
+        {{userMention}} rolled {{count}} times at {{pool}}:
+        {{results}}
+    until:
+      limited:
+        withDescription_one: |-
+          {{userMention}} rolled "{{description}}" {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withDescription_other: |-
+          {{userMention}} rolled "{{description}}" {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+        withoutDescription_one: |-
+          {{userMention}} rolled {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withoutDescription_other: |-
+          {{userMention}} rolled {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+      unlimited:
+        withDescription_one: |-
+          {{userMention}} rolled "{{description}}" {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withDescription_other: |-
+          {{userMention}} rolled "{{description}}" {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+        withoutDescription_one: |-
+          {{userMention}} rolled {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withoutDescription_other: |-
+          {{userMention}} rolled {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+    result: >-
+      {{tally}} ({{detail}})
+    target-desc_one: until 1 success
+    target-desc_other: until {{count}} successes
+    rolls_one: max 1 roll
+    rolls_other: max {{count}} rolls
+    tally:
+      fail: a **dramatic failure**
+      number: "**{{tally}}**"
+    pool:
+      dice:
+        chance: a chance die
+        total_one: 1 die
+        total_other: "{{count}} dice"
+      threshold:
+        lower: succeeding on {{threshold}} and up
+        max: succeeding on 10
+      explode:
+        none: with no 10-again
+        less: with {{explode}}-again
+      explanation:
+        rote:
+          threshold:
+            explode:
+              solo: "{{dice}} with rote {{threshold}} {{explode}}"
+              decreasing: "{{dice}} with rote {{threshold}} {{explode}}, decreasing"
+            solo: "{{dice}} with rote {{threshold}}"
+            decreasing: "{{dice}} with rote {{threshold}}, decreasing"
+          explode:
+            solo: "{{dice}} with rote {{explode}}"
+            decreasing: "{{dice}} with rote {{explode}}, decreasing"
+          solo: "{{dice}} with rote"
+          decreasing: "{{dice}} with rote, decreasing"
+        threshold:
+          explode:
+            solo: "{{dice}} {{threshold}} {{explode}}"
+            decreasing: "{{dice}} {{threshold}} {{explode}}, decreasing"
+          solo: "{{dice}} {{threshold}}"
+          decreasing: "{{dice}} {{threshold}}, decreasing"
+        explode:
+          solo: "{{dice}} {{explode}}"
+          decreasing: "{{dice}} {{explode}}, decreasing"
+        solo: "{{dice}}"
+        decreasing: "{{dice}}, decreasing"
+    hummingbird:
+      triggers:
+        - perception
+        - perceive
+      message: You saw the hummingbird!
 save-this-roll:
   response:
     incomplete: You've saved the command for a new roll. Now use `/saved set` to set
