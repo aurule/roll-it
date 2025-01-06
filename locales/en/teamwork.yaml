@@ -2,13 +2,13 @@
 helper:
   prompt:
     withDescription: |-
-      {{leader}} is starting a teamwork roll for "{{description}}". $t{p1}
+      {{leader}} is starting a teamwork roll for "{{description}}". $t(helper.prompt.p1)
     withoutDescription: |-
-      {{leader}} is starting a teamwork roll. $t{p1}
-    p1: |-
+      {{leader}} is starting a teamwork roll. $t(helper.prompt.p1)
+    p1: >-
       If you are assisting them, choose the number of dice you're adding to their pool from the menu. If you
       are adding more than ten dice, choose multiple bonuses.
-    p2: |-
+    p2: >-
       Any helpers that {{leader}} specifically requests will be shown below along with whether or not they
       have responded. Dice can be added until {{leader}} rolls. The roll will be made automatically {{timeout}}.
     ui:
@@ -41,10 +41,10 @@ leader:
       helpers: Request help from these users
       go: Roll It!
       cancel: Cancel
-    p1: |-
-      You have started a teamwork roll, {{leader}}. When your helpers are finished, click the `$t{ui.go}`
+    p1: >-
+      You have started a teamwork roll, {{leader}}. When your helpers are finished, click the `$t(leader.prompt.ui.go)`
       button on this message to make your roll using any bonuses they added.
-    p2: |-
+    p2: >-
       The roll will happen automatically {{timeout}}. If there are a few specific people whose help you need,
       select them here and their status will be added to the prompt.
 response:

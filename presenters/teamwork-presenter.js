@@ -20,7 +20,7 @@ module.exports = {
     } else {
       lines.push(t("helper.prompt.withoutDescription", { leader: userMention(userFlake) }))
     }
-    lines.push("\n")
+    lines.push("")
     lines.push(t("helper.prompt.p2", { leader: userMention(userFlake), timeout: time(expiry, TimestampStyles.RelativeTime) }))
     return lines.join("\n")
   },
