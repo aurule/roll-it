@@ -262,7 +262,7 @@ class MetOpposedManager {
     if (this.allow_retests) {
       const cancelsButton = new ButtonBuilder()
         .setCustomId("cancels")
-        .setPlaceholder(this.t("state.initial.buttons.cancels"))
+        .setLabel(this.t("state.initial.buttons.cancels"))
         .setEmoji("⬛")
         .setStyle(ButtonStyle.Secondary)
       if (this.defender.cancels) cancelsButton.setEmoji("✅")
