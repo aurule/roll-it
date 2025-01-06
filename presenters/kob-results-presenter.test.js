@@ -1,4 +1,5 @@
 const kobPresenter = require("./kob-results-presenter")
+const { i18n } = require("../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {
@@ -7,6 +8,7 @@ describe("presentOne", () => {
     description: "test roll",
     raw: [[1]],
     summed: [1],
+    t: i18n.getFixedT("en-US", "commands", "kob"),
   }
 
   it("includes description if present", () => {
@@ -46,6 +48,7 @@ describe("presentMany", () => {
     description: "test roll",
     raw: [[1], [2]],
     summed: [1, 2],
+    t: i18n.getFixedT("en-US", "commands", "kob"),
   }
 
   it("includes description if present", () => {
