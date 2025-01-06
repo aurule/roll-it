@@ -47,11 +47,12 @@ module.exports = {
   /**
    * Describe the results of a single fate roll
    *
-   * @param  {String} options.description     Text describing the roll
-   * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
-   * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
-   * @param  {Int}    options.modifier        Number to add to the roll's summed result
-   * @return {String}                         String describing the roll results
+   * @param  {String}       options.description Text describing the roll
+   * @param  {Array<int[]>} options.raw         Array of one array with ints representing raw dice rolls
+   * @param  {int[]}        options.summed      Array of one int, summing the rolled dice
+   * @param  {Int}          options.modifier    Number to add to the roll's summed result
+   * @param  {i18n.t}       options.t           Translation function
+   * @return {String}                           String describing the roll results
    */
   presentOne: ({ description, raw, summed, modifier, t }) => {
     const t_args = {
@@ -75,11 +76,12 @@ module.exports = {
   /**
    * Describe the results of multiple fate rolls
    *
-   * @param  {String} options.description     Text describing the roll
-   * @param  {Array<Array<Int>>} options.raw  Array of one array with ints representing raw dice rolls
-   * @param  {Array<Int>} options.summed      Array of one int, summing the rolled dice
-   * @param  {Int}    options.modifier        Number to add to the roll's summed result
-   * @return {String}                         String describing the roll results
+   * @param  {String}       options.description Text describing the roll
+   * @param  {Array<int[]>} options.raw         Array of arrays with ints representing raw dice rolls
+   * @param  {int[]}        options.summed      Array of ints, summing the rolled dice
+   * @param  {Int}          options.modifier    Number to add to the roll's summed result
+   * @param  {i18n.t}       options.t           Translation function
+   * @return {String}                           String describing the roll results
    */
   presentMany: ({ description, raw, summed, modifier, t }) => {
     const t_args = {
