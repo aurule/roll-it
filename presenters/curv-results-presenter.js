@@ -50,7 +50,6 @@ class CurvPresenter {
     }
 
     if (this.mode === "many") {
-      t_args.rolls = this.rolls
       t_args.results = this.presentResultSet()
     } else {
       t_args.result = this.explainOutcome(0)

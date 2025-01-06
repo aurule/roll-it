@@ -76,7 +76,6 @@ function presentMany({ modifier, description, raw, picked, keep, t }) {
 
   const t_args = {
     description,
-    rolls: raw.length,
     count: raw.length,
     results: results.join("\n"),
   }

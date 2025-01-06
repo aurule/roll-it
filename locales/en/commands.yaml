@@ -51,33 +51,33 @@ curv:
       advantage_one: >-
         {{userMention}} rolled **{{result}}** for "{{description}}" with advantage ({{explanation}})
       advantage_other: |-
-        {{userMention}} rolled "{{description}}" {{rolls}} times with advantage:
+        {{userMention}} rolled "{{description}}" {{count}} times with advantage:
         {{results}}
       disadvantage_one: >-
         {{userMention}} rolled **{{result}}** for "{{description}}" with disadvantage ({{explanation}})
       disadvantage_other: |-
-        {{userMention}} rolled "{{description}}" {{rolls}} times with disadvantage:
+        {{userMention}} rolled "{{description}}" {{count}} times with disadvantage:
         {{results}}
       simple_one: >-
         {{userMention}} rolled **{{result}}** for "{{description}}" ({{explanation}})
       simple_other: |-
-        {{userMention}} rolled "{{description}}" {{rolls}} times:
+        {{userMention}} rolled "{{description}}" {{count}} times:
         {{results}}
     withoutDescription:
       advantage_one: >-
         {{userMention}} rolled **{{result}}** with advantage ({{explanation}})
       advantage_other: |-
-        {{userMention}} rolled {{rolls}} times with advantage:
+        {{userMention}} rolled {{count}} times with advantage:
         {{results}}
       disadvantage_one: >-
         {{userMention}} rolled **{{result}}** with disadvantage ({{explanation}})
       disadvantage_other: |-
-        {{userMention}} rolled {{rolls}} times with disadvantage:
+        {{userMention}} rolled {{count}} times with disadvantage:
         {{results}}
       simple_one: >-
         {{userMention}} rolled **{{result}}** ({{explanation}})
       simple_other: |-
-        {{userMention}} rolled {{rolls}} times:
+        {{userMention}} rolled {{count}} times:
         {{results}}
 d20:
   response:
@@ -90,17 +90,17 @@ d20:
       advantage_one: >-
         {{userMention}} rolled **{{result}}** for "{{description}}" with advantage ({{explanation}})
       advantage_other: |-
-        {{userMention}} rolled "{{description}}" {{rolls}} times with advantage:
+        {{userMention}} rolled "{{description}}" {{count}} times with advantage:
         {{results}}
       disadvantage_one: >-
         {{userMention}} rolled **{{result}}** for "{{description}}" with disadvantage ({{explanation}})
       disadvantage_other: |-
-        {{userMention}} rolled "{{description}}" {{rolls}} times with disadvantage:
+        {{userMention}} rolled "{{description}}" {{count}} times with disadvantage:
         {{results}}
       simple_one: >-
         {{userMention}} rolled **{{result}}** for "{{description}}" ({{explanation}})
       simple_other: |-
-        {{userMention}} rolled "{{description}}" {{rolls}} times:
+        {{userMention}} rolled "{{description}}" {{count}} times:
         {{results}}
       nomod: >-
         {{userMention}} rolled **{{result}}** for "{{description}}"
@@ -108,17 +108,17 @@ d20:
       advantage_one: >-
         {{userMention}} rolled **{{result}}** with advantage ({{explanation}})
       advantage_other: |-
-        {{userMention}} rolled {{rolls}} times with advantage:
+        {{userMention}} rolled {{count}} times with advantage:
         {{results}}
       disadvantage_one: >-
         {{userMention}} rolled **{{result}}** with disadvantage ({{explanation}})
       disadvantage_other: |-
-        {{userMention}} rolled {{rolls}} times with disadvantage:
+        {{userMention}} rolled {{count}} times with disadvantage:
         {{results}}
       simple_one: >-
         {{userMention}} rolled **{{result}}** ({{explanation}})
       simple_other: |-
-        {{userMention}} rolled {{rolls}} times:
+        {{userMention}} rolled {{count}} times:
         {{results}}
       nomod: >-
         {{userMention}} rolled **{{result}}**
@@ -139,50 +139,50 @@ drh:
         {{userMention}} rolled {{result}} for "{{description}}"
         {{pools}}
       none_other: |-
-        {{userMention}} rolled {{rolls}} times for "{{description}}":
+        {{userMention}} rolled {{count}} times for "{{description}}":
         {{results}}
       minor_one: |-
         {{userMention}} rolled {{result}} for "{{description}}" using a Minor Exhaustion talent
         {{pools}}
       minor_other: |-
-        {{userMention}} rolled {{rolls}} times for "{{description}}" using a Minor Exhaustion talent:
+        {{userMention}} rolled {{count}} times for "{{description}}" using a Minor Exhaustion talent:
         {{results}}
       major_one: |-
         {{userMention}} rolled {{result}} for "{{description}}" using a Major Exhaustion talent
         {{pools}}
       major_other: |-
-        {{userMention}} rolled {{rolls}} times for "{{description}}" using a Major Exhaustion talent:
+        {{userMention}} rolled {{count}} times for "{{description}}" using a Major Exhaustion talent:
         {{results}}
       madness_one: |-
         {{userMention}} rolled {{result}} for "{{description}}" using a Madness talent
         {{pools}}
       madness_other: |-
-        {{userMention}} rolled {{rolls}} times for "{{description}}" using a Madness talent:
+        {{userMention}} rolled {{count}} times for "{{description}}" using a Madness talent:
         {{results}}
     withoutDescription:
       none_one: |-
         {{userMention}} rolled {{result}}
         {{pools}}
       none_other: |-
-        {{userMention}} rolled {{rolls}} times:
+        {{userMention}} rolled {{count}} times:
         {{results}}
       minor_one: |-
         {{userMention}} rolled {{result}} using a Minor Exhaustion talent
         {{pools}}
       minor_other: |-
-        {{userMention}} rolled {{rolls}} times using a Minor Exhaustion talent:
+        {{userMention}} rolled {{count}} times using a Minor Exhaustion talent:
         {{results}}
       major_one: |-
         {{userMention}} rolled {{result}} using a Major Exhaustion talent
         {{pools}}
       major_other: |-
-        {{userMention}} rolled {{rolls}} times using a Major Exhaustion talent:
+        {{userMention}} rolled {{count}} times using a Major Exhaustion talent:
         {{results}}
       madness_one: |-
         {{userMention}} rolled {{result}} using a Madness talent
         {{pools}}
       madness_other: |-
-        {{userMention}} rolled {{rolls}} times using a Madness talent:
+        {{userMention}} rolled {{count}} times using a Madness talent:
         {{results}}
     result:
       - discipline: a **narrow success** dominated by **discipline**

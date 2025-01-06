@@ -86,7 +86,6 @@ class DrhPresenter {
     const t_args = {
       description: this.description,
       count: this.rolls,
-      rolls: this.rolls,
     }
 
     const key_parts = ["response"]
