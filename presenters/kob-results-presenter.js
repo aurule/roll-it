@@ -5,13 +5,13 @@ const { i18n } = require("../locales")
 /**
  * Describe the results of a single roll
  *
- * @param  {Int}    options.sides           Max value of each die
- * @param  {String} options.description     Text describing the roll
- * @param  {Array<int[]>} options.raw  Array of one array with ints representing raw dice rolls
- * @param  {int[]} options.summed      Array of one int, summing the rolled dice
- * @param  {Int}    options.modifier        Number to add to the roll's summed result
+ * @param  {Int}          options.sides       Max value of each die
+ * @param  {String}       options.description Text describing the roll
+ * @param  {Array<int[]>} options.raw         Array of one array with ints representing raw dice rolls
+ * @param  {int[]}        options.summed      Array of one int, summing the rolled dice
+ * @param  {Int}          options.modifier    Number to add to the roll's summed result
  * @param  {i18n.t}       options.t           Translation function
- * @return {String}                         String describing the roll results
+ * @return {String}                           String describing the roll results
  */
 function presentOne({ sides, description, raw, summed, modifier = 0, t } = {}) {
   const t_args = {
