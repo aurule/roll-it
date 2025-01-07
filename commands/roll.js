@@ -42,7 +42,7 @@ module.exports = {
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
   }),
-  perform({ pool, sides, description, modifier = 0, rolls = 1 } = {}) {
+  perform({ pool, sides, description, modifier = 0, rolls = 1, locale = "en-US" } = {}) {
     const raw_results = roll(pool, sides, rolls)
     const summed_results = sum(raw_results)
 
@@ -54,6 +54,7 @@ module.exports = {
       description,
       raw: raw_results,
       summed: summed_results,
+      locale,
     })
   },
   execute(interaction) {
@@ -70,6 +71,7 @@ module.exports = {
       sides,
       modifier,
       description: roll_description,
+      locale: interaction.locale,
     })
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.paginate({

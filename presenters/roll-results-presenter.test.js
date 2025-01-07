@@ -1,4 +1,5 @@
 const RollResultsPresenter = require("./roll-results-presenter")
+const { i18n } = require("../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {
@@ -8,6 +9,7 @@ describe("presentOne", () => {
     raw: [[1, 4]],
     summed: [5],
     modifier: 2,
+    t: i18n.getFixedT("en-US", "commands", "roll"),
   }
 
   it("highlights final sum", () => {
@@ -34,6 +36,7 @@ describe("presentMany", () => {
     ],
     summed: [5],
     modifier: 2,
+    t: i18n.getFixedT("en-US", "commands", "roll"),
   }
 
   it("highlights final sum", () => {
@@ -72,7 +75,7 @@ describe("detail", () => {
   it("shows the modifier if non-zero", () => {
     const result = RollResultsPresenter.detail(defaultArgs)
 
-    expect(result).toMatch(" + 2)")
+    expect(result).toMatch(" + 2")
   })
 
   it("excludes modifier if zero", () => {
@@ -81,6 +84,6 @@ describe("detail", () => {
     const result = RollResultsPresenter.detail(args)
 
     expect(result).not.toMatch(" + ")
-    expect(result).toMatch("])")
+    expect(result).toMatch("]")
   })
 })

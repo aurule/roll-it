@@ -454,6 +454,19 @@ roll-formula:
     withoutDescription_other: |-
       {{userMention}} rolled {{count}} times on `{{formula}}`:
       {{details}}
+roll:
+  response:
+    withDescription_one: |-
+      {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}}):
+    withDescription_other: |-
+      {{userMention}} rolled {{count}} times for "{{description}}":
+      {{results}}
+    withoutDescription_one: |-
+      {{userMention}} rolled **{{result}}** ({{detail}}):
+    withoutDescription_other: |-
+      {{userMention}} rolled {{count}} times:
+      {{results}}
+    result: "**{{total}}** ({{detail}})"
 save-this-roll:
   response:
     incomplete: You've saved the command for a new roll. Now use `/saved set` to set
