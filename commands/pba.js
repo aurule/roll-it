@@ -3,7 +3,6 @@ const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/singleton-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
