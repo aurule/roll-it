@@ -109,7 +109,10 @@ module.exports = {
       }
     }
 
-    const partial_message = command.perform(roll_detail.options)
+    const partial_message = command.perform({
+      locale: interaction.locale,
+      ...roll_detail.options
+    })
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.paginate({
       content: full_text,
