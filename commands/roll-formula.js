@@ -36,7 +36,7 @@ module.exports = {
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
   }),
-  perform({ formula, rolls = 1, modifier = 0, description } = {}) {
+  perform({ formula, rolls = 1, modifier = 0, description, locale = "en-US" } = {}) {
     const results = []
     const labels = []
 
@@ -72,6 +72,7 @@ module.exports = {
       formula,
       description,
       results,
+      locale,
     })
   },
   async execute(interaction) {
@@ -84,6 +85,7 @@ module.exports = {
       formula,
       rolls,
       description: roll_description,
+      locale: interaction.locale,
     })
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.paginate({

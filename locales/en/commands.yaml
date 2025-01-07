@@ -430,6 +430,30 @@ nwod:
         - perception
         - perceive
       message: You saw the hummingbird!
+roll-formula:
+  response:
+    disabled: "Error: Function {{fnName}} is disabled"
+    pool:
+      bare: "{{sum}} from {{pool}} [{{raw}}]"
+      labeled: "{{sum}} {{label}} from {{pool}} [{{raw}}]"
+    total: "**{{final}}** = {{rolled}}"
+    detail: |-
+      {{total}}
+      {{pools}}
+    withDescription_one: |-
+      {{userMention}} rolled **{{final}}** for "{{description}}" on `{{formula}}`:
+      {{total}}
+      {{pools}}
+    withDescription_other: |-
+      {{userMention}} rolled {{count}} times for "{{description}}" on `{{formula}}`:
+      {{details}}
+    withoutDescription_one: |-
+      {{userMention}} rolled **{{final}}** on `{{formula}}`:
+      {{total}}
+      {{pools}}
+    withoutDescription_other: |-
+      {{userMention}} rolled {{count}} times on `{{formula}}`:
+      {{details}}
 save-this-roll:
   response:
     incomplete: You've saved the command for a new roll. Now use `/saved set` to set

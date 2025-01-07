@@ -1,5 +1,8 @@
 const { bold, inlineCode } = require("discord.js")
 
+const { FormulaDisabledError } = require("../errors/formula-disabled-error")
+const { i18n } = require("../locales")
+
 const { create, all } = require("mathjs")
 
 const math = create(all)
@@ -8,22 +11,22 @@ const limitedEvaluate = math.evaluate
 math.import(
   {
     import: function () {
-      throw new Error("Function import is disabled")
+      throw new FormulaDisabledError("import")
     },
     createUnit: function () {
-      throw new Error("Function createUnit is disabled")
+      throw new FormulaDisabledError("createUnit")
     },
     evaluate: function () {
-      throw new Error("Function evaluate is disabled")
+      throw new FormulaDisabledError("evaluate")
     },
     parse: function () {
-      throw new Error("Function parse is disabled")
+      throw new FormulaDisabledError("parse")
     },
     simplify: function () {
-      throw new Error("Function simplify is disabled")
+      throw new FormulaDisabledError("simplify")
     },
     derivative: function () {
-      throw new Error("Function derivative is disabled")
+      throw new FormulaDisabledError("derivative")
     },
   },
   { override: true },
@@ -38,16 +41,31 @@ math.import(
  * @param  {string}       labels Array of roll labels
  * @return {string}              String with the details of all the pools
  */
-function detail({ pools, raw, summed, labels }) {
+function detail({ pools, raw, summed, labels, t }) {
   return pools
     .map((pool, index) => {
-      const label = labels[index]
-      let detail_line = `\n\t${summed[index]}`
-      if (label) detail_line += ` ${label}`
-      detail_line += ` from ${pool} [${raw[index]}]`
-      return detail_line
+      const t_args = {
+        sum: summed[index],
+        pool,
+        raw: raw[index],
+        label: labels[index],
+      }
+
+      if (labels[index]) {
+        return "\t" + t("response.pool.labeled", t_args)
+      }
+      return "\t" + t("response.pool.bare", t_args)
+
+
+
+
+      // const label = labels[index]
+      // let detail_line = `\n\t${summed[index]}`
+      // if (label) detail_line += ` ${label}`
+      // detail_line += ` from ${pool} [${raw[index]}]`
+      // return detail_line
     })
-    .join("")
+    .join("\n")
 }
 
 module.exports = {
@@ -62,11 +80,16 @@ module.exports = {
    * @param  {...obj} rollOptions Object with the roll results
    * @return {str}                String of presented roll results
    */
-  present({ rolls, ...rollOptions }) {
-    if (rolls == 1) {
-      return module.exports.presentOne(rollOptions)
+  present({ rolls, locale, ...rollOptions }) {
+    const t = i18n.getFixedT(locale, "commands", "roll-formula")
+    const presenter_options = {
+      t,
+      ...rollOptions
     }
-    return module.exports.presentMany(rollOptions)
+    if (rolls == 1) {
+      return module.exports.presentOne(presenter_options)
+    }
+    return module.exports.presentMany(presenter_options)
   },
 
   /**
@@ -81,27 +104,42 @@ module.exports = {
    *   {string}       labels        Array of roll labels
    * }
    *
-   * @param  {str}   formula     Text of the original formula, before any dice were rolled
-   * @param  {str}   description Text describing the roll
-   * @param  {Obj[]} results     Array of roll result objects. Must have a single element. See above for format.
-   * @return {str}               String of the presented roll result
+   * @param  {str}    formula     Text of the original formula, before any dice were rolled
+   * @param  {str}    description Text describing the roll
+   * @param  {Obj[]}  results     Array of roll result objects. Must have a single element. See above for format.
+   * @param  {i18n.t} t           Translation function
+   * @return {str}                String of the presented roll result
    */
-  presentOne({ formula, description, results }) {
+  presentOne({ formula, description, results, t }) {
     const { rolledFormula } = results[0]
 
     let finalSum
     try {
       finalSum = limitedEvaluate(rolledFormula)
     } catch (err) {
-      return `Error: ${err.message}`
+      if (err instanceof FormulaDisabledError) {
+        return t("response.disabled", err)
+      } else {
+        throw err
+      }
     }
 
-    let content = `{{userMention}} rolled ${bold(finalSum)}`
-    if (description) content += ` for "${description}"`
-    content += ` on ${inlineCode(formula)}:`
-    content += detail(results[0])
-    content += `\n${finalSum} = ${rolledFormula}`
-    return content
+    const t_args = {
+      count: 1,
+      description,
+      formula,
+      final: finalSum,
+      pools: detail({t, ...results[0]}),
+      total: t("response.total", { final: finalSum, rolled: rolledFormula }),
+    }
+    key_parts = ["response"]
+    if (description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
+    const key = key_parts.join(".")
+    return t(key, t_args)
   },
 
   /**
@@ -116,32 +154,45 @@ module.exports = {
    *   {string}       labels        Array of roll labels
    * }
    *
-   * @param  {str}   formula     Text of the original formula, before any dice were rolled
-   * @param  {str}   description Text describing the roll
-   * @param  {Obj[]} results     Array of roll result objects. See above.
-   * @return {str}               String of presented roll results
+   * @param  {str}    formula     Text of the original formula, before any dice were rolled
+   * @param  {str}    description Text describing the roll
+   * @param  {Obj[]}  results     Array of roll result objects. See above.
+   * @param  {i18n.t} t           Translation function
+   * @return {str}                String of presented roll results
    */
-  presentMany({ formula, description, results }) {
-    let content = `{{userMention}} rolled ${results.length} times`
-    if (description) content += ` for "${description}"`
-    content += ` on ${inlineCode(formula)}:`
+  presentMany({ formula, description, results, t }) {
+    const t_args = {
+      count: results.length,
+      description,
+      formula,
+      details: results.map((result, idx) => {
+        const { rolledFormula } = result
+        let finalSum
+        try {
+          finalSum = limitedEvaluate(rolledFormula)
+        } catch (err) {
+          if (err instanceof FormulaDisabledError) {
+            return t("response.disabled", err)
+          } else {
+            throw err
+          }
+        }
 
-    for (const result of results) {
-      const { rolledFormula } = result
-
-      let finalSum
-      try {
-        finalSum = limitedEvaluate(rolledFormula)
-      } catch (err) {
-        return `Error: ${err.message}`
-      }
-
-      content += `\n${bold(finalSum)} = ${rolledFormula}`
-
-      content += detail(result)
+        return t("response.detail", {
+          total: t("response.total", { final: finalSum, rolled: rolledFormula }),
+          pools: detail({t, ...result}),
+        })
+      }).join("\n")
     }
 
-    return content
+    key_parts = ["response"]
+    if (description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
+    const key = key_parts.join(".")
+    return t(key, t_args)
   },
   detail,
   limitedEvaluate,
