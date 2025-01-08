@@ -1,5 +1,6 @@
 const { bold } = require("discord.js")
 const { signed } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   /**
@@ -8,61 +9,45 @@ module.exports = {
    * This is meant to present the output for commands like d20 and d100, where there is only ever a single die
    * result.
    *
-   * @param  {Int}        options.rolls       Total number of rolls to show
-   * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
-   * @return {String}                         String describing the roll results
+   * @param  {Int}          options.rolls       Total number of rolls to show
+   * @param  {Int}          options.modifier    Number to add to the roll's summed result
+   * @param  {String}       options.description Text describing the roll
+   * @param  {Array<int[]>} options.raw         An array of arrays with one numeric value for the die
+   * @return {String}                           String describing the roll results
    */
-  present: ({ rolls, ...rollOptions }) => {
-    if (rolls == 1) {
-      return module.exports.presentOne(rollOptions)
+  present: ({ rolls, modifier = 0, description, raw, locale = "en-US" } = {}) => {
+    const t = i18n.getFixedT(locale, "commands", "singleton")
+
+    const key_parts = ["response"]
+    const result_parts = ["response"]
+
+    if (modifier !== 0) {
+      key_parts.push("modifier")
+      result_parts.push("modifier")
+    } else {
+      key_parts.push("bare")
+      result_parts.push("bare")
     }
-    return module.exports.presentMany(rollOptions)
-  },
 
-  /**
-   * Create a string describing the results of a one-die roll
-   *
-   * @param  {Int}      options.modifier      Number to add to the roll's summed result
-   * @param  {String}   options.description   Text describing the roll
-   * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @return {String}                         String describing this roll
-   */
-  presentOne: ({ modifier, description, raw }) => {
-    let content = "{{userMention}} rolled " + module.exports.detail(raw[0][0], modifier)
-    if (description) content += ` for "${description}"`
-    return content
-  },
-
-  /**
-   * Create a string describing the results of many one-die rolls
-   *
-   * @param  {Int}      options.modifier      Number to add to the roll's summed result
-   * @param  {String}   options.description   Text describing the roll
-   * @param  {Array<Array<Int>>} options.raw  An array of one array with one numeric value for the die
-   * @return {String}                         String describing this roll
-   */
-  presentMany: ({ modifier, description, raw }) => {
-    let content = "{{userMention}} rolled"
     if (description) {
-      content += ` "${description}"`
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
     }
-    content += ` ${raw.length} times:`
-    content += raw.map((result) => `\n\t${module.exports.detail(result[0], modifier)}`)
-    return content
-  },
 
-  /**
-   * Describe a single roll result
-   *
-   * @param  {Int} result   Raw die number
-   * @param  {Int} modifier Number to add to the raw die
-   * @return {string}       Description of the result and modifier
-   */
-  detail: (result, modifier = 0) => {
-    const content = [bold(result + modifier)]
-    if (modifier) {
-      content.push(`(${result}${signed(modifier)})`)
+    result_parts.push("result")
+    const result_key = result_parts.join(".")
+    const t_args = {
+      count: rolls,
+      description,
+      total: raw[0][0] + modifier,
+      detail: `${raw[0][0]}${signed(modifier)}`,
+      results: raw.map((result, idx) => {
+        return "\t" + t(result_key, { total: result[0] + modifier, detail: `${result[0]}${signed(modifier)}` })
+      }).join("\n")
     }
-    return content.join(" ")
+
+    const key = key_parts.join(".")
+    return t(key, t_args)
   },
 }

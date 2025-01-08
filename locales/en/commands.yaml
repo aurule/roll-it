@@ -569,6 +569,32 @@ shadowrun:
     teamwork:
       validation:
         conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options.
+singleton:
+  response:
+    modifier:
+      withDescription_one: |-
+        {{userMention}} rolled **{{total}}** for "{{description}}" ({{detail}})
+      withDescription_other: |-
+        {{userMention}} rolled **{{count}}** times for "{{description}}":
+        {{results}}
+      withoutDescription_one: |-
+        {{userMention}} rolled **{{total}}** ({{detail}})
+      withoutDescription_other: |-
+        {{userMention}} rolled **{{count}}** times for "{{description}}":
+        {{results}}
+      result: "**{{total}}** ({{detail}})"
+    bare:
+      withDescription_one: |-
+        {{userMention}} rolled **{{total}}** for "{{description}}"
+      withDescription_other: |-
+        {{userMention}} rolled **{{count}}** times for "{{description}}":
+        {{results}}
+      withoutDescription_one: |-
+        {{userMention}} rolled **{{total}}**
+      withoutDescription_other: |-
+        {{userMention}} rolled **{{count}}** times for "{{description}}":
+        {{results}}
+      result: "**{{total}}**"
 table:
   add:
     response:

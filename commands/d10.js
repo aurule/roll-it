@@ -28,7 +28,7 @@ module.exports = {
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
   }),
-  perform({ rolls = 1, modifier = 0, description } = {}) {
+  perform({ rolls = 1, modifier = 0, description, locale = "en-US" } = {}) {
     const raw_results = roll(1, 10, rolls)
 
     return present({
@@ -36,6 +36,7 @@ module.exports = {
       modifier,
       description,
       raw: raw_results,
+      locale,
     })
   },
   execute(interaction) {
@@ -48,6 +49,7 @@ module.exports = {
       rolls,
       modifier,
       description: roll_description,
+      locale: interaction.locale,
     })
 
     const full_text = injectMention(partial_message, interaction.user.id)
