@@ -8,7 +8,7 @@ const { present } = require("../presenters/results/roll-formula-results-presente
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
-const { signed } = require("../util/formatters")
+const { operator } = require("../util/formatters")
 
 module.exports = {
   name: "roll-formula",
@@ -57,7 +57,7 @@ module.exports = {
           return summed
         },
       )
-      rolled_formula += signed(modifier)
+      rolled_formula += operator(modifier)
       results.push({
         rolledFormula: rolled_formula,
         pools: raw_pools,

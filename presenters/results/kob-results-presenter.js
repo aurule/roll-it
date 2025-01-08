@@ -1,5 +1,5 @@
 const { bold } = require("discord.js")
-const { signed } = require("../../util/formatters")
+const { operator } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
 /**
@@ -85,7 +85,7 @@ function detail({ sides, raw, modifier }) {
   detail += "]"
 
   if (modifier) {
-    detail += signed(modifier)
+    detail += operator(modifier)
   }
 
   return detail

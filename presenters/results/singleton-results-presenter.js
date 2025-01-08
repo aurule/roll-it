@@ -1,5 +1,5 @@
 const { bold } = require("discord.js")
-const { signed } = require("../../util/formatters")
+const { operator } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
 module.exports = {
@@ -41,9 +41,9 @@ module.exports = {
       count: rolls,
       description,
       total: raw[0][0] + modifier,
-      detail: `${raw[0][0]}${signed(modifier)}`,
+      detail: `${raw[0][0]}${operator(modifier)}`,
       results: raw.map((result, idx) => {
-        return "\t" + t(result_key, { total: result[0] + modifier, detail: `${result[0]}${signed(modifier)}` })
+        return "\t" + t(result_key, { total: result[0] + modifier, detail: `${result[0]}${operator(modifier)}` })
       }).join("\n")
     }
 

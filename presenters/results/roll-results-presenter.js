@@ -1,5 +1,5 @@
 const { bold } = require("discord.js")
-const { signed } = require("../../util/formatters")
+const { operator } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
 module.exports = {
@@ -96,7 +96,7 @@ module.exports = {
   detail: ({ pool, sides, raw, modifier }) => {
     let detail = [`${pool}d${sides}: [${raw}]`]
     if (modifier) {
-      detail.push(signed(modifier))
+      detail.push(operator(modifier))
     }
 
     return detail.join("")

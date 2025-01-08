@@ -1,5 +1,5 @@
 const { strikethrough, bold } = require("discord.js")
-const { signed } = require("../../util/formatters")
+const { operator } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
 class CurvPresenter {
@@ -121,7 +121,7 @@ class CurvPresenter {
   explainModifier() {
     if (!this.modifier) return ""
 
-    return signed(this.modifier)
+    return operator(this.modifier)
   }
 
   /**

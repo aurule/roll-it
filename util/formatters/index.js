@@ -2,7 +2,7 @@
  * Module containing helpers for string formatting
  */
 
-const { signed } = require("./signed")
+const { operator } = require("./signed")
 const { indeterminate } = require("./indeterminate")
 const { pluralize } = require("./pluralize")
 const { capitalize } = require("./capitalize")
@@ -12,7 +12,7 @@ const { messageLink } = require("./message-link")
 const { injectMention } = require("./inject-user")
 
 module.exports = {
-  signed,
+  operator,
   indeterminate,
   pluralize,
   capitalize,

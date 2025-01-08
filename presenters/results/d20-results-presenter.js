@@ -1,5 +1,5 @@
 const { strikethrough } = require("discord.js")
-const { signed } = require("../../util/formatters")
+const { operator } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
 /**
@@ -139,7 +139,7 @@ function detail(result, indexes, modifier = 0) {
   const selection = `[${nums}]`
 
   if (modifier) {
-    return `${selection}${signed(modifier)}`
+    return `${selection}${operator(modifier)}`
   }
 
   return selection
