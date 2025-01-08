@@ -57,7 +57,7 @@ module.exports = {
     until: commonSchemas.until,
     description: commonSchemas.description,
   }),
-  perform({ pool, edge, rolls = 1, until, description } = {}) {
+  perform({ pool, edge, rolls = 1, until, description, locale = "en-US" } = {}) {
     let raw_results
     let summed_results
 
@@ -83,6 +83,7 @@ module.exports = {
       description,
       raw: raw_results,
       summed: summed_results,
+      locale,
     })
   },
   async execute(interaction) {
@@ -120,6 +121,7 @@ module.exports = {
             description: roll_description,
             raw: raw_results,
             summed: summed_results,
+            locale: interaction.locale,
           }),
       })
     }
@@ -130,6 +132,7 @@ module.exports = {
       edge,
       until,
       description: roll_description,
+      locale: interaction.locale,
     })
     const full_text = injectMention(partial_message, userFlake)
     return interaction.paginate({

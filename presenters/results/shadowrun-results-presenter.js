@@ -1,6 +1,7 @@
 const { strikethrough, bold } = require("discord.js")
 
 const { pluralize } = require("../../util/formatters")
+const { i18n } = require("../../locales")
 
 /**
  * Class to more conveniently handle the complex presentation logic for a shadowrun roll
@@ -12,15 +13,16 @@ class ShadowrunPresenter {
   /**
    * Create a new NwodPresenter object
    *
-   * @param  {Int}       options.pool        Number of dice rolled
-   * @param  {Bool}      options.edge        Whether 6s were re-rolled
-   * @param  {Int}       options.rolls       Number of rolls made
-   * @param  {Int}       options.until       Target number of successes from multiple rolls
-   * @param  {String}    options.description Text describing the roll
-   * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
-   * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
+   * @param  {Int}          options.pool        Number of dice rolled
+   * @param  {Bool}         options.edge        Whether 6s were re-rolled
+   * @param  {Int}          options.rolls       Number of rolls made
+   * @param  {Int}          options.until       Target number of successes from multiple rolls
+   * @param  {String}       options.description Text describing the roll
+   * @param  {Array<int[]>} options.raw         Array of one array with ints representing raw dice rolls
+   * @param  {str}          options.locale      Name of the locale to use to look up stings
+   * @param  {int[]}        options.summed      Array of one int, summing the rolled dice
    */
-  constructor({ pool, edge, rolls, until, description, raw, summed }) {
+  constructor({ pool, edge = false, rolls = 1, until, description, raw, summed, locale = "en-US" } = {}) {
     this.pool = pool
     this.edge = edge
     this.rolls = rolls
@@ -28,21 +30,7 @@ class ShadowrunPresenter {
     this.description = description
     this.raw = raw
     this.summed = summed
-  }
-
-  /**
-   * Get the mode we're operating under
-   *
-   * @return {string} Presentation mode based on number of rolls and the "until" option
-   */
-  get mode() {
-    if (this.until) {
-      return "until"
-    } else if (this.rolls > 1) {
-      return "many"
-    } else {
-      return "one"
-    }
+    this.t = i18n.getFixedT(locale, "commands", "shadowrun")
   }
 
   /**
@@ -51,65 +39,46 @@ class ShadowrunPresenter {
    * @return {str} A string describing the results of our roll(s)
    */
   presentResults() {
-    let content = "{{userMention}} rolled"
-
-    switch (this.mode) {
-      case "until":
-        content += this.presentedDescription
-        content += ` until ${this.until} successes`
-        content += this.explainRolls()
-        content += ` at ${this.explainPool()}:`
-        content += this.presentResultSet()
-
-        const finalSum = this.summed.reduce((prev, curr) => prev + curr, 0)
-        content += `\n${bold(finalSum)} of ${this.until} in ${this.raw.length} rolls`
-        break
-      case "many":
-        content += this.presentedDescription
-        content += `${this.explainRolls()} times with ${this.explainPool()}:`
-        content += this.presentResultSet()
-        break
-      case "one":
-        content += ` ${this.explainTally(0)}`
-        content += this.presentedDescription
-        content += ` (${this.explainPool()}: [${this.notateDice(0)}])`
-        break
+    const t_args = {
+      count: this.raw.length,
+      description: this.description,
+      pool: this.explainPool(),
+      tally: this.explainTally(0),
+      detail: this.notateDice(0),
+      results: this.raw.map((result, idx) => {
+        const res_args = {
+          tally: this.explainTally(idx),
+          detail: this.notateDice(idx),
+        }
+        return "\t" + this.t("response.result", res_args)
+      }).join("\n"),
     }
 
-    return content
-  }
+    const key_parts = ["response"]
+    if (this.until) {
+      key_parts.push("until")
+      t_args.target = this.until
+      t_args.until = this.t("response.target-desc", { count: this.until })
+      t_args.final = this.summed.reduce((prev, curr) => prev + curr, 0)
 
-  /**
-   * Format the description
-   *
-   * Formatted string accounts for whether the description is present and whether we're presenting a single
-   * roll or multiples.
-   *
-   * @return {str} Formatted description string
-   */
-  get presentedDescription() {
-    if (!this.description) return ""
+      if (this.rolls > 1) {
+        key_parts.push("limited")
+        t_args.rolls = this.t("response.rolls", { count: this.rolls })
+      } else {
+        key_parts.push("unlimited")
+      }
+    } else {
+      key_parts.push("regular")
+    }
 
-    if (this.mode == "one") return ` for "${this.description}"`
+    if (this.description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
 
-    return ` "${this.description}"`
-  }
-
-  /**
-   * Explain the number of rolls
-   *
-   * In many mode, this will describe the total rolls made. In until mode, this will indicate the maximum
-   * number of allowed rolls. In single mode, this returns an empty string.
-   *
-   * @return {str} Formatted description of rolls
-   */
-  explainRolls() {
-    if (this.rolls === 1) return ""
-
-    const content = ` ${this.rolls} times`
-
-    if (this.until) return ` (max${content})`
-    return content
+    const key = key_parts.join(".")
+    return this.t(key, t_args)
   }
 
   /**
@@ -118,23 +87,11 @@ class ShadowrunPresenter {
    * @return {str} String describing the number of dice in the pool and their roll-again, if present
    */
   explainPool() {
-    let content = this.pool.toString()
-
-    content += " " + pluralize("die", this.pool)
-
-    content += this.explainExplode()
-
-    return content
-  }
-
-  /**
-   * Explain the roll-again status of the dice
-   *
-   * @return {str} Empty unless edge is true, then returns the rule of six note
-   */
-  explainExplode() {
-    if (this.edge) return " with rule of six"
-    return ""
+    let key = "response.pool.bare"
+    if (this.edge) {
+      key = "response.pool.edge"
+    }
+    return this.t(key, { count: this.pool })
   }
 
   /**
@@ -164,15 +121,18 @@ class ShadowrunPresenter {
    * @return {str}              String with successes and glitch status
    */
   explainTally(result_index) {
-    const successes = this.summed[result_index]
-    let content = bold(successes)
+    const tally = this.summed[result_index]
+    const glitch = this.glitch(result_index)
 
-    if (this.glitch(result_index)) {
-      if (successes === 0) return bold("critical glitch")
-      content += ` with a ${bold("glitch")}`
+    let key = "response.tally.regular"
+    if (glitch) {
+      if (tally === 0) {
+        key = "response.tally.crit-glitch"
+      } else {
+        key = "response.tally.glitch"
+      }
     }
-
-    return content
+    return this.t(key, { tally })
   }
 
   /**
@@ -186,19 +146,6 @@ class ShadowrunPresenter {
     const ones = this.raw[result_index].filter((d) => d === 1).length
 
     return ones > half
-  }
-
-  /**
-   * Describe the results of all rolls
-   *
-   * @return {str} String describing the roll results
-   */
-  presentResultSet() {
-    return this.raw
-      .map((result, index) => {
-        return `\n\t${this.explainTally(index)} (${this.notateDice(index)})`
-      })
-      .join("")
   }
 }
 

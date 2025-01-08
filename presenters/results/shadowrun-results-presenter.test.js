@@ -1,56 +1,11 @@
 const { ShadowrunPresenter } = require("./shadowrun-results-presenter")
 
 describe("ShadowrunPresenter", () => {
-  describe("mode", () => {
-    describe("when until option true", () => {
-      it("returns 'until' with many rolls", () => {
-        const presenter = new ShadowrunPresenter({
-          until: 2,
-          raw: [[1], [2]],
-          rolls: 2,
-        })
-
-        expect(presenter.mode).toEqual("until")
-      })
-
-      it("returns 'until' with one roll", () => {
-        const presenter = new ShadowrunPresenter({
-          until: 2,
-          raw: [[1]],
-          rolls: 1,
-        })
-
-        expect(presenter.mode).toEqual("until")
-      })
-    })
-
-    describe("when until option false", () => {
-      it("returns 'many' with multiple rolls", () => {
-        const presenter = new ShadowrunPresenter({
-          until: 0,
-          raw: [[1], [2]],
-          rolls: 2,
-        })
-
-        expect(presenter.mode).toEqual("many")
-      })
-
-      it("returns 'one' with one roll", () => {
-        const presenter = new ShadowrunPresenter({
-          until: 0,
-          raw: [[1]],
-          rolls: 1,
-        })
-
-        expect(presenter.mode).toEqual("one")
-      })
-    })
-  })
-
+  let options
   describe("presentResults", () => {
     describe("in until mode", () => {
-      it("shows target successes", () => {
-        const options = {
+      beforeEach(() => {
+        options = {
           pool: 3,
           raw: [
             [6, 2, 5],
@@ -60,6 +15,9 @@ describe("ShadowrunPresenter", () => {
           until: 3,
           rolls: 1,
         }
+      })
+
+      it("shows target successes", () => {
         const presenter = new ShadowrunPresenter(options)
 
         const result = presenter.presentResults()
@@ -68,16 +26,6 @@ describe("ShadowrunPresenter", () => {
       })
 
       it("shows the pool", () => {
-        const options = {
-          pool: 3,
-          raw: [
-            [6, 2, 5],
-            [2, 5, 5],
-          ],
-          summed: [2, 2],
-          until: 3,
-          rolls: 1,
-        }
         const presenter = new ShadowrunPresenter(options)
 
         const result = presenter.presentResults()
@@ -86,16 +34,6 @@ describe("ShadowrunPresenter", () => {
       })
 
       it("shows a final total", () => {
-        const options = {
-          pool: 3,
-          raw: [
-            [6, 2, 5],
-            [2, 5, 5],
-          ],
-          summed: [2, 2],
-          until: 3,
-          rolls: 1,
-        }
         const presenter = new ShadowrunPresenter(options)
 
         const result = presenter.presentResults()
@@ -105,8 +43,8 @@ describe("ShadowrunPresenter", () => {
     })
 
     describe("in many mode", () => {
-      it("shows the number of rolls", () => {
-        const options = {
+      beforeEach(() => {
+        options = {
           pool: 3,
           raw: [
             [1, 2, 5],
@@ -115,6 +53,9 @@ describe("ShadowrunPresenter", () => {
           summed: [1, 2],
           rolls: 2,
         }
+      })
+
+      it("shows the number of rolls", () => {
         const presenter = new ShadowrunPresenter(options)
 
         const result = presenter.presentResults()
@@ -124,96 +65,21 @@ describe("ShadowrunPresenter", () => {
     })
 
     describe("in single mode", () => {
-      it("shows the roll", () => {
-        const options = {
+      beforeEach(() => {
+        options = {
           pool: 3,
           raw: [[1, 2, 5]],
           summed: [1],
           rolls: 1,
         }
+      })
+      it("shows the roll", () => {
         const presenter = new ShadowrunPresenter(options)
 
         const result = presenter.presentResults()
 
         expect(result).toMatch("**1**")
       })
-    })
-  })
-
-  describe("presentedDescription", () => {
-    describe("with no description", () => {
-      it("is an empty string", () => {
-        const presenter = new ShadowrunPresenter({})
-
-        expect(presenter.presentedDescription).toEqual("")
-      })
-    })
-
-    describe("with a description", () => {
-      describe("in 'one' mode", () => {
-        it("includes extra word", () => {
-          const presenter = new ShadowrunPresenter({
-            raw: [[1]],
-            description: "test description",
-            rolls: 1,
-          })
-
-          expect(presenter.presentedDescription).toMatch("for")
-        })
-
-        it("wraps the description in quotes", () => {
-          const presenter = new ShadowrunPresenter({
-            raw: [[1]],
-            description: "test description",
-            rolls: 1,
-          })
-
-          expect(presenter.presentedDescription).toMatch('"test description"')
-        })
-      })
-
-      it("wraps the description in quotes", () => {
-        const presenter = new ShadowrunPresenter({
-          raw: [[1], [2]],
-          description: "test description",
-          rolls: 1,
-        })
-
-        expect(presenter.presentedDescription).toMatch('"test description"')
-      })
-    })
-  })
-
-  describe("explainRolls", () => {
-    it("when 1, returns empty string", () => {
-      const presenter = new ShadowrunPresenter({
-        rolls: 1,
-      })
-
-      const result = presenter.explainRolls()
-
-      expect(result).toEqual("")
-    })
-
-    it("in until mode, returns correct description", () => {
-      const presenter = new ShadowrunPresenter({
-        rolls: 3,
-        until: 5,
-      })
-
-      const result = presenter.explainRolls()
-
-      expect(result).toMatch("max 3 times")
-    })
-
-    it("in many mode, returns correct description", () => {
-      const presenter = new ShadowrunPresenter({
-        rolls: 3,
-      })
-
-      const result = presenter.explainRolls()
-
-      expect(result).toMatch("3 times")
     })
   })
 
@@ -239,28 +105,6 @@ describe("ShadowrunPresenter", () => {
       const result = presenter.explainPool()
 
       expect(result).toMatch("rule of six")
-    })
-  })
-
-  describe("explainExplode", () => {
-    it("has rule of six with edge", () => {
-      const options = {
-        edge: true,
-      }
-      const presenter = new ShadowrunPresenter(options)
-
-      const result = presenter.explainExplode()
-
-      expect(result).toMatch("rule of six")
-    })
-
-    it("empty without edge", () => {
-      const options = {}
-      const presenter = new ShadowrunPresenter(options)
-
-      const result = presenter.explainExplode()
-
-      expect(result).toEqual("")
     })
   })
 
@@ -382,37 +226,6 @@ describe("ShadowrunPresenter", () => {
       const result = presenter.glitch(0)
 
       expect(result).toBeFalsy()
-    })
-  })
-
-  describe("presentResultSet", () => {
-    const options = {
-      raw: [
-        [1, 2, 3],
-        [1, 2, 5],
-      ],
-      summed: [0, 1],
-      edge: false,
-      pool: 3,
-      rolls: 2,
-    }
-
-    it("shows the tally for each result", () => {
-      const presenter = new ShadowrunPresenter(options)
-
-      const result = presenter.presentResultSet()
-
-      expect(result).toMatch("**0**")
-      expect(result).toMatch("**1**")
-    })
-
-    it("shows the dice for each result", () => {
-      const presenter = new ShadowrunPresenter(options)
-
-      const result = presenter.presentResultSet()
-
-      expect(result).toMatch("~~1~~, 2, 3")
-      expect(result).toMatch("~~1~~, 2, **5**")
     })
   })
 })

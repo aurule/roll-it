@@ -640,6 +640,67 @@ shadowrun:
     teamwork:
       validation:
         conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options.
+  response:
+    regular:
+      withDescription_one: >-
+        {{userMention}} rolled {{tally}} for "{{description}}" ({{pool}}: {{detail}})
+      withDescription_other: |-
+        {{userMention}} rolled "{{description}}" {{count}} times at {{pool}}:
+        {{results}}
+      withoutDescription_one: >-
+        {{userMention}} rolled {{tally}} ({{pool}}: {{detail}})
+      withoutDescription_other: |-
+        {{userMention}} rolled {{count}} times at {{pool}}:
+        {{results}}
+    until:
+      limited:
+        withDescription_one: |-
+          {{userMention}} rolled "{{description}}" {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withDescription_other: |-
+          {{userMention}} rolled "{{description}}" {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+        withoutDescription_one: |-
+          {{userMention}} rolled {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withoutDescription_other: |-
+          {{userMention}} rolled {{until}} ({{rolls}}) at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+      unlimited:
+        withDescription_one: |-
+          {{userMention}} rolled "{{description}}" {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withDescription_other: |-
+          {{userMention}} rolled "{{description}}" {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+        withoutDescription_one: |-
+          {{userMention}} rolled {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in 1 roll
+        withoutDescription_other: |-
+          {{userMention}} rolled {{until}} at {{pool}}:
+          {{results}}
+          **{{final}}** of {{target}} in {{count}} rolls
+    result: "{{tally}} ({{detail}})"
+    target-desc_one: until 1 success
+    target-desc_other: until {{count}} successes
+    rolls_one: max 1 roll
+    rolls_other: max {{count}} rolls
+    pool:
+      bare_one: 1 die
+      bare_other: "{{count}} dice"
+      edge_one: 1 die with rule of six
+      edge_other: "{{count}} dice with rule of six"
+    tally:
+      regular: "**{{tally}}**"
+      glitch: "**{{tally}}** with a **glitch**"
+      crit-glitch: a **critical glitch**
 singleton:
   response:
     modifier:
