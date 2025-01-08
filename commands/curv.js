@@ -3,7 +3,7 @@ const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/curv-results-presenter")
+const { present } = require("../presenters/results/curv-results-presenter")
 const { keepFromArray, strategies } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")

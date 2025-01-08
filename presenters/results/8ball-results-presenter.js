@@ -1,4 +1,4 @@
-const { i18n } = require("../locales")
+const { i18n } = require("../../locales")
 
 module.exports = {
   /**

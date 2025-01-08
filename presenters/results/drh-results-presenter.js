@@ -1,7 +1,7 @@
 const { bold, underline, italic, strikethrough, Collection } = require("discord.js")
 
-const { indeterminate } = require("../util/formatters")
-const { i18n } = require("../locales")
+const { indeterminate } = require("../../util/formatters")
+const { i18n } = require("../../locales")
 
 /**
  * Map of talent keywords to displayable names

@@ -1,5 +1,5 @@
 const kobPresenter = require("./kob-results-presenter")
-const { i18n } = require("../locales")
+const { i18n } = require("../../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {

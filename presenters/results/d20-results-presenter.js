@@ -1,6 +1,6 @@
 const { strikethrough } = require("discord.js")
-const { signed } = require("../util/formatters")
-const { i18n } = require("../locales")
+const { signed } = require("../../util/formatters")
+const { i18n } = require("../../locales")
 
 /**
  * Create a string describing the results of a d20 roll

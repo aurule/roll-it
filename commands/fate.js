@@ -3,7 +3,7 @@ const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/fate-results-presenter")
+const { present } = require("../presenters/results/fate-results-presenter")
 const { fudge } = require("../services/tally")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")

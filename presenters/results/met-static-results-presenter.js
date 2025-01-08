@@ -1,5 +1,5 @@
 const { bold, italic } = require("discord.js")
-const { i18n } = require("../locales")
+const { i18n } = require("../../locales")
 
 /**
  * Decorate raw result strings

@@ -4,7 +4,7 @@ const { oneLine } = require("common-tags")
 const commonOpts = require("../../util/common-options")
 const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
-const { present } = require("../../presenters/met-static-results-presenter")
+const { present } = require("../../presenters/results/met-static-results-presenter")
 const { injectMention } = require("../../util/formatters")
 
 module.exports = {

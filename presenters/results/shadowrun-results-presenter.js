@@ -1,6 +1,6 @@
 const { strikethrough, bold } = require("discord.js")
 
-const { pluralize } = require("../util/formatters")
+const { pluralize } = require("../../util/formatters")
 
 /**
  * Class to more conveniently handle the complex presentation logic for a shadowrun roll

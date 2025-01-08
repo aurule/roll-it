@@ -1,5 +1,5 @@
 const roll_formula_presenter = require("./roll-formula-results-presenter")
-const { i18n } = require("../locales")
+const { i18n } = require("../../locales")
 
 describe("presentOne", () => {
   const default_opts = {

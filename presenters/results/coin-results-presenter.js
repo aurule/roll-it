@@ -1,5 +1,5 @@
 const { bold } = require("discord.js")
-const { i18n } = require("../locales")
+const { i18n } = require("../../locales")
 
 module.exports = {
   /**

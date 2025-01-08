@@ -1,5 +1,5 @@
 const d20Presenter = require("./d20-results-presenter")
-const { i18n } = require("../locales")
+const { i18n } = require("../../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {

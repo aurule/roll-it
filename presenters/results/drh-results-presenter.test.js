@@ -1,6 +1,6 @@
 const { Collection } = require("discord.js")
 
-const { DrhPool } = require("../util/rolls/drh-pool")
+const { DrhPool } = require("../../util/rolls/drh-pool")
 const { DrhPresenter, DrhRollPresenter } = require("./drh-results-presenter")
 
 describe("DrhPresenter", () => {

@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("discord.js")
 const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/coin-results-presenter")
+const { present } = require("../presenters/results/coin-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")

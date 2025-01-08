@@ -1,7 +1,7 @@
 const { bold, inlineCode } = require("discord.js")
 
-const { FormulaDisabledError } = require("../errors/formula-disabled-error")
-const { i18n } = require("../locales")
+const { FormulaDisabledError } = require("../../errors/formula-disabled-error")
+const { i18n } = require("../../locales")
 
 const { create, all } = require("mathjs")
 

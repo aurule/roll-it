@@ -1,6 +1,6 @@
 const { strikethrough, bold } = require("discord.js")
-const { signed } = require("../util/formatters")
-const { i18n } = require("../locales")
+const { signed } = require("../../util/formatters")
+const { i18n } = require("../../locales")
 
 class CurvPresenter {
   /**

@@ -4,7 +4,7 @@ const Joi = require("joi")
 
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
-const { present } = require("../presenters/roll-results-presenter")
+const { present } = require("../presenters/results/roll-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")

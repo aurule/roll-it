@@ -1,5 +1,5 @@
 const { bold, strikethrough, Collection } = require("discord.js")
-const { signed } = require("../util/formatters")
+const { signed } = require("../../util/formatters")
 
 /**
  * Create a string describing the results of a Stars Without Number roll

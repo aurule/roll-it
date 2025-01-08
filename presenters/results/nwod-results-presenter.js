@@ -1,7 +1,7 @@
 const { bold } = require("discord.js")
 
-const { pluralize } = require("../util/formatters")
-const { i18n } = require("../locales")
+const { pluralize } = require("../../util/formatters")
+const { i18n } = require("../../locales")
 
 /**
  * Class to more conveniently handle the complex presentation logic for a /nwod roll
