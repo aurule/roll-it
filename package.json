@@ -45,7 +45,7 @@
     "start": "node index.js",
     "live": "nodemon index.js",
     "commands:update": "node scripts/update-commands.js",
-    "pretty": "prettier . --write"
+    "pretty": "biome format . --write"
   },
   "keywords": [
     "discord",
