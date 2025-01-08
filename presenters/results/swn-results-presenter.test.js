@@ -1,34 +1,46 @@
 const swnPresenter = require("./swn-results-presenter")
 
-describe("presentOne", () => {
-  const defaultArgs = {
-    modifier: 0,
-    description: "test roll",
-    raw: [[1, 4]],
-    picked: [{ indexes: [0, 1] }],
-    summed: [5],
-  }
+describe("present", () => {
+  describe("with one roll", () => {
+    let defaultArgs
 
-  it("includes description if present", () => {
-    const result = swnPresenter.presentOne(defaultArgs)
+    beforeEach(() => {
+      defaultArgs = {
+        rolls: 1,
+        modifier: 0,
+        description: "test roll",
+        raw: [[1, 4]],
+        picked: [{ indexes: [0, 1] }],
+        summed: [5],
+      }
+    })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
+    it("includes description if present", () => {
+      const result = swnPresenter.present(defaultArgs)
+
+      expect(result).toMatch(`"${defaultArgs.description}"`)
+    })
   })
-})
 
-describe("presentMany", () => {
-  const defaultArgs = {
-    modifier: 0,
-    description: "test roll",
-    raw: [[1, 4], [2, 4]],
-    picked: [{ indexes: [0, 1] }, { indexes: [0, 1] }],
-    summed: [5, 6],
-  }
+  describe("with multiple rolls", () => {
+    let defaultArgs
 
-  it("includes description if present", () => {
-    const result = swnPresenter.presentMany(defaultArgs)
+    beforeEach(() => {
+      defaultArgs = {
+        rolls: 2,
+        modifier: 0,
+        description: "test roll",
+        raw: [[1, 4], [2, 4]],
+        picked: [{ indexes: [0, 1] }, { indexes: [0, 1] }],
+        summed: [5, 6],
+      }
+    })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
+    it("includes description if present", () => {
+      const result = swnPresenter.present(defaultArgs)
+
+      expect(result).toMatch(`"${defaultArgs.description}"`)
+    })
   })
 })
 
@@ -40,12 +52,6 @@ describe("detail", () => {
       summed: 7,
       modifier: 0,
     }
-
-    it("shows the sum", () => {
-      const result = swnPresenter.detail(detailArgs)
-
-      expect(result).toMatch("**7**")
-    })
 
     it("shows the dice", () => {
       const result = swnPresenter.detail(detailArgs)
@@ -64,12 +70,6 @@ describe("detail", () => {
 
         expect(result).toMatch("+ 3")
       })
-
-      it("adds the modifier", () => {
-        const result = swnPresenter.detail(modArgs)
-
-        expect(result).toMatch("**10**")
-      })
     })
   })
 
@@ -80,12 +80,6 @@ describe("detail", () => {
       summed: 9,
       modifier: 0,
     }
-
-    it("shows the sum", () => {
-      const result = swnPresenter.detail(detailArgs)
-
-      expect(result).toMatch("**9**")
-    })
 
     it("shows the dice", () => {
       const result = swnPresenter.detail(detailArgs)
@@ -103,12 +97,6 @@ describe("detail", () => {
         const result = swnPresenter.detail(modArgs)
 
         expect(result).toMatch("+ 3")
-      })
-
-      it("adds the modifier", () => {
-        const result = swnPresenter.detail(modArgs)
-
-        expect(result).toMatch("**12**")
       })
     })
   })

@@ -32,7 +32,7 @@ module.exports = {
     modifier: commonSchemas.modifier,
     rolls: commonSchemas.rolls,
   }),
-  perform({ pool = 2, rolls = 1, modifier = 0, description } = {}) {
+  perform({ pool = 2, rolls = 1, modifier = 0, description, locale = "en-US" } = {}) {
     const raw_results = roll(pool, 6, rolls)
     const pick_results = pickDice(raw_results, 2, "highest")
     const summed_results = pickedSum(raw_results, pick_results)
@@ -44,6 +44,7 @@ module.exports = {
       raw: raw_results,
       picked: pick_results,
       summed: summed_results,
+      locale,
     })
   },
   execute(interaction) {
@@ -58,6 +59,7 @@ module.exports = {
       rolls,
       modifier,
       description: roll_description,
+      locale: interaction.locale,
     })
 
     const full_text = injectMention(partial_message, interaction.user.id)

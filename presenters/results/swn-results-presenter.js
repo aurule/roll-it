@@ -1,41 +1,6 @@
 const { bold, strikethrough, Collection } = require("discord.js")
 const { signed } = require("../../util/formatters")
-
-/**
- * Create a string describing the results of a Stars Without Number roll
- *
- * @param  {Int}          modifier    Number to add to the roll's summed result
- * @param  {String}       description Text describing the roll
- * @param  {Array<int[]>} raw         An array of one array with multiple numeric values for the die
- * @param  {obj}          picked      Object of results and indexes after picking highest or lowest
- * @param  {int[]}        summed      Array of ints, summing the rolled dice
- * @return {String}                   String describing this roll
- */
-function presentOne({ modifier, description, raw, picked, summed }) {
-  let content = "{{userMention}} rolled " + detail({result: raw[0], indexes: picked[0].indexes, summed: summed[0], modifier})
-  if (description) content += ` for "${description}"`
-  return content
-}
-
-/**
- * Create a string describing the results of many Stars Without Number rolls
- *
- * @param  {Int}       options.modifier     Number to add to the roll's summed result
- * @param  {String}    options.description  Text describing the roll
- * @param  {Array<Array<Int>>} options.raw  An array of multiple arrays with multiple numeric values for the dice
- * @param  {obj[]}     options.picked       Array of objects of results and indexes after picking the highest two
- * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
- * @return {String}                         String describing this roll
- */
-function presentMany({ modifier, description, raw, picked, summed}) {
-  let content = "{{userMention}} rolled"
-  if (description) {
-    content += ` "${description}"`
-  }
-  content += ` ${raw.length} times:`
-  content += raw.map((result, idx) => `\n\t${detail({result, indexes: picked[idx].indexes, summed: summed[idx], modifier})}`)
-  return content
-}
+const { i18n } = require("../../locales")
 
 /**
  * Describe a single roll result
@@ -46,9 +11,7 @@ function presentMany({ modifier, description, raw, picked, summed}) {
  * @param  {int}   summed   Result dice added together
  * @return {string}         Description of the result and modifier
  */
-function detail({result, indexes, summed, modifier = 0}) {
-  const content = [bold(summed + modifier)]
-
+function detail({result, indexes, summed, modifier = 0} = {}) {
   const nums = result
     .map((res, idx) => {
       if (indexes.includes(idx)) {
@@ -61,28 +24,42 @@ function detail({result, indexes, summed, modifier = 0}) {
   const selection = `[${nums}]`
 
   if (modifier !== 0) {
-    content.push(`(${selection}${signed(modifier)})`)
+    return `${selection}${signed(modifier)}`
   } else {
-    content.push(selection)
+    return selection
   }
-  return content.join(" ")
 }
 
 module.exports = {
   /**
    * Present one or more results from the d20 command
    *
-   * @param  {Int}        options.rolls       Total number of rolls to show
-   * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
-   * @return {String}                         String describing the roll results
+   * @param  {Int}          options.rolls        Total number of rolls to show
+   * @param  {str}          options.locale       Name of the locale to use when fetching strings
+   * @param  {Int}          opptions.modifier    Number to add to the roll's summed result
+   * @param  {String}       opptions.description Text describing the roll
+   * @param  {Array<int[]>} opptions.raw         An array of one array with multiple numeric values for the die
+   * @param  {obj}          opptions.picked      Object of results and indexes after picking highest or lowest
+   * @param  {int[]}        opptions.summed      Array of ints, summing the rolled dice
+   * @return {String}                            String describing the roll results
    */
-  present: ({ rolls, ...rollOptions }) => {
-    if (rolls == 1) {
-      return presentOne(rollOptions)
+  present: ({ rolls, locale = "en-US", modifier = 0, description, raw, picked, summed } = {}) => {
+    const t = i18n.getFixedT(locale, "commands", "swn")
+
+    const t_args = {
+      context: description ? "desc" : "bare",
+      count: rolls,
+      description,
+      total: summed[0] + modifier,
+      detail: detail({result: raw[0], indexes: picked[0].indexes, summed: summed[0], modifier}),
+      results: raw.map((result, idx) => {
+        const details = detail({result, indexes: picked[idx].indexes, summed: summed[idx], modifier})
+        const total = summed[idx] + modifier
+        return "\t" + t("result", { total, detail: details })
+      }).join("\n"),
     }
-    return presentMany(rollOptions)
+
+    return t("response", t_args)
   },
-  presentOne,
-  presentMany,
   detail,
 }
