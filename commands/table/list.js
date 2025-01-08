@@ -1,6 +1,7 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const { presentList } = require("../../presenters/table-list-presenter")
 const { GuildRollables } = require("../../db/rollable")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "list",
@@ -13,7 +14,9 @@ module.exports = {
   async execute(interaction) {
     const tables = new GuildRollables(interaction.guildId)
 
-    const full_text = presentList(tables.all())
+    const t = i18n.getFixedT(interaction.locale, "commands", "table.list")
+
+    const full_text = presentList(tables.all(), t)
     return interaction.paginate({
       content: full_text,
       split_on: "\n",

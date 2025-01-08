@@ -684,6 +684,16 @@ table:
     response:
       success: >
         {{user}} created the table *{{name}}*! You can roll on it with `/table roll name:{{name}}`.
+  list:
+    response:
+      none: There are no tables to roll. Add some with `/table add`!
+      filled_one: |-
+        There is one available table:
+        {{tables}}
+      filled_other: |-
+        These are the available tables:
+        {{tables}}
+      entry: "*{{table.name}}* - {{table.description}}"
   manage:
     options:
       name:
