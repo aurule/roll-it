@@ -207,44 +207,93 @@ describe("UserSavedRolls", () => {
   })
 
   describe("detail", () => {
-    it("looks up by id", () => {
-      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
-      const insertion = fakeSavedRoll(saved_rolls)
+    describe("arg precedence", () => {
+      it("looks up by id", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls)
 
-      const result = saved_rolls.detail(insertion.lastInsertRowid)
+        const result = saved_rolls.detail(insertion.lastInsertRowid)
 
-      expect(result).toBeTruthy()
+        expect(result).toBeTruthy()
+      })
+
+      it("looks up by name", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls, { name: "testn" })
+
+        const result = saved_rolls.detail(0, "testn")
+
+        expect(result).toBeTruthy()
+      })
+
+      it("uses id when both are given", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls, { name: "testb2" })
+
+        const result = saved_rolls.detail(insertion.lastInsertRowid, "testb2")
+
+        expect(result).toBeTruthy()
+      })
     })
 
-    it("looks up by name", () => {
-      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
-      const insertion = fakeSavedRoll(saved_rolls, { name: "testn" })
+    describe("output", () => {
+      it("converts options to an object", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const options = {
+          pool: 1,
+          sides: 6,
+        }
+        const insertion = fakeSavedRoll(saved_rolls, { options: options })
 
-      const result = saved_rolls.detail(0, "testn")
+        const result = saved_rolls.detail(insertion.lastInsertRowid)
 
-      expect(result).toBeTruthy()
-    })
+        expect(result.options).toEqual(options)
+      })
 
-    it("uses id when both are given", () => {
-      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
-      const insertion = fakeSavedRoll(saved_rolls, { name: "testb2" })
+      it("sets missing attributes to null", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls, { command: undefined })
 
-      const result = saved_rolls.detail(insertion.lastInsertRowid, "testb2")
+        const result = saved_rolls.detail(insertion.lastInsertRowid)
 
-      expect(result).toBeTruthy()
-    })
+        expect(result.command).toBeNull()
+      })
 
-    it("converts options to an object", () => {
-      const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
-      const options = {
-        pool: 1,
-        sides: 6,
-      }
-      const insertion = fakeSavedRoll(saved_rolls, { options: options })
+      it("forces incomplete flag to be boolean when true", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls, { incomplete: true })
 
-      const result = saved_rolls.detail(insertion.lastInsertRowid)
+        const result = saved_rolls.detail(insertion.lastInsertRowid)
 
-      expect(result.options).toEqual(options)
+        expect(result.incomplete).toEqual(true)
+      })
+
+      it("forces incomplete flag to be boolean when false", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls, { incomplete: false })
+
+        const result = saved_rolls.detail(insertion.lastInsertRowid)
+
+        expect(result.incomplete).toEqual(false)
+      })
+
+      it("forces invalid flag to be boolean when true", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls, { invalid: true })
+
+        const result = saved_rolls.detail(insertion.lastInsertRowid)
+
+        expect(result.invalid).toEqual(true)
+      })
+
+      it("forces invalid flag to be boolean when false", () => {
+        const saved_rolls = new UserSavedRolls("test-guild", "user-detail", db)
+        const insertion = fakeSavedRoll(saved_rolls, { invalid: false })
+
+        const result = saved_rolls.detail(insertion.lastInsertRowid)
+
+        expect(result.invalid).toEqual(false)
+      })
     })
 
     it("cannot read another guild's saved roll for the same user", () => {

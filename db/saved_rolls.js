@@ -206,6 +206,7 @@ class UserSavedRolls {
    * This method accepts either a saved roll ID or a name. At least one must be provided. If both are given, it
    * will prefer the ID.
    *
+   * Empty columns are returned as `null`.
    * The `options` are parsed into an object before being returned.
    *
    * For safety, the query is always scoped to the current guild and user.
