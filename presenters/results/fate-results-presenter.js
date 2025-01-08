@@ -1,4 +1,4 @@
-const { signed } = require("../../util/formatters")
+const { signed, operator } = require("../../util/formatters")
 const { indeterminate } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
@@ -38,11 +38,12 @@ module.exports = {
    * @param  {i18n.t}       options.t           Translation function
    * @return {String}                           String describing the roll results
    */
-  presentOne: ({ description, raw, summed, modifier, t }) => {
+  presentOne: ({ description, raw, summed, modifier = 0, t } = {}) => {
     const ladder_index = summed[0] + modifier + 5
     const t_args = {
       description,
-      result: t(`ladder.${ladder_index}`),
+      total: signed(summed[0] + modifier),
+      ladder: t(`ladder.${ladder_index}`),
       detail: module.exports.detail(raw[0], modifier),
       count: raw.length,
     }
@@ -68,13 +69,14 @@ module.exports = {
    * @param  {i18n.t}       options.t           Translation function
    * @return {String}                           String describing the roll results
    */
-  presentMany: ({ description, raw, summed, modifier, t }) => {
+  presentMany: ({ description, raw, summed, modifier = 0, t } = {}) => {
     const t_args = {
       description,
       count: raw.length,
       results: raw.map((result, index) => {
         const ladder_index = summed[index] + modifier + 5
         const res_args = {
+          total: signed(summed[index] + modifier),
           ladder: t(`ladder.${ladder_index}`),
           detail: module.exports.detail(result, modifier),
         }
@@ -106,7 +108,7 @@ module.exports = {
     })
 
     if (modifier) {
-      detail.push(signed(modifier))
+      detail.push(operator(modifier))
     }
 
     return detail.join("")

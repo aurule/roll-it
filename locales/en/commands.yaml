@@ -211,33 +211,33 @@ drh:
         pain: a **failure** dominated by **pain**
 fate:
   ladder:
-    - an **Impossible** failure (-5)
-    - a **Catastrophic** failure (-4)
-    - an **Awful** failure (-3)
-    - a **Terrible** failure (-2)
-    - a **Poor** result (-1)
-    - a **Mediocre** result (0)
-    - an **Average** success (+1)
-    - a **Fair** success (+2)
-    - a **Good** success (+3)
-    - a **Great** success (+4)
-    - a **Superb** success (+5)
-    - a **Fantastic** success (+6)
-    - an **Epic** success (+7)
-    - a **Legendary** success (+8)
+    - an **Impossible** failure
+    - a **Catastrophic** failure
+    - an **Awful** failure
+    - a **Terrible** failure
+    - a **Poor** result
+    - a **Mediocre** result
+    - an **Average** success
+    - a **Fair** success
+    - a **Good** success
+    - a **Great** success
+    - a **Superb** success
+    - a **Fantastic** success
+    - an **Epic** success
+    - a **Legendary** success
   response:
     withDescription_one: |-
-      {{userMention}} rolled {{result}} for "{{description}}": {{detail}}
+      {{userMention}} rolled **{{total}}**, {{ladder}} for "{{description}}": {{detail}}
     withDescription_other: |-
       {{userMention}} rolled {{count}} times for "{{description}}":
       {{results}}
     withoutDescription_one: |-
-      {{userMention}} rolled {{result}}: {{detail}}
+      {{userMention}} rolled **{{total}}**, {{ladder}}: {{detail}}
     withoutDescription_other: |-
       {{userMention}} rolled {{count}} times:
       {{results}}
     result: |-
-      {{ladder}} result: {{detail}}
+      **{{total}}**, {{ladder}}: {{detail}}
 kob:
   response:
     withDescription_one: |-
