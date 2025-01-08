@@ -627,12 +627,26 @@ table:
           success: The table *{{name}}* has been removed.
       show:
         response:
-          success: "These are the entries in the *{{name}}* table:"
+          success: |-
+            These are the entries in the *{{name}}* table:
+            {{contents}}
   roll:
     options:
       name:
         validation:
           missing: That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.
+    response_desc_one: |-
+      {{userMention}} rolled on the table *{{table}}* for "{{description}}" and got:
+      {{results}}
+    response_desc_other: |-
+      {{userMention}} rolled {{count}} times on the table *{{table}}* for "{{description}}" and got:
+      {{results}}
+    response_bare_one: |-
+      {{userMention}} rolled on the table *{{table}}* and got:
+      {{results}}
+    response_bare_other: |-
+      {{userMention}} rolled {{count}} times on the table *{{table}}* and got:
+      {{results}}
 wod20:
   options:
     teamwork:

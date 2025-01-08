@@ -1,6 +1,6 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const Completers = require("../../completers/table-completers")
-const { present } = require("../../presenters/table-results-presenter")
+const { present } = require("../../presenters/results/table-results-presenter")
 const { GuildRollables } = require("../../db/rollable")
 const { i18n } = require("../../locales")
 
@@ -49,6 +49,7 @@ module.exports = {
       tableName: detail.name,
       results,
       description: roll_description,
+      locale: interaction.locale,
     })
     return interaction.paginate({
       content: full_text,
