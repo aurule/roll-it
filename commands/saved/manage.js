@@ -42,7 +42,7 @@ module.exports = {
       return interaction.whisper(t("options.name.validation.missing"))
     }
 
-    let manage_text = saved_roll_presenter.present(detail)
+    let manage_text = saved_roll_presenter.present(detail, i18n.getFixedT(interaction.locale, "commands", "saved"))
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")
 

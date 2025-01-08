@@ -34,7 +34,7 @@ describe("execute", () => {
     await saved_manage_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("test")
-    expect(interaction.replyContent).toMatch("_pool:_ 1")
+    expect(interaction.replyContent).toMatch("*pool:* 1")
   })
 
   it("prompts the user with actions", async () => {

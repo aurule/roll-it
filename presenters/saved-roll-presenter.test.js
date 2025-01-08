@@ -1,4 +1,7 @@
 const presenter = require("./saved-roll-presenter")
+const { i18n } = require("../locales")
+
+const t = i18n.getFixedT("en-US", "commands", "saved")
 
 describe("present", () => {
   it("shows the name", () => {
@@ -9,7 +12,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll)
+    const result = presenter.present(saved_roll, t)
 
     expect(result).toMatch("test1")
   })
@@ -22,7 +25,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll)
+    const result = presenter.present(saved_roll, t)
 
     expect(result).toMatch("description")
   })
@@ -35,7 +38,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll)
+    const result = presenter.present(saved_roll, t)
 
     expect(result).toMatch("/nwod")
   })
@@ -48,9 +51,9 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll)
+    const result = presenter.present(saved_roll, t)
 
-    expect(result).toMatch("_pool:_ 5")
+    expect(result).toMatch("*pool:* 5")
   })
 
   it("shows the invocation", () => {
@@ -61,7 +64,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll)
+    const result = presenter.present(saved_roll, t)
 
     expect(result).toMatch("`/nwod pool:5`")
   })
@@ -74,7 +77,7 @@ describe("presentList", () => {
       { name: "test2", description: "a description", options: {} },
     ]
 
-    const result = presenter.presentList(rolls)
+    const result = presenter.presentList(rolls, t)
 
     expect(result).toMatch("test1")
     expect(result).toMatch("test2")
@@ -96,78 +99,10 @@ describe("presentList", () => {
       },
     ]
 
-    const result = presenter.presentList(rolls)
+    const result = presenter.presentList(rolls, t)
 
     expect(result).toMatch("/nwod")
     expect(result).toMatch("/fate")
-  })
-})
-
-describe("presentRollName", () => {
-  it("shows the name", () => {
-    const roll = { name: "test", description: "a description" }
-
-    const result = presenter.presentRollName(roll)
-
-    expect(result).toMatch("test")
-  })
-
-  it("handles undefined name", () => {
-    const roll = { description: "a description" }
-
-    const result = presenter.presentRollName(roll)
-
-    expect(result).not.toMatch("undefined")
-  })
-
-  it("shows the description", () => {
-    const roll = { name: "test", description: "a description" }
-
-    const result = presenter.presentRollName(roll)
-
-    expect(result).toMatch("description")
-  })
-
-  it("handles undefined description", () => {
-    const roll = { name: "test" }
-
-    const result = presenter.presentRollName(roll)
-
-    expect(result).not.toMatch("undefined")
-  })
-
-  it("marks incomplete", () => {
-    const roll = {
-      name: "test",
-      description: "a description",
-      incomplete: true,
-    }
-
-    const result = presenter.presentRollName(roll)
-
-    expect(result).toMatch(":warning:")
-  })
-
-  it("marks invalid", () => {
-    const roll = { name: "test", description: "a description", invalid: true }
-
-    const result = presenter.presentRollName(roll)
-
-    expect(result).toMatch(":x:")
-  })
-
-  it("marks both invalid and incomplete", () => {
-    const roll = {
-      name: "test",
-      description: "a description",
-      incomplete: true,
-      invalid: true,
-    }
-
-    const result = presenter.presentRollName(roll)
-
-    expect(result).toMatch(":warning:")
-    expect(result).toMatch(":x:")
   })
 })
 

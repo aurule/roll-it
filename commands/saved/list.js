@@ -1,6 +1,7 @@
 const { SlashCommandSubcommandBuilder } = require("discord.js")
 const { presentList } = require("../../presenters/saved-roll-presenter")
 const { UserSavedRolls } = require("../../db/saved_rolls")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "list",
@@ -13,7 +14,9 @@ module.exports = {
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
-    const full_text = presentList(saved_rolls.all())
+    const t = i18n.getFixedT(interaction.locale, "commands", "saved")
+
+    const full_text = presentList(saved_rolls.all(), t)
     return interaction.paginate({
       content: full_text,
       split_on: "\n",

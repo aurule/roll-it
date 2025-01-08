@@ -1,4 +1,4 @@
-const { italic, inlineCode } = require("discord.js")
+const { inlineCode, unorderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 /**
@@ -7,32 +7,45 @@ const { oneLine } = require("common-tags")
  * @param  {obj} saved_roll Saved roll details
  * @return {str}            String describing all attributes of the saved roll
  */
-function present(saved_roll) {
-  const manage_lines = [
-    "All about this roll:",
-    `${italic("Name:")} ${saved_roll.name}`,
-    `${italic("Description:")} ${saved_roll.description}`,
-    `${italic("Command:")} ${saved_roll.command}`,
-    `${italic("Options:")}`,
-  ]
-  for (const opt in saved_roll.options) {
-    manage_lines.push(`* ${italic(opt + ":")} ${saved_roll.options[opt]}`)
+function present(saved_roll, t) {
+  const name = saved_roll.name ?? t("entry.details.missing.name")
+  const description = saved_roll.description ?? t("entry.details.missing.description")
+  const command = saved_roll.command ?? t("entry.details.missing.command")
+
+  let options_body
+  if (saved_roll.options) {
+    const opts_list = []
+    for (const opt in saved_roll.options) {
+      opts_list.push(t("entry.details.option", { name: opt, value: saved_roll.options[opt] }))
+    }
+    options_body = unorderedList(opts_list)
+  } else {
+    options_body = t("entry.missing.options")
   }
-  if (saved_roll.invalid) {
-    manage_lines.push(oneLine`
-      :x: These options are invalid. Update them by clicking the Edit button below, then using
-      ${italic("Save this roll")} to save new options.
-    `)
+
+  const opt_key = saved_roll.invalid ? "entry.details.options.invalid" : "entry.details.options.valid"
+  const options = t(opt_key, { options: options_body })
+
+  let invocation
+  if (saved_roll.command) {
+    invocation = presentInvocation(saved_roll)
+  } else {
+    invocation = t("entry.details.missing.invocation")
   }
-  manage_lines.push(`${italic("Invocation:")} ${presentInvocation(saved_roll)}`)
+
+  const t_args = {
+    name,
+    description,
+    command,
+    options,
+    invocation,
+  }
+  const body = t("entry.details.body", t_args)
+
   if (saved_roll.incomplete) {
-    manage_lines.push("")
-    manage_lines.push(oneLine`
-      :warning: This roll is incomplete! You have to finish it using ${inlineCode("/saved set")} or
-      ${italic("Save this roll")} before you'll be able to roll it.
-    `)
+    return t("entry.details.incomplete", { body })
   }
-  return manage_lines.join("\n")
+  return body
 }
 
 /**
@@ -41,38 +54,48 @@ function present(saved_roll) {
  * @param  {obj[]} rolls Array of saved_roll info objects
  * @return {str}         String with the saved roll list
  */
-function presentList(saved_rolls) {
-  if (!saved_rolls.length)
-    return oneLine`
-      You have no saved rolls. Make some with ${inlineCode("/saved set")} and
-      ${italic("Save this roll")}!
-    `
+function presentList(saved_rolls, t) {
+  if (!saved_rolls.length) {
+    return t("entry.list.empty")
+  }
 
-  let content = "These are your saved rolls:"
-  content += saved_rolls
-    .map((r) => `\n* ${presentRollName(r)}\n  - ${presentInvocation(r)}`)
-    .join("")
-  content += "\n-# Legend:"
-  content += "\n-# :warning: means that roll is incomplete"
-  content += "\n-# :x: means that roll is not valid"
-  return content
+  const rolls = saved_rolls.map((roll) => {
+    const name = roll.name ?? t("entry.list.missing.name")
+    const description = roll.description ?? t("entry.list.missing.description")
+    let invocation
+    if (roll.command) {
+      invocation = presentInvocation(roll)
+    } else {
+      invocation = t("entry.list.missing.invocation")
+    }
+
+    const roll_args = {
+      name,
+      description,
+      invocation,
+    }
+
+    let roll_key
+    if (roll.invalid && roll.incomplete) {
+      roll_key = "entry.list.record.borked"
+    } else if (roll.invalid) {
+      roll_key = "entry.list.record.invalid"
+    } else if (roll.incomplete) {
+      roll_key = "entry.list.record.incomplete"
+    } else {
+      roll_key = "entry.list.record.ready"
+    }
+    return t(roll_key, roll_args)
+  })
+
+  const t_args = {
+    count: saved_rolls.length,
+    rolls: unorderedList(rolls),
+  }
+
+  return t("entry.list.filled", t_args)
 }
 
-/**
- * Present a saved roll's name, description, and status
- *
- * @param  {obj} saved_roll Saved roll info object
- * @return {str}            Status, name, and description of the saved roll
- */
-function presentRollName(saved_roll) {
-  let content_lines = ""
-  const name = saved_roll.name ?? "(incomplete)"
-  const description = saved_roll.description ?? "(incomplete)"
-  if (saved_roll.invalid) content_lines += ":x: "
-  if (saved_roll.incomplete) content_lines += ":warning: "
-  content_lines += `${italic(name)} - ${description}`
-  return content_lines
-}
 
 /**
  * Present a saved roll's command invocation
@@ -83,7 +106,7 @@ function presentRollName(saved_roll) {
  * @return {str}            Invocation string
  */
 function presentInvocation(saved_roll) {
-  const command_name = saved_roll.command ?? "(not set)"
+  const command_name = saved_roll.command ?? ""
   const options = saved_roll.options ?? {}
 
   let content_lines = "/" + command_name
@@ -97,6 +120,5 @@ function presentInvocation(saved_roll) {
 module.exports = {
   present,
   presentList,
-  presentRollName,
   presentInvocation,
 }

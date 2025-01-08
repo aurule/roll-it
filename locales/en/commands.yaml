@@ -497,6 +497,62 @@ save-this-roll:
       That command's options cannot be saved, which means you found a bug! This is what went wrong while saving `{{command.name}}`:
       * {{messages}}
 saved:
+  entry:
+    details:
+      body: |-
+        *Name:* {{name}}
+        *Description:* {{description}}
+        *Command:* {{command}}
+        *Options:*
+        {{options}}
+        *Invocation:* {{invocation}}
+      incomplete: |-
+        {{body}}
+
+        :warning: This roll is incomplete! You have to finish it using `/saved set` or *Save this roll* before you'll be able to roll it.
+      options:
+        valid: "{{options}}"
+        invalid: |-
+          {{options}}
+          :x: These options are invalid. Update them by clicking the Edit button below, then using *Save this roll* to save new options.
+      option: "*{{name}}:* {{value}}"
+      missing:
+        name: "[Not set. Use `/saved set` to save a name and description.]"
+        description: "[Not set]"
+        command: "[Not set. Use *Save this roll* to save a command."
+        options: "* *none*"
+        invocation: "[Save the roll's command to see its invocation.]"
+    list:
+      record:
+        ready: |-
+          {{name}} - {{description}}
+            - {{invocation}}
+        incomplete: |-
+          :warning: {{name}} - {{description}}
+            - {{invocation}}
+        invalid: |-
+          :x: {{name}} - {{description}}
+            - {{invocation}}
+        borked: |-
+          :x: :warning: {{name}} - {{description}}
+            - {{invocation}}
+      missing:
+        name: "*none set*"
+        description: "*none set*"
+        invocation: "*no command set*"
+      empty: You have no saved rolls. Make some with *Save this roll* and `/saved set`!
+      filled_one: |-
+        You have one saved roll:
+        {{rolls}}
+        $t(saved.entry.list.legend)
+      filled_other: |-
+        You have one saved roll:
+        {{rolls}}
+        $t(saved.entry.list.legend)
+      legend: |-
+        -# Legend:
+        -# :warning: means that roll is incomplete
+        -# :x: means that roll is not valid
   grow:
     options:
       name:
