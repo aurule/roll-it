@@ -5,11 +5,11 @@ const {
   ActionRowBuilder,
   ComponentType,
   italic,
+  orderedList,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
-const { presentContents } = require("../../presenters/table-contents-presenter")
 const { i18n } = require("../../locales")
 
 module.exports = {
@@ -71,8 +71,7 @@ module.exports = {
       switch (event.customId) {
         case "show":
           manage_prompt.delete()
-          const full_text = t("state.show.response.success", { name: detail.name }) +
-            presentContents(detail.contents)
+          const full_text = t("state.show.response.success", { name: detail.name, contents: orderedList(detail.contents) })
 
           return interaction.paginate({
             content: full_text,
