@@ -1,52 +1,6 @@
 const { WodPresenter } = require("./wod20-results-presenter")
 
 describe("WodPresenter", () => {
-  describe("mode", () => {
-    describe("when until option true", () => {
-      it("returns 'until' with many rolls", () => {
-        const presenter = new WodPresenter({
-          until: 2,
-          raw: [[1], [2]],
-          rolls: 1,
-        })
-
-        expect(presenter.mode).toEqual("until")
-      })
-
-      it("returns 'until' with one roll", () => {
-        const presenter = new WodPresenter({
-          until: 2,
-          raw: [[1]],
-          rolls: 1,
-        })
-
-        expect(presenter.mode).toEqual("until")
-      })
-    })
-
-    describe("when until option false", () => {
-      it("returns 'many' with multiple rolls", () => {
-        const presenter = new WodPresenter({
-          until: 0,
-          raw: [[1], [2]],
-          rolls: 2,
-        })
-
-        expect(presenter.mode).toEqual("many")
-      })
-
-      it("returns 'one' with one roll", () => {
-        const presenter = new WodPresenter({
-          until: 0,
-          raw: [[1]],
-          rolls: 1,
-        })
-
-        expect(presenter.mode).toEqual("one")
-      })
-    })
-  })
-
   describe("presentResults", () => {
     describe("in until mode", () => {
       const default_opts = {
@@ -122,83 +76,6 @@ describe("WodPresenter", () => {
     })
   })
 
-  describe("presentedDescription", () => {
-    describe("with no description", () => {
-      it("is an empty string", () => {
-        const presenter = new WodPresenter({})
-
-        expect(presenter.presentedDescription).toEqual("")
-      })
-    })
-
-    describe("with a description", () => {
-      describe("in 'one' mode", () => {
-        it("includes extra word", () => {
-          const presenter = new WodPresenter({
-            raw: [[1]],
-            description: "test description",
-            rolls: 1,
-          })
-
-          expect(presenter.presentedDescription).toMatch("for")
-        })
-
-        it("wraps the description in quotes", () => {
-          const presenter = new WodPresenter({
-            raw: [[1]],
-            description: "test description",
-            rolls: 1,
-          })
-
-          expect(presenter.presentedDescription).toMatch('"test description"')
-        })
-      })
-
-      it("wraps the description in quotes", () => {
-        const presenter = new WodPresenter({
-          raw: [[1], [2]],
-          description: "test description",
-          rolls: 2,
-        })
-
-        expect(presenter.presentedDescription).toMatch('"test description"')
-      })
-    })
-  })
-
-  describe("explainRolls", () => {
-    it("when 1, returns empty string", () => {
-      const presenter = new WodPresenter({
-        rolls: 1,
-      })
-
-      const result = presenter.explainRolls()
-
-      expect(result).toEqual("")
-    })
-
-    it("in until mode, returns correct description", () => {
-      const presenter = new WodPresenter({
-        rolls: 3,
-        until: 5,
-      })
-
-      const result = presenter.explainRolls()
-
-      expect(result).toMatch("max 3 times")
-    })
-
-    it("in many mode, returns correct description", () => {
-      const presenter = new WodPresenter({
-        rolls: 3,
-      })
-
-      const result = presenter.explainRolls()
-
-      expect(result).toMatch("3 times")
-    })
-  })
-
   describe("explainPool", () => {
     const default_opts = {
       pool: 5,
@@ -231,7 +108,7 @@ describe("WodPresenter", () => {
 
       const result = presenter.explainPool()
 
-      expect(result).toMatch("with specialty")
+      expect(result).toMatch("with a specialty")
     })
   })
 

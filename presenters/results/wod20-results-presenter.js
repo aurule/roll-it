@@ -1,4 +1,5 @@
 const { bold, strikethrough, underline } = require("discord.js")
+const { i18n } = require("../../locales")
 
 class WodPresenter {
   /**
@@ -13,29 +14,16 @@ class WodPresenter {
    * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
    */
-  constructor({ pool, difficulty, specialty, rolls, until, description, raw, summed }) {
+  constructor({ pool, difficulty, specialty, rolls = 1, until, description, raw, summed, locale = "en-US" } = {}) {
     this.pool = pool
     this.difficulty = difficulty
     this.specialty = specialty
-    ;(this.rolls = rolls), (this.until = until)
+    this.rolls = rolls
+    this.until = until
     this.description = description
     this.raw = raw
     this.summed = summed
-  }
-
-  /**
-   * Get the mode we're operating under
-   *
-   * @return {string} Presentation mode based on number of rolls and the "until" option
-   */
-  get mode() {
-    if (this.until) {
-      return "until"
-    } else if (this.rolls > 1) {
-      return "many"
-    } else {
-      return "one"
-    }
+    this.t = i18n.getFixedT(locale, "commands", "wod20")
   }
 
   /**
@@ -44,65 +32,46 @@ class WodPresenter {
    * @return {str} A string describing the results of our roll(s)
    */
   presentResults() {
-    let content = "{{userMention}} rolled"
-
-    switch (this.mode) {
-      case "until":
-        content += this.presentedDescription
-        content += ` until ${this.until} successes`
-        content += this.explainRolls()
-        content += ` at ${this.explainPool()}:`
-        content += this.presentResultSet()
-
-        const finalSum = this.summed.reduce((prev, curr) => prev + curr, 0)
-        content += `\n${bold(finalSum)} of ${this.until} in ${this.raw.length} rolls`
-        break
-      case "many":
-        content += this.presentedDescription
-        content += `${this.explainRolls()} times with ${this.explainPool()}:`
-        content += this.presentResultSet()
-        break
-      case "one":
-        content += ` ${this.explainTally(0)}`
-        content += this.presentedDescription
-        content += ` (${this.explainPool()}: [${this.notateDice(0)}])`
-        break
+    const t_args = {
+      count: this.raw.length,
+      description: this.description,
+      pool: this.explainPool(),
+      tally: this.explainTally(0),
+      detail: this.notateDice(0),
+      results: this.raw.map((result, idx) => {
+        const res_args = {
+          tally: this.explainTally(idx),
+          detail: this.notateDice(idx),
+        }
+        return "\t" + this.t("response.result", res_args)
+      }).join("\n"),
     }
 
-    return content
-  }
+    const key_parts = ["response"]
+    if (this.until) {
+      key_parts.push("until")
+      t_args.target = this.until
+      t_args.until = this.t("response.target-desc", { count: this.until })
+      t_args.final = this.summed.reduce((prev, curr) => prev + curr, 0)
 
-  /**
-   * Format the description
-   *
-   * Formatted string accounts for whether the description is present and whether we're presenting a single
-   * roll or multiples.
-   *
-   * @return {str} Formatted description string
-   */
-  get presentedDescription() {
-    if (!this.description) return ""
+      if (this.rolls > 1) {
+        key_parts.push("limited")
+        t_args.rolls = this.t("response.rolls", { count: this.rolls })
+      } else {
+        key_parts.push("unlimited")
+      }
+    } else {
+      key_parts.push("regular")
+    }
 
-    if (this.mode == "one") return ` for "${this.description}"`
+    if (this.description) {
+      key_parts.push("withDescription")
+    } else {
+      key_parts.push("withoutDescription")
+    }
 
-    return ` "${this.description}"`
-  }
-
-  /**
-   * Explain the number of rolls
-   *
-   * In many mode, this will describe the total rolls made. In until mode, this will indicate the maximum
-   * number of allowed rolls. In single mode, this returns an empty string.
-   *
-   * @return {str} Formatted description of rolls
-   */
-  explainRolls() {
-    if (this.rolls === 1) return ""
-
-    const content = ` ${this.rolls} times`
-
-    if (this.until) return ` (max${content})`
-    return content
+    const key = key_parts.join(".")
+    return this.t(key, t_args)
   }
 
   /**
@@ -111,9 +80,12 @@ class WodPresenter {
    * @return {str} String describing the number of dice in the pool and their roll-again, if present
    */
   explainPool() {
-    let content = `${this.pool} diff ${this.difficulty}`
-    if (this.specialty) content += " with specialty"
-    return content
+    const pool_args = {
+      pool: this.pool,
+      difficulty: this.difficulty,
+      context: this.specialty ? "specialty" : undefined
+    }
+    return this.t("response.pool", pool_args)
   }
 
   /**
@@ -146,8 +118,11 @@ class WodPresenter {
    * @return {str}              String with successes and botch status
    */
   explainTally(result_index) {
-    if (this.botch(result_index)) return bold("botch")
-    return bold(Math.max(0, this.summed[result_index]))
+    const tally_args = {
+      tally: Math.max(0, this.summed[result_index]),
+      context: this.botch(result_index) ? "botch" : undefined
+    }
+    return this.t("response.tally", tally_args)
   }
 
   /**
@@ -159,19 +134,6 @@ class WodPresenter {
   botch(result_index) {
     const ones = this.raw[result_index].filter((d) => d === 1).length
     return ones > 0 && ones === -1 * this.summed[result_index]
-  }
-
-  /**
-   * Describe the results of all rolls
-   *
-   * @return {str} String describing the roll results
-   */
-  presentResultSet() {
-    return this.raw
-      .map((result, index) => {
-        return `\n\t${this.explainTally(index)} (${this.notateDice(index)})`
-      })
-      .join("")
   }
 }
 
