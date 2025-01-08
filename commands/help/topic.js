@@ -29,7 +29,8 @@ module.exports = {
     const t = i18n.getFixedT(interaction.locale, "commands", "help.topic")
 
     const topic = topics.get(topic_name)
-    if (!topic) return interaction.whisper(t("options.topic.validation.unavailable", { topic_name }))
+    if (!topic)
+      return interaction.whisper(t("options.topic.validation.unavailable", { topic_name }))
 
     const full_text = heading(topic.title) + "\n" + topic.help()
     return interaction.paginate({

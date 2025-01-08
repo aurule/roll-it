@@ -42,9 +42,17 @@ module.exports = {
       description,
       total: raw[0][0] + modifier,
       detail: `${raw[0][0]}${operator(modifier)}`,
-      results: raw.map((result, idx) => {
-        return "\t" + t(result_key, { total: result[0] + modifier, detail: `${result[0]}${operator(modifier)}` })
-      }).join("\n")
+      results: raw
+        .map((result, idx) => {
+          return (
+            "\t" +
+            t(result_key, {
+              total: result[0] + modifier,
+              detail: `${result[0]}${operator(modifier)}`,
+            })
+          )
+        })
+        .join("\n"),
     }
 
     const key = key_parts.join(".")

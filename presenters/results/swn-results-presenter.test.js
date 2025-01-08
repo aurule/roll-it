@@ -30,7 +30,10 @@ describe("present", () => {
         rolls: 2,
         modifier: 0,
         description: "test roll",
-        raw: [[1, 4], [2, 4]],
+        raw: [
+          [1, 4],
+          [2, 4],
+        ],
         picked: [{ indexes: [0, 1] }, { indexes: [0, 1] }],
         summed: [5, 6],
       }

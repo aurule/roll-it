@@ -88,7 +88,9 @@ module.exports = {
 
     if (target) {
       if (!command.changeable.includes(target)) {
-        return interaction.whisper(t("options.change.validation.missing", { target, command: present_command(command) }))
+        return interaction.whisper(
+          t("options.change.validation.missing", { target, command: present_command(command) }),
+        )
       }
 
       const old_number = roll_detail.options[target] ?? 0
@@ -102,7 +104,9 @@ module.exports = {
       await command.schema.validateAsync(roll_detail.options)
     } catch (err) {
       if (target) {
-        return interaction.whisper(t("validation.invalidated", { target, message: err.details[0].message }))
+        return interaction.whisper(
+          t("validation.invalidated", { target, message: err.details[0].message }),
+        )
       } else {
         saved_rolls.update(roll_detail.id, { invalid: true })
         return interaction.whisper(t("validation.invalid"))
@@ -111,7 +115,7 @@ module.exports = {
 
     const partial_message = command.perform({
       locale: interaction.locale,
-      ...roll_detail.options
+      ...roll_detail.options,
     })
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.paginate({

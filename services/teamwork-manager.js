@@ -170,7 +170,12 @@ module.exports = {
         })
         .then((result_message) => {
           helper_prompt.edit({
-            content: teamworkPresenter.helperRolledMessage(userFlake, description, result_message, t),
+            content: teamworkPresenter.helperRolledMessage(
+              userFlake,
+              description,
+              result_message,
+              t,
+            ),
             components: [],
             embeds: [],
           })

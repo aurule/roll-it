@@ -73,15 +73,17 @@ module.exports = {
     const t_args = {
       description,
       count: raw.length,
-      results: raw.map((result, index) => {
-        const ladder_index = summed[index] + modifier + 5
-        const res_args = {
-          total: signed(summed[index] + modifier),
-          ladder: t(`ladder.${ladder_index}`),
-          detail: module.exports.detail(result, modifier),
-        }
-        return `\t${t("response.result", res_args)}`
-      }).join("\n")
+      results: raw
+        .map((result, index) => {
+          const ladder_index = summed[index] + modifier + 5
+          const res_args = {
+            total: signed(summed[index] + modifier),
+            ladder: t(`ladder.${ladder_index}`),
+            detail: module.exports.detail(result, modifier),
+          }
+          return `\t${t("response.result", res_args)}`
+        })
+        .join("\n"),
     }
 
     const key_parts = ["response"]

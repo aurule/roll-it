@@ -63,8 +63,7 @@ module.exports = {
     })
 
     let full_text = injectMention(partial_message, interaction.user.id)
-    full_text +=
-      "\n" + subtext(t("response.shortcut"))
+    full_text += "\n" + subtext(t("response.shortcut"))
     return interaction.paginate({
       content: full_text,
       split_on: "\n\t",

@@ -18,8 +18,9 @@ module.exports = {
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
-        option.setName("modifier")
-          .setDescription("Number to add to the result after adding up the rolled dice")
+        option
+          .setName("modifier")
+          .setDescription("Number to add to the result after adding up the rolled dice"),
       )
       .addIntegerOption(commonOpts.pool)
       .addIntegerOption(commonOpts.rolls)

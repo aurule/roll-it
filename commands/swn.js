@@ -19,9 +19,11 @@ module.exports = {
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
-        option.setName("modifier").setDescription("A number to add to the die's result")
+        option.setName("modifier").setDescription("A number to add to the die's result"),
       )
-      .addIntegerOption(option => option.setName("pool").setDescription("Number of dice to roll. Default 2.").setMinValue(2))
+      .addIntegerOption((option) =>
+        option.setName("pool").setDescription("Number of dice to roll. Default 2.").setMinValue(2),
+      )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
@@ -80,7 +82,7 @@ module.exports = {
         Occasionally, a character is able to roll 3 or more dice and keep the highest two. This is fully
         supported by using the ${opts.pool} option. When more than two dice are rolled using ${command_name},
         only the highest two are kept.
-      `
+      `,
     ].join("\n")
   },
 }

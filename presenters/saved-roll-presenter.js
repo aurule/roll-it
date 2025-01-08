@@ -23,7 +23,9 @@ function present(saved_roll, t) {
     options_body = t("entry.missing.options")
   }
 
-  const opt_key = saved_roll.invalid ? "entry.details.options.invalid" : "entry.details.options.valid"
+  const opt_key = saved_roll.invalid
+    ? "entry.details.options.invalid"
+    : "entry.details.options.valid"
   const options = t(opt_key, { options: options_body })
 
   let invocation
@@ -95,7 +97,6 @@ function presentList(saved_rolls, t) {
 
   return t("entry.list.filled", t_args)
 }
-
 
 /**
  * Present a saved roll's command invocation

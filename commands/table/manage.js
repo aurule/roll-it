@@ -59,10 +59,9 @@ module.exports = {
       remove_button,
     )
     const manage_prompt = await interaction.reply({
-      content: [
-        t("state.initial.details", { table: detail }),
-        t("state.initial.prompt"),
-      ].join("\n"),
+      content: [t("state.initial.details", { table: detail }), t("state.initial.prompt")].join(
+        "\n",
+      ),
       components: [manage_actions],
       ephemeral: true,
     })
@@ -71,7 +70,10 @@ module.exports = {
       switch (event.customId) {
         case "show":
           manage_prompt.delete()
-          const full_text = t("state.show.response.success", { name: detail.name, contents: orderedList(detail.contents) })
+          const full_text = t("state.show.response.success", {
+            name: detail.name,
+            contents: orderedList(detail.contents),
+          })
 
           return interaction.paginate({
             content: full_text,

@@ -58,7 +58,14 @@ module.exports = {
     rolls: commonSchemas.rolls,
     description: commonSchemas.description,
   }).oxor("keep", "with"),
-  perform({ keep = "all", rolls = 1, modifier = 0, locale = "en-US", description, ...others } = {}) {
+  perform({
+    keep = "all",
+    rolls = 1,
+    modifier = 0,
+    locale = "en-US",
+    description,
+    ...others
+  } = {}) {
     if (others.with) keep = with_to_keep(others.with)
 
     const advantage_rolls = keep == "all" ? 1 : 2

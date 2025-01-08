@@ -11,7 +11,7 @@ const { i18n } = require("../../locales")
  * @param  {int}   summed   Result dice added together
  * @return {string}         Description of the result and modifier
  */
-function detail({result, indexes, summed, modifier = 0} = {}) {
+function detail({ result, indexes, summed, modifier = 0 } = {}) {
   const nums = result
     .map((res, idx) => {
       if (indexes.includes(idx)) {
@@ -51,12 +51,19 @@ module.exports = {
       count: rolls,
       description,
       total: summed[0] + modifier,
-      detail: detail({result: raw[0], indexes: picked[0].indexes, summed: summed[0], modifier}),
-      results: raw.map((result, idx) => {
-        const details = detail({result, indexes: picked[idx].indexes, summed: summed[idx], modifier})
-        const total = summed[idx] + modifier
-        return "\t" + t("result", { total, detail: details })
-      }).join("\n"),
+      detail: detail({ result: raw[0], indexes: picked[0].indexes, summed: summed[0], modifier }),
+      results: raw
+        .map((result, idx) => {
+          const details = detail({
+            result,
+            indexes: picked[idx].indexes,
+            summed: summed[idx],
+            modifier,
+          })
+          const total = summed[idx] + modifier
+          return "\t" + t("result", { total, detail: details })
+        })
+        .join("\n"),
     }
 
     return t("response", t_args)

@@ -55,15 +55,6 @@ function detail({ pools, raw, summed, labels, t }) {
         return "\t" + t("response.pool.labeled", t_args)
       }
       return "\t" + t("response.pool.bare", t_args)
-
-
-
-
-      // const label = labels[index]
-      // let detail_line = `\n\t${summed[index]}`
-      // if (label) detail_line += ` ${label}`
-      // detail_line += ` from ${pool} [${raw[index]}]`
-      // return detail_line
     })
     .join("\n")
 }
@@ -84,7 +75,7 @@ module.exports = {
     const t = i18n.getFixedT(locale, "commands", "roll-formula")
     const presenter_options = {
       t,
-      ...rollOptions
+      ...rollOptions,
     }
     if (rolls == 1) {
       return module.exports.presentOne(presenter_options)
@@ -129,7 +120,7 @@ module.exports = {
       description,
       formula,
       final: finalSum,
-      pools: detail({t, ...results[0]}),
+      pools: detail({ t, ...results[0] }),
       total: t("response.total", { final: finalSum, rolled: rolledFormula }),
     }
     key_parts = ["response"]
@@ -165,24 +156,26 @@ module.exports = {
       count: results.length,
       description,
       formula,
-      details: results.map((result, idx) => {
-        const { rolledFormula } = result
-        let finalSum
-        try {
-          finalSum = limitedEvaluate(rolledFormula)
-        } catch (err) {
-          if (err instanceof FormulaDisabledError) {
-            return t("response.disabled", err)
-          } else {
-            throw err
+      details: results
+        .map((result, idx) => {
+          const { rolledFormula } = result
+          let finalSum
+          try {
+            finalSum = limitedEvaluate(rolledFormula)
+          } catch (err) {
+            if (err instanceof FormulaDisabledError) {
+              return t("response.disabled", err)
+            } else {
+              throw err
+            }
           }
-        }
 
-        return t("response.detail", {
-          total: t("response.total", { final: finalSum, rolled: rolledFormula }),
-          pools: detail({t, ...result}),
+          return t("response.detail", {
+            total: t("response.total", { final: finalSum, rolled: rolledFormula }),
+            pools: detail({ t, ...result }),
+          })
         })
-      }).join("\n")
+        .join("\n"),
     }
 
     key_parts = ["response"]

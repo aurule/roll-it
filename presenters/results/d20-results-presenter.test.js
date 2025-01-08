@@ -8,7 +8,7 @@ describe("presentOne", () => {
     raw: [[1]],
     picked: [{ indexes: [0] }],
     keep: "all",
-    t: i18n.getFixedT("en-US", "commands", "d20")
+    t: i18n.getFixedT("en-US", "commands", "d20"),
   }
 
   it("includes description if present", () => {
@@ -36,7 +36,7 @@ describe("presentMany", () => {
     raw: [[1], [2]],
     keep: "all",
     picked: [{ indexes: [0] }, { indexes: [0] }],
-    t: i18n.getFixedT("en-US", "commands", "d20")
+    t: i18n.getFixedT("en-US", "commands", "d20"),
   }
 
   it("includes description if present", () => {

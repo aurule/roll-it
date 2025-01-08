@@ -22,7 +22,16 @@ class ShadowrunPresenter {
    * @param  {str}          options.locale      Name of the locale to use to look up stings
    * @param  {int[]}        options.summed      Array of one int, summing the rolled dice
    */
-  constructor({ pool, edge = false, rolls = 1, until, description, raw, summed, locale = "en-US" } = {}) {
+  constructor({
+    pool,
+    edge = false,
+    rolls = 1,
+    until,
+    description,
+    raw,
+    summed,
+    locale = "en-US",
+  } = {}) {
     this.pool = pool
     this.edge = edge
     this.rolls = rolls
@@ -45,13 +54,15 @@ class ShadowrunPresenter {
       pool: this.explainPool(),
       tally: this.explainTally(0),
       detail: this.notateDice(0),
-      results: this.raw.map((result, idx) => {
-        const res_args = {
-          tally: this.explainTally(idx),
-          detail: this.notateDice(idx),
-        }
-        return "\t" + this.t("response.result", res_args)
-      }).join("\n"),
+      results: this.raw
+        .map((result, idx) => {
+          const res_args = {
+            tally: this.explainTally(idx),
+            detail: this.notateDice(idx),
+          }
+          return "\t" + this.t("response.result", res_args)
+        })
+        .join("\n"),
     }
 
     const key_parts = ["response"]

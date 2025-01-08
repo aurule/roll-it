@@ -14,7 +14,17 @@ class WodPresenter {
    * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
    */
-  constructor({ pool, difficulty, specialty, rolls = 1, until, description, raw, summed, locale = "en-US" } = {}) {
+  constructor({
+    pool,
+    difficulty,
+    specialty,
+    rolls = 1,
+    until,
+    description,
+    raw,
+    summed,
+    locale = "en-US",
+  } = {}) {
     this.pool = pool
     this.difficulty = difficulty
     this.specialty = specialty
@@ -38,13 +48,15 @@ class WodPresenter {
       pool: this.explainPool(),
       tally: this.explainTally(0),
       detail: this.notateDice(0),
-      results: this.raw.map((result, idx) => {
-        const res_args = {
-          tally: this.explainTally(idx),
-          detail: this.notateDice(idx),
-        }
-        return "\t" + this.t("response.result", res_args)
-      }).join("\n"),
+      results: this.raw
+        .map((result, idx) => {
+          const res_args = {
+            tally: this.explainTally(idx),
+            detail: this.notateDice(idx),
+          }
+          return "\t" + this.t("response.result", res_args)
+        })
+        .join("\n"),
     }
 
     const key_parts = ["response"]
@@ -83,7 +95,7 @@ class WodPresenter {
     const pool_args = {
       pool: this.pool,
       difficulty: this.difficulty,
-      context: this.specialty ? "specialty" : undefined
+      context: this.specialty ? "specialty" : undefined,
     }
     return this.t("response.pool", pool_args)
   }
@@ -120,7 +132,7 @@ class WodPresenter {
   explainTally(result_index) {
     const tally_args = {
       tally: Math.max(0, this.summed[result_index]),
-      context: this.botch(result_index) ? "botch" : undefined
+      context: this.botch(result_index) ? "botch" : undefined,
     }
     return this.t("response.tally", tally_args)
   }

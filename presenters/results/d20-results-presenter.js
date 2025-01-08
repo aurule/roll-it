@@ -46,7 +46,7 @@ function presentOne({ modifier, description, raw, picked, keep, t }) {
   }
 
   const key = key_parts.join(".")
-  return(t(key, t_args))
+  return t(key, t_args)
 }
 
 /**
@@ -158,7 +158,7 @@ module.exports = {
     const t = i18n.getFixedT(locale, "commands", "d20")
     const presenter_options = {
       t,
-      ...rollOptions
+      ...rollOptions,
     }
 
     if (rolls == 1) {

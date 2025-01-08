@@ -49,7 +49,12 @@ module.exports = {
         abortEarly: false,
       })
     } catch (err) {
-      return interaction.whisper(t("validation.options", { command, messages: err.details.map((d) => d.message).join("\n")}))
+      return interaction.whisper(
+        t("validation.options", {
+          command,
+          messages: err.details.map((d) => d.message).join("\n"),
+        }),
+      )
     }
     delete validated_options.description
 

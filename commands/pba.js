@@ -17,7 +17,7 @@ module.exports = {
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
-        option.setName("modifier").setDescription("A number to add to the die's result")
+        option.setName("modifier").setDescription("A number to add to the pool's result"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
@@ -33,7 +33,7 @@ module.exports = {
       rolls,
       pool: 2,
       modifier,
-      description
+      description,
     })
   },
   execute(interaction) {

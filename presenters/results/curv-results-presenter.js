@@ -46,7 +46,7 @@ class CurvPresenter {
   presentResults() {
     const key_parts = ["response"]
     const t_args = {
-      count: this.rolls
+      count: this.rolls,
     }
 
     if (this.mode === "many") {

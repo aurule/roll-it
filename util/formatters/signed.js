@@ -25,5 +25,5 @@ module.exports = {
     return Intl.NumberFormat("en-US", {
       signDisplay: "exceptZero",
     }).format(number)
-  }
+  },
 }

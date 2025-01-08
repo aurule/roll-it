@@ -22,7 +22,7 @@ module.exports = {
     const pickedSets = []
     for (let idx = 0; idx < resultSets.length; idx++) {
       const set = resultSets[idx]
-      pickedSets.push(picked[idx].indexes.map(p => set.at(p)))
+      pickedSets.push(picked[idx].indexes.map((p) => set.at(p)))
     }
     return module.exports.sum(pickedSets)
   },

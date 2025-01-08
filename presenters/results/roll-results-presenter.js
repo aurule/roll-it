@@ -14,7 +14,7 @@ module.exports = {
     const t = i18n.getFixedT(locale, "commands", "roll")
     const presenter_options = {
       t,
-      ...rollOptions
+      ...rollOptions,
     }
 
     if (rolls == 1) {
@@ -68,9 +68,17 @@ module.exports = {
     const t_args = {
       count: raw.length,
       description,
-      results: raw.map((result, index) => {
-        return "\t" + t("response.result", { total: summed[index] + modifier, detail: module.exports.detail({ pool, sides, raw: result, modifier }) })
-      }).join("\n"),
+      results: raw
+        .map((result, index) => {
+          return (
+            "\t" +
+            t("response.result", {
+              total: summed[index] + modifier,
+              detail: module.exports.detail({ pool, sides, raw: result, modifier }),
+            })
+          )
+        })
+        .join("\n"),
     }
 
     const key_parts = ["response"]

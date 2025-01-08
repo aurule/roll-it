@@ -48,5 +48,5 @@ module.exports = {
    */
   pool(option) {
     return option.setName("pool").setDescription("Number of dice to roll").setMinValue(1)
-  }
+  },
 }

@@ -102,19 +102,25 @@ class DrhPresenter {
         talent: this.talent,
       })
       t_args.pools = roll_presenter.present()
-      t_args.result = this.t(`response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`)
+      t_args.result = this.t(
+        `response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`,
+      )
     } else {
-      t_args.results = this.tests.map((pools) => {
-        const roll_presenter = new DrhRollPresenter({
-          strengths: pools,
-          talent: this.talent,
+      t_args.results = this.tests
+        .map((pools) => {
+          const roll_presenter = new DrhRollPresenter({
+            strengths: pools,
+            talent: this.talent,
+          })
+          const lines = [
+            this.t(
+              `response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`,
+            ),
+            roll_presenter.present(),
+          ]
+          return lines.join("\n")
         })
-        const lines = [
-          this.t(`response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`),
-          roll_presenter.present(),
-        ]
-        return lines.join("\n")
-      }).join("\n")
+        .join("\n")
     }
 
     const key = key_parts.join(".")

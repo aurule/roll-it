@@ -29,11 +29,7 @@ describe("pickedSum", () => {
       [2, 3],
       [3, 4],
     ]
-    const pickedDice = [
-      { indexes: [0, 1] },
-      { indexes: [0, 1] },
-      { indexes: [0, 1] },
-    ]
+    const pickedDice = [{ indexes: [0, 1] }, { indexes: [0, 1] }, { indexes: [0, 1] }]
 
     it("generates one number per array of the result set", () => {
       const sums = tallyService.pickedSum(resultSets, pickedDice)
@@ -56,11 +52,7 @@ describe("pickedSum", () => {
       [2, 3, 9],
       [3, 4, 1],
     ]
-    const pickedDice = [
-      { indexes: [0, 2] },
-      { indexes: [1, 2] },
-      { indexes: [0, 1] },
-    ]
+    const pickedDice = [{ indexes: [0, 2] }, { indexes: [1, 2] }, { indexes: [0, 1] }]
 
     it("sums the picked pickedDice", () => {
       const expectedSums = [11, 12, 7]

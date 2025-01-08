@@ -42,7 +42,10 @@ module.exports = {
       return interaction.whisper(t("options.name.validation.missing"))
     }
 
-    let manage_text = saved_roll_presenter.present(detail, i18n.getFixedT(interaction.locale, "commands", "saved"))
+    let manage_text = saved_roll_presenter.present(
+      detail,
+      i18n.getFixedT(interaction.locale, "commands", "saved"),
+    )
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")
 
@@ -62,11 +65,11 @@ module.exports = {
     }
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
-        .setLabel(t("state.initial.buttons.cancel"))
+      .setLabel(t("state.initial.buttons.cancel"))
       .setStyle(ButtonStyle.Secondary)
     const remove_button = new ButtonBuilder()
       .setCustomId("remove")
-        .setLabel(t("state.initial.buttons.remove"))
+      .setLabel(t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
     manage_actions.addComponents(cancel_button, remove_button)
     const manage_prompt = await interaction.reply({

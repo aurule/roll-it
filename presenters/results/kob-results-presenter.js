@@ -48,10 +48,16 @@ function presentMany({ sides, description, raw, summed, modifier = 0, t } = {}) 
   const t_args = {
     count: raw.length,
     description,
-    results: raw.map((result, idx) =>
-      "\t" + t("response.result", { result: summed[idx] + modifier, detail: module.exports.detail({ sides, raw: result, modifier }) })
-    )
-    .join("\n")
+    results: raw
+      .map(
+        (result, idx) =>
+          "\t" +
+          t("response.result", {
+            result: summed[idx] + modifier,
+            detail: module.exports.detail({ sides, raw: result, modifier }),
+          }),
+      )
+      .join("\n"),
   }
 
   const key_parts = ["response"]

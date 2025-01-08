@@ -59,7 +59,12 @@ function initialMessage(manager, error_message = "") {
     lines.push(t("state.initial.prompt.withoutDescription", main_args))
   }
 
-  lines.push(t("state.initial.prompt.timeliness", { attacker: manager.attacker, timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime) }))
+  lines.push(
+    t("state.initial.prompt.timeliness", {
+      attacker: manager.attacker,
+      timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime),
+    }),
+  )
 
   if (!manager.allow_retests) {
     lines.push(subtext(t("state.initial.prompt.noRetest")))
@@ -87,9 +92,9 @@ function initialMessageSummary(manager) {
   }
 
   if (manager.description) {
-    return(t("state.initial.summary.withDescription", t_args))
+    return t("state.initial.summary.withDescription", t_args)
   }
-  return(t("state.initial.summary.withoutDescription", t_args))
+  return t("state.initial.summary.withoutDescription", t_args)
 }
 
 /**
@@ -154,7 +159,9 @@ function statusPrompt(manager, error_message) {
   let lines = [
     statusSummary(manager),
     subtext(
-      manager.t("state.status.prompt.timer", { timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime) })
+      manager.t("state.status.prompt.timer", {
+        timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime),
+      }),
     ),
   ]
   if (error_message) lines.push(subtext(error_message))
@@ -171,7 +178,9 @@ function statusPrompt(manager, error_message) {
  */
 function statusSummary(manager) {
   let lines = [
-    initialMessageSummary(manager) + " " + manager.t("state.status.summary.retest", { retest_ability: manager.retest_ability }),
+    initialMessageSummary(manager) +
+      " " +
+      manager.t("state.status.summary.retest", { retest_ability: manager.retest_ability }),
     orderedList(manager.test_recorder.tests.map((test) => test.present())),
   ]
   return lines.join("\n")
@@ -236,7 +245,14 @@ function retestCancelPrompt(manager, error_message) {
   const retester = retest.retester
   const other = manager.opposition(retester.id)
 
-  const lines = [t("state.cancel.prompt", { retester, other, reason: retest.reason, timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime) })]
+  const lines = [
+    t("state.cancel.prompt", {
+      retester,
+      other,
+      reason: retest.reason,
+      timeout: time(manager.prompt_ends_at, TimestampStyles.RelativeTime),
+    }),
+  ]
 
   if (other.cancels) lines.push(subtext(t("state.cancel.special", { retester })))
   if (error_message) lines.push(subtext(error_message))
@@ -253,7 +269,10 @@ function retestCancelPrompt(manager, error_message) {
 function retestCancelMessage(manager) {
   const retest = manager.current_test
   const canceller = retest.canceller
-  return manager.t("state.cancel.response.cancelled", { canceller, cancelled_with: retest.cancelled_with })
+  return manager.t("state.cancel.response.cancelled", {
+    canceller,
+    cancelled_with: retest.cancelled_with,
+  })
 }
 
 /**

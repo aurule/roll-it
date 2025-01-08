@@ -69,7 +69,12 @@ describe("teamworkPresenter", () => {
     it("includes the description if given", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperRolledMessage("testflake", "test description", message, t)
+      const result = teamworkPresenter.helperRolledMessage(
+        "testflake",
+        "test description",
+        message,
+        t,
+      )
 
       expect(result).toMatch('"test description"')
     })
@@ -93,11 +98,7 @@ describe("teamworkPresenter", () => {
     it("includes the description if given", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperCancelledMessage(
-        "testflake",
-        "test description",
-        t,
-      )
+      const result = teamworkPresenter.helperCancelledMessage("testflake", "test description", t)
 
       expect(result).toMatch('"test description"')
     })
@@ -114,11 +115,7 @@ describe("teamworkPresenter", () => {
     it("includes the description if given", () => {
       const message = new Message()
 
-      const result = teamworkPresenter.helperTimeoutMessage(
-        "testflake",
-        "test description",
-        t,
-      )
+      const result = teamworkPresenter.helperTimeoutMessage("testflake", "test description", t)
 
       expect(result).toMatch('"test description"')
     })

@@ -114,15 +114,19 @@ function presentMany({ throw_request, vs_request, rolls, thrown, vs, compared, d
 
   if (vs_request !== "none") {
     const key_base = vs_request.includes("bomb") ? "response.chops.bomb" : "response.chops.random"
-    t_args.results = thrown.map((user_throw, idx) => {
-      const bot_throw = vs[idx]
-      const result = t(`response.outcome.${compared[idx]}`)
-      const detail = t(`${key_base}.${user_throw}-${bot_throw}`)
-      return "\t" + t(`response.vs.result`, { result, detail })
-    }).join("\n")
+    t_args.results = thrown
+      .map((user_throw, idx) => {
+        const bot_throw = vs[idx]
+        const result = t(`response.outcome.${compared[idx]}`)
+        const detail = t(`${key_base}.${user_throw}-${bot_throw}`)
+        return "\t" + t(`response.vs.result`, { result, detail })
+      })
+      .join("\n")
     key_parts.push("vs")
   } else {
-    t_args.results = thrown.map((user_throw, idx) => "\t" + t(`response.chops.bare.${user_throw}`)).join("\n")
+    t_args.results = thrown
+      .map((user_throw, idx) => "\t" + t(`response.chops.bare.${user_throw}`))
+      .join("\n")
     key_parts.push("bare")
   }
 

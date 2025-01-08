@@ -100,7 +100,16 @@ module.exports = {
 
     return new DrhPool(pool_name, raw)
   },
-  perform({ discipline, pain, exhaustion, madness, talent = "none", rolls = 1, description, locale = "en-US" } = {}) {
+  perform({
+    discipline,
+    pain,
+    exhaustion,
+    madness,
+    talent = "none",
+    rolls = 1,
+    description,
+    locale = "en-US",
+  } = {}) {
     const pool_options = new Collection([
       ["discipline", discipline],
       ["pain", pain],
@@ -136,18 +145,14 @@ module.exports = {
       case "minor":
       case "major":
         if (exhaustion === 0) {
-          return interaction.whisper(
-            t("options.talent.validation.exhaustion")
-          )
+          return interaction.whisper(t("options.talent.validation.exhaustion"))
         }
-        break;
+        break
       case "madness":
         if (madness === 0) {
-          return interaction.whisper(
-            t("options.talent.validation.madness")
-          )
+          return interaction.whisper(t("options.talent.validation.madness"))
         }
-        break;
+        break
     }
 
     const partial_message = module.exports.perform({

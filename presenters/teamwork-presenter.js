@@ -16,18 +16,23 @@ module.exports = {
     const expiry = new Date(Date.now() + timeout_ms)
     const lines = []
     if (description) {
-      lines.push(t("helper.prompt.withDescription", { leader: userMention(userFlake), description }))
+      lines.push(
+        t("helper.prompt.withDescription", { leader: userMention(userFlake), description }),
+      )
     } else {
       lines.push(t("helper.prompt.withoutDescription", { leader: userMention(userFlake) }))
     }
     lines.push("")
-    lines.push(t("helper.prompt.p2", { leader: userMention(userFlake), timeout: time(expiry, TimestampStyles.RelativeTime) }))
+    lines.push(
+      t("helper.prompt.p2", {
+        leader: userMention(userFlake),
+        timeout: time(expiry, TimestampStyles.RelativeTime),
+      }),
+    )
     return lines.join("\n")
   },
   helperProgressEmbed(bonuses, requested, t) {
-    const embed = new EmbedBuilder()
-      .setColor("#03b199")
-      .setTitle(t("helper.embed.title"))
+    const embed = new EmbedBuilder().setColor("#03b199").setTitle(t("helper.embed.title"))
 
     const iconChooser = (snowflake) => {
       return bonuses.hasAny(snowflake) ? ":white_check_mark:" : ":x:"
@@ -52,7 +57,9 @@ module.exports = {
   helperRolledMessage(userFlake, description, resultMessage, t) {
     let parts = []
     if (description) {
-      parts.push(t("helper.finished.withDescription", { leader: userMention(userFlake), description }))
+      parts.push(
+        t("helper.finished.withDescription", { leader: userMention(userFlake), description }),
+      )
     } else {
       parts.push(t("helper.finished.withoutDescription", { leader: userMention(userFlake) }))
     }
@@ -81,10 +88,7 @@ module.exports = {
   },
   teamworkSummaryMessage(leaderRollSummary, promptMessage, t) {
     const link = hyperlink(t("response.summary.linkText"), messageLink(promptMessage))
-    const lines = [
-      leaderRollSummary,
-      t("response.summary.body", { link }),
-    ]
+    const lines = [leaderRollSummary, t("response.summary.body", { link })]
     return lines.join("\n")
   },
   contributorEmbed(userFlake, initialPool, bonuses, t) {
@@ -97,7 +101,11 @@ module.exports = {
     if (bonuses.size) {
       embed.addFields({
         name: t("response.embed.helpers.header"),
-        value: bonuses.map((bonus, helperFlake) => t("response.embed.helpers.line", { bonus, helper: userMention(helperFlake) })).join("\n"),
+        value: bonuses
+          .map((bonus, helperFlake) =>
+            t("response.embed.helpers.line", { bonus, helper: userMention(helperFlake) }),
+          )
+          .join("\n"),
         inline: false,
       })
     }

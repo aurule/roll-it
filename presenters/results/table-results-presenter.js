@@ -20,7 +20,7 @@ module.exports = {
       description,
       userMention: userMention(userFlake),
       table: tableName,
-      results: results.map(r => `\t${r}`).join("\n"),
+      results: results.map((r) => `\t${r}`).join("\n"),
       context: description ? "desc" : "bare",
     }
     return t("response", t_args)

@@ -65,7 +65,15 @@ module.exports = {
     until: commonSchemas.until,
     description: commonSchemas.description,
   }),
-  perform({ pool, difficulty = 7, specialty, rolls = 1, until, description, locale = "en-US" } = {}) {
+  perform({
+    pool,
+    difficulty = 7,
+    specialty,
+    rolls = 1,
+    until,
+    description,
+    locale = "en-US",
+  } = {}) {
     let raw_results
     let summed_results
 

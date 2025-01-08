@@ -71,7 +71,9 @@ module.exports = {
     const target = change_target(adjustment, change, command.changeable)
 
     if (!command.changeable.includes(target)) {
-      return interaction.whisper(t("options.change.validation.missing", { target, command: present_command(command) }))
+      return interaction.whisper(
+        t("options.change.validation.missing", { target, command: present_command(command) }),
+      )
     }
 
     const old_number = roll_detail.options[target] ?? 0
@@ -81,12 +83,16 @@ module.exports = {
     try {
       await command.schema.validateAsync(roll_detail.options)
     } catch (err) {
-      return interaction.whisper(t("validation.invalid", { adjustment, target, message: err.details[0].message }))
+      return interaction.whisper(
+        t("validation.invalid", { adjustment, target, message: err.details[0].message }),
+      )
     }
 
     saved_rolls.update(roll_detail.id, { options: roll_detail.options })
 
-    return interaction.whisper(t("response.success", { target, name: roll_detail.name, old: old_number, new: new_number }))
+    return interaction.whisper(
+      t("response.success", { target, name: roll_detail.name, old: old_number, new: new_number }),
+    )
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

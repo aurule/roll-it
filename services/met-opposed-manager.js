@@ -326,10 +326,7 @@ class MetOpposedManager {
 
           if (!this.current_test.has(this.defender.id)) {
             event.update({
-              content: presenter.initialMessage(
-                this,
-                this.t("state.initial.validation.response")
-              ),
+              content: presenter.initialMessage(this, this.t("state.initial.validation.response")),
             })
             break
           }
@@ -469,7 +466,9 @@ class MetOpposedManager {
       .setPlaceholder(this.t("state.status.picker"))
       .setMinValues(1)
       .setMaxValues(1)
-      .addOptions(...this.t("state.status.retests", { returnObjects: true, ability: this.retest_ability }))
+      .addOptions(
+        ...this.t("state.status.retests", { returnObjects: true, ability: this.retest_ability }),
+      )
     rowRetest.addComponents(reasonPicker)
 
     const rowButtons = new ActionRowBuilder()
@@ -505,10 +504,7 @@ class MetOpposedManager {
 
           if (!retest_reason.has(event.user.id)) {
             event.update({
-              content: presenter.statusPrompt(
-                this,
-                this.t("state.status.validation.reason")
-              ),
+              content: presenter.statusPrompt(this, this.t("state.status.validation.reason")),
             })
             break
           }
@@ -635,10 +631,7 @@ class MetOpposedManager {
 
           if (!cancel_reason) {
             event.update({
-              content: presenter.retestCancelPrompt(
-                this,
-                this.t("state.cancel.validation.reason")
-              ),
+              content: presenter.retestCancelPrompt(this, this.t("state.cancel.validation.reason")),
             })
             break
           }
@@ -767,7 +760,7 @@ class MetOpposedManager {
               content: presenter.retestPrompt(
                 this,
                 throws,
-                this.t("state.retest.validation.throw")
+                this.t("state.retest.validation.throw"),
               ),
             })
             break

@@ -61,9 +61,14 @@ class NwodPresenter {
   presentResults() {
     const t_args = {
       description: this.description,
-      results: this.raw.map((result, index) => {
-        return "\t" + this.t("response.result", { tally: this.xtally(index), detail: this.notateDice(index) })
-      }).join("\n"),
+      results: this.raw
+        .map((result, index) => {
+          return (
+            "\t" +
+            this.t("response.result", { tally: this.xtally(index), detail: this.notateDice(index) })
+          )
+        })
+        .join("\n"),
       tally: this.xtally(0),
       detail: this.notateDice(0),
       pool: this.xpool(),
@@ -111,10 +116,12 @@ class NwodPresenter {
     const dice_key = this.chance ? "response.pool.dice.chance" : "response.pool.dice.total"
     const dice = this.t(dice_key, { count: this.pool })
 
-    const threshold_key = this.threshold === 10 ? "response.pool.threshold.max" : "response.pool.threshold.lower"
+    const threshold_key =
+      this.threshold === 10 ? "response.pool.threshold.max" : "response.pool.threshold.lower"
     const threshold = this.t(threshold_key, { threshold: this.threshold })
 
-    const explode_key = this.explode > 10 ? "response.pool.explode.none" : "response.pool.explode.less"
+    const explode_key =
+      this.explode > 10 ? "response.pool.explode.none" : "response.pool.explode.less"
     const explode = this.t(explode_key, { explode: this.explode })
 
     const key_parts = ["response.pool.explanation"]

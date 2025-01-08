@@ -117,7 +117,9 @@ module.exports = {
       try {
         parsed_invocation = await parse(invocation)
       } catch (err) {
-        return interaction.whisper(t("response.error.invocation", { name: raw_options.name, message: err.message }))
+        return interaction.whisper(
+          t("response.error.invocation", { name: raw_options.name, message: err.message }),
+        )
       }
 
       // with a valid invocation, we can skip the incomplete flag and make a new saved roll directly
