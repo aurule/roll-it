@@ -8,22 +8,6 @@ const emoji = [
   "<:fatezero:1280545382698324068>",
   "<:fatepos:1280545364386119730>",
 ]
-const ladder = [
-  "Impossible",
-  "Catastrophic",
-  "Awful",
-  "Terrible",
-  "Poor",
-  "Mediocre",
-  "Average",
-  "Fair",
-  "Good",
-  "Great",
-  "Superb",
-  "Fantastic",
-  "Epic",
-  "Legendary",
-]
 
 module.exports = {
   /**
@@ -55,9 +39,10 @@ module.exports = {
    * @return {String}                           String describing the roll results
    */
   presentOne: ({ description, raw, summed, modifier, t }) => {
+    const ladder_index = summed[0] + modifier + 5
     const t_args = {
       description,
-      result: module.exports.toLadder(summed[0] + modifier),
+      result: t(`ladder.${ladder_index}`),
       detail: module.exports.detail(raw[0], modifier),
       count: raw.length,
     }
@@ -88,8 +73,9 @@ module.exports = {
       description,
       count: raw.length,
       results: raw.map((result, index) => {
+        const ladder_index = summed[index] + modifier + 5
         const res_args = {
-          ladder: module.exports.toLadder(summed[index] + modifier),
+          ladder: t(`ladder.${ladder_index}`),
           detail: module.exports.detail(result, modifier),
         }
         return `\t${t("response.result", res_args)}`
@@ -105,23 +91,6 @@ module.exports = {
 
     const key = key_parts.join(".")
     return t(key, t_args)
-  },
-
-  /**
-   * Show a fate result on the ladder with signed number
-   *
-   * @param  {Int}    num Roll result
-   * @return {String}     String with the ladder name and signed result
-   */
-  toLadder: (num) => {
-    const index = num + 5
-
-    let content = ["**", indeterminate(ladder[index]), " ("]
-    if (num > 0) content.push("+")
-    content.push(num)
-    content.push(")**")
-
-    return content.join("")
   },
 
   /**

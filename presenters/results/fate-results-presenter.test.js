@@ -84,23 +84,3 @@ describe("detail", () => {
     expect(result).not.toMatch(" + ")
   })
 })
-
-describe("toLadder", () => {
-  it("shows the ladder name", () => {
-    const result = FateResultsPresenter.toLadder(3)
-
-    expect(result).toMatch("Good")
-  })
-
-  it("shows signed negative result", () => {
-    const result = FateResultsPresenter.toLadder(-2)
-
-    expect(result).toMatch("-2")
-  })
-
-  it("shows signed positive result", () => {
-    const result = FateResultsPresenter.toLadder(3)
-
-    expect(result).toMatch("+3")
-  })
-})

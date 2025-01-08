@@ -210,6 +210,21 @@ drh:
         exhaustion: a **failure** dominated by **exhaustion**
         pain: a **failure** dominated by **pain**
 fate:
+  ladder:
+    - an **Impossible** failure (-5)
+    - a **Catastrophic** failure (-4)
+    - an **Awful** failure (-3)
+    - a **Terrible** failure (-2)
+    - a **Poor** result (-1)
+    - a **Mediocre** result (0)
+    - an **Average** success (+1)
+    - a **Fair** success (+2)
+    - a **Good** success (+3)
+    - a **Great** success (+4)
+    - a **Superb** success (+5)
+    - a **Fantastic** success (+6)
+    - an **Epic** success (+7)
+    - a **Legendary** success (+8)
   response:
     withDescription_one: |-
       {{userMention}} rolled {{result}} for "{{description}}": {{detail}}
