@@ -4,10 +4,12 @@ const Backend = require("i18next-fs-backend")
 
 i18next.use(Backend).init({
   debug: process.env.NODE_ENV === "development",
-  fallbackLng: "en-US",
+  fallbackLng: {
+    default: ["en-US"],
+  },
   lng: "en-US",
   defaultLng: "en-US",
-  supportedLngs: ["en-US"],
+  supportedLngs: ["en-US", "en"],
   initAsync: false,
   ns: ["translation", "commands", "teamwork", "opposed"],
   backend: {
