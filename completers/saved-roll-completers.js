@@ -13,10 +13,10 @@ module.exports = {
    * @return {obj[]}             Array of choice objects
    */
   saved_roll(partialText, saved_rolls) {
-    const search = partialText.toLowerCase()
+    const search = partialText.normalize().toLowerCase()
 
     const matches = saved_rolls
-      .filter((t) => t.name.toLowerCase().startsWith(search))
+      .filter((t) => t.name.normalize().toLowerCase().startsWith(search))
       .slice(0, 25)
       .map((t) => {
         return {
@@ -37,7 +37,7 @@ module.exports = {
    * @return {obj[]}                       Array of choice objects
    */
   change_target(partialText, saved_rolls, interaction_options) {
-    const search = partialText.toLowerCase()
+    const search = partialText.normalize().toLowerCase()
 
     const name = interaction_options.getString("name")
     const saved_roll = saved_rolls.find((r) => r.id == name || r.name == name)

@@ -13,10 +13,10 @@ module.exports = {
    * @return {obj[]}             Array of choice objects
    */
   table(partialText, tables) {
-    const search = partialText.toLowerCase()
+    const search = partialText.normalize().toLowerCase()
 
     const matches = tables
-      .filter((t) => t.name.toLowerCase().startsWith(search))
+      .filter((t) => t.name.normalize().toLowerCase().startsWith(search))
       .slice(0, 25)
       .map((t) => {
         return {

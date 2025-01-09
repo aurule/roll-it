@@ -7,8 +7,8 @@ module.exports = {
    */
   all(partialText) {
     const commands = require("../commands")
-    const search = partialText.toLowerCase()
+    const search = partialText.normalize().toLowerCase()
 
-    return commands.all_choices.filter((c) => c.name.toLowerCase().startsWith(search)).slice(0, 25)
+    return commands.all_choices.filter((c) => c.name.normalize().toLowerCase().startsWith(search)).slice(0, 25)
   },
 }
