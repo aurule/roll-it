@@ -1,3 +1,1 @@
 ---
-pagination:
-  suffix: "(message {{page_num}}/{{page_count}})"
