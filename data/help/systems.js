@@ -52,8 +52,16 @@ module.exports = {
           chance rolls, the rote benefit, and has an interactive teamwork mode.
         `,
         oneLine`
+          Powered by the Apocalypse: ${cmd.get("pba")}. Accelerator for rolling 2d6 with a modifier. Should
+          work for all games using this core system.
+        `,
+        oneLine`
           Shadowrun 4e, 5e, 6e: ${cmd.get("shadowrun")}. Handles glitches, the rule of six, and has an
           interactive teamwork mode.
+        `,
+        oneLine`
+          Stars Without Number: ${cmd.get("d20")} and ${cmd.get("swn")}. Handles dropping the lowest when you
+          have more than two skill dice. Also great for Worlds Without Number and Cities Without Number.
         `,
         oneLine`
           World of Darkness 20th Anniversary Edition: ${cmd.get("wod20")}. Rolls and tallies, with support
