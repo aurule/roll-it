@@ -20,12 +20,13 @@ const api = require("../services/api")
 const { arrayEq } = require("../util/array-eq")
 const { systems } = require("../data")
 const { pluralize, capitalize, inlineList } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 const timeout_ms = 120_000 // 2 minute timeout
 
 module.exports = {
   name: "setup-roll-it",
-  description: "Set up Roll It with the commands you need",
+  description: i18n.t("commands:setup-roll-it.description"),
   global: true,
   data() {
     return new SlashCommandBuilder()

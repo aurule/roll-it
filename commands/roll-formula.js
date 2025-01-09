@@ -9,10 +9,11 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { operator } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "roll-formula",
-  description: "Roll a combination of dice and complex modifiers",
+  description: i18n.t("commands:roll-formula.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

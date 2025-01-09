@@ -8,6 +8,7 @@ const { keepFromArray, strategies } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 function with_to_keep(value) {
   switch (value) {
@@ -22,7 +23,7 @@ function with_to_keep(value) {
 
 module.exports = {
   name: "curv",
-  description: "Roll 3d6 for D&D 5e",
+  description: i18n.t("commands:curv.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

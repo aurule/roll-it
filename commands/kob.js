@@ -8,10 +8,11 @@ const { present } = require("../presenters/results/kob-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "kob",
-  description: "Roll an exploding die for Kids On Bikes",
+  description: i18n.t("commands:kob.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

@@ -16,7 +16,7 @@ const { i18n } = require("../../locales")
 module.exports = {
   name: "manage",
   parent: "table",
-  description: "Explain or remove a table",
+  description: i18n.t("commands:table.manage.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

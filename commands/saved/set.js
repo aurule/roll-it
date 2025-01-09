@@ -52,7 +52,7 @@ const options_schema = Joi.object({
 module.exports = {
   name: "set",
   parent: "saved",
-  description: "Set the name and description of a saved roll",
+  description: i18n.t("commands:saved.set.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

@@ -19,7 +19,7 @@ const { i18n } = require("../locales")
 
 module.exports = {
   name: "drh",
-  description: "Roll pools of d6s for Don't Rest Your Head",
+  description: i18n.t("commands:drh.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

@@ -2,12 +2,13 @@ const { SlashCommandBuilder, inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
+const { i18n } = require("../locales")
 
 const subcommands = loadSubcommands("met")
 
 module.exports = {
   name: "met",
-  description: "Roll rock-paper-scissors for MET, or start an opposed test",
+  description: i18n.t("commands:met.description"),
   subcommands,
   data() {
     return new SlashCommandBuilder()

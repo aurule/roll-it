@@ -15,8 +15,9 @@ require("dotenv").config()
 const botId = process.env.CLIENT_ID
 
 module.exports = {
+  id: "save-this-roll",
   name: "Save this roll",
-  description: "Save a roll you've made to reuse it later",
+  description: i18n.t("commands:save-this-roll.description"),
   type: "menu",
   global: true,
   data: () =>

@@ -4,12 +4,13 @@ const { oneLine } = require("common-tags")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const TopicNamePresenter = require("../presenters/topic-name-presenter")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
+const { i18n } = require("../locales")
 
 const subcommands = loadSubcommands("help")
 
 module.exports = {
   name: "help",
-  description: "Get help with Roll It and its commands",
+  description: i18n.t("commands:help.description"),
   global: true,
   subcommands,
   data() {

@@ -9,7 +9,7 @@ const { i18n } = require("../../locales")
 module.exports = {
   name: "feedback",
   parent: "help",
-  description: "Send feedback to Roll It's creator",
+  description: i18n.t("commands:help.feedback.description"),
   data() {
     return new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

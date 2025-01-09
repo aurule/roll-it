@@ -6,11 +6,12 @@ const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/results/met-static-results-presenter")
 const { injectMention } = require("../../util/formatters")
+const { i18n } = require("../../locales")
 
 module.exports = {
   name: "static",
   parent: "met",
-  description: "Make a MET rock-paper-scissors roll",
+  description: i18n.t("commands:met.static.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

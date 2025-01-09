@@ -7,10 +7,11 @@ const { present } = require("../presenters/results/singleton-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "d100",
-  description: "Roll a single percentile (100-sided) die",
+  description: i18n.t("commands:d100.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

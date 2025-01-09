@@ -8,10 +8,11 @@ const { fudge } = require("../services/tally")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "fate",
-  description: "Make a FATE roll of four fudge dice",
+  description: i18n.t("commands:fate.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

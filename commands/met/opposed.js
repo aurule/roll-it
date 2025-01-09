@@ -9,7 +9,7 @@ const { i18n } = require("../../locales")
 module.exports = {
   name: "opposed",
   parent: "met",
-  description: "Start an interactive, opposed MET rock-paper-scissors test",
+  description: i18n.t("commands:met.opposed.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

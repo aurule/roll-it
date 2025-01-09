@@ -9,7 +9,7 @@ const commonOpts = require("../../util/common-options")
 module.exports = {
   name: "roll",
   parent: "table",
-  description: "Roll a random entry from a table",
+  description: i18n.t("commands:table.roll.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

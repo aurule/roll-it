@@ -9,10 +9,11 @@ const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { pickDice } = require("../services/pick")
 const { pickedSum } = require("../services/tally")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "swn",
-  description: "Roll and sum two six-sided dice using rules for Stars Without Number",
+  description: i18n.t("commands:swn.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

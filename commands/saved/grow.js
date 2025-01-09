@@ -13,7 +13,7 @@ function change_target(bonus, change, changeable) {
 module.exports = {
   name: "grow",
   parent: "saved",
-  description: "Make a small change to a saved roll",
+  description: i18n.t("commands:saved.grow.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

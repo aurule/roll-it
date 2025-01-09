@@ -17,7 +17,7 @@ const { i18n } = require("../../locales")
 module.exports = {
   name: "manage",
   parent: "saved",
-  description: "Change or remove a saved roll",
+  description: i18n.t("commands:saved.manage.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

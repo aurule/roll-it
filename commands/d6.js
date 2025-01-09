@@ -8,10 +8,11 @@ const { present } = require("../presenters/results/roll-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "d6",
-  description: "Roll some six-sided dice",
+  description: i18n.t("commands:d6.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)

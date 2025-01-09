@@ -92,7 +92,7 @@ const contents_schema = Joi.array()
 module.exports = {
   name: "add",
   parent: "table",
-  description: "Upload a new rollable table",
+  description: i18n.t("commands:table.add.description"),
   data: () =>
     new SlashCommandSubcommandBuilder()
       .setName(module.exports.name)

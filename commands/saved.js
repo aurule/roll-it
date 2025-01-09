@@ -3,12 +3,13 @@ const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
+const { i18n } = require("../locales")
 
 const subcommands = loadSubcommands("saved")
 
 module.exports = {
   name: "saved",
-  description: "Save your most common rolls and re-use them",
+  description: i18n.t("commands:saved.description"),
   global: true,
   subcommands,
   data() {

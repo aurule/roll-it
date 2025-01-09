@@ -3,12 +3,13 @@ const { oneLine } = require("common-tags")
 
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 const { siteLink } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 const subcommands = loadSubcommands("table")
 
 module.exports = {
   name: "table",
-  description: "Add, manage, and roll on random tables",
+  description: i18n.t("commands:table.description"),
   subcommands,
   data() {
     return new SlashCommandBuilder()

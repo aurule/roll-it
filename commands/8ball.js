@@ -6,17 +6,18 @@ const { present } = require("../presenters/results/8ball-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const { i18n } = require("../locales")
 
 module.exports = {
   name: "8ball",
-  description: "Get an answer from the Magic 8 Ball",
+  description: i18n.t("commands:8ball.description"),
   data: () =>
     new SlashCommandBuilder()
       .setName(module.exports.name)
+      .setDescription(module.exports.description)
       .addStringOption((option) =>
         option.setName("question").setRequired(true).setDescription("The question you want to ask"),
       )
-      .setDescription(module.exports.description)
       .addBooleanOption((option) => option.setName("doit").setDescription("Do it"))
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({
