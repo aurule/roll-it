@@ -1,5 +1,6 @@
 ---
 8ball:
+  name: 8ball
   description: Get an answer from the Magic 8 Ball
   faces:
     - null
@@ -29,10 +30,12 @@
   help: |-
     {{command_name}} asks a question of the Magic 8 Ball.
 chop:
+  name: chop
   description: Make a rock-paper-scissors roll
   response:
     shortcut: This command is a shortcut. Try `/met static` instead.
 coin:
+  name: coin
   description: Flip a coin
   faces:
     - null
@@ -50,6 +53,7 @@ coin:
       withoutDescription: >-
         {{userMention}} flipped a coin. They got **{{result}}**.
 curv:
+  name: curv
   description: Roll 3d6 for D&D 5e
   crit: "**a crit!** with {{sum}}"
   response:
@@ -86,10 +90,13 @@ curv:
         {{userMention}} rolled {{count}} times:
         {{results}}
 d10:
+  name: d10
   description: Roll a single ten-sided die
 d100:
+  name: d100
   description: Roll a single percentile (100-sided) die
 d20:
+  name: d20
   description: Roll a single 20-sided die
   response:
     result:
@@ -134,8 +141,10 @@ d20:
       nomod: >-
         {{userMention}} rolled **{{result}}**
 d6:
+  name: d6
   description: Roll some six-sided dice
 drh:
+  name: drh
   description: Roll pools of d6s for Don't Rest Your Head
   strength:
     discipline: discipline
@@ -224,6 +233,7 @@ drh:
         exhaustion: a **failure** dominated by **exhaustion**
         pain: a **failure** dominated by **pain**
 fate:
+  name: fate
   description: Make a FATE roll of four fudge dice
   ladder:
     - an **Impossible** failure
@@ -254,8 +264,10 @@ fate:
     result: |-
       **{{total}}**, {{ladder}}: {{detail}}
 help:
+  name: help
   description: Get help with Roll It and its commands
   command:
+    name: command
     description: Get help about a command
     options:
       command:
@@ -293,17 +305,20 @@ help:
       opt_required: >-
         `{{name}}` (required) {{description}}
   feedback:
+    name: feedback
     description: Send feedback to Roll It's creator
     response:
       banned: You are not allowed to use this command right now.
       success: Thank you! Your feedback has been recorded.
   topic:
+    name: topic
     description: Get help about a topic
     options:
       topic:
         validation:
           unavailable: No help is available for the topic "{{topic_name}}"
 kob:
+  name: kob
   description: Roll an exploding die for Kids On Bikes
   response:
     withDescription_one: |-
@@ -319,14 +334,17 @@ kob:
     result: |-
       **{{result}}** ({{detail}})
 met:
+  name: met
   description: Roll rock-paper-scissors for MET, or start an opposed test
   opposed:
+    name: opposed
     description: Start an interactive, opposed MET rock-paper-scissors test
     options:
       opponent:
         validation:
           self: You cannot challenge yourself to an opposed test.
   static:
+    name: static
     description: Make a MET rock-paper-scissors roll
     response:
       outcome:
@@ -398,6 +416,7 @@ met:
           {{userMention}} rolled {{count}} times:
           {{results}}
 nwod:
+  name: nwod
   description: Roll a pool of d10s using rules for New World of Darkness
   options:
     teamwork:
@@ -501,8 +520,10 @@ nwod:
         - perceive
       message: You saw the hummingbird!
 pba:
+  name: pba
   description: Roll and sum two six-sided dice
 roll-formula:
+  name: roll-formula
   description: Roll a combination of dice and complex modifiers
   response:
     disabled: "Error: Function {{fnName}} is disabled"
@@ -528,6 +549,7 @@ roll-formula:
       {{userMention}} rolled {{count}} times on `{{formula}}`:
       {{details}}
 roll:
+  name: roll
   description: Roll a set of plain dice
   response:
     withDescription_one: |-
@@ -542,6 +564,7 @@ roll:
       {{results}}
     result: "**{{total}}** ({{detail}})"
 save-this-roll:
+  name: Save this roll
   description: Save a roll you've made to reuse it later
   response:
     incomplete: You've saved the command for a new roll. Now use `/saved set` to set
@@ -557,6 +580,7 @@ save-this-roll:
       That command's options cannot be saved, which means you found a bug! This is what went wrong while saving `{{command.name}}`:
       * {{messages}}
 saved:
+  name: saved
   description: Save your most common rolls and re-use them
   entry:
     details:
@@ -615,6 +639,7 @@ saved:
         -# :warning: means that roll is incomplete
         -# :x: means that roll is not valid
   grow:
+    name: grow
     description: Make a small change to a saved roll
     options:
       name:
@@ -635,8 +660,10 @@ saved:
         This roll would be invalid after adding {{adjustment}} to `{{target}}`, so it has not been changed. The error is:
         * {{message}}
   list:
+    name: list
     description: List the rolls you've saved on this server
   manage:
+    name: manage
     description: Change or remove a saved roll
     options:
       name:
@@ -673,6 +700,7 @@ saved:
           cancel: Cancelled!
           success: The roll *{{name}}* has been removed.
   roll:
+    name: roll
     description: Use one of your saved rolls
     options:
       name:
@@ -689,6 +717,7 @@ saved:
         * {{message}}
       invalid: The saved options for this roll are no longer valid. You'll have to update them before you can use this saved roll.
   set:
+    name: set
     description: Set the name and description of a saved roll
     response:
       error:
@@ -703,8 +732,10 @@ saved:
         command and choose *Apps -> Save this roll* to add that command and its options to "{{name}}".
       complete: You've saved the roll *{{name}}*! Try it out with `/saved roll name:{{name}}`.
 setup-roll-it:
+  name: setup-roll-it
   description: Set up Roll It with the commands you need
 shadowrun:
+  name: shadowrun
   description: Roll a pool of d6s for Shadowrun
   options:
     teamwork:
@@ -798,6 +829,7 @@ singleton:
         {{results}}
       result: "**{{total}}**"
 swn:
+  name: swn
   description: Roll and sum two six-sided dice using rules for Stars Without Number
   response_desc_one: |-
     {{userMention}} rolled **{{total}}** for "{{description}}" ({{detail}})
@@ -812,13 +844,16 @@ swn:
   result: |-
     **{{total}}** ({{detail}})
 table:
+  name: table
   description: Add, manage, and roll on random tables
   add:
+    name: add
     description: Upload a new rollable table
     response:
       success: >
         {{user}} created the table *{{name}}*! You can roll on it with `/table roll name:{{name}}`.
   list:
+    name: list
     description: List the tables on this server
     response:
       none: There are no tables to roll. Add some with `/table add`!
@@ -830,6 +865,7 @@ table:
         {{tables}}
       entry: "*{{table.name}}* - {{table.description}}"
   manage:
+    name: manage
     description: Explain or remove a table
     options:
       name:
@@ -861,6 +897,7 @@ table:
             These are the entries in the *{{name}}* table:
             {{contents}}
   roll:
+    name: roll
     description: Roll a random entry from a table
     options:
       name:
@@ -879,6 +916,7 @@ table:
       {{userMention}} rolled {{count}} times on the table *{{table}}* and got:
       {{results}}
 wod20:
+  name: wod20
   description: Roll a pool of d10s using rules for World of Darkness 20th Anniversary
   options:
     teamwork:
