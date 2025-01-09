@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, inlineCode, userMention, italic } = require("discord.js")
+const { SlashCommandSubcommandBuilder, inlineCode, userMention, italic, MessageFlags } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 const { GuildRollables } = require("../../db/rollable")
@@ -143,7 +143,7 @@ module.exports = {
     } catch (err) {
       return interaction.editReply({
         content: err.details[0].message,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       })
     }
 
@@ -156,7 +156,6 @@ module.exports = {
     } catch (err) {
       return interaction.editReply({
         content: err.details[0].message,
-        ephemeral: true,
       })
     }
 

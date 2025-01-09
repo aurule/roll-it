@@ -9,6 +9,7 @@ class Message {
     embeds = [],
     guildId,
     channelId,
+    flags = 0,
   } = {}) {
     this.id = simpleflake()
     this.guildId = guildId ?? simpleflake()
@@ -19,6 +20,7 @@ class Message {
     this.ephemeral = ephemeral
     this.components = components
     this.embeds = embeds
+    this.flags = flags
   }
 
   async react(emoji) {

@@ -1,6 +1,6 @@
 const whisper = require("./whisper")
 
-const { CommandInteraction } = require("discord.js")
+const { CommandInteraction, MessageFlags } = require("discord.js")
 
 class PatchMeWhisper {
   reply(args) {
@@ -34,6 +34,6 @@ describe("whisper", () => {
 
     const result = fake.whisper("test message")
 
-    expect(result.ephemeral).toEqual(true)
+    expect(result.flags).toEqual(MessageFlags.Ephemeral)
   })
 })

@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder } = require("discord.js")
+const { SlashCommandSubcommandBuilder, MessageFlags } = require("discord.js")
 const { presentList } = require("../../presenters/table-list-presenter")
 const { GuildRollables } = require("../../db/rollable")
 const { i18n } = require("../../locales")

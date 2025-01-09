@@ -15,6 +15,7 @@ const {
   ActionRowBuilder,
   ComponentType,
   UserSelectMenuBuilder,
+  MessageFlags,
 } = require("discord.js")
 const teamworkPresenter = require("../presenters/teamwork-presenter")
 const { bonusOptions, timeout_ms } = require("../util/teamwork-settings")
@@ -89,7 +90,7 @@ module.exports = {
     const leader_prompt = await interaction.reply({
       content: teamworkPresenter.leaderPromptMessage(userFlake, t),
       components: [user_row, buttons_row],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     })
 
     const bonus_selector = new StringSelectMenuBuilder()

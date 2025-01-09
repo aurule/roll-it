@@ -2,7 +2,7 @@
  * This patch creates a small helper method named "whisper" on all command interaction objects.
  */
 
-const { CommandInteraction } = require("discord.js")
+const { CommandInteraction, MessageFlags } = require("discord.js")
 
 module.exports = {
   /**
@@ -20,7 +20,7 @@ module.exports = {
     klass.prototype.whisper = function (content) {
       return this.reply({
         content,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       })
     }
   },

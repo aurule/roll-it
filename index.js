@@ -3,6 +3,7 @@ require("dotenv").config()
 
 require("./patches/whisper").patch()
 require("./patches/paginate").patch()
+require("./patches/roll-reply").patch()
 
 const { version } = require("./package.json")
 

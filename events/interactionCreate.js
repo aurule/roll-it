@@ -1,3 +1,4 @@
+const { MessageFlags } = require("discord.js")
 const { logger } = require("../util/logger")
 const { getReplyFn } = require("../util/getReplyFn")
 const { metrics } = require("../db/stats")
@@ -116,7 +117,7 @@ module.exports = {
         return interaction[fn]({
           content: "There was an error while executing this command!",
           components: [],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         })
       })
     }

@@ -2,7 +2,7 @@
  * This patch creates a helper method named "paginate" on all command interaction objects.
  */
 
-const { CommandInteraction, subtext } = require("discord.js")
+const { CommandInteraction, subtext, MessageFlags } = require("discord.js")
 const { ceil } = require("mathjs")
 const { i18n } = require("../locales")
 
@@ -89,7 +89,9 @@ module.exports = {
       for (let idx = 0; idx < contents.length; idx++) {
         const reply_args = {
           content: contents[idx],
-          ephemeral: !!ephemeral,
+        }
+        if (ephemeral) {
+          reply_args.flags = MessageFlags.Ephemeral
         }
 
         if (this.replied) await this.followUp(reply_args)

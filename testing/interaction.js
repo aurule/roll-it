@@ -151,6 +151,7 @@ class Interaction {
 
 require("../patches/whisper").patch(Interaction)
 require("../patches/paginate").patch(Interaction)
+require("../patches/roll-reply").patch(Interaction)
 
 module.exports = {
   Interaction,

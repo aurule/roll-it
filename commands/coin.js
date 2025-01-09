@@ -49,10 +49,7 @@ module.exports = {
       locale: interaction.locale,
     })
 
-    return interaction.reply({
-      content: injectMention(partial_message, interaction.user.id),
-      ephemeral: secret,
-    })
+    return interaction.rollReply(injectMention(partial_message, interaction.user.id), secret)
   },
   help({ command_name }) {
     return `${command_name} flips a single coin and displays the result as heads or tails.`

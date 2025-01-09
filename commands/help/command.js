@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder } = require("discord.js")
+const { SlashCommandSubcommandBuilder, MessageFlags } = require("discord.js")
 const CommandHelpPresenter = require("../../presenters/command-help-presenter")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const Completers = require("../../completers/command-completers")
@@ -33,7 +33,7 @@ module.exports = {
     const full_text = CommandHelpPresenter.present(command)
     return interaction.paginate({
       content: full_text,
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     })
   },
   async autocomplete(interaction) {

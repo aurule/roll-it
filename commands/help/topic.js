@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, heading } = require("discord.js")
+const { SlashCommandSubcommandBuilder, heading, MessageFlags } = require("discord.js")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const topics = require("../../data").help_topics
 const { i18n } = require("../../locales")

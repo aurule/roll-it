@@ -6,6 +6,7 @@ const {
   ComponentType,
   italic,
   orderedList,
+  MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Completers = require("../../completers/table-completers")
@@ -63,7 +64,7 @@ module.exports = {
         "\n",
       ),
       components: [manage_actions],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     })
 
     const manageHandler = async (event) => {
@@ -93,7 +94,7 @@ module.exports = {
           const remove_chicken = await manage_prompt.edit({
             content: t("state.remove.prompt", { name: detail.name }),
             components: [remove_actions],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           })
 
           remove_chicken
@@ -107,7 +108,7 @@ module.exports = {
                 manage_prompt.edit({
                   content: t("state.remove.response.cancel"),
                   components: [],
-                  ephemeral: true,
+                  flags: MessageFlags.Ephemeral,
                 })
                 return interaction
               }
@@ -117,7 +118,7 @@ module.exports = {
               return manage_prompt.edit({
                 content: t("state.remove.response.success", { name: detail.name }),
                 components: [],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
               })
             })
             .catch(() => {

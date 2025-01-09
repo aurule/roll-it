@@ -9,6 +9,7 @@ const {
   inlineCode,
   time,
   TimestampStyles,
+  MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 
@@ -34,7 +35,7 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: true })
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral })
 
     const commands = require("./index")
     const deployable_commands = commands.deployable

@@ -45,10 +45,7 @@ module.exports = {
 
     const partial_message = module.exports.perform({ question, doit, locale: interaction.locale })
     const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.reply({
-      content: full_text,
-      ephemeral: secret,
-    })
+    return interaction.rollReply(full_text, secret)
   },
   help({ command_name }) {
     return `${command_name} asks a question of the Magic 8 Ball.`

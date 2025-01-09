@@ -6,6 +6,7 @@ const {
   ComponentType,
   italic,
   inlineCode,
+  MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
@@ -75,7 +76,7 @@ module.exports = {
     const manage_prompt = await interaction.reply({
       content: manage_text,
       components: [manage_actions],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     })
 
     const manageHandler = async (event) => {
@@ -87,14 +88,14 @@ module.exports = {
             return manage_prompt.edit({
               content: t("state.edit.response.incomplete", { name: detail.name }),
               components: [],
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             })
           }
 
           return manage_prompt.edit({
             content: t("state.edit.response.success", { name: detail.name }),
             components: [],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           })
         case "no-edit":
           const command = require("../index").get(detail.command)
@@ -107,7 +108,7 @@ module.exports = {
             return manage_prompt.edit({
               content: t("state.stop.response.invalid", { name: detail.name }),
               components: [],
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             })
           }
 
@@ -116,7 +117,7 @@ module.exports = {
           return manage_prompt.edit({
             content: t("state.stop.response.success"),
             components: [],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           })
         case "remove":
           const remove_cancel = new ButtonBuilder()
@@ -131,7 +132,7 @@ module.exports = {
           const remove_chicken = await manage_prompt.edit({
             content: t("state.remove.prompt"),
             components: [remove_actions],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           })
 
           remove_chicken
@@ -145,7 +146,7 @@ module.exports = {
                 manage_prompt.edit({
                   content: t("state.remove.response.cancel"),
                   components: [],
-                  ephemeral: true,
+                  flags: MessageFlags.Ephemeral,
                 })
                 return interaction
               }
@@ -155,7 +156,7 @@ module.exports = {
               return manage_prompt.edit({
                 content: t("state.remove.response.success", { name: detail.name }),
                 components: [],
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
               })
             })
             .catch(() => {

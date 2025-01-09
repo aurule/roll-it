@@ -1,6 +1,6 @@
 const paginate = require("./paginate")
 
-const { CommandInteraction } = require("discord.js")
+const { CommandInteraction, MessageFlags } = require("discord.js")
 
 class PatchMePaginate {
   messages = []
@@ -49,7 +49,7 @@ describe("paginate", () => {
         ephemeral: true,
       })
 
-      expect(fake.messages[0].ephemeral).toEqual(true)
+      expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
     })
   })
 
@@ -76,8 +76,8 @@ describe("paginate", () => {
         ephemeral: true,
       })
 
-      expect(fake.messages[0].ephemeral).toEqual(true)
-      expect(fake.messages[1].ephemeral).toEqual(true)
+      expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
+      expect(fake.messages[1].flags).toEqual(MessageFlags.Ephemeral)
     })
   })
 })
