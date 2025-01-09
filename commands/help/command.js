@@ -33,7 +33,7 @@ module.exports = {
     const full_text = CommandHelpPresenter.present(command)
     return interaction.paginate({
       content: full_text,
-      flags: MessageFlags.Ephemeral,
+      secret: true,
     })
   },
   async autocomplete(interaction) {

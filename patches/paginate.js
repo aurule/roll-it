@@ -78,19 +78,19 @@ module.exports = {
      * Split a long message if needed and send in multiple replies
      *
      * @param  {str}         content    The potentially long string to send
-     * @param  {bool}        ephemeral  Whether the messages should be ephemeral
+     * @param  {bool}        secret  Whether the messages should be ephemeral
      * @param  {str}         split_on   String to use when separating the content
      * @param  {int}         max_length Maximum length of a single message
      * @return {Interaction}            Interaction object
      */
-    klass.prototype.paginate = async function ({ content, ephemeral, split_on, max_length }) {
+    klass.prototype.paginate = async function ({ content, secret, split_on, max_length }) {
       const contents = splitMessage(content, split_on, max_length, this.locale)
 
       for (let idx = 0; idx < contents.length; idx++) {
         const reply_args = {
           content: contents[idx],
         }
-        if (ephemeral) {
+        if (secret) {
           reply_args.flags = MessageFlags.Ephemeral
         }
 

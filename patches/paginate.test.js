@@ -46,7 +46,7 @@ describe("paginate", () => {
       await fake.paginate({
         content: "I am surprisingly short, actually.",
         max_length: 100,
-        ephemeral: true,
+        secret: true,
       })
 
       expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
@@ -73,7 +73,7 @@ describe("paginate", () => {
         content:
           "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
         max_length: 100,
-        ephemeral: true,
+        secret: true,
       })
 
       expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)

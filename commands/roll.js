@@ -77,7 +77,7 @@ module.exports = {
     return interaction.paginate({
       content: full_text,
       split_on: "\n\t",
-      ephemeral: secret,
+      secret,
     })
   },
   help({ command_name, ...opts }) {

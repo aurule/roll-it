@@ -79,7 +79,7 @@ module.exports = {
           return interaction.paginate({
             content: full_text,
             split_on: "\n",
-            ephemeral: true,
+            secret: true,
           })
         case "remove":
           const remove_cancel = new ButtonBuilder()

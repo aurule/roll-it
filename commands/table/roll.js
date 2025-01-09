@@ -54,7 +54,7 @@ module.exports = {
     return interaction.paginate({
       content: full_text,
       split_on: "\n\t",
-      ephemeral: secret,
+      secret,
     })
   },
   async autocomplete(interaction) {

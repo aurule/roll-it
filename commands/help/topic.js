@@ -35,7 +35,7 @@ module.exports = {
     const full_text = heading(topic.title) + "\n" + topic.help()
     return interaction.paginate({
       content: full_text,
-      ephemeral: true,
+      secret: true,
     })
   },
   help() {

@@ -20,7 +20,7 @@ module.exports = {
     return interaction.paginate({
       content: full_text,
       split_on: "\n",
-      ephemeral: true,
+      secret: true,
     })
   },
   help({ command_name }) {
