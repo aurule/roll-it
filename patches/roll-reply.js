@@ -15,15 +15,15 @@ module.exports = {
      * Reply with a possibly ephemeral message
      *
      * @param  {str}     content   The message contents to send
-     * @param  {bool}    ephemeral Whether the message is ephemeral or not
+     * @param  {bool}    secret Whether the message is ephemeral or not
      * @return {Promise}           Interaction response promise
      */
-    klass.prototype.rollReply = function (content, ephemeral) {
+    klass.prototype.rollReply = function (content, secret) {
       const reply_args = {
         content,
       }
 
-      if (ephemeral) {
+      if (secret) {
         reply_args.flags = MessageFlags.Ephemeral
       }
 
