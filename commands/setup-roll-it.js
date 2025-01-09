@@ -169,7 +169,7 @@ module.exports = {
 
           event.deferUpdate()
           return api.setGuildCommands(interaction.guildId, selected_commands).then(() => {
-            event.editReply({
+            interaction.editReply({
               content: oneLine`
                   Updated server commands to: ${selected_commands.join(", ")}
                 `,
