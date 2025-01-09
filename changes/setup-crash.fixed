@@ -1,0 +1,1 @@
+Fixed crash that could happen when confirming new commands with `/setup-roll-it`
