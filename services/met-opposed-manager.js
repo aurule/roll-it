@@ -309,7 +309,7 @@ class MetOpposedManager {
       content: presenter.initialMessage(this),
       components: this.initialComponents(),
       allowedMentions: { users: [this.defender.id] },
-      fetchReply: true,
+      withResponse: true,
     })
     this.initial_message_link = messageLink(prompt)
 
@@ -487,7 +487,7 @@ class MetOpposedManager {
     const prompt = await this.interaction.followUp({
       content: presenter.statusPrompt(this),
       components: [rowRetest, rowButtons],
-      fetchReply: true,
+      withResponse: true,
     })
 
     let retest_reason = new Collection()
@@ -614,7 +614,7 @@ class MetOpposedManager {
     const prompt = await this.interaction.followUp({
       content: presenter.retestCancelPrompt(this),
       components: [rowCancel, rowButtonsCancel],
-      fetchReply: true,
+      withResponse: true,
     })
 
     let cancel_reason
@@ -740,7 +740,7 @@ class MetOpposedManager {
     const prompt = await this.interaction.followUp({
       content: presenter.retestPrompt(this, responses),
       components: [rowResponse, rowButtonsGo],
-      fetchReply: true,
+      withResponse: true,
     })
 
     const throws = new Collection()

@@ -103,7 +103,7 @@ module.exports = {
     const helper_prompt = await interaction.followUp({
       content: teamworkPresenter.helperPromptMessage(userFlake, t, description),
       components: [picker_row],
-      fetchReply: true,
+      withResponse: true,
       allowedMentions: {},
     })
 
@@ -167,7 +167,7 @@ module.exports = {
         .followUp({
           content: teamworkPresenter.teamworkSummaryMessage(leader_summary, helper_prompt, t),
           embeds: [helper_embed],
-          fetchReply: true,
+          withResponse: true,
         })
         .then((result_message) => {
           helper_prompt.edit({
