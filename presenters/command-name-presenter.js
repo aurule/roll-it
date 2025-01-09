@@ -20,6 +20,20 @@ function present(command) {
   return inlineCode(presented)
 }
 
+// function present(command, locale) {
+//   const localized_name = command.data().name_localizations[locale] ?? command.name
+//   if (command.type == "menu") return italic(localized_name)
+
+//   if (command.parent) {
+//     const commands = require("../commands")
+//     const parent = commands.get(parent)
+//     const parent_name = parent.data().name_localizations[locale] ?? parent.name
+//     return inlineCode(`/${parent_name} ${localized_name}`)
+//   }
+
+//   return inlineCode(`/${localized_name}`)
+// }
+
 /**
  * Make a text list of all commands
  *

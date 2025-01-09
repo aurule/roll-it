@@ -197,6 +197,16 @@ module.exports = {
       }
     })
   },
+  help_data(opts) {
+    // need to get localized description as well
+    return {
+      deployable_commands: deployable_commands
+        .filter((c) => c.type !== "menu")
+        .map((c) => `• ${commandNamePresenter.present(c, opts.locale)} - ${c.description}`)
+        .join("\n"),
+      ...opts
+    }
+  },
   help({ command_name }) {
     const deployable_commands = require("./index").deployable
     return [

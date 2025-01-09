@@ -26,6 +26,8 @@
   doit: Do it
   response: |-
     {{userMention}} asked "{{question}}" :8ball: *{{result}}*
+  help: |-
+    {{command_name}} asks a question of the Magic 8 Ball.
 chop:
   description: Make a rock-paper-scissors roll
   response:
@@ -259,6 +261,37 @@ help:
       command:
         validation:
           unavailable: No help is available for the command "{{command_name}}"
+    response:
+      body:
+        simple: |-
+          Showing help for {{command_name}}: {{description}}
+
+          {{help_text}}
+        args_one: |-
+          Showing help for {{command_name}}: {{description}}
+
+          Arg:
+          {{options}}
+
+          {{help_text}}
+        args_other: |-
+          Showing help for {{command_name}}: {{description}}
+
+          Args:
+          {{options}}
+
+          {{help_text}}
+        subcommands: |-
+          Showing help for {{command_name}}: {{description}}
+
+          Subcommands:
+          {{options}}
+
+          {{help_text}}
+      opt: >-
+        `{{name}}` {{description}}
+      opt_required: >-
+        `{{name}}` (required) {{description}}
   feedback:
     description: Send feedback to Roll It's creator
     response:
