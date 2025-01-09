@@ -63,7 +63,7 @@ state:
     prompt:
       withDescription: >-
         {{attacker.mention}} is challenging you, {{defender.mention}} with a {{attribute}} test for
-        {{description}}. They have {{advantages, list}}. If you have
+        "{{description}}". They have {{advantages, list}}. If you have
         {{allowed_advantages, list(type: 'disjunction')}}, you must declare them now.
       withoutDescription: >-
         {{attacker.mention}} is challenging you, {{defender.mention}} with a {{attribute}} test. They have
@@ -74,7 +74,7 @@ state:
     summary:
       withDescription: >-
         {{attacker.mention}} is challenging {{defender.mention}} with a {{attribute}} test for
-        {{description}}. {{attacker.mention}} has {{attacker_advantages, list}}. {{defender.mention}} has
+        "{{description}}". {{attacker.mention}} has {{attacker_advantages, list}}. {{defender.mention}} has
         {{defender_advantages, list}}.
       withoutDescription: >-
         {{attacker.mention}} is challenging {{defender.mention}} with a {{attribute}} test.
@@ -178,18 +178,18 @@ state:
     attacker:
       win:
         withDescription: >-
-          {{attacker.mention}} **won** their {{link}} against {{defender.mention}} for {{description}}.
+          {{attacker.mention}} **won** their {{link}} against {{defender.mention}} for "{{description}}".
         withoutDescription: >-
           {{attacker.mention}} **won** their {{link}} against {{defender.mention}}.
       tie:
         withDescription: >-
-          {{attacker.mention}} **tied** their {{link}} against {{defender.mention}} for {{description}}.
+          {{attacker.mention}} **tied** their {{link}} against {{defender.mention}} for "{{description}}".
         withoutDescription: >-
           {{attacker.mention}} **tied** their {{link}} against {{defender.mention}}.
     defender:
       win:
         withDescription: >-
-          {{defender.mention}} **won** the {{link}} from {{attacker.mention}} for {{description}}.
+          {{defender.mention}} **won** the {{link}} from {{attacker.mention}} for "{{description}}".
         withoutDescription: >-
           {{defender.mention}} **won** the {{link}} from {{attacker.mention}}.
     linkText: opposed test

@@ -69,7 +69,7 @@ describe("detail", () => {
   it("shows the breakdown of the dice", () => {
     const result = RollResultsPresenter.detail(defaultArgs)
 
-    expect(result).toMatch("[1,4]")
+    expect(result).toMatch("[1, 4]")
   })
 
   it("shows the modifier if non-zero", () => {

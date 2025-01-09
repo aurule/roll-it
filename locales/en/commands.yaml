@@ -553,12 +553,12 @@ roll:
   description: Roll a set of plain dice
   response:
     withDescription_one: |-
-      {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}}):
+      {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}})
     withDescription_other: |-
       {{userMention}} rolled {{count}} times for "{{description}}":
       {{results}}
     withoutDescription_one: |-
-      {{userMention}} rolled **{{result}}** ({{detail}}):
+      {{userMention}} rolled **{{result}}** ({{detail}})
     withoutDescription_other: |-
       {{userMention}} rolled {{count}} times:
       {{results}}

@@ -102,7 +102,7 @@ module.exports = {
    * @return {String}                  String detailing a single roll
    */
   detail: ({ pool, sides, raw, modifier }) => {
-    let detail = [`${pool}d${sides}: [${raw}]`]
+    let detail = [`${pool}d${sides}: [${raw.join(", ")}]`]
     if (modifier) {
       detail.push(operator(modifier))
     }
