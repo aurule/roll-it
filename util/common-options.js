@@ -2,6 +2,8 @@
  * Callbacks for common shared command options.
  */
 
+const { shared } = require("../locales/helpers")
+
 module.exports = {
   /**
    * Description option
@@ -12,7 +14,9 @@ module.exports = {
   description(option) {
     return option
       .setName("description")
-      .setDescription("A word or two about this roll")
+      .setNameLocalizations(shared.mapped("name", option.name))
+      .setDescription(shared.canonical("description", option.name))
+      .setDescriptionLocalizations(shared.mapped("description", option.name))
       .setMaxLength(1500)
   },
 
@@ -25,7 +29,9 @@ module.exports = {
   rolls(option) {
     return option
       .setName("rolls")
-      .setDescription("Roll this many times (default 1)")
+      .setNameLocalizations(shared.mapped("name", option.name))
+      .setDescription(shared.canonical("description", option.name))
+      .setDescriptionLocalizations(shared.mapped("description", option.name))
       .setMinValue(1)
       .setMaxValue(100)
   },
@@ -37,7 +43,11 @@ module.exports = {
    * @return {SlashCommandBooleanOption}        Populated option
    */
   secret(option) {
-    return option.setName("secret").setDescription("Hide the results from everyone but you")
+    return option
+      .setName("secret")
+      .setNameLocalizations(shared.mapped("name", option.name))
+      .setDescription(shared.canonical("description", option.name))
+      .setDescriptionLocalizations(shared.mapped("description", option.name))
   },
 
   /**
@@ -47,6 +57,11 @@ module.exports = {
    * @return {SlashCommandIntegerOption}        Populated option
    */
   pool(option) {
-    return option.setName("pool").setDescription("Number of dice to roll").setMinValue(1)
+    return option
+      .setName("pool")
+      .setNameLocalizations(shared.mapped("name", option.name))
+      .setDescription(shared.canonical("description", option.name))
+      .setDescriptionLocalizations(shared.mapped("description", option.name))
+      .setMinValue(1)
   },
 }

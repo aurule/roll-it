@@ -1,3 +1,16 @@
 ---
 pagination:
   suffix: "(message {{page_num}}/{{page_count}})"
+options:
+  description:
+    name: description
+    description: A word or two about this roll
+  rolls:
+    name: rolls
+    description: Roll this many times (default 1)
+  secret:
+    name: secret
+    description: Hide the results from everyone but you
+  pool:
+    name: pool
+    description: Number of dice to roll
