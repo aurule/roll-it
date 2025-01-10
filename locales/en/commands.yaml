@@ -212,10 +212,10 @@ drh:
         madness: a **narrow success** dominated by **madness**
         exhaustion: a **narrow success** dominated by **exhaustion**
         pain: a **narrow success** dominated by **pain**
-      - discipline: a **competant success** dominated by **discipline**
-        madness: a **competant success** dominated by **madness**
-        exhaustion: a **competant success** dominated by **exhaustion**
-        pain: a **competant success** dominated by **pain**
+      - discipline: a **competent success** dominated by **discipline**
+        madness: a **competent success** dominated by **madness**
+        exhaustion: a **competent success** dominated by **exhaustion**
+        pain: a **competent success** dominated by **pain**
       - discipline: an **impressive success** dominated by **discipline**
         madness: an **impressive success** dominated by **madness**
         exhaustion: an **impressive success** dominated by **exhaustion**
