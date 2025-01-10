@@ -7,16 +7,26 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical, mapped } = require("../locales/helpers")
+
+const command_name = "8ball"
 
 module.exports = {
-  name: "8ball",
+  name: command_name,
   description: i18n.t("commands:8ball.description"),
   data: () =>
     new SlashCommandBuilder()
-      .setName(module.exports.name)
+      .setName(command_name)
+      .setNameLocalizations(mapped("name", command_name))
       .setDescription(module.exports.description)
+      .setDescriptionLocalizations(mapped("description", command_name))
       .addStringOption((option) =>
-        option.setName("question").setRequired(true).setDescription("The question you want to ask"),
+        option
+          .setName("question")
+          .setNameLocalizations(mapped("name", command_name, option.name))
+          .setDescription(canonical("description", command_name, option.name))
+          .setDescriptionLocalizations(mapped("description", command_name, option.name))
+          .setRequired(true)
       )
       .addBooleanOption((option) => option.setName("doit").setDescription("Do it"))
       .addBooleanOption(commonOpts.secret),

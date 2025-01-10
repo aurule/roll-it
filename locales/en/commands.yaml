@@ -2,6 +2,10 @@
 8ball:
   name: 8ball
   description: Get an answer from the Magic 8 Ball
+  options:
+    question:
+      name: question
+      description: The question you want to ask
   faces:
     - null
     - It is certain
