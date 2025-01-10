@@ -36,6 +36,13 @@
 chop:
   name: chop
   description: Make a rock-paper-scissors roll
+  options:
+    static:
+      name: static
+      description: Display win-tie-lose against a random opponent, for static challenges
+    bomb:
+      name: bomb
+      description: Replace paper with the special bomb result
   response:
     shortcut: This command is a shortcut. Try `/met static` instead.
 coin:

@@ -8,22 +8,32 @@ const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const metStatic = require("./met/static")
 const { i18n } = require("../locales")
+const { canonical, mapped } = require("../locales/helpers")
+
+const command_name = "chop"
 
 module.exports = {
-  name: "chop",
+  name: command_name,
   description: i18n.t("commands:chop.description"),
   data: () =>
     new SlashCommandBuilder()
-      .setName(module.exports.name)
+      .setName(command_name)
+      .setNameLocalizations(mapped("name", command_name))
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addBooleanOption((option) =>
         option
           .setName("static")
-          .setDescription("Display win-tie-lose against a random opponent, for static challenges"),
+          .setNameLocalizations(mapped("name", command_name, option.name))
+          .setDescription(canonical("description", command_name, option.name))
+          .setDescriptionLocalizations(mapped("description", command_name, option.name))
       )
       .addBooleanOption((option) =>
-        option.setName("bomb").setDescription("Replace paper with the special bomb result"),
+        option
+          .setName("bomb")
+          .setNameLocalizations(mapped("name", command_name, option.name))
+          .setDescription(canonical("description", command_name, option.name))
+          .setDescriptionLocalizations(mapped("description", command_name, option.name))
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
