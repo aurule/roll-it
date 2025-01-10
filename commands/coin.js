@@ -7,20 +7,36 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical, mapped } = require("../locales/helpers")
+
+const command_name = "coin"
 
 module.exports = {
-  name: "coin",
+  name: command_name,
   description: i18n.t("commands:coin.description"),
   data: () =>
     new SlashCommandBuilder()
-      .setName(module.exports.name)
+      .setName(command_name)
       .setDescription(module.exports.description)
       .addStringOption(commonOpts.description)
       .addStringOption((option) =>
         option
           .setName("call")
-          .setDescription("Pick which side you think the coin will land on")
-          .setChoices({ name: "Heads", value: "heads" }, { name: "Tails", value: "tails" }),
+          .setNameLocalizations(mapped("name", command_name, option.name))
+          .setDescription(canonical("description", command_name, option.name))
+          .setDescriptionLocalizations(mapped("description", command_name, option.name))
+          .setChoices(
+            {
+              name: canonical("choices.0.name", command_name, option.name),
+              name_localizations: mapped("choices.0.name", command_name, option.name),
+              value: "heads",
+            },
+            {
+              name: canonical("choices.0.name", command_name, option.name),
+              name_localizations: mapped("choices.1.name", command_name, option.name),
+              value: "tails",
+            }
+          ),
       )
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({

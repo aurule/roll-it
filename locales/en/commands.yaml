@@ -48,6 +48,15 @@ chop:
 coin:
   name: coin
   description: Flip a coin
+  options:
+    call:
+      name: call
+      description: Pick which side you think the coin will land on
+      choices:
+        - name: Heads
+          value: $t(coin.faces.1)
+        - name: Tails
+          value: $t(coin.faces.2)
   faces:
     - null
     - heads
