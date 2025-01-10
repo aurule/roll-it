@@ -21,6 +21,14 @@ i18next.use(Backend).init({
   },
 })
 
+/**
+ * List of discord-specific locales that have translations
+ * @see https://discord.com/developers/docs/reference#locales
+ * @type {Array}
+ */
+const available_locales = ["en-US"]
+
 module.exports = {
   i18n: i18next,
+  available_locales,
 }
