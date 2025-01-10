@@ -287,7 +287,7 @@ describe("roll_pool", () => {
 })
 
 describe("perform", () => {
-  it.only("rolls multiple times", () => {
+  it("rolls multiple times", () => {
     const options = {
       discipline: 1,
       pain: 1,
