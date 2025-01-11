@@ -53,8 +53,8 @@ coin:
       name: call
       description: Pick which side you think the coin will land on
       choices:
-        - name: Heads
-        - name: Tails
+        heads: Heads
+        tails: Tails
   faces:
     - null
     - heads

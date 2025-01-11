@@ -13,7 +13,7 @@ const command_name = "coin"
 
 module.exports = {
   name: command_name,
-  description: i18n.t("commands:coin.description"),
+  description: canonical("description", command_name),
   data: () =>
     new SlashCommandBuilder()
       .setName(command_name)
@@ -29,13 +29,13 @@ module.exports = {
           .setDescriptionLocalizations(mapped("description", command_name, option.name))
           .setChoices(
             {
-              name: canonical("choices.0.name", command_name, option.name),
-              name_localizations: mapped("choices.0.name", command_name, option.name),
+              name: canonical("choices.heads", command_name, option.name),
+              name_localizations: mapped("choices.heads", command_name, option.name),
               value: "1",
             },
             {
-              name: canonical("choices.0.name", command_name, option.name),
-              name_localizations: mapped("choices.1.name", command_name, option.name),
+              name: canonical("choices.tails", command_name, option.name),
+              name_localizations: mapped("choices.tails", command_name, option.name),
               value: "2",
             }
           ),
