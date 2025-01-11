@@ -73,37 +73,49 @@ coin:
 curv:
   name: curv
   description: Roll 3d6 for D&D 5e
-  crit: "**a crit!** with {{sum}}"
+  options:
+    modifier:
+      name: modifier
+      description: A number to add to the pool's result
+    with:
+      name: with
+      description: Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of two pools
+      choices:
+        advantage: Advantage
+        disadvantage: Disadvantage
+  result:
+    crit: "**a crit!** with {{sum}}"
+    normal: "**{{sum}}**"
   response:
     withDescription:
       advantage_one: >-
-        {{userMention}} rolled **{{result}}** for "{{description}}" with advantage ({{explanation}})
+        {{userMention}} rolled {{result}} for "{{description}}" with advantage ({{explanation}})
       advantage_other: |-
         {{userMention}} rolled "{{description}}" {{count}} times with advantage:
         {{results}}
       disadvantage_one: >-
-        {{userMention}} rolled **{{result}}** for "{{description}}" with disadvantage ({{explanation}})
+        {{userMention}} rolled {{result}} for "{{description}}" with disadvantage ({{explanation}})
       disadvantage_other: |-
         {{userMention}} rolled "{{description}}" {{count}} times with disadvantage:
         {{results}}
       simple_one: >-
-        {{userMention}} rolled **{{result}}** for "{{description}}" ({{explanation}})
+        {{userMention}} rolled {{result}} for "{{description}}" ({{explanation}})
       simple_other: |-
         {{userMention}} rolled "{{description}}" {{count}} times:
         {{results}}
     withoutDescription:
       advantage_one: >-
-        {{userMention}} rolled **{{result}}** with advantage ({{explanation}})
+        {{userMention}} rolled {{result}} with advantage ({{explanation}})
       advantage_other: |-
         {{userMention}} rolled {{count}} times with advantage:
         {{results}}
       disadvantage_one: >-
-        {{userMention}} rolled **{{result}}** with disadvantage ({{explanation}})
+        {{userMention}} rolled {{result}} with disadvantage ({{explanation}})
       disadvantage_other: |-
         {{userMention}} rolled {{count}} times with disadvantage:
         {{results}}
       simple_one: >-
-        {{userMention}} rolled **{{result}}** ({{explanation}})
+        {{userMention}} rolled {{result}} ({{explanation}})
       simple_other: |-
         {{userMention}} rolled {{count}} times:
         {{results}}

@@ -9,6 +9,7 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical, mapped } = require("../locales/helpers")
 
 function with_to_keep(value) {
   switch (value) {
@@ -21,26 +22,42 @@ function with_to_keep(value) {
   }
 }
 
+const command_name = "curv"
+
 module.exports = {
-  name: "curv",
-  description: i18n.t("commands:curv.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
     new SlashCommandBuilder()
-      .setName(module.exports.name)
+      .setName(command_name)
+      .setNameLocalizations(mapped("name", command_name))
       .setDescription(module.exports.description)
+      .setDescriptionLocalizations(mapped("description", command_name))
       .addStringOption(commonOpts.description)
       .addIntegerOption((option) =>
-        option.setName("modifier").setDescription("A number to add to the pool's result"),
+        option
+          .setName("modifier")
+          .setNameLocalizations(mapped("name", command_name, option.name))
+          .setDescription(canonical("description", command_name, option.name))
+          .setDescriptionLocalizations(mapped("description", command_name, option.name))
       )
       .addStringOption((option) =>
         option
           .setName("with")
-          .setDescription(
-            "Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of two pools",
-          )
+          .setNameLocalizations(mapped("name", command_name, option.name))
+          .setDescription(canonical("description", command_name, option.name))
+          .setDescriptionLocalizations(mapped("description", command_name, option.name))
           .setChoices(
-            { name: "Advantage", value: "advantage" },
-            { name: "Disadvantage", value: "disadvantage" },
+            {
+              name: canonical("choices.advantage", command_name, option.name),
+              name_localizations: mapped("choices.advantage", command_name, option.name),
+              value: "advantage",
+            },
+            {
+              name: canonical("choices.disadvantage", command_name, option.name),
+              name_localizations: mapped("choices.disadvantage", command_name, option.name),
+              value: "disadvantage",
+            },
           ),
       )
       .addIntegerOption(commonOpts.rolls)
