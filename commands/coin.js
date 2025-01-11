@@ -17,7 +17,9 @@ module.exports = {
   data: () =>
     new SlashCommandBuilder()
       .setName(command_name)
+      .setNameLocalizations(mapped("name", command_name))
       .setDescription(module.exports.description)
+      .setDescriptionLocalizations(mapped("description", command_name))
       .addStringOption(commonOpts.description)
       .addStringOption((option) =>
         option
@@ -29,20 +31,20 @@ module.exports = {
             {
               name: canonical("choices.0.name", command_name, option.name),
               name_localizations: mapped("choices.0.name", command_name, option.name),
-              value: "heads",
+              value: "1",
             },
             {
               name: canonical("choices.0.name", command_name, option.name),
               name_localizations: mapped("choices.1.name", command_name, option.name),
-              value: "tails",
+              value: "2",
             }
           ),
       )
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({
     description: commonSchemas.description,
-    call: Joi.string().optional().valid("heads", "tails").messages({
-      "any.only": 'Call must be either "heads" or "tails".',
+    call: Joi.string().optional().valid("1", "2").messages({
+      "any.only": 'Call must be either "1" or "2".',
     }),
   }),
   perform({ description, call, locale = "en-US" }) {

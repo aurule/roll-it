@@ -33,7 +33,7 @@ describe("perform", () => {
 
   it("displays the call if present", () => {
     const options = {
-      call: "heads",
+      call: "1",
     }
 
     const result = coin_command.perform(options)
@@ -53,7 +53,7 @@ describe("schema", () => {
       expect(schemaMessages(result)).not.toMatch("call")
     })
 
-    it.each([["heads"], ["tails"]])("allows %s", (call_value) => {
+    it.each([["1"], ["2"]])("allows %s", (call_value) => {
       const options = {
         call: call_value,
       }

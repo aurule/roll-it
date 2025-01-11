@@ -26,7 +26,7 @@ describe("present", () => {
   it("includes the call if present", () => {
     const result = CoinResultsPresenter.present({
       ...defaultArgs,
-      call: "heads",
+      call: "1",
     })
 
     expect(result).toMatch("called heads")
