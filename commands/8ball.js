@@ -13,7 +13,7 @@ const command_name = "8ball"
 
 module.exports = {
   name: command_name,
-  description: i18n.t("commands:8ball.description"),
+  description: canonical("description", command_name),
   data: () =>
     new SlashCommandBuilder()
       .setName(command_name)

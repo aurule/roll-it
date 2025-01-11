@@ -14,7 +14,7 @@ const command_name = "chop"
 
 module.exports = {
   name: command_name,
-  description: i18n.t("commands:chop.description"),
+  description: canonical("description", command_name),
   data: () =>
     new SlashCommandBuilder()
       .setName(command_name)
