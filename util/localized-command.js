@@ -75,6 +75,9 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
       case "boolean":
         builder_method = "addBooleanOption"
         break
+      case "user":
+        builder_method = "addUserOption"
+        break
       default:
         throw new Error(`unknown option type "${option_type}"`)
     }
@@ -120,6 +123,17 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
    */
   addLocalizedBooleanOption(option_name, optionFn) {
     return this.addLocalizedOption(option_name, "boolean", optionFn)
+  }
+
+  /**
+   * Add a new user select option with localization data
+   *
+   * @param {str}            option_name Name to set for the option
+   * @param {callable}       optionfn    Function to execute. Must take and return an option object.
+   * @return {SlashCommandOptionBuilder} Option builder object
+   */
+  addLocalizedUserOption(option_name, optionFn) {
+    return this.addLocalizedOption(option_name, "user", optionFn)
   }
 }
 

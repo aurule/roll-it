@@ -151,6 +151,18 @@ describe("LocalizedSlashCommandBuilder", () => {
         expect(extracted).toBeTruthy()
       })
 
+      it("creates user options", () => {
+        const command = new LocalizedSlashCommandBuilder("opposed", "met.opposed")
+        let extracted
+
+        command.addLocalizedOption("opponent", "user", (option) => {
+          extracted = option
+          return option
+        })
+
+        expect(extracted).toBeTruthy()
+      })
+
       it("errors on unknown option type", () => {
         const command = new LocalizedSlashCommandBuilder("8ball")
         let extracted
