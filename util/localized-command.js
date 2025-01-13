@@ -10,28 +10,30 @@ const { canonical, mapped } = require("../locales/helpers")
  *
  * In the `commands:` namespace,
  * command_name:
- *   name: Canonical Name / Command ID
+ *   name: Canonical Name / Command UID
  *   description: Canonical Description
  *   options:
  *     option_name:
- *       name: Canonical option name / option ID
+ *       name: Canonical option name / option UID
  *       description: Canonical Description
  *
  * Commands created with this builder will automatically have their `description`, `name_localizations`, and
- * `description_localizations` populated with data from the available locale files.
+ * `description_localizations` populated with data from all available locale files.
  *
  * @class
  */
 class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
-  constructor(command_name) {
+  base_key
+
+  constructor(command_name, base_key) {
     super()
 
-    this.setName(command_name)
-    this.setNameLocalizations(mapped("name", command_name))
-    this.setDescription(canonical("description", command_name))
-    this.setDescriptionLocalizations(mapped("description", command_name))
+    this.base_key = base_key ?? command_name
 
-    return this
+    this.setName(command_name)
+    this.setNameLocalizations(mapped("name", this.base_key))
+    this.setDescription(canonical("description", this.base_key))
+    this.setDescriptionLocalizations(mapped("description", this.base_key))
   }
 
   /**
@@ -45,9 +47,9 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
    */
   localizeOption(option) {
     return option
-      .setNameLocalizations(mapped("name", this.name, option.name))
-      .setDescription(canonical("description", this.name, option.name))
-      .setDescriptionLocalizations(mapped("description", this.name, option.name))
+      .setNameLocalizations(mapped("name", this.base_key, option.name))
+      .setDescription(canonical("description", this.base_key, option.name))
+      .setDescriptionLocalizations(mapped("description", this.base_key, option.name))
   }
 
   /**
@@ -121,6 +123,34 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
   }
 }
 
+/**
+ * Subcommand builder which automatically populates common localization data
+ *
+ * This depends on the commands localization data following a common format as used by the `mapped` and
+ * `canonical` functions.
+ *
+ * In the `commands:` namespace,
+ * command_name:
+ *   subcommand_name:
+ *     name: Canonical Name / Command UID
+ *     description: Canonical Description
+ *     options:
+ *       option_name:
+ *         name: Canonical option name / option UID
+ *         description: Canonical Description
+ *
+ * Subcommands created with this builder will automatically have their `description`, `name_localizations`, and
+ * `description_localizations` populated with data from all available locale files.
+ *
+ * @class
+ */
+class LocalizedSubcommandBuilder extends LocalizedSlashCommandBuilder {
+  constructor(command_name, parent_name) {
+    super(command_name, `${parent_name}.${command_name}`)
+  }
+}
+
 module.exports = {
-  LocalizedSlashCommandBuilder
+  LocalizedSlashCommandBuilder,
+  LocalizedSubcommandBuilder,
 }

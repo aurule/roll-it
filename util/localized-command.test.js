@@ -1,6 +1,6 @@
 const { canonical, mapped } = require("../locales/helpers")
 
-const { LocalizedSlashCommandBuilder } = require("./localized-command")
+const { LocalizedSlashCommandBuilder, LocalizedSubcommandBuilder } = require("./localized-command")
 
 describe("LocalizedSlashCommandBuilder", () => {
   describe("constructor", () => {
@@ -26,6 +26,22 @@ describe("LocalizedSlashCommandBuilder", () => {
       const command = new LocalizedSlashCommandBuilder("8ball")
 
       expect(command.description_localizations).toEqual(mapped("description", "8ball"))
+    })
+
+    describe("with a key", () => {
+      it("uses the given key", () => {
+        const command = new LocalizedSlashCommandBuilder("command", "help.command")
+
+        expect(command.description_localizations).toEqual(mapped("description", "help.command"))
+      })
+    })
+
+    describe("without a key", () => {
+      it("uses the command name", () => {
+        const command = new LocalizedSlashCommandBuilder("8ball")
+
+        expect(command.description_localizations).toEqual(mapped("description", "8ball"))
+      })
     })
   })
 
@@ -169,5 +185,13 @@ describe("LocalizedSlashCommandBuilder", () => {
         expect(command.options[0].name).toEqual("doit")
       })
     })
+  })
+})
+
+describe("LocalizedSubcommandBuilder", () => {
+  it("uses data for the subcommand", () => {
+    const command = new LocalizedSubcommandBuilder("command", "help")
+
+      expect(command.description).toEqual(canonical("description", "help.command"))
   })
 })
