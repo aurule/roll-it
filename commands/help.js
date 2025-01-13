@@ -1,22 +1,23 @@
-const { SlashCommandBuilder, inlineCode } = require("discord.js")
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const TopicNamePresenter = require("../presenters/topic-name-presenter")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
 
-const subcommands = loadSubcommands("help")
+const command_name = "help"
+const subcommands = loadSubcommands(command_name)
 
 module.exports = {
-  name: "help",
-  description: i18n.t("commands:help.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   global: true,
   subcommands,
   data() {
-    return new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+    return new LocalizedSlashCommandBuilder(command_name)
       .addSubcommand(subcommands.get("topic").data())
       .addSubcommand(subcommands.get("command").data())
       .addSubcommand(subcommands.get("feedback").data())

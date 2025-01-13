@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, inlineCode, hideLinkEmbed, hyperlink, italic } = require("discord.js")
+const { inlineCode, hideLinkEmbed, hyperlink, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/results/roll-formula-results-presenter")
@@ -10,18 +11,17 @@ const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { operator } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
+
+const command_name = "roll-formula"
 
 module.exports = {
-  name: "roll-formula",
-  description: i18n.t("commands:roll-formula.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
+    new LocalizedSlashCommandBuilder(command_name)
+      .addLocalizedStringOption("formula", (option) =>
         option
-          .setName("formula")
-          .setDescription("The formula of dice to roll and operations to apply")
           .setMinLength(3)
           .setMaxLength(1500)
           .setRequired(true),

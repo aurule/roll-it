@@ -1,5 +1,4 @@
 const {
-  SlashCommandBuilder,
   inlineCode,
   italic,
   Collection,
@@ -9,6 +8,7 @@ const {
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/results/drh-results-presenter")
 const commonOpts = require("../util/common-options")
@@ -16,49 +16,54 @@ const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { DrhPool } = require("../util/rolls/drh-pool")
 const { i18n } = require("../locales")
+const { canonical, mapped } = require("../locales/helpers")
+
+const command_name = "drh"
 
 module.exports = {
-  name: "drh",
-  description: i18n.t("commands:drh.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addIntegerOption((option) =>
+    new LocalizedSlashCommandBuilder(command_name)
+      .addLocalizedIntegerOption("discipline", (option) =>
         option
-          .setName("discipline")
-          .setDescription("Dice in your Dicipline pool")
           .setRequired(true)
           .setMinValue(1)
           .setMaxValue(6),
       )
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("pain", (option) =>
         option
-          .setName("pain")
-          .setDescription("Dice in the Pain pool")
           .setRequired(true)
           .setMinValue(1),
       )
       .addStringOption(commonOpts.description)
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("exhaustion", (option) =>
         option
-          .setName("exhaustion")
-          .setDescription("Dice in your Exhaustion pool")
           .setMinValue(1)
           .setMaxValue(6),
       )
-      .addIntegerOption((option) =>
-        option.setName("madness").setDescription("Dice in your Madness pool").setMinValue(1),
+      .addLocalizedIntegerOption("madness", (option) =>
+        option.setMinValue(1),
       )
-      .addStringOption((option) =>
+      .addLocalizedStringOption("talent", (option) =>
         option
-          .setName("talent")
-          .setDescription("A talent you're using for this roll")
-          .setChoices([
-            { name: "Minor Exhaustion", value: "minor" },
-            { name: "Major Exhaustion", value: "major" },
-            { name: "Madness", value: "madness" },
-          ]),
+          .setChoices(
+            {
+              name: canonical("choices.minor", command_name, option.name),
+              name_localizations: mapped("choices.minor", command_name, option.name),
+              value: "minor",
+            },
+            {
+              name: canonical("choices.major", command_name, option.name),
+              name_localizations: mapped("choices.major", command_name, option.name),
+              value: "major",
+            },
+            {
+              name: canonical("choices.madness", command_name, option.name),
+              name_localizations: mapped("choices.madness", command_name, option.name),
+              value: "madness",
+            },
+          ),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

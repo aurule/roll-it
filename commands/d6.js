@@ -1,7 +1,7 @@
-const { SlashCommandBuilder } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/results/roll-results-presenter")
@@ -9,20 +9,17 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
+
+const command_name = "d6"
 
 module.exports = {
-  name: "d6",
-  description: i18n.t("commands:d6.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+    new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
-      .addIntegerOption((option) =>
-        option
-          .setName("modifier")
-          .setDescription("Number to add to the result after adding up the rolled dice"),
-      )
+      .addLocalizedIntegerOption("modifier")
       .addIntegerOption(commonOpts.pool)
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

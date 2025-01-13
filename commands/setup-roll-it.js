@@ -1,5 +1,4 @@
 const {
-  SlashCommandBuilder,
   PermissionFlagsBits,
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -13,6 +12,7 @@ const {
 } = require("discord.js")
 const { oneLine } = require("common-tags")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const commandNamePresenter = require("../presenters/command-name-presenter")
 const CommandSelectTransformer = require("../transformers/command-select-transformer")
 const SystemSelectTransformer = require("../transformers/system-select-transformer")
@@ -21,17 +21,18 @@ const { arrayEq } = require("../util/array-eq")
 const { systems } = require("../data")
 const { pluralize, capitalize, inlineList } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
 
 const timeout_ms = 120_000 // 2 minute timeout
 
+const command_name = "setup-roll-it"
+
 module.exports = {
-  name: "setup-roll-it",
-  description: i18n.t("commands:setup-roll-it.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   global: true,
   data() {
-    return new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+    return new LocalizedSlashCommandBuilder(command_name)
       .setDMPermission(false)
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },

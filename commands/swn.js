@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, inlineCode } = require("discord.js")
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/results/swn-results-presenter")
 const commonOpts = require("../util/common-options")
@@ -10,20 +11,19 @@ const { injectMention } = require("../util/formatters")
 const { pickDice } = require("../services/pick")
 const { pickedSum } = require("../services/tally")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
+
+const command_name = "swn"
 
 module.exports = {
-  name: "swn",
-  description: i18n.t("commands:swn.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+    new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
-      .addIntegerOption((option) =>
-        option.setName("modifier").setDescription("A number to add to the die's result"),
-      )
-      .addIntegerOption((option) =>
-        option.setName("pool").setDescription("Number of dice to roll. Default 2.").setMinValue(2),
+      .addLocalizedIntegerOption("modifier")
+      .addLocalizedIntegerOption("pool", (option) =>
+        option.setMinValue(2),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

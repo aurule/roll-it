@@ -1,14 +1,15 @@
-const { SlashCommandBuilder, inlineCode, subtext, italic } = require("discord.js")
+const { inlineCode, subtext, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const metStatic = require("./met/static")
 const { i18n } = require("../locales")
-const { canonical, mapped } = require("../locales/helpers")
+const { canonical } = require("../locales/helpers")
 
 const command_name = "chop"
 
@@ -16,25 +17,9 @@ module.exports = {
   name: command_name,
   description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(command_name)
-      .setNameLocalizations(mapped("name", command_name))
-      .setDescription(module.exports.description)
-      .addStringOption(commonOpts.description)
-      .addBooleanOption((option) =>
-        option
-          .setName("static")
-          .setNameLocalizations(mapped("name", command_name, option.name))
-          .setDescription(canonical("description", command_name, option.name))
-          .setDescriptionLocalizations(mapped("description", command_name, option.name))
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("bomb")
-          .setNameLocalizations(mapped("name", command_name, option.name))
-          .setDescription(canonical("description", command_name, option.name))
-          .setDescriptionLocalizations(mapped("description", command_name, option.name))
-      )
+    new LocalizedSlashCommandBuilder(command_name)
+      .addLocalizedBooleanOption("static")
+      .addLocalizedBooleanOption("bomb")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({

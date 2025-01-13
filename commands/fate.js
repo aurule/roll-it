@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, hideLinkEmbed, hyperlink } = require("discord.js")
+const { hideLinkEmbed, hyperlink } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/results/fate-results-presenter")
 const { fudge } = require("../services/tally")
@@ -9,20 +10,17 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
+
+const command_name = "fate"
 
 module.exports = {
-  name: "fate",
-  description: i18n.t("commands:fate.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+    new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
-      .addIntegerOption((option) =>
-        option
-          .setName("modifier")
-          .setDescription("A number to add to the result after adding up the rolled dice"),
-      )
+      .addLocalizedIntegerOption("modifier")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,

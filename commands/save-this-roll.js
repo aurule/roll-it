@@ -10,19 +10,23 @@ const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const interactionCache = require("../services/interaction-cache")
 const { i18n } = require("../locales")
+const { canonical, mapped } = require("../locales/helpers")
 
 require("dotenv").config()
 const botId = process.env.CLIENT_ID
 
+const command_id = "save-this-roll"
+
 module.exports = {
-  id: "save-this-roll",
-  name: "Save this roll",
-  description: i18n.t("commands:save-this-roll.description"),
+  id: command_id,
+  name: canonical("name", command_id),
+  description: canonical("description", command_id),
   type: "menu",
   global: true,
   data: () =>
     new ContextMenuCommandBuilder()
-      .setName(module.exports.name)
+      .setName(canonical("name", command_id))
+      .setNameLocalizations(mapped("name", command_id))
       .setType(ApplicationCommandType.Message),
   async execute(interaction) {
     const commands = require("./index")

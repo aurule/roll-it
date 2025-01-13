@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, inlineCode } = require("discord.js")
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/results/curv-results-presenter")
 const { keepFromArray, strategies } = require("../services/pick")
@@ -28,25 +29,11 @@ module.exports = {
   name: command_name,
   description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(command_name)
-      .setNameLocalizations(mapped("name", command_name))
-      .setDescription(module.exports.description)
-      .setDescriptionLocalizations(mapped("description", command_name))
+    new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("modifier")
+      .addLocalizedStringOption("with", (option) =>
         option
-          .setName("modifier")
-          .setNameLocalizations(mapped("name", command_name, option.name))
-          .setDescription(canonical("description", command_name, option.name))
-          .setDescriptionLocalizations(mapped("description", command_name, option.name))
-      )
-      .addStringOption((option) =>
-        option
-          .setName("with")
-          .setNameLocalizations(mapped("name", command_name, option.name))
-          .setDescription(canonical("description", command_name, option.name))
-          .setDescriptionLocalizations(mapped("description", command_name, option.name))
           .setChoices(
             {
               name: canonical("choices.advantage", command_name, option.name),

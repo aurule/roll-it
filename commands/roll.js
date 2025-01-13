@@ -1,7 +1,7 @@
-const { SlashCommandBuilder } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { sum } = require("../services/tally")
 const { present } = require("../presenters/results/roll-results-presenter")
@@ -9,29 +9,24 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
+
+const command_name = "roll"
 
 module.exports = {
-  name: "roll",
-  description: i18n.t("commands:roll.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   global: true,
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+    new LocalizedSlashCommandBuilder(command_name)
       .addIntegerOption((opt) => commonOpts.pool(opt).setRequired(true))
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("sides", (option) =>
         option
-          .setName("sides")
-          .setDescription("Number of sides on the dice")
           .setMinValue(2)
           .setRequired(true),
       )
       .addStringOption(commonOpts.description)
-      .addIntegerOption((option) =>
-        option
-          .setName("modifier")
-          .setDescription("A number to add to the result after adding up the rolled dice"),
-      )
+      .addLocalizedIntegerOption("modifier")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,

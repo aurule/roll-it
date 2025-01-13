@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/results/coin-results-presenter")
 const commonOpts = require("../util/common-options")
@@ -15,18 +15,10 @@ module.exports = {
   name: command_name,
   description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(command_name)
-      .setNameLocalizations(mapped("name", command_name))
-      .setDescription(module.exports.description)
-      .setDescriptionLocalizations(mapped("description", command_name))
+    new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
-      .addStringOption((option) =>
+      .addLocalizedStringOption("call", (option) =>
         option
-          .setName("call")
-          .setNameLocalizations(mapped("name", command_name, option.name))
-          .setDescription(canonical("description", command_name, option.name))
-          .setDescriptionLocalizations(mapped("description", command_name, option.name))
           .setChoices(
             {
               name: canonical("choices.heads", command_name, option.name),

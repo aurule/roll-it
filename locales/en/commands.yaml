@@ -125,12 +125,30 @@ curv:
 d10:
   name: d10
   description: Roll a single ten-sided die
+  options:
+    modifier:
+      name: modifier
+      description: A number to add to the die's result
 d100:
   name: d100
   description: Roll a single percentile (100-sided) die
+  options:
+    modifier:
+      name: modifier
+      description: A number to add to the die's result
 d20:
   name: d20
   description: Roll a single 20-sided die
+  options:
+    modifier:
+      name: modifier
+      description: A number to add to the die's result
+    with:
+      name: with
+      description: Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of 2d20
+      choices:
+        advantage: Advantage
+        disadvantage: Disadvantage
   response:
     result:
       explain: >-
@@ -176,19 +194,41 @@ d20:
 d6:
   name: d6
   description: Roll some six-sided dice
+  options:
+    modifier:
+      name: modifier
+      description: Number to add to the result after adding up the rolled dice
 drh:
   name: drh
   description: Roll pools of d6s for Don't Rest Your Head
+  options:
+    discipline:
+      name: discipline
+      description: Dice in your Discipline pool
+    pain:
+      name: pain
+      description: Dice in the Pain pool
+    exhaustion:
+      name: exhaustion
+      description: Dice in your Exhaustion pool
+    madness:
+      name: madness
+      description: Dice in your Madness pool
+    talent:
+      name: talent
+      description: A talent you're using for this roll
+      choices:
+        minor: Minor Exhaustion
+        major: Major Exhaustion
+        madness: Madness
+      validation:
+        exhaustion: You need at least 1 `exhaustion` to use an exhaustion talent.
+        madness: You need at least 1 `madness` to use a madness talent.
   strength:
     discipline: discipline
     madness: madness
     exhaustion: exhaustion
     pain: pain
-  options:
-    talent:
-      validation:
-        exhaustion: You need at least 1 `exhaustion` to use an exhaustion talent.
-        madness: You need at least 1 `madness` to use a madness talent.
   response:
     withDescription:
       none_one: |-
@@ -268,6 +308,10 @@ drh:
 fate:
   name: fate
   description: Make a FATE roll of four fudge dice
+  options:
+    modifier:
+      name: modifier
+      description: A number to add to the result after adding up the rolled dice
   ladder:
     - an **Impossible** failure
     - a **Catastrophic** failure
@@ -353,6 +397,13 @@ help:
 kob:
   name: kob
   description: Roll an exploding die for Kids On Bikes
+  options:
+    sides:
+      name: sides
+      description: The number of sides on the die
+    modifier:
+      name: modifier
+      description: A number to add to the die's result
   response:
     withDescription_one: |-
       {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}})
@@ -452,6 +503,24 @@ nwod:
   name: nwod
   description: Roll a pool of d10s using rules for New World of Darkness
   options:
+    pool:
+      name: pool
+      description: The number of dice to roll
+    explode:
+      name: explode
+      description: Add another die to the pool for every die that rolls at or above this number (default 10)
+    threshold:
+      name: threshold
+      description: The number a die has to meet or exceed to count as a success (default 8)
+    rote:
+      name: rote
+      description: Re-roll any dice in your initial pool that do not score successes
+    until:
+      name: until
+      description: Roll the entire dice pool multiple times until this many successes are accrued
+    decreasing:
+      name: decreasing
+      description: Remove 1 die from the pool for each roll after the first
     teamwork:
       validation:
         conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options,
@@ -555,9 +624,17 @@ nwod:
 pba:
   name: pba
   description: Roll and sum two six-sided dice
+  options:
+    modifier:
+      name: modifier
+      description: A number to add to the pool's result
 roll-formula:
   name: roll-formula
   description: Roll a combination of dice and complex modifiers
+  options:
+    formula:
+      name: formula
+      description: The formula of dice to roll and operations to apply
   response:
     disabled: "Error: Function {{fnName}} is disabled"
     pool:
@@ -584,6 +661,13 @@ roll-formula:
 roll:
   name: roll
   description: Roll a set of plain dice
+  options:
+    sides:
+      name: sides
+      description: Number of sides on the dice
+    modifier:
+      name: modifier
+      description: A number to add to the result after adding up the rolled dice
   response:
     withDescription_one: |-
       {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}})
@@ -771,6 +855,15 @@ shadowrun:
   name: shadowrun
   description: Roll a pool of d6s for Shadowrun
   options:
+    pool:
+      name: pool
+      description: The number of dice to roll
+    edge:
+      name: edge
+      description: Whether edge was spent on the roll. Enables Rule of Six.
+    until:
+      name: until
+      description: Roll the entire dice pool multiple times until this many successes are accrued
     teamwork:
       validation:
         conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options.
@@ -864,6 +957,13 @@ singleton:
 swn:
   name: swn
   description: Roll and sum two six-sided dice using rules for Stars Without Number
+  options:
+    modifier:
+      name: modifier
+      description: A number to add to the die's result
+    pool:
+      name: pool
+      description: Number of dice to roll. Default 2.
   response_desc_one: |-
     {{userMention}} rolled **{{total}}** for "{{description}}" ({{detail}})
   response_desc_other: |-
@@ -952,6 +1052,18 @@ wod20:
   name: wod20
   description: Roll a pool of d10s using rules for World of Darkness 20th Anniversary
   options:
+    pool:
+      name: pool
+      description: The number of dice to roll
+    difficulty:
+      name: difficulty
+      description: The number a die has to meet or exceed to count as a success (default 6)
+    specialty:
+      name: specialty
+      description: Whether to count 10s as two successes
+    until:
+      name: until
+      description: Roll the entire dice pool multiple times until this many successes are accrued
     teamwork:
       validation:
         conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options.

@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, inlineCode, italic } = require("discord.js")
+const { inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll, NwodRollOptions } = require("../services/nwod-roller")
 const { rollUntil } = require("../services/until-roller")
 const { successes } = require("../services/tally")
@@ -11,66 +12,41 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
+
+const command_name = "nwod"
 
 module.exports = {
-  name: "nwod",
-  description: i18n.t("commands:nwod.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addIntegerOption((option) =>
+    new LocalizedSlashCommandBuilder(command_name)
+      .addLocalizedIntegerOption("pool", (option) =>
         option
-          .setName("pool")
-          .setDescription("The number of dice to roll")
           .setMinValue(0)
           .setMaxValue(1000)
           .setRequired(true),
       )
       .addStringOption(commonOpts.description)
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("explode", (option) =>
         option
-          .setName("explode")
-          .setDescription(
-            "Add another die to the pool for every die that rolls at or above this number (default 10)",
-          )
           .setMinValue(2)
           .setMaxValue(11),
       )
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("threshold", (option) =>
         option
-          .setName("threshold")
-          .setDescription(
-            "The number a die has to meet or exceed to count as a success (default 8)",
-          )
           .setMinValue(2)
           .setMaxValue(10),
       )
-      .addBooleanOption((option) =>
-        option
-          .setName("rote")
-          .setDescription("Re-roll any dice in your initial pool that do not score successes"),
-      )
+      .addLocalizedBooleanOption("rote")
       .addIntegerOption(commonOpts.rolls)
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("until", (option) =>
         option
-          .setName("until")
-          .setDescription(
-            "Roll the entire dice pool multiple times until this many successes are accrued",
-          )
           .setMinValue(1)
           .setMaxValue(100),
       )
-      .addBooleanOption((option) =>
-        option
-          .setName("decreasing")
-          .setDescription("Remove 1 die from the pool for each roll after the first"),
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("teamwork")
-          .setDescription("Begin a teamwork roll where others can contribute dice"),
-      )
+      .addLocalizedBooleanOption("decreasing")
+      .addBooleanOption(commonOpts.teamwork)
       .addBooleanOption(commonOpts.secret),
   savable: true,
   changeable: ["pool"],

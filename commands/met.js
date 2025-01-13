@@ -1,19 +1,20 @@
-const { SlashCommandBuilder, inlineCode } = require("discord.js")
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
 
-const subcommands = loadSubcommands("met")
+const command_name = "met"
+const subcommands = loadSubcommands(command_name)
 
 module.exports = {
-  name: "met",
-  description: i18n.t("commands:met.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   subcommands,
   data() {
-    return new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+    return new LocalizedSlashCommandBuilder(command_name)
       .addSubcommand(subcommands.get("static").data())
       .addSubcommand(subcommands.get("opposed").data())
   },

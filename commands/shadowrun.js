@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, inlineCode, unorderedList } = require("discord.js")
+const { inlineCode, unorderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
+const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { rollUntil } = require("../services/until-roller")
 const { rollExplode } = require("../services/base-roller")
 const { successes } = require("../services/tally")
@@ -11,36 +12,27 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const { canonical } = require("../locales/helpers")
+
+const command_name = "shadowrun"
 
 module.exports = {
-  name: "shadowrun",
-  description: i18n.t("commands:shadowrun.description"),
+  name: command_name,
+  description: canonical("description", command_name),
   data: () =>
-    new SlashCommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addIntegerOption((option) =>
+    new LocalizedSlashCommandBuilder(command_name)
+      .addLocalizedIntegerOption("pool", (option) =>
         option
-          .setName("pool")
-          .setDescription("The number of dice to roll")
           .setMinValue(1)
           .setMaxValue(1000)
           .setRequired(true),
       )
       .addStringOption(commonOpts.description)
-      .addBooleanOption((option) =>
-        option
-          .setName("edge")
-          .setDescription("Whether edge was spent on the roll. Enables Rule of Six."),
-      )
+      .addLocalizedBooleanOption("edge")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.teamwork)
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("until", (option) =>
         option
-          .setName("until")
-          .setDescription(
-            "Roll the entire dice pool multiple times until this many successes are accrued",
-          )
           .setMinValue(1),
       )
       .addBooleanOption(commonOpts.secret),
