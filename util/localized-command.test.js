@@ -27,22 +27,6 @@ describe("LocalizedSlashCommandBuilder", () => {
 
       expect(command.description_localizations).toEqual(mapped("description", "8ball"))
     })
-
-    describe("with a key", () => {
-      it("uses the given key", () => {
-        const command = new LocalizedSlashCommandBuilder("command", "help.command")
-
-        expect(command.description_localizations).toEqual(mapped("description", "help.command"))
-      })
-    })
-
-    describe("without a key", () => {
-      it("uses the command name", () => {
-        const command = new LocalizedSlashCommandBuilder("8ball")
-
-        expect(command.description_localizations).toEqual(mapped("description", "8ball"))
-      })
-    })
   })
 
   describe("localizeOption", () => {
@@ -152,7 +136,7 @@ describe("LocalizedSlashCommandBuilder", () => {
       })
 
       it("creates user options", () => {
-        const command = new LocalizedSlashCommandBuilder("opposed", "met.opposed")
+        const command = new LocalizedSubcommandBuilder("opposed", "met")
         let extracted
 
         command.addLocalizedOption("opponent", "user", (option) => {
