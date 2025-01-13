@@ -56,6 +56,23 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
   }
 
   /**
+   * Inject a setLocalizedChoices method into string options
+   *
+   * @param  {SlashCommandOptionBuilder} option Option to modify
+   * @return {SlashCommandOptionBuilder}        Option with new method
+   */
+  injectLocalizeChoices(option) {
+    option.setLocalizedChoices = (...values) => {
+      option.setChoices(values.map(value => {return {
+          name: canonical(`choices.${value}`, this.base_key, option.name),
+          name_localizations: mapped(`choices.${value}`, this.base_key, option.name),
+          value,
+      }}))
+      return option
+    }
+  }
+
+  /**
    * Add a new option and populate localization data
    *
    * This is an internal helper to enable the creation of the various `addLocalized*Option` methods.
@@ -88,6 +105,7 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
     this[builder_method]((option) => {
       option.setName(option_name)
       this.localizeOption(option)
+      if (option_type === "string") this.injectLocalizeChoices(option)
       if (optionfn) optionfn(option)
       return option
     })
@@ -196,6 +214,23 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
   }
 
   /**
+   * Inject a setLocalizedChoices method into string options
+   *
+   * @param  {SlashCommandOptionBuilder} option Option to modify
+   * @return {SlashCommandOptionBuilder}        Option with new method
+   */
+  injectLocalizeChoices(option) {
+    option.setLocalizedChoices = (...values) => {
+      option.setChoices(values.map(value => {return {
+          name: canonical(`choices.${value}`, this.base_key, option.name),
+          name_localizations: mapped(`choices.${value}`, this.base_key, option.name),
+          value,
+      }}))
+      return option
+    }
+  }
+
+  /**
    * Add a new option and populate localization data
    *
    * This is an internal helper to enable the creation of the various `addLocalized*Option` methods.
@@ -228,6 +263,7 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
     this[builder_method]((option) => {
       option.setName(option_name)
       this.localizeOption(option)
+      if (option_type === "string") this.injectLocalizeChoices(option)
       if (optionfn) optionfn(option)
       return option
     })
