@@ -47,23 +47,7 @@ module.exports = {
       )
       .addLocalizedStringOption("talent", (option) =>
         option
-          .setChoices(
-            {
-              name: canonical("choices.minor", command_name, option.name),
-              name_localizations: mapped("choices.minor", command_name, option.name),
-              value: "minor",
-            },
-            {
-              name: canonical("choices.major", command_name, option.name),
-              name_localizations: mapped("choices.major", command_name, option.name),
-              value: "major",
-            },
-            {
-              name: canonical("choices.madness", command_name, option.name),
-              name_localizations: mapped("choices.madness", command_name, option.name),
-              value: "madness",
-            },
-          ),
+          .setLocalizedChoices("minor", "major", "madness"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

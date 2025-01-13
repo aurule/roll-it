@@ -19,18 +19,7 @@ module.exports = {
       .addStringOption(commonOpts.description)
       .addLocalizedStringOption("call", (option) =>
         option
-          .setChoices(
-            {
-              name: canonical("choices.heads", command_name, option.name),
-              name_localizations: mapped("choices.heads", command_name, option.name),
-              value: "1",
-            },
-            {
-              name: canonical("choices.tails", command_name, option.name),
-              name_localizations: mapped("choices.tails", command_name, option.name),
-              value: "2",
-            }
-          ),
+          .setLocalizedChoices("1", "2"),
       )
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({

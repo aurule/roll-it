@@ -34,18 +34,7 @@ module.exports = {
       .addLocalizedIntegerOption("modifier")
       .addLocalizedStringOption("with", (option) =>
         option
-          .setChoices(
-            {
-              name: canonical("choices.advantage", command_name, option.name),
-              name_localizations: mapped("choices.advantage", command_name, option.name),
-              value: "advantage",
-            },
-            {
-              name: canonical("choices.disadvantage", command_name, option.name),
-              name_localizations: mapped("choices.disadvantage", command_name, option.name),
-              value: "disadvantage",
-            },
-          ),
+          .setLocalizedChoices("advantage", "disadvantage"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
