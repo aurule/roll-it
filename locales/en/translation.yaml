@@ -14,3 +14,6 @@ options:
   pool:
     name: pool
     description: Number of dice to roll
+  teamwork:
+    name: teamwork
+    description: Begin a teamwork roll where others can contribute dice

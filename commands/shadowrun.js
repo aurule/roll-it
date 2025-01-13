@@ -34,11 +34,7 @@ module.exports = {
           .setDescription("Whether edge was spent on the roll. Enables Rule of Six."),
       )
       .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption((option) =>
-        option
-          .setName("teamwork")
-          .setDescription("Begin a teamwork roll where others can contribute dice"),
-      )
+      .addBooleanOption(commonOpts.teamwork)
       .addIntegerOption((option) =>
         option
           .setName("until")

@@ -64,4 +64,18 @@ module.exports = {
       .setDescriptionLocalizations(shared.mapped("description", option.name))
       .setMinValue(1)
   },
+
+  /**
+   * Teamwork option
+   *
+   * @param  {SlashCommandBooleanOption} option Option to populate
+   * @return {SlashCommandBooleanOption}        Populated option
+   */
+  teamwork(option) {
+    return option
+      .setName("teamwork")
+      .setNameLocalizations(shared.mapped("name", option.name))
+      .setDescription(shared.canonical("description", option.name))
+      .setDescriptionLocalizations(shared.mapped("description", option.name))
+  }
 }

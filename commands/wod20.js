@@ -41,11 +41,7 @@ module.exports = {
         option.setName("specialty").setDescription("Whether to count 10s as two successes"),
       )
       .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption((option) =>
-        option
-          .setName("teamwork")
-          .setDescription("Begin a teamwork roll where others can contribute dice"),
-      )
+      .addBooleanOption(commonOpts.teamwork)
       .addIntegerOption((option) =>
         option
           .setName("until")
