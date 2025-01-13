@@ -1,69 +1,42 @@
-const { SlashCommandSubcommandBuilder } = require("discord.js")
 const { oneLine } = require("common-tags")
 
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
 const { throwChoices } = require("../../util/met-throw-options")
 const { MetOpposedManager } = require("../../services/met-opposed-manager")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
+
+const command_name = "opposed"
+const parent_name = "met"
 
 module.exports = {
-  name: "opposed",
-  parent: "met",
-  description: i18n.t("commands:met.opposed.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addUserOption((option) =>
-        option.setName("opponent").setDescription("User you are challenging").setRequired(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName("attribute")
-          .setDescription("Type of attribute this test uses")
-          .setChoices(
-            { name: "Mental", value: "mental" },
-            { name: "Social", value: "social" },
-            { name: "Physical", value: "physical" },
-          )
-          .setRequired(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName("retest")
-          .setDescription("Named ability to use for a retest")
-          .setRequired(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName("throw")
-          .setDescription("The symbol you want to use for the first chop")
-          .setChoices(...throwChoices(true))
-          .setRequired(true),
-      )
-      .addStringOption(commonOpts.description)
-      .addBooleanOption((option) =>
-        option.setName("bomb").setDescription("Can you throw Bomb? Defaults to false."),
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("ties")
-          .setDescription("Do you automatically win on ties? Defaults to false."),
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("cancels")
-          .setDescription(
-            "Can you cancel a retest after abilities (Orisha's Fortune, etc)? Defaults to false.",
-          ),
-      )
-      .addBooleanOption((option) =>
-        option
-          .setName("use-retests")
-          .setDescription(
-            "Whether to allow retests, or use a single opposed throw. Defaults to true (allow retests).",
-          ),
-      ),
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+    .addLocalizedUserOption("opponent", (option) =>
+      option.setRequired(true),
+    )
+    .addLocalizedStringOption("attribute", (option) =>
+      option
+        .setLocalizedChoices("mental", "social", "physical")
+        .setRequired(true),
+    )
+    .addLocalizedStringOption("retest", (option) =>
+      option
+        .setRequired(true),
+    )
+    .addLocalizedStringOption("throw", (option) =>
+      option
+        .setChoices(...throwChoices(true))
+        .setRequired(true),
+    )
+    .addStringOption(commonOpts.description)
+    .addLocalizedBooleanOption("bomb")
+    .addLocalizedBooleanOption("ties")
+    .addLocalizedBooleanOption("cancels")
+    .addLocalizedBooleanOption("use-retests"),
   async execute(interaction) {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id

@@ -348,6 +348,8 @@ help:
     description: Get help about a command
     options:
       command:
+        name: command
+        description: The command you want help with
         validation:
           unavailable: No help is available for the command "{{command_name}}"
     response:
@@ -384,6 +386,19 @@ help:
   feedback:
     name: feedback
     description: Send feedback to Roll It's creator
+    options:
+      message:
+        name: message
+        description: The feedback message you want to send
+      command:
+        name: command
+        description: The command your feedback is about, if applicable
+      consent:
+        name: consent
+        description: May the creator of Roll It DM you about this feedback? Defaults to no.
+        choices:
+          yes: Yes, you may DM me
+          no: No, please do not DM me
     response:
       banned: You are not allowed to use this command right now.
       success: Thank you! Your feedback has been recorded.
@@ -392,6 +407,8 @@ help:
     description: Get help about a topic
     options:
       topic:
+        name: topic
+        description: The topic you want help with
         validation:
           unavailable: No help is available for the topic "{{topic_name}}"
 kob:
@@ -425,11 +442,45 @@ met:
     description: Start an interactive, opposed MET rock-paper-scissors test
     options:
       opponent:
+        name: opponent
+        description: User you are challenging
         validation:
           self: You cannot challenge yourself to an opposed test.
+      attribute:
+        name: attribute
+        description: Type of attribute this test uses
+        choices:
+          mental: Mental
+          social: Social
+          physical: Physical
+      retest:
+        name: retest
+        description: Named ability to use for a retest
+      throw:
+        name: throw
+        description: The symbol you want to use for the first chop
+      bomb:
+        name: bomb
+        description: Can you throw Bomb? Defaults to false.
+      ties:
+        name: ties
+        description: Do you automatically win on ties? Defaults to false.
+      cancels:
+        name: cancels
+        description: Can you cancel a retest after abilities (Orisha's Fortune, etc)? Defaults to false.
+      use-retests:
+        name: use-retests
+        description: Whether to allow retests, or use a single opposed throw. Defaults to true (allow retests).
   static:
     name: static
     description: Make a MET rock-paper-scissors roll
+    options:
+      throw:
+        name: throw
+        description: The symbol you want to use. Default is random.
+      vs:
+        name: vs
+        description: Symbols your virtual opponent can use against you. Default is R/P/S.
     response:
       outcome:
         win: win
@@ -523,8 +574,7 @@ nwod:
       description: Remove 1 die from the pool for each roll after the first
     teamwork:
       validation:
-        conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options,
-          or if you have a chance die.
+        conflict: You cannot use teamwork with the `rolls`, `until`, or `secret` options, or if you have a chance die.
   response:
     regular:
       withDescription_one: >-
@@ -760,14 +810,20 @@ saved:
     description: Make a small change to a saved roll
     options:
       name:
+        name: name
+        description: Name of the saved roll to change
         validation:
           missing: That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
           invalid: The saved options for that roll are not valid. You'll have to update them using `/saved manage`.
           incomplete: This roll is not finished. You have to save its name, description, and options before you can change it.
       adjustment:
+        name: adjustment
+        description: A number to add or subtract from the roll
         validation:
           zero: An `adjustment` of zero won't change the roll, so it has been left alone.
       change:
+        name: change
+        description: Choose where to apply the adjustment. Default is based on the saved command.
         validation:
           missing: Cannot change option `{{target}}`, since it does not exist for {{command}}.
     response:
@@ -784,6 +840,8 @@ saved:
     description: Change or remove a saved roll
     options:
       name:
+        name: name
+        description: Name of the saved roll to manage
         validation:
           missing: That saved roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
     state:
@@ -821,13 +879,26 @@ saved:
     description: Use one of your saved rolls
     options:
       name:
+        name: name
+        description: Name of the saved roll to use
         validation:
           missing: That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
           invalid: The saved options for that roll are not valid. You'll have to update them using `/saved manage` before you can use this saved roll.
           incomplete: This roll is not finished. You have to save some options before you can use it.
+      description:
+        name: description
+        description: A word or two about this roll. Defaults to the saved description.
+      bonus:
+        name: bonus
+        description: A number to add or subtract from the roll
       change:
+        name: change
+        description: Choose where to apply the bonus. Default is based on the saved command.
         validation:
           missing: Cannot change option `{{target}}`, since it does not exist for `{{command}}`.
+      rolls:
+        name: rolls
+        description: Roll this many times
     validation:
       invalidated: |-
         This roll can no longer be made after changing the `{{target}}`. The error is:
@@ -836,6 +907,16 @@ saved:
   set:
     name: set
     description: Set the name and description of a saved roll
+    options:
+      name:
+        name: name
+        description: Unique name for the saved roll
+      description:
+        name: description
+        description: A few words about the saved roll
+      invocation:
+        name: invocation
+        description: ADVANCED! Manually enter the discord command invocation to use
     response:
       error:
         name: |-
@@ -982,6 +1063,19 @@ table:
   add:
     name: add
     description: Upload a new rollable table
+    options:
+      name:
+        name: name
+        description: Unique name for the table
+      description:
+        name: description
+        description: A few words about the table
+      file:
+        name: file
+        description: A plain text file with the table's entries, one per line. Keep it under 5 MB.
+      quiet:
+        name: quiet
+        description: Hide the new table announcement from other users
     response:
       success: >
         {{user}} created the table *{{name}}*! You can roll on it with `/table roll name:{{name}}`.
@@ -1001,7 +1095,9 @@ table:
     name: manage
     description: Explain or remove a table
     options:
-      name:
+      table:
+        name: table
+        description: Name of the table to manage
         validation:
           missing: That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.
     state:
@@ -1033,7 +1129,9 @@ table:
     name: roll
     description: Roll a random entry from a table
     options:
-      name:
+      table:
+        name: table
+        description: Name of the table to roll
         validation:
           missing: That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.
     response_desc_one: |-

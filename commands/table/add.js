@@ -1,9 +1,12 @@
-const { SlashCommandSubcommandBuilder, inlineCode, userMention, italic, MessageFlags } = require("discord.js")
+const { inlineCode, userMention, italic, MessageFlags } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { GuildRollables } = require("../../db/rollable")
 const { fetchLines } = require("../../util/attachment-lines")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
 
 const MAX_UPLOAD_SIZE = 5_242_880
 const MAX_ENTRY_LENGTH = 1500
@@ -89,39 +92,29 @@ const contents_schema = Joi.array()
   )
   .required()
 
+const command_name = "add"
+const parent_name = "table"
+
 module.exports = {
-  name: "add",
-  parent: "table",
-  description: i18n.t("commands:table.add.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("name", (option) =>
         option
-          .setName("name")
-          .setDescription("Unique name for the table")
           .setMinLength(3)
           .setRequired(true),
       )
-      .addStringOption((option) =>
+      .addLocalizedStringOption("description", (option) =>
         option
-          .setName("description")
-          .setDescription("A few words about the table")
           .setMinLength(3)
           .setRequired(true),
       )
-      .addAttachmentOption((option) =>
+      .addLocalizedAttachmentOption("file", (option) =>
         option
-          .setName("file")
-          .setDescription(
-            "A plain text file with the table's entries, one per line. Keep it under 5 MB.",
-          )
           .setRequired(true),
       )
-      .addBooleanOption((option) =>
-        option.setName("quiet").setDescription("Hide the new table announcement from other users"),
-      ),
+      .addLocalizedBooleanOption("quiet"),
   async execute(interaction) {
     await interaction.deferReply()
     const tables = new GuildRollables(interaction.guildId)

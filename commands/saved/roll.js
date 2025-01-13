@@ -1,4 +1,6 @@
-const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
+const { inlineCode } = require("discord.js")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { operator } = require("../../util/formatters")
 const { UserSavedRolls } = require("../../db/saved_rolls")
@@ -7,6 +9,7 @@ const present_command = require("../../presenters/command-name-presenter").prese
 const { injectMention } = require("../../util/formatters")
 const { oneLine } = require("common-tags")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
 
 function change_target(bonus, change, changeable) {
   if (!bonus) return undefined
@@ -14,40 +17,30 @@ function change_target(bonus, change, changeable) {
   return changeable[0]
 }
 
+const command_name = "roll"
+const parent_name = "saved"
+
 module.exports = {
-  name: "roll",
-  parent: "saved",
-  description: i18n.t("commands:saved.roll.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("name", (option) =>
         option
-          .setName("name")
-          .setDescription("Name of the saved roll to use")
           .setRequired(true)
           .setAutocomplete(true),
       )
-      .addStringOption((option) =>
+      .addLocalizedStringOption("description", (option) =>
         option
-          .setName("description")
-          .setDescription("A word or two about this roll. Defaults to the saved description.")
           .setMaxLength(1500),
       )
-      .addIntegerOption((option) =>
-        option.setName("bonus").setDescription("A number to add or subtract from the roll"),
-      )
-      .addStringOption((option) =>
+      .addLocalizedIntegerOption("bonus")
+      .addLocalizedStringOption("change", (option) =>
         option
-          .setName("change")
-          .setDescription("Choose where to apply the bonus. Default is based on the saved command.")
           .setAutocomplete(true),
       )
-      .addIntegerOption((option) =>
+      .addLocalizedIntegerOption("rolls", (option) =>
         option
-          .setName("rolls")
-          .setDescription("Roll this many times")
           .setMinValue(1)
           .setMaxValue(100),
       )

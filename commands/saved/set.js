@@ -1,11 +1,14 @@
-const { SlashCommandSubcommandBuilder, inlineCode, italic } = require("discord.js")
+const { inlineCode, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const { parse } = require("../../parsers/invocation-parser")
 const commonSchemas = require("../../util/common-schemas")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
 
 /**
  * Validate that the given value is not in use as a name for a saved roll.
@@ -49,38 +52,32 @@ const options_schema = Joi.object({
   invocation: Joi.string().trim().optional().min(4).max(1500),
 })
 
+const command_name = "set"
+const parent_name = "saved"
+
 module.exports = {
-  name: "set",
-  parent: "saved",
-  description: i18n.t("commands:saved.set.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
-        option
-          .setName("name")
-          .setDescription("Unique name for the saved roll")
-          .setMinLength(3)
-          .setMaxLength(100)
-          .setRequired(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName("description")
-          .setDescription("A few words about the saved roll")
-          .setMinLength(3)
-          .setMaxLength(1500)
-          .setRequired(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName("invocation")
-          .setDescription("ADVANCED! Manually enter the discord command invocation to use")
-          .setMinLength(4)
-          .setMaxLength(1500)
-          .setRequired(false),
-      ),
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+    .addLocalizedStringOption("name", (option) =>
+      option
+        .setMinLength(3)
+        .setMaxLength(100)
+        .setRequired(true),
+    )
+    .addLocalizedStringOption("description", (option) =>
+      option
+        .setMinLength(3)
+        .setMaxLength(1500)
+        .setRequired(true),
+    )
+    .addLocalizedStringOption("invocation", (option) =>
+      option
+        .setMinLength(4)
+        .setMaxLength(1500)
+        .setRequired(false),
+    ),
   async execute(interaction) {
     // validate the name and description
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

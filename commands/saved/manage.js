@@ -1,5 +1,4 @@
 const {
-  SlashCommandSubcommandBuilder,
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
@@ -9,26 +8,27 @@ const {
   MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
+
+const command_name = "manage"
+const parent_name = "saved"
 
 module.exports = {
-  name: "manage",
-  parent: "saved",
-  description: i18n.t("commands:saved.manage.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
-        option
-          .setName("name")
-          .setDescription("Name of the saved roll to manage")
-          .setRequired(true)
-          .setAutocomplete(true),
-      ),
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+    .addLocalizedStringOption("name", (option) =>
+      option
+        .setRequired(true)
+        .setAutocomplete(true),
+    ),
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 

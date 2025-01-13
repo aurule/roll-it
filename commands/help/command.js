@@ -1,25 +1,25 @@
-const { SlashCommandSubcommandBuilder, MessageFlags } = require("discord.js")
+const { MessageFlags } = require("discord.js")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const CommandHelpPresenter = require("../../presenters/command-help-presenter")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const Completers = require("../../completers/command-completers")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
+
+const command_name = "command"
+const parent_name = "help"
 
 module.exports = {
-  name: "command",
-  parent: "help",
-  description: i18n.t("commands:help.command.description"),
-  data() {
-    return new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
-        option
-          .setName("command")
-          .setDescription("The command you want help with")
-          .setAutocomplete(true)
-          .setRequired(true),
-      )
-  },
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+    .addLocalizedStringOption("command", (option) =>
+      option
+        .setAutocomplete(true)
+        .setRequired(true),
+    ),
   execute(interaction) {
     const command_name = interaction.options.getString("command") ?? ""
 

@@ -1,5 +1,4 @@
 const {
-  SlashCommandSubcommandBuilder,
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
@@ -9,22 +8,23 @@ const {
   MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
+
+const command_name = "manage"
+const parent_name = "table"
 
 module.exports = {
-  name: "manage",
-  parent: "table",
-  description: i18n.t("commands:table.manage.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("table", (option) =>
         option
-          .setName("table")
-          .setDescription("Name of the table to manage")
           .setRequired(true)
           .setAutocomplete(true),
       ),
@@ -39,7 +39,7 @@ module.exports = {
     const detail = tables.detail(table_id, table_name)
 
     if (detail === undefined) {
-      return interaction.whisper(t("options.name.validation.missing"))
+      return interaction.whisper(t("options.table.validation.missing"))
     }
 
     const show_button = new ButtonBuilder()

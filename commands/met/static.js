@@ -1,32 +1,30 @@
-const { SlashCommandSubcommandBuilder, inlineCode } = require("discord.js")
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
 const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/results/met-static-results-presenter")
 const { injectMention } = require("../../util/formatters")
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
+
+const command_name = "static"
+const parent_name = "met"
 
 module.exports = {
-  name: "static",
-  parent: "met",
-  description: i18n.t("commands:met.static.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
       .addStringOption(commonOpts.description)
-      .addStringOption((option) =>
+      .addLocalizedStringOption("throw", (option) =>
         option
-          .setName("throw")
-          .setDescription("The symbol you want to use. Default is random.")
           .setChoices(...throwChoices(true)),
       )
-      .addStringOption((option) =>
+      .addLocalizedStringOption("vs", (option) =>
         option
-          .setName("vs")
-          .setDescription("Symbols your virtual opponent can use against you. Default is R/P/S.")
           .setChoices(...vsChoices),
       )
       .addIntegerOption(commonOpts.rolls)

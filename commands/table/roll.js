@@ -1,29 +1,28 @@
-const { SlashCommandSubcommandBuilder } = require("discord.js")
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const Completers = require("../../completers/table-completers")
 const { present } = require("../../presenters/results/table-results-presenter")
 const { GuildRollables } = require("../../db/rollable")
 const { i18n } = require("../../locales")
-
+const { canonical } = require("../../locales/helpers")
 const commonOpts = require("../../util/common-options")
 
+
+const command_name = "roll"
+const parent_name = "table"
+
 module.exports = {
-  name: "roll",
-  parent: "table",
-  description: i18n.t("commands:table.roll.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
-        option
-          .setName("table")
-          .setDescription("Name of the table to roll")
-          .setRequired(true)
-          .setAutocomplete(true),
-      )
-      .addStringOption(commonOpts.description)
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+    .addLocalizedStringOption("table", (option) =>
+      option
+        .setRequired(true)
+        .setAutocomplete(true),
+    )
+    .addStringOption(commonOpts.description)
+    .addIntegerOption(commonOpts.rolls)
+    .addBooleanOption(commonOpts.secret),
   async execute(interaction) {
     const tables = new GuildRollables(interaction.guildId)
 
@@ -38,7 +37,7 @@ module.exports = {
     const results = Array.from({ length: rolls }, () => tables.random(table_id, table_name))
 
     if (results[0] === undefined) {
-      return interaction.whisper(t("options.name.validation.missing"))
+      return interaction.whisper(t("options.table.validation.missing"))
     }
 
     const detail = tables.detail(table_id, table_name)

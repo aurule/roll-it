@@ -1,39 +1,34 @@
-const { SlashCommandSubcommandBuilder, inlineCode, italic } = require("discord.js")
+const { inlineCode, italic } = require("discord.js")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { oneLine } = require("common-tags")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const present_command = require("../../presenters/command-name-presenter").present
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
 
 function change_target(bonus, change, changeable) {
   if (change && changeable.includes(change)) return change
   return changeable[0]
 }
 
+const command_name = "grow"
+const parent_name = "saved"
+
 module.exports = {
-  name: "grow",
-  parent: "saved",
-  description: i18n.t("commands:saved.grow.description"),
-  data: () =>
-    new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("name", (option) =>
         option
-          .setName("name")
-          .setDescription("Name of the saved roll to change")
           .setRequired(true)
           .setAutocomplete(true),
       )
-      .addIntegerOption((option) =>
-        option.setName("adjustment").setDescription("A number to add or subtract from the roll"),
-      )
-      .addStringOption((option) =>
+      .addLocalizedIntegerOption("adjustment")
+      .addLocalizedStringOption("change", (option) =>
         option
-          .setName("change")
-          .setDescription(
-            "Choose where to apply the adjustment. Default is based on the saved command.",
-          )
           .setAutocomplete(true),
       ),
   change_target,

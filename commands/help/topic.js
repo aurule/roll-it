@@ -1,28 +1,28 @@
-const { SlashCommandSubcommandBuilder, heading, MessageFlags } = require("discord.js")
+const { heading, MessageFlags } = require("discord.js")
+
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const topics = require("../../data").help_topics
 const { i18n } = require("../../locales")
+const { canonical } = require("../../locales/helpers")
+
+const command_name = "topic"
+const parent_name = "help"
 
 module.exports = {
-  name: "topic",
-  parent: "help",
-  description: i18n.t("commands:help.topic.description"),
-  data() {
-    return new SlashCommandSubcommandBuilder()
-      .setName("topic")
-      .setDescription("Get help about a topic")
-      .addStringOption((option) =>
-        option
-          .setName("topic")
-          .setDescription("The topic you want help with")
-          .setChoices(
-            ...topics.map((t) => {
-              return { name: `${t.title}`, value: `${t.name}` }
-            }),
-          )
-          .setRequired(true),
-      )
-  },
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+    .addLocalizedStringOption("topic", (option) =>
+      option
+        .setChoices(
+          ...topics.map((t) => {
+            return { name: `${t.title}`, value: `${t.name}` }
+          }),
+        )
+        .setRequired(true),
+    ),
   execute(interaction) {
     const topic_name = interaction.options.getString("topic") ?? ""
 

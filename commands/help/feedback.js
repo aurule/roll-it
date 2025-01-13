@@ -1,42 +1,33 @@
-const { SlashCommandSubcommandBuilder, inlineCode, subtext, italic } = require("discord.js")
+const { inlineCode, subtext, italic } = require("discord.js")
 const { oneLine } = require("common-tags")
 
+const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const Completers = require("../../completers/command-completers")
 const { UserBans } = require("../../db/bans")
 const { Feedback } = require("../../db/feedback")
 const { i18n } = require("../../locales")
+const { canonical, mapped } = require("../../locales/helpers")
+
+const command_name = "feedback"
+const parent_name = "help"
 
 module.exports = {
-  name: "feedback",
-  parent: "help",
-  description: i18n.t("commands:help.feedback.description"),
-  data() {
-    return new SlashCommandSubcommandBuilder()
-      .setName(module.exports.name)
-      .setDescription(module.exports.description)
-      .addStringOption((option) =>
-        option
-          .setName("message")
-          .setDescription("The feedback message you want to send")
-          .setMaxLength(1500)
-          .setRequired(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName("command")
-          .setDescription("The command your feedback is about, if applicable")
-          .setAutocomplete(true),
-      )
-      .addStringOption((option) =>
-        option
-          .setName("consent")
-          .setDescription("May the creator of Roll It DM you about this feedback? Defaults to no.")
-          .setChoices(
-            { name: "Yes, you may DM me", value: "yes" },
-            { name: "No, please do not DM me", value: "no" },
-          ),
-      )
-  },
+  name: command_name,
+  parent: parent_name,
+  description: canonical("description", `${parent_name}.${command_name}`),
+  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+    .addLocalizedStringOption("message", (option) =>
+      option
+        .setMaxLength(1500)
+        .setRequired(true),
+    )
+    .addLocalizedStringOption("command", (option) =>
+      option
+        .setAutocomplete(true),
+    )
+    .addLocalizedStringOption("consent", (option) =>
+      option.setLocalizedChoices("yes", "no")
+    ),
   execute(interaction) {
     const t = i18n.getFixedT(interaction.locale, "commands", "help.feedback")
 
