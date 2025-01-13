@@ -98,6 +98,9 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
       case "user":
         builder_method = "addUserOption"
         break
+      case "attachment":
+        builder_method = "addAttachmentOption"
+        break
       default:
         throw new Error(`unknown option type "${option_type}"`)
     }
@@ -155,6 +158,17 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
    */
   addLocalizedUserOption(option_name, optionFn) {
     return this.addLocalizedOption(option_name, "user", optionFn)
+  }
+
+  /**
+   * Add a new file select option with localization data
+   *
+   * @param {str}            option_name Name to set for the option
+   * @param {callable}       optionfn    Function to execute. Must take and return an option object.
+   * @return {SlashCommandOptionBuilder} Option builder object
+   */
+  addLocalizedAttachmentOption(option_name, optionFn) {
+    return this.addLocalizedOption(option_name, "attachment", optionFn)
   }
 }
 
@@ -256,6 +270,9 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
       case "user":
         builder_method = "addUserOption"
         break
+      case "attachment":
+        builder_method = "addAttachmentOption"
+        break
       default:
         throw new Error(`unknown option type "${option_type}"`)
     }
@@ -313,6 +330,17 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
    */
   addLocalizedUserOption(option_name, optionFn) {
     return this.addLocalizedOption(option_name, "user", optionFn)
+  }
+
+  /**
+   * Add a new file select option with localization data
+   *
+   * @param {str}            option_name Name to set for the option
+   * @param {callable}       optionfn    Function to execute. Must take and return an option object.
+   * @return {SlashCommandOptionBuilder} Option builder object
+   */
+  addLocalizedAttachmentOption(option_name, optionFn) {
+    return this.addLocalizedOption(option_name, "attachment", optionFn)
   }
 }
 

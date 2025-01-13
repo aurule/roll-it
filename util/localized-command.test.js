@@ -211,6 +211,18 @@ describe("LocalizedSlashCommandBuilder", () => {
         expect(extracted).toBeTruthy()
       })
 
+      it("creates attachment options", () => {
+        const command = new LocalizedSubcommandBuilder("opposed", "met")
+        let extracted
+
+        command.addLocalizedOption("opponent", "attachment", (option) => {
+          extracted = option
+          return option
+        })
+
+        expect(extracted).toBeTruthy()
+      })
+
       it("errors on unknown option type", () => {
         const command = new LocalizedSlashCommandBuilder("8ball")
         let extracted
