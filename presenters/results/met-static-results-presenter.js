@@ -52,7 +52,6 @@ function pretty(result, request = "") {
  * @return {str}                          Fully presented roll
  */
 function presentOne({ throw_request, vs_request, thrown, vs, compared, description, t }) {
-  const result = t(`response.outcome.${compared[0]}`)
   const user_throw = thrown[0]
   const bot_throw = vs[0]
 
@@ -74,7 +73,7 @@ function presentOne({ throw_request, vs_request, thrown, vs, compared, descripti
 
     const chop_key = chop_parts.join(".")
     t_args.detail = t(chop_key)
-    t_args.result = result
+    t_args.result = t(`response.outcome.${compared[0]}`)
 
     key_parts.push("vs")
   } else {
