@@ -25,7 +25,7 @@ async function handleCommand(interaction) {
     },
     `command ${interaction.commandName} called`,
   )
-  metrics.logCommand(interaction.guildId, interaction.commandName)
+  metrics.logCommand(interaction.guildId, interaction.commandName, interaction.locale)
 
   const policyResult = await PolicyChecker.check(command.policy, interaction)
 

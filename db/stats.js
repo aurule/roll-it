@@ -11,19 +11,22 @@ class Stats {
     this.db = db_obj ?? require("./index").db
   }
 
-  logCommand(guildFlake, commandName) {
+  logCommand(guildFlake, commandName, locale) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO stats.commands (
         guildFlake,
-        command
+        command,
+        locale
       ) VALUES (
         @guildFlake,
-        @command
+        @command,
+        @locale
       )
     `)
     return insert.run({
       guildFlake,
       command: commandName,
+      locale,
     })
   }
 }
