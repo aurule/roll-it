@@ -4,7 +4,6 @@ const {
   ActionRowBuilder,
   ComponentType,
   italic,
-  orderedList,
   MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
@@ -72,7 +71,7 @@ module.exports = {
           manage_prompt.delete()
           const full_text = t("state.show.response.success", {
             name: detail.name,
-            contents: orderedList(detail.contents),
+            contents: detail.contents,
           })
 
           return interaction.paginate({

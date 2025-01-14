@@ -1,5 +1,3 @@
-const { unorderedList } = require("discord.js")
-
 module.exports = {
   /**
    * Present the list of available tables
@@ -12,6 +10,6 @@ module.exports = {
     if (!tables.length) return t("response.none")
 
     const tables_list = tables.map((table) => t("response.entry", { table }))
-    return t("response.filled", { count: tables.length, tables: unorderedList(tables_list) })
+    return t("response.filled", { count: tables.length, tables: tables_list })
   },
 }

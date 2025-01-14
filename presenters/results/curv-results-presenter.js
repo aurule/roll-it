@@ -127,14 +127,13 @@ class CurvPresenter {
   /**
    * Show the outcome of multiple rolls
    *
-   * @return {str} Formatted roll results
+   * @return {str[]} Formatted roll results
    */
   presentResultSet() {
     return this.raw
       .map((roll, roll_idx) => {
-        return `\t${this.explainOutcome(roll_idx)} (${this.explainRoll(roll_idx)}${this.explainModifier(roll_idx)})`
+        return `${this.explainOutcome(roll_idx)} (${this.explainRoll(roll_idx)}${this.explainModifier(roll_idx)})`
       })
-      .join("\n")
   }
 }
 

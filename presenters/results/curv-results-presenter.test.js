@@ -308,8 +308,8 @@ describe("CurvPresenter", () => {
 
       const result = presenter.presentResultSet()
 
-      expect(result).toMatch("6")
-      expect(result).toMatch("15")
+      expect(result[0]).toMatch("6")
+      expect(result[1]).toMatch("15")
     })
 
     it("includes each roll's dice", () => {
@@ -322,8 +322,8 @@ describe("CurvPresenter", () => {
 
       const result = presenter.presentResultSet()
 
-      expect(result).toMatch("1,2,3")
-      expect(result).toMatch("4,5,6")
+      expect(result[0]).toMatch("1,2,3")
+      expect(result[1]).toMatch("4,5,6")
     })
   })
 })

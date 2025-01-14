@@ -95,33 +95,33 @@ curv:
         {{userMention}} rolled {{result}} for "{{description}}" with advantage ({{explanation}})
       advantage_other: |-
         {{userMention}} rolled "{{description}}" {{count}} times with advantage:
-        {{results}}
+        {{results, indented}}
       disadvantage_one: >-
         {{userMention}} rolled {{result}} for "{{description}}" with disadvantage ({{explanation}})
       disadvantage_other: |-
         {{userMention}} rolled "{{description}}" {{count}} times with disadvantage:
-        {{results}}
+        {{results, indented}}
       simple_one: >-
         {{userMention}} rolled {{result}} for "{{description}}" ({{explanation}})
       simple_other: |-
         {{userMention}} rolled "{{description}}" {{count}} times:
-        {{results}}
+        {{results, indented}}
     withoutDescription:
       advantage_one: >-
         {{userMention}} rolled {{result}} with advantage ({{explanation}})
       advantage_other: |-
         {{userMention}} rolled {{count}} times with advantage:
-        {{results}}
+        {{results, indented}}
       disadvantage_one: >-
         {{userMention}} rolled {{result}} with disadvantage ({{explanation}})
       disadvantage_other: |-
         {{userMention}} rolled {{count}} times with disadvantage:
-        {{results}}
+        {{results, indented}}
       simple_one: >-
         {{userMention}} rolled {{result}} ({{explanation}})
       simple_other: |-
         {{userMention}} rolled {{count}} times:
-        {{results}}
+        {{results, indented}}
 d10:
   name: d10
   description: Roll a single ten-sided die
@@ -763,16 +763,16 @@ saved:
 
         :warning: This roll is incomplete! You have to finish it using `/saved set` or *Save this roll* before you'll be able to roll it.
       options:
-        valid: "{{options}}"
+        valid: "{{options, ul}}"
         invalid: |-
-          {{options}}
+          {{options, ul}}
           :x: These options are invalid. Update them by clicking the Edit button below, then using *Save this roll* to save new options.
       option: "*{{name}}:* {{value}}"
       missing:
         name: "[Not set. Use `/saved set` to save a name and description.]"
         description: "[Not set]"
-        command: "[Not set. Use *Save this roll* to save a command."
-        options: "* *none*"
+        command: "[Not set. Use *Save this roll* to save a command.]"
+        options: "*none*"
         invocation: "[Save the roll's command to see its invocation.]"
     list:
       record:
@@ -795,11 +795,11 @@ saved:
       empty: You have no saved rolls. Make some with *Save this roll* and `/saved set`!
       filled_one: |-
         You have one saved roll:
-        {{rolls}}
+        {{rolls, ul}}
         $t(saved.entry.list.legend)
       filled_other: |-
         You have one saved roll:
-        {{rolls}}
+        {{rolls, ul}}
         $t(saved.entry.list.legend)
       legend: |-
         -# Legend:
@@ -1086,10 +1086,10 @@ table:
       none: There are no tables to roll. Add some with `/table add`!
       filled_one: |-
         There is one available table:
-        {{tables}}
+        {{tables, ul}}
       filled_other: |-
         These are the available tables:
-        {{tables}}
+        {{tables, ul}}
       entry: "*{{table.name}}* - {{table.description}}"
   manage:
     name: manage
@@ -1124,7 +1124,7 @@ table:
         response:
           success: |-
             These are the entries in the *{{name}}* table:
-            {{contents}}
+            {{contents, ol}}
   roll:
     name: roll
     description: Roll a random entry from a table

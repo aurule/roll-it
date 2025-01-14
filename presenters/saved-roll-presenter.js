@@ -1,4 +1,4 @@
-const { inlineCode, unorderedList } = require("discord.js")
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 /**
@@ -18,9 +18,9 @@ function present(saved_roll, t) {
     for (const opt in saved_roll.options) {
       opts_list.push(t("entry.details.option", { name: opt, value: saved_roll.options[opt] }))
     }
-    options_body = unorderedList(opts_list)
+    options_body = opts_list
   } else {
-    options_body = t("entry.missing.options")
+    options_body = [t("entry.missing.options")]
   }
 
   const opt_key = saved_roll.invalid
@@ -92,7 +92,7 @@ function presentList(saved_rolls, t) {
 
   const t_args = {
     count: saved_rolls.length,
-    rolls: unorderedList(rolls),
+    rolls,
   }
 
   return t("entry.list.filled", t_args)
