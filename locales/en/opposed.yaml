@@ -15,6 +15,14 @@ chops:
   bomb-rock: ":firecracker: bomb *vs* {{opponent.mention}}'s :rock: rock"
   bomb-paper: ":firecracker: bomb *vs* {{opponent.mention}}'s :scroll: paper"
   bomb-bomb: ":firecracker: bomb *vs* {{opponent.mention}}'s :firecracker: bomb"
+throws:
+  rock: ⛰️ Rock
+  paper: 📜 Paper
+  scissors: ✂️ Scissors
+  bomb: 🧨 Bomb
+  rand: 🔀⛰️📜✂️ Random Rock-Paper-Scissors
+  rand-bomb: 🔀⛰️🧨✂️ Random Rock-Bomb-Scissors
+  none: 🚫 None
 test:
   response:
     tied:

@@ -21,7 +21,7 @@ module.exports = {
       .addStringOption(commonOpts.description)
       .addLocalizedStringOption("throw", (option) =>
         option
-          .setChoices(...throwChoices(true)),
+          .setChoices(...throwChoices),
       )
       .addLocalizedStringOption("vs", (option) =>
         option

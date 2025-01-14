@@ -81,6 +81,12 @@ class MetOpposedManager {
   initial_message_link
 
   /**
+   * Locale name
+   * @type {str}
+   */
+  locale
+
+  /**
    * Translation function
    * @type {i18n.t}
    */
@@ -126,8 +132,8 @@ class MetOpposedManager {
     this.retest_ability = retest_ability
     this.test_recorder = new TestRecorder(this.attacker, this.defender)
 
-    const locale = interaction?.locale ?? "en-US"
-    this.t = i18n.getFixedT(locale, "opposed")
+    this.locale = interaction?.locale ?? "en-US"
+    this.t = i18n.getFixedT(this.locale, "opposed")
 
     this.test_recorder.addTest()
   }
@@ -275,7 +281,7 @@ class MetOpposedManager {
       .setPlaceholder(this.t("state.initial.picker"))
       .setMinValues(1)
       .setMaxValues(1)
-      .addOptions(...throwOptions(this.defender.bomb))
+      .addOptions(...throwOptions(this.locale, this.defender.bomb))
     rowResponse.addComponents(responsePicker)
 
     const rowActions = new ActionRowBuilder()
@@ -721,7 +727,7 @@ class MetOpposedManager {
       .setPlaceholder(this.t("state.retest.picker"))
       .setMinValues(1)
       .setMaxValues(1)
-      .addOptions(...throwOptions(this.defender.bomb || this.attacker.bomb))
+      .addOptions(...throwOptions(this.locale, this.defender.bomb || this.attacker.bomb))
     rowResponse.addComponents(responsePicker)
 
     const rowButtonsGo = new ActionRowBuilder()

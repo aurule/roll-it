@@ -29,7 +29,7 @@ module.exports = {
     )
     .addLocalizedStringOption("throw", (option) =>
       option
-        .setChoices(...throwChoices(true))
+        .setChoices(...throwChoices)
         .setRequired(true),
     )
     .addStringOption(commonOpts.description)
