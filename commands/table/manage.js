@@ -68,7 +68,7 @@ module.exports = {
     const manageHandler = async (event) => {
       switch (event.customId) {
         case "show":
-          manage_prompt.delete()
+          await manage_prompt.delete()
           const full_text = t("state.show.response.success", {
             name: detail.name,
             contents: detail.contents,

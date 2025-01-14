@@ -1,7 +1,7 @@
 const { join } = require("node:path")
 const i18next = require("i18next")
 const Backend = require("i18next-fs-backend")
-const { unorderedList, orderedList } = require("discord.js")
+const { unorderedList } = require("discord.js")
 
 i18next.use(Backend).init({
   debug: process.env.NODE_ENV === "development",
@@ -27,7 +27,7 @@ i18next.services.formatter.add("ul", (value, lng, options) => {
 })
 
 i18next.services.formatter.add("ol", (value, lng, options) => {
-  return orderedList(value)
+  return value.map((val, idx) => `${idx+1}. ${val}`).join("\n")
 })
 
 i18next.services.formatter.add("indented", (value, lng, options) => {
