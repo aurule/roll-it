@@ -78,6 +78,18 @@ describe("Feedback", () => {
         const detail = feedback.detail(result.lastInsertRowid)
         expect(detail.canReply).toBeTruthy()
       })
+
+      it("saves the locale", () => {
+        const result = feedback.create({
+          userId: "testuser",
+          content: "testing",
+          canReply: true,
+          locale: "en-US",
+        })
+
+        const detail = feedback.detail(result.lastInsertRowid)
+        expect(detail.locale).toEqual("en-US")
+      })
     })
   })
 

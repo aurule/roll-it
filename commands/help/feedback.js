@@ -39,6 +39,7 @@ module.exports = {
       guildId: interaction.guildId,
       commandName: command_name,
       canReply: consent === "yes",
+      locale: interaction.locale,
     })
 
     return interaction.whisper(t("response.success"))

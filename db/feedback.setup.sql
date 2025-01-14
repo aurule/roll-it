@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS feedback (
   canReply BOOL DEFAULT FALSE,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   resolved_at DATETIME,
-  resolution TEXT
+  resolution TEXT,
+  locale TEXT
 );
 
 CREATE INDEX IF NOT EXISTS feedback_user

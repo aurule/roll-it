@@ -22,22 +22,25 @@ class Feedback {
    * @param  {?str}  options.guildId     ID of the guild related to the feedback. Optional.
    * @param  {?str}  options.commandName Name of the command related to the feedback. Optional.
    * @param  {?bool} options.canReply    Whether the user is open to talking about their feedback
+   * @param  {?str}  options.locale      Name of the locale the user has set. Optional.
    * @return {Info}                      Query info object with `changes` and `lastInsertRowid` properties
    */
-  create({ userId, content, guildId, commandName, canReply }) {
+  create({ userId, content, guildId, commandName, canReply, locale }) {
     const insert = this.db.prepare(oneLine`
       INSERT OR ROLLBACK INTO feedback (
         userFlake,
         content,
         guildFlake,
         commandName,
-        canReply
+        canReply,
+        locale
       ) VALUES (
         @userFlake,
         @content,
         @guildFlake,
         @commandName,
-        @canReply
+        @canReply,
+        @locale
       )
     `)
     return insert.run({
@@ -46,6 +49,7 @@ class Feedback {
       guildFlake: guildId,
       commandName,
       canReply: +!!canReply,
+      locale,
     })
   }
 
@@ -72,6 +76,7 @@ class Feedback {
    * //   content: "A message for you",
    * //   guildFlake: "0987654321",
    * //   commandName: "d20",
+   * //   locale: "en-US",
    * //   canReply: true,
    * // }
    * ```
