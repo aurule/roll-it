@@ -14,11 +14,10 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-    .addLocalizedStringOption("command", (option) =>
-      option
-        .setAutocomplete(true)
-        .setRequired(true),
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
+      "command",
+      (option) => option.setAutocomplete(true).setRequired(true),
     ),
   execute(interaction) {
     const command_name = interaction.options.getString("command") ?? ""

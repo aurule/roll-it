@@ -21,10 +21,7 @@ module.exports = {
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addLocalizedStringOption("formula", (option) =>
-        option
-          .setMinLength(3)
-          .setMaxLength(1500)
-          .setRequired(true),
+        option.setMinLength(3).setMaxLength(1500).setRequired(true),
       )
       .addStringOption(commonOpts.description)
       .addIntegerOption(commonOpts.rolls)

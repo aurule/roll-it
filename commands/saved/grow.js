@@ -20,17 +20,11 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addLocalizedStringOption("name", (option) =>
-        option
-          .setRequired(true)
-          .setAutocomplete(true),
-      )
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("name", (option) => option.setRequired(true).setAutocomplete(true))
       .addLocalizedIntegerOption("adjustment")
-      .addLocalizedStringOption("change", (option) =>
-        option
-          .setAutocomplete(true),
-      ),
+      .addLocalizedStringOption("change", (option) => option.setAutocomplete(true)),
   change_target,
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

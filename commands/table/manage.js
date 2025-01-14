@@ -22,12 +22,11 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addLocalizedStringOption("table", (option) =>
-        option
-          .setRequired(true)
-          .setAutocomplete(true),
-      ),
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
+      "table",
+      (option) => option.setRequired(true).setAutocomplete(true),
+    ),
   async execute(interaction) {
     const tables = new GuildRollables(interaction.guildId)
 

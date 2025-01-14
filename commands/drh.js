@@ -1,10 +1,4 @@
-const {
-  inlineCode,
-  italic,
-  Collection,
-  orderedList,
-  unorderedList,
-} = require("discord.js")
+const { inlineCode, italic, Collection, orderedList, unorderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
@@ -26,28 +20,14 @@ module.exports = {
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addLocalizedIntegerOption("discipline", (option) =>
-        option
-          .setRequired(true)
-          .setMinValue(1)
-          .setMaxValue(6),
+        option.setRequired(true).setMinValue(1).setMaxValue(6),
       )
-      .addLocalizedIntegerOption("pain", (option) =>
-        option
-          .setRequired(true)
-          .setMinValue(1),
-      )
+      .addLocalizedIntegerOption("pain", (option) => option.setRequired(true).setMinValue(1))
       .addStringOption(commonOpts.description)
-      .addLocalizedIntegerOption("exhaustion", (option) =>
-        option
-          .setMinValue(1)
-          .setMaxValue(6),
-      )
-      .addLocalizedIntegerOption("madness", (option) =>
-        option.setMinValue(1),
-      )
+      .addLocalizedIntegerOption("exhaustion", (option) => option.setMinValue(1).setMaxValue(6))
+      .addLocalizedIntegerOption("madness", (option) => option.setMinValue(1))
       .addLocalizedStringOption("talent", (option) =>
-        option
-          .setLocalizedChoices("minor", "major", "madness"),
+        option.setLocalizedChoices("minor", "major", "madness"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

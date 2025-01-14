@@ -24,26 +24,13 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addLocalizedStringOption("name", (option) =>
-        option
-          .setRequired(true)
-          .setAutocomplete(true),
-      )
-      .addLocalizedStringOption("description", (option) =>
-        option
-          .setMaxLength(1500),
-      )
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("name", (option) => option.setRequired(true).setAutocomplete(true))
+      .addLocalizedStringOption("description", (option) => option.setMaxLength(1500))
       .addLocalizedIntegerOption("bonus")
-      .addLocalizedStringOption("change", (option) =>
-        option
-          .setAutocomplete(true),
-      )
-      .addLocalizedIntegerOption("rolls", (option) =>
-        option
-          .setMinValue(1)
-          .setMaxValue(100),
-      )
+      .addLocalizedStringOption("change", (option) => option.setAutocomplete(true))
+      .addLocalizedIntegerOption("rolls", (option) => option.setMinValue(1).setMaxValue(100))
       .addBooleanOption(commonOpts.secret),
   change_target,
   async execute(interaction) {

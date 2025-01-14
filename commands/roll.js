@@ -20,11 +20,7 @@ module.exports = {
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addIntegerOption((opt) => commonOpts.pool(opt).setRequired(true))
-      .addLocalizedIntegerOption("sides", (option) =>
-        option
-          .setMinValue(2)
-          .setRequired(true),
-      )
+      .addLocalizedIntegerOption("sides", (option) => option.setMinValue(2).setRequired(true))
       .addStringOption(commonOpts.description)
       .addLocalizedIntegerOption("modifier")
       .addIntegerOption(commonOpts.rolls)

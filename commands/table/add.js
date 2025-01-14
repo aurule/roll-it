@@ -99,21 +99,11 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addLocalizedStringOption("name", (option) =>
-        option
-          .setMinLength(3)
-          .setRequired(true),
-      )
-      .addLocalizedStringOption("description", (option) =>
-        option
-          .setMinLength(3)
-          .setRequired(true),
-      )
-      .addLocalizedAttachmentOption("file", (option) =>
-        option
-          .setRequired(true),
-      )
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("name", (option) => option.setMinLength(3).setRequired(true))
+      .addLocalizedStringOption("description", (option) => option.setMinLength(3).setRequired(true))
+      .addLocalizedAttachmentOption("file", (option) => option.setRequired(true))
       .addLocalizedBooleanOption("quiet"),
   async execute(interaction) {
     await interaction.deferReply()

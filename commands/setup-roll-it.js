@@ -205,7 +205,7 @@ module.exports = {
         .filter((c) => c.type !== "menu")
         .map((c) => `• ${commandNamePresenter.present(c, opts.locale)} - ${c.description}`)
         .join("\n"),
-      ...opts
+      ...opts,
     }
   },
   help({ command_name }) {

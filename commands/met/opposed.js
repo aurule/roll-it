@@ -14,29 +14,21 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-    .addLocalizedUserOption("opponent", (option) =>
-      option.setRequired(true),
-    )
-    .addLocalizedStringOption("attribute", (option) =>
-      option
-        .setLocalizedChoices("mental", "social", "physical")
-        .setRequired(true),
-    )
-    .addLocalizedStringOption("retest", (option) =>
-      option
-        .setRequired(true),
-    )
-    .addLocalizedStringOption("throw", (option) =>
-      option
-        .setChoices(...throwChoices)
-        .setRequired(true),
-    )
-    .addStringOption(commonOpts.description)
-    .addLocalizedBooleanOption("bomb")
-    .addLocalizedBooleanOption("ties")
-    .addLocalizedBooleanOption("cancels")
-    .addLocalizedBooleanOption("use-retests"),
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedUserOption("opponent", (option) => option.setRequired(true))
+      .addLocalizedStringOption("attribute", (option) =>
+        option.setLocalizedChoices("mental", "social", "physical").setRequired(true),
+      )
+      .addLocalizedStringOption("retest", (option) => option.setRequired(true))
+      .addLocalizedStringOption("throw", (option) =>
+        option.setChoices(...throwChoices).setRequired(true),
+      )
+      .addStringOption(commonOpts.description)
+      .addLocalizedBooleanOption("bomb")
+      .addLocalizedBooleanOption("ties")
+      .addLocalizedBooleanOption("cancels")
+      .addLocalizedBooleanOption("use-retests"),
   async execute(interaction) {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id

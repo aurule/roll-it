@@ -26,7 +26,7 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
   constructor(command_name) {
     super()
 
-    Object.defineProperty(this, 'base_key', { value: 'static', writable: true })
+    Object.defineProperty(this, "base_key", { value: "static", writable: true })
 
     this.base_key = command_name
     this.setName(this.base_key)
@@ -63,11 +63,15 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
    */
   injectLocalizeChoices(option) {
     option.setLocalizedChoices = (...values) => {
-      option.setChoices(values.map(value => {return {
-          name: canonical(`choices.${value}`, this.base_key, option.name),
-          name_localizations: mapped(`choices.${value}`, this.base_key, option.name),
-          value,
-      }}))
+      option.setChoices(
+        values.map((value) => {
+          return {
+            name: canonical(`choices.${value}`, this.base_key, option.name),
+            name_localizations: mapped(`choices.${value}`, this.base_key, option.name),
+            value,
+          }
+        }),
+      )
       return option
     }
   }
@@ -85,7 +89,7 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
   addLocalizedOption(option_name, option_type, optionfn) {
     let builder_method
 
-    switch(option_type) {
+    switch (option_type) {
       case "string":
         builder_method = "addStringOption"
         break
@@ -197,7 +201,7 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
   constructor(command_name, parent_name) {
     super()
 
-    Object.defineProperty(this, 'base_key', { value: 'static', writable: true })
+    Object.defineProperty(this, "base_key", { value: "static", writable: true })
 
     this.base_key = `${parent_name}.${command_name}`
 
@@ -235,11 +239,15 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
    */
   injectLocalizeChoices(option) {
     option.setLocalizedChoices = (...values) => {
-      option.setChoices(values.map(value => {return {
-          name: canonical(`choices.${value}`, this.base_key, option.name),
-          name_localizations: mapped(`choices.${value}`, this.base_key, option.name),
-          value,
-      }}))
+      option.setChoices(
+        values.map((value) => {
+          return {
+            name: canonical(`choices.${value}`, this.base_key, option.name),
+            name_localizations: mapped(`choices.${value}`, this.base_key, option.name),
+            value,
+          }
+        }),
+      )
       return option
     }
   }
@@ -257,7 +265,7 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
   addLocalizedOption(option_name, option_type, optionfn) {
     let builder_method
 
-    switch(option_type) {
+    switch (option_type) {
       case "string":
         builder_method = "addStringOption"
         break

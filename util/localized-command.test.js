@@ -69,7 +69,9 @@ describe("LocalizedSlashCommandBuilder", () => {
         return option
       })
 
-      expect(extracted.description_localizations).toEqual(mapped("description", "8ball", "question"))
+      expect(extracted.description_localizations).toEqual(
+        mapped("description", "8ball", "question"),
+      )
     })
   })
 
@@ -132,7 +134,9 @@ describe("LocalizedSlashCommandBuilder", () => {
             return option
           })
 
-          expect(extracted.choices[0].name_localizations).toEqual(mapped("choices.advantage", "curv", "with"))
+          expect(extracted.choices[0].name_localizations).toEqual(
+            mapped("choices.advantage", "curv", "with"),
+          )
         })
 
         it("populates choice value", () => {
@@ -264,6 +268,6 @@ describe("LocalizedSubcommandBuilder", () => {
   it("uses data for the subcommand", () => {
     const command = new LocalizedSubcommandBuilder("command", "help")
 
-      expect(command.description).toEqual(canonical("description", "help.command"))
+    expect(command.description).toEqual(canonical("description", "help.command"))
   })
 })

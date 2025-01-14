@@ -75,10 +75,12 @@ const shared = {
   mapped: (partial, option_name) => {
     const localizations = {}
     for (const locale_name of available_locales) {
-      localizations[locale_name] = i18n.t(`translation:options.${option_name}.${partial}`, { lng: locale_name })
+      localizations[locale_name] = i18n.t(`translation:options.${option_name}.${partial}`, {
+        lng: locale_name,
+      })
     }
     return localizations
-  }
+  },
 }
 
 module.exports = {

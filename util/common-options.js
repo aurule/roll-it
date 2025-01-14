@@ -77,5 +77,5 @@ module.exports = {
       .setNameLocalizations(shared.mapped("name", option.name))
       .setDescription(shared.canonical("description", option.name))
       .setDescriptionLocalizations(shared.mapped("description", option.name))
-  }
+  },
 }

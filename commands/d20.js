@@ -33,8 +33,7 @@ module.exports = {
       .addStringOption(commonOpts.description)
       .addLocalizedIntegerOption("modifier")
       .addLocalizedStringOption("with", (option) =>
-        option
-          .setLocalizedChoices("advantage", "disadvantage"),
+        option.setLocalizedChoices("advantage", "disadvantage"),
       )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),

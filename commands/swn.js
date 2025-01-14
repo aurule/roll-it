@@ -22,9 +22,7 @@ module.exports = {
     new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
       .addLocalizedIntegerOption("modifier")
-      .addLocalizedIntegerOption("pool", (option) =>
-        option.setMinValue(2),
-      )
+      .addLocalizedIntegerOption("pool", (option) => option.setMinValue(2))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,

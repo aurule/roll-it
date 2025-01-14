@@ -17,16 +17,11 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name)
       .addStringOption(commonOpts.description)
-      .addLocalizedStringOption("throw", (option) =>
-        option
-          .setChoices(...throwChoices),
-      )
-      .addLocalizedStringOption("vs", (option) =>
-        option
-          .setChoices(...vsChoices),
-      )
+      .addLocalizedStringOption("throw", (option) => option.setChoices(...throwChoices))
+      .addLocalizedStringOption("vs", (option) => option.setChoices(...vsChoices))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   perform({

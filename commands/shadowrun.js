@@ -22,19 +22,13 @@ module.exports = {
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addLocalizedIntegerOption("pool", (option) =>
-        option
-          .setMinValue(1)
-          .setMaxValue(1000)
-          .setRequired(true),
+        option.setMinValue(1).setMaxValue(1000).setRequired(true),
       )
       .addStringOption(commonOpts.description)
       .addLocalizedBooleanOption("edge")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.teamwork)
-      .addLocalizedIntegerOption("until", (option) =>
-        option
-          .setMinValue(1),
-      )
+      .addLocalizedIntegerOption("until", (option) => option.setMinValue(1))
       .addBooleanOption(commonOpts.secret),
   savable: true,
   changeable: ["pool"],

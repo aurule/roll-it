@@ -15,19 +15,11 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-    .addLocalizedStringOption("message", (option) =>
-      option
-        .setMaxLength(1500)
-        .setRequired(true),
-    )
-    .addLocalizedStringOption("command", (option) =>
-      option
-        .setAutocomplete(true),
-    )
-    .addLocalizedStringOption("consent", (option) =>
-      option.setLocalizedChoices("yes", "no")
-    ),
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("message", (option) => option.setMaxLength(1500).setRequired(true))
+      .addLocalizedStringOption("command", (option) => option.setAutocomplete(true))
+      .addLocalizedStringOption("consent", (option) => option.setLocalizedChoices("yes", "no")),
   execute(interaction) {
     const t = i18n.getFixedT(interaction.locale, "commands", "help.feedback")
 

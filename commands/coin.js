@@ -17,10 +17,7 @@ module.exports = {
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
-      .addLocalizedStringOption("call", (option) =>
-        option
-          .setLocalizedChoices("1", "2"),
-      )
+      .addLocalizedStringOption("call", (option) => option.setLocalizedChoices("1", "2"))
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({
     description: commonSchemas.description,

@@ -31,15 +31,16 @@ function mappedChoiceNames(value) {
  * @return {obj[]}         Array of choice objects
  */
 function localizedChoices(...values) {
-  return values.map(value => {return {
-    name: canonicalChoiceName(value),
-    name_localizations: mappedChoiceNames(value),
-    value,
-  }})
+  return values.map((value) => {
+    return {
+      name: canonicalChoiceName(value),
+      name_localizations: mappedChoiceNames(value),
+      value,
+    }
+  })
 }
 
 module.exports = {
-
   /**
    * Select menu options for a MET throw
    *
@@ -65,7 +66,9 @@ module.exports = {
    */
   throwOptions(locale, bomb = false) {
     const t = i18n.getFixedT(locale, "opposed", "throws")
-    const valid_options = bomb ? ["rock", "bomb", "scissors", "rand", "rand-bomb"] : ["rock", "paper", "scissors", "rand"]
+    const valid_options = bomb
+      ? ["rock", "bomb", "scissors", "rand", "rand-bomb"]
+      : ["rock", "paper", "scissors", "rand"]
 
     return valid_options.map((value) => {
       return {
@@ -73,7 +76,6 @@ module.exports = {
         value,
       }
     })
-
 
     return module.exports
       .throwChoices(bomb)

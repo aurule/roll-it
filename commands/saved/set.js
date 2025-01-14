@@ -59,25 +59,17 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name)
-    .addLocalizedStringOption("name", (option) =>
-      option
-        .setMinLength(3)
-        .setMaxLength(100)
-        .setRequired(true),
-    )
-    .addLocalizedStringOption("description", (option) =>
-      option
-        .setMinLength(3)
-        .setMaxLength(1500)
-        .setRequired(true),
-    )
-    .addLocalizedStringOption("invocation", (option) =>
-      option
-        .setMinLength(4)
-        .setMaxLength(1500)
-        .setRequired(false),
-    ),
+  data: () =>
+    new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("name", (option) =>
+        option.setMinLength(3).setMaxLength(100).setRequired(true),
+      )
+      .addLocalizedStringOption("description", (option) =>
+        option.setMinLength(3).setMaxLength(1500).setRequired(true),
+      )
+      .addLocalizedStringOption("invocation", (option) =>
+        option.setMinLength(4).setMaxLength(1500).setRequired(false),
+      ),
   async execute(interaction) {
     // validate the name and description
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
