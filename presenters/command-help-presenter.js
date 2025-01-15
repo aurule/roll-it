@@ -30,10 +30,11 @@ module.exports = {
     })
 
 
-    const option_names = command_options.map((opt) => {
+    const option_names = {}
+    for (const opt of command_options) {
       const localized_name = opt.name_localizations[locale]
-      return inlineCode(localized_name)
-    })
+      option_names[opt.name] = inlineCode(localized_name)
+    }
     const help_opts = {
       cmd: command_name,
       opts: option_names,
