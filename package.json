@@ -43,7 +43,7 @@
     "changelog:build": "node scripts/build-changelog.js",
     "changelog:add": "node scripts/add-changelog-snippet.js",
     "start": "node index.js",
-    "live": "nodemon index.js",
+    "live": "nodemon -e js,yaml index.js",
     "commands:update": "node scripts/update-commands.js",
     "pretty": "biome format . --write"
   },
