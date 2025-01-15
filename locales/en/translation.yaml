@@ -17,3 +17,7 @@ options:
   teamwork:
     name: teamwork
     description: Begin a teamwork roll where others can contribute dice
+command-name:
+  menu: "*{{command_name}}*"
+  slash: "`/{{command_name}}`"
+  subcommand: "`/{{parent_name}} {{command_name}}`"

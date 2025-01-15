@@ -1,5 +1,7 @@
 const { inlineCode, italic } = require("discord.js")
 
+const { i18n } = require("../locales")
+
 /**
  * Return a formatted version of the command's name
  *
@@ -9,47 +11,42 @@ const { inlineCode, italic } = require("discord.js")
  * present on the subcommand object.
  *
  * @param  {Command} command  The command object to present
+ * @param  {str}     locale   Locale name for the command string
  * @return {String}           Markdown-formatted string of the command's name
  */
-function present(command) {
-  if (command.type == "menu") return italic(command.name)
+function present(command, locale) {
+  const t = i18n.getFixedT(locale)
+  const command_id = command.id ?? command.name
 
-  let presented = "/"
-  if (command.parent) presented += command.parent + " "
-  presented += command.name
-  return inlineCode(presented)
+  if (command.type == "menu") return t("command-name.menu", { command_name: t(`commands:${command_id}.name`)})
+
+  if (command.parent) {
+    return t("command-name.subcommand", { parent_name: t(`commands:${command.parent}.name`), command_name: t(`commands:${command.parent}.${command_id}.name`) })
+  }
+
+  return t("command-name.slash", { command_name: t(`commands:${command_id}.name`)})
 }
-
-// function present(command, locale) {
-//   const localized_name = command.data().name_localizations[locale] ?? command.name
-//   if (command.type == "menu") return italic(localized_name)
-
-//   if (command.parent) {
-//     const commands = require("../commands")
-//     const parent = commands.get(parent)
-//     const parent_name = parent.data().name_localizations[locale] ?? parent.name
-//     return inlineCode(`/${parent_name} ${localized_name}`)
-//   }
-
-//   return inlineCode(`/${localized_name}`)
-// }
 
 /**
  * Make a text list of all commands
  *
- * @param  {Collection} all_commands Optional collection of Command objects. Defaults to the `commands` module.
- * @return {str}                     Markdown-formatted string of all commands and their subcommands
+ * @param  {Collection}       all_commands Collection of Command objects
+ * @param  {str}              locale       Locale name for the command string
+ * @return {Array<str|str[]>}              List of markdown-formatted command names, including subcommands
  */
-function list(all_commands) {
-  const commands = all_commands ?? require("../commands")
-  return commands
-    .filter((c) => c.type !== "menu")
+function list(all_commands, locale) {
+  const t = i18n.getFixedT(locale)
+  return all_commands
     .map((cmd) => {
-      let content = cmd.parent ? "  - " : "* "
-      content += `${present(cmd)} - ${cmd.description}`
-      return content
+      const command_id = cmd.id ?? cmd.name
+      let description
+      if (cmd.parent) {
+        description = t(`commands:${cmd.parent}.${command_id}.description`)
+      } else {
+        description = t(`commands:${command_id}.description`)
+      }
+      return `${present(cmd, locale)} - ${description}`
     })
-    .join("\n")
 }
 
 module.exports = {
