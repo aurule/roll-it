@@ -90,6 +90,7 @@ class CurvPresenter {
     const final_sum = dice_sum + this.modifier
 
     if (dice_sum >= 16) return this.t("result.crit", { sum: final_sum })
+    if (dice_sum <= 5) return this.t("result.fail", { sum: final_sum })
 
     return this.t("result.normal", { sum: final_sum })
   }
