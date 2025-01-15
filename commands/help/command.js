@@ -26,10 +26,10 @@ module.exports = {
 
     const command = interaction.client.commands.get(command_name)
 
-    if (!command?.help)
+    if (!command)
       return interaction.whisper(t("options.command.validation.unavailable", { command_name }))
 
-    const full_text = CommandHelpPresenter.present(command)
+    const full_text = CommandHelpPresenter.present(command, interaction.locale)
     return interaction.paginate({
       content: full_text,
       secret: true,

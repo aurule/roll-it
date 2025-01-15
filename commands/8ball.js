@@ -47,7 +47,4 @@ module.exports = {
     const full_text = injectMention(partial_message, interaction.user.id)
     return interaction.rollReply(full_text, secret)
   },
-  help({ command_name }) {
-    return `${command_name} asks a question of the Magic 8 Ball.`
-  },
 }

@@ -1,116 +1,78 @@
-const {
-  SlashCommandBuilder,
-  ContextMenuCommandBuilder,
-  ApplicationCommandType,
-} = require("discord.js")
 const help_command = require("../commands/help")
-const CommandHelpPresenter = require("./command-help-presenter")
+const eightball_command = require("../commands/8ball")
+const saved_command = require("../commands/saved")
+const setup_command = require("../commands/setup-roll-it")
+const save_this_roll_command = require("../commands/save-this-roll")
 
-const test_command = {
-  name: "test-command",
-  description: "A fake command for testing",
-  data: () =>
-    new SlashCommandBuilder()
-      .setName("test-command")
-      .setDescription("A fake command for testing")
-      .addStringOption((option) =>
-        option.setName("title").setDescription("Title description").setRequired(true),
-      )
-      .addStringOption((option) =>
-        option.setName("subtitle").setDescription("Subtitle description"),
-      ),
-  help: ({ command_name, ...opts }) => `test help output with a ${opts.title}`,
-}
-
-const test_command_bare = {
-  name: "test-command",
-  description: "A fake command for testing",
-  data: () =>
-    new SlashCommandBuilder()
-      .setName("test-command-bare")
-      .setDescription("A fake command for testing without options"),
-  help: ({ command_name }) => "test bare help output",
-}
-
-const test_command_context = {
-  name: "test-command",
-  description: "A fake command for testing",
-  data: () =>
-    new ContextMenuCommandBuilder()
-      .setName("test-command-bare")
-      .setType(ApplicationCommandType.Message),
-  help: ({ command_name }) => "test bare help output",
-}
+const { present } = require("./command-help-presenter")
 
 describe("present", () => {
-  it("names the command in the output", () => {
-    const result = CommandHelpPresenter.present(test_command)
+  it("names the command", () => {
+    const result = present(eightball_command, "en-US")
 
-    expect(result).toMatch("Showing help for")
-    expect(result).toMatch(test_command.name)
+    expect(result).toMatch("`/8ball`")
   })
 
-  it("names the options in the output", () => {
-    const result = CommandHelpPresenter.present(test_command)
+  it("gets translated help text", () => {
+    const result = present(eightball_command, "en-US")
 
-    expect(result).toMatch("title")
-  })
-
-  it("shows the help output for the command", () => {
-    const result = CommandHelpPresenter.present(test_command)
-
-    expect(result).toMatch(test_command.help({ command_name: "test-command", title: "`title`" }))
+    expect(result).toMatch("asks a question")
   })
 
   describe("with options", () => {
-    it("uses correct label", () => {
-      const result = CommandHelpPresenter.present(test_command)
+    it("names the options", () => {
+      const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("Args:")
+      expect(result).toMatch("`question`")
     })
 
-    it("shows the options", () => {
-      const result = CommandHelpPresenter.present(test_command)
+    it("describes the options", () => {
+      const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("Title description")
-      expect(result).toMatch("Subtitle description")
+      expect(result).toMatch("The question")
     })
 
     it("marks required options", () => {
-      const result = CommandHelpPresenter.present(test_command)
+      const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("(required) Title description")
+      expect(result).toMatch("`question` (required)")
     })
   })
 
   describe("with subcommands", () => {
     it("uses correct label", () => {
-      const result = CommandHelpPresenter.present(help_command)
+      const result = present(saved_command, "en-US")
 
       expect(result).toMatch("Subcommands:")
     })
 
     it("shows the subcommands", () => {
-      const result = CommandHelpPresenter.present(help_command)
+      const result = present(saved_command, "en-US")
 
-      expect(result).toMatch("topic")
-      expect(result).toMatch("command")
+      expect(result).toMatch("grow")
+      expect(result).toMatch("list")
     })
   })
 
-  describe("without options", () => {
-    it("skips the Args section", () => {
-      const result = CommandHelpPresenter.present(test_command_bare)
+  describe("with no options or subcommands", () => {
+    it("has no args section", () => {
+      const result = present(setup_command, "en-US")
 
-      expect(result).not.toMatch("Args")
+      expect(result).not.toMatch("Args:")
+    })
+
+    it("has no subcommands section", () => {
+      const result = present(setup_command, "en-US")
+
+      expect(result).not.toMatch("Subcommands:")
     })
   })
 
   describe("with a context command", () => {
-    it("skips the Args section", () => {
-      const result = CommandHelpPresenter.present(test_command_context)
+    it("has no args section", () => {
+      const result = present(save_this_roll_command, "en-US")
 
-      expect(result).not.toMatch("Args")
+      expect(result).not.toMatch("Args:")
     })
   })
 })

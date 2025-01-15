@@ -35,7 +35,7 @@
   response: |-
     {{userMention}} asked "{{question}}" :8ball: *{{result}}*
   help: |-
-    {{command_name}} asks a question of the Magic 8 Ball.
+    {{cmd}} asks a question of the Magic 8 Ball.
 chop:
   name: chop
   description: Make a rock-paper-scissors roll
@@ -353,36 +353,20 @@ help:
         validation:
           unavailable: No help is available for the command "{{command_name}}"
     response:
-      body:
-        simple: |-
-          Showing help for {{command_name}}: {{description}}
-
-          {{help_text}}
-        args_one: |-
-          Showing help for {{command_name}}: {{description}}
-
-          Arg:
-          {{options}}
-
-          {{help_text}}
-        args_other: |-
-          Showing help for {{command_name}}: {{description}}
-
-          Args:
-          {{options}}
-
-          {{help_text}}
-        subcommands: |-
-          Showing help for {{command_name}}: {{description}}
-
-          Subcommands:
-          {{options}}
-
-          {{help_text}}
+      title: "Showing help for {{command_name}}: {{description}}"
+      args_one: |-
+        Arg:
+        {{options, indented}}
+      args_other: |-
+        Args:
+        {{options, indented}}
+      args_subcommands: |-
+        Subcommands:
+        {{options, indented}}
       opt: >-
-        `{{name}}` {{description}}
+        `{{name}}`: {{description}}
       opt_required: >-
-        `{{name}}` (required) {{description}}
+        `{{name}}` (required): {{description}}
   feedback:
     name: feedback
     description: Send feedback to Roll It's creator

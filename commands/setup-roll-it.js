@@ -199,13 +199,12 @@ module.exports = {
     })
   },
   help_data(opts) {
+    const { deployable } = require("./index")
     // need to get localized description as well
     return {
-      deployable_commands: deployable_commands
+      deployable_commands: deployable
         .filter((c) => c.type !== "menu")
-        .map((c) => `• ${commandNamePresenter.present(c, opts.locale)} - ${c.description}`)
-        .join("\n"),
-      ...opts,
+        .map((c) => `${commandNamePresenter.present(c, opts.locale)} - ${c.description}`),
     }
   },
   help({ command_name }) {
