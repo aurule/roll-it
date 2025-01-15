@@ -13,7 +13,8 @@ describe("list", () => {
 
     const result = Presenter.list(topics)
 
-    expect(result).toMatch(test_topic.name)
+    const joined = result.join("\n")
+    expect(joined).toMatch(test_topic.name)
   })
 
   it("shows the topic descriptions", () => {
@@ -21,6 +22,7 @@ describe("list", () => {
 
     const result = Presenter.list(topics)
 
-    expect(result).toMatch(test_topic.description)
+    const joined = result.join("\n")
+    expect(joined).toMatch(test_topic.description)
   })
 })
