@@ -35,9 +35,16 @@ module.exports = {
       const localized_name = opt.name_localizations[locale]
       option_names[opt.name] = inlineCode(localized_name)
     }
+    const subcommand_names = {}
+    const subcommands = command.subcommands?.values() ?? []
+    for (const sub of subcommands) {
+      const presented = CommandNamePresenter.present(sub)
+      subcommand_names[sub.name] = presented
+    }
     const help_opts = {
       cmd: command_name,
       opts: option_names,
+      sub: subcommand_names,
       locale,
     }
     if (command.help_data) {
