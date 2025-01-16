@@ -11,9 +11,17 @@ module.exports = {
    * @return {String}           Markdown-formatted string of the command's name and help text
    */
   present: (command, locale) => {
-    const command_id = command.id ?? command.name
+    const prefix_parts = []
+    if (command.parent) prefix_parts.push(command.parent)
+    if (command.id) {
+      prefix_parts.push(command.id)
+    } else {
+      prefix_parts.push(command.name)
+    }
+    const command_prefix = prefix_parts.join(".")
+
     const help_t = i18n.getFixedT(locale, "commands", "help.command")
-    const cmd_t = i18n.getFixedT(locale, "commands", command_id)
+    const cmd_t = i18n.getFixedT(locale, "commands", command_prefix)
 
     const command_options = command.data().subcommands ?? command.data().options ?? []
     const command_name = CommandNamePresenter.present(command, locale)
