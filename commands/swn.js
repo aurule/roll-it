@@ -1,5 +1,3 @@
-const { inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -69,19 +67,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      oneLine`
-        ${command_name} rolls two six-sided dice and adds the results, as appropriate for Stars Without Number
-        and its sister games.
-      `,
-      "",
-      oneLine`
-        Occasionally, a character is able to roll 3 or more dice and keep the highest two. This is fully
-        supported by using the ${opts.pool} option. When more than two dice are rolled using ${command_name},
-        only the highest two are kept.
-      `,
-    ].join("\n")
   },
 }

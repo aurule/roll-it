@@ -1,5 +1,3 @@
-const { inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -55,15 +53,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name }) {
-    return [
-      oneLine`
-        ${command_name} rolls two six-sided dice and adds the results, as appropriate for Powered by the
-        Apocalypse.
-      `,
-      "",
-      `This command is just a speedy way to roll ${inlineCode("/d6 pool:2")}.`,
-    ].join("\n")
   },
 }

@@ -3,10 +3,8 @@ const {
   ButtonStyle,
   ActionRowBuilder,
   ComponentType,
-  italic,
   MessageFlags,
 } = require("discord.js")
-const { oneLine } = require("common-tags")
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const Completers = require("../../completers/table-completers")
@@ -150,21 +148,5 @@ module.exports = {
       case "table":
         return Completers.table(partialText, tables.all())
     }
-  },
-  help({ command_name }) {
-    return [
-      `${command_name} lets you see the details about a table, or remove it from this server.`,
-      "",
-      oneLine`
-        Removing a table is permanent. The only way to get it back is to add a new table with the same name
-        and entries.
-      `,
-      "",
-      oneLine`
-        Due to limitations in Discord, editing a table is not possible right now. In order to change a table's
-        name, description, or entries, you have to remove the old table and add a new one with the desired
-        changes.
-      `,
-    ].join("\n")
   },
 }

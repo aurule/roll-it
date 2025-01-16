@@ -1,4 +1,4 @@
-const { inlineCode, userMention, italic, MessageFlags } = require("discord.js")
+const { inlineCode, userMention, MessageFlags } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
@@ -148,33 +148,9 @@ module.exports = {
       ephemeral: secret,
     })
   },
-  help({ command_name }) {
-    return [
-      oneLine`
-        ${command_name} creates a new rollable table on this server. Once added, you can use
-        ${inlineCode("/table roll")} to get a random result from its entries.
-      `,
-      "",
-      oneLine`
-        When adding a table, you have to upload a text file containing the table's entries. Each line of the
-        file will become a single entry in the table. Be careful that you don't leave any blank lines, titles,
-        or other notes in the file that you use, because these ${italic("will")} show up as entries in the
-        table.
-      `,
-      "",
-      oneLine`
-        If you aren't sure you that your file is a plain text file, open it with your text editor of choice
-        and save it as ${inlineCode("Plain Text")} with the extension ${inlineCode(".txt")}.
-      `,
-      "",
-      "Because tables are stored by Roll It, they have some limitations beyond what Discord requires:",
-      "1. Each table on a server has to have a unique name. You'll get an error if it's taken.",
-      "2. The name and description both have to be at least three characters long.",
-      oneLine`
-        3. The entries file has to have at least two lines, and has to be smaller than 5 megabytes. That's
-        roughly the size of a full-length novel.
-      `,
-      `4. Each entry must be less than ${MAX_ENTRY_LENGTH} characters.`,
-    ].join("\n")
+  help_data(opts) {
+    return {
+      entry_length: MAX_ENTRY_LENGTH,
+    }
   },
 }

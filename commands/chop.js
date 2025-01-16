@@ -1,5 +1,4 @@
-const { inlineCode, subtext, italic } = require("discord.js")
-const { oneLine } = require("common-tags")
+const { subtext } = require("discord.js")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -64,25 +63,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      oneLine`
-        ${command_name} rolls a single round of rock-paper-scissors. The results are normally displayed using
-        emoji and a word describing your throw, like "\:rock: rock". The ${opts.static} option adds a virtual
-        opponent and displays the outcome as a win, tie, or fail.
-      `,
-      "",
-      oneLine`
-        By default, ${command_name} picks one of rock, paper, or scissors for you. The ${opts.bomb} option
-        replaces the paper symbol with bomb, which wins against rock ${italic("and")} paper. The virtual
-        opponent from ${opts.static} always picks from rock, paper, or scissors, never bomb.
-      `,
-      "",
-      oneLine`
-        ${command_name} is a shortcut for the more powerful ${inlineCode("/met static")} command. Use that
-        one to pick your thrown symbol and make static tests against an opponent who can throw bomb.
-      `,
-    ].join("\n")
   },
 }

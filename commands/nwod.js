@@ -1,5 +1,3 @@
-const { inlineCode, italic } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -180,50 +178,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      `The dice mechanics for ${command_name} break down like this:`,
-      `* A die that rolls at or above the ${opts.threshold} value adds a success`,
-      `* A die that rolls at or above the ${opts.explode} value adds another die to the roll`,
-      "",
-      "There are also some special mechanics that are supported, even though they don't come up very often:",
-      oneLine`
-        * When ${opts.rote} is true, every die in your ${italic("initial")} pool that fails to score a success
-        ds another die to the roll
-      `,
-      oneLine`
-        * When your ${opts.pool} is zero, you get a single "chance" die. This interacts with ${opts.rote} in a
-        weird way; see ${italic("World of Darkness")} p.135 for details.
-      `,
-      "",
-      `If you want to roll a pool with no 10-again, set ${opts.explode} to 11.`,
-      "",
-      `The ${opts.rolls} option lets you roll the same pool and difficulty multiple times, like for NPCs.`,
-      "",
-      oneLine`
-        The ${opts.until} option tells Roll It to continue rolling the same pool and difficulty until the
-        total successes meet or exceed the number supplied. When the ${opts.rolls} option is also present, it
-        caps the number of attempted rolls.
-      `,
-      "",
-      oneLine`
-        When ${opts.decreasing} is true, each roll after the first has its ${opts.pool} lowered by one. So the
-        first roll uses the full pool, the second roll has a -1 penalty, the third has -2, etc. This
-        implements the book rule of a cumulative penalty on retries. No effect unless ${opts.rolls} is more
-        than 1 or ${opts.until} is used.
-      `,
-      "",
-      oneLine`
-        The ${opts.teamwork} option starts a special teamwork roll that lets other people add dice to your
-        pool by responding to a prompt. This is not compatible with the ${opts.rolls}, ${opts.until}, or
-        ${opts.secret} options.
-      `,
-      "",
-      oneLine`
-        Although ${command_name} is happy to roll a chance die, you have to have a ${opts.pool} of at least 1
-        in order to save the roll.
-      `,
-    ].join("\n")
   },
 }

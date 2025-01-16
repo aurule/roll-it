@@ -1,4 +1,3 @@
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -71,12 +70,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return oneLine`
-      ${command_name} is the basic dice rolling command in Roll It. Use ${command_name} to roll one or more
-      dice, add them together, and add a modifier to the result. Use the ${opts.rolls} option to roll the same
-      pool (and modifier) multiple times, like for multiple attacks in D&D.
-    `
   },
 }

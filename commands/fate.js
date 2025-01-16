@@ -1,5 +1,3 @@
-const { hideLinkEmbed, hyperlink } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -60,15 +58,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name }) {
-    return oneLine`
-      ${command_name} rolls four fudge dice whose sides are -1, 0, and +1, then adds them up. The result is
-      displayed using the FATE
-      ${hyperlink(
-        "ladder",
-        hideLinkEmbed("https://fate-srd.com/fate-core/taking-action-dice-ladder#the-ladder"),
-      )}.
-    `
   },
 }

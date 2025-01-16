@@ -1,5 +1,3 @@
-const { inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -103,27 +101,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      `${command_name} rolls 3d6 in place of a d20.`,
-      "",
-      oneLine`
-        The three dice in each pool are added up to get the roll's result. This gives the result a strong
-        average instead of the extremes of a single d20.
-      `,
-      "",
-      oneLine`
-        Since the chances of any result are changed, a "natural" 20 or natural 1 is too rare to work normally.
-        Instead, a critical success is when a roll scores 16 or more on the dice, before adding the modifier.
-        A critical failure is when a roll scores 5 or less on the dice.
-      `,
-      "",
-      oneLine`
-        The ${opts.with} option lets you roll two pools and take either the higher or lower result, using the
-        D&D 5e mechanic of advantage. Set it to ${inlineCode("Advantage")} to use the higher result, and
-        ${inlineCode("Disadvantage")} to use the lower.
-      `,
-    ].join("\n")
   },
 }

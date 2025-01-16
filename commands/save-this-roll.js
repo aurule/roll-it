@@ -88,25 +88,10 @@ module.exports = {
 
     return interaction.whisper(t("response.complete", { saved_details }))
   },
-  help({ command_name }) {
+  help_data(opts) {
     const savable_commands = require("./index").savable
-    return [
-      oneLine`
-        ${command_name} is a context menu command that helps create a new saved roll for you on this server.
-        To use it, right click or long press on the result of a recent Roll It command and choose
-        ${italic("Apps -> Save this roll")}. This will set the command and options for the saved roll. Then,
-        you set the name and description using ${inlineCode("/saved set")}. Once you're finished, you can use
-        ${inlineCode("/saved roll")} to roll it!
-      `,
-      "",
-      oneLine`
-        You can only have one unfinished roll at a time. That can either be a roll you just created, or a roll
-        you are editing with ${inlineCode("/saved manage")}. Until you finish that roll's options, you will not
-        be able to use it, nor will you be able to edit or create another saved roll.
-      `,
-      "",
-      "Not all commands can be saved. Here is a list of the ones which can be used:",
-      CommandNamePresenter.list(savable_commands),
-    ].join("\n")
+    return {
+      savable: CommandNamePresenter.list(savable_commands),
+    }
   },
 }

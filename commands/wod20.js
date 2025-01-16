@@ -1,5 +1,3 @@
-const { italic, inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -133,32 +131,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      `The dice mechanics for ${command_name} break down like this:`,
-      `* A die that rolls at or above the ${opts.difficulty} value adds a success`,
-      `* A die that rolls a 1 subtracts a success`,
-      oneLine`
-        * If no dice rolled at or above ${opts.difficulty} and one or more dice rolled a 1, the
-        final result is a botch
-      `,
-      "",
-      oneLine`
-        The ${opts.specialty} option makes any die that rolls a 10 add ${italic("two")} successes
-        instead of one. The ${opts.rolls} option lets you roll the same pool and difficulty multiple
-        times, like for NPCs.
-      `,
-      oneLine`
-        The ${opts.until} option tells Roll It to continue rolling the same pool and difficulty until the total
-        successes meet or exceed the number supplied. When the ${opts.rolls} option is also present,
-        it caps the number of attempted rolls.
-      `,
-      oneLine`
-        The ${opts.teamwork} option starts a special teamwork roll that lets other people add dice to
-        your pool by responding to a prompt. This is not compatible with the ${opts.rolls},
-        ${opts.until}, or ${opts.secret} options.
-      `,
-    ].join("\n")
   },
 }

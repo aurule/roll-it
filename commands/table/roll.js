@@ -62,7 +62,4 @@ module.exports = {
         return Completers.table(partialText, tables.all())
     }
   },
-  help({ command_name }) {
-    return `${command_name} gets a random entry from a table on this server.`
-  },
 }

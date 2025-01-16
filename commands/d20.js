@@ -1,5 +1,3 @@
-const { inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -98,20 +96,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      `${command_name} rolls a single 20-sided die.`,
-      "",
-      oneLine`
-        The ${opts.with} option lets you roll twice and take either the higher or lower result, using the D&D
-        5e mechanic of advantage. Set it to ${inlineCode("Advantage")} to use the higher result, and
-        ${inlineCode("Disadvantage")} to use the lower.
-      `,
-      "",
-      oneLine`
-        The invocation for ${command_name} can use either ${inlineCode("keep")} or ${opts.with}, but not both.
-      `,
-    ].join("\n")
   },
 }

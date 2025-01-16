@@ -1,5 +1,3 @@
-const { MessageFlags } = require("discord.js")
-
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { presentList } = require("../../presenters/saved-roll-presenter")
 const { UserSavedRolls } = require("../../db/saved_rolls")
@@ -25,13 +23,5 @@ module.exports = {
       split_on: "\n",
       secret: true,
     })
-  },
-  help() {
-    return [
-      `:warning: marks incomplete rolls which are missing their name or options.`,
-      `:x: marks rolls whose options are out of date`,
-      "",
-      `In either case, you'll need to update that roll's options in order to use it.`,
-    ].join("\n")
   },
 }

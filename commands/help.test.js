@@ -1,23 +1,7 @@
 const help_command = require("./help")
-const { SlashCommandBuilder } = require("discord.js")
+const eightball_command = require("./8ball")
 
 const { Interaction } = require("../testing/interaction")
-
-const test_command = {
-  name: "test-command",
-  description: "A fake command for testing",
-  data: () =>
-    new SlashCommandBuilder()
-      .setName("test-command")
-      .setDescription("A fake command for testing")
-      .addStringOption((option) =>
-        option.setName("title").setDescription("Title description").setRequired(true),
-      )
-      .addStringOption((option) =>
-        option.setName("subtitle").setDescription("Subtitle description"),
-      ),
-  help: ({ command_name }) => "test help output",
-}
 
 describe("execute", () => {
   describe("topic subcommand", () => {
@@ -36,26 +20,26 @@ describe("execute", () => {
     it("shows the command", async () => {
       const interaction = new Interaction()
       interaction.command_options.subcommand_name = "command"
-      interaction.command_options.command = "test-command"
-      interaction.client.commands.set("test-command", test_command)
+      interaction.command_options.command = "8ball"
+      interaction.client.commands.set("8ball", eightball_command)
 
       await help_command.execute(interaction)
 
-      expect(interaction.replyContent).toMatch("test help output")
+      expect(interaction.replyContent).toMatch("Get an answer")
     })
   })
 })
 
 describe("help", () => {
   it("includes topic names", () => {
-    const help_text = help_command.help({})
+    const help_data = help_command.help_data()
 
-    expect(help_text).toMatch("About Roll It")
+    expect(help_data.topics.some(t => t.includes("About Roll It"))).toBeTruthy()
   })
 
   it("includes command names", () => {
-    const help_text = help_command.help({})
+    const help_data = help_command.help_data()
 
-    expect(help_text).toMatch("fate")
+    expect(help_data.commands.some(c => c.includes("8ball"))).toBeTruthy()
   })
 })

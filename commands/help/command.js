@@ -1,5 +1,3 @@
-const { MessageFlags } = require("discord.js")
-
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const CommandHelpPresenter = require("../../presenters/command-help-presenter")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
@@ -44,7 +42,10 @@ module.exports = {
         return Completers.all(partialText)
     }
   },
-  help() {
-    return ["Here are all the available commands:", CommandNamePresenter.list()].join("\n")
+  help_data(opts) {
+    const commands = require("../index")
+    return {
+      commands: CommandNamePresenter.list(commands),
+    }
   },
 }

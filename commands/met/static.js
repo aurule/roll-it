@@ -1,6 +1,3 @@
-const { inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
-
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
 const { throwChoices, vsChoices } = require("../../util/met-throw-options")
@@ -67,25 +64,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      oneLine`
-        ${command_name} lets you make a static or simple test using MET rules. No options are required, so you
-        can very quickly roll a random result vs a random result. If you want to pick the symbol you use
-        instead of rolling your half randomly, just select it in the ${opts.throw} option.
-      `,
-      "",
-      oneLine`
-        The ${inlineCode("bomb")} advantage is available to both sides of the test. You can set the random
-        picker to use rock-bomb-scissors for ${opts.throw} or for ${opts.vs}, in order to make a simple test
-        against a more powerful opponent. You can also pick bomb directly for ${opts.throw}.
-      `,
-      "",
-      oneLine`
-        If you just want to get a random symbol for yourself and don't need a win/tie/lose result, you can
-        set ${opts.vs} to ${inlineCode("None")}.
-      `,
-    ].join("\n")
   },
 }

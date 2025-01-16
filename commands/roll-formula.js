@@ -1,5 +1,3 @@
-const { inlineCode, hideLinkEmbed, hyperlink, italic } = require("discord.js")
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -91,51 +89,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name }) {
-    return [
-      oneLine`
-        ${command_name} rolls multiple pools of dice at once and can apply complex modifiers to the die results.
-        Each formula should include at least one pool of dice, written as
-        ${inlineCode("pool")}d${inlineCode("sides")}. All dice pools are rolled, then the math of the formula
-        is applied.
-      `,
-      "",
-      oneLine`
-        ${command_name} is best used when you need to add multiple different dice pools together, like for
-        weapon damage rolls in D&D. In order to keep track of which pool means what, you can also add a label
-        to each pool by putting some text in quotes right after the pool, like
-        ${inlineCode('2d4 + 1d6"poison" + 3')}. Here are some formula examples:
-      `,
-      "",
-      oneLine`
-        * A magical weapon damage roll might look like ${inlineCode('2d4 + 1d6"fire" + 6')}. ${command_name}
-        will roll 2d4 and 1d6, add them together, then add 6. The result will include the label "fire" next to
-        the result of the 1d6.
-      `,
-      oneLine`
-        * A crafting roll could be ${inlineCode("(1d20 + 16) * 20")}. ${command_name} will roll 1d20 and add
-        16, then multiply that total by 20.
-      `,
-      oneLine`
-        * A crit damage roll in D&D 5e might look like ${inlineCode('(1d8 + 4) * 2 + 1d6"holy"')}.
-        ${command_name} will roll 1d8 and add 4, multiply that result by 2, then add 1d6. The result will show
-        "holy" next to the result of the 1d6.
-      `,
-      "",
-      oneLine`
-        When used as a saved roll, ${command_name} accepts a hidden ${inlineCode("modifier")} so that you can
-        add a bonus to the formula with ${inlineCode("/saved roll")}.
-      `,
-      "",
-      oneLine`
-        ${command_name} uses ${hyperlink("math.js", hideLinkEmbed("https://mathjs.org"))} under the
-        hood to do the calculations, so it respects proper order of operations and can do all sorts of fancy
-        math. Read up on its ${hyperlink("syntax guide", hideLinkEmbed("https://mathjs.org/docs/expressions/syntax.html"))}
-        and ${hyperlink("supported functions", hideLinkEmbed("https://mathjs.org/docs/reference/functions.html"))}
-        if there's something really wild you want to try. Keep in mind that ${command_name} resolves all dice
-        pools ${italic("before")} any other operation is evaluated.
-      `,
-    ].join("\n")
   },
 }

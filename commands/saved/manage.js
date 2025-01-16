@@ -3,8 +3,6 @@ const {
   ButtonStyle,
   ActionRowBuilder,
   ComponentType,
-  italic,
-  inlineCode,
   MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
@@ -189,21 +187,5 @@ module.exports = {
       case "name":
         return saved_roll_completers.saved_roll(partialText, saved_rolls.all())
     }
-  },
-  help({ command_name }) {
-    return [
-      `${command_name} lets you change all of the details about a saved roll, or remove it entirely.`,
-      "",
-      oneLine`
-        Just like saving a new roll, you can leave the edit process and come back later. However, you can only
-        have one unfinished roll at a time. That can either be a roll you just created, or a roll you are
-        editing. Until you finish that roll's options, you will not be able to use it, nor will you be able to
-        edit or create another saved roll.`,
-      "",
-      oneLine`
-        Removing a saved roll is permanent. The only way to get it back is to save a new roll with the same
-        name and options.
-      `,
-    ].join("\n")
   },
 }

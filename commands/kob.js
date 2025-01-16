@@ -1,4 +1,3 @@
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -77,19 +76,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      oneLine`
-      If a die rolls its highest number, it explodes and adds another die to the pool. Since Roll It doesn't
-      know the difficulty of the test, ${command_name} will keep exploding indefinitely. This is technically a
-      break from the Kids On Bikes rules, where dice stop exploding once a roll succeeds.
-    `,
-      "",
-      oneLine`
-      ${opts.sides} allows the standard polyhedral dice (4, 6, 8, 10, 12, and 20), as well as the percentile
-      die (d100).
-    `,
-    ].join("\n")
   },
 }

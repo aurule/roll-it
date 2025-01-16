@@ -1,4 +1,4 @@
-const { heading, MessageFlags } = require("discord.js")
+const { heading } = require("discord.js")
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
@@ -40,7 +40,9 @@ module.exports = {
       secret: true,
     })
   },
-  help() {
-    return ["Here are the available help topics:", TopicNamePresenter.list()].join("\n")
+  help_data(opts) {
+    return {
+      topics: TopicNamePresenter.list(),
+    }
   },
 }

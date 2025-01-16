@@ -2,6 +2,8 @@
 8ball:
   name: 8ball
   description: Get an answer from the Magic 8 Ball
+  help: |-
+    {{cmd}} asks a question of the Magic 8 Ball.
   options:
     question:
       name: question
@@ -34,11 +36,23 @@
   doit: Do it
   response: |-
     {{userMention}} asked "{{question}}" :8ball: *{{result}}*
-  help: |-
-    {{cmd}} asks a question of the Magic 8 Ball.
 chop:
   name: chop
   description: Make a rock-paper-scissors roll
+  help-lines:
+    - >
+      {{cmd}} rolls a single round of rock-paper-scissors. The results are normally displayed using
+      emoji and a word describing your throw, like ":rock: rock". The {{opts.static}} option adds a virtual
+      opponent and displays your outcome as a win, tie, or fail.
+    - >
+      By default, {{cmd}} picks one of rock, paper, or scissors for you. The {{opts.bomb}} option
+      replaces the paper symbol with bomb, which wins against rock *and* paper. The virtual
+      opponent from {{opts.static}} always picks from rock, paper, or scissors, never bomb.
+    - >
+      {{cmd}} is a shortcut for the more powerful `/met static` command. Use that
+      one to pick your thrown symbol and make static tests against an opponent who can throw bomb.
+  help: |-
+    $t(chop.help-lines, { "joinArrays": "\n" })
   options:
     static:
       name: static
@@ -56,8 +70,8 @@ coin:
       name: call
       description: Pick which side you think the coin will land on
       choices:
-        heads: Heads
-        tails: Tails
+        1: Heads
+        2: Tails
   faces:
     - null
     - heads
@@ -73,9 +87,26 @@ coin:
         {{userMention}} flipped a coin for "{{description}}". They got **{{result}}**.
       withoutDescription: >-
         {{userMention}} flipped a coin. They got **{{result}}**.
+  help: "{{cmd}} flips a single coin and displays the result as heads or tails."
 curv:
   name: curv
   description: Roll 3d6 for D&D 5e
+  help-lines:
+    - >
+      {{cmd}} rolls 3d6 in place of a d20.
+    - >
+      The three dice in the pool are added up to get the roll's result. This gives the result a strong
+      average instead of the extremes of a single d20.
+    - >
+      Since the dice go from 3 to 18, and the chance of rolling either extreme is so low, the threshold
+      for a critical result has to change. A critical success is when the dice add to 16 or more (before
+      adding the {{opts.modifier}}), and a critical failure is when the dice add to 5 or less (also before
+      adding the {{opts.modifier}}). {{cmd}} handles this for you.
+    - >
+      The {{opts.with}} option lets you roll two pools and take either the higher or lower result. Set it to
+      `Advantage` to use the higher result, or `Disadvantage` to use the lower.
+  help: |-
+    $t(curv.help-lines, { "joinArrays": "\n" })
   options:
     modifier:
       name: modifier
@@ -88,6 +119,7 @@ curv:
         disadvantage: Disadvantage
   result:
     crit: "**a crit!** with {{sum}}"
+    fail: "**a crit fail** with {{sum}}"
     normal: "**{{sum}}**"
   response:
     withDescription:
@@ -125,6 +157,8 @@ curv:
 d10:
   name: d10
   description: Roll a single ten-sided die
+  help: |-
+    {{cmd}} rolls a single ten-sided die. That's it! The results are shown from 1 to 10.
   options:
     modifier:
       name: modifier
@@ -132,6 +166,8 @@ d10:
 d100:
   name: d100
   description: Roll a single percentile (100-sided) die
+  help: |-
+    {{cmd}} rolls a single percentile, or 100-sided, die. That's it! The results are shown from 1 to 100.
   options:
     modifier:
       name: modifier
@@ -139,13 +175,25 @@ d100:
 d20:
   name: d20
   description: Roll a single 20-sided die
+  help-lines:
+    - >
+      {{cmd}} rolls a single 20-sided die.
+    - >
+      The {{opts.with}} option lets you roll twice and take either the higher or lower result, using the D&D
+      5e mechanic of *advantage*. Set it to `Advantage` to use the higher result, and `Disadvantage` to use
+      the lower.
+    - >
+      For compatibility with old saved rolls, the invocation for {{cmd}} can use either `keep` or
+      {{opts.with}}, but not both.
+  help: |-
+    $t(d20.help-lines, { "joinArrays": "\n" })
   options:
     modifier:
       name: modifier
       description: A number to add to the die's result
     with:
       name: with
-      description: Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of 2d20
+      description: Roll with Advantage or Disadvantage from D&D 5e by keeping the highest or lowest of two dice
       choices:
         advantage: Advantage
         disadvantage: Disadvantage
@@ -194,6 +242,8 @@ d20:
 d6:
   name: d6
   description: Roll some six-sided dice
+  help: |
+    {{cmd}} rolls one or more six-sided dice and adds them together.
   options:
     modifier:
       name: modifier
@@ -201,6 +251,42 @@ d6:
 drh:
   name: drh
   description: Roll pools of d6s for Don't Rest Your Head
+  help-lines:
+    - >-
+      The dice mechanics for {{cmd}} break down like this:
+    - >-
+      * All four pools ({{opts.discipline}}, {{opts.madness}}, {{opts.exhaustion}}, and {{opts.pain}}) are
+      rolled separately.
+    - >-
+      * A die that rolls at or below 3 adds a success to its pool.
+    - >-
+      * The successes from the {{opts.discipline}}, {{opts.madness}}, and {{opts.exhaustion}} pools are added
+      up and compared against the successes from the {{opts.pain}} pool. When {{opts.pain}} has more, you
+      fail. When it has fewer or equal successes, you succeed.
+    - >
+      * The die results of each pool are compared again, this time from highest to lowest. The pool with the
+      highest number on a die *dominates* the roll. If pools are tied for highest, then the
+      next highest number is compared. If all pools are identical, then {{opts.discipline}} beats
+      {{opts.madness}}, {{opts.madness}} beats {{opts.exhaustion}}, and {{opts.exhaustion}} beats
+      {{opts.pain}}.
+    - >
+      Tip: The printed results not only show what dominated the roll, but underline the reason why it did so.
+    - >-
+      The {{opts.talent}} can modify the number of successes you compare against the {{opts.pain}} result:
+    - >-
+      * Minor Exhaustion prevents you from getting fewer successes than your {{opts.exhaustion}} pool.
+      {{opts.exhaustion}} has to be at least 1.
+    - >-
+      * Major Exhaustion adds one success to your result per die of {{opts.exhaustion}}. {{opts.exhaustion}}
+      has to be at least 1.
+    - >
+      * Madness is required to do magic. It does not change your successes, but does require {{opts.madness}}
+      to be at least 1.
+    - >
+      When used for a saved roll, {{cmd}} will apply the `bonus` from `/saved roll` to the {{opts.exhaustion}}
+      pool by default.
+  help: |-
+    $t(drh.help-lines, { "joinArrays": "\n" })
   options:
     discipline:
       name: discipline
@@ -308,6 +394,9 @@ drh:
 fate:
   name: fate
   description: Make a FATE roll of four fudge dice
+  help: >-
+    {{cmd}} rolls four Fudge dice whose sides are -1, 0, and +1, then adds them up. The result is
+    displayed using the FATE [ladder](<https://fate-srd.com/fate-core/taking-action-dice-ladder#the-ladder>).
   options:
     modifier:
       name: modifier
@@ -343,9 +432,32 @@ fate:
 help:
   name: help
   description: Get help with Roll It and its commands
+  help-lines:
+    - >
+      The {{cmd}} commands let you read about how Roll It works, and send feedback to the developer.
+    - >
+      Use {{sub.command}} and {{sub.topic}} to read about Roll It's commands and general usage. Both let you
+      pick from a list, so you don't need to memorize command or topic names.
+    - >
+      Use {{sub.feedback}} to send feedback to Roll It's developer.
+    - |
+      Here are the available help topics:
+      {{topics, ul}}
+    - |-
+      And here are the commands:
+      {{commands, ul}}
+  help: |-
+    $t(help.help-lines, { "joinArrays": "\n" })
   command:
     name: command
     description: Get help about a command
+    help-lines:
+      - >-
+        Here are all of the available commands:
+      - >-
+        {{commands, ul}}
+    help: |-
+      $t(help.command.help-lines, { "joinArrays": "\n" })
     options:
       command:
         name: command
@@ -370,6 +482,27 @@ help:
   feedback:
     name: feedback
     description: Send feedback to Roll It's creator
+    help-lines:
+      - >
+        {{cmd}} is an easy way to send your thoughts about Roll It to its developer. Good things, bad things,
+        unexpected things, broken things, suggestions, etc. are all welcome.
+      - >
+        If your feedback is about a specific command, I'd appreciate it if you include the {{opts.command}}
+        option. This is especially true for bugs, since it helps me track them down faster.
+      - >
+        It's rare that I'll need to reach out and chat about most feedback. If it does come up, I don't want to
+        DM you out of the blue. So if you're comfortable receiving DMs from me, set {{opts.consent}} to
+        `Yes` so that I know it's ok. Otherwise, I will *not* DM you about that piece of feedback.
+        {{opts.consent}} defaults to `No`.
+      - >
+        It should go without saying that {{cmd}} should not be used for harrassment or hate. If you
+        spam it or say vile things, you'll lose access to {{cmd}} for some amount of time, possibly
+        forever. So please don't be a jerk!
+      - >
+        -# In legal language: I reserve the right to ban any user, at my sole discretion and at any time and for
+        any duration, from sending messages via {{cmd}}.
+    help: |-
+      $t(help.feedback.help-lines, { "joinArrays": "\n" })
     options:
       message:
         name: message
@@ -389,6 +522,13 @@ help:
   topic:
     name: topic
     description: Get help about a topic
+    help-lines:
+      - >-
+        Here are all of the available help topics:
+      - >-
+        {{topics, ul}}
+    help: |-
+      $t(help.topic.help-lines, { "joinArrays": "\n" })
     options:
       topic:
         name: topic
@@ -398,6 +538,18 @@ help:
 kob:
   name: kob
   description: Roll an exploding die for Kids On Bikes
+  help-lines:
+    - >
+      {{cmd}} rolls a single die suitable for Kids on Bikes.
+    - >
+      {{opts.sides}} allows the standard polyhedral dice (4, 6, 8, 10, 12, and 20), as well as the percentile
+      die (d100).
+    - >
+      If the die rolls its highest number, it explodes and adds another of the same die to the pool. Since
+      Roll It doesn't know the difficulty of the test, {{cmd}} will keep exploding indefinitely. This is
+      technically a break from the Kids On Bikes rules, where dice stop exploding once a roll succeeds.
+  help: |-
+    $t(kob.help-lines, { "joinArrays": "\n" })
   options:
     sides:
       name: sides
@@ -421,9 +573,39 @@ kob:
 met:
   name: met
   description: Roll rock-paper-scissors for MET, or start an opposed test
+  help: >-
+    The {{cmd}} commands let you play the MET version of rock-paper-scissors against Roll It or
+    a chosen opponent. You can use {{sub.static}} to make static and simple tests against the bot, and
+    {{sub.opposed}} lets you start an interactive challenge against another user.
   opposed:
     name: opposed
     description: Start an interactive, opposed MET rock-paper-scissors test
+    help-lines:
+      - >
+        *You can also read the
+        [guide to MET opposed challenges](<https://aurule.github.io/roll-it/#/systems/met?id=met-opposed>) on
+        the Roll It Website*
+      - >
+        {{cmd}} starts an interactive challenge by prompting your {{opts.opponent}} with the details of
+        the challenge: the given {{opts.attribute}} and your declared {{opts.bomb}} and {{opts.ties}}. They have
+        the option to set their own {{opts.bomb}} and {{opts.ties}} before picking the symbol to use against
+        your {{opts.throw}}. They can also relent without contesting the challenge.
+      - >
+        As the one who started the test, you can cancel it before your oppponent responds. This lets you
+        quickly clear the challenge in case you tagged the wrong person, or realize the challenge isn't
+        necessary.
+      - >
+        Once your opponent responds, the symbols you both threw will be shown along with the current winner.
+        The currently losing player at this point can try a retest, which lets you both choose a new symbol.
+        The currently winning player can cancel that retest, if appropriate, before each picks a new symbol.
+        As you retest back and forth, Roll It will show the entire history of the chops so you always know
+        what's been thrown so far.
+      - >
+        {{cmd}} takes into account whether either of you has {{opts.ties}}, i.e. a power that declares
+        you win tied tests automatically. If neither of you has ties (or both of you have ties), then you'll
+        have to compare bids on your own. Once you have, either player can retest or concede as appropriate.
+    help: |-
+      $t(met.opposed.help-lines, { "joinArrays": "\n" })
     options:
       opponent:
         name: opponent
@@ -458,6 +640,20 @@ met:
   static:
     name: static
     description: Make a MET rock-paper-scissors roll
+    help-lines:
+      - >
+        {{cmd}} lets you make a static or simple test using MET rules. No options are required, so you
+        can very quickly roll a random result vs a random result. If you want to pick the symbol you use
+        instead of rolling your half randomly, just select it in the {{opts.throw}} option.
+      - >
+        The `bomb` advantage is available to both sides of the test. You can set the random
+        picker to use rock-bomb-scissors for {{opts.throw}} or for {{opts.vs}}, in order to make a simple test
+        against a more powerful opponent. You can also pick bomb directly for {{opts.throw}}.
+      - >
+        If you just want to get a random symbol for yourself and don't need a win/tie/lose result, you can
+        set {{opts.vs}} to `None`.
+    help: |-
+      $t(met.static.help-lines, { "joinArrays": "\n" })
     options:
       throw:
         name: throw
@@ -537,6 +733,46 @@ met:
 nwod:
   name: nwod
   description: Roll a pool of d10s using rules for New World of Darkness
+  help-lines:
+    - >-
+      The core dice mechanics for {{cmd}} break down like this:
+    - >-
+      * A die that rolls at or above the {{opts.threshold}} value (normally 8) adds a success
+    - >
+      * A die that rolls at or above the {{opts.explode}} value (normally 10) adds another die to the roll.
+      This is called 10-again.
+    - >
+      Sometimes you don't get the 10-again benefit. In that case, set {{opts.explode}} to 11 and the dice will
+      not re-roll.
+    - >-
+      There are also some special mechanics that are supported, even though they don't come up very often:
+    - >-
+      * When {{opts.rote}} is true, every die in your *initial* pool that fails to score a success adds another
+      die to the roll
+    - >-
+      * When your {{opts.pool}} is zero, you get a single "chance" die. This interacts with {{opts.rote}} in a
+      weird way; {{cmd}} handles it, but see *World of Darkness* p.135 for details.
+    - >
+      * When {{opts.decreasing}} is true, each roll after the first has its {{opts.pool}} lowered by one. So the
+      first roll uses the full pool, the second roll has a -1 penalty, the third has -2, etc. This
+      implements the book rule of a cumulative penalty on retries. It has no effect unless {{opts.rolls}} is more
+      than 1, or {{opts.until}} is used.
+    - >
+      Besides these options, {{cmd}} can automate a couple of tedious mechanics.
+    - >
+      Certain actions need to be made until a given number of successes are accrued. The {{opts.until}} option
+      tells Roll It to do so, rolling as many times as it takes to meet or exceed the number supplied. In
+      this mode, {{opts.rolls}} limits the total number of attempts that are allowed before a final result is
+      shown. When {{opts.decreasing}} is true, the pool will shrink by one with each roll as described above.
+    - >
+      The {{opts.teamwork}} option starts a special teamwork roll that lets other people add dice to your
+      pool by responding to a prompt. This is not compatible with the {{opts.rolls}}, {{opts.until}}, or
+      {{opts.secret}} options.
+    - >-
+      Although {{cmd}} is happy to roll a chance die, you have to have a {{opts.pool}} of at least 1
+      in order to save the roll.
+  help: |-
+    $t(nwod.help-lines, { "joinArrays": "\n" })
   options:
     pool:
       name: pool
@@ -549,7 +785,7 @@ nwod:
       description: The number a die has to meet or exceed to count as a success (default 8)
     rote:
       name: rote
-      description: Re-roll any dice in your initial pool that do not score successes
+      description: Re-roll any dice in your initial pool that do not score a success
     until:
       name: until
       description: Roll the entire dice pool multiple times until this many successes are accrued
@@ -658,6 +894,13 @@ nwod:
 pba:
   name: pba
   description: Roll and sum two six-sided dice
+  help-lines:
+      - >
+        {{cmd}} rolls two six-sided dice and adds the results, as appropriate for *Powered by the Apocalypse*.
+      - >
+        This command is just a speedy way to roll `/d6 pool:2`.
+  help: |-
+    $t(pba.help-lines, { "joinArrays": "\n" })
   options:
     modifier:
       name: modifier
@@ -665,6 +908,43 @@ pba:
 roll-formula:
   name: roll-formula
   description: Roll a combination of dice and complex modifiers
+  help-lines:
+      - >
+        {{cmd}} rolls multiple pools of dice at once and can add, subtract, and manipulate them using complex
+        math. It's especially useful when you need to add a bunch of dice pools together, like for magic weapon
+        damage rolls in D&D.
+      - >
+        Each formula should include at least one pool of dice, written as `dice`d`sides`. If you want to
+        label the outcome of a pool, you can add a label in quotes to the `sides`, like `1d6"fire"`.
+      - >
+        When run, {{cmd}} rolls every pool and then evaluates the math of the formula. This means that while
+        you can manipulate the outcome of multiple pools, you cannot manipulate the number of dice nor their
+        sides.
+      - >-
+        Here are a few examples where a formula is more helpful than rolling plain dice:
+      - >-
+        * A magic weapon damage roll of 2d4 slashing, 1d6 fire, and 1d6 holy, with a +6 bonus:
+        `2d4"slash" + 1d6"fire" + 1d6"holy" + 6`
+      - >-
+        * A D&D 3.5 crafting roll with a DC of 20: `(1d20 + 16) * 20`
+      - >-
+        * A crit damage roll in D&D 5e: `(1d8 + 4) * 2 + 1d6"holy"`
+      - >
+        * A VtM Sabbat vinculum check for multiple participants in a vaulderie:
+        `1d10"Marie" + 1d10"Jane" + 1d10"Foxfire"`. In this case, the labels are the important part and the
+        final sum doesn't matter.
+      - >
+        When used as a saved roll, {{cmd}} accepts a `modifier` like all other savable rolls. Its modifier is
+        limited to adding or subtracting a single number.
+      - >-
+        {{cmd}} uses [math.js](<https://mathjs.org>) under the hood to do the calculations, so it respects
+        proper order of operations and can do all sorts of fancy math. Read up on its
+        [syntax guide](<https://mathjs.org/docs/expressions/syntax.html>) and
+        [supported functions](<https://mathjs.org/docs/reference/functions.html>) if there's something really
+        wild you want to try. Keep in mind that {{cmd}} resolves all dice pools *before* any other operation is
+        evaluated.
+  help: |-
+    $t(roll-formula.help-lines, { "joinArrays": "\n" })
   options:
     formula:
       name: formula
@@ -695,6 +975,10 @@ roll-formula:
 roll:
   name: roll
   description: Roll a set of plain dice
+  help: >
+    {{cmd}} is the basic dice rolling command in Roll It. Use {{cmd}} to roll one or more
+    dice, add them together, and add a modifier to the result. Use the {{opts.rolls}} option to roll the same
+    pool (and modifier) multiple times, like for multiple attacks in D&D.
   options:
     sides:
       name: sides
@@ -716,7 +1000,23 @@ roll:
     result: "**{{total}}** ({{detail}})"
 save-this-roll:
   name: Save this roll
-  description: Save a roll you've made to reuse it later
+  description: Save a roll you've made so you can reuse it later
+  help-lines:
+    - >
+      {{cmd}} is a context menu command that helps create a new saved roll for you on this server. To use it,
+      right click or long press on the result of a recent Roll It command and choose *Apps -> Save this roll*.
+      This will set the command and options for the saved roll. Then, you set the name and description using
+      `/saved set`. Once you're finished, you can use `/saved roll` to roll it!
+    - >
+      You can only have one unfinished roll at a time. That can either be a roll you just created, or a roll
+      you are editing with `/saved manage`. Until you finish that roll's options, you will not be able to use
+      it, nor will you be able to edit or create another saved roll.
+    - >-
+      Not all commands can be saved. Here is a list of the ones which can be used:
+    - >-
+      {{savable, ul}}
+  help: |-
+    $t(save-this-roll.help-lines, { "joinArrays": "\n" })
   response:
     incomplete: You've saved the command for a new roll. Now use `/saved set` to set
       its name and description.
@@ -733,6 +1033,31 @@ save-this-roll:
 saved:
   name: saved
   description: Save your most common rolls and re-use them
+  help-lines:
+    - >
+      *You can also read the [guide to Saved Rolls](<https://aurule.github.io/roll-it/#/features/saved>) on the Roll It Website.*
+    - >
+      The {{cmd}} commands let you save commonly used rolls and easily re-use them. Each subcommand has its
+      own help entry you can read for more details.
+    - >
+      Rolls you save are unique to you and the server you're on. Multiple users cannot use the same saved roll,
+      and you cannot share your own saved rolls between different servers.
+    - >
+      In general, you'll use {{sub.set}} and *Save this roll* to save some rolls and their options. Then,
+      {{sub.roll}} to use one of them. Check out the help for {{sub.set}} and *Save this roll* to learn about
+      how they work together to save complete roll.
+    - >
+      You can use {{sub.list}} to see the rolls you've saved on this server.
+    - >
+      {{sub.manage}} lets you see the details of a saved roll, update it, and remove it from the server.
+      Editing a roll with {{sub.manage}} lets you change everything about the roll. To make a single, small
+      change, you can use {{sub.grow}} instead.
+    - >-
+      Not all commands can be saved. Here is a list of the ones which can be used:
+    - >-
+      {{savable, ul}}
+  help: |-
+    $t(saved.help-lines, { "joinArrays": "\n" })
   entry:
     details:
       body: |-
@@ -792,6 +1117,24 @@ saved:
   grow:
     name: grow
     description: Make a small change to a saved roll
+    help-lines:
+      - >
+        {{cmd}} lets you make a small change to a saved roll. As your character changes over time, {{cmd}}
+        makes it easy to keep any saved rolls up to date.
+      - >
+        The value of {{opts.adjustment}} will automatically be added to the most appropriate number in the
+        saved roll's options. Most commands apply the bonus to their `modifier` by default, but some instead
+        change the `pool` or another number entirely. If you aren't sure which option will change, you can
+        always use {{opts.change}} to choose, or look up the command's help text (available on the
+        [website](<https://aurule.github.io/roll-it/#/>) or by using `/help command`) to find out.
+      - >
+        The {{opts.change}} option lets you override this behavior and choose which saved option to alter, like
+        if you wanted to change the `pool` for `/roll` or the `difficulty` for `/wod20`.
+      - >
+        {{cmd}} is only able to change one number at a time in a saved roll. If you need to make
+        larger changes, use `/saved manage` instead.
+    help: |-
+      $t(saved.grow.help-lines, { "joinArrays": "\n" })
     options:
       name:
         name: name
@@ -819,9 +1162,34 @@ saved:
   list:
     name: list
     description: List the rolls you've saved on this server
+    help-lines:
+      - >
+        Each roll is shown with its name, description, and full invocation.
+      - >-
+        :warning: marks incomplete rolls which are missing their name or options.
+      - >-
+        :x: marks rolls whose options are out of date or otherwise invalid.
+      - >
+        Incomplete and invalid rolls cannot be used. Depending on what's missing, you'll need to use
+        `/saved set` or *Save this roll* to fix it.
+    help: |-
+      $t(saved.list.help-lines, { "joinArrays": "\n" })
   manage:
     name: manage
     description: Change or remove a saved roll
+    help-lines:
+      - >
+        {{cmd}} lets you change all of the details about a saved roll, or remove it entirely.
+      - >
+        Just like saving a new roll, you can leave the edit process and come back later. However, you can only
+        have one unfinished roll at a time. That can either be a roll you just created, or a roll you are
+        editing. Until you finish that roll's options, you will not be able to use it, nor will you be able to
+        edit or create another saved roll.
+      - >
+        Removing a saved roll is permanent. The only way to get it back is to save a new roll with the same
+        name and options.
+    help: |-
+      $t(saved.manage.help-lines, { "joinArrays": "\n" })
     options:
       name:
         name: name
@@ -861,6 +1229,24 @@ saved:
   roll:
     name: roll
     description: Use one of your saved rolls
+    help-lines:
+      - >
+        {{cmd}} lets you use a saved roll while tweaking its options.
+      - >
+        The {{opts.description}} and {{opts.rolls}} options will entirely replace what was
+        saved with the roll. If you leave them out, {{opts.rolls}} will use the original value and
+        {{opts.description}} will use the saved roll description.
+      - >
+        If you give a {{opts.bonus}}, it will automatically be added to the most appropriate number in the
+        saved roll's options. Most commands apply the bonus to their `modifier` by default, but
+        some instead change the `pool` or another option entirely. If you aren't sure which option will change, you can
+        always use {{opts.change}} to choose, or look up the command's help text (available on the
+        [website](<https://aurule.github.io/roll-it/#/>) or by using `/help command`) to find out.
+      - >
+        The {{opts.change}} option lets you override this behavior and choose which saved option to alter, like
+        if you wanted to change the `pool` for `/roll` or the `difficulty` for `/wod20`.
+    help: |-
+      $t(saved.roll.help-lines, { "joinArrays": "\n" })
     options:
       name:
         name: name
@@ -891,6 +1277,33 @@ saved:
   set:
     name: set
     description: Set the name and description of a saved roll
+    help-lines:
+      - >
+        {{cmd}} helps create a new saved roll for you on this server by setting the name and
+        description. Then, you set the command and options for that roll by right clicking or long pressing on
+        the result of a Roll It command and choosing *Apps -> Save this roll*. Once you're
+        finished, you can use `/saved roll` to roll it!
+      - >
+        You can only have one unfinished roll at a time. That can either be a roll you just created, or a roll
+        you are editing with `/saved manage`. Until you finish that roll, you will not be able
+        to use it, nor will you be able to edit or create another saved roll.
+      - >
+        Because saved rolls are stored by Roll It, each one of yours on the server has to have a unique name.
+      - >-
+        Not all commands can be saved. Here is a list of the ones which can be used:
+      - >
+        {{savable, ul}}
+      - >
+        For advanced usage, you can add an {{opts.invocation}} when using {{cmd}}. This lets you
+        directly set the command and options that will be saved to the roll. An invocation looks like
+        `/roll pool:3 sides:6 rolls:2` and is what Discord generates when you type out a
+        command.
+      - >-
+        By adding an {{opts.invocation}}, you can quickly create many saved rolls in a row. This will always
+        save a new roll, even if you have one that is incomplete. As such, you *cannot* use an
+        {{opts.invocation}} when editing a roll, as it will create a new saved roll instead.
+    help: |-
+      $t(saved.set.help-lines, { "joinArrays": "\n" })
     options:
       name:
         name: name
@@ -916,9 +1329,49 @@ saved:
 setup-roll-it:
   name: setup-roll-it
   description: Set up Roll It with the commands you need
+  help-lines:
+    - >
+      Since Roll It has so many rollers, it can be helpful to only make specific ones available on your
+      server. {{cmd}} lets you change which ones can be used. Use it when you first add Roll It, and any time
+      you want to add or remove commands.
+    - >
+      {{cmd}} can only be used by server managers and those they allow through Discord's permissions.
+    - >-
+      A few commands are always available on servers with Roll It:
+    - >
+      {{globals, ul}}
+    - >-
+      These are the commands that can be added or removed:
+    - >-
+      {{deployables, ul}}
+  help: |-
+    $t(setup-roll-it.help-lines, { "joinArrays": "\n" })
 shadowrun:
   name: shadowrun
   description: Roll a pool of d6s for Shadowrun
+  help-lines:
+    - >-
+      The dice mechanics for {{cmd}} break down like this:
+    - >-
+      * A die that rolls a 5 or 6 adds a success
+    - >-
+      * If {{opts.edge}} is true, then a die that rolls a 6 adds another die to the roll
+    - >-
+      * If more than half the dice roll a 1, your result is a glitch
+    - >
+      * If more than half the dice roll a 1 and you have no successes, your result is a critical glitch
+    - >
+      The {{opts.rolls}} option lets you roll the same pool and difficulty multiple times, like for NPCs.
+    - >
+      The {{opts.until}} option tells Roll It to continue rolling the same pool and difficulty until the
+      total successes meet or exceed the number given. In this mode, the {{opts.rolls}} option limits the
+      maximum number of attempted rolls.
+    - >
+      The {{opts.teamwork}} option starts a special teamwork roll that lets other people add dice to your
+      pool by responding to a prompt. This is not compatible with the {{opts.rolls}}, {{opts.until}}, or
+      {{opts.secret}} options. Only useful for 4e and 6e, since other editions use different teamwork mechanics.
+  help: |-
+    $t(shadowrun.help-lines, { "joinArrays": "\n" })
   options:
     pool:
       name: pool
@@ -994,6 +1447,8 @@ shadowrun:
       glitch: "**{{tally}}** with a **glitch**"
       crit-glitch: a **critical glitch**
 singleton:
+  # Response strings shared by all commands which roll a single die. Each command must have its own name,
+  # description, and help attributes, as this block is only for shared responses.
   response:
     modifier:
       withDescription_one: |-
@@ -1022,6 +1477,16 @@ singleton:
 swn:
   name: swn
   description: Roll and sum two six-sided dice using rules for Stars Without Number
+  help-lines:
+    - >
+      {{cmd}} rolls two six-sided dice and adds the results, as appropriate for *Stars Without Number* and its
+      sister games *Worlds Without Number* and *Cities Without Number*.
+    - >
+      Occasionally, a character is able to roll 3 or more dice and keep the highest two. This is fully
+      supported by using the {{opts.pool}} option. When more than two dice are rolled using {{cmd}},
+      only the highest two are kept.
+  help: |-
+    $t(swn.help-lines, { "joinArrays": "\n" })
   options:
     modifier:
       name: modifier
@@ -1044,9 +1509,54 @@ swn:
 table:
   name: table
   description: Add, manage, and roll on random tables
+  help-lines:
+    - >
+      *You can also read about [Random Tables](<https://aurule.github.io/roll-it/#/features/tables>) on the
+      Roll It Website.*
+    - >
+      The {{cmd}} commands let you create and roll random results from a table. Each subcommand has its own
+      help entry you can read for more details.
+    - >
+      Tables are unique to each server and can only be used by server managers and those they allow through
+      Discord's permissions.
+    - >
+      In general, you'll use {{sub.add}} to create one or more tables, then {{sub.roll}} to get a random entry
+      from one of them.
+    - >
+      You can use {{sub.list}} to see which tables are available on the server.
+    - >
+      {{sub.manage}} lets you see the details and full contents of a table, as well as remove it from the
+      server. If you need to change something about a table, like tweak its name or change an entry, you'll
+      have to remove the table and then add it back with the desired changes.
+  help: |-
+    $t(table.help-lines, { "joinArrays": "\n" })
   add:
     name: add
     description: Upload a new rollable table
+    help-lines:
+      - >
+        {{cmd}} creates a new rollable table on this server. Once added, you can use `/table roll` to get a
+        random result from its entries.
+      - >
+        When adding a table, you have to upload a text file containing the table's entries. Each line of the
+        file will become a single entry in the table. Be careful that you don't leave any blank lines, titles,
+        or other notes in the file that you use, because these *will* show up as entries in the table.
+      - >
+        If you aren't sure you that your file is a plain text file, open it with your text editor of choice
+        and save it as `Plain Text` with the extension `.txt`.
+      - >-
+        Because tables are stored by Roll It, they have some limitations beyond what Discord requires:
+      - >-
+        1. Each table on a server has to have a unique name. You'll get an error if it's taken.
+      - >-
+        2. The name and description both have to be at least three characters long.
+      - >-
+        3. The entries file has to have at least two lines, and has to be smaller than 5 megabytes. That's
+        roughly the size of a full-length novel.
+      - >-
+        4. Each entry must be less than {{entry_length, number}} characters.
+    help: |-
+      $t(table.add.help-lines, { "joinArrays": "\n" })
     options:
       name:
         name: name
@@ -1066,6 +1576,8 @@ table:
   list:
     name: list
     description: List the tables on this server
+    help: |-
+        {{cmd}} shows the tables that are available on this server.
     response:
       none: There are no tables to roll. Add some with `/table add`!
       filled_one: |-
@@ -1078,6 +1590,18 @@ table:
   manage:
     name: manage
     description: Explain or remove a table
+    help-lines:
+      - >
+        {{cmd}} lets you see the details about a table, or remove it from this server.
+      - >
+        Removing a table is permanent. The only way to get it back is to add a new table with the same name
+        and entries.
+      - >
+        Due to limitations in Discord, editing a table is not possible right now. In order to change a table's
+        name, description, or entries, you have to remove the old table and add a new one with the desired
+        changes.
+    help: |-
+      $t(table.manage.help-lines, { "joinArrays": "\n" })
     options:
       table:
         name: table
@@ -1112,6 +1636,8 @@ table:
   roll:
     name: roll
     description: Roll a random entry from a table
+    help: |-
+      {{cmd}} gets a random entry from a table on this server.
     options:
       table:
         name: table
@@ -1133,6 +1659,29 @@ table:
 wod20:
   name: wod20
   description: Roll a pool of d10s using rules for World of Darkness 20th Anniversary
+  help-lines:
+    - >-
+      The dice mechanics for {{cmd}} break down like this:
+    - >-
+      * A die that rolls at or above the {{opts.difficulty}} value adds a success
+    - >-
+      * A die that rolls a 1 subtracts a success
+    - >
+      * If no dice score a success and one or more dice rolled a 1, the final result is a botch
+    - >
+      The {{opts.specialty}} option makes any die that rolls a 10 add *two* successes
+      instead of one. The {{opts.rolls}} option lets you roll the same pool and difficulty multiple
+      times, like for NPCs.
+    - >
+      The {{opts.until}} option tells Roll It to continue rolling the same pool and difficulty until the total
+      successes meet or exceed the number given. In this mode, the {{opts.rolls}} option limits the maximum
+      number of rolls allowed.
+    - >
+      The {{opts.teamwork}} option starts a special teamwork roll that lets other people add dice to
+      your pool by responding to a prompt. This is not compatible with the {{opts.rolls}},
+      {{opts.until}}, or {{opts.secret}} options.
+  help: |-
+    $t(wod20.help-lines, { "joinArrays": "\n" })
   options:
     pool:
       name: pool

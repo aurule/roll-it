@@ -48,7 +48,4 @@ module.exports = {
 
     return interaction.rollReply(injectMention(partial_message, interaction.user.id), secret)
   },
-  help({ command_name }) {
-    return `${command_name} flips a single coin and displays the result as heads or tails.`
-  },
 }

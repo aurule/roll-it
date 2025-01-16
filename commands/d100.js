@@ -1,4 +1,3 @@
-const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -58,11 +57,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name }) {
-    return oneLine`
-      ${command_name} rolls a single percentile, or 100-sided, die. That's it! The results are indexed from 1
-      to 100.
-    `
   },
 }

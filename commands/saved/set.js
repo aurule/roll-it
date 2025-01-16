@@ -1,4 +1,4 @@
-const { inlineCode, italic } = require("discord.js")
+const { inlineCode } = require("discord.js")
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
@@ -135,39 +135,10 @@ module.exports = {
 
     return interaction.whisper(t("response.complete", { name: command_options.name }))
   },
-  help({ command_name, ...opts }) {
+  help_data(opts) {
     const savable_commands = require("../index").savable
-    return [
-      oneLine`
-        ${command_name} helps create a new saved roll for you on this server by setting the name and
-        description. Then, you set the command and options for that roll by right clicking or long pressing on
-        the result of a Roll It command and choosing ${italic("Apps -> Save this roll")}. Once you're
-        finished, you can use ${inlineCode("/saved roll")} to roll it!
-      `,
-      "",
-      oneLine`
-        You can only have one unfinished roll at a time. That can either be a roll you just created, or a roll
-        you are editing with ${inlineCode("/saved manage")}. Until you finish that roll, you will not be able
-        to use it, nor will you be able to edit or create another saved roll.
-      `,
-      "",
-      "Because saved rolls are stored by Roll It, each one of yours on the server has to have a unique name.",
-      "",
-      "Not all commands can be saved. Here is a list of the ones which can be used:",
-      CommandNamePresenter.list(savable_commands),
-      "",
-      oneLine`
-        For advanced usage, you can add an ${opts.invocation} when using ${command_name}. This lets you
-        directly set the command and options that will be saved to the roll. An invocation looks like
-        ${inlineCode("/roll pool:3 sides:6 rolls:2")} and is what Discord generates when you type out a
-        command.
-      `,
-      "",
-      oneLine`
-        By adding an ${opts.invocation}, you can quickly create many saved rolls in a row. This will always
-        save a new roll, even if you have one that is incomplete. As such, you ${italic("cannot")} use an
-        ${opts.invocation} when editing a roll, as it will create a new saved roll instead.
-      `,
-    ].join("\n")
+    return {
+      savable: CommandNamePresenter.list(savable_commands)
+    }
   },
 }

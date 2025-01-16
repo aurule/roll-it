@@ -1,5 +1,3 @@
-const { inlineCode } = require("discord.js")
-
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { operator } = require("../../util/formatters")
@@ -116,28 +114,5 @@ module.exports = {
       case "change":
         return saved_roll_completers.change_target(partialText, all_rolls, interaction.options)
     }
-  },
-  help({ command_name, ...opts }) {
-    return [
-      `${command_name} lets you use a saved roll while tweaking its options.`,
-      "",
-      oneLine`
-        The ${opts.description} and ${opts.rolls} options will entirely replace what was
-        saved with the roll. If you leave them out, ${opts.rolls} will use the original value and
-        ${opts.description} will use the saved roll description.
-      `,
-      "",
-      oneLine`
-        If you give a ${opts.bonus}, it will automatically be added to the most appropriate number in the
-        saved roll's options. Most commands apply the bonus to their ${inlineCode("modifier")} by default, but
-        some instead change the ${inlineCode("pool")} or another option entirely.
-      `,
-      "",
-      oneLine`
-        The ${opts.change} option lets you override this behavior and choose which saved option to alter, like
-        if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")} or the
-        ${inlineCode("difficulty")} for ${inlineCode("/wod20")}.
-      `,
-    ].join("\n")
   },
 }

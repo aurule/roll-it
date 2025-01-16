@@ -1,5 +1,4 @@
-const { inlineCode, italic, Collection, orderedList, unorderedList } = require("discord.js")
-const { oneLine } = require("common-tags")
+const { Collection } = require("discord.js")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
@@ -141,52 +140,5 @@ module.exports = {
       split_on: "\n\t",
       secret,
     })
-  },
-  help({ command_name, ...opts }) {
-    return [
-      `The dice mechanics for ${command_name} break down like this:`,
-      orderedList([
-        oneLine`
-          All four pools (${opts.discipline}, ${opts.madness}, ${opts.exhaustion}, and ${opts.pain}) are
-          rolled separately.
-        `,
-        `A die that rolls at or below 3 adds a success to its pool.`,
-        oneLine`
-          The successes from the ${opts.discipline}, ${opts.madness}, and ${opts.exhaustion} pools are added
-          up and compared against the successes from the ${opts.pain} pool. When ${opts.pain} has more, you
-          fail. When it has fewer or equal successes, you succeed.
-        `,
-        oneLine`
-          The die results of each pool are compared again, this time from highest to lowest. The pool with the
-          highest number on a die ${italic("dominates")} the roll. If pools are tied for highest, then the
-          next highest number is compared. If all pools are identical, then ${opts.discipline} beats
-          ${opts.madness}, ${opts.madness} beats ${opts.exhaustion}, and ${opts.exhaustion} beats
-          ${opts.pain}.
-        `,
-      ]),
-      "",
-      `Tip: The printed results not only show what dominated the roll, but underline the reason why it did so.`,
-      "",
-      `The ${opts.talent} can modify the number of successes you compare against the ${opts.pain} result:`,
-      unorderedList([
-        oneLine`
-          Minor Exhaustion prevents you from getting fewer successes than your ${opts.exhaustion} pool.
-          ${opts.exhaustion} has to be at least 1.
-        `,
-        oneLine`
-          Major Exhaustion adds one success to your result per die of ${opts.exhaustion}. ${opts.exhaustion}
-          has to be at least 1.
-        `,
-        oneLine`
-          Madness is required to do magic. It does not change your successes, but does require ${opts.madness}
-          to be at least 1.
-        `,
-      ]),
-      "",
-      oneLine`
-        When used for a saved roll, ${command_name} will apply the ${inlineCode("bonus")} from
-        ${inlineCode("/saved roll")} to the ${opts.exhaustion} pool by default.
-      `,
-    ].join("\n")
   },
 }

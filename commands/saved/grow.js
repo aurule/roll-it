@@ -1,5 +1,3 @@
-const { inlineCode, italic } = require("discord.js")
-
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { oneLine } = require("common-tags")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
@@ -95,28 +93,5 @@ module.exports = {
       case "change":
         return saved_roll_completers.change_target(partialText, all_rolls, interaction.options)
     }
-  },
-  help({ command_name, ...opts }) {
-    return [
-      `${command_name} lets you make a small change to a saved roll. As your character changes over time,
-      ${command_name} makes it easy to keep any saved rolls up to date.`,
-      "",
-      oneLine`
-        The value of ${opts.adjustment} will automatically be added to the most appropriate number in the
-        saved roll's options. Most commands apply the bonus to their ${inlineCode("modifier")} by default, but
-        some instead change the ${inlineCode("pool")} or another number entirely.
-      `,
-      "",
-      oneLine`
-        The ${opts.change} option lets you override this behavior and choose which saved option to alter, like
-        if you wanted to change the ${inlineCode("pool")} for ${inlineCode("/roll")} or the
-        ${inlineCode("difficulty")} for ${inlineCode("/wod20")}.
-      `,
-      "",
-      oneLine`
-        ${command_name} is only able to change one number at a time in a saved roll. If you need to make
-        larger changes, use ${inlineCode("/saved manage")} instead.
-      `,
-    ].join("\n")
   },
 }

@@ -1,5 +1,3 @@
-const { MessageFlags } = require("discord.js")
-
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { presentList } = require("../../presenters/table-list-presenter")
 const { GuildRollables } = require("../../db/rollable")
@@ -25,8 +23,5 @@ module.exports = {
       split_on: "\n",
       secret: true,
     })
-  },
-  help({ command_name }) {
-    return `${command_name} shows the tables that are available on this server.`
   },
 }

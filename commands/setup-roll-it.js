@@ -5,7 +5,6 @@ const {
   ButtonStyle,
   ButtonBuilder,
   subtext,
-  inlineCode,
   time,
   TimestampStyles,
   MessageFlags,
@@ -13,7 +12,7 @@ const {
 const { oneLine } = require("common-tags")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const commandNamePresenter = require("../presenters/command-name-presenter")
+const CommandNamePresenter = require("../presenters/command-name-presenter")
 const CommandSelectTransformer = require("../transformers/command-select-transformer")
 const SystemSelectTransformer = require("../transformers/system-select-transformer")
 const api = require("../services/api")
@@ -199,30 +198,10 @@ module.exports = {
     })
   },
   help_data(opts) {
-    const { deployable } = require("./index")
-    // need to get localized description as well
+    const commands = require("./index")
     return {
-      deployable_commands: deployable
-        .filter((c) => c.type !== "menu")
-        .map((c) => `${commandNamePresenter.present(c, opts.locale)} - ${c.description}`),
+      deployables: CommandNamePresenter.list(commands.guild),
+      globals: CommandNamePresenter.list(commands.global),
     }
-  },
-  help({ command_name }) {
-    const deployable_commands = require("./index").deployable
-    return [
-      oneLine`
-        Since Roll It has so many rollers, it can be helpful to only make specific ones available on your
-        server. ${command_name} lets you change which ones can be used. Use it when you first add Roll It,
-        and any time you want to add or remove commands.
-      `,
-      "",
-      `${command_name} can only be used by server managers.`,
-      "",
-      "These are the commands which you can add or remove:",
-      deployable_commands
-        .filter((c) => c.type !== "menu")
-        .map((c) => `• ${commandNamePresenter.present(c)} - ${c.description}`)
-        .join("\n"),
-    ].join("\n")
   },
 }
