@@ -64,6 +64,8 @@ Example:
 /met opposed opponent:@RicePilaf attribute:Physical retest:brawl throw:scissors bomb:true ties:true
 ```
 
+!> Since Discord sometimes does not send button clicks and selections to Roll It, this command is more delicate than most and, unfortunately, tends to break. When it works, it's really useful, so I'd like to keep finding workarounds for Discord being flaky. Please use `/help feedback` whenever `/met opposed` breaks and describe what you were doing with it so I can have a better chance of tracking down the issue.
+
 Once you send the command, Roll It will prompt your opponent to choose their own benefits (bomb, ties, and cancels) and pick the symbol they want to use against your first chop. If they have the `bomb` advantage, then bomb options will be available to them. They can also immediately relent to the test at this stage.
 
 ![The challenge prompt, where the opponent has declared bomb](../_images/examples/met/initial.png)
