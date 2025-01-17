@@ -1,4 +1,4 @@
-const { inlineCode } = require("discord.js")
+const { inlineCode, unorderedList } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const commandNamePresenter = require("../../presenters/command-name-presenter")
@@ -8,6 +8,7 @@ module.exports = {
   title: "Commands",
   description: "How to use slash commands and what's available",
   help() {
+    const commands = require("../../commands")
     return [
       oneLine`
         Roll It uses slash commands to roll dice using different built-in dice mechanics. Slash commands are
@@ -31,7 +32,7 @@ module.exports = {
       `,
       "",
       "Here are all of the commands that Roll It knows:",
-      commandNamePresenter.list(),
+      unorderedList(commandNamePresenter.list(commands)),
     ].join("\n")
   },
 }
