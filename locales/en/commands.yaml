@@ -61,7 +61,7 @@ chop:
       name: bomb
       description: Replace paper with the special bomb result
   response:
-    shortcut: This command is a shortcut. Try `/met static` instead.
+    shortcut: This command is a shortcut for `/met static`, which has more options.
 coin:
   name: coin
   description: Flip a coin
