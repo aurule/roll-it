@@ -1070,7 +1070,7 @@ saved:
       incomplete: |-
         {{body}}
 
-        :warning: This roll is incomplete! You have to finish it using `/saved set` or *Save this roll* before you'll be able to roll it.
+        :memo: This roll is incomplete! You have to finish it using `/saved set` or *Save this roll* before you'll be able to roll it.
       options:
         valid: "{{options, ul}}"
         invalid: |-
@@ -1089,13 +1089,13 @@ saved:
           {{name}} - {{description}}
             - {{invocation}}
         incomplete: |-
-          :warning: {{name}} - {{description}}
+          :memo: {{name}} - {{description}}
             - {{invocation}}
         invalid: |-
           :x: {{name}} - {{description}}
             - {{invocation}}
         borked: |-
-          :x: :warning: {{name}} - {{description}}
+          :x: :memo: {{name}} - {{description}}
             - {{invocation}}
       missing:
         name: "*none set*"
@@ -1112,7 +1112,7 @@ saved:
         $t(saved.entry.list.legend)
       legend: |-
         -# Legend:
-        -# :warning: means that roll is incomplete
+        -# :memo: means that roll is incomplete
         -# :x: means that roll is not valid
   grow:
     name: grow
@@ -1166,7 +1166,7 @@ saved:
       - >
         Each roll is shown with its name, description, and full invocation.
       - >-
-        :warning: marks incomplete rolls which are missing their name or options.
+        :memo: marks incomplete rolls which are missing their name or options.
       - >-
         :x: marks rolls whose options are out of date or otherwise invalid.
       - >

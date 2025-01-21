@@ -45,7 +45,7 @@ describe("execute", () => {
 
     saved_list_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch(":warning:")
+    expect(interaction.replyContent).toMatch(":memo:")
   })
 
   it("marks invalid rolls", () => {
