@@ -64,7 +64,9 @@ Example:
 /met opposed opponent:@RicePilaf attribute:Physical retest:brawl throw:scissors bomb:true ties:true
 ```
 
-!> Since Discord sometimes does not send button clicks and selections to Roll It, this command is more delicate than most and, unfortunately, tends to break. When it works, it's really useful, so I'd like to keep finding workarounds for Discord being flaky. Please use `/help feedback` whenever `/met opposed` breaks and describe what you were doing with it so I can have a better chance of tracking down the issue.
+One of the major conveniences of `/met opposed` is that it summarizes the results of each roll in the challenge at every step, making it easy to keep track of how things are going. However, it uses lots of buttons and drop-downs to do so. Since Discord sometimes does not send button clicks and selections to Roll It, this command can break more easily than most. One of the best ways to work around that problem is to minimize how long Roll It has to wait between interactions. Being in voice chat with the other participant can help keep retests moving, or simply being attentive during the challenge.
+
+?> Since Discord interferes so much with `/met opposed`, please use `/help feedback` whenever it breaks and describe what you were doing with it so I can have a better chance of tracking down the issue.
 
 Once you send the command, Roll It will prompt your opponent to choose their own benefits (bomb, ties, and cancels) and pick the symbol they want to use against your first chop. If they have the `bomb` advantage, then bomb options will be available to them. They can also immediately relent to the test at this stage.
 
