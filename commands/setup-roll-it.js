@@ -200,8 +200,8 @@ module.exports = {
   help_data(opts) {
     const commands = require("./index")
     return {
-      deployables: CommandNamePresenter.list(commands.guild),
-      globals: CommandNamePresenter.list(commands.global),
+      deployables: CommandNamePresenter.list(commands.guild, opts.locale),
+      globals: CommandNamePresenter.list(commands.global, opts.locale),
     }
   },
 }

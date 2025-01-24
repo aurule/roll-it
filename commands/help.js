@@ -31,8 +31,8 @@ module.exports = {
   help_data(opts) {
     const commands = require("./index")
     return {
-      topics: TopicNamePresenter.list(),
-      commands: CommandNamePresenter.list(commands),
+      topics: TopicNamePresenter.list(opts.locale),
+      commands: CommandNamePresenter.list(commands, opts.locale),
     }
   },
 }

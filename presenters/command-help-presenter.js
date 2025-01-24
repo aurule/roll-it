@@ -46,7 +46,7 @@ module.exports = {
     const subcommand_names = {}
     const subcommands = command.subcommands?.values() ?? []
     for (const sub of subcommands) {
-      const presented = CommandNamePresenter.present(sub)
+      const presented = CommandNamePresenter.present(sub, locale)
       subcommand_names[sub.name] = presented
     }
     const help_opts = {
