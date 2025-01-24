@@ -1,4 +1,4 @@
-const { italic } = require("discord.js")
+const { i18n } = require("../locales")
 
 /**
  * Make an array of all help topics

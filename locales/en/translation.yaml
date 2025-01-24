@@ -21,3 +21,59 @@ command-name:
   menu: "*{{command_name}}*"
   slash: "`/{{command_name}}`"
   subcommand: "`/{{parent_name}} {{command_name}}`"
+systems:
+  listing: |-
+    **{{title}}**: {{commands, list}}. {{description}}
+      {{extended}}
+  dnd5e:
+    title: Dungeons & Dragons
+    description: Suitable for all versions, includes advantage for 5e
+    extended: Try `/curv` if you want a bell curve in place of d20s.
+  drh:
+    title: Don't Rest Your Head
+    description: Multiple pools of d6s
+    extended: >-
+      Rolls all the pools and figures out what dominates the roll. Full support for Minor and Major uses of an
+      exhaustion talent, as well as validation for Madness talents.
+  fate:
+    title: FATE
+    description: Four Fudge dice on a ladder
+    extended: Rolls fudge dice and shows the resulting faces. Uses the by-book ladder.
+  generic:
+    title: Generic dice
+    description: Suitable for games without fancy dice rules
+    extended: Also the global command `/roll`. Supports most game systems that don't have special tallying rules.
+  kob:
+    title: Kids On Bikes
+    description: Exploding polyhedrals
+    extended: >-
+      Handles exploding the highest result on a die. However, it does not stop after the test is passed, since
+      it doesn't know the difficulty.
+  met:
+    title: MET Revised
+    description: Rock-paper-scissors for classic WoD LARP
+    extended: Correctly handles `bomb` and `/met opposed` provides interactive opposed tests.
+  nwod:
+    title: New World / Chronicles of Darkness
+    description: Pools of exploding d10s
+    extended: >-
+      Works for both first and second edition of Chronicles of Darkness. Rolls and tallies with correct
+      exploding dice. Handles chance rolls, the rote benefit, and has an interactive teamwork mode.
+  pba:
+    title: Powered by the Apocalypse
+    description: 2d6 suitable for most variants
+    extended: Summed 2d6 with a modifier for action resolution.
+  shadowrun:
+    title: Shadowrun
+    description: Exploding pools of d6s
+    extended: Suitable for 4e, 5e, and 6e. Handles glitches, the rule of six, and has an interactive teamwork mode.
+  swn:
+    title: Stars Without Number
+    description: Summed 2d6 for skills
+    extended: >-
+      Works for Stars, Worlds, and Cities Without Number. Uses `/d20` for combat and `/swn` for skills, which
+      handles dropping the lowest dice when you have more than two for a skill roll.
+  wod20:
+    title: World of Darkness 20th Anniversary Edition
+    description: Fancy d10s for all your gothic horror needs
+    extended: Rolls and tallies, with support for specialties and an interactive teamwork mode.

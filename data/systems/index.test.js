@@ -8,14 +8,6 @@ describe("systems", () => {
       expect(system.name).toBeTruthy()
     })
 
-    it("has a title", () => {
-      expect(system.title).toBeTruthy()
-    })
-
-    it("has notes", () => {
-      expect(system.notes).toBeTruthy()
-    })
-
     it("references real commands", () => {
       for (const bucket in system.commands) {
         expect(commands.hasAll(bucket))

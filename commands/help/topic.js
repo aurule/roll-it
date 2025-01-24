@@ -28,13 +28,22 @@ module.exports = {
   execute(interaction) {
     const topic_name = interaction.options.getString("topic") ?? ""
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "help.topic")
+    const t = i18n.getFixedT(interaction.locale)
 
     const topic = topics.get(topic_name)
     if (!topic)
-      return interaction.whisper(t("options.topic.validation.unavailable", { topic_name }))
+      return interaction.whisper(t("commands:help.topic.options.topic.validation.unavailable", { topic_name }))
 
-    const full_text = heading(topic.title) + "\n" + topic.help()
+    const data = {
+      returnObjects: true,
+    }
+    if (topic.help_data) {
+      Object.assign(data, topic.help_data(interaction.locale))
+    }
+
+    const topic_title = t(`help:${topic_name}.title`)
+    const topic_body = t(`help:${topic_name}.lines`, data).join("\n")
+    const full_text = t('help:topics.message', { title: topic_title, body: topic_body })
     return interaction.paginate({
       content: full_text,
       secret: true,
@@ -42,7 +51,7 @@ module.exports = {
   },
   help_data(opts) {
     return {
-      topics: TopicNamePresenter.list(),
+      topics: TopicNamePresenter.list(opts.locale),
     }
   },
 }

@@ -47,7 +47,7 @@ describe("execute", () => {
 
 describe("help", () => {
   it("includes topic names", () => {
-    const help_data = topic_help_command.help_data()
+    const help_data = topic_help_command.help_data({ locale: "en-US" })
 
     expect(help_data.topics.some(c => c.includes("About Roll It"))).toBeTruthy()
   })

@@ -37,7 +37,7 @@ describe("execute", () => {
 
 describe("help", () => {
   it("includes command names", () => {
-    const help_data = command_help_command.help_data()
+    const help_data = command_help_command.help_data({ locale: "en-US" })
 
     expect(help_data.commands.some(c => c.includes("setup-roll-it"))).toBeTruthy()
   })
