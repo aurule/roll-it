@@ -1,28 +1,18 @@
-const { Collection } = require("discord.js")
 const Presenter = require("./topic-name-presenter")
 
-const test_topic = {
-  name: "test",
-  title: "A Test Topic",
-  description: "A topic to test to",
-}
 
 describe("list", () => {
   it("shows the topic names", () => {
-    const topics = new Collection([[test_topic.name, test_topic]])
-
-    const result = Presenter.list(topics)
+    const result = Presenter.list("en-US")
 
     const joined = result.join("\n")
-    expect(joined).toMatch(test_topic.name)
+    expect(joined).toMatch("About")
   })
 
   it("shows the topic descriptions", () => {
-    const topics = new Collection([[test_topic.name, test_topic]])
-
-    const result = Presenter.list(topics)
+    const result = Presenter.list("en-US")
 
     const joined = result.join("\n")
-    expect(joined).toMatch(test_topic.description)
+    expect(joined).toMatch("Author and license")
   })
 })
