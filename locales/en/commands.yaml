@@ -533,6 +533,12 @@ help:
       topic:
         name: topic
         description: The topic you want help with
+        choices:
+          about: About Roll It
+          changes: Recent Changes
+          commands: Commands
+          saved: Saved Rolls
+          systems: Dice Systems
         validation:
           unavailable: No help is available for the topic "{{topic_name}}"
 kob:

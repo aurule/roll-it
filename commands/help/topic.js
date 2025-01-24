@@ -14,17 +14,10 @@ module.exports = {
   parent: parent_name,
   description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
-      "topic",
-      (option) =>
-        option
-          .setChoices(
-            ...topics.map((t) => {
-              return { name: `${t.title}`, value: `${t.name}` }
-            }),
-          )
-          .setRequired(true),
-    ),
+    new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addLocalizedStringOption("topic", (option) =>
+        option.setLocalizedChoices("about", "changes", "commands", "saved", "systems"),
+      ),
   execute(interaction) {
     const topic_name = interaction.options.getString("topic") ?? ""
 
