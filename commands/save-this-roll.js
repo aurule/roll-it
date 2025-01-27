@@ -1,10 +1,7 @@
 const {
   ContextMenuCommandBuilder,
   ApplicationCommandType,
-  inlineCode,
-  italic,
 } = require("discord.js")
-const { oneLine } = require("common-tags")
 
 const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")

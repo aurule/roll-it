@@ -5,7 +5,6 @@ const { UserSavedRolls } = require("../../db/saved_rolls")
 const commonOpts = require("../../util/common-options")
 const present_command = require("../../presenters/command-name-presenter").present
 const { injectMention } = require("../../util/formatters")
-const { oneLine } = require("common-tags")
 const { i18n } = require("../../locales")
 const { canonical } = require("../../locales/helpers")
 

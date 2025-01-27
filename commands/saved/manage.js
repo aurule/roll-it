@@ -5,7 +5,6 @@ const {
   ComponentType,
   MessageFlags,
 } = require("discord.js")
-const { oneLine } = require("common-tags")
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")

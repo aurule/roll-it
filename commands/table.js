@@ -1,5 +1,4 @@
 const { PermissionFlagsBits } = require("discord.js")
-const { oneLine } = require("common-tags")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { loadSubcommands, dispatch } = require("../util/subcommands")

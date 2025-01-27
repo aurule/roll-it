@@ -1,5 +1,4 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const { oneLine } = require("common-tags")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const present_command = require("../../presenters/command-name-presenter").present

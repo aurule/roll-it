@@ -1,5 +1,3 @@
-const { oneLine } = require("common-tags")
-
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const TopicNamePresenter = require("../presenters/topic-name-presenter")

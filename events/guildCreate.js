@@ -1,6 +1,3 @@
-const { italic, inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
-
 const { logger } = require("../util/logger")
 
 function guildAnnouncementChannel(guild) {

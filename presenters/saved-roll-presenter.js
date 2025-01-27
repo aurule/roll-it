@@ -1,5 +1,4 @@
 const { inlineCode } = require("discord.js")
-const { oneLine } = require("common-tags")
 
 /**
  * Present the details of a single saved roll
