@@ -2,6 +2,34 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.10.0 <small>Released Jan 26, 2025</small>
+
+### Added
+
+* New `/d6` command to roll 1d6
+* New `/pba` command to support Powered by the Apocalypse and Stars Without Number
+* New `/swn` command for rolling skills in Stars Without Number and its sister systems
+
+### Changed
+
+* `/curv` now calls out crit fails as well as crit successes
+* Make `/chop` shortcut message less insistant
+* Stop showing when a user chop is random
+* Use :memo: instead of :warning: for incomplete saved rolls
+* Improvements to response clarity. This is part of an ongoing effort to make Roll It available in multiple languages. If you would like to help translate in the future, please drop a line on github or by using `/help feedback`!
+
+### Removed
+
+* Roll It no longer tries to send a welcome message when it's added to a server
+
+### Fixed
+
+* Change off of recently deprecated Discord APIs
+* Normalized how dice results are displayed
+* Exhaustion talens for `/drh` no longer error on missing Madness dice
+* Cleaned up some typos in the `/drh` results
+* Fixed crash that could happen when confirming new commands with `/setup-roll-it`
+
 ## v1.9.6 <small>Released Dec 20, 2024</small>
 
 ### Added
