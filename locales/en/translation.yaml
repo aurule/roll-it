@@ -1,4 +1,6 @@
 ---
+command:
+  error: There was an error while executing this command!
 pagination:
   suffix: "(message {{page_num}}/{{page_count}})"
 options:

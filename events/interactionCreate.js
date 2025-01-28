@@ -4,6 +4,7 @@ const { getReplyFn } = require("../util/getReplyFn")
 const { metrics } = require("../db/stats")
 const PolicyChecker = require("../services/policy-checker")
 const interactionCache = require("../services/interaction-cache")
+const { i18n } = require("../locales")
 
 /**
  * Handle command interactions
@@ -115,7 +116,7 @@ module.exports = {
         )
         const fn = getReplyFn(interaction)
         return interaction[fn]({
-          content: "There was an error while executing this command!",
+          content: i18n.t("command.error", { lng: interaction.locale }),
           components: [],
           flags: MessageFlags.Ephemeral,
         })
