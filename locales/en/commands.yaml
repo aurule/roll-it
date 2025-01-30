@@ -1335,6 +1335,23 @@ saved:
 setup-roll-it:
   name: setup-roll-it
   description: Set up Roll It with the commands you need
+  prompt: |-
+    Set which dice rolling commands are available on this server. If you don't pick new commands in {{timeout}}, they will remain unchanged.
+
+    Pick a system to start with its suggested commands. Or, choose commands individually to suit your needs.
+  pickers:
+    system: Pick a game system
+    command: Choose individual commands
+  buttons:
+    submit: Set Commands
+    cancel: Cancel
+  response:
+    cancelled: Cancelled. Leaving server commands unchanged.
+    match: Commands match. Leaving server commands unchanged.
+    timeout: Ran out of time. Leaving server commands unchanged.
+    empty: Nothing chosen. Removing server commands.
+    success: |-
+      Updated server commands to: {{commands, list}}
   help-lines:
     - >
       Since Roll It has so many rollers, it can be helpful to only make specific ones available on your

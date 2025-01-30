@@ -1,19 +1,16 @@
+const { i18n } = require("../locales")
+
 module.exports = {
-  /**
-   * Transforms an array of command objects into an array of select menu option
-   * objects suitable for the options of a Discord String Select Menu.
-   * @param  {Array}        commands  The commands to transform
-   * @param  {Array}        deployed  Command names which should be set as default selections (optional)
-   * @return {Array[Object]}          Array of select choices
-   */
-  transform: (commands, deployed = []) => {
-    return commands.map((command) => {
+  transform: (commands, locale, deployed = []) => {
+    const t = i18n.getFixedT(locale, "commands")
+    return commands.map(command => {
+      const name = command.name
       return {
-        label: command.name,
-        description: command.description,
-        value: command.name,
-        default: deployed.includes(command.name),
+        label: t(`${name}.name`),
+        description: t(`${name}.description`),
+        value: name,
+        default: deployed.includes(name),
       }
     })
-  },
+  }
 }

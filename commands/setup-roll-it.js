@@ -37,6 +37,7 @@ module.exports = {
   },
   async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral })
+    const t = i18n.getFixedT(interaction.locale, "commands", "setup-roll-it")
 
     const commands = require("./index")
     const deployable_commands = commands.deployable
@@ -54,86 +55,38 @@ module.exports = {
       })
       .map((s) => s.name)
 
-    // prompt for commands as well as for systems
-
-    // handling for systems
-    // make a picker
-    // select systems based on whether the deployed commands include the system's required commands
-    // selector for non-system commands
-
-    // add deprecation warning
-
-    // handle the prompt collector
-    // on select, set based on selected systems' required and recommended commands, plus fun things
-    // on go, set commands
-
-    // prompt to select systems
-    // set required and recommended commands
-    // offer to set optional commands, too
-    // only remove commands from the deploy list if they were removed due to user deselection of systems
-
-    // const system_picker = new StringSelectMenuBuilder()
-    //   .setCustomId("system_picker")
-    //   .setPlaceholder("Choose game systems")
-    //   .setMinValues(0)
-    //   .setMaxValues(systems.size)
-    //   .addOptions(...SystemSelectTransformer.withCommands(systems, deployed_system_names))
-    // const system_row = new ActionRowBuilder().addComponents(system_picker)
+    const system_picker = new StringSelectMenuBuilder()
+      .setCustomId("system_picker")
+      .setPlaceholder(t("pickers.system"))
+      .setMinValues(0)
+      .setMaxValues(systems.size)
+      .addOptions(...SystemSelectTransformer.transform(systems, interaction.locale, deployed_system_names))
+    const system_row = new ActionRowBuilder().addComponents(system_picker)
 
     const command_picker = new StringSelectMenuBuilder()
       .setCustomId("command_picker")
-      .setPlaceholder("Choose individual commands")
+      .setPlaceholder(t("pickers.command"))
       .setMinValues(0)
       .setMaxValues(deployable_commands.size)
       .addOptions(
-        ...CommandSelectTransformer.transform(deployable_commands, deployed_command_names),
+        ...CommandSelectTransformer.transform(deployable_commands, interaction.locale, deployed_command_names),
       )
     const command_row = new ActionRowBuilder().addComponents(command_picker)
 
     const go_button = new ButtonBuilder()
       .setCustomId("go_button")
-      .setLabel("Set Commands")
+      .setLabel(t("buttons.submit"))
       .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel_button")
-      .setLabel("Cancel")
+      .setLabel(t("buttons.cancel"))
       .setStyle(ButtonStyle.Secondary)
     const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
 
     const expiry = new Date(Date.now() + timeout_ms)
-    // let prompt_content = oneLine`
-    //   Choose a game system to add all of its listed commands to the server. Use the second picker to add or
-    //   remove individual commands. If you don't update the commands ${time(expiry, TimestampStyles.RelativeTime)},
-    //   they will be left unchanged.
-    // `
-    let prompt_content = oneLine`
-      Add or remove dice roller commands from this server. If you don't update the commands ${time(expiry, TimestampStyles.RelativeTime)},
-      they will be left unchanged.
-    `
-    if (deprecated_commands.hasAny(deployed_command_names)) {
-      const replaced = deprecated_commands.filter((c) => deployed_command_names.includes(c.name))
-
-      const replaced_names = replaced.map((c) => present_command(c))
-      const replacement_names = replaced.map((c) => present_command(commands.get(c.replacement)))
-      const num_replaced = replaced.length
-      const pronoun = pluralize("it", num_replaced)
-      const cap_pronoun = capitalize(pronoun)
-      const verb_is = pluralize("is", num_replaced)
-      const verb_does = pluralize("does", num_replaced)
-
-      prompt_content +=
-        "\n" +
-        subtext(oneline`
-        This server uses the deprecated ${pluralize("command", num_replaced)} ${inlineList(replaced_names)}.
-        ${cap_pronoun} ${verb_is} being replaced by ${inlineList(replacement_names)}, which is why ${pronoun}
-        ${verb_does} not appear on this list. ${cap_pronoun} will be removed automatically in the future. If
-        you update the server's commands, ${pronoun} will be removed immediately.
-      `)
-    }
     const prompt = await interaction.editReply({
-      content: prompt_content,
-      // components: [system_row, command_row, buttons_row],
-      components: [command_row, buttons_row],
+      content: t("prompt", { timeout: time(expiry, TimestampStyles.RelativeTime) }),
+      components: [system_row, command_row, buttons_row],
     })
 
     let selection = deployed_set
@@ -146,33 +99,31 @@ module.exports = {
         case "cancel_button":
           collector.stop()
           return event.update({
-            content: "Cancelled. Leaving server commands unchanged.",
+            content: t("response.cancelled"),
             components: [],
           })
         case "go_button":
-          if (!selection.size) {
-            event.update({
-              content:
-                "You need to pick at least one command. Choose the systems or commands you want to make available on this server:",
-            })
-            break
-          }
           collector.stop()
+          if (!selection.size) {
+            return event.update({
+              content: t("response.empty"),
+              components: [],
+            })
+          }
 
           const selected_commands = Array.from(selection)
           if (arrayEq(selected_commands, deployed_command_names)) {
             return event.update({
-              content: "Commands match. Leaving server commands unchanged.",
+              content: t("response.match"),
               components: [],
             })
           }
 
           event.deferUpdate()
           return api.setGuildCommands(interaction.guildId, selected_commands).then(() => {
+            const presented_commands = [] // present selected_commands. simplified presenter based on known assumptions, or look up full command object?
             interaction.editReply({
-              content: oneLine`
-                  Updated server commands to: ${selected_commands.join(", ")}
-                `,
+              content: t("response.success", { commands: presented_commands }),
               components: [],
             })
           })
@@ -183,7 +134,7 @@ module.exports = {
           break
         case "system_picker":
           event.deferUpdate()
-          // set selection somehow
+          // selection = new Set() from required and recommended of all systems from event.values
           // update both select menus in the prompt
           break
       }
@@ -191,7 +142,7 @@ module.exports = {
     collector.on("end", (_, reason) => {
       if (reason === "time") {
         return interaction.editReply({
-          content: "Ran out of time. Leaving server commands unchanged.",
+          content: t("response.timeout"),
           components: [],
         })
       }
