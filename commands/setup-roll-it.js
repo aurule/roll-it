@@ -41,7 +41,6 @@ module.exports = {
 
     const commands = require("./index")
     const deployable_commands = commands.deployable
-    const deprecated_commands = commands.deprecated
 
     const deployed_command_names = await api
       .getGuildCommands(interaction.guildId)
@@ -121,7 +120,10 @@ module.exports = {
 
           event.deferUpdate()
           return api.setGuildCommands(interaction.guildId, selected_commands).then(() => {
-            const presented_commands = [] // present selected_commands. simplified presenter based on known assumptions, or look up full command object?
+            const presented_commands = selected_commands.map(command_name => {
+              const command = commands.get(command_name)
+              return CommandNamePresenter.present(command, interaction.locale)
+            })
             interaction.editReply({
               content: t("response.success", { commands: presented_commands }),
               components: [],
@@ -131,6 +133,9 @@ module.exports = {
           event.deferUpdate()
           selection = new Set(event.values)
           // update both select menus in the prompt
+          // system select should show systems that now match the selected commands
+          // command picker should have all commands
+          // commands, systems, selected_commands
           break
         case "system_picker":
           event.deferUpdate()
