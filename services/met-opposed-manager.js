@@ -319,7 +319,7 @@ class MetOpposedManager {
     })
     this.initial_message_link = messageLink(prompt)
 
-    const collector = prompt.createMessageComponentCollector({
+    const collector = prompt.resource.message.createMessageComponentCollector({
       time: STEP_TIMEOUT,
     })
     collector.on("collect", (event) => {
@@ -497,7 +497,7 @@ class MetOpposedManager {
     })
 
     let retest_reason = new Collection()
-    const collector = prompt.createMessageComponentCollector({
+    const collector = prompt.resource.message.createMessageComponentCollector({
       time: STEP_TIMEOUT,
     })
     collector.on("collect", (event) => {
@@ -624,7 +624,7 @@ class MetOpposedManager {
     })
 
     let cancel_reason
-    const collector = prompt.createMessageComponentCollector({
+    const collector = prompt.resource.message.createMessageComponentCollector({
       time: STEP_TIMEOUT,
     })
     collector.on("collect", (event) => {
@@ -750,7 +750,7 @@ class MetOpposedManager {
     })
 
     const throws = new Collection()
-    const collector = prompt.createMessageComponentCollector({
+    const collector = prompt.resource.message.createMessageComponentCollector({
       time: STEP_TIMEOUT,
     })
     collector.on("collect", (event) => {
