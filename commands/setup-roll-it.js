@@ -139,7 +139,18 @@ module.exports = {
           break
         case "system_picker":
           event.deferUpdate()
-          // selection = new Set() from required and recommended of all systems from event.values
+          selection = new Set()
+          for (const system_name of event.values) {
+            const system = systems.get(system_name)
+            for (const command_name in system.commands.required) {
+              selection.add(command_name)
+            }
+            if (system.commands.recommended) {
+              for (const command_name in system.commands.recommended) {
+                selection.add(command_name)
+              }
+            }
+          }
           // update both select menus in the prompt
           break
       }
