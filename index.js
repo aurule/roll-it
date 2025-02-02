@@ -1,11 +1,17 @@
 // Load envvars
 require("dotenv").config()
 
+const { logger } = require("./util/logger")
+
 require("./patches/whisper").patch()
 require("./patches/paginate").patch()
 require("./patches/roll-reply").patch()
 
 const { version } = require("./package.json")
+
+process.on('unhandledRejection', error => {
+  logger.error(error, 'Unhandled promise rejection')
+})
 
 // Require the necessary packages
 const fs = require("fs")
