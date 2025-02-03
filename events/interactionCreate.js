@@ -1,4 +1,4 @@
-const { MessageFlags } = require("discord.js")
+const { MessageFlags, Events } = require("discord.js")
 const { logger } = require("../util/logger")
 const { getReplyFn } = require("../util/getReplyFn")
 const { metrics } = require("../db/stats")
@@ -86,7 +86,7 @@ function inCorrectEnv(interaction) {
 }
 
 module.exports = {
-  name: "interactionCreate",
+  name: Events.InteractionCreate,
   handleCommand,
   handleAutocomplete,
   inCorrectEnv,
