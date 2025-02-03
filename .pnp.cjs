@@ -38,7 +38,7 @@ const RAW_RUNTIME_STATE =
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:14.1.0"],\
+          ["mathjs", "npm:14.2.0"],\
           ["nodemon", "npm:3.1.9"],\
           ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -4281,10 +4281,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:14.1.0", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-14.1.0-8c2df7d9e2-3795c540eb.zip/node_modules/mathjs/",\
+      ["npm:14.2.0", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-14.2.0-7b1b31f799-55fe6aae23.zip/node_modules/mathjs/",\
         "packageDependencies": [\
-          ["mathjs", "npm:14.1.0"],\
+          ["mathjs", "npm:14.2.0"],\
           ["@babel/runtime", "npm:7.26.0"],\
           ["@lambdatest/node-tunnel", "npm:4.0.8"],\
           ["complex.js", "npm:2.4.2"],\
@@ -5155,7 +5155,7 @@ const RAW_RUNTIME_STATE =
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["mathjs", "npm:14.1.0"],\
+          ["mathjs", "npm:14.2.0"],\
           ["nodemon", "npm:3.1.9"],\
           ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
