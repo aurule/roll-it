@@ -1339,6 +1339,7 @@ setup-roll-it:
     Set which dice rolling commands are available on this server. If you don't pick new commands in {{timeout}}, they will remain unchanged.
 
     Pick a system to start with its suggested commands. Or, choose commands individually to suit your needs.
+    -# Some systems share commands, so you may see systems that you did not select.
   pickers:
     system: Pick a game system
     command: Choose individual commands
