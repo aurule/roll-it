@@ -26,6 +26,55 @@ const timeout_ms = 120_000 // 2 minute timeout
 
 const command_name = "setup-roll-it"
 
+/**
+ * Create message components for the setup prompt
+ *
+ * @param  {Collection} deployable          Collection of valid command objects
+ * @param  {Collection} systems             Collection of system objects
+ * @param  {Set<str>}   selected_commands   Array of selected command names
+ * @param  {str}        locale              Locale name
+ * @return {ActionRowBuilder[]}             Array of mesage component rows
+ */
+function prompt_components(deployable, systems, selected_commands, locale) {
+  const t = i18n.getFixedT(locale, "commands", "setup-roll-it")
+  const deployed_systems = systems
+    .filter((system) => {
+      const system_set = new Set(system.commands.required)
+      return selected_commands.isSupersetOf(system_set)
+    })
+    .map((s) => s.name)
+
+  const system_picker = new StringSelectMenuBuilder()
+    .setCustomId("system_picker")
+    .setPlaceholder(t("pickers.system"))
+    .setMinValues(0)
+    .setMaxValues(systems.size)
+    .addOptions(...SystemSelectTransformer.transform(systems, locale, deployed_systems))
+  const system_row = new ActionRowBuilder().addComponents(system_picker)
+
+  const command_picker = new StringSelectMenuBuilder()
+    .setCustomId("command_picker")
+    .setPlaceholder(t("pickers.command"))
+    .setMinValues(0)
+    .setMaxValues(deployable.size)
+    .addOptions(
+      ...CommandSelectTransformer.transform(deployable, locale, Array.from(selected_commands)),
+    )
+  const command_row = new ActionRowBuilder().addComponents(command_picker)
+
+  const go_button = new ButtonBuilder()
+    .setCustomId("go_button")
+    .setLabel(t("buttons.submit"))
+    .setStyle(ButtonStyle.Primary)
+  const cancel_button = new ButtonBuilder()
+    .setCustomId("cancel_button")
+    .setLabel(t("buttons.cancel"))
+    .setStyle(ButtonStyle.Secondary)
+  const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
+
+  return [system_row, command_row, buttons_row]
+}
+
 module.exports = {
   name: command_name,
   description: canonical("description", command_name),
@@ -39,53 +88,18 @@ module.exports = {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral })
     const t = i18n.getFixedT(interaction.locale, "commands", "setup-roll-it")
 
-    const commands = require("./index")
-    const deployable_commands = commands.deployable
+    const { deployable } = require("./index")
 
     const deployed_command_names = await api
       .getGuildCommands(interaction.guildId)
       .then((res) => res.map((c) => c.name))
 
     const deployed_set = new Set(deployed_command_names)
-    const deployed_system_names = systems
-      .filter((system) => {
-        const system_set = new Set(system.commands.required)
-        return deployed_set.isSupersetOf(system_set)
-      })
-      .map((s) => s.name)
-
-    const system_picker = new StringSelectMenuBuilder()
-      .setCustomId("system_picker")
-      .setPlaceholder(t("pickers.system"))
-      .setMinValues(0)
-      .setMaxValues(systems.size)
-      .addOptions(...SystemSelectTransformer.transform(systems, interaction.locale, deployed_system_names))
-    const system_row = new ActionRowBuilder().addComponents(system_picker)
-
-    const command_picker = new StringSelectMenuBuilder()
-      .setCustomId("command_picker")
-      .setPlaceholder(t("pickers.command"))
-      .setMinValues(0)
-      .setMaxValues(deployable_commands.size)
-      .addOptions(
-        ...CommandSelectTransformer.transform(deployable_commands, interaction.locale, deployed_command_names),
-      )
-    const command_row = new ActionRowBuilder().addComponents(command_picker)
-
-    const go_button = new ButtonBuilder()
-      .setCustomId("go_button")
-      .setLabel(t("buttons.submit"))
-      .setStyle(ButtonStyle.Primary)
-    const cancel_button = new ButtonBuilder()
-      .setCustomId("cancel_button")
-      .setLabel(t("buttons.cancel"))
-      .setStyle(ButtonStyle.Secondary)
-    const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
 
     const expiry = new Date(Date.now() + timeout_ms)
     const prompt = await interaction.editReply({
       content: t("prompt", { timeout: time(expiry, TimestampStyles.RelativeTime) }),
-      components: [system_row, command_row, buttons_row],
+      components: prompt_components(deployable, systems, deployed_set, interaction.locale),
     })
 
     let selection = deployed_set
@@ -93,7 +107,7 @@ module.exports = {
     const collector = prompt.createMessageComponentCollector({
       time: timeout_ms,
     })
-    collector.on("collect", (event) => {
+    collector.on("collect", async (event) => {
       switch (event.customId) {
         case "cancel_button":
           collector.stop()
@@ -110,7 +124,7 @@ module.exports = {
             })
           }
 
-          const selected_commands = Array.from(selection)
+          const selected_commands = Array.from(selection).sort()
           if (arrayEq(selected_commands, deployed_command_names)) {
             return event.update({
               content: t("response.match"),
@@ -120,11 +134,13 @@ module.exports = {
 
           event.deferUpdate()
           return api.setGuildCommands(interaction.guildId, selected_commands).then(() => {
-            const presented_commands = selected_commands.map(command_name => {
-              const command = commands.get(command_name)
+            return selected_commands.map(command_name => {
+              const command = deployable.get(command_name)
               return CommandNamePresenter.present(command, interaction.locale)
             })
-            interaction.editReply({
+          })
+          .then((presented_commands) => {
+            return interaction.editReply({
               content: t("response.success", { commands: presented_commands }),
               components: [],
             })
@@ -132,26 +148,27 @@ module.exports = {
         case "command_picker":
           event.deferUpdate()
           selection = new Set(event.values)
-          // update both select menus in the prompt
-          // system select should show systems that now match the selected commands
-          // command picker should have all commands
-          // commands, systems, selected_commands
+          await interaction.editReply({
+            components: prompt_components(deployable, systems, selection, interaction.locale),
+          })
           break
         case "system_picker":
           event.deferUpdate()
           selection = new Set()
           for (const system_name of event.values) {
             const system = systems.get(system_name)
-            for (const command_name in system.commands.required) {
+            for (const command_name of system.commands.required) {
               selection.add(command_name)
             }
             if (system.commands.recommended) {
-              for (const command_name in system.commands.recommended) {
+              for (const command_name of system.commands.recommended) {
                 selection.add(command_name)
               }
             }
           }
-          // update both select menus in the prompt
+          await interaction.editReply({
+            components: prompt_components(deployable, systems, selection, interaction.locale),
+          })
           break
       }
     })
