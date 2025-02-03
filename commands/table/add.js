@@ -6,7 +6,6 @@ const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { GuildRollables } = require("../../db/rollable")
 const { fetchLines } = require("../../util/attachment-lines")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 const MAX_UPLOAD_SIZE = 5_242_880
 const MAX_ENTRY_LENGTH = 1500
@@ -98,7 +97,6 @@ const parent_name = "table"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("name", (option) => option.setMinLength(3).setRequired(true))

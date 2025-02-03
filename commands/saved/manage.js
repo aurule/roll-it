@@ -11,7 +11,6 @@ const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 const command_name = "manage"
 const parent_name = "saved"
@@ -19,7 +18,6 @@ const parent_name = "saved"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
       "name",

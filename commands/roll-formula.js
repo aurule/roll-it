@@ -8,14 +8,11 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { operator } = require("../util/formatters")
-const { i18n } = require("../locales")
-const { canonical } = require("../locales/helpers")
 
 const command_name = "roll-formula"
 
 module.exports = {
   name: command_name,
-  description: canonical("description", command_name),
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addLocalizedStringOption("formula", (option) =>

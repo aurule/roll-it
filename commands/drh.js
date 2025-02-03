@@ -9,13 +9,11 @@ const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { DrhPool } = require("../util/rolls/drh-pool")
 const { i18n } = require("../locales")
-const { canonical, mapped } = require("../locales/helpers")
 
 const command_name = "drh"
 
 module.exports = {
   name: command_name,
-  description: canonical("description", command_name),
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addLocalizedIntegerOption("discipline", (option) =>

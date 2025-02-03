@@ -3,7 +3,6 @@ const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const present_command = require("../../presenters/command-name-presenter").present
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 function change_target(bonus, change, changeable) {
   if (change && changeable.includes(change)) return change
@@ -16,7 +15,6 @@ const parent_name = "saved"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("name", (option) => option.setRequired(true).setAutocomplete(true))

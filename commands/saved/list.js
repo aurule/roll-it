@@ -2,7 +2,6 @@ const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { presentList } = require("../../presenters/saved-roll-presenter")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 const command_name = "list"
 const parent_name = "saved"
@@ -10,7 +9,6 @@ const parent_name = "saved"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () => new LocalizedSubcommandBuilder(command_name, parent_name),
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

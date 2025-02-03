@@ -4,7 +4,6 @@ const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const topics = require("../../data").help_topics
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 const command_name = "topic"
 const parent_name = "help"
@@ -12,7 +11,6 @@ const parent_name = "help"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("topic", (option) =>

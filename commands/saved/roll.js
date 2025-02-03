@@ -6,7 +6,6 @@ const commonOpts = require("../../util/common-options")
 const present_command = require("../../presenters/command-name-presenter").present
 const { injectMention } = require("../../util/formatters")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 function change_target(bonus, change, changeable) {
   if (!bonus) return undefined
@@ -20,7 +19,6 @@ const parent_name = "saved"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("name", (option) => option.setRequired(true).setAutocomplete(true))

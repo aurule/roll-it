@@ -1,15 +1,12 @@
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
-const { i18n } = require("../locales")
-const { canonical } = require("../locales/helpers")
 
 const command_name = "saved"
 const subcommands = loadSubcommands(command_name)
 
 module.exports = {
   name: command_name,
-  description: canonical("description", command_name),
   global: true,
   subcommands,
   data() {

@@ -20,7 +20,6 @@ const { arrayEq } = require("../util/array-eq")
 const { systems } = require("../data")
 const { pluralize, capitalize, inlineList } = require("../util/formatters")
 const { i18n } = require("../locales")
-const { canonical } = require("../locales/helpers")
 
 const timeout_ms = 120_000 // 2 minute timeout
 
@@ -77,7 +76,6 @@ function prompt_components(deployable, systems, selected_commands, locale) {
 
 module.exports = {
   name: command_name,
-  description: canonical("description", command_name),
   global: true,
   data() {
     return new LocalizedSlashCommandBuilder(command_name)

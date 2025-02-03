@@ -4,8 +4,6 @@ const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/results/met-static-results-presenter")
 const { injectMention } = require("../../util/formatters")
-const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 const command_name = "static"
 const parent_name = "met"
@@ -13,7 +11,6 @@ const parent_name = "met"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addStringOption(commonOpts.description)

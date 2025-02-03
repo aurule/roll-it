@@ -10,7 +10,6 @@ const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 const command_name = "manage"
 const parent_name = "table"
@@ -18,7 +17,6 @@ const parent_name = "table"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
       "table",

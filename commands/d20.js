@@ -7,8 +7,6 @@ const { pickDice, strategies } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
-const { i18n } = require("../locales")
-const { canonical, mapped } = require("../locales/helpers")
 
 function with_to_keep(value) {
   switch (value) {
@@ -25,7 +23,6 @@ const command_name = "d20"
 
 module.exports = {
   name: command_name,
-  description: canonical("description", command_name),
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)

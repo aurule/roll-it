@@ -3,7 +3,6 @@ const Completers = require("../../completers/table-completers")
 const { present } = require("../../presenters/results/table-results-presenter")
 const { GuildRollables } = require("../../db/rollable")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 const commonOpts = require("../../util/common-options")
 
 const command_name = "roll"
@@ -12,7 +11,6 @@ const parent_name = "table"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("table", (option) => option.setRequired(true).setAutocomplete(true))

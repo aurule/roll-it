@@ -8,7 +8,6 @@ const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const { parse } = require("../../parsers/invocation-parser")
 const commonSchemas = require("../../util/common-schemas")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 /**
  * Validate that the given value is not in use as a name for a saved roll.
@@ -58,7 +57,6 @@ const parent_name = "saved"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("name", (option) =>

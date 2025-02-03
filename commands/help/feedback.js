@@ -3,7 +3,6 @@ const Completers = require("../../completers/command-completers")
 const { UserBans } = require("../../db/bans")
 const { Feedback } = require("../../db/feedback")
 const { i18n } = require("../../locales")
-const { canonical, mapped } = require("../../locales/helpers")
 
 const command_name = "feedback"
 const parent_name = "help"
@@ -11,7 +10,6 @@ const parent_name = "help"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("message", (option) => option.setMaxLength(1500).setRequired(true))

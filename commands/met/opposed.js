@@ -3,7 +3,6 @@ const commonOpts = require("../../util/common-options")
 const { throwChoices } = require("../../util/met-throw-options")
 const { MetOpposedManager } = require("../../services/met-opposed-manager")
 const { i18n } = require("../../locales")
-const { canonical } = require("../../locales/helpers")
 
 const command_name = "opposed"
 const parent_name = "met"
@@ -11,7 +10,6 @@ const parent_name = "met"
 module.exports = {
   name: command_name,
   parent: parent_name,
-  description: canonical("description", `${parent_name}.${command_name}`),
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedUserOption("opponent", (option) => option.setRequired(true))

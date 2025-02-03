@@ -6,14 +6,11 @@ const { present } = require("../presenters/results/singleton-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
-const { i18n } = require("../locales")
-const { canonical } = require("../locales/helpers")
 
 const command_name = "d100"
 
 module.exports = {
   name: command_name,
-  description: canonical("description", command_name),
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)

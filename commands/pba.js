@@ -6,14 +6,11 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const d6 = require("./d6")
-const { i18n } = require("../locales")
-const { canonical } = require("../locales/helpers")
 
 const command_name = "pba"
 
 module.exports = {
   name: command_name,
-  description: canonical("description", command_name),
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addStringOption(commonOpts.description)
