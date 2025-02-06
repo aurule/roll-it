@@ -1,7 +1,4 @@
 const presenter = require("./saved-roll-presenter")
-const { i18n } = require("../locales")
-
-const t = i18n.getFixedT("en-US", "commands", "saved")
 
 describe("present", () => {
   it("shows the name", () => {
@@ -12,7 +9,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll, t)
+    const result = presenter.present(saved_roll, "en-US")
 
     expect(result).toMatch("test1")
   })
@@ -25,7 +22,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll, t)
+    const result = presenter.present(saved_roll, "en-US")
 
     expect(result).toMatch("description")
   })
@@ -38,7 +35,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll, t)
+    const result = presenter.present(saved_roll, "en-US")
 
     expect(result).toMatch("/nwod")
   })
@@ -51,7 +48,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll, t)
+    const result = presenter.present(saved_roll, "en-US")
 
     expect(result).toMatch("*pool:* 5")
   })
@@ -64,7 +61,7 @@ describe("present", () => {
       command: "nwod",
     }
 
-    const result = presenter.present(saved_roll, t)
+    const result = presenter.present(saved_roll, "en-US")
 
     expect(result).toMatch("`/nwod pool:5`")
   })
@@ -77,7 +74,7 @@ describe("presentList", () => {
       { name: "test2", description: "a description", options: {} },
     ]
 
-    const result = presenter.presentList(rolls, t)
+    const result = presenter.presentList(rolls, "en-US")
 
     expect(result).toMatch("test1")
     expect(result).toMatch("test2")
@@ -99,7 +96,7 @@ describe("presentList", () => {
       },
     ]
 
-    const result = presenter.presentList(rolls, t)
+    const result = presenter.presentList(rolls, "en-US")
 
     expect(result).toMatch("/nwod")
     expect(result).toMatch("/fate")
@@ -110,7 +107,7 @@ describe("presentInvocation", () => {
   it("shows the command name", () => {
     const roll = { command: "nwod", options: {} }
 
-    const result = presenter.presentInvocation(roll)
+    const result = presenter.presentInvocation(roll, "en-US")
 
     expect(result).toMatch("nwod")
   })
@@ -118,7 +115,7 @@ describe("presentInvocation", () => {
   it("handles missing command name", () => {
     const roll = { options: {} }
 
-    const result = presenter.presentInvocation(roll)
+    const result = presenter.presentInvocation(roll, "en-US")
 
     expect(result).not.toMatch("undefined")
   })
@@ -126,7 +123,7 @@ describe("presentInvocation", () => {
   it("shows each option", () => {
     const roll = { command: "nwod", options: { pool: 3, until: 5, rote: true } }
 
-    const result = presenter.presentInvocation(roll)
+    const result = presenter.presentInvocation(roll, "en-US")
 
     expect(result).toMatch("pool")
     expect(result).toMatch("until")
@@ -136,7 +133,7 @@ describe("presentInvocation", () => {
   it("handles missing options", () => {
     const roll = { command: "nwod" }
 
-    const result = presenter.presentInvocation(roll)
+    const result = presenter.presentInvocation(roll, "en-US")
 
     expect(result).not.toMatch("undefined")
   })

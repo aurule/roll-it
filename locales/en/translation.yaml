@@ -79,3 +79,6 @@ systems:
     title: World of Darkness 20th Anniversary Edition
     description: Fancy d10s for all your gothic horror needs
     extended: Rolls and tallies, with support for specialties and an interactive teamwork mode.
+invocation:
+  full_zero: "`/{{command_name}}`"
+  full: "`/{{command_name}} {{opts, spaced}}`"

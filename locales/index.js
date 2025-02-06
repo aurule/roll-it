@@ -34,6 +34,10 @@ i18next.services.formatter.add("indented", (value, lng, options) => {
   return "\t" + value.join("\n\t")
 })
 
+i18next.services.formatter.add("spaced", (value, lng, options) => {
+  return value.join(" ")
+})
+
 /**
  * List of discord-specific locales that have translations
  * @see https://discord.com/developers/docs/reference#locales

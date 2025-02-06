@@ -39,7 +39,7 @@ module.exports = {
 
     let manage_text = saved_roll_presenter.present(
       detail,
-      i18n.getFixedT(interaction.locale, "commands", "saved"),
+      interaction.locale,
     )
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")

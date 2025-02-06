@@ -1,12 +1,17 @@
 const { inlineCode } = require("discord.js")
 
+const { i18n } = require("../locales")
+
 /**
  * Present the details of a single saved roll
  *
  * @param  {obj} saved_roll Saved roll details
+ * @param  {str} locale     Name of the current locale
  * @return {str}            String describing all attributes of the saved roll
  */
-function present(saved_roll, t) {
+function present(saved_roll, locale) {
+  const t = i18n.getFixedT(locale, "commands", "saved")
+
   const name = saved_roll.name ?? t("entry.details.missing.name")
   const description = saved_roll.description ?? t("entry.details.missing.description")
   const command = saved_roll.command ?? t("entry.details.missing.command")
@@ -29,7 +34,7 @@ function present(saved_roll, t) {
 
   let invocation
   if (saved_roll.command) {
-    invocation = presentInvocation(saved_roll)
+    invocation = presentInvocation(saved_roll, locale)
   } else {
     invocation = t("entry.details.missing.invocation")
   }
@@ -52,10 +57,13 @@ function present(saved_roll, t) {
 /**
  * Present the list of available saved rolls
  *
- * @param  {obj[]} rolls Array of saved_roll info objects
- * @return {str}         String with the saved roll list
+ * @param  {obj[]} rolls  Array of saved_roll info objects
+ * @param  {str}   locale Name of the current locale
+ * @return {str}          String with the saved roll list
  */
-function presentList(saved_rolls, t) {
+function presentList(saved_rolls, locale) {
+  const t = i18n.getFixedT(locale, "commands", "saved")
+
   if (!saved_rolls.length) {
     return t("entry.list.empty")
   }
@@ -65,7 +73,7 @@ function presentList(saved_rolls, t) {
     const description = roll.description ?? t("entry.list.missing.description")
     let invocation
     if (roll.command) {
-      invocation = presentInvocation(roll)
+      invocation = presentInvocation(roll, locale)
     } else {
       invocation = t("entry.list.missing.invocation")
     }
@@ -102,19 +110,31 @@ function presentList(saved_rolls, t) {
  *
  * This string is meant to be usable by pasting it directly into discord's chat.
  *
+ * If the saved_roll object has no `command`, this will return a string instead of `undefined`.`
+ *
  * @param  {obj} saved_roll Saved roll info object
+ * @param  {str} locale     Name of the current locale
  * @return {str}            Invocation string
  */
-function presentInvocation(saved_roll) {
-  const command_name = saved_roll.command ?? ""
-  const options = saved_roll.options ?? {}
+function presentInvocation(saved_roll, locale) {
+  const base_name = saved_roll.command ?? ""
+  const base_options = saved_roll.options ?? {}
 
-  let content_lines = "/" + command_name
-  for (const opt in options) {
-    content_lines += ` ${opt}:${options[opt]}`
-  }
+  const cmd_t = i18n.getFixedT(locale, "commands", base_name)
 
-  return inlineCode(content_lines)
+  const command_name = cmd_t("name")
+
+  const opts = Object.entries(base_options).map(([key, value]) => {
+    const opt_name = cmd_t(`options.${key}.name`);
+    return `${opt_name}:${value}`
+  })
+
+  return i18n.t("invocation.full", {
+    lng: locale,
+    command_name,
+    opts,
+    context: opts.length ? "" : "zero",
+  })
 }
 
 module.exports = {
