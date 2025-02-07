@@ -1,5 +1,3 @@
-const { expect } = require("@jest/globals")
-
 /**
  * Test whether the given value matches the given Joi schema
  *

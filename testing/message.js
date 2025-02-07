@@ -50,16 +50,24 @@ class Message {
     this.reactions.push(emoji)
   }
 
+  async delete() {
+    return
+  }
+
+  hasComponent(search_id) {
+    return this.components.some((row) => {
+      return row.components.some((component) => {
+        return component.data.custom_id === search_id
+      })
+    })
+  }
+
   async awaitMessageComponent({ componentType, time } = {}) {
     return new Promise((resolve, reject) => {
       this.componentEvents.once("collect", (comp_interaction) => {
         resolve(comp_interaction)
       })
     })
-  }
-
-  async delete() {
-    return
   }
 
   createMessageComponentCollector({ time }) {
