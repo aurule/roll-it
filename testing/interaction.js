@@ -120,6 +120,7 @@ class Interaction {
     if (this.deferred)
       return Promise.reject("cannot defer: interaction is already in deferred state")
     this.deferred = true
+    this.replied = true
     return
   }
 

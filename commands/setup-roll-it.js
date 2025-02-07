@@ -117,9 +117,12 @@ module.exports = {
         case "go_button":
           collector.stop()
           if (!selection.size) {
-            return comp_interaction.update({
-              content: t("response.empty"),
-              components: [],
+            await comp_interaction.deferUpdate()
+            return api.setGuildCommands(cmd_interaction.guildId, []).then(() => {
+              return comp_interaction.editReply({
+                content: t("response.empty"),
+                components: [],
+              })
             })
           }
 
@@ -131,7 +134,7 @@ module.exports = {
             })
           }
 
-          comp_interaction.deferUpdate()
+          await comp_interaction.deferUpdate()
           return api.setGuildCommands(cmd_interaction.guildId, selected_commands).then(() => {
             return selected_commands.map(command_name => {
               const command = deployable.get(command_name)

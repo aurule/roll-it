@@ -15,6 +15,7 @@ class Message {
   embeds
   flags
   componentEvents = new ComponentEventEmitter()
+  editEvents = new EventEmitter()
   replies = []
 
   constructor({
@@ -40,6 +41,15 @@ class Message {
   addReply(opts) {
     this.replies.push(opts)
     Object.assign(this, opts)
+    this.editEvents.emit("edited", opts)
+  }
+
+  async untilEdited() {
+    return new Promise((resolve, reject) => {
+      this.editEvents.once("edited", (opts) => {
+        resolve(opts)
+      })
+    })
   }
 
   get isEphemeral() {
@@ -62,6 +72,14 @@ class Message {
     })
   }
 
+  getComponent(search_id) {
+    for (const row of this.components) {
+      for (const component of row.components) {
+        if (component.data.custom_id === search_id) return component
+      }
+    }
+  }
+
   async awaitMessageComponent({ componentType, time } = {}) {
     return new Promise((resolve, reject) => {
       this.componentEvents.once("collect", (comp_interaction) => {
@@ -74,24 +92,30 @@ class Message {
     return this.componentEvents
   }
 
-  click(customId, user) {
-    // test that customId exists in this.components
-    const member_flake = user.id ?? this.userId
+  async click(customId, user) {
+    if (!this.hasComponent(customId)) throw new Error(`no such component "${customId}"`)
+    const member_flake = user?.id ?? this.userId
     const comp_interaction = new ComponentInteraction({ message: this, customId, member_flake, guildId: this.guildId })
     this.componentEvents.emit("collect", comp_interaction)
+    return comp_interaction
   }
 
   select(customId, values, user) {
-    // test that customId exists in this.components
-    const member_flake = user.id ?? this.userId
+    if (!this.hasComponent(customId)) throw new Error(`no such component "${customId}"`)
+    const member_flake = user?.id ?? this.userId
     const comp_interaction = new ComponentInteraction({ message: this, customId, values, member_flake, guildId: this.guildId })
     this.componentEvents.emit("collect", comp_interaction)
+    return comp_interaction
   }
 }
 
 class ComponentEventEmitter extends EventEmitter {
   timeout() {
     this.emit("end", undefined, "time")
+  }
+
+  stop() {
+    this.emit("end", undefined, "user")
   }
 }
 
