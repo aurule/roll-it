@@ -82,22 +82,23 @@ module.exports = {
       .setDMPermission(false)
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
-  async execute(interaction) {
-    await interaction.deferReply({ flags: MessageFlags.Ephemeral })
-    const t = i18n.getFixedT(interaction.locale, "commands", "setup-roll-it")
+  async execute(cmd_interaction) {
+    await cmd_interaction.deferReply({ flags: MessageFlags.Ephemeral })
+    const locale = cmd_interaction.locale
+    const t = i18n.getFixedT(locale, "commands", "setup-roll-it")
 
     const { deployable } = require("./index")
 
     const deployed_command_names = await api
-      .getGuildCommands(interaction.guildId)
+      .getGuildCommands(cmd_interaction.guildId)
       .then((res) => res.map((c) => c.name))
 
     const deployed_set = new Set(deployed_command_names)
 
     const expiry = new Date(Date.now() + timeout_ms)
-    const prompt = await interaction.editReply({
+    const prompt = await cmd_interaction.editReply({
       content: t("prompt", { timeout: time(expiry, TimestampStyles.RelativeTime) }),
-      components: prompt_components(deployable, systems, deployed_set, interaction.locale),
+      components: prompt_components(deployable, systems, deployed_set, locale),
     })
 
     let selection = deployed_set
@@ -105,18 +106,18 @@ module.exports = {
     const collector = prompt.createMessageComponentCollector({
       time: timeout_ms,
     })
-    collector.on("collect", async (event) => {
-      switch (event.customId) {
+    collector.on("collect", async (comp_interaction) => {
+      switch (comp_interaction.customId) {
         case "cancel_button":
           collector.stop()
-          return event.update({
+          return comp_interaction.update({
             content: t("response.cancelled"),
             components: [],
           })
         case "go_button":
           collector.stop()
           if (!selection.size) {
-            return event.update({
+            return comp_interaction.update({
               content: t("response.empty"),
               components: [],
             })
@@ -124,36 +125,34 @@ module.exports = {
 
           const selected_commands = Array.from(selection).sort()
           if (arrayEq(selected_commands, deployed_command_names)) {
-            return event.update({
+            return comp_interaction.update({
               content: t("response.match"),
               components: [],
             })
           }
 
-          event.deferUpdate()
-          return api.setGuildCommands(interaction.guildId, selected_commands).then(() => {
+          comp_interaction.deferUpdate()
+          return api.setGuildCommands(cmd_interaction.guildId, selected_commands).then(() => {
             return selected_commands.map(command_name => {
               const command = deployable.get(command_name)
-              return CommandNamePresenter.present(command, interaction.locale)
+              return CommandNamePresenter.present(command, locale)
             })
           })
           .then((presented_commands) => {
-            return interaction.editReply({
+            return comp_interaction.editReply({
               content: t("response.success", { commands: presented_commands }),
               components: [],
             })
           })
         case "command_picker":
-          event.deferUpdate()
-          selection = new Set(event.values)
-          await interaction.editReply({
-            components: prompt_components(deployable, systems, selection, interaction.locale),
+          selection = new Set(comp_interaction.values)
+          await comp_interaction.update({
+            components: prompt_components(deployable, systems, selection, locale),
           })
           break
         case "system_picker":
-          event.deferUpdate()
           selection = new Set()
-          for (const system_name of event.values) {
+          for (const system_name of comp_interaction.values) {
             const system = systems.get(system_name)
             for (const command_name of system.commands.required) {
               selection.add(command_name)
@@ -164,15 +163,15 @@ module.exports = {
               }
             }
           }
-          await interaction.editReply({
-            components: prompt_components(deployable, systems, selection, interaction.locale),
+          await comp_interaction.update({
+            components: prompt_components(deployable, systems, selection, locale),
           })
           break
       }
     })
     collector.on("end", (_, reason) => {
       if (reason === "time") {
-        return interaction.editReply({
+        return cmd_interaction.editReply({
           content: t("response.timeout"),
           components: [],
         })
