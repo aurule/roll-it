@@ -1,12 +1,11 @@
-"use strict"
-
 const { simpleflake } = require("simpleflakes")
 const { PermissionFlagsBits, Collection } = require("discord.js")
 const { User } = require("./user")
-const { Message } = require("./message")
 
 class Interaction {
   constructor(guildId = null, member_flake = null) {
+    const { Message } = require("./message")
+
     let member_snowflake = member_flake ?? simpleflake()
 
     this.id = simpleflake()
@@ -69,37 +68,42 @@ class Interaction {
     this.deferred = false
 
     // custom field to track responses
-    this.replies = []
+    this.message.replies = []
+  }
+
+  get replies() {
+    return this.message.replies
   }
 
   normalizeMessage(msg) {
     switch (typeof msg) {
       case "string":
-        return new Message({ content: msg, guildId: this.guildId })
+        return { content: msg, guildId: this.guildId }
       case "object":
-        return new Message({ guildId: this.guildId, ...msg })
+        return { guildId: this.guildId, ...msg }
       default:
         return Promise.reject(`msg is in invalid format "${typeof msg}"`)
     }
   }
 
   get replyContent() {
-    return this.replies.map((r) => r.content).join("\n-----\n")
+    return this.message.replies.map((r) => r.content).join("\n-----\n")
   }
 
   async reply(msg) {
+    if (this.deferred) return Promise.reject("cannot reply: interaction is in deferred state")
     if (this.replied) return Promise.reject("cannot reply: interaction is already in replied state")
-    const real_message = this.normalizeMessage(msg)
+    const message_opts = this.normalizeMessage(msg)
     this.replied = true
-    this.replies.push(real_message)
-    return real_message
+    this.message.addReply(message_opts)
+    return this.message
   }
 
   async editReply(msg) {
     if (!this.replied) return Promise.reject("cannot editReply: interaction has no reply to edit")
-    const real_message = this.normalizeMessage(msg)
-    this.replies.push(real_message)
-    return real_message
+    const message_opts = this.normalizeMessage(msg)
+    this.message.addReply(message_opts)
+    return this.message
   }
 
   async deferReply() {
@@ -119,11 +123,20 @@ class Interaction {
     return
   }
 
+  async update(msg) {
+    if (this.deferred) return Promise.reject("cannot update: interaction has been deferred")
+    if (this.deferred || this.replied) return Promise.reject("cannot update: interaction has already been replied")
+    const message_opts = this.normalizeMessage(msg)
+    this.message.addReply(message_opts)
+    this.replied = true
+    return this.message
+  }
+
   async followUp(msg) {
-    if (!this.replied) return Promise.reject("cannot followUp: interaction has no reply")
-    const real_message = this.normalizeMessage(msg)
-    this.replies.push(real_message)
-    return real_message
+    if (!this.deferred && !this.replied) return Promise.reject("cannot followUp: interaction has no reply")
+    const message_opts = this.normalizeMessage(msg)
+    this.message.addReply(message_opts)
+    return this.message
   }
 
   async showModal(modal) {

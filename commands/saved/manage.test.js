@@ -42,6 +42,6 @@ describe("execute", () => {
 
     await saved_manage_command.execute(interaction)
 
-    expect(interaction.replies[0].components).toBeTruthy()
+    expect(interaction.message.components).toBeTruthy()
   })
 })
