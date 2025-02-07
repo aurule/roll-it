@@ -73,8 +73,8 @@ module.exports = {
       flags: MessageFlags.Ephemeral,
     })
 
-    const manageHandler = async (event) => {
-      switch (event.customId) {
+    const manageHandler = async (comp_interaction) => {
+      switch (comp_interaction.customId) {
         case "edit":
           try {
             saved_rolls.update(detail.id, { incomplete: true })
@@ -134,9 +134,9 @@ module.exports = {
               componentType: ComponentType.Button,
               time: 60_000,
             })
-            .then((remove_event) => {
-              remove_event.deferUpdate()
-              if (remove_event.customId == "remove_cancel") {
+            .then((remove_interaction) => {
+              remove_interaction.deferUpdate()
+              if (remove_interaction.customId == "remove_cancel") {
                 manage_prompt.edit({
                   content: t("state.remove.response.cancel"),
                   components: [],
@@ -165,14 +165,14 @@ module.exports = {
       }
     }
 
-    return manage_prompt
+    manage_prompt
       .awaitMessageComponent({
         componentType: ComponentType.Button,
         time: 60_000,
       })
-      .then((event) => {
-        event.deferUpdate()
-        return manageHandler(event)
+      .then((comp_interaction) => {
+        comp_interaction.deferUpdate()
+        return manageHandler(comp_interaction)
       }, manageHandler)
   },
   async autocomplete(interaction) {

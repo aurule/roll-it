@@ -59,9 +59,11 @@ describe("execute", () => {
     rollables = new GuildRollables(interaction.guildId)
     const insertion = rollables.create("test", "a test", contents)
     interaction.command_options.table = insertion.lastInsertRowid.toString()
+    const prompt = interaction.message
 
     await table_command.execute(interaction)
 
     expect(interaction.replyContent).toMatch("test")
+    await prompt.componentEvents.timeout()
   })
 })

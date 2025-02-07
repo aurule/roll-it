@@ -127,7 +127,7 @@ module.exports = {
       }
     }
 
-    return manage_prompt
+    manage_prompt
       .awaitMessageComponent({
         componentType: ComponentType.Button,
         time: 60_000,

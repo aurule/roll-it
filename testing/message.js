@@ -14,7 +14,7 @@ class Message {
   components
   embeds
   flags
-  componentEmitter = new ComponentEventEmitter()
+  componentEvents = new ComponentEventEmitter()
   replies = []
 
   constructor({
@@ -51,7 +51,11 @@ class Message {
   }
 
   async awaitMessageComponent({ componentType, time } = {}) {
-    return new ComponentInteraction({ customId: "" })
+    return new Promise((resolve, reject) => {
+      this.componentEvents.once("collect", (comp_interaction) => {
+        resolve(comp_interaction)
+      })
+    })
   }
 
   async delete() {
@@ -59,21 +63,21 @@ class Message {
   }
 
   createMessageComponentCollector({ time }) {
-    return this.componentEmitter
+    return this.componentEvents
   }
 
   click(customId, user) {
     // test that customId exists in this.components
     const member_flake = user.id ?? this.userId
     const comp_interaction = new ComponentInteraction({ message: this, customId, member_flake, guildId: this.guildId })
-    this.componentEmitter.emit(comp_interaction)
+    this.componentEvents.emit("collect", comp_interaction)
   }
 
   select(customId, values, user) {
     // test that customId exists in this.components
     const member_flake = user.id ?? this.userId
     const comp_interaction = new ComponentInteraction({ message: this, customId, values, member_flake, guildId: this.guildId })
-    this.componentEmitter.emit(comp_interaction)
+    this.componentEvents.emit("collect", comp_interaction)
   }
 }
 

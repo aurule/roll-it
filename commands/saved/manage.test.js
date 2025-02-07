@@ -22,26 +22,31 @@ describe("execute", () => {
 
   it("warns on missing saved roll", async () => {
     interaction.command_options.name = "sir not appearing in this database"
+    const prompt = interaction.message
 
     await saved_manage_command.execute(interaction)
 
-    expect(interaction.replyContent).toMatch("does not exist")
+    expect(prompt.content).toMatch("does not exist")
   })
 
   it("shows roll info", async () => {
     interaction.command_options.name = "test"
+    const prompt = interaction.message
 
     await saved_manage_command.execute(interaction)
+    await prompt.componentEvents.timeout()
 
     expect(interaction.replyContent).toMatch("test")
     expect(interaction.replyContent).toMatch("*pool:* 1")
   })
 
   it("prompts the user with actions", async () => {
-    interaction.command_options.name = "sir not appearing in this database"
+    interaction.command_options.name = "test"
+    const prompt = interaction.message
 
     await saved_manage_command.execute(interaction)
 
-    expect(interaction.message.components).toBeTruthy()
+    expect(prompt.components).toBeTruthy()
+    await prompt.componentEvents.timeout()
   })
 })
