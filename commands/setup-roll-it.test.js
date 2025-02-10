@@ -113,27 +113,15 @@ describe("execute", () => {
     describe("go", () => {
       describe("with empty selection", () => {
         it("shows the empty response", async () => {
-          expect.assertions(1)
+          await prompt.click("go_button")
 
-          const outcome = prompt.untilEdited().then((opts) => {
-            expect(opts.content).toMatch("Removing server commands")
-          })
-
-          prompt.click("go_button")
-
-          return outcome
+          expect(prompt.content).toMatch("Removing server commands")
         })
 
         it("clears server commands", async () => {
-          expect.assertions(1)
+          await prompt.click("go_button")
 
-          const outcome = prompt.untilEdited().then((opts) => {
-            expect(api.setGuildCommands).toHaveBeenCalledWith(expect.anything(), [])
-          })
-
-          prompt.click("go_button")
-
-          return outcome
+          expect(api.setGuildCommands).toHaveBeenCalledWith(expect.anything(), [])
         })
       })
 
@@ -152,70 +140,38 @@ describe("execute", () => {
         })
 
         it("does not change server commands", async () => {
-          expect.assertions(1)
+          await prompt.select("command_picker", selection)
 
-          const intermediate = prompt.untilEdited()
-          prompt.select("command_picker", selection)
-          await intermediate
+          await prompt.click("go_button")
 
-          const outcome = prompt.untilEdited().then((opts) => {
-            expect(api.setGuildCommands).not.toHaveBeenCalled()
-          })
-
-          prompt.click("go_button")
-
-          return outcome
+          expect(api.setGuildCommands).not.toHaveBeenCalled()
         })
 
         it("shows the matching selection response", async () => {
-          expect.assertions(1)
+          await prompt.select("command_picker", selection)
 
-          const intermediate = prompt.untilEdited()
-          prompt.select("command_picker", selection)
-          await intermediate
+          await prompt.click("go_button")
 
-          const outcome = prompt.untilEdited().then((opts) => {
-            expect(opts.content).toMatch("Leaving server commands unchanged")
-          })
-
-          prompt.click("go_button")
-
-          return outcome
+          expect(prompt.content).toMatch("Leaving server commands unchanged")
         })
       })
 
       describe("with new selection", () => {
         it("shows the success response", async () => {
-          expect.assertions(2)
+          await prompt.select("command_picker", ["d20"])
 
-          const intermediate = prompt.untilEdited()
-          prompt.select("command_picker", ["d20"])
-          await intermediate
+          await prompt.click("go_button")
 
-          const outcome = prompt.untilEdited().then((opts) => {
-            expect(opts.content).toMatch("Updated server commands")
-            expect(opts.content).toMatch("d20")
-          })
-
-          prompt.click("go_button")
-
-          return outcome
+          expect(prompt.content).toMatch("Updated server commands")
+          expect(prompt.content).toMatch("d20")
         })
 
         it("sets server commands", async () => {
-          expect.assertions(1)
+          await prompt.select("command_picker", ["d20"])
 
-          const intermediate = prompt.untilEdited()
-          prompt.select("command_picker", ["d20"])
-          await intermediate
+          await prompt.click("go_button")
 
-          const outcome = prompt.untilEdited().then((opts) => {
-            expect(api.setGuildCommands).toHaveBeenCalledWith(expect.anything(), ["d20"])
-          })
-
-          prompt.click("go_button")
-
-          return outcome
+          expect(api.setGuildCommands).toHaveBeenCalledWith(expect.anything(), ["d20"])
         })
       })
     })
