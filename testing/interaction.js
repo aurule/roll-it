@@ -137,6 +137,7 @@ class Interaction {
     if (!this.deferred && !this.replied) return Promise.reject("cannot followUp: interaction has no reply")
     const message_opts = this.normalizeMessage(msg)
     this.message.addReply(message_opts)
+    this.replied = true
     return this.message
   }
 
