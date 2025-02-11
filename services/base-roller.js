@@ -1,4 +1,4 @@
-"use strict"
+const { randomInt } = require("mathjs")
 
 module.exports = {
   /**
@@ -14,7 +14,7 @@ module.exports = {
    */
   roll(pool, sides, rolls = 1) {
     return Array.from({ length: rolls }, () =>
-      Array.from({ length: pool }, () => Math.floor(Math.random() * sides) + 1),
+      Array.from({ length: pool }, () => randomInt(1, sides)),
     )
   },
 
@@ -41,7 +41,7 @@ module.exports = {
       let currentRoll
 
       while (dice) {
-        currentRoll = Math.floor(Math.random() * sides) + 1
+        currentRoll = randomInt(1, sides)
         dice += currentRoll >= explode
         result.push(currentRoll)
         dice--

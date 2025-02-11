@@ -1,4 +1,4 @@
-"use strict"
+const { randomInt } = require("mathjs")
 
 /**
  * Small helper to generate a random number from 1 to 10, inclusive
@@ -6,7 +6,7 @@
  * @return {int} Random integer within [1...10]
  */
 function rand() {
-  return Math.floor(Math.random() * 10) + 1
+  return randomInt(1, 10)
 }
 
 /**

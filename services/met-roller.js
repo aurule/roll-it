@@ -1,3 +1,5 @@
+const { randomInt } = require("mathjs")
+
 const rps = ["rock", "paper", "scissors"]
 const rbs = ["rock", "bomb", "scissors"]
 
@@ -9,7 +11,7 @@ const request_keywords = ["rock", "paper", "scissors", "bomb", "rand", "rand-bom
  * @return {int} Integer from 0 to 2
  */
 function rand() {
-  return Math.floor(Math.random() * 3)
+  return randomInt(3)
 }
 
 /**
