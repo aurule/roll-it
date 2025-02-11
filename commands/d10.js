@@ -38,13 +38,13 @@ module.exports = {
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
+    const description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
     const partial_message = module.exports.perform({
       rolls,
       modifier,
-      description: roll_description,
+      description,
       locale: interaction.locale,
     })
 

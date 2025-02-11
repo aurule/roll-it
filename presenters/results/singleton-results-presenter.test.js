@@ -13,10 +13,20 @@ describe("present", () => {
       }
     })
 
-    it("includes description if present", () => {
-      const result = SingletonPresenter.present(defaultArgs)
+    describe("description", () => {
+      it("includes description if present", () => {
+        const result = SingletonPresenter.present(defaultArgs)
 
-      expect(result).toMatch(`"${defaultArgs.description}"`)
+        expect(result).toMatch(`"${defaultArgs.description}"`)
+      })
+
+      it("omits description if not present", () => {
+        defaultArgs.description = ""
+
+        const result = SingletonPresenter.present(defaultArgs)
+
+        expect(result).not.toMatch('for "')
+      })
     })
 
     describe("with no modifier", () => {
@@ -68,10 +78,20 @@ describe("present", () => {
       }
     })
 
-    it("includes description if present", () => {
-      const result = SingletonPresenter.present(defaultArgs)
+    describe("description", () => {
+      it("includes description if present", () => {
+        const result = SingletonPresenter.present(defaultArgs)
 
-      expect(result).toMatch(`"${defaultArgs.description}"`)
+        expect(result).toMatch(`"${defaultArgs.description}"`)
+      })
+
+      it("omits description if not present", () => {
+        defaultArgs.description = ""
+
+        const result = SingletonPresenter.present(defaultArgs)
+
+        expect(result).not.toMatch('for "')
+      })
     })
 
     describe("with no modifier", () => {
