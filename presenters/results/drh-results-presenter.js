@@ -13,13 +13,16 @@ const { i18n } = require("../../locales")
  */
 const strengthPrecedence = ["discipline", "madness", "exhaustion", "pain"]
 
+/**
+ * Class to show the outcome of one or more drh tests
+ */
 class DrhPresenter {
   /**
    * Array of results for each test
    *
    * Length should match value of rolls.
    *
-   * @type {Array<DrhRoll[]>}
+   * @type {Collection<DrhRoll>[]}
    */
   tests
 
@@ -44,10 +47,25 @@ class DrhPresenter {
    */
   rolls
 
+  /**
+   * Value to add to the player total
+   *
+   * @type {int}
+   */
   modifier
 
+  /**
+   * Name of the locale for getting response strings
+   *
+   * @type {str}
+   */
   locale
 
+  /**
+   * Translation function
+   *
+   * @type {callable}
+   */
   t
 
   constructor({ tests, description, talent = "none", rolls, modifier = 0, locale = "en-US" } = {}) {
@@ -61,19 +79,6 @@ class DrhPresenter {
   }
 
   /**
-   * Get the mode we're operating under
-   *
-   * @return {string} Presentation mode based on number of rolls and the "until" option
-   */
-  get mode() {
-    if (this.rolls > 1) {
-      return "many"
-    } else {
-      return "one"
-    }
-  }
-
-  /**
    * Present the result of our rolls
    *
    * @return {str} Presented roll results
@@ -84,7 +89,7 @@ class DrhPresenter {
       count: this.rolls,
     }
 
-    const key_parts = ["response"]
+    const key_parts = ["response.normal"]
     if (this.description) {
       key_parts.push("withDescription")
     } else {
@@ -101,7 +106,7 @@ class DrhPresenter {
       })
       t_args.pools = roll_presenter.present()
       t_args.result = this.t(
-        `response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`,
+        `response.normal.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`,
       )
     } else {
       t_args.results = this.tests
@@ -114,7 +119,7 @@ class DrhPresenter {
           })
           const lines = [
             this.t(
-              `response.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`,
+              `response.normal.result.${roll_presenter.result}.${roll_presenter.dominating_strength}`,
             ),
             roll_presenter.present(),
           ]
@@ -128,11 +133,14 @@ class DrhPresenter {
   }
 }
 
+/**
+ * Class to show the details of a single roll, with multiple pools
+ */
 class DrhRollPresenter {
   /**
    * The pools of this roll
    *
-   * @type {DrhPool[]}
+   * @type {Collection<DrhPool>}
    */
   strengths
 
@@ -159,8 +167,18 @@ class DrhRollPresenter {
    */
   dominating_feature
 
+  /**
+   * Value to add to the player total
+   *
+   * @type {int}
+   */
   modifier
 
+  /**
+   * Translation function
+   *
+   * @type {callable}
+   */
   t
 
   constructor({ strengths, talent, modifier = 0, locale = "en-US" } = {}) {
@@ -304,7 +322,7 @@ class DrhRollPresenter {
         total: sum(this.playerValues),
         breakdown: this.playerValues,
       }
-      return this.t("response.total.major", t_args)
+      return this.t("response.normal.total.major", t_args)
     }
 
     if (this.talent == "minor" && this.exhaustionPool > this.playerSubtotal) {
@@ -314,7 +332,7 @@ class DrhRollPresenter {
         breakdown: this.exhaustionValues,
         context: this.modifier !== 0 ? "modifier" : undefined,
       }
-      return this.t("response.total.minor", t_args)
+      return this.t("response.normal.total.minor", t_args)
     }
 
     const t_args = {
@@ -322,7 +340,7 @@ class DrhRollPresenter {
       breakdown: this.playerValues,
       context: this.modifier !== 0 ? "modifier" : undefined,
     }
-    return this.t("response.total.normal", t_args)
+    return this.t("response.normal.total.normal", t_args)
   }
 
   /**
@@ -385,18 +403,124 @@ class DrhRollPresenter {
   }
 }
 
+/**
+ * Class to show the outcome of a helper roll
+ */
+class DrhTeamworkPresenter {
+  /**
+   * Array of results for each test
+   *
+   * Length should match value of rolls.
+   *
+   * @type {Array<DrhRoll[]>}
+   */
+  tests
+
+  /**
+   * Description for the rolls
+   *
+   * @type {str}
+   */
+  description
+
+  /**
+   * Number of rolls that were made
+   *
+   * @type {int}
+   */
+  rolls
+
+  /**
+   * Name of the locale for getting response strings
+   *
+   * @type {str}
+   */
+  locale
+
+  /**
+   * Translation function
+   *
+   * @type {callable}
+   */
+  t
+
+  constructor({ tests, description, rolls, locale = "en-US" } = {}) {
+    this.tests = tests
+    this.description = description
+    this.rolls = rolls
+    this.locale = locale
+    this.t = i18n.getFixedT(locale, "commands", "drh")
+  }
+
+  /**
+   * Create a string describing the overall result of the command invocation
+   *
+   * @return {str} String describing the results
+   */
+  presentResults() {
+    const key_parts = ["response.helping"]
+    let t_args = {
+      context: this.description ? "description" : undefined,
+      description: this.description,
+      count: this.rolls,
+    }
+
+    if (this.rolls === 1) {
+      t_args.total = this.resultTotal(0)
+      t_args.detail = this.resultDetail(0)
+    } else {
+      t_args.results = this.tests.map((_, idx) => {
+        return this.t("response.helping.result", {
+          total: this.resultTotal(idx),
+          detail: this.resultDetail(idx),
+        })
+      })
+    }
+
+    return this.t("response.helping.reply", t_args)
+  }
+
+  /**
+   * Get the successes from the description pool of the given roll
+   *
+   * @param  {int} idx Index to get
+   * @return {int}     Total discipline successes from that roll
+   */
+  resultTotal(idx) {
+    const strength = this.tests[idx].get("discipline")
+
+    return strength.successes
+  }
+
+  /**
+   * Get the successes from the description pool of the given roll
+   *
+   * @param  {int} idx Index to get
+   * @return {str}     Total discipline successes from that roll
+   */
+  resultDetail(idx) {
+    const strength = this.tests[idx].get("discipline")
+
+    return strength.dice.map((die) => (die < 4 ? bold(die) : `${die}`)).join(", ")
+  }
+}
 module.exports = {
   /**
    * Present one or more results from the drh command
    *
-   * @param  {Int}        options.rolls       Total number of rolls to show
-   * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
-   * @return {String}                         String describing the roll results
+   * @param  {obj}    options Roll options
+   * @return {String}         String describing the roll results
    */
-  present: ({ ...rollOptions }) => {
-    const presenter = new DrhPresenter(rollOptions)
+  present: (options) => {
+    let presenter
+    if (options.helper) {
+      presenter = new DrhTeamworkPresenter(options)
+    } else {
+      presenter = new DrhPresenter(options)
+    }
     return presenter.presentResults()
   },
   DrhPresenter,
   DrhRollPresenter,
+  DrhTeamworkPresenter,
 }

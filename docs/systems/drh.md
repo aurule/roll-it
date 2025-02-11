@@ -17,6 +17,8 @@ Don't Rest Your Head is a rules-light game system with a surprisingly rules-heav
 
 So that's a lot. The `/drh` command does all of this automatically.
 
+Don't Rest Your Head also has a basic teamwork mechanic, which `/drh` supports by allowing a `pain` of zero. In this special mode, you can roll your flat Discipline pool to add automatic successes to another character's roll. As per the system's rules, you cannot use talents, a modifier, or any other pools when helping another.
+
 ## `/drh`
 
 Roll pools of d6s, tally, and compare results. Also applies special rules logic for talents.
@@ -26,6 +28,7 @@ Roll pools of d6s, tally, and compare results. Also applies special rules logic 
 * `exhaustion` is the number of dice in the optional Exhaustion pool
 * `madness` is the number of dice in the optional Madness pool
 * `talent` is the type of talent in use, if any
+* `modifier` is the number to add to the final sum
 
 <!-- panels:start -->
 <!-- panels:title -->

@@ -1,29 +1,9 @@
 const { Collection } = require("discord.js")
 
 const { DrhPool } = require("../../util/rolls/drh-pool")
-const { DrhPresenter, DrhRollPresenter } = require("./drh-results-presenter")
+const { DrhPresenter, DrhRollPresenter, DrhTeamworkPresenter } = require("./drh-results-presenter")
 
 describe("DrhPresenter", () => {
-  describe("mode", () => {
-    it("is 'many' with rolls > 1", () => {
-      options = {
-        rolls: 5,
-      }
-      const presenter = new DrhPresenter(options)
-
-      expect(presenter.mode).toEqual("many")
-    })
-
-    it("is 'one' with rolls = 1", () => {
-      options = {
-        rolls: 1,
-      }
-      const presenter = new DrhPresenter(options)
-
-      expect(presenter.mode).toEqual("one")
-    })
-  })
-
   describe("presentResults", () => {
     describe("with one roll", () => {
       it("includes description if present", () => {
@@ -669,6 +649,119 @@ describe("DrhRollPresenter", () => {
 
         expect(result).toMatch("__discipline__")
       })
+    })
+  })
+})
+
+describe("DrhTeamworkPresenter", () => {
+  describe("presentResults", () => {
+    describe("with one roll", () => {
+      let options
+
+      beforeEach(() => {
+        options = {
+          tests: [
+            new Collection([
+              ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
+            ]),
+          ],
+          rolls: 1,
+        }
+      })
+
+      it("shows the total discipline successes", () => {
+        const presenter = new DrhTeamworkPresenter(options)
+
+        expect(presenter.presentResults()).toMatch("**2**")
+      })
+
+      it("shows the description if present", () => {
+        options.description = "test desc"
+
+        const presenter = new DrhTeamworkPresenter(options)
+
+        expect(presenter.presentResults()).toMatch("test desc")
+      })
+    })
+
+    describe("with multiple rolls", () => {
+      let options
+
+      beforeEach(() => {
+        options = {
+          tests: [
+            new Collection([
+              ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
+            ]),
+            new Collection([
+              ["discipline", new DrhPool("discipline", [[6, 1, 5]])],
+            ]),
+          ],
+          rolls: 2,
+        }
+      })
+
+      it("shows the total rolls", () => {
+        const presenter = new DrhTeamworkPresenter(options)
+
+        expect(presenter.presentResults()).toMatch("2 times")
+      })
+
+      it("shows the description if present", () => {
+        options.description = "test desc"
+
+        const presenter = new DrhTeamworkPresenter(options)
+
+        expect(presenter.presentResults()).toMatch("test desc")
+      })
+
+      it("shows each result with a breakdown", () => {
+        const presenter = new DrhTeamworkPresenter(options)
+
+        expect(presenter.presentResults()).toMatch("**2** (**2**, **3**, 4)")
+      })
+    })
+  })
+
+  describe("resultTotal", () => {
+    let options
+
+    beforeEach(() => {
+      options = {
+        tests: [
+          new Collection([
+            ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
+          ]),
+        ],
+        rolls: 1,
+      }
+    })
+
+    it("gets the total discipline successes", () => {
+      const presenter = new DrhTeamworkPresenter(options)
+
+      expect(presenter.resultTotal(0)).toEqual(2)
+    })
+  })
+
+  describe("resultDetail", () => {
+    let options
+
+    beforeEach(() => {
+      options = {
+        tests: [
+          new Collection([
+            ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
+          ]),
+        ],
+        rolls: 1,
+      }
+    })
+
+    it("makes a breakdown for the given roll", () => {
+      const presenter = new DrhTeamworkPresenter(options)
+
+      expect(presenter.resultDetail(0)).toEqual("**2**, **3**, 4")
     })
   })
 })

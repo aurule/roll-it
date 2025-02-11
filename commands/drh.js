@@ -78,6 +78,24 @@ module.exports = {
     modifier = 0,
     locale = "en-US",
   } = {}) {
+    if (pain === 0) {
+      const pool_options = new Collection([
+        ["discipline", discipline],
+      ])
+
+      const tests = Array.from({ length: rolls }, () => {
+        return pool_options.mapValues(module.exports.roll_pool).filter((pool) => pool !== undefined)
+      })
+
+      return present({
+        helper: true,
+        tests,
+        description,
+        rolls,
+        locale,
+      })
+    }
+
     const pool_options = new Collection([
       ["discipline", discipline],
       ["pain", pain],
@@ -110,6 +128,28 @@ module.exports = {
     const secret = interaction.options.getBoolean("secret") ?? false
 
     const t = i18n.getFixedT(interaction.locale, "commands", "drh")
+
+    if (pain === 0) {
+      if (talent !== "none") {
+        return interaction.whisper(t("response.helping.validation.talent"))
+      }
+
+      if (exhaustion || madness) {
+        return interaction.whisper(t("response.helping.validation.pools"))
+      }
+
+      if (modifier) {
+        return interaction.whisper(t("response.helping.validation.modifier"))
+      }
+
+      const partial_message = module.exports.perform({
+        pain,
+        rolls,
+        discipline,
+        description: roll_description,
+        locale: interaction.locale,
+      })
+    }
 
     switch (talent) {
       case "minor":

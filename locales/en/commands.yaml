@@ -279,9 +279,14 @@ drh:
     - >-
       * Major Exhaustion adds one success to your result per die of {{opts.exhaustion}}. {{opts.exhaustion}}
       has to be at least 1.
-    - >-
+    - >
       * Madness is required to do magic. It does not change your successes, but does ensure that
       {{opts.madness}} is at least 1.
+    - >
+      If you're helping another player, you can set {{opts.pain}} to zero and just roll your
+      {{opts.discipline}}. They can then set {{opts.modifier}} to add your successes to their result. You
+      cannot use {{opts.exhaustion}}, {{opts.madness}}, {{opts.talent}}, or {{opts.modifier}} when helping
+      another.
   help: |-
     $t(drh.help-lines, { "joinArrays": "\n" })
   options:
@@ -316,92 +321,110 @@ drh:
     exhaustion: exhaustion
     pain: pain
   response:
-    withDescription:
-      none_one: |-
-        {{userMention}} rolled {{result}} for "{{description}}"
-        {{pools}}
-      none_other: |-
-        {{userMention}} rolled {{count}} times for "{{description}}":
+    normal:
+      withDescription:
+        none_one: |-
+          {{userMention}} rolled {{result}} for "{{description}}"
+          {{pools}}
+        none_other: |-
+          {{userMention}} rolled {{count}} times for "{{description}}":
+          {{results}}
+        minor_one: |-
+          {{userMention}} rolled {{result}} for "{{description}}" using a Minor Exhaustion talent
+          {{pools}}
+        minor_other: |-
+          {{userMention}} rolled {{count}} times for "{{description}}" using a Minor Exhaustion talent:
+          {{results}}
+        major_one: |-
+          {{userMention}} rolled {{result}} for "{{description}}" using a Major Exhaustion talent
+          {{pools}}
+        major_other: |-
+          {{userMention}} rolled {{count}} times for "{{description}}" using a Major Exhaustion talent:
+          {{results}}
+        madness_one: |-
+          {{userMention}} rolled {{result}} for "{{description}}" using a Madness talent
+          {{pools}}
+        madness_other: |-
+          {{userMention}} rolled {{count}} times for "{{description}}" using a Madness talent:
+          {{results}}
+      withoutDescription:
+        none_one: |-
+          {{userMention}} rolled {{result}}
+          {{pools}}
+        none_other: |-
+          {{userMention}} rolled {{count}} times:
+          {{results}}
+        minor_one: |-
+          {{userMention}} rolled {{result}} using a Minor Exhaustion talent
+          {{pools}}
+        minor_other: |-
+          {{userMention}} rolled {{count}} times using a Minor Exhaustion talent:
+          {{results}}
+        major_one: |-
+          {{userMention}} rolled {{result}} using a Major Exhaustion talent
+          {{pools}}
+        major_other: |-
+          {{userMention}} rolled {{count}} times using a Major Exhaustion talent:
+          {{results}}
+        madness_one: |-
+          {{userMention}} rolled {{result}} using a Madness talent
+          {{pools}}
+        madness_other: |-
+          {{userMention}} rolled {{count}} times using a Madness talent:
+          {{results}}
+      result:
+        - discipline: a **narrow success** dominated by **discipline**
+          madness: a **narrow success** dominated by **madness**
+          exhaustion: a **narrow success** dominated by **exhaustion**
+          pain: a **narrow success** dominated by **pain**
+        - discipline: a **competent success** dominated by **discipline**
+          madness: a **competent success** dominated by **madness**
+          exhaustion: a **competent success** dominated by **exhaustion**
+          pain: a **competent success** dominated by **pain**
+        - discipline: an **impressive success** dominated by **discipline**
+          madness: an **impressive success** dominated by **madness**
+          exhaustion: an **impressive success** dominated by **exhaustion**
+          pain: an **impressive success** dominated by **pain**
+        - discipline: an **extraordinary success** dominated by **discipline**
+          madness: an **extraordinary success** dominated by **madness**
+          exhaustion: an **extraordinary success** dominated by **exhaustion**
+          pain: an **extraordinary success** dominated by **pain**
+        - discipline: a **fantastic success** dominated by **discipline**
+          madness: a **fantastic success** dominated by **madness**
+          exhaustion: a **fantastic success** dominated by **exhaustion**
+          pain: a **fantastic success** dominated by **pain**
+        - discipline: a **failure** dominated by **discipline**
+          madness: a **failure** dominated by **madness**
+          exhaustion: a **failure** dominated by **exhaustion**
+          pain: a **failure** dominated by **pain**
+      total:
+        major: |-
+          *{{total}} ({{breakdown, signed}})*
+        minor: |-
+          *~~{{player}}~~ {{total}}*
+        minor_modifier: |-
+          *~~{{player}}~~ {{total}} ({{breakdown, signed}})*
+        normal: |-
+          *{{total}}*
+        normal_modifier: |-
+          *{{total}}* ({{breakdown, signed}})*
+    helping:
+      validation:
+        talent: You cannot use a `talent` when helping another
+        pools: You can only roll `discipline` when helping another
+        modifier: You cannot have a `modifier` when helping another
+      reply_description_one: |-
+        {{userMention}} helped with **{{total}}** success for "{{description}}": {{detail}}
+      reply_description_other: |-
+        {{userMention}} helped {{count}} times for "{{description}}":
         {{results}}
-      minor_one: |-
-        {{userMention}} rolled {{result}} for "{{description}}" using a Minor Exhaustion talent
-        {{pools}}
-      minor_other: |-
-        {{userMention}} rolled {{count}} times for "{{description}}" using a Minor Exhaustion talent:
+      reply_one: |-
+        {{userMention}} helped with **{{total}}** success: {{detail}}
+      reply_other: |-
+        {{userMention}} helped {{count}} times:
         {{results}}
-      major_one: |-
-        {{userMention}} rolled {{result}} for "{{description}}" using a Major Exhaustion talent
-        {{pools}}
-      major_other: |-
-        {{userMention}} rolled {{count}} times for "{{description}}" using a Major Exhaustion talent:
-        {{results}}
-      madness_one: |-
-        {{userMention}} rolled {{result}} for "{{description}}" using a Madness talent
-        {{pools}}
-      madness_other: |-
-        {{userMention}} rolled {{count}} times for "{{description}}" using a Madness talent:
-        {{results}}
-    withoutDescription:
-      none_one: |-
-        {{userMention}} rolled {{result}}
-        {{pools}}
-      none_other: |-
-        {{userMention}} rolled {{count}} times:
-        {{results}}
-      minor_one: |-
-        {{userMention}} rolled {{result}} using a Minor Exhaustion talent
-        {{pools}}
-      minor_other: |-
-        {{userMention}} rolled {{count}} times using a Minor Exhaustion talent:
-        {{results}}
-      major_one: |-
-        {{userMention}} rolled {{result}} using a Major Exhaustion talent
-        {{pools}}
-      major_other: |-
-        {{userMention}} rolled {{count}} times using a Major Exhaustion talent:
-        {{results}}
-      madness_one: |-
-        {{userMention}} rolled {{result}} using a Madness talent
-        {{pools}}
-      madness_other: |-
-        {{userMention}} rolled {{count}} times using a Madness talent:
-        {{results}}
-    result:
-      - discipline: a **narrow success** dominated by **discipline**
-        madness: a **narrow success** dominated by **madness**
-        exhaustion: a **narrow success** dominated by **exhaustion**
-        pain: a **narrow success** dominated by **pain**
-      - discipline: a **competent success** dominated by **discipline**
-        madness: a **competent success** dominated by **madness**
-        exhaustion: a **competent success** dominated by **exhaustion**
-        pain: a **competent success** dominated by **pain**
-      - discipline: an **impressive success** dominated by **discipline**
-        madness: an **impressive success** dominated by **madness**
-        exhaustion: an **impressive success** dominated by **exhaustion**
-        pain: an **impressive success** dominated by **pain**
-      - discipline: an **extraordinary success** dominated by **discipline**
-        madness: an **extraordinary success** dominated by **madness**
-        exhaustion: an **extraordinary success** dominated by **exhaustion**
-        pain: an **extraordinary success** dominated by **pain**
-      - discipline: a **fantastic success** dominated by **discipline**
-        madness: a **fantastic success** dominated by **madness**
-        exhaustion: a **fantastic success** dominated by **exhaustion**
-        pain: a **fantastic success** dominated by **pain**
-      - discipline: a **failure** dominated by **discipline**
-        madness: a **failure** dominated by **madness**
-        exhaustion: a **failure** dominated by **exhaustion**
-        pain: a **failure** dominated by **pain**
-    total:
-      major: |-
-        *{{total}} ({{breakdown, signed}})*
-      minor: |-
-        *~~{{player}}~~ {{total}}*
-      minor_modifier: |-
-        *~~{{player}}~~ {{total}} ({{breakdown, signed}})*
-      normal: |-
-        *{{total}}*
-      normal_modifier: |-
-        *{{total}}* ({{breakdown, signed}})*
+      result: |-
+        **{{total}}** ({{detail}})
 fate:
   name: fate
   description: Make a FATE roll of four fudge dice

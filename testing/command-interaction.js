@@ -7,11 +7,19 @@ class CommandInteraction extends Interaction {
   constructor(commandName, guildId, member_flake, ...options) {
     super(guildId, member_flake)
     this.commandName = commandName
-    Object.assign(this.command_options, options)
+    this.setOptions(options)
   }
 
   isCommand() {
     return true
+  }
+
+  setOptions(options) {
+    Object.assign(this.command_options, options)
+  }
+
+  setOption(name, value) {
+    this.command_options.name = value
   }
 }
 
