@@ -62,7 +62,7 @@ describe("DrhPresenter", () => {
         const result = presenter.presentResults()
 
         expect(result).toMatch("success")
-        expect(result).toMatch("_2_ vs 1")
+        expect(result).toMatch("*2* vs 1")
       })
 
       it("shows dominant pool", () => {
@@ -130,8 +130,8 @@ describe("DrhPresenter", () => {
 
         const result = presenter.presentResults()
 
-        expect(result).toMatch("_3_ vs 1")
-        expect(result).toMatch("_2_ vs 1")
+        expect(result).toMatch("*3* vs 1")
+        expect(result).toMatch("*2* vs 1")
       })
 
       it("shows dominant pool for each roll", () => {
@@ -266,7 +266,7 @@ describe("DrhRollPresenter", () => {
 
       const result = presenter.present()
 
-      expect(result).toMatch("_3_ vs 1")
+      expect(result).toMatch("*3* vs 1")
     })
   })
 
@@ -298,21 +298,90 @@ describe("DrhRollPresenter", () => {
   })
 
   describe("exhaustionPool", () => {
-    it("is the first sum of the pain strength", () => {
-      const options = {
+    let options
+
+    beforeEach(() => {
+      options = {
         strengths: new Collection([
           ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
           ["exhaustion", new DrhPool("exhaustion", [[1, 3, 4]])],
           ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
         ]),
       }
+    })
+
+    it("is the size of the exhaustion pool", () => {
       const presenter = new DrhRollPresenter(options)
 
       expect(presenter.exhaustionPool).toEqual(3)
     })
   })
 
-  describe("playerTotal", () => {
+  describe("exhaustionValues", () => {
+    let options
+
+    beforeEach(() => {
+      options = {
+        strengths: new Collection([
+          ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
+          ["exhaustion", new DrhPool("exhaustion", [[1, 3, 4]])],
+          ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
+        ]),
+      }
+    })
+
+    it("includes the exhaustion pool", () => {
+      const presenter = new DrhRollPresenter(options)
+
+      expect(presenter.exhaustionValues).toContain(3)
+    })
+
+    it("includes the modifier", () => {
+      options.modifier = 2
+
+      const presenter = new DrhRollPresenter(options)
+
+      expect(presenter.exhaustionValues).toContain(2)
+    })
+  })
+
+  describe("playerValues", () => {
+    let options
+
+    beforeEach(() => {
+      options = {
+        strengths: new Collection([
+          ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
+          ["exhaustion", new DrhPool("exhaustion", [[1, 3, 4]])],
+          ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
+        ]),
+      }
+    })
+
+    it("includes the player subtotal", () => {
+      const presenter = new DrhRollPresenter(options)
+
+      expect(presenter.playerValues).toContain(4)
+    })
+
+    it("includes the modifier", () => {
+      options.modifier = 1
+
+      const presenter = new DrhRollPresenter(options)
+
+      expect(presenter.playerValues).toContain(1)
+    })
+
+    it("with a major talent, includes the exhaustion pool", () => {
+      options.talent = "major"
+
+      const presenter = new DrhRollPresenter(options)
+
+      expect(presenter.playerValues).toContain(3)
+    })
+  })
+
+  describe("finalTotal", () => {
     describe("with no exhaustion talent", () => {
       it("returns the subtotal", () => {
         const options = {
@@ -324,7 +393,7 @@ describe("DrhRollPresenter", () => {
         }
         const presenter = new DrhRollPresenter(options)
 
-        expect(presenter.playerTotal).toEqual(2)
+        expect(presenter.finalTotal).toEqual(2)
       })
     })
 
@@ -340,7 +409,7 @@ describe("DrhRollPresenter", () => {
         }
         const presenter = new DrhRollPresenter(options)
 
-        expect(presenter.playerTotal).toEqual(4)
+        expect(presenter.finalTotal).toEqual(4)
       })
 
       it("when exhaustion pool is higher, returns exhaustion pool", () => {
@@ -354,7 +423,7 @@ describe("DrhRollPresenter", () => {
         }
         const presenter = new DrhRollPresenter(options)
 
-        expect(presenter.playerTotal).toEqual(3)
+        expect(presenter.finalTotal).toEqual(3)
       })
     })
 
@@ -370,15 +439,17 @@ describe("DrhRollPresenter", () => {
         }
         const presenter = new DrhRollPresenter(options)
 
-        expect(presenter.playerTotal).toEqual(6)
+        expect(presenter.finalTotal).toEqual(6)
       })
     })
   })
 
   describe("presentedTotal", () => {
     describe("with a major exhaustion talent", () => {
-      it("shows the total", () => {
-        const options = {
+      let options
+
+      beforeEach(() => {
+        options = {
           talent: "major",
           strengths: new Collection([
             ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
@@ -386,30 +457,35 @@ describe("DrhRollPresenter", () => {
             ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
+      })
+
+      it("shows the total", () => {
         const presenter = new DrhRollPresenter(options)
 
         expect(presenter.presentedTotal).toMatch("6")
       })
 
       it("shows the breakdown", () => {
-        const options = {
-          talent: "major",
-          strengths: new Collection([
-            ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-            ["exhaustion", new DrhPool("exhaustion", [[1, 4, 4]])],
-            ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
-          ]),
-        }
         const presenter = new DrhRollPresenter(options)
 
         expect(presenter.presentedTotal).toMatch("3 + 3")
       })
+
+      it("includes modifier in breakdown", () => {
+        options.modifier = 2
+
+        const presenter = new DrhRollPresenter(options)
+
+        expect(presenter.presentedTotal).toMatch("3 + 2 + 3")
+      })
     })
 
     describe("with a minor exhaustion talent", () => {
-      describe("when subtotal is higher", () => {
-        it("shows the subtotal", () => {
-          const options = {
+      describe("when player subtotal is higher", () => {
+        let options
+
+        beforeEach(() => {
+          options = {
             talent: "minor",
             strengths: new Collection([
               ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
@@ -417,29 +493,34 @@ describe("DrhRollPresenter", () => {
               ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
             ]),
           }
+        })
+
+        it("shows the subtotal", () => {
           const presenter = new DrhRollPresenter(options)
 
           expect(presenter.presentedTotal).toMatch("4")
         })
 
         it("does not show the exhaustion pool", () => {
-          const options = {
-            talent: "minor",
-            strengths: new Collection([
-              ["discipline", new DrhPool("discipline", [[1, 3, 4]])],
-              ["exhaustion", new DrhPool("exhaustion", [[1, 3, 4]])],
-              ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
-            ]),
-          }
           const presenter = new DrhRollPresenter(options)
 
           expect(presenter.presentedTotal).not.toMatch("3")
         })
+
+        it("shows a breakdown if there's a modifier", () => {
+          options.modifier = 2
+
+          const presenter = new DrhRollPresenter(options)
+
+          expect(presenter.presentedTotal).toMatch("4 + 2")
+        })
       })
 
-      describe("when exhaustion pool is higher", () => {
-        it("shows the subtotal struck through", () => {
-          const options = {
+      describe("when exhaustion subtotal is higher", () => {
+        let options
+
+        beforeEach(() => {
+          options = {
             talent: "minor",
             strengths: new Collection([
               ["discipline", new DrhPool("discipline", [[1, 4, 4]])],
@@ -447,39 +528,55 @@ describe("DrhRollPresenter", () => {
               ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
             ]),
           }
+        })
+
+        it("shows the subtotal struck through", () => {
           const presenter = new DrhRollPresenter(options)
 
           expect(presenter.presentedTotal).toMatch("~~2~~")
         })
 
         it("shows the exhaustion pool", () => {
-          const options = {
-            talent: "minor",
-            strengths: new Collection([
-              ["discipline", new DrhPool("discipline", [[1, 4, 4]])],
-              ["exhaustion", new DrhPool("exhaustion", [[1, 4, 4]])],
-              ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
-            ]),
-          }
           const presenter = new DrhRollPresenter(options)
 
           expect(presenter.presentedTotal).toMatch("3")
+        })
+
+        it("shows a breakdown if there's a modifier", () => {
+          options.modifier = 2
+
+          const presenter = new DrhRollPresenter(options)
+
+          expect(presenter.presentedTotal).toMatch("3 + 2")
         })
       })
     })
 
     describe("with no exhaustion talent", () => {
-      it("shows the subtotal", () => {
-        const options = {
+      let options
+
+      beforeEach(() => {
+        options = {
           strengths: new Collection([
             ["discipline", new DrhPool("discipline", [[1, 4, 4]])],
             ["exhaustion", new DrhPool("exhaustion", [[1, 4, 4]])],
             ["pain", new DrhPool("pain", [[1, 1, 1, 1, 3, 5]])],
           ]),
         }
+      })
+
+      it("shows the subtotal", () => {
         const presenter = new DrhRollPresenter(options)
 
         expect(presenter.presentedTotal).toMatch("2")
+      })
+
+      it("shows a breakdown if there's a modifier", () => {
+        options.modifier = 1
+
+        const presenter = new DrhRollPresenter(options)
+
+        expect(presenter.presentedTotal).toMatch("2 + 1")
       })
     })
   })

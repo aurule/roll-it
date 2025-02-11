@@ -1,18 +1,8 @@
 const { bold, underline, italic, strikethrough, Collection } = require("discord.js")
+const { sum } = require("mathjs")
 
 const { indeterminate } = require("../../util/formatters")
 const { i18n } = require("../../locales")
-
-/**
- * Map of talent keywords to displayable names
- *
- * @type {Collection<str, str>}
- */
-const talentNames = new Collection([
-  ["minor", "Minor Exhaustion"],
-  ["major", "Major Exhaustion"],
-  ["madness", "Madness"],
-])
 
 /**
  * List of strength names in descending order
@@ -54,13 +44,19 @@ class DrhPresenter {
    */
   rolls
 
+  modifier
+
+  locale
+
   t
 
-  constructor({ tests, description, talent = "none", rolls, locale = "en-US" } = {}) {
+  constructor({ tests, description, talent = "none", rolls, modifier = 0, locale = "en-US" } = {}) {
     this.tests = tests
     this.description = description
     this.talent = talent
     this.rolls = rolls
+    this.modifier = modifier
+    this.locale = locale
     this.t = i18n.getFixedT(locale, "commands", "drh")
   }
 
@@ -100,6 +96,8 @@ class DrhPresenter {
       const roll_presenter = new DrhRollPresenter({
         strengths: this.tests[0],
         talent: this.talent,
+        modifier: this.modifier,
+        locale: this.locale,
       })
       t_args.pools = roll_presenter.present()
       t_args.result = this.t(
@@ -111,6 +109,8 @@ class DrhPresenter {
           const roll_presenter = new DrhRollPresenter({
             strengths: pools,
             talent: this.talent,
+            modifier: this.modifier,
+            locale: this.locale,
           })
           const lines = [
             this.t(
@@ -159,10 +159,17 @@ class DrhRollPresenter {
    */
   dominating_feature
 
-  constructor({ strengths, talent }) {
+  modifier
+
+  t
+
+  constructor({ strengths, talent, modifier = 0, locale = "en-US" } = {}) {
     this.strengths = strengths
     this.talent = talent
+    this.modifier = modifier
     this.setDominating()
+
+    this.t = i18n.getFixedT(locale, "commands", "drh")
   }
 
   /**
@@ -237,6 +244,30 @@ class DrhRollPresenter {
   }
 
   /**
+   * List of values that make up the final exhaustion total
+   *
+   * @return {int[]} Array of values that make up the exhaustion subtotal
+   */
+  get exhaustionValues() {
+    return [this.exhaustionPool, this.modifier]
+  }
+
+  /**
+   * List of values that make up the final player total
+   *
+   * @return {int[]} Array of values in the player tally
+   */
+  get playerValues() {
+    const values = [this.playerSubtotal, this.modifier]
+
+    if (this.talent === "major") {
+      values.push(this.exhaustionPool)
+    }
+
+    return values
+  }
+
+  /**
    * Get the total successes after applying the talent
    *
    * A major talent adds the exhaustion strength's pool to the subtotal.
@@ -245,15 +276,15 @@ class DrhRollPresenter {
    *
    * @return {int} Player subtotal modified by the talent
    */
-  get playerTotal() {
-    switch (this.talent) {
-      case "major":
-        return this.playerSubtotal + this.exhaustionPool
-      case "minor":
-        return Math.max(this.playerSubtotal, this.exhaustionPool)
-      default:
-        return this.playerSubtotal
+  get finalTotal() {
+    const playerTotal = sum(this.playerValues)
+    const exhaustionTotal = sum(this.exhaustionValues)
+
+    if (this.talent === "minor") {
+      return Math.max(playerTotal, exhaustionTotal)
     }
+
+    return playerTotal
   }
 
   /**
@@ -269,14 +300,29 @@ class DrhRollPresenter {
    */
   get presentedTotal() {
     if (this.talent == "major") {
-      return italic(`${this.playerTotal} (${this.playerSubtotal} + ${this.exhaustionPool})`)
+      const t_args = {
+        total: sum(this.playerValues),
+        breakdown: this.playerValues,
+      }
+      return this.t("response.total.major", t_args)
     }
 
     if (this.talent == "minor" && this.exhaustionPool > this.playerSubtotal) {
-      return italic(`${strikethrough(this.playerSubtotal)} ${this.exhaustionPool}`)
+      const t_args = {
+        player: sum(this.playerValues),
+        total: sum(this.exhaustionValues),
+        breakdown: this.exhaustionValues,
+        context: this.modifier !== 0 ? "modifier" : undefined,
+      }
+      return this.t("response.total.minor", t_args)
     }
 
-    return italic(this.playerTotal)
+    const t_args = {
+      total: sum(this.playerValues),
+      breakdown: this.playerValues,
+      context: this.modifier !== 0 ? "modifier" : undefined,
+    }
+    return this.t("response.total.normal", t_args)
   }
 
   /**
@@ -296,8 +342,8 @@ class DrhRollPresenter {
    * @return {int} Roll result
    */
   get result() {
-    if (this.playerTotal >= this.painTotal) {
-      const degree = Math.min(4, this.playerTotal - this.painTotal)
+    if (this.finalTotal >= this.painTotal) {
+      const degree = Math.min(4, this.finalTotal - this.painTotal)
       return degree
     }
     return 5
@@ -353,5 +399,4 @@ module.exports = {
   },
   DrhPresenter,
   DrhRollPresenter,
-  talentNames,
 }

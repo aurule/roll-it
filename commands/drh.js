@@ -19,20 +19,21 @@ module.exports = {
       .addLocalizedIntegerOption("discipline", (option) =>
         option.setRequired(true).setMinValue(1).setMaxValue(6),
       )
-      .addLocalizedIntegerOption("pain", (option) => option.setRequired(true).setMinValue(1))
+      .addLocalizedIntegerOption("pain", (option) => option.setRequired(true).setMinValue(0).setMaxValue(100))
       .addStringOption(commonOpts.description)
       .addLocalizedIntegerOption("exhaustion", (option) => option.setMinValue(1).setMaxValue(6))
       .addLocalizedIntegerOption("madness", (option) => option.setMinValue(1))
       .addLocalizedStringOption("talent", (option) =>
         option.setLocalizedChoices("minor", "major", "madness"),
       )
+      .addLocalizedIntegerOption("modifier")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   savable: true,
-  changeable: ["exhaustion", "madness", "discipline", "pain"],
+  changeable: ["modifier", "exhaustion", "madness", "discipline", "pain"],
   schema: Joi.object({
     discipline: Joi.number().required().integer().min(1).max(6),
-    pain: Joi.number().required().integer().min(1).max(100),
+    pain: Joi.number().required().integer().min(0).max(100),
     exhaustion: Joi.number()
       .optional()
       .integer()
@@ -74,6 +75,7 @@ module.exports = {
     talent = "none",
     rolls = 1,
     description,
+    modifier = 0,
     locale = "en-US",
   } = {}) {
     const pool_options = new Collection([
@@ -92,6 +94,7 @@ module.exports = {
       description,
       talent,
       rolls,
+      modifier,
       locale,
     })
   },
@@ -101,6 +104,7 @@ module.exports = {
     const exhaustion = interaction.options.getInteger("exhaustion") ?? 0
     const madness = interaction.options.getInteger("madness") ?? 0
     const talent = interaction.options.getString("talent") ?? "none"
+    const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
@@ -128,6 +132,7 @@ module.exports = {
       exhaustion,
       madness,
       talent,
+      modifier,
       description: roll_description,
       locale: interaction.locale,
     })

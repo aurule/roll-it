@@ -279,12 +279,9 @@ drh:
     - >-
       * Major Exhaustion adds one success to your result per die of {{opts.exhaustion}}. {{opts.exhaustion}}
       has to be at least 1.
-    - >
-      * Madness is required to do magic. It does not change your successes, but does require {{opts.madness}}
-      to be at least 1.
-    - >
-      When used for a saved roll, {{cmd}} will apply the `bonus` from `/saved roll` to the {{opts.exhaustion}}
-      pool by default.
+    - >-
+      * Madness is required to do magic. It does not change your successes, but does ensure that
+      {{opts.madness}} is at least 1.
   help: |-
     $t(drh.help-lines, { "joinArrays": "\n" })
   options:
@@ -310,6 +307,9 @@ drh:
       validation:
         exhaustion: You need at least 1 `exhaustion` to use an exhaustion talent.
         madness: You need at least 1 `madness` to use a madness talent.
+    modifier:
+      name: modifier
+      description: Bonus to add to the result. Useful for teamwork.
   strength:
     discipline: discipline
     madness: madness
@@ -391,6 +391,17 @@ drh:
         madness: a **failure** dominated by **madness**
         exhaustion: a **failure** dominated by **exhaustion**
         pain: a **failure** dominated by **pain**
+    total:
+      major: |-
+        *{{total}} ({{breakdown, signed}})*
+      minor: |-
+        *~~{{player}}~~ {{total}}*
+      minor_modifier: |-
+        *~~{{player}}~~ {{total}} ({{breakdown, signed}})*
+      normal: |-
+        *{{total}}*
+      normal_modifier: |-
+        *{{total}}* ({{breakdown, signed}})*
 fate:
   name: fate
   description: Make a FATE roll of four fudge dice

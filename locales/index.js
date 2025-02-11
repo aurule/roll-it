@@ -3,6 +3,8 @@ const i18next = require("i18next")
 const Backend = require("i18next-fs-backend")
 const { unorderedList } = require("discord.js")
 
+const { operator } = require("../util/formatters/signed")
+
 i18next.use(Backend).init({
   debug: process.env.NODE_ENV === "development",
   fallbackLng: {
@@ -36,6 +38,16 @@ i18next.services.formatter.add("indented", (value, lng, options) => {
 
 i18next.services.formatter.add("spaced", (value, lng, options) => {
   return value.join(" ")
+})
+
+i18next.services.formatter.add("signed", (value, lng, options) => {
+  return value
+    .filter(v => v !== 0)
+    .map((v, idx) => {
+      if (idx === 0) return v
+      return operator(v)
+    })
+    .join("")
 })
 
 /**
