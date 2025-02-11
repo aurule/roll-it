@@ -61,7 +61,7 @@ describe("schema", () => {
     })
 
     it("has a min of 0", () => {
-      const result = pain_schema.validate(-1)
+      const result = pain_schema.validate(0)
 
       expect(result.error).toBeTruthy()
     })

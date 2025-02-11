@@ -33,7 +33,7 @@ module.exports = {
   changeable: ["modifier", "exhaustion", "madness", "discipline", "pain"],
   schema: Joi.object({
     discipline: Joi.number().required().integer().min(1).max(6),
-    pain: Joi.number().required().integer().min(0).max(100),
+    pain: Joi.number().required().integer().min(1).max(100),
     exhaustion: Joi.number()
       .optional()
       .integer()
