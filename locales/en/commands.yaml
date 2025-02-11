@@ -407,7 +407,7 @@ drh:
         normal: |-
           *{{total}}*
         normal_modifier: |-
-          *{{total}}* ({{breakdown, signed}})*
+          *{{total}} ({{breakdown, signed}})*
     helping:
       validation:
         talent: You cannot use a `talent` when helping another
@@ -417,12 +417,12 @@ drh:
         {{userMention}} helped with **{{total}}** success for "{{description}}": {{detail}}
       reply_description_other: |-
         {{userMention}} helped {{count}} times for "{{description}}":
-        {{results}}
+        {{results, indented}}
       reply_one: |-
         {{userMention}} helped with **{{total}}** success: {{detail}}
       reply_other: |-
         {{userMention}} helped {{count}} times:
-        {{results}}
+        {{results, indented}}
       result: |-
         **{{total}}** ({{detail}})
 fate:
