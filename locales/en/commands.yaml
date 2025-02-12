@@ -399,15 +399,15 @@ drh:
           pain: a **failure** dominated by **pain**
       total:
         major: |-
-          *{{total}} ({{breakdown, signed}})*
+          *{{total}} ({{breakdown, arithmetic}})*
         minor: |-
           *~~{{player}}~~ {{total}}*
         minor_modifier: |-
-          *~~{{player}}~~ {{total}} ({{breakdown, signed}})*
+          *~~{{player}}~~ {{total}} ({{breakdown, arithmetic}})*
         normal: |-
           *{{total}}*
         normal_modifier: |-
-          *{{total}} ({{breakdown, signed}})*
+          *{{total}} ({{breakdown, arithmetic}})*
     helping:
       validation:
         talent: You cannot use a `talent` when helping another

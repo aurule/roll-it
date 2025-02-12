@@ -22,8 +22,7 @@ module.exports = {
    * @return {str}        A string with +num or -num, or 0 if zero
    */
   signed(number) {
-    return Intl.NumberFormat("en-US", {
-      signDisplay: "exceptZero",
-    }).format(number)
+    if (number > 0) return `+${number}`
+    return `${number}`
   },
 }

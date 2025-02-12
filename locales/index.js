@@ -1,9 +1,8 @@
 const { join } = require("node:path")
 const i18next = require("i18next")
 const Backend = require("i18next-fs-backend")
-const { unorderedList } = require("discord.js")
 
-const { operator } = require("../util/formatters/signed")
+const own_formatters = require("../util/formatters/i18n")
 
 i18next.use(Backend).init({
   debug: process.env.NODE_ENV === "development",
@@ -24,31 +23,9 @@ i18next.use(Backend).init({
   },
 })
 
-i18next.services.formatter.add("ul", (value, lng, options) => {
-  return unorderedList(value)
-})
-
-i18next.services.formatter.add("ol", (value, lng, options) => {
-  return value.map((val, idx) => `${idx+1}. ${val}`).join("\n")
-})
-
-i18next.services.formatter.add("indented", (value, lng, options) => {
-  return "\t" + value.join("\n\t")
-})
-
-i18next.services.formatter.add("spaced", (value, lng, options) => {
-  return value.join(" ")
-})
-
-i18next.services.formatter.add("signed", (value, lng, options) => {
-  return value
-    .filter(v => v !== 0)
-    .map((v, idx) => {
-      if (idx === 0) return v
-      return operator(v)
-    })
-    .join("")
-})
+for (const [key, fn] of Object.entries(own_formatters)) {
+  i18next.services.formatter.add(key, fn)
+}
 
 /**
  * List of discord-specific locales that have translations
