@@ -1,23 +1,22 @@
-// Load envvars
 require("dotenv").config()
 
 const { logger } = require("./util/logger")
-
-require("./patches/whisper").patch()
-require("./patches/paginate").patch()
-require("./patches/roll-reply").patch()
-
-const { version } = require("./package.json")
 
 process.on('unhandledRejection', error => {
   logger.error(error, 'Unhandled promise rejection')
 })
 
-// Require the necessary packages
+require("./patches/whisper").patch()
+require("./patches/paginate").patch()
+require("./patches/roll-reply").patch()
+
 const fs = require("fs")
+const { join } = require("node:path")
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js")
 const { jsNoTests } = require("./util/filters")
 const commands = require("./commands")
+
+const { version } = require("../package.json")
 
 // Create a new client instance
 const client = new Client({
@@ -37,9 +36,11 @@ const token = process.env.BOT_TOKEN
 client.commands = commands
 
 // Register event listeners
-const eventFiles = fs.readdirSync("./events").filter(jsNoTests)
+const eventsDir = join(__dirname, "events")
+const eventFiles = fs.readdirSync(eventsDir).filter(jsNoTests)
 for (const file of eventFiles) {
-  const event = require(`./events/${file}`)
+  const eventFilePath = join(eventsDir, file)
+  const event = require(eventFilePath)
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args))
   } else {
