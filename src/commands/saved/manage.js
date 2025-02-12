@@ -23,23 +23,23 @@ module.exports = {
       "name",
       (option) => option.setRequired(true).setAutocomplete(true),
     ),
-  async execute(interaction) {
-    const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
+  async execute(cmd_interaction) {
+    const saved_rolls = new UserSavedRolls(cmd_interaction.guildId, cmd_interaction.user.id)
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "saved.manage")
+    const t = i18n.getFixedT(cmd_interaction.locale, "commands", "saved.manage")
 
-    const roll_name = interaction.options.getString("name")
+    const roll_name = cmd_interaction.options.getString("name")
     const roll_id = parseInt(roll_name)
 
     const detail = saved_rolls.detail(roll_id, roll_name)
 
     if (detail === undefined) {
-      return interaction.whisper(t("options.name.validation.missing"))
+      return cmd_interaction.whisper(t("options.name.validation.missing"))
     }
 
     let manage_text = saved_roll_presenter.present(
       detail,
-      interaction.locale,
+      cmd_interaction.locale,
     )
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")
@@ -67,7 +67,7 @@ module.exports = {
       .setLabel(t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
     manage_actions.addComponents(cancel_button, remove_button)
-    const manage_prompt = await interaction.reply({
+    const manage_prompt = await cmd_interaction.reply({
       content: manage_text,
       components: [manage_actions],
       flags: MessageFlags.Ephemeral,
@@ -142,7 +142,7 @@ module.exports = {
                   components: [],
                   flags: MessageFlags.Ephemeral,
                 })
-                return interaction
+                return cmd_interaction
               }
 
               saved_rolls.destroy(detail.id)
@@ -155,25 +155,28 @@ module.exports = {
             })
             .catch(() => {
               manage_prompt.delete()
-              return interaction
+              return cmd_interaction
             })
           break
         case "cancel":
         default:
           manage_prompt.delete()
-          return interaction
+          return cmd_interaction
       }
     }
 
-    manage_prompt
-      .awaitMessageComponent({
-        componentType: ComponentType.Button,
-        time: 60_000,
-      })
-      .then((comp_interaction) => {
-        comp_interaction.deferUpdate()
-        return manageHandler(comp_interaction)
-      }, manageHandler)
+    const collector = manage_prompt.createMessageComponentCollector({
+      time: 60_000,
+    })
+    collector.once("collect", manageHandler)
+    collector.once("end", (_, reason) => {
+      if (reason === "time") {
+        return cmd_interaction.editReply({
+          content: t("response.timeout"),
+          components: [],
+        })
+      }
+    })
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)

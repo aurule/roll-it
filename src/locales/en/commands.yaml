@@ -1236,6 +1236,8 @@ saved:
         description: Name of the saved roll to manage
         validation:
           missing: That saved roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
+    response:
+      timeout: Ran out of time. Leaving saved roll unchanged.
     state:
       initial:
         prompt: What do you want to do?
