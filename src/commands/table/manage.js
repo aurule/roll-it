@@ -22,18 +22,18 @@ module.exports = {
       "table",
       (option) => option.setRequired(true).setAutocomplete(true),
     ),
-  async execute(interaction) {
-    const tables = new GuildRollables(interaction.guildId)
+  async execute(cmd_interaction) {
+    const tables = new GuildRollables(cmd_interaction.guildId)
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "table.manage")
+    const t = i18n.getFixedT(cmd_interaction.locale, "commands", "table.manage")
 
-    const table_name = interaction.options.getString("table")
+    const table_name = cmd_interaction.options.getString("table")
     const table_id = parseInt(table_name)
 
     const detail = tables.detail(table_id, table_name)
 
     if (detail === undefined) {
-      return interaction.whisper(t("options.table.validation.missing"))
+      return cmd_interaction.whisper(t("options.table.validation.missing"))
     }
 
     const show_button = new ButtonBuilder()
@@ -53,7 +53,7 @@ module.exports = {
       cancel_button,
       remove_button,
     )
-    const manage_prompt = await interaction.reply({
+    const manage_prompt = await cmd_interaction.reply({
       content: [t("state.initial.details", { table: detail }), t("state.initial.prompt")].join(
         "\n",
       ),
@@ -61,8 +61,8 @@ module.exports = {
       flags: MessageFlags.Ephemeral,
     })
 
-    const manageHandler = async (event) => {
-      switch (event.customId) {
+    const manageHandler = async (comp_interaction) => {
+      switch (comp_interaction.customId) {
         case "show":
           await manage_prompt.delete()
           const full_text = t("state.show.response.success", {
@@ -70,7 +70,7 @@ module.exports = {
             contents: detail.contents,
           })
 
-          return interaction.paginate({
+          return cmd_interaction.paginate({
             content: full_text,
             split_on: "\n",
             secret: true,
@@ -104,7 +104,7 @@ module.exports = {
                   components: [],
                   flags: MessageFlags.Ephemeral,
                 })
-                return interaction
+                return cmd_interaction
               }
 
               tables.destroy(detail.id)
@@ -117,25 +117,28 @@ module.exports = {
             })
             .catch(() => {
               manage_prompt.delete()
-              return interaction
+              return cmd_interaction
             })
           break
         case "cancel":
         default:
           manage_prompt.delete()
-          return interaction
+          return cmd_interaction
       }
     }
 
-    manage_prompt
-      .awaitMessageComponent({
-        componentType: ComponentType.Button,
-        time: 60_000,
-      })
-      .then((event) => {
-        event.deferUpdate()
-        return manageHandler(event)
-      }, manageHandler)
+    const collector = manage_prompt.createMessageComponentCollector({
+      time: 60_000,
+    })
+    collector.once("collect", manageHandler)
+    collector.once("end", (_, reason) => {
+      if (reason === "time") {
+        return cmd_interaction.editReply({
+          content: t("response.timeout"),
+          components: [],
+        })
+      }
+    })
   },
   async autocomplete(interaction) {
     const tables = new GuildRollables(interaction.guildId)

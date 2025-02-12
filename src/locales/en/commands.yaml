@@ -1668,6 +1668,8 @@ table:
         description: Name of the table to manage
         validation:
           missing: That table does not exist. Check spelling, capitalization, or choose one of the suggested tables.
+    response:
+      timeout: Ran out of time. Leaving table unchanged.
     state:
       initial:
         buttons:
