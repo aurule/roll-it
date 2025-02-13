@@ -12,10 +12,10 @@ module.exports = {
   name: command_name,
   parent: parent_name,
   data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addLocalizedStringOption("topic", (option) =>
-        option.setLocalizedChoices("about", "changes", "commands", "saved", "systems"),
-      ),
+    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
+      "topic",
+      (option) => option.setLocalizedChoices("about", "changes", "commands", "saved", "systems"),
+    ),
   execute(interaction) {
     const topic_name = interaction.options.getString("topic") ?? ""
 
@@ -23,7 +23,9 @@ module.exports = {
 
     const topic = topics.get(topic_name)
     if (!topic)
-      return interaction.whisper(t("commands:help.topic.options.topic.validation.unavailable", { topic_name }))
+      return interaction.whisper(
+        t("commands:help.topic.options.topic.validation.unavailable", { topic_name }),
+      )
 
     const data = {
       returnObjects: true,
@@ -34,7 +36,7 @@ module.exports = {
 
     const topic_title = t(`help:${topic_name}.title`)
     const topic_body = t(`help:${topic_name}.lines`, data).join("\n")
-    const full_text = t('help:topics.message', { title: topic_title, body: topic_body })
+    const full_text = t("help:topics.message", { title: topic_title, body: topic_body })
     return interaction.paginate({
       content: full_text,
       secret: true,

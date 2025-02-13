@@ -19,7 +19,9 @@ module.exports = {
       .addLocalizedIntegerOption("discipline", (option) =>
         option.setRequired(true).setMinValue(1).setMaxValue(6),
       )
-      .addLocalizedIntegerOption("pain", (option) => option.setRequired(true).setMinValue(0).setMaxValue(100))
+      .addLocalizedIntegerOption("pain", (option) =>
+        option.setRequired(true).setMinValue(0).setMaxValue(100),
+      )
       .addStringOption(commonOpts.description)
       .addLocalizedIntegerOption("exhaustion", (option) => option.setMinValue(1).setMaxValue(6))
       .addLocalizedIntegerOption("madness", (option) => option.setMinValue(1))
@@ -79,9 +81,7 @@ module.exports = {
     locale = "en-US",
   } = {}) {
     if (pain === 0) {
-      const pool_options = new Collection([
-        ["discipline", discipline],
-      ])
+      const pool_options = new Collection([["discipline", discipline]])
 
       const tests = Array.from({ length: rolls }, () => {
         return pool_options.mapValues(module.exports.roll_pool).filter((pool) => pool !== undefined)

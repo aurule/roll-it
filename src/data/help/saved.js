@@ -5,7 +5,7 @@ module.exports = {
   help_data(locale) {
     const commands = require("../../commands")
     return {
-      savable: CommandNamePresenter.list(commands.savable, locale)
+      savable: CommandNamePresenter.list(commands.savable, locale),
     }
-  }
+  },
 }

@@ -34,12 +34,12 @@ describe("help", () => {
   it("includes topic names", () => {
     const help_data = help_command.help_data({ locale: "en-US" })
 
-    expect(help_data.topics.some(t => t.includes("About Roll It"))).toBeTruthy()
+    expect(help_data.topics.some((t) => t.includes("About Roll It"))).toBeTruthy()
   })
 
   it("includes command names", () => {
     const help_data = help_command.help_data({ locale: "en-US" })
 
-    expect(help_data.commands.some(c => c.includes("8ball"))).toBeTruthy()
+    expect(help_data.commands.some((c) => c.includes("8ball"))).toBeTruthy()
   })
 })

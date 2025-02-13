@@ -13,9 +13,9 @@ module.exports = {
     const cmd_t = i18n.getFixedT(locale, "commands")
 
     return {
-      systems: all_systems.map(system => {
+      systems: all_systems.map((system) => {
         const details = t(system.name, { returnObjects: true })
-        details.commands = system.commands.required.map(command_name => {
+        details.commands = system.commands.required.map((command_name) => {
           const command = commands.get(command_name)
           return present(command, locale)
         })

@@ -135,18 +135,20 @@ module.exports = {
           }
 
           await comp_interaction.deferUpdate()
-          return api.setGuildCommands(cmd_interaction.guildId, selected_commands).then(() => {
-            return selected_commands.map(command_name => {
-              const command = deployable.get(command_name)
-              return CommandNamePresenter.present(command, locale)
+          return api
+            .setGuildCommands(cmd_interaction.guildId, selected_commands)
+            .then(() => {
+              return selected_commands.map((command_name) => {
+                const command = deployable.get(command_name)
+                return CommandNamePresenter.present(command, locale)
+              })
             })
-          })
-          .then((presented_commands) => {
-            return comp_interaction.editReply({
-              content: t("response.success", { commands: presented_commands }),
-              components: [],
+            .then((presented_commands) => {
+              return comp_interaction.editReply({
+                content: t("response.success", { commands: presented_commands }),
+                components: [],
+              })
             })
-          })
         case "command_picker":
           selection = new Set(comp_interaction.values)
           await comp_interaction.update({

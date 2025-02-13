@@ -1,10 +1,4 @@
-const {
-  userMention,
-  time,
-  TimestampStyles,
-  hyperlink,
-  EmbedBuilder,
-} = require("discord.js")
+const { userMention, time, TimestampStyles, hyperlink, EmbedBuilder } = require("discord.js")
 
 const { timeout_ms } = require("../util/teamwork-settings")
 const { messageLink } = require("../util/formatters")

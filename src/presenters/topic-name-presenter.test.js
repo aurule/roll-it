@@ -1,6 +1,5 @@
 const Presenter = require("./topic-name-presenter")
 
-
 describe("list", () => {
   it("shows the topic names", () => {
     const result = Presenter.list("en-US")

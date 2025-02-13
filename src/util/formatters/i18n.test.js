@@ -92,5 +92,4 @@ describe("arithmetic", () => {
       expect(output).toEqual("-1 + 3 - 2 + 6")
     })
   })
-
 })

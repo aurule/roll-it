@@ -4,6 +4,6 @@ const { logger } = require("../util/logger")
 module.exports = {
   name: Events.ShardError,
   execute(error) {
-    logger.error(error, 'Websocket error')
+    logger.error(error, "Websocket error")
   },
 }

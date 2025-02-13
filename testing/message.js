@@ -95,7 +95,12 @@ class Message {
   async click(customId, user) {
     if (!this.hasComponent(customId)) throw new Error(`no such component "${customId}"`)
     const member_flake = user?.id ?? this.userId
-    const comp_interaction = new ComponentInteraction({ message: this, customId, member_flake, guildId: this.guildId })
+    const comp_interaction = new ComponentInteraction({
+      message: this,
+      customId,
+      member_flake,
+      guildId: this.guildId,
+    })
     await this.componentEvents.emit("collect", comp_interaction)
     return comp_interaction
   }
@@ -103,7 +108,13 @@ class Message {
   async select(customId, values, user) {
     if (!this.hasComponent(customId)) throw new Error(`no such component "${customId}"`)
     const member_flake = user?.id ?? this.userId
-    const comp_interaction = new ComponentInteraction({ message: this, customId, values, member_flake, guildId: this.guildId })
+    const comp_interaction = new ComponentInteraction({
+      message: this,
+      customId,
+      values,
+      member_flake,
+      guildId: this.guildId,
+    })
     await this.componentEvents.emit("collect", comp_interaction)
     return comp_interaction
   }
@@ -118,9 +129,9 @@ class ComponentEventEmitter extends EventEmitter {
    * matter during tests.
    */
   async emit(event_name, ...opts) {
-    const promise_wrap = callback => new Promise(resolve => resolve(callback(...opts)))
+    const promise_wrap = (callback) => new Promise((resolve) => resolve(callback(...opts)))
     const listeners = this.listeners(event_name)
-    for (const listener of listeners.map(callback => () => promise_wrap(callback) )) {
+    for (const listener of listeners.map((callback) => () => promise_wrap(callback))) {
       await listener()
     }
     return listeners.length > 0

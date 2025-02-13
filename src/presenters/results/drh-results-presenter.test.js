@@ -660,11 +660,7 @@ describe("DrhTeamworkPresenter", () => {
 
       beforeEach(() => {
         options = {
-          tests: [
-            new Collection([
-              ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
-            ]),
-          ],
+          tests: [new Collection([["discipline", new DrhPool("discipline", [[2, 3, 4]])]])],
           rolls: 1,
         }
       })
@@ -690,12 +686,8 @@ describe("DrhTeamworkPresenter", () => {
       beforeEach(() => {
         options = {
           tests: [
-            new Collection([
-              ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
-            ]),
-            new Collection([
-              ["discipline", new DrhPool("discipline", [[6, 1, 5]])],
-            ]),
+            new Collection([["discipline", new DrhPool("discipline", [[2, 3, 4]])]]),
+            new Collection([["discipline", new DrhPool("discipline", [[6, 1, 5]])]]),
           ],
           rolls: 2,
         }
@@ -728,11 +720,7 @@ describe("DrhTeamworkPresenter", () => {
 
     beforeEach(() => {
       options = {
-        tests: [
-          new Collection([
-            ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
-          ]),
-        ],
+        tests: [new Collection([["discipline", new DrhPool("discipline", [[2, 3, 4]])]])],
         rolls: 1,
       }
     })
@@ -749,11 +737,7 @@ describe("DrhTeamworkPresenter", () => {
 
     beforeEach(() => {
       options = {
-        tests: [
-          new Collection([
-            ["discipline", new DrhPool("discipline", [[2, 3, 4]])],
-          ]),
-        ],
+        tests: [new Collection([["discipline", new DrhPool("discipline", [[2, 3, 4]])]])],
         rolls: 1,
       }
     })

@@ -37,10 +37,7 @@ module.exports = {
       return cmd_interaction.whisper(t("options.name.validation.missing"))
     }
 
-    let manage_text = saved_roll_presenter.present(
-      detail,
-      cmd_interaction.locale,
-    )
+    let manage_text = saved_roll_presenter.present(detail, cmd_interaction.locale)
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")
 

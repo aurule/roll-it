@@ -48,7 +48,7 @@ module.exports = {
    * @param  {any[]} value Array to transform
    * @return {str}         String of the markdown list
    */
-  ol: (value) => value.map((val, idx) => `${idx+1}. ${val}`).join("\n"),
+  ol: (value) => value.map((val, idx) => `${idx + 1}. ${val}`).join("\n"),
 
   /**
    * Turn an array into a series of indented lines
@@ -118,11 +118,12 @@ module.exports = {
    * @param  {number} value Value to transform
    * @return {str}          String of the value with its sign
    */
-  arithmetic: (value) => value
-    .filter(v => v !== 0)
-    .map((v, idx) => {
-      if (idx === 0) return v
-      return operator(v)
-    })
-    .join(""),
+  arithmetic: (value) =>
+    value
+      .filter((v) => v !== 0)
+      .map((v, idx) => {
+        if (idx === 0) return v
+        return operator(v)
+      })
+      .join(""),
 }

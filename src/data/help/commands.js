@@ -5,7 +5,7 @@ module.exports = {
   help_data(locale) {
     const commands = require("../../commands")
     return {
-      commands: commandNamePresenter.list(commands, locale)
+      commands: commandNamePresenter.list(commands, locale),
     }
-  }
+  },
 }

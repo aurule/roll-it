@@ -1,7 +1,4 @@
-const {
-  ContextMenuCommandBuilder,
-  ApplicationCommandType,
-} = require("discord.js")
+const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js")
 
 const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")

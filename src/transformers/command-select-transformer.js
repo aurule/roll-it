@@ -12,7 +12,7 @@ module.exports = {
    */
   transform: (commands, locale, deployed = []) => {
     const t = i18n.getFixedT(locale, "commands")
-    return commands.map(command => {
+    return commands.map((command) => {
       const name = command.name
       return {
         label: "/" + t(`${name}.name`),
@@ -21,5 +21,5 @@ module.exports = {
         default: deployed.includes(name),
       }
     })
-  }
+  },
 }

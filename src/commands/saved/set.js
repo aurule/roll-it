@@ -136,7 +136,7 @@ module.exports = {
   help_data(opts) {
     const savable_commands = require("../index").savable
     return {
-      savable: CommandNamePresenter.list(savable_commands, opts.locale)
+      savable: CommandNamePresenter.list(savable_commands, opts.locale),
     }
   },
 }

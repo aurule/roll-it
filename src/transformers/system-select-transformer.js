@@ -11,7 +11,7 @@ module.exports = {
    */
   transform: (systems, locale, deployed = []) => {
     const t = i18n.getFixedT(locale)
-    return systems.map(system => {
+    return systems.map((system) => {
       const name = system.name
       return {
         label: t(`systems.${name}.title`),
@@ -20,5 +20,5 @@ module.exports = {
         default: deployed.includes(name),
       }
     })
-  }
+  },
 }

@@ -32,11 +32,10 @@ module.exports = {
       const opt_args = {
         context: opt.required ? "required" : undefined,
         name: localized_name,
-        description: localized_description
+        description: localized_description,
       }
       return help_t("response.opt", opt_args)
     })
-
 
     const option_names = {}
     for (const opt of command_options) {
@@ -60,14 +59,11 @@ module.exports = {
     }
     const help_text = cmd_t("help", help_opts)
 
-
     const title_args = {
       command_name,
       description: cmd_t("description"),
     }
-    const help_lines = [
-      help_t("response.title", title_args),
-    ]
+    const help_lines = [help_t("response.title", title_args)]
 
     if (command_options.length) {
       const args_args = {

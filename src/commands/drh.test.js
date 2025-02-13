@@ -354,7 +354,7 @@ describe("execute", () => {
     it("performs the roll", async () => {
       interaction.setOptions({
         discipline: 1,
-        pain: 1
+        pain: 1,
       })
 
       await drh_command.execute(interaction)
@@ -366,7 +366,7 @@ describe("execute", () => {
       interaction.setOptions({
         talent: "major",
         discipline: 1,
-        pain: 1
+        pain: 1,
       })
 
       await drh_command.execute(interaction)
@@ -378,7 +378,7 @@ describe("execute", () => {
       interaction.setOptions({
         talent: "minor",
         discipline: 1,
-        pain: 1
+        pain: 1,
       })
 
       await drh_command.execute(interaction)
@@ -390,7 +390,7 @@ describe("execute", () => {
       interaction.setOptions({
         talent: "madness",
         discipline: 1,
-        pain: 1
+        pain: 1,
       })
 
       await drh_command.execute(interaction)
@@ -403,7 +403,7 @@ describe("execute", () => {
         talent: "minor",
         discipline: 1,
         exhaustion: 1,
-        pain: 1
+        pain: 1,
       })
 
       await drh_command.execute(interaction)

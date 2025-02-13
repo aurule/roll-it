@@ -64,7 +64,10 @@ module.exports = {
     if (target) {
       if (!command.changeable.includes(target)) {
         return interaction.whisper(
-          t("options.change.validation.missing", { target, command: present_command(command, interaction.locale) }),
+          t("options.change.validation.missing", {
+            target,
+            command: present_command(command, interaction.locale),
+          }),
         )
       }
 

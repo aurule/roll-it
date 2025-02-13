@@ -19,7 +19,7 @@ describe("execute", () => {
   let cmd_interaction
 
   beforeEach(() => {
-    cmd_interaction = new CommandInteraction({commandName: "setup-roll-it"})
+    cmd_interaction = new CommandInteraction({ commandName: "setup-roll-it" })
   })
 
   describe("prompt", () => {
@@ -129,8 +129,8 @@ describe("execute", () => {
         const selection = ["d20"]
 
         beforeEach(async () => {
-          api.getGuildCommands.mockResolvedValue([{name: "d20"}])
-          cmd_interaction = new CommandInteraction({commandName: "setup-roll-it"})
+          api.getGuildCommands.mockResolvedValue([{ name: "d20" }])
+          cmd_interaction = new CommandInteraction({ commandName: "setup-roll-it" })
           await setup_command.execute(cmd_interaction)
           prompt = cmd_interaction.message
         })

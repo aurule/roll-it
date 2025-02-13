@@ -2,8 +2,8 @@ require("dotenv").config()
 
 const { logger } = require("./util/logger")
 
-process.on('unhandledRejection', error => {
-  logger.error(error, 'Unhandled promise rejection')
+process.on("unhandledRejection", (error) => {
+  logger.error(error, "Unhandled promise rejection")
 })
 
 require("./patches/whisper").patch()

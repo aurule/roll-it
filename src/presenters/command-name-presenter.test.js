@@ -32,12 +32,12 @@ describe("list", () => {
   it("shows commands", () => {
     const result = CommandNamePresenter.list(commands)
 
-    expect(result.some(r => r.includes("8ball"))).toBeTruthy()
+    expect(result.some((r) => r.includes("8ball"))).toBeTruthy()
   })
 
   it("shows subcommands", () => {
     const result = CommandNamePresenter.list(commands)
 
-    expect(result.some(r => r.includes("saved list"))).toBeTruthy()
+    expect(result.some((r) => r.includes("saved list"))).toBeTruthy()
   })
 })
