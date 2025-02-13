@@ -1,7 +1,7 @@
 const progress = require("cli-progress")
 
-const api = require("../services/api")
-const { logger } = require("../util/logger")
+const api = require("../src/services/api")
+const { logger } = require("../src/util/logger")
 
 logger.level = "warn"
 
