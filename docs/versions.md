@@ -2,6 +2,26 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.10.1 <small>Released Feb 13, 2025</small>
+
+### Added
+
+* `/drh` now allows rolling discipline to help another, using `pain:0`
+* `/drh` now supports a `modifier` to add automatic successes from helpers
+* `/setup-roll-it` now lets you pick commands by game system as well as individually
+
+### Changed
+
+* Replaced basic random number generator with mathJS, improving randomness of roll results
+* New timeout message when you run out of time while editing table or saved roll
+* Saved roll invocations are now shown in the user's own locale
+
+### Fixed
+
+* Commands that fail due to Discord dropping its connection should no longer block other commands
+* `/met opposed` correctly handles new structure for getting message interactions
+* Single-die rollers no longer show an empty description
+
 ## v1.10.0 <small>Released Jan 26, 2025</small>
 
 ### Added
