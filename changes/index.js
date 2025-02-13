@@ -3,7 +3,7 @@
 const fs = require("fs")
 const path = require("path")
 
-const { noTests, noDotFiles } = require("../util/filters.js")
+const { noTests, noDotFiles } = require("../src/util/filters.js")
 
 const basename = path.basename(__filename)
 const buckets = {
