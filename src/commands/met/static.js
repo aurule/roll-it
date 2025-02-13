@@ -4,6 +4,7 @@ const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/results/met-static-results-presenter")
 const { injectMention } = require("../../util/formatters")
+const sacrifice = require("../../services/easter-eggs/sacrifice")
 
 const command_name = "static"
 const parent_name = "met"
@@ -18,6 +19,27 @@ module.exports = {
       .addLocalizedStringOption("vs", (option) => option.setChoices(...vsChoices))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  judge(compared, locale) {
+    if (compared.includes("")) return sacrifice.neutral(locale)
+
+    const totals = {
+      win: 0,
+      tie: 0,
+      lose: 0,
+    }
+
+    for (const result of compared) {
+      totals[result]++
+    }
+
+    const threshold = compared.length / 2
+
+    if (totals.win > threshold) return sacrifice.great(locale)
+    if (totals.tie > threshold) return sacrifice.good(locale)
+    if (totals.lose > threshold) return sacrifice.awful(locale)
+
+    return sacrifice.neutral(locale)
+  },
   perform({
     throw_request = "rand",
     vs_request = "rand",
@@ -30,7 +52,7 @@ module.exports = {
 
     const compared = thrown.map((elem, idx) => compare(elem, vs[idx]))
 
-    return present({
+    const presented_result = present({
       throw_request,
       vs_request,
       rolls,
@@ -40,6 +62,13 @@ module.exports = {
       description,
       locale,
     })
+
+    if (sacrifice.hasTrigger(description, locale)) {
+      const sacrifice_message = module.exports.judge(compared, locale);
+      return `${presented_result}\n-# ${sacrifice_message}`
+    }
+
+    return presented_result
   },
   async execute(interaction) {
     const throw_request = interaction.options.getString("throw") ?? "rand"
