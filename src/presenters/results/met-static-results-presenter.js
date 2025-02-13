@@ -2,44 +2,6 @@ const { bold, italic } = require("discord.js")
 const { i18n } = require("../../locales")
 
 /**
- * Decorate raw result strings
- *
- * This primarily adds the standard result emoji to each string. If the request is provided, the result
- * will be tagged as random and having bomb as appropriate.
- *
- * @param  {str} result Raw result string
- * @return {str}        Decorated result string
- */
-function pretty(result, request = "") {
-  let output = ""
-
-  switch (result) {
-    case "rock":
-      output = ":rock: rock"
-      break
-    case "paper":
-      output = ":scroll: paper"
-      break
-    case "scissors":
-      output = ":scissors: scissors"
-      break
-    case "bomb":
-      output = ":firecracker: bomb"
-      break
-  }
-
-  if (request.includes("rand")) {
-    output += " [random"
-    if (request.includes("bomb")) {
-      output += " w/bomb"
-    }
-    output += "]"
-  }
-
-  return output
-}
-
-/**
  * Present the results of a single MET roll
  *
  * @param  {str}    options.throw_request Keyword for the user's request
@@ -140,7 +102,6 @@ function presentMany({ throw_request, vs_request, rolls, thrown, vs, compared, d
 }
 
 module.exports = {
-  pretty,
   presentOne,
   presentMany,
   present({ rolls, locale, ...rollOptions }) {

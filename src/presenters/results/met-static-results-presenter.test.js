@@ -1,4 +1,4 @@
-const { pretty, presentOne, presentMany } = require("./met-static-results-presenter")
+const { presentOne, presentMany } = require("./met-static-results-presenter")
 const { i18n } = require("../../locales")
 
 describe("presentOne", () => {
