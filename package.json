@@ -44,7 +44,7 @@
     "changelog:add": "node scripts/add-changelog-snippet.js",
     "start": "node src/index.js",
     "live": "nodemon -e js,yaml src/index.js",
-    "commands:update": "node scripts/update-commands.js",
+    "commands:update": "NODE_ENV=production node scripts/update-commands.js",
     "pretty": "biome format . --write"
   },
   "keywords": [
