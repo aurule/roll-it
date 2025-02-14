@@ -98,10 +98,6 @@ class NwodPresenter {
     const key = key_parts.join(".")
     const content = this.t(key, t_args)
 
-    // handle hummingbird easter egg
-    // if summed[0] == 11 and has a description and description includes t("response.hummingbird.triggers")
-    // insert t("response.hummingbird.message") into content
-
     return content
   }
 
@@ -137,24 +133,6 @@ class NwodPresenter {
 
     const key = key_parts.join(".")
     return this.t(key, { dice, threshold, explode })
-  }
-
-  /**
-   * Show a hummingbird easter egg under just the right conditions
-   *
-   * @return {string} Empty string, or a hummingbird statement
-   */
-  get hummingbird() {
-    const lower_desc = this.description?.toLowerCase()
-    if (
-      this.summed[0] == 11 &&
-      lower_desc &&
-      (lower_desc.includes("perception") || lower_desc.includes("perceive"))
-    ) {
-      return "\nYou saw the hummingbird!"
-    }
-
-    return ""
   }
 
   /**

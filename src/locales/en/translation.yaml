@@ -94,3 +94,11 @@ easter-eggs:
     neutral: Your sacrifice is noted.
     bad: Your sacrifice is inadequate.
     awful: Your sacrifice angers me.
+  hummingbird:
+    triggers:
+      - perception
+      - perceive
+      - spot
+      - look
+      - 👀
+    spotted: You saw the hummingbird!

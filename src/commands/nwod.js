@@ -10,6 +10,7 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const hummingbird = require("../services/easter-eggs/hummingbird")
 
 const command_name = "nwod"
 
@@ -92,7 +93,7 @@ module.exports = {
       summed_results = successes(raw_results, threshold)
     }
 
-    return present({
+    const presented_result = present({
       rolls,
       pool,
       rote,
@@ -106,6 +107,15 @@ module.exports = {
       summed: summed_results,
       locale,
     })
+
+    if (hummingbird.hasTrigger(description, locale)) {
+      if (summed_results.some(hummingbird.qualifies)) {
+        const hummingbird_message = hummingbird.spotted(locale)
+        return `${presented_result}\n-# ${hummingbird_message}`
+      }
+    }
+
+    return presented_result
   },
   execute(interaction) {
     let pool = interaction.options.getInteger("pool")

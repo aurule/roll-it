@@ -208,69 +208,6 @@ describe("NwodPresenter", () => {
 
         expect(result).toMatch("**2**")
       })
-
-      it.failing("shows the hummingbird easter egg", () => {
-        const presenter = new NwodPresenter({
-          pool: 11,
-          raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
-          summed: [11],
-          description: "perception",
-          rolls: 1,
-        })
-
-        const result = presenter.presentResults()
-
-        expect(result).toMatch("hummingbird")
-      })
-    })
-  })
-
-  describe("hummingbird", () => {
-    it("shows with 11 successes and 'perception'", () => {
-      const presenter = new NwodPresenter({
-        pool: 11,
-        raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
-        summed: [11],
-        description: "perception",
-        rolls: 1,
-      })
-
-      expect(presenter.hummingbird).toMatch("hummingbird")
-    })
-
-    it("shows with 'perception'", () => {
-      const presenter = new NwodPresenter({
-        pool: 11,
-        raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
-        summed: [11],
-        description: "rolling perception",
-        rolls: 1,
-      })
-
-      expect(presenter.hummingbird).toMatch("hummingbird")
-    })
-
-    it("shows with 'perceive'", () => {
-      const presenter = new NwodPresenter({
-        pool: 11,
-        raw: [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]],
-        summed: [11],
-        description: "trying to perceive",
-        rolls: 1,
-      })
-
-      expect(presenter.hummingbird).toMatch("hummingbird")
-    })
-
-    it("skips most of the time", () => {
-      const presenter = new NwodPresenter({
-        pool: 2,
-        raw: [[4, 5]],
-        summed: [0],
-        rolls: 2,
-      })
-
-      expect(presenter.hummingbird).toEqual("")
     })
   })
 
