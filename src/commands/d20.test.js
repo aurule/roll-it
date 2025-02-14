@@ -87,6 +87,40 @@ describe("schema", () => {
   })
 })
 
+describe("judge", () => {
+  describe("with dominant outcome", () => {
+    it("returns the correct message", () => {
+      const picked = [{
+        results: [20]
+      }]
+
+      const result = d20_command.judge(picked, "en-US")
+
+      expect(result).toMatch("pleases")
+    })
+  })
+
+  describe("with no dominant outcome", () => {
+    it("returns the neutral message", () => {
+      const picked = [
+        {
+          results: [20]
+        },
+        {
+          results: [10]
+        },
+        {
+          results: [1]
+        },
+      ]
+
+      const result = d20_command.judge(picked, "en-US")
+
+      expect(result).toMatch("noted")
+    })
+  })
+})
+
 describe("perform", () => {
   it("displays the description if present", () => {
     const options = {
