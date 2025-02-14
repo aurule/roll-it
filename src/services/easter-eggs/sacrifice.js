@@ -35,7 +35,7 @@ module.exports = {
    * @return {Boolean}             True if the easter egg is triggered, false if not
    */
   hasTrigger(description, locale) {
-    const triggers = i18n.t("sacrifice.triggers", { lng: locale, returnObjects: true })
+    const triggers = i18n.t("easter-eggs.sacrifice.triggers", { lng: locale, returnObjects: true })
     const regex = new RegExp(triggers.join("|"), "iv")
     return regex.test(description)
   },
@@ -47,7 +47,7 @@ module.exports = {
    * @return {str}        Message string
    */
   great(locale) {
-    return i18n.t("sacrifice.great", { lng: locale })
+    return i18n.t("easter-eggs.sacrifice.great", { lng: locale })
   },
 
   /**
@@ -57,7 +57,7 @@ module.exports = {
    * @return {str}        Message string
    */
   good(locale) {
-    return i18n.t("sacrifice.good", { lng: locale })
+    return i18n.t("easter-eggs.sacrifice.good", { lng: locale })
   },
 
   /**
@@ -67,7 +67,7 @@ module.exports = {
    * @return {str}        Message string
    */
   neutral(locale) {
-    return i18n.t("sacrifice.neutral", { lng: locale })
+    return i18n.t("easter-eggs.sacrifice.neutral", { lng: locale })
   },
 
   /**
@@ -77,7 +77,7 @@ module.exports = {
    * @return {str}        Message string
    */
   bad(locale) {
-    return i18n.t("sacrifice.bad", { lng: locale })
+    return i18n.t("easter-eggs.sacrifice.bad", { lng: locale })
   },
 
   /**
@@ -87,7 +87,7 @@ module.exports = {
    * @return {str}        Message string
    */
   awful(locale) {
-    return i18n.t("sacrifice.awful", { lng: locale })
+    return i18n.t("easter-eggs.sacrifice.awful", { lng: locale })
   },
 
 }

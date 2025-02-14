@@ -82,14 +82,15 @@ systems:
 invocation:
   full_zero: "`/{{command_name}}`"
   full: "`/{{command_name}} {{opts, spaced}}`"
-sacrifice:
-  triggers:
-    - sacrifice
-    - sacrificing
-    - sacrificial
-    - 🐐
-  great: Your sacrifice pleases me.
-  good: Your sacrifice is accepted.
-  neutral: Your sacrifice is noted.
-  bad: Your sacrifice is inadequate.
-  awful: Your sacrifice angers me.
+easter-eggs:
+  sacrifice:
+    triggers:
+      - sacrifice
+      - sacrificing
+      - sacrificial
+      - 🐐
+    great: Your sacrifice pleases me.
+    good: Your sacrifice is accepted.
+    neutral: Your sacrifice is noted.
+    bad: Your sacrifice is inadequate.
+    awful: Your sacrifice angers me.
