@@ -21,6 +21,18 @@ describe("roll", () => {
 
       expect(allResults[0]).not.toContain(3)
     })
+
+    it("includes minimum result", () => {
+      const allResults = rollService.roll(100, 2)
+
+      expect(allResults[0]).toContain(1)
+    })
+
+    it("includes maximum result", () => {
+      const allResults = rollService.roll(100, 2)
+
+      expect(allResults[0]).toContain(2)
+    })
   })
 
   describe("rolls", () => {

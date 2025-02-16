@@ -6,7 +6,7 @@ const { randomInt } = require("mathjs")
  * @return {int} Random integer within [1...10]
  */
 function rand() {
-  return randomInt(1, 10)
+  return randomInt(1, 11)
 }
 
 /**

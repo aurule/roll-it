@@ -14,7 +14,7 @@ module.exports = {
    */
   roll(pool, sides, rolls = 1) {
     return Array.from({ length: rolls }, () =>
-      Array.from({ length: pool }, () => randomInt(1, sides)),
+      Array.from({ length: pool }, () => randomInt(1, sides + 1)),
     )
   },
 
@@ -41,7 +41,7 @@ module.exports = {
       let currentRoll
 
       while (dice) {
-        currentRoll = randomInt(1, sides)
+        currentRoll = randomInt(1, sides + 1)
         dice += currentRoll >= explode
         result.push(currentRoll)
         dice--
