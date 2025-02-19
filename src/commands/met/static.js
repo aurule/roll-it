@@ -5,6 +5,7 @@ const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/results/met-static-results-presenter")
 const { injectMention } = require("../../util/formatters")
 const sacrifice = require("../../services/easter-eggs/sacrifice")
+const advice = require("../../services/easter-eggs/advice")
 
 const command_name = "static"
 const parent_name = "met"
@@ -52,7 +53,7 @@ module.exports = {
 
     const compared = thrown.map((elem, idx) => compare(elem, vs[idx]))
 
-    const presented_result = present({
+    const result_lines = [present({
       throw_request,
       vs_request,
       rolls,
@@ -61,14 +62,18 @@ module.exports = {
       compared,
       description,
       locale,
-    })
+    })]
 
     if (sacrifice.hasTrigger(description, locale)) {
       const sacrifice_message = module.exports.judge(compared, locale);
-      return `${presented_result}\n-# ${sacrifice_message}`
+      result_lines.push(`-# ${sacrifice_message}`)
     }
 
-    return presented_result
+    if (advice.showAdvice()) {
+      result_lines.push(`-# ${advice.message(locale)}`)
+    }
+
+    return result_lines.join("\n")
   },
   async execute(interaction) {
     const throw_request = interaction.options.getString("throw") ?? "rand"
