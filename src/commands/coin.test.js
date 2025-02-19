@@ -20,6 +20,26 @@ describe("execute", () => {
   test_secret_option(coin_command)
 })
 
+describe("judge", () => {
+  it("returns empty string with no call", () => {
+    const result = coin_command.judge([[1]], "", "en-US")
+
+    expect(result).toEqual("")
+  })
+
+  it("returns good message when call matches result", () => {
+    const result = coin_command.judge([[1]], "1", "en-US")
+
+    expect(result).toMatch("accepted")
+  })
+
+  it("returns bad message when call does not match result", () => {
+    const result = coin_command.judge([[1]], "2", "en-US")
+
+    expect(result).toMatch("inadequate")
+  })
+})
+
 describe("perform", () => {
   it("displays the description if present", () => {
     const options = {

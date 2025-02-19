@@ -6,6 +6,7 @@ const { present } = require("../presenters/results/coin-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
+const sacrifice = require("../services/easter-eggs/sacrifice")
 
 const command_name = "coin"
 
@@ -22,15 +23,29 @@ module.exports = {
       "any.only": 'Call must be either "1" or "2".',
     }),
   }),
+  judge(raw_results, call, locale) {
+    if (call === "") return ""
+
+    const result = raw_results[0][0]
+    if (call == result) return sacrifice.good(locale)
+    return sacrifice.bad(locale)
+  },
   perform({ description, call, locale = "en-US" }) {
     const raw_results = roll(1, 2, 1)
 
-    return present({
+    const presented_result = present({
       call,
       description,
       raw: raw_results,
       locale,
     })
+
+    if (sacrifice.hasTrigger(description, locale)) {
+      const sacrifice_message = module.exports.judge(raw_results, call, locale);
+      return `${presented_result}\n-# ${sacrifice_message}`
+    }
+
+    return presented_result
   },
   async execute(interaction) {
     const roll_description = interaction.options.getString("description") ?? ""
