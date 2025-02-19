@@ -102,3 +102,16 @@ easter-eggs:
       - look
       - 👀
     spotted: You saw the hummingbird! <:hummingbird:1340032587313315871>
+  advice:
+    messages:
+      # These do not need to be match across languages.
+      - Did you drink water today?
+      - Did you eat food today?
+      - I hope you're doing well, because I'm a potato.
+      - Did you know you're pretty cool?
+      - When was the last time you stretched?
+      - This too shall pass.
+      - I don't hate you, I promise.
+      - Sometimes I'm spicy.
+      - Have you been seeing other dice bots?
+      - Take a deep breath now and then.
