@@ -79,9 +79,9 @@ coin:
   response:
     call:
       withDescription: >-
-        {{userMention}} called {{call}} and flipped a coin for "{{description}}". They got **{{result}}**.
+        {{userMention}} called *{{call}}* and flipped a coin for "{{description}}". They got **{{result}}**.
       withoutDescription: >-
-        {{userMention}} called {{call}} and flipped a coin. They got **{{result}}**.
+        {{userMention}} called *{{call}}* and flipped a coin. They got **{{result}}**.
     bare:
       withDescription: >-
         {{userMention}} flipped a coin for "{{description}}". They got **{{result}}**.

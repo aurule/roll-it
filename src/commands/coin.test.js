@@ -38,7 +38,7 @@ describe("perform", () => {
 
     const result = coin_command.perform(options)
 
-    expect(result).toMatch("called heads")
+    expect(result).toMatch("called *heads*")
   })
 })
 
