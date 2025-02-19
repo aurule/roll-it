@@ -149,15 +149,14 @@ module.exports = {
       locale,
     })]
 
-
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(summed_results, pool, locale);
+      const sacrifice_message = module.exports.judge(summed_results, pool, locale)
       result_lines.push(`-# ${sacrifice_message}`)
     }
 
     if (hummingbird.hasTrigger(description, locale)) {
       if (summed_results.some(hummingbird.qualifies)) {
-        const hummingbird_message = hummingbird.spotted(locale);
+        const hummingbird_message = hummingbird.spotted(locale)
         result_lines.push(`-# ${hummingbird_message}`)
       }
     }
