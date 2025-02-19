@@ -124,6 +124,30 @@ describe("schema", () => {
   })
 })
 
+describe("judge", () => {
+  describe("with dominant outcome", () => {
+    it("returns the correct message", () => {
+      const pool = 6
+      const results = [4]
+
+      const result = nwod_command.judge(results, pool, "en-US")
+
+      expect(result).toMatch("pleases")
+    })
+  })
+
+  describe("with no dominant outcome", () => {
+    it("returns the neutral message", () => {
+      const pool = 6
+      const results = [0, 2, 4]
+
+      const result = nwod_command.judge(results, pool, "en-US")
+
+      expect(result).toMatch("noted")
+    })
+  })
+})
+
 describe("perform", () => {
   describe("normal mode", () => {
     it("displays the description if present", () => {
