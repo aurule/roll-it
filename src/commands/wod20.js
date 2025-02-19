@@ -11,6 +11,7 @@ const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
 const hummingbird = require("../services/easter-eggs/hummingbird")
+const sacrifice = require("../services/easter-eggs/sacrifice")
 
 const command_name = "wod20"
 
@@ -38,6 +39,47 @@ module.exports = {
     until: commonSchemas.until,
     description: commonSchemas.description,
   }),
+  judge(results, pool, difficulty, locale) {
+    const factor = 10 / (11 - difficulty)
+    const expected = Math.round(pool / factor)
+
+    const buckets = [0,0,0,0,0]
+    for (const result of results) {
+      switch(true) {
+        case result >= expected * 2:
+          buckets[0]++
+          break
+        case result > expected:
+          buckets[1]++
+          break
+        default:
+        case result === expected:
+          buckets[2]++
+          break
+        case result >= expected / 2:
+          buckets[3]++
+          break
+        case result < expected / 2:
+          buckets[4]++
+          break
+      }
+    }
+
+    const dominating = buckets.findIndex(b => b >= results.length / 2)
+    switch(dominating) {
+      case 0:
+        return sacrifice.great(locale)
+      case 1:
+        return sacrifice.good(locale)
+      case 2:
+      default:
+        return sacrifice.neutral(locale)
+      case 3:
+        return sacrifice.bad(locale)
+      case 4:
+        return sacrifice.awful(locale)
+    }
+  },
   perform({
     pool,
     difficulty = 7,
@@ -62,7 +104,7 @@ module.exports = {
       summed_results = wod20(raw_results, difficulty, specialty)
     }
 
-    const presented_result = present({
+    const result_lines = [present({
       rolls,
       pool,
       difficulty,
@@ -72,16 +114,21 @@ module.exports = {
       raw: raw_results,
       summed: summed_results,
       locale,
-    })
+    })]
+
+    if (sacrifice.hasTrigger(description, locale)) {
+      const sacrifice_message = module.exports.judge(summed_results, pool, difficulty, locale)
+      result_lines.push(`-# ${sacrifice_message}`)
+    }
 
     if (hummingbird.hasTrigger(description, locale)) {
       if (summed_results.some(hummingbird.qualifies)) {
         const hummingbird_message = hummingbird.spotted(locale)
-        return `${presented_result}\n-# ${hummingbird_message}`
+        result_lines.push(`-# ${hummingbird_message}`)
       }
     }
 
-    return presented_result
+    return result_lines.join("\n")
   },
   async execute(interaction) {
     const pool = interaction.options.getInteger("pool")
