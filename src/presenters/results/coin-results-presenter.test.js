@@ -29,6 +29,6 @@ describe("present", () => {
       call: "1",
     })
 
-    expect(result).toMatch("called heads")
+    expect(result).toMatch("called *heads*")
   })
 })
