@@ -4,16 +4,16 @@ const { i18n } = require("../../locales")
  * Methods to handle the "hummingbird" easter egg
  *
  * Commands can opt into this easter egg by implementing a check in their perform() method that calls
- * qualified(). If it passes, the spotted() method can be called to get a response that can be appended to the
- * command's output, typically as a subtext line after the main content.
+ * hasTrigger() and qualified(). If it passes, the spotted() method can be called to get a response that can
+ * be appended to the command's output, typically as a subtext line after the main content.
  *
  * @example
  * ```js
  * perform(opts) {
  *   // ...
- *   if (hummingbird.hasTrigger(opts.description, outcome, opts.locale)) {
- *     const sac_response = judge(outcome, opts.locale)
- *     return `${presentedOutcome}\n-# ${hummingbird.spotted(opts.locale)}`
+ *   if (hummingbird.hasTrigger(opts.description, opts.locale) && hummingbird.qualified(outcome)) {
+ *     const bird_response = hummingbird.spotted(opts.locale)
+ *     return `${presentedOutcome}\n-# ${bird_response}`
  *   }
  *   return presentedOutcome
  * }
