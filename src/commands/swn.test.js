@@ -22,6 +22,28 @@ describe("schema", () => {
   })
 })
 
+describe("judge", () => {
+  describe("with dominant outcome", () => {
+    it("returns the correct message", () => {
+      const results = [11]
+
+      const result = swn_command.judge(results, "en-US")
+
+      expect(result).toMatch("pleases")
+    })
+  })
+
+  describe("with no dominant outcome", () => {
+    it("returns the neutral message", () => {
+      const results = [2, 7, 12]
+
+      const result = swn_command.judge(results, "en-US")
+
+      expect(result).toMatch("noted")
+    })
+  })
+})
+
 describe("perform", () => {
   it("displays the description if present", () => {
     const options = {
