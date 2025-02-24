@@ -14,7 +14,7 @@ class InteractionCache extends Collection {
    */
   defaultCacheConstructor() {
     return new LimitedCollection({
-      maxSize: 1000,
+      maxSize: 10000,
     })
   }
 
