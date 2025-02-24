@@ -966,7 +966,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@discordjs-formatters-npm-0.6.0-e0e16367fc-850fe67a5c.zip/node_modules/@discordjs/formatters/",\
         "packageDependencies": [\
           ["@discordjs/formatters", "npm:0.6.0"],\
-          ["discord-api-types", "npm:0.37.115"]\
+          ["discord-api-types", "npm:0.37.119"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2493,13 +2493,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["discord-api-types", [\
-      ["npm:0.37.115", {\
-        "packageLocation": "./.yarn/cache/discord-api-types-npm-0.37.115-f19c8976d1-71ea6a95b7.zip/node_modules/discord-api-types/",\
-        "packageDependencies": [\
-          ["discord-api-types", "npm:0.37.115"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:0.37.119", {\
         "packageLocation": "./.yarn/cache/discord-api-types-npm-0.37.119-afc480029b-ae38b5b164.zip/node_modules/discord-api-types/",\
         "packageDependencies": [\

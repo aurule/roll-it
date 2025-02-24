@@ -1800,14 +1800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord-api-types@npm:^0.37.114":
-  version: 0.37.115
-  resolution: "discord-api-types@npm:0.37.115"
-  checksum: 10c0/71ea6a95b771b579b487e3a5f16302c4bd90daa496d4890dbde56b9744064aa1b3d709f3a50771ec57154f345b6cde18a5eb3b5b8be1f30a3f1b37b34b82b50a
-  languageName: node
-  linkType: hard
-
-"discord-api-types@npm:^0.37.119":
+"discord-api-types@npm:^0.37.114, discord-api-types@npm:^0.37.119":
   version: 0.37.119
   resolution: "discord-api-types@npm:0.37.119"
   checksum: 10c0/ae38b5b164ec8c9dbcd114917b014e20f7e50d861b2ac99658d9b9e5e2567414b9f357dae1683d0c90db21c5a19b79318c9ac7420802ed18a783481c57054f6a
