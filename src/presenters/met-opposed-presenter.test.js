@@ -57,6 +57,14 @@ describe("initialMessage", () => {
     expect(result).toMatch("They have bomb")
   })
 
+  it("shows test conditions", () => {
+    default_manager.carrier = true
+
+    const result = presenter.initialMessage(default_manager)
+
+    expect(result).toMatch("carrier attack")
+  })
+
   it("shows deadline", () => {
     const result = presenter.initialMessage(default_manager)
 
@@ -135,6 +143,14 @@ describe("initialMessageSummary", () => {
     const result = presenter.initialMessageSummary(default_manager)
 
     expect(result).toMatch("<@testdef> has bomb")
+  })
+
+  it("shows test conditions", () => {
+    default_manager.carrier = true
+
+    const result = presenter.initialMessageSummary(default_manager)
+
+    expect(result).toMatch("carrier attack")
   })
 })
 

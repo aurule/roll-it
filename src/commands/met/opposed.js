@@ -24,6 +24,8 @@ module.exports = {
       .addLocalizedBooleanOption("bomb")
       .addLocalizedBooleanOption("ties")
       .addLocalizedBooleanOption("cancels")
+      .addLocalizedBooleanOption("carrier")
+      .addLocalizedBooleanOption("altering")
       .addLocalizedBooleanOption("use-retests"),
   async execute(interaction) {
     const attackerId = interaction.user.id
@@ -43,6 +45,8 @@ module.exports = {
       retest_ability: interaction.options.getString("retest"),
     })
     manager.description = interaction.options.getString("description") ?? ""
+    manager.carrier = interaction.options.getBoolean("carrier") ?? false
+    manager.altering = interaction.options.getBoolean("altering") ?? false
     manager.allow_retests = interaction.options.getBoolean("use-retests") ?? true
     manager.attacker.bomb = interaction.options.getBoolean("bomb") ?? false
     manager.attacker.ties = interaction.options.getBoolean("ties") ?? false

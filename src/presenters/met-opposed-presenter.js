@@ -26,6 +26,20 @@ function advantages(participant, t) {
 }
 
 /**
+ * Get the condition string for the manager's test conditions
+ *
+ * @param  {MetOpposedManager} manager Object controlling information about the challenge
+ * @return {str[]}                     String describing test conditions
+ */
+function conditions(manager) {
+  const t = manager.t
+
+  if (manager.carrier && manager.altering) return t("state.initial.prompt.conditions.both")
+  if (manager.carrier) return t("state.initial.prompt.conditions.carrier")
+  if (manager.altering) return t("state.initial.prompt.conditions.altering")
+}
+
+/**
  * Get the initial message of an opposed challenge
  *
  * This message is meant to notify the defending user that they're being challenged and provide information
@@ -40,7 +54,6 @@ function advantages(participant, t) {
  */
 function initialMessage(manager, error_message = "") {
   const t = manager.t
-  const lines = []
 
   const allowed_advantages = manager.allow_retests ? ["bomb", "ties", "cancels"] : ["bomb", "ties"] // extern
 
@@ -49,14 +62,15 @@ function initialMessage(manager, error_message = "") {
     defender: manager.defender,
     attribute: manager.attribute,
     description: manager.description,
+    context: manager.description ? "description" : undefined,
     advantages: advantages(manager.attacker, t),
     allowed_advantages,
   }
 
-  if (manager.description) {
-    lines.push(t("state.initial.prompt.withDescription", main_args))
-  } else {
-    lines.push(t("state.initial.prompt.withoutDescription", main_args))
+  const lines = [t("state.initial.prompt.body", main_args)]
+
+  if (manager.is_special) {
+    lines.push(conditions(manager))
   }
 
   lines.push(
@@ -87,14 +101,18 @@ function initialMessageSummary(manager) {
     defender: manager.defender,
     attribute: manager.attribute,
     description: manager.description,
+    context: manager.description ? "description" : undefined,
     attacker_advantages: advantages(manager.attacker, t),
     defender_advantages: advantages(manager.defender, t),
   }
 
-  if (manager.description) {
-    return t("state.initial.summary.withDescription", t_args)
+  const lines = [t("state.initial.summary.body", t_args)]
+
+  if (manager.is_special) {
+    lines.push(conditions(manager))
   }
-  return t("state.initial.summary.withoutDescription", t_args)
+
+  return lines.join("\n")
 }
 
 /**
@@ -199,23 +217,18 @@ function resultMessage(manager) {
     attacker: manager.attacker,
     defender: manager.defender,
     description: manager.description,
+    context: manager.description ? "description" : undefined,
     link,
   }
   const leader = manager.current_test.leader
-  let key_part = ""
 
   if (!leader) {
-    key_part = "state.done.attacker.tie"
+    return t("state.done.attacker.tie", t_args)
   } else if (leader.id === manager.attacker.id) {
-    key_part = "state.done.attacker.win"
+    return t("state.done.attacker.win", t_args)
   } else {
-    key_part = "state.done.defender.win"
+    return t("state.done.defender.win", t_args)
   }
-
-  if (manager.description) {
-    return t(`${key_part}.withDescription`, t_args)
-  }
-  return t(`${key_part}.withoutDescription`, t_args)
 }
 
 /**

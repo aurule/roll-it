@@ -674,6 +674,12 @@ met:
       cancels:
         name: cancels
         description: Can you cancel a retest after abilities (Orisha's Fortune, etc)? Defaults to false.
+      carrier:
+        name: carrier
+        description: Is this an attack that will target your opponent with a different power? Defaults to false.
+      altering:
+        name: altering
+        description: Is this a challenge that will reshape your opponent? Defaults to false.
       use-retests:
         name: use-retests
         description: Whether to allow retests, or use a single opposed throw. Defaults to true (allow retests).

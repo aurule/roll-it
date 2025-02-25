@@ -103,8 +103,25 @@ class MetOpposedManager {
    * Whether or not retests are being allowed at all
    *
    * @type {Boolean}
+   * @default true
    */
   allow_retests = true
+
+  /**
+   * Whether this challenge is a carrier attack
+   *
+   * @type {Boolean}
+   * @default false
+   */
+  carrier = false
+
+  /**
+   * Whether this challenge is an altering attack
+   *
+   * @type {Boolean}
+   * @default false
+   */
+  altering = false
 
   /**
    * Collection of participants who are part of the challenge
@@ -145,6 +162,10 @@ class MetOpposedManager {
    */
   get current_test() {
     return this.test_recorder.latest
+  }
+
+  get is_special() {
+    return this.carrier || this.altering
   }
 
   /**

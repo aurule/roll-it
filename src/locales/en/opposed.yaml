@@ -69,25 +69,30 @@ state:
     validation:
       response: You must select a response before you can throw.
     prompt:
-      withDescription: >-
+      body_description: >-
         {{attacker.mention}} is challenging you, {{defender.mention}} with a {{attribute}} test for
         "{{description}}". They have {{advantages, list}}. If you have
         {{allowed_advantages, list(type: 'disjunction')}}, you must declare them now.
-      withoutDescription: >-
+      body: >-
         {{attacker.mention}} is challenging you, {{defender.mention}} with a {{attribute}} test. They have
         {{advantages, list}}. If you have {{allowed_advantages, list(type: 'disjunction')}}, you must
         declare them now.
+      conditions:
+        both: This is a carrier and altering attack.
+        carrier: This is a carrier attack.
+        altering: This is an altering attack.
       timeliness: If you don't respond {{timeout}}, the challenge will end and {{attacker.mention}} will likely succeed.
       noRetest: This test is being made without interactive retests. Retest options will not be shown.
     summary:
-      withDescription: >-
+      body_description: >-
         {{attacker.mention}} is challenging {{defender.mention}} with a {{attribute}} test for
         "{{description}}". {{attacker.mention}} has {{attacker_advantages, list}}. {{defender.mention}} has
         {{defender_advantages, list}}.
-      withoutDescription: >-
+      body: >-
         {{attacker.mention}} is challenging {{defender.mention}} with a {{attribute}} test.
         {{attacker.mention}} has {{attacker_advantages, list}}. {{defender.mention}} has
         {{defender_advantages, list}}.
+      special: This is {{conditions, list}} attack.
     response:
       relent: >-
         {{defender.mention}} relented to the opposed test from {{attacker.mention}}.
@@ -184,21 +189,18 @@ state:
         {{retester.mention}}'s retest timed out.
   done:
     attacker:
-      win:
-        withDescription: >-
-          {{attacker.mention}} **won** their {{link}} against {{defender.mention}} for "{{description}}".
-        withoutDescription: >-
-          {{attacker.mention}} **won** their {{link}} against {{defender.mention}}.
-      tie:
-        withDescription: >-
-          {{attacker.mention}} **tied** their {{link}} against {{defender.mention}} for "{{description}}".
-        withoutDescription: >-
-          {{attacker.mention}} **tied** their {{link}} against {{defender.mention}}.
+      win_description: >-
+        {{attacker.mention}} **won** their {{link}} against {{defender.mention}} for "{{description}}".
+      win: >-
+        {{attacker.mention}} **won** their {{link}} against {{defender.mention}}.
+      tie_description: >-
+        {{attacker.mention}} **tied** their {{link}} against {{defender.mention}} for "{{description}}".
+      tie: >-
+        {{attacker.mention}} **tied** their {{link}} against {{defender.mention}}.
     defender:
-      win:
-        withDescription: >-
-          {{defender.mention}} **won** the {{link}} from {{attacker.mention}} for "{{description}}".
-        withoutDescription: >-
-          {{defender.mention}} **won** the {{link}} from {{attacker.mention}}.
+      win_description: >-
+        {{defender.mention}} **won** the {{link}} from {{attacker.mention}} for "{{description}}".
+      win: >-
+        {{defender.mention}} **won** the {{link}} from {{attacker.mention}}.
     linkText: opposed test
     timeout: Time ran out to retest the result.

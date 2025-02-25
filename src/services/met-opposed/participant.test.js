@@ -13,15 +13,15 @@ describe("Participant", () => {
     expect(participant.mention).toEqual("<@testid>")
   })
 
-  it("bomb defaults to false", () => {
-    const participant = new Participant("testid")
+  describe("advantages", () => {
+    it.each([
+      ['bomb'],
+      ['ties'],
+      ['cancels'],
+    ])('%s defaults to false', (advantage) => {
+      const participant = new Participant("testid")
 
-    expect(participant.bomb).toBeFalsy()
-  })
-
-  it("ties defaults to false", () => {
-    const participant = new Participant("testid")
-
-    expect(participant.ties).toBeFalsy()
+      expect(participant[advantage]).toEqual(false)
+    })
   })
 })
