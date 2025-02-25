@@ -56,6 +56,8 @@ Start an interactive challenge against another user.
 * `bomb` is whether you are able to throw the bomb symbol
 * `ties` is whether you have an ability that lets you automatically win a tied chop
 * `cancels` is whether you have an ability that lets you retest a chop without using an ability. Things like Orisha's Fortune, etc.
+* `carrier` is whether this challenge is a carrier attack which will afflict your opponent with a different power.
+* `altering` is whether this challenge is an altering attack which will change your opponent's form.
 * `use-retests` is whether retests are allowed at all
 
 Example:
