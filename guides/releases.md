@@ -8,6 +8,9 @@ Steps to do:
     * then runs `npm run changelog:build` to generate the new version's changelog
 2. edit the changelog and duplicate it to `docs/versions.md`
 3. commit!
+    * snippet deletions
+    * changelog
+    * docs
 4. merge the release branch into `main`
 5. tag the merge commit with the new version
 6. merge the release branch into `develop`
