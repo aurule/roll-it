@@ -2,6 +2,23 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.10.2 <small> Released Feb 25, 2025</small>
+
+### Added
+
+* If your luck is bad, try sacrificing a goat!
+* Can you spot the hummingbird?
+* I'm a potato.
+
+### Changed
+
+* Italicize called result for `/coin`
+
+### Fixed
+
+* Fixed bug where some rollers could not return the maximum result
+* Fixed `/pba` ignoring user locale
+
 ## v1.10.1 <small>Released Feb 13, 2025</small>
 
 ### Added
