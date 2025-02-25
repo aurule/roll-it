@@ -1,7 +1,7 @@
 {
   "name": "roll-it",
   "description": "Discord bot for rolling dice",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "main": "index.js",
   "author": "Paige Andrews",
   "license": "MIT",
