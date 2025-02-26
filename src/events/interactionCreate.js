@@ -69,6 +69,27 @@ async function handleAutocomplete(interaction) {
 }
 
 /**
+ * Handle modal submission interactions
+ *
+ * @param  {Interaction} interaction  Discord interaction object
+ * @return {Promise}                  Promise, probably from replying to the
+ *                                    interaction. Rejects if modal not found.
+ */
+async function handleModal(interaction) {
+  const modal = interaction.client.modals.get(interaction.customId)
+  if (!modal) return Promise.reject(`no modal ${interaction.customId}`)
+
+  logger.info(
+    {
+      modal: modal.name,
+    },
+    `modal ${modal.name} submitted`
+  )
+
+  return modal.submit(interaction)
+}
+
+/**
  * Determine if we're running in the right environment to handle the current guild
  *
  * When in the "development" environment, this returns true only for guilds whose
@@ -89,6 +110,7 @@ module.exports = {
   name: Events.InteractionCreate,
   handleCommand,
   handleAutocomplete,
+  handleModal,
   inCorrectEnv,
 
   /**
@@ -138,6 +160,22 @@ module.exports = {
         )
         return interaction.respond([])
       })
+    }
+
+    if (interaction.isModalSubmit()) {
+      return module.exports.handleModal(interaction)
+        .catch(err => {
+          logger.error(
+            {
+              origin: "modal",
+              err: err,
+              guild: interaction.guildId,
+              modal: interaction.customId,
+              fields: interaction.fields,
+            },
+            `Error while processing modal ${interaction.customId}`,
+          )
+        })
     }
   },
 }

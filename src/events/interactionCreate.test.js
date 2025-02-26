@@ -215,3 +215,29 @@ describe("handleAutocomplete", () => {
     return expect(InteractionCreateEvent.handleAutocomplete(interaction)).resolves.toMatch("worked")
   })
 })
+
+describe("handleModal", () => {
+  const testModal = {
+    submit: async (interaction) => "worked",
+  }
+
+  beforeEach(() => {
+    envSpy = jest.spyOn(InteractionCreateEvent, "inCorrectEnv").mockReturnValue(true)
+  })
+
+  it("rejects on unknown modal", () => {
+    interaction.client.modals.set("testing", testModal)
+    interaction.customId = "nope"
+
+    return expect(InteractionCreateEvent.handleModal(interaction)).rejects.toMatch(
+      "no modal",
+    )
+  })
+
+  it("executes the modal submit method", () => {
+    interaction.client.modals.set("testing", testModal)
+    interaction.customId = "testing"
+
+    return expect(InteractionCreateEvent.handleModal(interaction)).resolves.toMatch("worked")
+  })
+})

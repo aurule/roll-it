@@ -15,6 +15,7 @@ const { join } = require("node:path")
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js")
 const { jsNoTests } = require("./util/filters")
 const commands = require("./commands")
+const modals = require("./modals")
 
 const { version } = require("../package.json")
 
@@ -34,6 +35,8 @@ const token = process.env.BOT_TOKEN
 
 // Store commands (slash commands, context menu commands)
 client.commands = commands
+// Store modals
+client.modals = modals
 
 // Register event listeners
 const eventsDir = join(__dirname, "events")

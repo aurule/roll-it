@@ -59,6 +59,7 @@ class Interaction {
     }
     this.client = {
       commands: new Collection(),
+      modals: new Collection(),
       followups: new Collection(),
     }
 
