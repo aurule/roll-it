@@ -3,7 +3,7 @@ const { Collection, LimitedCollection } = require("discord.js")
 /**
  * Cache class for storing data from command interactions
  *
- * This stores the command name and options for the most recent 1000 interactions for a given guild. This data
+ * This stores the command name and options for the most recent 1000 interactions for every guild. This data
  * is looked up by the `Save this command` context-menu command in order to know what to save.
  */
 class InteractionCache extends Collection {
@@ -12,9 +12,9 @@ class InteractionCache extends Collection {
    *
    * @return {LimitedCollection} A LimitedCollection object with a max of 1000 entries.
    */
-  defaultCacheConstructor() {
+  guildCacheConstructor() {
     return new LimitedCollection({
-      maxSize: 10000,
+      maxSize: 1000,
     })
   }
 
@@ -35,7 +35,7 @@ class InteractionCache extends Collection {
       return
     }
 
-    const guildInteractions = this.ensure(interaction.guildId, this.defaultCacheConstructor)
+    const guildInteractions = this.ensure(interaction.guildId, this.guildCacheConstructor)
     guildInteractions.set(interaction.id, {
       commandName: interaction.commandName,
       options,

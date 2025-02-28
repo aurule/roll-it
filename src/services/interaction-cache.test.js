@@ -2,9 +2,9 @@ const { Interaction } = require("../../testing/interaction")
 
 const interactionCache = require("./interaction-cache")
 
-describe("defaultCacheConstructor", () => {
+describe("guildCacheConstructor", () => {
   it("sets a max size", () => {
-    const cache = interactionCache.defaultCacheConstructor()
+    const cache = interactionCache.guildCacheConstructor()
 
     expect(cache.maxSize).toBeGreaterThan(0)
   })
