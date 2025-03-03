@@ -3222,9 +3222,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:^14.2.1":
-  version: 14.2.1
-  resolution: "mathjs@npm:14.2.1"
+"mathjs@npm:^14.3.1":
+  version: 14.3.1
+  resolution: "mathjs@npm:14.3.1"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
     complex.js: "npm:^2.2.5"
@@ -3237,7 +3237,7 @@ __metadata:
     typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10c0/c15b197d58072c52df14feada9fb95ed8c598072407e5783d5d96b2cfccb42f534631a6771a449a0e7d40505a1f49f47f4ed114131b2bcb640da02655affd6bc
+  checksum: 10c0/6c97656b8e0f4321fad20c9301b28ee8b1ff66c3a7c2e7734e6b5e2df327e79fc0bdc2805cf51844d0ecbff151368ab3ce1eb2cd99826e5777eef61d67432ba9
   languageName: node
   linkType: hard
 
@@ -3997,7 +3997,7 @@ __metadata:
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^29.7.0"
     joi: "npm:^17.13.3"
-    mathjs: "npm:^14.2.1"
+    mathjs: "npm:^14.3.1"
     nodemon: "npm:^3.1.9"
     pino: "npm:^9.6.0"
     pino-papertrail: "npm:^2.1.0"
