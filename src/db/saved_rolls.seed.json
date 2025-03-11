@@ -19,15 +19,5 @@
       "sides": 0,
       "modifier": 8
     }
-  },
-  {
-    "name": "incomplete",
-    "description": "an incomplete saved roll",
-    "incomplete": true,
-    "command": "roll",
-    "options": {
-      "pool": 3,
-      "modifier": 8
-    }
   }
 ]

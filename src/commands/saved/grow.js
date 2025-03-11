@@ -38,10 +38,6 @@ module.exports = {
       return interaction.whisper(t("options.name.validation.invalid"))
     }
 
-    if (roll_detail.incomplete) {
-      return interaction.whisper(t("options.name.validation.incomplete"))
-    }
-
     const adjustment = interaction.options.getInteger("adjustment") ?? 0
 
     if (adjustment === 0) {

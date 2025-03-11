@@ -45,10 +45,6 @@ module.exports = {
       return interaction.whisper(t("options.name.validation.invalid"))
     }
 
-    if (roll_detail.incomplete) {
-      return interaction.whisper(t("options.name.validation.incomplete"))
-    }
-
     const description = interaction.options.getString("description") ?? roll_detail.description
     roll_detail.options.description = description
 

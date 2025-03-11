@@ -39,19 +39,6 @@ describe("execute", () => {
     expect(interaction.replyContent).toMatch("not valid")
   })
 
-  it("warns on incomplete", async () => {
-    saved_rolls.create({
-      name: "test",
-      description: "test",
-      incomplete: true,
-    })
-    interaction.command_options.name = "test"
-
-    await saved_grow_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("not finished")
-  })
-
   it("warns on zero adjustment", async () => {
     saved_rolls.create({
       name: "test",

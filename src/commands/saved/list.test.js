@@ -34,20 +34,6 @@ describe("execute", () => {
     expect(interaction.replyContent).toMatch("no saved rolls")
   })
 
-  it("marks incomplete roll", () => {
-    const interaction = new Interaction()
-    const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
-    saved_rolls.create({
-      name: "test1",
-      description: "test1",
-      incomplete: true,
-    })
-
-    saved_list_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch(":memo:")
-  })
-
   it("marks invalid rolls", () => {
     const interaction = new Interaction()
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
