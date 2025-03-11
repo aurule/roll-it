@@ -48,9 +48,6 @@ function present(saved_roll, locale) {
   }
   const body = t("entry.details.body", t_args)
 
-  if (saved_roll.incomplete) {
-    return t("entry.details.incomplete", { body })
-  }
   return body
 }
 
@@ -85,12 +82,8 @@ function presentList(saved_rolls, locale) {
     }
 
     let roll_key
-    if (roll.invalid && roll.incomplete) {
-      roll_key = "entry.list.record.borked"
-    } else if (roll.invalid) {
+    if (roll.invalid) {
       roll_key = "entry.list.record.invalid"
-    } else if (roll.incomplete) {
-      roll_key = "entry.list.record.incomplete"
     } else {
       roll_key = "entry.list.record.ready"
     }
@@ -125,7 +118,7 @@ function presentInvocation(saved_roll, locale) {
   const command_name = cmd_t("name")
 
   const opts = Object.entries(base_options).map(([key, value]) => {
-    const opt_name = cmd_t(`options.${key}.name`)
+    const opt_name = i18n.t([`commands:${base_name}.options.${key}.name`, `translation:options.${key}.name`], { lng: locale })
     return `${opt_name}:${value}`
   })
 
