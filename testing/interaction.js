@@ -147,6 +147,7 @@ class Interaction {
   async showModal(modal) {
     if (this.replied || this.deferred)
       return Promise.reject("cannot showModal: must be the first response")
+    this.replied = true
     return modal
   }
 

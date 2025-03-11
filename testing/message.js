@@ -17,6 +17,7 @@ class Message {
   componentEvents = new ComponentEventEmitter()
   editEvents = new EventEmitter()
   replies = []
+  deleted = false
 
   constructor({
     content = "",
@@ -44,6 +45,12 @@ class Message {
     this.editEvents.emit("edited", opts)
   }
 
+  async edit(opts) {
+    Object.assign(this, opts)
+    this.editEvents.emit("edited", opts)
+    return this
+  }
+
   async untilEdited() {
     return new Promise((resolve, reject) => {
       this.editEvents.once("edited", (opts) => {
@@ -61,6 +68,7 @@ class Message {
   }
 
   async delete() {
+    this.deleted = true
     return
   }
 

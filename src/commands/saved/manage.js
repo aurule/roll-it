@@ -11,6 +11,8 @@ const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
 const { i18n } = require("../../locales")
+const rollCache = require("../../services/roll-cache")
+const SavedRollModal = require("../../modals/saved-roll")
 
 const command_name = "manage"
 const parent_name = "saved"
@@ -41,20 +43,10 @@ module.exports = {
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")
 
-    const manage_actions = new ActionRowBuilder()
-    if (detail.incomplete) {
-      const no_edit_button = new ButtonBuilder()
-        .setCustomId("no-edit")
-        .setLabel(t("state.initial.buttons.stop"))
-        .setStyle(ButtonStyle.Success)
-      manage_actions.addComponents(no_edit_button)
-    } else {
-      const edit_button = new ButtonBuilder()
-        .setCustomId("edit")
-        .setLabel(t("state.initial.buttons.edit"))
-        .setStyle(ButtonStyle.Primary)
-      manage_actions.addComponents(edit_button)
-    }
+    const edit_button = new ButtonBuilder()
+      .setCustomId("edit")
+      .setLabel(t("state.initial.buttons.edit"))
+      .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
       .setLabel(t("state.initial.buttons.cancel"))
@@ -63,7 +55,7 @@ module.exports = {
       .setCustomId("remove")
       .setLabel(t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
-    manage_actions.addComponents(cancel_button, remove_button)
+    const manage_actions = new ActionRowBuilder().addComponents(edit_button, cancel_button, remove_button)
     const manage_prompt = await cmd_interaction.reply({
       content: manage_text,
       components: [manage_actions],
@@ -73,42 +65,12 @@ module.exports = {
     const manageHandler = async (comp_interaction) => {
       switch (comp_interaction.customId) {
         case "edit":
-          try {
-            saved_rolls.update(detail.id, { incomplete: true })
-          } catch {
-            return manage_prompt.edit({
-              content: t("state.edit.response.incomplete", { name: detail.name }),
-              components: [],
-              flags: MessageFlags.Ephemeral,
-            })
-          }
-
-          return manage_prompt.edit({
-            content: t("state.edit.response.success", { name: detail.name }),
+          rollCache.store(cmd_interaction, detail)
+          const modal = SavedRollModal.data("edit", cmd_interaction.locale, { name: detail.name, description: detail.description })
+          await comp_interaction.showModal(modal)
+          return comp_interaction.editReply({
+            content: t("state.edit.response"),
             components: [],
-            flags: MessageFlags.Ephemeral,
-          })
-        case "no-edit":
-          const command = require("../index").get(detail.command)
-          try {
-            await command.schema.validateAsync(detail.options)
-            await saved_roll_schema.validateAsync(detail)
-          } catch (err) {
-            saved_rolls.update(detail.id, { incomplete: false, invalid: true })
-
-            return manage_prompt.edit({
-              content: t("state.stop.response.invalid", { name: detail.name }),
-              components: [],
-              flags: MessageFlags.Ephemeral,
-            })
-          }
-
-          saved_rolls.update(detail.id, { incomplete: false, invalid: false })
-
-          return manage_prompt.edit({
-            content: t("state.stop.response.success"),
-            components: [],
-            flags: MessageFlags.Ephemeral,
           })
         case "remove":
           const remove_cancel = new ButtonBuilder()
