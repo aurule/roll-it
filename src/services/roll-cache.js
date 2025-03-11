@@ -21,11 +21,30 @@ class RollCache extends Collection {
    *
    * The data is stored first by the interaction's guild ID, then by the user ID.
    *
+   * The data itself must mimic a saved_rolls record:
+   * {
+   *   id?: int
+   *   name: str
+   *   description: str
+   *   command: str
+   *   options: obj
+   * }
+   *
    * @param  {Interaction} interaction Discord command interaction to save
    */
   store(interaction, data) {
     const guildUserCommands = this.ensure(interaction.guildId, this.guildCacheConstructor)
     guildUserCommands.set(interaction.user.id, data)
+  }
+
+  /**
+   * Find a command using the guild and user from an interaction
+   *
+   * @param  {Interaction} interaction Discord command interaction to save
+   * @return {object}                  Stored data
+   */
+  find(interaction) {
+    return this.findByIds(interaction.guildId, interaction.user.id)
   }
 
   /**
@@ -40,6 +59,16 @@ class RollCache extends Collection {
     if (!guildUserCommands) return undefined
 
     return guildUserCommands.get(userId)
+  }
+
+  /**
+   * Remove a command using the guild and user from an interaction
+   *
+   * @param  {Interaction} interaction Discord command interaction to save
+   * @return {bool}                    True if an element existed and has been removed, False if not.
+   */
+  remove(interaction) {
+    return this.deleteByIds(interaction.guildId, interaction.user.id)
   }
 
   /**
