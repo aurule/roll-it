@@ -10,6 +10,13 @@ const { i18n } = require("../locales")
  * Slash commands are shown as inline code. Subcommands are prefixed with their parent name, which must be
  * present on the subcommand object.
  *
+ * @example
+ * ```js
+ * const command = commands.get("coin")
+ * present(command, "en-US")
+ * // yields "`/chop`"
+ * ```
+ *
  * @param  {Command} command  The command object to present
  * @param  {str}     locale   Locale name for the command string
  * @return {String}           Markdown-formatted string of the command's name
