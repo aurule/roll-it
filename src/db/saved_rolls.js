@@ -26,7 +26,6 @@ function makeUpdateFields(data, safe = true) {
         placeholders.push("JSONB(@options)")
         values.options = JSON.stringify(data.options)
         break
-      case "incomplete":
       case "invalid":
         fields.push(field)
         placeholders.push(`@${field}`)
@@ -89,13 +88,12 @@ class UserSavedRolls {
    * @param  {str}  description Description for the saved roll
    * @param  {str}  command     Command the saved roll will invoke
    * @param  {obj}  options     Object of command options
-   * @param  {bool} incomplete  Whether this roll is not yet finished
    * @param  {bool} invalid     Whether this roll's options are unusable
    * @return {Info}             Query info object with `changes` and `lastInsertRowid` properties
    *
    * @throws {SqliteError} If `name` already exists for this guild and user
    */
-  create({ name, description, command, options, incomplete, invalid }) {
+  create({ name, description, command, options, invalid }) {
     const insert = this.db.prepare(oneLine`
       INSERT OR ROLLBACK INTO saved_rolls (
         guildFlake,
@@ -104,7 +102,6 @@ class UserSavedRolls {
         description,
         command,
         options,
-        incomplete,
         invalid
       ) VALUES (
         @guildFlake,
@@ -113,7 +110,6 @@ class UserSavedRolls {
         @description,
         @command,
         JSONB(@options),
-        @incomplete,
         @invalid
       )
     `)
@@ -124,7 +120,6 @@ class UserSavedRolls {
       description,
       command,
       options: JSON.stringify(options),
-      incomplete: +!!incomplete,
       invalid: +!!invalid,
     })
   }
@@ -132,21 +127,20 @@ class UserSavedRolls {
   /**
    * Insert or update a saved roll record
    *
-   * When there is no incomplete record, this method will always create a new record.
-   *
-   * When there *is* an incomplete record, this method will update it.
-   *
    * This method aborts on errors from name collision.
    *
    * Although this returns an object with `lastInsertRowid`, that value should be ignored. The query as
    * executed may or may not have inserted a row, so as per the [documentation](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md#runbindparameters---object),
    * the value should be discarded.
    *
-   * @param  {obj} data Object of new values to set. All omitted attributes will be left alone.
+   * @param  {obj} data Object of new values to set. In case of an update, any attributes not present in `data` will be left unchanged.
    * @return {Info}     Query info object with `changes`
    */
   upsert(data) {
-    const { fields, placeholders, values } = makeUpdateFields(data)
+    if (data.hasOwnProperty("guildFlake")) delete data.guildFlake
+    if (data.hasOwnProperty("userFlake")) delete data.userFlake
+
+    const { fields, placeholders, values } = makeUpdateFields(data, false)
 
     const sql = oneLine`
       INSERT INTO saved_rolls
@@ -161,8 +155,7 @@ class UserSavedRolls {
         @userFlake,
         ${placeholders.join(", ")}
       )
-      ON CONFLICT (guildFlake, userFlake)
-        WHERE incomplete
+      ON CONFLICT (id)
       DO UPDATE SET
       (
         ${fields.join(", ")}
@@ -195,7 +188,6 @@ class UserSavedRolls {
     return raw_out.map((raw) => ({
       ...raw,
       options: JSON.parse(raw.options),
-      incomplete: !!raw.incomplete,
       invalid: !!raw.invalid,
     }))
   }
@@ -223,7 +215,6 @@ class UserSavedRolls {
    * //     pool: 1,
    * //     sides: 6,
    * //   },
-   * //   incomplete: false,
    * //   invalid: false,
    * // }
    * ```
@@ -258,50 +249,6 @@ class UserSavedRolls {
     return {
       ...raw_out,
       options: JSON.parse(raw_out.options),
-      incomplete: !!raw_out.incomplete,
-      invalid: !!raw_out.invalid,
-    }
-  }
-
-  /**
-   * Get all stored data about the incomplete roll for this user and guild
-   *
-   * If the user has no incomplete roll on this guild, this method will return undefined.
-   *
-   * @example
-   * ```js
-   * saved_rolls.incomplete()
-   * // returns {
-   * //   id: 3,
-   * //   name: "Test Roll",
-   * //   description: "A roll for testing",
-   * //   command: null,
-   * //   options: null,
-   * //   incomplete: true,
-   * //   invalid: false,
-   * // }
-   * ```
-   *
-   * @return {obj} Object with all the fields of the saved roll
-   */
-  incomplete() {
-    const select = this.db.prepare(oneLine`
-      SELECT *, JSON_EXTRACT(options, '$') AS options
-      FROM saved_rolls
-      WHERE guildFlake = @guildFlake AND userFlake = @userFlake AND incomplete
-    `)
-
-    const raw_out = select.get({
-      guildFlake: this.guildId,
-      userFlake: this.userId,
-    })
-
-    if (raw_out === undefined) return undefined
-
-    return {
-      ...raw_out,
-      options: JSON.parse(raw_out.options),
-      incomplete: !!raw_out.incomplete,
       invalid: !!raw_out.invalid,
     }
   }
@@ -364,15 +311,13 @@ class UserSavedRolls {
   /**
    * Check whether a given name is in use for this guild and user
    *
-   * The name for an incomplete roll does not count as taken.
-   *
    * @param  {str}  name The name to check
    * @return {bool}      True if a saved roll exists for this guild and user with the given name, false if not
    */
   taken(name) {
     const select = this.db.prepare(oneLine`
       SELECT 1 FROM saved_rolls
-      WHERE guildFlake = @guildFlake AND userFlake = @userFlake AND name = @name AND NOT incomplete
+      WHERE guildFlake = @guildFlake AND userFlake = @userFlake AND name = @name
     `)
     select.pluck()
     return !!select.get({
@@ -425,14 +370,13 @@ class GlobalSavedRolls {
    * @param  {str} name         Name for the saved roll
    * @param  {str} description  Description for the saved roll
    * @param  {str} command      Command the saved roll will invoke
-   * @param  {obj} options      [description]
-   * @param  {bool} incomplete  [description]
-   * @param  {bool} invalid     [description]
+   * @param  {obj}  options     Object of command options
+   * @param  {bool} invalid     Whether this roll's options are unusable
    * @return {Info}             Query info object with `changes` and `lastInsertRowid` properties
    *
    * @throws {SqliteError} If `name` already exists for this guild
    */
-  create({ guildFlake, userFlake, name, description, command, options, incomplete, invalid }) {
+  create({ guildFlake, userFlake, name, description, command, options, invalid }) {
     const insert = this.db.prepare(oneLine`
       INSERT OR ROLLBACK INTO saved_rolls (
         guildFlake,
@@ -441,7 +385,6 @@ class GlobalSavedRolls {
         description,
         command,
         options,
-        incomplete,
         invalid
       ) VALUES (
         @guildFlake,
@@ -450,7 +393,6 @@ class GlobalSavedRolls {
         @description,
         @command,
         JSONB(@options),
-        @incomplete,
         @invalid
       )
     `)
@@ -461,7 +403,6 @@ class GlobalSavedRolls {
       description,
       command,
       options: JSON.stringify(options),
-      incomplete: +!!incomplete,
       invalid: +!!invalid,
     })
   }
@@ -482,7 +423,6 @@ class GlobalSavedRolls {
     return raw_out.map((raw) => ({
       ...raw,
       options: JSON.parse(raw.options),
-      incomplete: !!raw.incomplete,
       invalid: !!raw.invalid,
     }))
   }
@@ -504,7 +444,6 @@ class GlobalSavedRolls {
    * //     pool: 1,
    * //     sides: 6,
    * //   },
-   * //   incomplete: false,
    * //   invalid: false,
    * // }
    * ```
@@ -527,7 +466,6 @@ class GlobalSavedRolls {
     return {
       ...raw_out,
       options: JSON.parse(raw_out.options),
-      incomplete: !!raw_out.incomplete,
       invalid: !!raw_out.invalid,
     }
   }
@@ -633,7 +571,6 @@ module.exports = {
     description: Joi.string().required(),
     command: Joi.string().required(),
     options: Joi.object().required(),
-    incomplete: Joi.boolean().optional(),
     invalid: Joi.boolean().optional(),
   }),
 }
