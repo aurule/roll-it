@@ -2,14 +2,17 @@
  * This patch creates a small helper method named "whisper" on all command interaction objects.
  */
 
-const { CommandInteraction, MessageFlags } = require("discord.js")
+const { CommandInteraction, ModalSubmitInteraction, MessageFlags } = require("discord.js")
 
 module.exports = {
   /**
    * Create the whisper method
    */
-  patch(klass) {
-    if (!klass) klass = CommandInteraction
+  patch(target_klass) {
+    let klasses = [CommandInteraction, ModalSubmitInteraction]
+    if (target_klass) {
+      klasses = [target_klass]
+    }
 
     /**
      * Reply with an ephemeral message
@@ -17,11 +20,15 @@ module.exports = {
      * @param  {str}     content The message contents to send
      * @return {Promise}         Interaction response promise
      */
-    klass.prototype.whisper = function (content) {
+    const whisper = function (content) {
       return this.reply({
         content,
         flags: MessageFlags.Ephemeral,
       })
+    }
+
+    for (const klass of klasses) {
+      klass.prototype.whisper = whisper
     }
   },
 }
