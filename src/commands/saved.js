@@ -15,7 +15,6 @@ module.exports = {
       .addSubcommand(subcommands.get("roll").data())
       .addSubcommand(subcommands.get("grow").data())
       .addSubcommand(subcommands.get("list").data())
-      .addSubcommand(subcommands.get("set").data())
       .addSubcommand(subcommands.get("manage").data())
   },
   async execute(interaction) {
