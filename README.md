@@ -88,7 +88,8 @@ Roll-It currently uses Node 22.
 ## Dev Installation
 
 1. Pull the repo
-    1. Roll It makes use of Yarn's plug-n-play (pnp) feature, so you shouldn't need a separate install step after pulling. It's always safe to run `yarn` if you aren't sure.
+2. Run `yarn` to set up `biome` and `better-sqlite`
+    * Roll It makes use of Yarn's plug-n-play (pnp) feature, so only arch-specific packages need to be built.
 2. Ensure the file `.env` has the correct environment variables. Especially double-check `DEV_GUILDS`.
 3. Run `yarn run live`
 4. Add Roll It to a discord server that you can spam for testing

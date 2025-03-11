@@ -43,6 +43,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
+          ["prettier", "npm:2.8.8"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
@@ -4758,6 +4759,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["prettier", [\
+      ["npm:2.8.8", {\
+        "packageLocation": "./.yarn/cache/prettier-npm-2.8.8-430828a36c-463ea8f9a0.zip/node_modules/prettier/",\
+        "packageDependencies": [\
+          ["prettier", "npm:2.8.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["pretty-format", [\
       ["npm:29.7.0", {\
         "packageLocation": "./.yarn/cache/pretty-format-npm-29.7.0-7d330b2ea2-edc5ff89f5.zip/node_modules/pretty-format/",\
@@ -5008,6 +5018,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
+          ["prettier", "npm:2.8.8"],\
           ["prompts", "npm:2.4.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
