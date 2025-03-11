@@ -1,0 +1,39 @@
+---
+saved:
+  create:
+    title: Save a New Roll
+    inputs:
+      name:
+        label: Name
+      description:
+        label: Description
+  edit:
+    title: Edit a Saved Roll
+    inputs:
+      name:
+        label: Name
+      description:
+        label: Description
+  replace:
+    title: Pick a New Name
+    inputs:
+      name:
+        label: New Name
+      description:
+        label: Description
+  validation:
+    missing: You have no saved roll in progress on this server.
+    empty: You must give both a name and a description.
+  response:
+    error: Something went wrong. Sorry! You can try again, but it might not work until I've had a chance to fix things.
+    success: Your roll is saved! Run `/saved roll name:{{name}}` to try it out!
+    collision:
+      prompt: You already have a saved roll on this server named `{{name}}`. What do you want to do?
+      choices:
+        abort: Cancel
+        again: Choose a New Name
+        overwrite: Replace the Exiting Roll
+      aborted: Cancelled saving the roll.
+      overwritten: Replaced the roll `{{name}}`. Run `/saved roll name:{{name}}` to try it out!
+      retry: Let's try that again.
+      timeout: Ran out of time. Leaving saved rolls unchanged.
