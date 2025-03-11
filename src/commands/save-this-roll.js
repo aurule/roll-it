@@ -5,6 +5,8 @@ const CommandNamePresenter = require("../presenters/command-name-presenter")
 const interactionCache = require("../services/interaction-cache")
 const { i18n } = require("../locales")
 const { canonical, mapped } = require("../locales/helpers")
+const rollCache = require("../services/roll-cache")
+const SavedRollModal = require("../modals/saved-roll")
 
 require("dotenv").config()
 const botId = process.env.CLIENT_ID
@@ -38,7 +40,8 @@ module.exports = {
 
     const command = commands.get(cachedInvocation.commandName)
     if (!command.savable) {
-      return interaction.whisper(t("validation.unsavable", { command }))
+      const presented = CommandNamePresenter.present(command, interaction.locale)
+      return interaction.whisper(t("validation.unsavable", { presented }))
     }
 
     let validated_options
@@ -54,32 +57,17 @@ module.exports = {
         }),
       )
     }
+
+    const modal = SavedRollModal.data("create", interaction.locale, { description: validated_options.description })
     delete validated_options.description
 
-    const saved_roll_params = {
+    const cache_data = {
       command: command.name,
       options: validated_options,
-      incomplete: true,
-      invalid: false,
     }
+    rollCache.store(interaction, cache_data)
 
-    const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
-    const record_result = saved_rolls.upsert(saved_roll_params)
-    const record_id = record_result.lastInsertRowid
-    const saved_details = saved_rolls.incomplete()
-
-    // see if the changes complete the saved roll
-
-    try {
-      await saved_roll_schema.validateAsync(saved_details)
-    } catch {
-      return interaction.whisper(t("response.incomplete"))
-    }
-
-    // the roll is finished
-    saved_rolls.update(record_id, { incomplete: false })
-
-    return interaction.whisper(t("response.complete", { saved_details }))
+    return interaction.showModal(modal)
   },
   help_data(opts) {
     const savable_commands = require("./index").savable
