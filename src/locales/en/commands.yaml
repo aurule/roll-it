@@ -1113,10 +1113,6 @@ saved:
         *Options:*
         {{options}}
         *Invocation:* {{invocation}}
-      incomplete: |-
-        {{body}}
-
-        :memo: This roll is incomplete! You have to finish it using `/saved set` or *Save this roll* before you'll be able to roll it.
       options:
         valid: "{{options, ul}}"
         invalid: |-
@@ -1134,14 +1130,8 @@ saved:
         ready: |-
           {{name}} - {{description}}
             - {{invocation}}
-        incomplete: |-
-          :memo: {{name}} - {{description}}
-            - {{invocation}}
         invalid: |-
           :x: {{name}} - {{description}}
-            - {{invocation}}
-        borked: |-
-          :x: :memo: {{name}} - {{description}}
             - {{invocation}}
       missing:
         name: "*none set*"
@@ -1158,7 +1148,6 @@ saved:
         $t(saved.entry.list.legend)
       legend: |-
         -# Legend:
-        -# :memo: means that roll is incomplete
         -# :x: means that roll is not valid
   grow:
     name: grow
@@ -1188,7 +1177,6 @@ saved:
         validation:
           missing: That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
           invalid: The saved options for that roll are not valid. You'll have to update them using `/saved manage`.
-          incomplete: This roll is not finished. You have to save its name, description, and options before you can change it.
       adjustment:
         name: adjustment
         description: A number to add or subtract from the roll
@@ -1212,12 +1200,9 @@ saved:
       - >
         Each roll is shown with its name, description, and full invocation.
       - >-
-        :memo: marks incomplete rolls which are missing their name or options.
-      - >-
         :x: marks rolls whose options are out of date or otherwise invalid.
       - >
-        Incomplete and invalid rolls cannot be used. Depending on what's missing, you'll need to use
-        `/saved set` or *Save this roll* to fix it.
+        Invalid rolls cannot be used. You'll need to use *Save this roll* to replace the roll.
     help: |-
       $t(saved.list.help-lines, { "joinArrays": "\n" })
   manage:
@@ -1226,11 +1211,6 @@ saved:
     help-lines:
       - >
         {{cmd}} lets you change all of the details about a saved roll, or remove it entirely.
-      - >
-        Just like saving a new roll, you can leave the edit process and come back later. However, you can only
-        have one unfinished roll at a time. That can either be a roll you just created, or a roll you are
-        editing. Until you finish that roll's options, you will not be able to use it, nor will you be able to
-        edit or create another saved roll.
       - >
         Removing a saved roll is permanent. The only way to get it back is to save a new roll with the same
         name and options.
@@ -1302,7 +1282,6 @@ saved:
         validation:
           missing: That roll does not exist. Check spelling, capitalization, or choose one of the suggested rolls.
           invalid: The saved options for that roll are not valid. You'll have to update them using `/saved manage` before you can use this saved roll.
-          incomplete: This roll is not finished. You have to save some options before you can use it.
       description:
         name: description
         description: A word or two about this roll. Defaults to the saved description.
