@@ -1049,14 +1049,10 @@ save-this-roll:
   description: Save a roll you've made so you can reuse it later
   help-lines:
     - >
-      {{cmd}} is a context menu command that helps create a new saved roll for you on this server. To use it,
-      right click or long press on the result of a recent Roll It command and choose *Apps -> Save this roll*.
-      This will set the command and options for the saved roll. Then, you set the name and description using
-      `/saved set`. Once you're finished, you can use `/saved roll` to roll it!
-    - >
-      You can only have one unfinished roll at a time. That can either be a roll you just created, or a roll
-      you are editing with `/saved manage`. Until you finish that roll's options, you will not be able to use
-      it, nor will you be able to edit or create another saved roll.
+      {{cmd}} is a context menu command that creates a new saved roll for you on this server. To use it, right
+      click or long press on the result of a recent Roll It command and choose *Apps -> Save this roll*. This
+      will set the command and options for the saved roll, and show a window asking you to give it a name and
+      a description. Once you're finished, you can use `/saved roll` to roll it!
     - >-
       Not all commands can be saved. Here is a list of the ones which can be used:
     - >-

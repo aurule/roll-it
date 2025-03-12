@@ -48,7 +48,7 @@ GMs can add random tables and roll on them to generate magic items, random encou
 
 ### Saved Rolls!
 
-You can save a command and all its options to re-use later! Check out `/saved set` and `/help topic:Saved Rolls` to get started.
+You can save a command and all its options to re-use later! See the [guide to Saved Rolls](https://aurule.github.io/roll-it/#/features/saved) and `/help topic:Saved Rolls` to get started.
 
 ### Fun!
 
