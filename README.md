@@ -1,5 +1,7 @@
 # Roll It
 
+[![Install - Add Roll It to Your Server](https://img.shields.io/badge/Install-Add_Roll_It_to_Your_Server-7289da?logo=discord&logoColor=7289da)](https://discord.com/oauth2/authorize?client_id=1037522511509848136) [![Docs - Read The Docs](https://img.shields.io/badge/Docs-Read_The_Docs-darkgreen?logo=docsify&logoColor=2ECE53)](https://aurule.github.io/roll-it/#)
+
 Roll It is a Discord bot for rolling dice.
 
 I made it because I wanted to run tabletop games over Discord, and there weren't any dice rollers that correctly implemented the roll mechanics I wanted to use. Since tallying dice by hand is annoying on a digital screen, I made Roll It to do it for me!
