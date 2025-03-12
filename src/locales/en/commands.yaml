@@ -1063,16 +1063,11 @@ save-this-roll:
       {{savable, ul}}
   help: |-
     $t(save-this-roll.help-lines, { "joinArrays": "\n" })
-  response:
-    incomplete: You've saved the command for a new roll. Now use `/saved set` to set
-      its name and description.
-    complete: You've saved the roll *{{saved_details.name}}*! Try it out with `/saved
-      roll name:{{saved_details.name}}`.
   validation:
     foreign: That message was not sent by a Roll It command.
-    missing: That message's command cannot be found, because the message may be too
-      old. Try sending its command again, then saving the new message.
-    unsavable: The command `{{command.name}}` cannot be saved.
+    missing: >-
+      That message is not available to Roll It. Try sending its command again, then saving the new message.
+    unsavable: The command {{presented}} cannot be saved.
     options: |-
       That command's options cannot be saved, which means you found a bug! This is what went wrong while saving `{{command.name}}`:
       * {{messages}}
@@ -1089,15 +1084,15 @@ saved:
       Rolls you save are unique to you and the server you're on. Multiple users cannot use the same saved roll,
       and you cannot share your own saved rolls between different servers.
     - >
-      In general, you'll use {{sub.set}} and *Save this roll* to save some rolls and their options. Then,
-      {{sub.roll}} to use one of them. Check out the help for {{sub.set}} and *Save this roll* to learn about
-      how they work together to save complete roll.
+      You use *Save this roll* to save rolls you've made and give them a name and description. Then,
+      {{sub.roll}} to use one of them. Check out the help for *Save this roll* to learn about how it works.
     - >
       You can use {{sub.list}} to see the rolls you've saved on this server.
     - >
       {{sub.manage}} lets you see the details of a saved roll, update it, and remove it from the server.
-      Editing a roll with {{sub.manage}} lets you change everything about the roll. To make a single, small
-      change, you can use {{sub.grow}} instead.
+      Editing a roll with {{sub.manage}} lets you change the name and description of a roll. To make a small
+      change, you can use {{sub.grow}} instead. If you need to make a bigger change, you'll have to overwrite
+      the roll using *Save this roll*.
     - >-
       Not all commands can be saved. Here is a list of the ones which can be used:
     - >-
@@ -1143,7 +1138,7 @@ saved:
         {{rolls, ul}}
         $t(saved.entry.list.legend)
       filled_other: |-
-        You have one saved roll:
+        You have {{count}} saved rolls:
         {{rolls, ul}}
         $t(saved.entry.list.legend)
       legend: |-
@@ -1228,24 +1223,11 @@ saved:
       initial:
         prompt: What do you want to do?
         buttons:
-          stop: Stop Editing
           edit: Edit Roll
           cancel: Cancel
           remove: Remove Roll
       edit:
-        response:
-          incomplete: |-
-            You already have an incomplete roll in progress. Finish that first using `/saved set` for the name
-            and description, or right click/long press on the result of a Roll It command and choose *Apps ->
-            Save this roll* to save that command. Then you can edit *{{name}}*.
-          success: The roll *{{name}}* is ready for editing. Use `/saved set` or *Apps -> Save this roll* to make the changes you want!
-      stop:
-        response:
-          invalid: >-
-            The roll *{{name}}* is no longer marked for editing, but it has some errors:
-            * err.message
-            You will need to fix them before you can use the roll.
-          success: The roll *{{name}}* is no longer marked for editing and is ready to use.
+        response: Ready for changes!
       remove:
         buttons:
           cancel: Cancel
@@ -1301,58 +1283,6 @@ saved:
         This roll can no longer be made after changing the `{{target}}`. The error is:
         * {{message}}
       invalid: The saved options for this roll are no longer valid. You'll have to update them before you can use this saved roll.
-  set:
-    name: set
-    description: Set the name and description of a saved roll
-    help-lines:
-      - >
-        {{cmd}} helps create a new saved roll for you on this server by setting the name and
-        description. Then, you set the command and options for that roll by right clicking or long pressing on
-        the result of a Roll It command and choosing *Apps -> Save this roll*. Once you're
-        finished, you can use `/saved roll` to roll it!
-      - >
-        You can only have one unfinished roll at a time. That can either be a roll you just created, or a roll
-        you are editing with `/saved manage`. Until you finish that roll, you will not be able
-        to use it, nor will you be able to edit or create another saved roll.
-      - >
-        Because saved rolls are stored by Roll It, each one of yours on the server has to have a unique name.
-      - >-
-        Not all commands can be saved. Here is a list of the ones which can be used:
-      - >
-        {{savable, ul}}
-      - >
-        For advanced usage, you can add an {{opts.invocation}} when using {{cmd}}. This lets you
-        directly set the command and options that will be saved to the roll. An invocation looks like
-        `/roll pool:3 sides:6 rolls:2` and is what Discord generates when you type out a
-        command.
-      - >-
-        By adding an {{opts.invocation}}, you can quickly create many saved rolls in a row. This will always
-        save a new roll, even if you have one that is incomplete. As such, you *cannot* use an
-        {{opts.invocation}} when editing a roll, as it will create a new saved roll instead.
-    help: |-
-      $t(saved.set.help-lines, { "joinArrays": "\n" })
-    options:
-      name:
-        name: name
-        description: Unique name for the saved roll
-      description:
-        name: description
-        description: A few words about the saved roll
-      invocation:
-        name: invocation
-        description: ADVANCED! Manually enter the discord command invocation to use
-    response:
-      error:
-        name: |-
-          There was a problem saving that name and description:
-          * {{message}}
-        invocation: |-
-          There was a problem saving the invocation for "{{name})":
-          * {{message}}
-      partial: >-
-        You've saved the name "{{name}}" for a new roll. Right click or long press on the result of a Roll It
-        command and choose *Apps -> Save this roll* to add that command and its options to "{{name}}".
-      complete: You've saved the roll *{{name}}*! Try it out with `/saved roll name:{{name}}`.
 setup-roll-it:
   name: setup-roll-it
   description: Set up Roll It with the commands you need

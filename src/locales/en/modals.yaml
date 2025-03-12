@@ -22,7 +22,9 @@ saved:
       description:
         label: Description
   validation:
-    missing: You have no saved roll in progress on this server.
+    missing: >-
+      There is nothing to change, which is weird. This could happen if you save or edit a roll on multiple
+      devices at once. Try again if you think it's a fluke.
     empty: You must give both a name and a description.
   response:
     error: Something went wrong. Sorry! You can try again, but it might not work until I've had a chance to fix things.

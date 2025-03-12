@@ -1,0 +1,1 @@
+Saved rolls no longer have the confusing `incomplete` state. Roll It now shows a popup for setting the name and description.
