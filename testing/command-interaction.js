@@ -19,7 +19,7 @@ class CommandInteraction extends Interaction {
   }
 
   setOption(name, value) {
-    this.command_options.name = value
+    this.command_options[name] = value
   }
 }
 
