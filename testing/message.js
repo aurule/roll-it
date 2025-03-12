@@ -18,6 +18,7 @@ class Message {
   editEvents = new EventEmitter()
   replies = []
   deleted = false
+  resource
 
   constructor({
     content = "",
@@ -37,6 +38,9 @@ class Message {
     this.components = components
     this.embeds = embeds
     this.flags = flags
+    this.resource = {
+      message: this
+    }
   }
 
   addReply(opts) {
@@ -125,6 +129,10 @@ class Message {
     })
     await this.componentEvents.emit("collect", comp_interaction)
     return comp_interaction
+  }
+
+  async timeout() {
+    return this.componentEvents.timeout()
   }
 }
 
