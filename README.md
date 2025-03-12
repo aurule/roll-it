@@ -58,7 +58,9 @@ There are a few commands thrown in just for fun, too:
 
 ## Getting Help
 
-Roll It has a built-in help system through the command `/help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
+The [Roll It Website](https://aurule.github.io/roll-it/#) is a great resource to learn about what the bot can do.
+
+Roll It also has a built-in help system through the command `/help`. Tell it a `command` to learn more about how a specific command works, or give it a `topic` to learn more about Roll It.
 
 If the `/help` command doesn't answer your question, you can open a ticket on the [Roll It Github](https://github.com/aurule/roll-it). You'll have to be patient with responses, though!
 
