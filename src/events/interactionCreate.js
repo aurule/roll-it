@@ -76,7 +76,13 @@ async function handleAutocomplete(interaction) {
  *                                    interaction. Rejects if modal not found.
  */
 async function handleModal(interaction) {
-  const modal = interaction.client.modals.get(interaction.customId)
+  const [modal_name, modal_id] = interaction.customId.split("_")
+  console.log({
+    modal_name,
+    modal_id,
+  })
+
+  const modal = interaction.client.modals.get(modal_name)
   if (!modal) return Promise.reject(`no modal ${interaction.customId}`)
 
   logger.info(
@@ -86,7 +92,7 @@ async function handleModal(interaction) {
     `modal ${modal.name} submitted`
   )
 
-  return modal.submit(interaction)
+  return modal.submit(interaction, modal_id)
 }
 
 /**
