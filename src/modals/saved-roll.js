@@ -19,7 +19,7 @@ module.exports = {
       throw new Error(`Unrecognized mode "${mode}" for saved roll modal`)
     }
 
-    const t = i18n.getFixedT(locale, "modals", `saved.${mode}`)
+    const t = i18n.getFixedT(locale, "modals", `save-roll.${mode}`)
 
     const modal = new ModalBuilder()
       .setCustomId(module.exports.name)
@@ -60,7 +60,7 @@ module.exports = {
   async submit(modal_interaction) {
     const cached_roll = rollCache.find(modal_interaction)
 
-    const t = i18n.getFixedT(modal_interaction.locale, "modals", "saved")
+    const t = i18n.getFixedT(modal_interaction.locale, "modals", "save-roll")
 
     if (!cached_roll) {
       logger.warn(
