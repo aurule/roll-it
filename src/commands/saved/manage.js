@@ -83,7 +83,7 @@ module.exports = {
             .setStyle(ButtonStyle.Danger)
           const remove_actions = new ActionRowBuilder().addComponents(remove_cancel, remove_confirm)
           const remove_chicken = await manage_prompt.edit({
-            content: t("state.remove.prompt"),
+            content: t("state.remove.prompt", { name: detail.name }),
             components: [remove_actions],
             flags: MessageFlags.Ephemeral,
           })
