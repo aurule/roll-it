@@ -5,22 +5,28 @@ saved:
     inputs:
       name:
         label: Name
+        placeholder: Give your roll a unique name
       description:
         label: Description
+        placeholder: Add a few words about your roll
   edit:
     title: Edit a Saved Roll
     inputs:
       name:
         label: Name
+        placeholder: A unique name for the roll
       description:
         label: Description
+        placeholder: A few words about your roll
   replace:
     title: Pick a New Name
     inputs:
       name:
         label: New Name
+        placeholder: A different unique name
       description:
         label: Description
+        placeholder: A few words about your roll
   validation:
     missing: >-
       There is nothing to change, which is weird. This could happen if you save or edit a roll on multiple
