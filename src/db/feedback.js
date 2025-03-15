@@ -54,6 +54,30 @@ class Feedback {
   }
 
   /**
+   * Update a record with additional notes from the user
+   *
+   * This is meant to be used by the Report This Roll modal in order to capture the user's submitted text.
+   *
+   * @param {int}   options.id       ID of the existing feedback record
+   * @param {str}   options.userId   ID of the user submitting feedback
+   * @param {str}   options.notes    Text from the user to add to the record's content
+   * @param {bool}  options.canReply Whether the user is open to talking about their feedback
+   * @return {Info}                  Query info object with `changes` and `lastInsertRowid` properties
+   */
+  addNotes({id, userId, notes, canReply}) {
+    const update = this.db.prepare(oneLine`
+      UPDATE feedback SET (content, canReply) = (@notes || content, @canReply) WHERE id = @id AND userFlake = @userFlake
+    `)
+
+    return update.run({
+      notes: `${notes}\n`,
+      canReply: +!!canReply,
+      userFlake: userId,
+      id,
+    })
+  }
+
+  /**
    * Get the number of feedback records
    *
    * @return {int} Number of feedback records

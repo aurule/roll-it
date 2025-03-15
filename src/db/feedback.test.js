@@ -93,6 +93,94 @@ describe("Feedback", () => {
     })
   })
 
+  describe("addNotes", () => {
+    describe("with a valid record", () => {
+      const userId = "testUser"
+      let record_id
+
+      beforeEach(() => {
+        const result = feedback.create({
+          userId,
+          guildId: "testGuild",
+          content: "old content",
+          commandName: "roll",
+          canReply: false,
+          locale: "en-US",
+        })
+        record_id = result.lastInsertRowid
+      })
+
+      it("sets consent", () => {
+        feedback.addNotes({
+          id: record_id,
+          userId,
+          notes: "new stuff",
+          canReply: true,
+        })
+
+        const record = feedback.detail(record_id)
+        expect(record.canReply).toEqual(true)
+      })
+
+      it("prepends notes to existing content", () => {
+        feedback.addNotes({
+          id: record_id,
+          userId,
+          notes: "new stuff",
+          canReply: true,
+        })
+
+        const record = feedback.detail(record_id)
+        expect(record.content).toMatch("new")
+        expect(record.content).toMatch("old")
+      })
+    })
+
+    describe("with an invalid record", () => {
+      const userId = "testUser"
+      let record_id
+
+      beforeEach(() => {
+        const result = feedback.create({
+          userId,
+          guildId: "testGuild",
+          content: "old content",
+          commandName: "roll",
+          canReply: false,
+          locale: "en-US",
+        })
+        record_id = result.lastInsertRowid
+      })
+
+      it("makes no changes", () => {
+        const result = feedback.addNotes({
+          id: record_id,
+          userId: "otherUser",
+          notes: "new stuff",
+          canReply: true,
+        })
+
+        expect(result.changes).toEqual(0)
+      })
+    })
+
+    describe("with a missing record", () => {
+      const userId = "testUser"
+      const record_id = 12
+
+      it("makes no changes", () => {
+        const result = feedback.addNotes({
+          id: record_id,
+          userId,
+          notes: "new stuff",
+          canReply: true,
+        })
+
+        expect(result.changes).toEqual(0)
+      })
+    })
+  })
+
   describe("count", () => {
     it("counts all feedback records", () => {
       feedback.create({
