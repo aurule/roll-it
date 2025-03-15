@@ -77,10 +77,6 @@ async function handleAutocomplete(interaction) {
  */
 async function handleModal(interaction) {
   const [modal_name, modal_id] = interaction.customId.split("_")
-  console.log({
-    modal_name,
-    modal_id,
-  })
 
   const modal = interaction.client.modals.get(modal_name)
   if (!modal) return Promise.reject(`no modal ${interaction.customId}`)
