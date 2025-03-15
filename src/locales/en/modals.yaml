@@ -45,3 +45,16 @@ save-roll:
       overwritten: Replaced the roll `{{name}}`. Run `/saved roll name:{{name}}` to try it out!
       retry: Let's try that again.
       timeout: Ran out of time. Leaving saved rolls unchanged.
+report-roll:
+  title: Report a Roll
+  inputs:
+    notes:
+      name: Details (optional)
+      placeholder: Was the outcome confusing, or seemed like a bug, or something else?
+    consent:
+      name: Consent to DM (optional)
+      placeholder: Type CONSENT if it's OK to contact you about this report
+      keyword: CONSENT
+  response:
+    success: Thanks for the feedback!
+    error: Something went wrong! The roll was still reported, but we don't have your message :-(

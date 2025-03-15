@@ -951,6 +951,16 @@ pba:
     modifier:
       name: modifier
       description: A number to add to the pool's result
+report-this-roll:
+  name: Report this roll...
+  description: Send feedback about a roll result
+  help: >-
+    {{cmd}} is a context menu command that lets you send feedback about a roll. Use it to report a roll that
+    seems bugged, or hard to read.creates a new saved roll for you on this server. To use it, right click or
+    long press on a message from Roll It and choose *Apps -> Report this roll*. It'll prompt you to add a
+    description about why you're reporting it, but that is optional.
+  validation:
+    foreign: That message was not sent by a Roll It command.
 roll-formula:
   name: roll-formula
   description: Roll a combination of dice and complex modifiers
