@@ -71,7 +71,7 @@ module.exports = {
     summer,
     presenter,
   }) {
-    const t = i18n.getFixedT(interaction.locale, "teamwork")
+    const t = i18n.getFixedT(interaction.guild.locale, "teamwork")
 
     const user_menu = new UserSelectMenuBuilder()
       .setCustomId("helpers")

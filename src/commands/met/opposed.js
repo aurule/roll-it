@@ -31,7 +31,7 @@ module.exports = {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "met.opposed")
+    const t = i18n.getFixedT(interaction.guild.locale, "commands", "met.opposed")
 
     if (attackerId === defenderId) {
       return interaction.whisper(t("options.opponent.validation.self"))

@@ -149,7 +149,7 @@ class MetOpposedManager {
     this.retest_ability = retest_ability
     this.test_recorder = new TestRecorder(this.attacker, this.defender)
 
-    this.locale = interaction?.locale ?? "en-US"
+    this.locale = interaction?.guild?.locale ?? "en-US"
     this.t = i18n.getFixedT(this.locale, "opposed")
 
     this.test_recorder.addTest()
