@@ -66,7 +66,13 @@ class Feedback {
    */
   addNotes({id, userId, notes, canReply}) {
     const update = this.db.prepare(oneLine`
-      UPDATE feedback SET (content, canReply) = (@notes || content, @canReply) WHERE id = @id AND userFlake = @userFlake
+      UPDATE feedback SET (
+        content,
+        canReply
+      ) = (
+        @notes || content,
+        @canReply
+      ) WHERE id = @id AND userFlake = @userFlake
     `)
 
     return update.run({

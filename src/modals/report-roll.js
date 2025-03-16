@@ -45,7 +45,7 @@ module.exports = {
     return modal
   },
   async submit(modal_interaction, feedback_id) {
-    const t = i18n.getFixedT(locale, "modals", `report-roll`)
+    const t = i18n.getFixedT(modal_interaction.locale, "modals", `report-roll`)
 
     const notes = modal_interaction.fields.getTextInputValue("notes") ?? "no notes given"
 
@@ -58,7 +58,7 @@ module.exports = {
 
     const feedback = new Feedback()
     try {
-      feedback.addNotes(modal_interaction.user.id, feedback_id, data)
+      feedback.addNotes(data)
     } catch (err) {
       logger.error(
         {
