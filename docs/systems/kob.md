@@ -1,5 +1,7 @@
 # Kids On Bikes
 
+*Find the game at [Hunters Entertainment](https://www.huntersentertainment.com/kidsonbikesrpg)*
+
 This is an exceptionally elegant system. Roll a single die and explode on the highest result. Add a modifier and you're done!
 
 !> The by-book rules say that you should stop exploding once you meet the difficulty value of the test. However, Roll It doesn't have that difficulty, so it will keep exploding. Ignoring that book rule is a popular house rule anyway, but it's still worth noting.

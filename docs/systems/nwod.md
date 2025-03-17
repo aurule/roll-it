@@ -2,6 +2,8 @@
 
 *AKA New World of Darkness*
 
+*Chronicles of Darkness 1e (New World of Darkness) is out of print. Find Chronicles of Darkness 2e at [Onyx Path Publishing](https://theonyxpath.com/category/worlds/chroniclesofdarkness/).*
+
 The `/nwod` roller handles the mechanics for both 1e and 2e, since they're identical. It's a pretty complex system, so here's a brief walkthrough on how Roll It handles things.
 
 ?> So why's it named `/nwod` and not `/cod`? Habit, mostly. The system wasn't rebranded until several years after my groups had started using it. So we got used to the old name and the new one never stuck.

@@ -1,6 +1,8 @@
 # World of Darkness Revised MET
 
-The MET system makes use of two commands, `/met static` and `/met opposed`.
+*This game is out of print. Find related material at [By Night Studios](https://bynightstudios.com/)*
+
+The Mind's Eye Theatre system makes use of two commands, `/met static` and `/met opposed`.
 
 The `/met static` command lets a user throw a rock-paper-scissors chop against a randomly-rolling opponent, suitable for static and simple tests. It can roll many such tests at once, which is handy for streamlining ST rolls or group actions.
 

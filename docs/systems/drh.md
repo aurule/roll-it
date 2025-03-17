@@ -1,5 +1,7 @@
 # Don't Rest Your Head
 
+*Find the game at [Evil Hat Productions](https://evilhat.com/product/don-t-rest-your-head/)*
+
 Don't Rest Your Head is a rules-light game system with a surprisingly rules-heavy dice mechanic. It breaks down like this:
 
 1. Roll 2-4 pools of d6s, each of which is named Discipline, Exhaustion, Madness, or Pain. Discipline and Pain are always present.

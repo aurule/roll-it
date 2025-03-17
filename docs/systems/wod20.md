@@ -1,5 +1,7 @@
 # World of Darkness, 20th Anniversary Edition
 
+*Find the game at [Onyx Path Publishing](https://theonyxpath.com/category/worlds/classicworldofdarkness/)*
+
 The `/wod20` command implements the rules for the 20th Anniversary Edition of classic World of Darkness. The core roll is a number of d10s where each die scores a success if it meets or exceeds the difficulty of the role, which is 6 by default. When using a specialty, each 10 counts twice. Each 1 rolled *removes* a success. Unlike other World of Darkness systems, there are no re-rolls in this version.
 
 If you have at least one success, but it gets cancelled out by a bunch of ones, you simply fail the roll. If you have zero successes and any ones, then it's a botch.

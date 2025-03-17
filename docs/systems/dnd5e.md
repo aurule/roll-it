@@ -1,5 +1,7 @@
 # Dungeons & Dragons 5e
 
+*Find the game at [D&D Beyond](https://www.dndbeyond.com/) and the rules at [d20srd.org](https://5e.d20srd.org/)*
+
 Most rolls in all versions of Dungeons & Dragons can be made using the [Generic](/systems/generic) rollers. Even complex damage rolls are easy with the `/roll-formula` command. The exception are d20 rolls that have *advantage*. In order to roll two dice and pick either the higher or lower result, the `/d20` command has a special `with` option.
 
 ## `/d20`

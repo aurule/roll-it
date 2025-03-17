@@ -1,5 +1,7 @@
 # Shadowrun
 
+*Find Shadowrun 6e at [shadowrunsixthworld.com](https://www.shadowrunsixthworld.com/). Older editions are out of print.*
+
 The `/shadowrun` command implements the dice system used in Shadowrun 4e, 5e, and 6e. It rolls a pool of d6s and tallies one success for each die that shows a 5 or 6. The `edge` option turns on the Rule of Six, which re-rolls every 6.
 
 Then, you tally up the total dice that rolled a 1. If they make up half your pool, you have a Glitch. If you have successes as well, that's where it stays. But if you have *no* successes, it becomes a Critical Glitch.

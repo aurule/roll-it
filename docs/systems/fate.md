@@ -1,5 +1,7 @@
 # FATE
 
+*Find the game at [Evil Hat Productions](https://evilhat.com/fate-everything/)*
+
 The FATE system uses special Fudge dice, which are six-sided and numbered -1, -1, 0, 0, +1, +1. They're always rolled in sets of four and their faces added up.
 
 ## `/fate`
