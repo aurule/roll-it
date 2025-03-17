@@ -7,6 +7,7 @@
     + [Don't Rest Your Head](/systems/drh "Don't Rest Your Head | Roll It Docs")
     + [Dungeons & Dragons 5e](/systems/dnd5e "D&D 5e | Roll It Docs")
     + [FATE](/systems/fate "FATE | Roll It Docs")
+    + [FFRPG](/systems/ffrpg "FFRPG | Roll It Docs")
     + [Kids On Bikes](/systems/kob "Kids On Bikes | Roll It Docs")
     + [Shadowrun 4e, 5e, 6e](/systems/shadowrun "Shadowrun | Roll It Docs")
     + [World of Darkness 20th Anniversary](/systems/wod20 "WoD | Roll It Docs")

@@ -41,6 +41,12 @@ systems:
     title: FATE
     description: Four Fudge dice on a ladder
     extended: Rolls fudge dice and shows the resulting faces. Uses the by-book ladder.
+  ffrpg:
+    title: Final Fantasy RPG 3e
+    description: Percentiles for the classic JRPG series
+    extended: >-
+      This fan-made TTRPG system tries to capture the unique feel of Final Fantasy's crunchy mechanics with
+      dice. It succeeds.
   generic:
     title: Generic dice
     description: Suitable for games without fancy dice rules

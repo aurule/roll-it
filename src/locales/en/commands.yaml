@@ -463,6 +463,71 @@ fate:
       {{results}}
     result: |-
       **{{total}}**, {{ladder}}: {{detail}}
+ffrpg:
+  name: ffrpg
+  description: Roll a percentile vs CoS for Final Fantasy
+  help: undefined
+  options:
+    base:
+      name: base
+      description: Base CoS, or Stat
+    intrinsic:
+      name: intrinsic
+      description: Intrinsic CoS modifier, from an Ability
+    conditional:
+      name: conditional
+      description: Conditional CoS modifier, from the GM
+    avoid:
+      name: avoid
+      description: Avoidance skill
+    crit:
+      name: crit
+      description: Threshold for a critical success. Defaults to 10.
+    botch:
+      name: botch
+      description: Threshold for a botch. Defaults to 95.
+    flat:
+      name: flat
+      description: Whether this is a Flat roll with no modifiers
+  validation:
+    flat:
+      disallowed: Flat rolls do not allow `intrinsic`, `conditional`, or `avoid` modifiers.
+    crit:
+      collision: The roll's `crit` must be lower than `botch`.
+  result:
+    rule10: a **narrow success**
+    simple: a **simple success**
+    crit: a **critical success**
+    fail: a **failure**
+    botch: a **botch**
+  response:
+    message_one: |-
+      {{userMention}} rolled {{result}} with a margin of **{{margin}}** (*{{die}}* vs *{{cos}}* {{detail}})
+    message_description_one: |-
+      {{userMention}} rolled {{result}} with a margin of **{{margin}}** for "{{description}}" (*{{die}}* vs *{{cos}}* {{detail}})
+    message_other: |-
+      {{userMention}} rolled {{count}} times:
+      {{results}}
+    message_description_other: |-
+      {{userMention}} rolled {{count}} times for "{{description}}":
+      {{results}}
+    result: |-
+      * {{result}} with a margin of **{{margin}}** (*{{die}}* vs *{{cos}}* {{detail}})
+    detail:
+      parts:
+        base: Base
+        intrinsic: Intrinsic
+        conditional: Conditional
+        avoid: Avoid
+      crit: crit at {{crit}}
+      botch: botch at {{botch}}
+      rule10: rule of 10
+      shape: |-
+        [{{mods}}]
+      shape_fancy: |-
+        [{{mods}}] *{{thresholds}}*
+      shape_flat: |-
+       [{{base}} Base, flat]
 help:
   name: help
   description: Get help with Roll It and its commands

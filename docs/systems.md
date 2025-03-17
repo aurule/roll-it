@@ -12,6 +12,7 @@ Here are the supported systems:
 * [World of Darkness 20th Anniversary](/systems/wod20) with `/wod20`
 * [Dungeons & Dragons 5e](/systems/dnd5e) with `/d20` or `/curv`
 * [Don't Rest Your Head](/systems/drh) with `/drh`
+* [FFRPG](/systems/ffrpg) (3rd edition) percentiles for Final Fantasy with `/ffrpg`
 * [Kids On Bikes](/systems/kob) with `/kob`
 * [Shadowrun](/systems/shadowrun) 4e, 5e, and 6e with `/shadowrun`
 * [Powered by the Apocalypse](/systems/pba) with `/pba`
