@@ -150,11 +150,17 @@ describe("judge", () => {
 
 describe("perform", () => {
   describe("normal mode", () => {
+    let options
+
+    beforeEach(() => {
+      options = {
+        pool: 10,
+      }
+    })
+
     it("displays the description if present", () => {
       const description_text = "this is a test"
-      const options = {
-        description: description_text,
-      }
+      options.description = description_text
 
       const result = nwod_command.perform(options)
 
@@ -171,16 +177,38 @@ describe("perform", () => {
 
       expect(result).toMatch(/\*\*\d\*\*/)
     })
+
+    it("displays the sacrifice message", () => {
+      options.description = "sacrifice"
+
+      const result = nwod_command.perform(options)
+
+      expect(result).toMatch("Your sacrifice")
+    })
+
+    it("thinks about the hummingbird message", () => {
+      // The message is not easy to test, thanks to randomess and the very low chance of the required
+      // successes.
+      options.description = "perception"
+
+      const result = nwod_command.perform(options)
+
+      expect(result).toMatch(/\*\*\d\*\*/)
+    })
   })
 
   describe("until mode", () => {
-    const options = {
-      pool: 10,
-      explode: 10,
-      threshold: 8,
-      rolls: 1,
-      until: 2,
-    }
+    let options
+
+    beforeEach(() => {
+      options = {
+        pool: 10,
+        explode: 10,
+        threshold: 8,
+        rolls: 1,
+        until: 2,
+      }
+    })
 
     it("displays the description if present", () => {
       const description_text = "this is a test"

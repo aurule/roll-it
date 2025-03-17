@@ -90,28 +90,46 @@ describe("judge", () => {
 
 describe("perform", () => {
   describe("with one roll", () => {
-    it("displays the description if present", async () => {
-      const description_text = "this is a test"
-      const options = {
+    let options
+
+    beforeEach(() => {
+      options = {
         rolls: 1,
         pool: 1,
-        description: description_text,
       }
+    })
+
+    it("displays the result", async () => {
+      const result = wod_command.perform(options)
+
+      expect(result).toMatch(/\*\*(botch|\d)\*\*/)
+    })
+
+    it("displays the description if present", async () => {
+      const description_text = "this is a test"
+      options.description = description_text
 
       const result = wod_command.perform(options)
 
       expect(result).toMatch(description_text)
     })
 
-    it("displays the result", async () => {
-      const options = {
-        rolls: 1,
-        pool: 1,
-      }
+    it("displays the sacrifice message", () => {
+      options.description = "sacrifice"
 
       const result = wod_command.perform(options)
 
-      expect(result).toMatch(/\*\*(botch|\d)\*\*/)
+      expect(result).toMatch("Your sacrifice")
+    })
+
+    it("thinks about the hummingbird message", () => {
+      // The message is not easy to test, thanks to randomess and the very low chance of the required
+      // successes.
+      options.description = "perception"
+
+      const result = wod_command.perform(options)
+
+      expect(result).toMatch(/\*\*\d\*\*/)
     })
   })
 

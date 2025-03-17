@@ -122,7 +122,7 @@ module.exports = {
     }
 
     if (hummingbird.hasTrigger(description, locale)) {
-      if (summed_results.some(hummingbird.qualifies)) {
+      if (summed_results.some(hummingbird.qualified)) {
         const hummingbird_message = hummingbird.spotted(locale)
         result_lines.push(`-# ${hummingbird_message}`)
       }
