@@ -221,7 +221,7 @@ class NwodPresenter {
 
 module.exports = {
   /**
-   * Present one or more results from the roll command
+   * Present one or more results from the nwod command
    *
    * This is the main entry point for the nwod presenter. It's best to use this function instead of manually
    * creating and using an NwodPresenter object.
