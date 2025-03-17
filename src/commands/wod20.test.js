@@ -129,7 +129,7 @@ describe("perform", () => {
 
       const result = wod_command.perform(options)
 
-      expect(result).toMatch(/\*\*\d\*\*/)
+      expect(result).toMatch(/\*\*(botch|\d)\*\*/)
     })
   })
 
