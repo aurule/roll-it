@@ -5,8 +5,9 @@ const { roll } = require("../services/base-roller")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
-const { present } = require("../presenters/results/ffrpg-results-presenter")
+const { FfrpgPresenter } = require("../presenters/results/ffrpg-results-presenter")
 const { i18n } = require("../locales")
+const sacrifice = require("../services/easter-eggs/sacrifice")
 
 const command_name = "ffrpg"
 
@@ -23,25 +24,60 @@ module.exports = {
         option.setMinValue(0).setMaxValue(100)
       )
       .addLocalizedIntegerOption("botch", (option) =>
-        option.setMinValue(0).setMaxValue(101)
+        option.setMinValue(0).setMaxValue(100)
       )
       .addLocalizedBooleanOption("flat")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   schema: Joi.object({
-    base: Joi.number().integer(),
+    base: Joi.number().integer().required(),
     intrinsic: Joi.number().optional().integer(),
     conditional: Joi.number().optional().integer(),
     avoid: Joi.number().optional().integer(),
     crit: Joi.number().optional().integer().min(0).max(100),
-    botch: Joi.number().optional().integer().min(0).max(101),
+    botch: Joi.number().optional().integer().min(0).max(100).greater(Joi.ref("crit")),
     description: commonSchemas.description,
     rolls: commonSchemas.rolls,
   }),
+  judge(presenter, locale) {
+    const buckets = [0,0,0,0]
+
+    for (let idx = 0; idx < presenter.raw.length; idx++) {
+      switch (presenter.rollResult(idx)) {
+        case "result.rule10":
+        case "result.crit":
+          buckets[0]++
+          break;
+        case "result.simple":
+          buckets[1]++
+          break;
+        case "result.fail":
+          buckets[2]++
+          break;
+        case "result.botch":
+          buckets[3]++
+          break;
+      }
+
+      const dominating = buckets.findIndex(b => b >= presenter.raw.length / 2)
+      switch(dominating) {
+        case 0:
+          return sacrifice.great(locale)
+        case 1:
+          return sacrifice.good(locale)
+        case 3:
+          return sacrifice.bad(locale)
+        case 4:
+          return sacrifice.awful(locale)
+        default:
+          return sacrifice.neutral(locale)
+      }
+    }
+  },
   perform({ base, intrinsic = 0, conditional = 0, avoid = 0, crit = 10, botch = 95, flat = false, rolls = 1, description, locale = "en-US" } = {}) {
     const raw_results = roll(1, 100, rolls)
 
-    return present({
+    const presenter = new FfrpgPresenter({
       raw: raw_results,
       base,
       intrinsic,
@@ -54,6 +90,15 @@ module.exports = {
       description,
       locale,
     })
+
+    const presented_result = presenter.presentResults()
+
+    if (sacrifice.hasTrigger(description, locale)) {
+      const sacrifice_message = module.exports.judge(presenter, locale);
+      return `${presented_result}\n-# ${sacrifice_message}`
+    }
+
+    return presented_result
   },
   execute(interaction) {
     const base = interaction.options.getInteger("base") ?? 0
