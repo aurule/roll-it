@@ -28,13 +28,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@biomejs/biome", "npm:1.9.4"],\
-          ["better-sqlite3", "npm:11.8.1"],\
+          ["better-sqlite3", "npm:11.9.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.18.0"],\
           ["dotenv", "npm:16.4.7"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.3"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
@@ -780,10 +780,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@babel/runtime", [\
-      ["npm:7.26.0", {\
-        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.26.0-9afa3c4ef6-12c01357e0.zip/node_modules/@babel/runtime/",\
+      ["npm:7.26.10", {\
+        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.26.10-d01a90d446-6dc6d88c79.zip/node_modules/@babel/runtime/",\
         "packageDependencies": [\
-          ["@babel/runtime", "npm:7.26.0"],\
+          ["@babel/runtime", "npm:7.26.10"],\
           ["regenerator-runtime", "npm:0.14.1"]\
         ],\
         "linkType": "HARD"\
@@ -1937,10 +1937,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:11.8.1", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.8.1-fc7d2ba95a/node_modules/better-sqlite3/",\
+      ["npm:11.9.1", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.9.1-fd86fc08ac/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.8.1"],\
+          ["better-sqlite3", "npm:11.9.1"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -3101,18 +3101,18 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["i18next", [\
-      ["npm:24.2.2", {\
-        "packageLocation": "./.yarn/cache/i18next-npm-24.2.2-77e939b2d8-df2f08f7e7.zip/node_modules/i18next/",\
+      ["npm:24.2.3", {\
+        "packageLocation": "./.yarn/cache/i18next-npm-24.2.3-4d61aea223-7ac11a67d6.zip/node_modules/i18next/",\
         "packageDependencies": [\
-          ["i18next", "npm:24.2.2"]\
+          ["i18next", "npm:24.2.3"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.2", {\
-        "packageLocation": "./.yarn/__virtual__/i18next-virtual-732b09e674/0/cache/i18next-npm-24.2.2-77e939b2d8-df2f08f7e7.zip/node_modules/i18next/",\
+      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.3", {\
+        "packageLocation": "./.yarn/__virtual__/i18next-virtual-803df222be/0/cache/i18next-npm-24.2.3-4d61aea223-7ac11a67d6.zip/node_modules/i18next/",\
         "packageDependencies": [\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.2"],\
-          ["@babel/runtime", "npm:7.26.0"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.3"],\
+          ["@babel/runtime", "npm:7.26.10"],\
           ["@types/typescript", null],\
           ["typescript", null]\
         ],\
@@ -4163,7 +4163,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/mathjs-npm-14.3.1-20b20bb4e4-6c97656b8e.zip/node_modules/mathjs/",\
         "packageDependencies": [\
           ["mathjs", "npm:14.3.1"],\
-          ["@babel/runtime", "npm:7.26.0"],\
+          ["@babel/runtime", "npm:7.26.10"],\
           ["complex.js", "npm:2.4.2"],\
           ["decimal.js", "npm:10.4.3"],\
           ["escape-latex", "npm:1.2.0"],\
@@ -5003,13 +5003,13 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["roll-it", "workspace:."],\
           ["@biomejs/biome", "npm:1.9.4"],\
-          ["better-sqlite3", "npm:11.8.1"],\
+          ["better-sqlite3", "npm:11.9.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.18.0"],\
           ["dotenv", "npm:16.4.7"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:24.2.3"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
