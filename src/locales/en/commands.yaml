@@ -506,13 +506,15 @@ ffrpg:
     message_description_one: |-
       {{userMention}} rolled {{result}} with a margin of **{{margin}}** for "{{description}}" (*{{die}}* vs *{{cos}}* {{detail}})
     message_other: |-
-      {{userMention}} rolled {{count}} times:
-      {{results}}
+      {{userMention}} rolled {{count}} times vs CoS *{{cos}}* {{detail}}:
+      {{results, indented}}
     message_description_other: |-
-      {{userMention}} rolled {{count}} times for "{{description}}":
-      {{results}}
+      {{userMention}} rolled {{count}} times for "{{description}}" vs CoS *{{cos}}* {{detail}}:
+      {{results, indented}}
     result: |-
-      * {{result}} with a margin of **{{margin}}** (*{{die}}* vs *{{cos}}* {{detail}})
+      {{result}} with a margin of **{{margin}}** (*{{die}}* vs *{{cos}}*)
+    result_rule10: |-
+      {{result}} with a margin of **{{margin}}** (*{{die}}* vs *{{cos}}*, rule of 10)
     detail:
       parts:
         base: Base
@@ -520,14 +522,16 @@ ffrpg:
         conditional: Conditional
         avoid: Avoid
       crit: crit at {{crit}}
+      no-crit: without crit
       botch: botch at {{botch}}
+      no-botch: without botch
       rule10: rule of 10
       shape: |-
         [{{mods}}]
       shape_fancy: |-
         [{{mods}}] *{{thresholds}}*
       shape_flat: |-
-       [{{base}} Base, flat]
+       [{{base}} Base, *flat*]
 help:
   name: help
   description: Get help with Roll It and its commands

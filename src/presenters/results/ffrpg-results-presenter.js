@@ -24,6 +24,7 @@ class FfrpgPresenter {
   description
   locale
   cos
+  global_rule10
   t
 
   constructor({
@@ -52,6 +53,7 @@ class FfrpgPresenter {
     this.locale = locale,
 
     this.cos = base + intrinsic + conditional - avoid
+    this.global_rule10 = this.cos <= 0
     this.t = i18n.getFixedT(locale, "commands", "ffrpg")
   }
 
@@ -65,48 +67,59 @@ class FfrpgPresenter {
       description: this.description,
       context: this.description ? "description" : undefined,
       count: this.rolls,
+      cos: this.cos,
+      detail: this.rollDetails(),
     }
 
-    if (this.rolls === 1) {
-      t_args.result = this.rollResult(0)
-      t_args.die = this.raw[0][0]
-      t_args.margin = this.rollMargin(0)
-      t_args.detail = this.rollDetail(0)
-      t_args.cos = this.cos
-    } else {
+    if (this.rolls > 1) {
       t_args.results = this.raw
         .map((roll, roll_idx) => {
           const res_args = {
-            result: this.rollResult(roll_idx),
+            result: this.t(this.rollResult(roll_idx)),
             die: roll[0],
             margin: this.rollMargin(roll_idx),
-            detail: this.rollDetail(roll_idx),
             cos: this.cos,
+            context: this.rollIsRule10(roll_idx) ? "rule10" : undefined,
           }
           return this.t("response.result", res_args)
         })
-        .join("\n")
+    } else {
+      t_args.result = this.t(this.rollResult(0))
+      t_args.die = this.raw[0][0]
+      t_args.margin = this.rollMargin(0)
     }
 
     return this.t(`response.message`, t_args)
   }
 
   /**
+   * Get whether a single roll should be marked as rule10
+   *
+   * @param  {int}  idx Index of the roll to categorize
+   * @return {bool}     True if the roll is rule10, false if not
+   */
+  rollIsRule10(idx) {
+    const die = this.raw[idx][0]
+
+    return !this.global_rule10 && this.cos < 10 && die > this.cos && die < 10
+  }
+
+  /**
    * Categorize the result of a roll
    *
    * @param  {int} idx Index of the roll to categorize
-   * @return {str}     Description of the roll's outcome
+   * @return {str}     The i18n key to use for the result
    */
   rollResult(idx) {
     const die = this.raw[idx][0]
 
-    if (this.cos < 10 && die > this.cos && die <= 10) return this.t("result.rule10")
+    if (this.cos < 10 && die > this.cos && die <= 10) return "result.rule10"
     if (die <= this.cos) {
-      if (die <= this.crit) return this.t("result.crit")
-      return this.t("result.simple")
+      if (die <= this.crit) return "result.crit"
+      return "result.simple"
     }
-    if (this.botch && die >= this.botch) return this.t("result.botch")
-    return this.t("result.fail")
+    if (this.botch && die >= this.botch) return "result.botch"
+    return "result.fail"
   }
 
   /**
@@ -115,7 +128,7 @@ class FfrpgPresenter {
    * @param  {int} idx Index of the roll to show
    * @return {str}     Description of the roll's components and conditions
    */
-  rollDetail(idx) {
+  rollDetails() {
     if (this.flat) {
       return this.t("response.detail.shape", {
         context: "flat",
@@ -134,10 +147,7 @@ class FfrpgPresenter {
       .join("")
 
     const thresholds = []
-    const die = this.raw[idx][0]
-    if (this.cos <= 0 || (this.cos <= 10 && die > this.cos && die <= 10)) {
-      thresholds.push(this.t("response.detail.rule10"))
-    }
+    if (this.global_rule10) thresholds.push(this.t("response.detail.rule10"))
     if (!this.botch) thresholds.push(this.t("response.detail.no-botch"))
     if (this.botch && this.botch !== DEFAULT_BOTCH) thresholds.push(this.t("response.detail.botch", { botch: this.botch }))
     if (!this.crit) thresholds.push(this.t("response.detail.no-crit"))
