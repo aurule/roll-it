@@ -4,7 +4,14 @@
 
 FFRPG uses a percentile system with special rules for the chance of success (or *CoS*). The `/ffrpg` command supports all of its components, including Rule of 10, crit ranges, and botches.
 
-The FFRPG system also benefits from the `/d10` command for rolling initiative and `/roll-formula` for handling weapon damage.
+The `/ffrpg` command handles a few corner cases that are not well described in the system rules:
+
+1. When CoS is negative, the roll margin is calculated from 10 instead of from the CoS
+2. When CoS is above zero, but below 10, the Rule of 10 allows a success when the roll is above the CoS and also below 10.
+
+#> For example, rolling 7 against a CoS of 2 will show a simple success and note that it benefitted from the Rule of 10.
+
+?> The FFRPG system also benefits from the `/d10` command for rolling initiative and `/roll-formula` for handling weapon damage.
 
 ## `/ffrpg`
 
