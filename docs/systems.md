@@ -22,6 +22,6 @@ Here are the supported systems:
 
 Each command has its own options to specify things like the number of dice, how many sides they have, or system-specific rules. They all also have the following shared options:
 
-* `description` lets you say a few words about the roll, to keep track of it later
+* `description` lets you say a few words about the roll, to keep track of it later or troll your GM
 * `rolls` lets you repeat the same roll multiple times all at once
 * `secret` hides the roll result from everyone but you
