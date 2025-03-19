@@ -16,6 +16,17 @@ The number where you re-roll changes often, so you can set it with the `explode`
 
 When you have a no dice (a `pool` of zero), you need to use a very different set of rules. This "chance" die only succeeds on a natural 10, which you *can* re-roll, and causes a Dramatic Failure on a natural 1. Where it gets really weird is how it behaves with the rote benefit. This is explained (unclearly, imo) on page 135 of the New World of Darkness 1e core rulebook, but I'll summarize it here. When you have a chance die on a rote roll, you can re-roll it if the initial die rolls a 2 or higher. If it shows a 1 on that initial roll, you get a Dramatic Failure and *cannot* re-roll. On a natural 10, you re-roll *twice:* once for the rote benefit and once for the natural 10.
 
+<!-- panels:start -->
+<!-- panels:title -->
+Example of a chance die:
+<!-- div:left-panel -->
+```invocation
+/nwod pool:0 description:I can't see *shit*
+```
+<!-- div:right-panel -->
+<@user> rolled a **dramatic failure** for "I can't see *shit*" (a chance die succeeding on 10: 1)
+<!-- panels:end -->
+
 For some extended tests, what really matters is how many rolls it takes to get to a total number of successes. The `until` option lets you set that threshold, and cap the maximum tries with the `rolls` option.
 
 Whenever you're making more `rolls` than 1, or using the `until` option, the default assumption is that your entire dice pool should be rolled multiple times. This is perfect for repeated tasks on multiple days, or groups of NPCs all rolling the same thing at once. It's not so good when a single character is re-trying the same check over and over, like the roll to open a lock or stabilize a dying man. In these cases, the re-try rules say you should lower your pool by one for each attempt after the first. The `decreasing` option lets you do just that.
