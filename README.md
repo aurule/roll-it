@@ -15,16 +15,17 @@ Once added, you'll automatically have access to all of its commands. You can lea
 ## Features
 
 Roll dice pools for a number of game systems:
-* World of Darkness MET's rock-paper-scissors using `/met static` and `/met opposed`
-* FATE fudge dice with `/fate`
-* New World of Darkness / Chronicles of Darkness d10s with `/nwod`
-* World of Darkness 20th Anniversary with `/wod20`
-* Dungeons & Dragons 5e with `/d20`
 * Don't Rest Your Head with `/drh`
+* Dungeons & Dragons 5e with `/d20`
+* FATE fudge dice with `/fate`
+* Final Fantasy RPG with `/ffrpg`, `/d10`, and `/roll-formula`
 * Kids On Bikes with `/kob`
-* Shadowrun 4e, 5e, and 6e with `/shadowrun`
+* New World of Darkness / Chronicles of Darkness d10s with `/nwod`
 * Powered by the Apocalypse with `/pba`
+* Shadowrun 4e, 5e, and 6e with `/shadowrun`
 * Stars Without Number (and friends) with `/d20` and `/2d6`
+* World of Darkness 20th Anniversary with `/wod20`
+* World of Darkness MET's rock-paper-scissors using `/met static` and `/met opposed`
 
 And of course, you can roll whatever standard dice you want:
 * Roll some d6s with `/d6`

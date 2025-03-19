@@ -10,7 +10,7 @@ Here are the supported systems:
 * [Don't Rest Your Head](/systems/drh) with `/drh`
 * [Dungeons & Dragons 5e](/systems/dnd5e) with `/d20` or `/curv`
 * [FATE](/systems/fate) fudge dice with `/fate`
-* [FFRPG](/systems/ffrpg) (3rd edition) percentiles for Final Fantasy with `/ffrpg`
+* [Final Fantasy RPG](/systems/ffrpg) (3rd edition) percentiles for Final Fantasy with `/ffrpg`
 * [Kids On Bikes](/systems/kob) with `/kob`
 * [Powered by the Apocalypse](/systems/pba) with `/pba`
 * [Shadowrun](/systems/shadowrun) 4e, 5e, and 6e with `/shadowrun`
