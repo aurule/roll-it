@@ -30,6 +30,7 @@ Here are the commands that can be saved:
 * `/d6` - Roll some six-sided dice
 * `/drh` - Roll pools of d6s for Don't Rest Your Head
 * `/fate` - Make a FATE roll of four fudge dice
+* `/ffrpg` - Roll a percentile
 * `/kob` - Roll an exploding die for Kids On Bikes
 * `/nwod` - Roll a pool of d10s using rules for New World of Darkness
 * `/pba` - Roll and sum two six-sided dice
