@@ -17,7 +17,7 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 
 It's easy to use Roll It!
 
-1. Add the bot to your server: [Install Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136&permissions=2147747840&integration_type=0&scope=bot+applications.commands)
+1. Add the bot to your server: [![discord](../_images/discord.svg ':class=emoji') Install Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136&permissions=2147747840&integration_type=0&scope=bot+applications.commands)
 2. Run the command `/setup-roll-it` and pick which dice systems you want to have on your server
 3. Roll some dice!
 
