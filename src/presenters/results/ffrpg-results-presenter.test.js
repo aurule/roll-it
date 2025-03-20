@@ -239,6 +239,19 @@ describe("FfrpgPresenter", () => {
         expect(result).toMatch("result.rule10")
       })
     })
+
+    describe("desperate failure", () => {
+      it("when CoS is negative and die is a normal fail", () => {
+        const presenter = new FfrpgPresenter({
+          base: -10,
+          raw: [[15]]
+        })
+
+        const result = presenter.rollResult(0)
+
+        expect(result).toMatch("result.desperate")
+      })
+    })
   })
 
   describe("rollDetails", () => {

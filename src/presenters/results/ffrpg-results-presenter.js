@@ -113,12 +113,13 @@ class FfrpgPresenter {
   rollResult(idx) {
     const die = this.raw[idx][0]
 
-    if (this.cos < 10 && die > this.cos && die <= 10) return "result.rule10"
     if (die <= this.cos) {
       if (die <= this.crit) return "result.crit"
       return "result.simple"
     }
+    if (this.cos < 10 && die <= 10) return "result.rule10"
     if (this.botch && die >= this.botch) return "result.botch"
+    if (this.global_rule10) return "result.desperate"
     return "result.fail"
   }
 

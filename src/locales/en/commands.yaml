@@ -499,6 +499,7 @@ ffrpg:
     simple: a **simple success**
     crit: a **critical success**
     fail: a **failure**
+    desperate: a **desperate failure**
     botch: a **botch**
   response:
     message_one: |-
