@@ -496,7 +496,7 @@ ffrpg:
       collision: The roll's `crit` must be lower than `botch`.
   result:
     rule10: a **narrow success**
-    simple: a **simple success**
+    simple: a **success**
     crit: a **critical success**
     fail: a **failure**
     desperate: a **desperate failure**

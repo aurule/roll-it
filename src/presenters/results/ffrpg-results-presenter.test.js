@@ -92,7 +92,7 @@ describe("FfrpgPresenter", () => {
         const result = presenter.presentResults()
 
         expect(result).toMatch("critical success")
-        expect(result).toMatch("simple success")
+        expect(result).toMatch("success")
       })
     })
   })
