@@ -2,7 +2,32 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
-## v1.10.2 <small> Released Feb 25, 2025</small>
+## v1.11.0 <small>Released Mar 21, 2025</small>
+
+This release dramatically improves the experience of saving a roll. Check out the [saved rolls guide](https://aurule.github.io/roll-it/#/features/saved), in-app help, or just dive in with the *Save this roll* command from the right-click menu.
+
+### Added
+
+* New `/ffrpg` roller for the *Final Fantasy RPG 3e* system
+* Added `carrier` and `altering` flags to `/met opposed` roller
+
+### Changed
+
+* Use server locale for teamwork and met-opposed
+* Reworked Saved Rolls to use a popup window to get the name and description for a new roll, instead of a separate command
+* Saved rolls no longer have the confusing `incomplete` state. Roll It now shows a popup for setting the name and description.
+
+### Removed
+
+* `/saved set` has been replaced by better interactivity in *Save this roll*
+
+### Fixed
+
+* Stopped the hummingbird from crashing `/nwod` and `/wod20`
+* Saved rolls list would always claim you had one roll, even with multiple listed
+* Saved rolls list did not translate shared options
+
+## v1.10.2 <small>Released Feb 25, 2025</small>
 
 ### Added
 
