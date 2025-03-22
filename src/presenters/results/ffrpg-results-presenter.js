@@ -44,7 +44,7 @@ class FfrpgPresenter {
     this.base = base,
     this.intrinsic = intrinsic,
     this.conditional = conditional,
-    this.avoid = avoid,
+    this.avoid = -avoid,
     this.crit = crit,
     this.botch = botch,
     this.flat = flat,

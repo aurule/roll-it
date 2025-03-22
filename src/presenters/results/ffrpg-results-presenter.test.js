@@ -283,19 +283,19 @@ describe("FfrpgPresenter", () => {
     })
 
     it.each([
-      ["intrinsic", 10],
-      ["conditional", 30],
-      ["avoid", 40],
-    ])("shows %s bonus", (name, value) => {
+      ["intrinsic", 10, "+"],
+      ["conditional", 30, "+"],
+      ["avoid", 40, "-"],
+    ])("shows %s bonus", (name, value, sign) => {
       const presenter = new FfrpgPresenter({
         base: 60,
         raw: [[20]],
+        [name]: value,
       })
-      presenter[name] = value
 
       const result = presenter.rollDetails()
 
-      expect(result).toMatch(`${value}`)
+      expect(result).toMatch(`${sign} ${value}`)
     })
 
     it("shows global rule10", () => {
