@@ -38,6 +38,7 @@ const RAW_RUNTIME_STATE =
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
+          ["keyv", "npm:5.3.2"],\
           ["mathjs", "npm:14.3.1"],\
           ["nodemon", "npm:3.1.9"],\
           ["pino", "npm:9.6.0"],\
@@ -1393,6 +1394,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@keyv/serialize", [\
+      ["npm:1.0.3", {\
+        "packageLocation": "./.yarn/cache/@keyv-serialize-npm-1.0.3-8097f55a1b-24a257870b.zip/node_modules/@keyv/serialize/",\
+        "packageDependencies": [\
+          ["@keyv/serialize", "npm:1.0.3"],\
+          ["buffer", "npm:6.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@npmcli/agent", [\
       ["npm:2.2.2", {\
         "packageLocation": "./.yarn/cache/@npmcli-agent-npm-2.2.2-e2f559d6c0-325e0db7b2.zip/node_modules/@npmcli/agent/",\
@@ -2045,6 +2056,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/buffer-npm-5.7.1-513ef8259e-27cac81cff.zip/node_modules/buffer/",\
         "packageDependencies": [\
           ["buffer", "npm:5.7.1"],\
+          ["base64-js", "npm:1.5.1"],\
+          ["ieee754", "npm:1.2.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.0.3", {\
+        "packageLocation": "./.yarn/cache/buffer-npm-6.0.3-cd90dfedfe-2a905fbbcd.zip/node_modules/buffer/",\
+        "packageDependencies": [\
+          ["buffer", "npm:6.0.3"],\
           ["base64-js", "npm:1.5.1"],\
           ["ieee754", "npm:1.2.1"]\
         ],\
@@ -4036,6 +4056,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["keyv", [\
+      ["npm:5.3.2", {\
+        "packageLocation": "./.yarn/cache/keyv-npm-5.3.2-72a1479f20-293ebd052e.zip/node_modules/keyv/",\
+        "packageDependencies": [\
+          ["keyv", "npm:5.3.2"],\
+          ["@keyv/serialize", "npm:1.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["kleur", [\
       ["npm:3.0.3", {\
         "packageLocation": "./.yarn/cache/kleur-npm-3.0.3-f6f53649a4-cd3a0b8878.zip/node_modules/kleur/",\
@@ -5013,6 +5043,7 @@ const RAW_RUNTIME_STATE =
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
+          ["keyv", "npm:5.3.2"],\
           ["mathjs", "npm:14.3.1"],\
           ["nodemon", "npm:3.1.9"],\
           ["pino", "npm:9.6.0"],\
