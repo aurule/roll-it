@@ -4042,6 +4042,7 @@ __metadata:
     pino-pretty: "npm:^13.0.0"
     prettier: "npm:^2.8.8"
     prompts: "npm:^2.4.2"
+    short-unique-id: "npm:^5.2.0"
     simpleflakes: "npm:^2.2.2"
   languageName: unknown
   linkType: soft
@@ -4112,6 +4113,16 @@ __metadata:
   version: 3.0.0
   resolution: "shebang-regex@npm:3.0.0"
   checksum: 10c0/1dbed0726dd0e1152a92696c76c7f06084eb32a90f0528d11acd764043aacf76994b2fb30aa1291a21bd019d6699164d048286309a278855ee7bec06cf6fb690
+  languageName: node
+  linkType: hard
+
+"short-unique-id@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "short-unique-id@npm:5.2.0"
+  bin:
+    short-unique-id: bin/short-unique-id
+    suid: bin/short-unique-id
+  checksum: 10c0/fb5f2d11bf38c3a2de629caaa55de858b4e1c0b02399b9c42afa1ef05e5203ae6e3ab5b11449b56c68d04d74f76515a778780afd7d16742b340d77d2967498f1
   languageName: node
   linkType: hard
 

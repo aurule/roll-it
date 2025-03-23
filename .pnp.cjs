@@ -46,6 +46,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.0.0"],\
           ["prettier", "npm:2.8.8"],\
           ["prompts", "npm:2.4.2"],\
+          ["short-unique-id", "npm:5.2.0"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
         "linkType": "SOFT"\
@@ -5051,6 +5052,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.0.0"],\
           ["prettier", "npm:2.8.8"],\
           ["prompts", "npm:2.4.2"],\
+          ["short-unique-id", "npm:5.2.0"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
         "linkType": "SOFT"\
@@ -5132,6 +5134,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/shebang-regex-npm-3.0.0-899a0cd65e-1dbed0726d.zip/node_modules/shebang-regex/",\
         "packageDependencies": [\
           ["shebang-regex", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["short-unique-id", [\
+      ["npm:5.2.0", {\
+        "packageLocation": "./.yarn/cache/short-unique-id-npm-5.2.0-6361b40a93-fb5f2d11bf.zip/node_modules/short-unique-id/",\
+        "packageDependencies": [\
+          ["short-unique-id", "npm:5.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
