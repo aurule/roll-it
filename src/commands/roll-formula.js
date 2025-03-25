@@ -39,7 +39,7 @@ module.exports = {
       const summed_results = []
 
       let rolled_formula = formula.replace(
-        /(\d+)d(\d+)(?:"(.*?)")?/g,
+        /(\d+)[dD](\d+)(?:"(.*?)")?/g,
         (match, pool, sides, label) => {
           raw_pools.push(`${pool}d${sides}`)
           let raw = roll(pool, sides)

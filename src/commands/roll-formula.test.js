@@ -64,6 +64,16 @@ describe("perform", () => {
     expect(result).toMatch(/\*\*\d+\*\*/)
   })
 
+  it("allows upper case letter 'D'", async () => {
+    const options = {
+      formula: "1D4 + 8",
+    }
+
+    const result = roll_formula_command.perform(options)
+
+    expect(result).toMatch(/\*\*\d+\*\*/)
+  })
+
   it("displays the rest of the formula", async () => {
     const options = {
       formula: "1d4 + 8",
