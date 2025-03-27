@@ -1,8 +1,8 @@
 const roll_cache = require("./roll-cache")
 
 describe("roll cache", () => {
-  describe("store", () => {
-    it("saves data by guild and user", () => {
+  describe("set", () => {
+    it("saves data by guild and user", async () => {
       const interaction = {
         guildId: "guild",
         user: {
@@ -10,87 +10,43 @@ describe("roll cache", () => {
         }
       }
 
-      roll_cache.store(interaction, "test")
+      await roll_cache.set(interaction, "test")
 
-      expect(roll_cache.findByIds("guild", "user")).toEqual("test")
+      const stored = await roll_cache.get(interaction)
+      expect(stored).toEqual("test")
     })
   })
 
-  describe("find", () => {
-    it("gets the data for the interaction guild and user", () => {
+  describe("get", () => {
+    it("gets the data for the interaction guild and user", async () => {
       const interaction = {
         guildId: "guild",
         user: {
           id: "user"
         }
       }
-      roll_cache.store(interaction, "test")
+      await roll_cache.set(interaction, "test")
 
-      const found = roll_cache.find(interaction)
+      const found = await roll_cache.get(interaction)
 
       expect(found).toEqual("test")
-    })
-  })
-
-  describe("findByIds", () => {
-    it("gets the data by guild and user", () => {
-      const interaction = {
-        guildId: "guild",
-        user: {
-          id: "user"
-        }
-      }
-      roll_cache.store(interaction, "test")
-
-      const found = roll_cache.findByIds("guild", "user")
-
-      expect(found).toEqual("test")
-    })
-
-    it("returns undefined for unknown guild", () => {
-      const interaction = {
-        guildId: "guild",
-        user: {
-          id: "user"
-        }
-      }
-      roll_cache.store(interaction, "test")
-
-      const found = roll_cache.findByIds("asdf", "user")
-
-      expect(found).toBeUndefined()
     })
   })
 
   describe("remove", () => {
-    it("removes the data for interaction guild and user", () => {
+    it("removes the data for interaction guild and user", async () => {
       const interaction = {
         guildId: "guild",
         user: {
           id: "user"
         }
       }
-      roll_cache.store(interaction, "test")
+      await roll_cache.set(interaction, "test")
 
-      roll_cache.remove(interaction)
+      await roll_cache.delete(interaction)
 
-      expect(roll_cache.findByIds("asdf", "user")).toBeUndefined()
-    })
-  })
-
-  describe("deleteByIds", () => {
-    it("removes the data for the guild and user", () => {
-      const interaction = {
-        guildId: "guild",
-        user: {
-          id: "user"
-        }
-      }
-      roll_cache.store(interaction, "test")
-
-      roll_cache.deleteByIds("guild", "user")
-
-      expect(roll_cache.findByIds("asdf", "user")).toBeUndefined()
+      const stored = await roll_cache.get(interaction)
+      expect(stored).toBeUndefined()
     })
   })
 })

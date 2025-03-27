@@ -65,7 +65,7 @@ module.exports = {
     const manageHandler = async (comp_interaction) => {
       switch (comp_interaction.customId) {
         case "edit":
-          rollCache.store(cmd_interaction, detail)
+          await rollCache.set(cmd_interaction, detail)
           const modal = SavedRollModal.data("edit", cmd_interaction.locale, { name: detail.name, description: detail.description })
           await comp_interaction.showModal(modal)
           return comp_interaction.editReply({

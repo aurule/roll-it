@@ -49,7 +49,7 @@ describe("saved roll modal", () => {
     })
 
     it("shows error on missing name", async () => {
-      rollCache.store(interaction, { description: "description" })
+      await rollCache.set(interaction, { description: "description" })
 
       await SavedRollModal.submit(interaction)
 
@@ -57,7 +57,7 @@ describe("saved roll modal", () => {
     })
 
     it("shows error on missing description", async () => {
-      rollCache.store(interaction, { name: "name" })
+      await rollCache.set(interaction, { name: "name" })
 
       await SavedRollModal.submit(interaction)
 
@@ -67,9 +67,9 @@ describe("saved roll modal", () => {
     describe("with no errors", () => {
       let user_rolls
 
-      beforeEach(() => {
+      beforeEach(async () => {
         user_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
-        rollCache.store(interaction, { command: "roll" })
+        await rollCache.set(interaction, { command: "roll" })
         interaction.setFields({
           name: "clean",
           description: "test roll"
@@ -96,8 +96,8 @@ describe("saved roll modal", () => {
     })
 
     describe("with an unknown error", () => {
-      beforeEach(() => {
-        rollCache.store(interaction, { mangle: true, command: "roll" })
+      beforeEach(async () => {
+        await rollCache.set(interaction, { mangle: true, command: "roll" })
         interaction.setFields({
           name: "asplode",
           description: "test roll"
@@ -113,7 +113,7 @@ describe("saved roll modal", () => {
 
     describe("with a name collision", () => {
 
-      beforeEach(() => {
+      beforeEach(async () => {
         user_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
         user_rolls.create({
           name: "collide",
@@ -121,7 +121,7 @@ describe("saved roll modal", () => {
           command: "roll",
         })
 
-        rollCache.store(interaction, { command: "roll" })
+        await rollCache.set(interaction, { command: "roll" })
         interaction.setFields({
           name: "collide",
           description: "new data"
@@ -148,7 +148,8 @@ describe("saved roll modal", () => {
 
           await response.click("abort")
 
-          expect(rollCache.find(interaction)).toBeUndefined()
+          const stored = await rollCache.get(interaction)
+          expect(stored).toBeUndefined()
         })
       })
 
@@ -166,7 +167,8 @@ describe("saved roll modal", () => {
 
           await response.click("retry")
 
-          expect(rollCache.find(interaction)).not.toBeUndefined()
+          const stored = await rollCache.get(interaction)
+          expect(stored).not.toBeUndefined()
         })
       })
 
@@ -185,7 +187,8 @@ describe("saved roll modal", () => {
 
           await response.click("overwrite")
 
-          expect(rollCache.find(interaction)).toBeUndefined()
+          const stored = await rollCache.get(interaction)
+          expect(stored).toBeUndefined()
         })
 
         it("shows a success message", async () => {
@@ -211,7 +214,8 @@ describe("saved roll modal", () => {
 
           await response.timeout()
 
-          expect(rollCache.find(interaction)).toBeUndefined()
+          const stored = await rollCache.get(interaction)
+          expect(stored).toBeUndefined()
         })
       })
     })

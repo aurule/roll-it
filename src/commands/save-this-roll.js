@@ -65,7 +65,7 @@ module.exports = {
       command: command.name,
       options: validated_options,
     }
-    rollCache.store(interaction, cache_data)
+    await rollCache.set(interaction, cache_data)
 
     return interaction.showModal(modal)
   },

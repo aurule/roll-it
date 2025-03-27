@@ -58,7 +58,7 @@ module.exports = {
     return modal
   },
   async submit(modal_interaction) {
-    const cached_roll = rollCache.find(modal_interaction)
+    const cached_roll = await rollCache.get(modal_interaction)
 
     const t = i18n.getFixedT(modal_interaction.locale, "modals", "save-roll")
 
@@ -89,7 +89,7 @@ module.exports = {
     try {
       user_rolls.upsert(cached_roll)
 
-      rollCache.remove(modal_interaction)
+      rollCache.delete(modal_interaction)
       return modal_interaction.whisper(t("response.success", {name} ))
     } catch(err) {
       if (!user_rolls.taken(name)) {
@@ -133,13 +133,13 @@ module.exports = {
             const original = user_rolls.detail(undefined, name)
             user_rolls.destroy(original.id)
             user_rolls.upsert(cached_roll)
-            rollCache.remove(modal_interaction)
+            rollCache.delete(modal_interaction)
             return button_interaction.update({
               content: t("response.collision.overwritten", {name}),
               components: [],
             })
           case "abort":
-            rollCache.remove(modal_interaction)
+            rollCache.delete(modal_interaction)
             return button_interaction.update({
               content: t("response.collision.aborted"),
               components: [],
@@ -156,7 +156,7 @@ module.exports = {
 
       collector.on("end", (_, reason) => {
         if (reason === "time") {
-          rollCache.remove(modal_interaction)
+          rollCache.delete(modal_interaction)
           return modal_interaction.editReply({
             content: t("response.collision.timeout"),
             components: [],
