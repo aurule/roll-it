@@ -49,10 +49,10 @@ report-roll:
   title: Report a Roll
   inputs:
     notes:
-      name: Details (optional)
+      label: Details (optional)
       placeholder: Was the outcome confusing, or seemed like a bug, or something else?
     consent:
-      name: Consent to DM (optional)
+      label: Consent to DM (optional)
       placeholder: Type CONSENT if it's OK to contact you about this report
       keyword: CONSENT
   response:
