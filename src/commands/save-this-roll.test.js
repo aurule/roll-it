@@ -25,13 +25,13 @@ describe("Save this roll", () => {
       saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
     })
 
-    const cacheCommand = (commandName, commandOptions = {}) => {
+    const cacheCommand = async (commandName, commandOptions = {}) => {
       past_interaction.commandName = commandName
       past_interaction.options.data = Object.entries(commandOptions).map(([name, value]) => ({
         name,
         value,
       }))
-      interactionCache.store(past_interaction)
+      return interactionCache.set(past_interaction)
     }
 
     it("warns on bad author ID", async () => {
@@ -49,7 +49,7 @@ describe("Save this roll", () => {
     })
 
     it("warns on non-savable command", async () => {
-      cacheCommand("chop")
+      await cacheCommand("chop")
 
       await save_roll_command.execute(interaction)
 
@@ -57,7 +57,7 @@ describe("Save this roll", () => {
     })
 
     it("warns on invalid options", async () => {
-      cacheCommand("d20", { keep: "none" })
+      await cacheCommand("d20", { keep: "none" })
 
       await save_roll_command.execute(interaction)
 
@@ -65,7 +65,7 @@ describe("Save this roll", () => {
     })
 
     it("shows a modal", async () => {
-      cacheCommand("d20", { keep: "none" })
+      await cacheCommand("d20", { keep: "none" })
 
       const sent = await save_roll_command.execute(interaction)
 

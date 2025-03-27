@@ -34,7 +34,7 @@ async function handleCommand(interaction) {
     return interaction.whisper(policyResult.errorMessages.join(". "))
   }
 
-  interactionCache.store(interaction)
+  await interactionCache.set(interaction)
   return command.execute(interaction)
 }
 

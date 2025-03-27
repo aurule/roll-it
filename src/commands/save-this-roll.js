@@ -33,7 +33,7 @@ module.exports = {
       return interaction.whisper(t("validation.foreign"))
     }
 
-    const cachedInvocation = interactionCache.findByMessage(interaction.targetMessage)
+    const cachedInvocation = await interactionCache.getMessage(interaction.targetMessage)
     if (!cachedInvocation) {
       return interaction.whisper(t("validation.missing"))
     }

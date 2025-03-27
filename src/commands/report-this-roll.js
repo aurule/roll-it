@@ -29,7 +29,7 @@ module.exports = {
       return interaction.whisper(t("validation.foreign"))
     }
 
-    const cachedInvocation = interactionCache.findByMessage(interaction.targetMessage)
+    const cachedInvocation = await interactionCache.getMessage(interaction.targetMessage)
 
     const feedback = new Feedback()
     const result = feedback.create({

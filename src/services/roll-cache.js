@@ -6,6 +6,11 @@ const {Keyv} = require("keyv")
  * This stores one set of command data per user within each guild. The data is used by the Saved Roll Modal.
  */
 class RollCache extends Keyv {
+  constructor() {
+    // default TTL of 15 minutes
+    super({ttl: 900_000})
+  }
+
   makeId(interaction) {
     return `${interaction.guildId}-${interaction.user.id}`
   }

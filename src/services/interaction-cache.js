@@ -1,31 +1,26 @@
-const { Collection, LimitedCollection } = require("discord.js")
+const {Keyv} = require("keyv")
 
 /**
  * Cache class for storing data from command interactions
  *
- * This stores the command name and options for the most recent 1000 interactions for every guild. This data
- * is looked up by the `Save this command` context-menu command in order to know what to save.
+ * This stores the command name and options for command interactions on every guild. Records are retained for
+ * two days. This data is looked up by the `Save this command` context-menu command in order to know what to
+ * save.
  */
-class InteractionCache extends Collection {
-  /**
-   * Create a guild-level interaction cache
-   *
-   * @return {LimitedCollection} A LimitedCollection object with a max of 1000 entries.
-   */
-  guildCacheConstructor() {
-    return new LimitedCollection({
-      maxSize: 1000,
-    })
+class InteractionCache extends Keyv {
+  constructor() {
+    // default TTL of two days
+    super({ttl: 1.728e+8})
   }
 
   /**
    * Save data about an interaction
    *
-   * The data is stored first by the interaction's guild ID, then by its own ID.
+   * This extracts the command options and command name, and saves them in a structured object.
    *
    * @param  {Interaction} interaction Discord command interaction to save
    */
-  store(interaction) {
+  async set(interaction) {
     const options = new Object()
     try {
       interaction.options.data.map((discordOption) => {
@@ -35,49 +30,31 @@ class InteractionCache extends Collection {
       return
     }
 
-    const guildInteractions = this.ensure(interaction.guildId, this.guildCacheConstructor)
-    guildInteractions.set(interaction.id, {
+    const data = {
       commandName: interaction.commandName,
-      options,
-    })
+      options
+    }
+    return super.set(interaction.id, data)
   }
 
   /**
-   * Find an interaction in the cache
+   * Get an interaction from the cache
    *
-   * @param  {snowflake} guildId       ID of the interaction's guild
-   * @param  {snowflake} interactionId ID of the interaction
+   * @param  {Interaction} interaction Interaction to look up
    * @return {object}                  Object with the command and options used in the saved interaction
    */
-  findByIds(guildId, interactionId) {
-    const guildInteractions = this.get(guildId)
-    if (!guildInteractions) return undefined
-
-    return guildInteractions.get(interactionId)
+  async getInteraction(interaction) {
+    return super.get(interaction.id)
   }
 
   /**
-   * Find an interaction using data from a message
+   * Get an interaction from the cache using a message object
    *
-   * This is the main entry point for `Save this command`
-   *
-   * @param  {Message} message The message object to use, as from interaction.targetMessage
-   * @return {object}                  Object with the command and options used in the saved interaction
+   * @param  {Message} message Message from the interaction to look up
+   * @return {object}          Object with the command and options used in the saved interaction
    */
-  findByMessage(message) {
-    return this.findByIds(message.guildId, message.interactionMetadata.id)
-  }
-
-  /**
-   * Find an interaction by its own attributes
-   *
-   * This is meant to be used by tests.
-   *
-   * @param  {Interaction} interaction Interaction object to use
-   * @return {object}                  Object with the command and options used in the saved interaction
-   */
-  findByInteraction(interaction) {
-    return this.findByIds(interaction.guildId, interaction.id)
+  async getMessage(message) {
+    return super.get(message.interactionMetadata.id)
   }
 }
 
