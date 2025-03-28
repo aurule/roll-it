@@ -77,6 +77,9 @@ module.exports = {
     /**
      * Split a long message if needed and send in multiple replies
      *
+     * This is a convenience api that's handy when your content might spill into multiple messages. If you
+     * know it will fit in a single message, use rollReply instead.
+     *
      * @param  {str}         content    The potentially long string to send
      * @param  {bool}        secret  Whether the messages should be ephemeral
      * @param  {str}         split_on   String to use when separating the content

@@ -14,6 +14,9 @@ module.exports = {
     /**
      * Reply with a possibly ephemeral message
      *
+     * This is a convenience api that's handy when you know your content will fit within one message. If it
+     * might spill into more messages, use paginate instead.
+     *
      * @param  {str}     content   The message contents to send
      * @param  {bool}    secret Whether the message is ephemeral or not
      * @return {Promise}           Interaction response promise
