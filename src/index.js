@@ -12,7 +12,7 @@ require("./patches/roll-reply").patch()
 
 const fs = require("fs")
 const { join } = require("node:path")
-const { Client, GatewayIntentBits, ActivityType } = require("discord.js")
+const { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus } = require("discord.js")
 const { jsNoTests } = require("./util/filters")
 const commands = require("./commands")
 const modals = require("./modals")
@@ -29,9 +29,10 @@ const client = new Client({
         type: ActivityType.Custom,
       },
     ],
+    status: PresenceUpdateStatus.Online,
   },
+  failIfNotExists: false,
 })
-const token = process.env.BOT_TOKEN
 
 // Store commands (slash commands, context menu commands)
 client.commands = commands
@@ -52,4 +53,4 @@ for (const file of eventFiles) {
 }
 
 // Login to Discord with your client's token
-client.login(token)
+client.login(process.env.BOT_TOKEN)
