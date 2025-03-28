@@ -23,7 +23,7 @@ Roll dice pools for a number of game systems:
 * New World of Darkness / Chronicles of Darkness d10s with `/nwod`
 * Powered by the Apocalypse with `/pba`
 * Shadowrun 4e, 5e, and 6e with `/shadowrun`
-* Stars Without Number (and friends) with `/d20` and `/2d6`
+* Stars Without Number (and friends) with `/d20` and `/swn`
 * World of Darkness 20th Anniversary with `/wod20`
 * World of Darkness MET's rock-paper-scissors using `/met static` and `/met opposed`
 
