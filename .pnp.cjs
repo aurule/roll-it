@@ -39,7 +39,7 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["keyv", "npm:5.3.2"],\
-          ["mathjs", "npm:14.3.1"],\
+          ["mathjs", "npm:14.4.0"],\
           ["nodemon", "npm:3.1.9"],\
           ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -47,7 +47,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.8"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
-          ["short-unique-id", "npm:5.2.0"],\
+          ["short-unique-id", "npm:5.2.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
         "linkType": "SOFT"\
@@ -4191,8 +4191,8 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:14.3.1", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-14.3.1-20b20bb4e4-6c97656b8e.zip/node_modules/mathjs/",\
+      ["npm:14.4.0", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-14.4.0-097c3affa8-212e6592ae.zip/node_modules/mathjs/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["complex.js", "npm:2.4.2"],\
@@ -4200,7 +4200,7 @@ const RAW_RUNTIME_STATE =
           ["escape-latex", "npm:1.2.0"],\
           ["fraction.js", "npm:5.2.1"],\
           ["javascript-natural-sort", "npm:0.7.1"],\
-          ["mathjs", "npm:14.3.1"],\
+          ["mathjs", "npm:14.4.0"],\
           ["seedrandom", "npm:3.0.5"],\
           ["tiny-emitter", "npm:2.1.0"],\
           ["typed-function", "npm:4.2.1"]\
@@ -5045,7 +5045,7 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
           ["keyv", "npm:5.3.2"],\
-          ["mathjs", "npm:14.3.1"],\
+          ["mathjs", "npm:14.4.0"],\
           ["nodemon", "npm:3.1.9"],\
           ["pino", "npm:9.6.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -5053,7 +5053,7 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.8"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
-          ["short-unique-id", "npm:5.2.0"],\
+          ["short-unique-id", "npm:5.2.2"],\
           ["simpleflakes", "npm:2.2.2"]\
         ],\
         "linkType": "SOFT"\
@@ -5140,10 +5140,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["short-unique-id", [\
-      ["npm:5.2.0", {\
-        "packageLocation": "./.yarn/cache/short-unique-id-npm-5.2.0-6361b40a93-fb5f2d11bf.zip/node_modules/short-unique-id/",\
+      ["npm:5.2.2", {\
+        "packageLocation": "./.yarn/cache/short-unique-id-npm-5.2.2-17a683e13a-2ff27cd772.zip/node_modules/short-unique-id/",\
         "packageDependencies": [\
-          ["short-unique-id", "npm:5.2.0"]\
+          ["short-unique-id", "npm:5.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\

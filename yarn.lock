@@ -361,7 +361,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.25.7, @babel/runtime@npm:^7.26.10":
+"@babel/runtime@npm:^7.26.10":
   version: 7.26.10
   resolution: "@babel/runtime@npm:7.26.10"
   dependencies:
@@ -3250,11 +3250,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:^14.3.1":
-  version: 14.3.1
-  resolution: "mathjs@npm:14.3.1"
+"mathjs@npm:^14.4.0":
+  version: 14.4.0
+  resolution: "mathjs@npm:14.4.0"
   dependencies:
-    "@babel/runtime": "npm:^7.25.7"
+    "@babel/runtime": "npm:^7.26.10"
     complex.js: "npm:^2.2.5"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
@@ -3265,7 +3265,7 @@ __metadata:
     typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10c0/6c97656b8e0f4321fad20c9301b28ee8b1ff66c3a7c2e7734e6b5e2df327e79fc0bdc2805cf51844d0ecbff151368ab3ce1eb2cd99826e5777eef61d67432ba9
+  checksum: 10c0/212e6592ae38ba44836b4922cb1be829dbf907f9b841c25fdeaa0fc3d514fd8bda912d855d1ff45f51005b7818f4cc36162e0ad72f80cf2cfa985378df1b7dda
   languageName: node
   linkType: hard
 
@@ -4035,14 +4035,14 @@ __metadata:
     jest: "npm:^29.7.0"
     joi: "npm:^17.13.3"
     keyv: "npm:^5.3.2"
-    mathjs: "npm:^14.3.1"
+    mathjs: "npm:^14.4.0"
     nodemon: "npm:^3.1.9"
     pino: "npm:^9.6.0"
     pino-papertrail: "npm:^2.1.0"
     pino-pretty: "npm:^13.0.0"
     prettier: "npm:^2.8.8"
     prompts: "npm:^2.4.2"
-    short-unique-id: "npm:^5.2.0"
+    short-unique-id: "npm:^5.2.2"
     simpleflakes: "npm:^2.2.2"
   languageName: unknown
   linkType: soft
@@ -4116,13 +4116,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"short-unique-id@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "short-unique-id@npm:5.2.0"
+"short-unique-id@npm:^5.2.2":
+  version: 5.2.2
+  resolution: "short-unique-id@npm:5.2.2"
   bin:
     short-unique-id: bin/short-unique-id
     suid: bin/short-unique-id
-  checksum: 10c0/fb5f2d11bf38c3a2de629caaa55de858b4e1c0b02399b9c42afa1ef05e5203ae6e3ab5b11449b56c68d04d74f76515a778780afd7d16742b340d77d2967498f1
+  checksum: 10c0/2ff27cd772e13a370dae4de174ad503770caf7fefa6cfffcc9e52f4fe5bed2cbe07ab5683d5846c6b3b554d4036785d94b877ce09db26e22912e22de35d40772
   languageName: node
   linkType: hard
 

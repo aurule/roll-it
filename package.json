@@ -21,10 +21,10 @@
     "i18next-fs-backend": "^2.6.0",
     "joi": "^17.13.3",
     "keyv": "^5.3.2",
-    "mathjs": "^14.3.1",
+    "mathjs": "^14.4.0",
     "pino": "^9.6.0",
     "pino-papertrail": "^2.1.0",
-    "short-unique-id": "^5.2.0"
+    "short-unique-id": "^5.2.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
