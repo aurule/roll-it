@@ -2,6 +2,14 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+# v1.11.1 <small>Released Mar 30, 2025</small>
+
+### Fixed
+
+* The `avoid` modifier to `/ffrpg` now has the correct sign
+* Fixed field labels not appearing for *Report this roll* modal
+* Using `1D6` instead of `1d6` in `/roll-formula` no longer crashes the roller
+
 ## v1.11.0 <small>Released Mar 21, 2025</small>
 
 This release dramatically improves the experience of saving a roll. Check out the [saved rolls guide](https://aurule.github.io/roll-it/#/features/saved), in-app help, or just dive in with the *Save this roll* command from the right-click menu.
