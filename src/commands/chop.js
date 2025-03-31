@@ -15,6 +15,7 @@ module.exports = {
   name: command_name,
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
+      .addStringOption(commonOpts.description)
       .addLocalizedBooleanOption("static")
       .addLocalizedBooleanOption("bomb")
       .addIntegerOption(commonOpts.rolls)
