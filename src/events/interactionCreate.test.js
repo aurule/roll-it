@@ -1,11 +1,11 @@
-const InteractionCreateEvent = require("./interactionCreate")
-const { logger } = require("../util/logger")
 const { Collection } = require("discord.js")
-
+const { logger } = require("../util/logger")
 const { Interaction } = require("../../testing/interaction")
+const EnvAllowsGuild = require("../util/env-allows-guild")
+
+const InteractionCreateEvent = require("./interactionCreate")
 
 var interaction
-var envSpy
 
 beforeEach(() => {
   interaction = new Interaction()
@@ -15,16 +15,23 @@ describe("interactionCreate handler", () => {
   describe("execute", () => {
     var handleSpy
 
-    beforeEach(() => {
-      envSpy = jest.spyOn(InteractionCreateEvent, "inCorrectEnv").mockReturnValue(true)
-    })
+    describe("when in the wrong environment", () => {
+      const OLD_ENV = process.env
 
-    it("aborts when not in correct env", () => {
-      envSpy.mockReturnValue(false)
+      beforeEach(() => {
+        process.env = { ...OLD_ENV }
+        process.env.DEV_GUILDS = `[${interaction.guildId}]`
+      })
 
-      return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch(
-        "wrong guild for env",
-      )
+      afterAll(() => {
+        process.env = OLD_ENV
+      })
+
+      it("aborts the event", () => {
+        return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch(
+          "wrong guild for env",
+        )
+      })
     })
 
     describe("dispatches commands", () => {
@@ -77,53 +84,6 @@ describe("interactionCreate handler", () => {
     })
   })
 
-  describe("inCorrectEnv", () => {
-    const OLD_ENV = process.env
-
-    beforeEach(() => {
-      process.env = { ...OLD_ENV }
-    })
-
-    afterAll(() => {
-      process.env = OLD_ENV
-    })
-
-    describe("in development mode", () => {
-      beforeEach(() => {
-        process.env.NODE_ENV = "development"
-      })
-
-      it("true for dev guilds", () => {
-        process.env.DEV_GUILDS = "[12345]"
-        interaction.guildId = "12345"
-
-        expect(InteractionCreateEvent.inCorrectEnv(interaction)).toBeTruthy()
-      })
-
-      it("false for all other guilds", () => {
-        process.env.DEV_GUILDS = "[12345]"
-        interaction.guildId = "09876"
-
-        expect(InteractionCreateEvent.inCorrectEnv(interaction)).toBeFalsy()
-      })
-    })
-    describe("in non-development mode", () => {
-      it("false for dev guilds", () => {
-        process.env.DEV_GUILDS = "[12345]"
-        interaction.guildId = "12345"
-
-        expect(InteractionCreateEvent.inCorrectEnv(interaction)).toBeFalsy()
-      })
-
-      it("true for all other guilds", () => {
-        process.env.DEV_GUILDS = "[12345]"
-        interaction.guildId = "09876"
-
-        expect(InteractionCreateEvent.inCorrectEnv(interaction)).toBeTruthy()
-      })
-    })
-  })
-
   describe("handleCommand", () => {
     const testCommand = {
       execute: (interaction) => "worked",
@@ -132,7 +92,6 @@ describe("interactionCreate handler", () => {
     beforeEach(() => {
       interaction.client.commands.set("testing", testCommand)
       interaction.commandName = "testing"
-      envSpy = jest.spyOn(InteractionCreateEvent, "inCorrectEnv").mockReturnValue(true)
     })
 
     it("rejects on unknown command", () => {
@@ -186,10 +145,6 @@ describe("interactionCreate handler", () => {
       autocomplete: undefined,
     }
 
-    beforeEach(() => {
-      envSpy = jest.spyOn(InteractionCreateEvent, "inCorrectEnv").mockReturnValue(true)
-    })
-
     it("rejects on unknown command", () => {
       interaction.client.commands.set("testing", testCommand)
       interaction.commandName = "nope"
@@ -221,10 +176,6 @@ describe("interactionCreate handler", () => {
     const testModal = {
       submit: async (interaction, id) => `worked ${id}`,
     }
-
-    beforeEach(() => {
-      envSpy = jest.spyOn(InteractionCreateEvent, "inCorrectEnv").mockReturnValue(true)
-    })
 
     it("rejects on unknown modal", () => {
       interaction.client.modals.set("testing", testModal)

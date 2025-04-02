@@ -5,6 +5,7 @@ const { metrics } = require("../db/stats")
 const PolicyChecker = require("../services/policy-checker")
 const interactionCache = require("../services/interaction-cache")
 const { i18n } = require("../locales")
+const { envAllowsGuild } = require("../util/env-allows-guild")
 
 /**
  * Handle command interactions
@@ -91,29 +92,11 @@ async function handleModal(interaction) {
   return modal.submit(interaction, modal_id)
 }
 
-/**
- * Determine if we're running in the right environment to handle the current guild
- *
- * When in the "development" environment, this returns true only for guilds whose
- * snowflake appears in the DEV_GUILDS envvar. In all other environments, this
- * returns false for guilds in DEV_GUILDS and true for all other guilds.
- *
- * @param  {Interaction} interaction  Discord interaction object
- * @return {bool}                     True if we should handle the guild, false if not
- */
-function inCorrectEnv(interaction) {
-  return (
-    !(process.env.NODE_ENV !== "development") ==
-    process.env.DEV_GUILDS.includes(interaction.guildId)
-  )
-}
-
 module.exports = {
   name: Events.InteractionCreate,
   handleCommand,
   handleAutocomplete,
   handleModal,
-  inCorrectEnv,
 
   /**
    * Handle the incoming interaction event
@@ -123,7 +106,7 @@ module.exports = {
    *                                    from a call to interaction.reply()
    */
   execute(interaction) {
-    if (!module.exports.inCorrectEnv(interaction)) return Promise.resolve("wrong guild for env")
+    if (!envAllowsGuild(interaction.guildId)) return Promise.resolve("wrong guild for env")
 
     // handle command invocations
     if (interaction.isCommand() || interaction.isChatInputCommand()) {
