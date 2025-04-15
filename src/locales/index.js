@@ -5,7 +5,7 @@ const Backend = require("i18next-fs-backend")
 const own_formatters = require("../util/formatters/i18n")
 
 i18next.use(Backend).init({
-  debug: process.env.NODE_ENV === "development",
+  debug: false,
   fallbackLng: {
     default: ["en-US"],
   },
