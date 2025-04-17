@@ -1,6 +1,6 @@
 const whisper = require("./whisper")
 
-const { CommandInteraction, MessageFlags } = require("discord.js")
+const { MessageFlags, CommandInteraction, ModalSubmitInteraction, ButtonInteraction, UserSelectMenuInteraction, Message } = require("discord.js")
 
 class PatchMeWhisper {
   reply(args) {
@@ -9,10 +9,16 @@ class PatchMeWhisper {
 }
 
 describe("patch", () => {
-  it("targets the base command class by default", () => {
+  it.each([
+    [CommandInteraction],
+    [ModalSubmitInteraction],
+    [ButtonInteraction],
+    [UserSelectMenuInteraction],
+    [Message],
+  ])("patches %p by default", (klass) => {
     whisper.patch()
 
-    expect(CommandInteraction.prototype.whisper).not.toBeUndefined()
+    expect(klass.prototype.whisper).not.toBeUndefined()
   })
 })
 

@@ -2,14 +2,14 @@
  * This patch creates a small helper method named "whisper" on all command interaction objects.
  */
 
-const { CommandInteraction, ModalSubmitInteraction, MessageFlags } = require("discord.js")
+const { MessageFlags, CommandInteraction, ModalSubmitInteraction, ButtonInteraction, UserSelectMenuInteraction, Message } = require("discord.js")
 
 module.exports = {
   /**
    * Create the whisper method
    */
   patch(target_klass) {
-    let klasses = [CommandInteraction, ModalSubmitInteraction]
+    let klasses = [CommandInteraction, ModalSubmitInteraction, ButtonInteraction, UserSelectMenuInteraction, Message]
     if (target_klass) {
       klasses = [target_klass]
     }
