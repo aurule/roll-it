@@ -3,10 +3,10 @@ CREATE TABLE IF NOT EXISTS saved_rolls (
   id INTEGER PRIMARY KEY,
   guildFlake TEXT NOT NULL,
   userFlake TEXT NOT NULL,
-  name TEXT,
+  name TEXT NOT NULL,
   description TEXT,
-  command TEXT,
-  options BLOB,
+  command TEXT NOT NULL,
+  options BLOB NOT NULL,
   invalid BOOL DEFAULT false
 );
 
