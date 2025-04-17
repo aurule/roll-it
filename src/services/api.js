@@ -199,4 +199,43 @@ module.exports = {
         logger.info({ guild: guildId, command: commandName }, "Done updating guild command")
       })
   },
+
+  /**
+   * Send a message to a Guild or DM channel
+   *
+   * @see https://discord.com/developers/docs/resources/message#create-message
+   *
+   * @param  {Snowflake} channelId ID of the channel to send the message
+   * @param  {obj}       payload   Message data
+   * @return {Promise}             Promise resolving to the endpoint's response
+   */
+  async sendMessage(channelId, payload) {
+    return client
+      .post(Routes.channelMessages(channelId), {
+        body: payload
+      })
+      .catch((error) => {
+        logger.warn(error, `Error sending message`)
+      })
+  },
+
+  /**
+   * Edit a message sent by Roll It
+   *
+   * @see https://discord.com/developers/docs/resources/message#edit-message
+   *
+   * @param  {Snowflake} channelId ID of the channel the message is in
+   * @param  {Snowflake} messageId ID of the message to edit
+   * @param  {obj}       payload   New message data
+   * @return {Promise}             Promise resolving to the endpoint's response
+   */
+  async editMessage(channelId, messageId, payload) {
+    return client
+      .patch(Routes.channelMessage(channelId, messageId), {
+        body: payload
+      })
+      .catch((error) => {
+        logger.warn(error, `Error editing message`)
+      })
+  }
 }
