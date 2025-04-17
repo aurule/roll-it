@@ -3,10 +3,7 @@ const { userMention } = require("discord.js")
 
 class User {
   constructor(snowflake) {
-    this.flake = snowflake
-    if (!this.flake) {
-      this.flake = simpleflake()
-    }
+    this.flake = snowflake ?? simpleflake()
 
     this.id = this.flake.toString()
     this.bot = false
