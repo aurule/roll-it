@@ -1,8 +1,5 @@
-const { PermissionFlagsBits } = require("discord.js")
-
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { loadSubcommands, dispatch } = require("../util/subcommands")
-const { siteLink } = require("../util/formatters")
 
 const command_name = "table"
 const subcommands = loadSubcommands(command_name)
@@ -13,7 +10,6 @@ module.exports = {
   data() {
     return new LocalizedSlashCommandBuilder(command_name)
       .setDMPermission(false)
-      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
       .addSubcommand(subcommands.get("roll").data())
       .addSubcommand(subcommands.get("list").data())
       .addSubcommand(subcommands.get("add").data())
