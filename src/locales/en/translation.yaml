@@ -121,3 +121,18 @@ easter-eggs:
       - Sometimes I'm spicy.
       - Have you been seeing other dice bots?
       - Take a deep breath now and then.
+  mention:
+    messages:
+      # These do not need to be match across languages.
+      - Can I help you?
+      - Whaddyawant?
+      - Hi!
+      - Hello!
+      - Bonjour!
+      - ¡Hola!
+      - 🛵💨 Ciao!
+      - I'm full of dice!
+      - Sorry, I'm not a chatbot.
+      - If you want conversation, maybe check out [duck.ai](<https://duck.ai>). Or, y'know, talk to people.
+      - Did you drink water today?
+      - Did you eat food today?
