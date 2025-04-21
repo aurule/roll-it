@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS interactive.teamwork_tests (
   description TEXT,
   locale TEXT NOT NULL,
   channel_uid TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME
 );
 
 CREATE TABLE IF NOT EXISTS interactive.teamwork_messages (

@@ -24,6 +24,7 @@ describe("Teamwork DB", () => {
         locale: "en-US",
         channelId: "channel",
         description: "description",
+        timeout: 1000,
       })
 
       expect(result.lastInsertRowid).toBeGreaterThan(0)
@@ -41,10 +42,26 @@ describe("Teamwork DB", () => {
         locale: "en-US",
         channelId: "channel",
         description: "description",
+        timeout: 1000,
       })
 
       const detail = teamwork.detail(result.lastInsertRowid)
       expect(detail.options).toMatchObject(original_options)
+    })
+
+    it("inserts expiration timestamp", () => {
+      const result = teamwork.addTeamwork({
+        command: "test",
+        options: {},
+        leader: "leader",
+        locale: "en-US",
+        channelId: "channel",
+        description: "description",
+        timeout: -1, // force past expiry
+      })
+
+      const record = teamwork.detail(result.lastInsertRowid)
+      expect(record.expired).toBeTruthy()
     })
   })
 
@@ -112,6 +129,50 @@ describe("Teamwork DB", () => {
       })
 
       expect(result.lastInsertRowid).toBeGreaterThan(0)
+    })
+  })
+
+  describe("isMessageExpired", () => {
+    it("returns false when test expires in the future", () => {
+      const tw_record = teamwork.addTeamwork({
+        command: "test",
+        options: {},
+        leader: "leader",
+        locale: "en-US",
+        channelId: "channel",
+        description: "description",
+        timeout: 120,
+      })
+      const test_id = tw_record.lastInsertRowid
+      teamwork.addMessage({
+        message_uid: "test",
+        teamwork_id: test_id,
+      })
+
+      const result = teamwork.isMessageExpired("test")
+
+      expect(result).toEqual(false)
+    })
+
+    it("returns true when test expires in the past", () => {
+      const tw_record = teamwork.addTeamwork({
+        command: "test",
+        options: {},
+        leader: "leader",
+        locale: "en-US",
+        channelId: "channel",
+        description: "description",
+        timeout: -120,
+      })
+      const test_id = tw_record.lastInsertRowid
+      teamwork.addMessage({
+        message_uid: "test2",
+        teamwork_id: test_id,
+      })
+
+      const result = teamwork.isMessageExpired("test2")
+
+      expect(result).toEqual(true)
     })
   })
 

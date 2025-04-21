@@ -31,9 +31,10 @@ class Teamwork {
    * @param  {str}       options.locale      Localization locale code
    * @param  {Snowflake} options.channelId   Discord ID of the channel where the test was started
    * @param  {str}       options.description Optional description of the test
+   * @param  {int}       options.timeout     Number of seconds after which the test should be considered expired
    * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
-  addTeamwork({ command, options, leader, locale, channelId, description }) {
+  addTeamwork({ command, options, leader, locale, channelId, description, timeout = 0 } = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO interactive.teamwork_tests (
         command,
@@ -41,14 +42,16 @@ class Teamwork {
         leader,
         locale,
         channel_uid,
-        description
+        description,
+        expires_at
       ) VALUES (
         @command,
         JSONB(@options),
         @leader,
         @locale,
         @channel_uid,
-        @description
+        @description,
+        datetime('now', @timeout || ' seconds')
       )
     `)
 
@@ -59,18 +62,23 @@ class Teamwork {
       locale,
       channel_uid: channelId,
       description,
+      timeout
     })
   }
 
   /**
    * Get a teamwork record
    *
+   * This method adds an `expired` property for convenience.
+   *
    * @param  {int} id Internal ID of the teamwork record
    * @return {obj}    Teamwork object
    */
   detail(id) {
     const select = this.db.prepare(oneLine`
-      SELECT *, JSON_EXTRACT(options, '$') as options
+      SELECT *,
+             JSON_EXTRACT(options, '$') AS options,
+             TIME('now') > TIME(expires_at) AS expired
       FROM interactive.teamwork_tests
       WHERE id = @id
     `)
@@ -84,6 +92,7 @@ class Teamwork {
     return {
       ...raw_out,
       options: JSON.parse(raw_out.options),
+      expired: !!raw_out.expired,
     }
   }
 
@@ -100,6 +109,25 @@ class Teamwork {
     return destroy.run({
       id,
     })
+  }
+
+  /**
+   * Get whether a message belongs to an expired test
+   *
+   * @param  {Snowflake} message_id Discord ID of the message to test
+   * @return {Boolean}              True if the message's test is expired, false if not
+   */
+  isMessageExpired(message_id) {
+    const select = this.db.prepare(oneLine`
+      SELECT TIME('now') > TIME(t.expires_at) AS expired
+      FROM   interactive.teamwork_tests AS t
+             JOIN interactive.teamwork_messages AS m
+               ON t.id = m.teamwork_id
+      WHERE  m.message_uid = ?
+    `)
+    select.pluck()
+
+    return !!select.get(message_id)
   }
 
   /**
@@ -169,12 +197,16 @@ class Teamwork {
   /**
    * Get the ID of the teamwork test associated with a Discord message ID
    *
+   * This method adds an `expired` property for convenience.
+   *
    * @param  {Snowflake} message_uid Discord ID of the message
    * @return {int}                   Internal ID of the associated teamwork test
    */
   findTestByMessage(message_uid) {
     const select = this.db.prepare(oneLine`
-      SELECT t.*, JSON_EXTRACT(t.options, '$') as options
+      SELECT t.*,
+             JSON_EXTRACT(t.options, '$') as options,
+             TIME('now') > TIME(t.expires_at) AS expired
       FROM   interactive.teamwork_tests AS t
              JOIN interactive.teamwork_messages AS m
                ON t.id = m.teamwork_id
@@ -190,6 +222,7 @@ class Teamwork {
     return {
       ...raw_out,
       options: JSON.parse(raw_out.options),
+      expired: !!raw_out.expired,
     }
   }
 
