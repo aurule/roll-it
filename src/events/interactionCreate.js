@@ -6,6 +6,7 @@ const PolicyChecker = require("../services/policy-checker")
 const interactionCache = require("../services/interaction-cache")
 const { i18n } = require("../locales")
 const { envAllowsGuild } = require("../util/env-allows-guild")
+const components = require("../components")
 
 /**
  * Handle command interactions
@@ -92,11 +93,24 @@ async function handleModal(interaction) {
   return modal.submit(interaction, modal_id)
 }
 
+async function handleComponent(interaction) {
+  logger.info(
+    {
+      componentType: interaction.componentType,
+      customId: interaction.customId,
+    },
+    `component ${interaction.customId} used`
+  )
+
+  return components.handle(interaction)
+}
+
 module.exports = {
   name: Events.InteractionCreate,
   handleCommand,
   handleAutocomplete,
   handleModal,
+  handleComponent,
 
   /**
    * Handle the incoming interaction event
@@ -147,6 +161,7 @@ module.exports = {
       })
     }
 
+    // handle modal submissions
     if (interaction.isModalSubmit()) {
       return module.exports.handleModal(interaction)
         .catch(err => {
@@ -159,6 +174,21 @@ module.exports = {
               fields: interaction.fields,
             },
             `Error while processing modal ${interaction.customId}`,
+          )
+        })
+    }
+
+    // handle component interactions
+    if (interaction.isButton() || interaction.isStringSelectMenu() || interaction.isUserSelectMenu() || interaction.isRoleSelectMenu() || interaction.isChannelSelectMenu() || interaction.isMentionableSelectMenu()) {
+      return module.exports.handleComponent(interaction)
+        .catch(err => {
+          logger.error(
+            {
+              origin: "component",
+              err: err,
+              guild: interaction.guildId,
+            },
+            `Error while processing component ${interaction.customId}`,
           )
         })
     }
