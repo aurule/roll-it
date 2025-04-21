@@ -82,6 +82,6 @@ teamwork:
     {{leader}} cancelled their teamwork test for "{{description}}".
   timeout: The teamwork test led by {{leader}} ran out of time and has been cancelled.
   timeout_description: The teamwork test led by {{leader}} for "{{description}}" ran out of time and has been cancelled.
-  missing: That teamwork test has concluded.
+  concluded: That teamwork test has concluded.
   invalid: That test has invalid options and cannot be rolled.
   unauthorized: Only the test leader {{leader}} can use this control.
