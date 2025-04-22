@@ -34,7 +34,12 @@ function makeUpdateFields(data, safe = true) {
       case "id":
       case "guildFlake":
       case "userFlake":
-        if (safe) break
+        if (!safe) {
+          fields.push(field)
+          placeholders.push(`@${field}`)
+          values[field] = data[field]
+        }
+        break
       default:
         fields.push(field)
         placeholders.push(`@${field}`)

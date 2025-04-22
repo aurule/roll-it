@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS saved_rolls (
   userFlake TEXT NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
-  command TEXT NOT NULL,
-  options BLOB NOT NULL,
+  command TEXT,
+  options BLOB,
   invalid BOOL DEFAULT false
 );
 
