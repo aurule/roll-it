@@ -12,7 +12,7 @@ describe("Teamwork DB", () => {
   let teamwork
 
   beforeEach(() => {
-    teamwork = new Teamwork()
+    teamwork = new Teamwork(db)
   })
 
   describe("addTeamwork", () => {
