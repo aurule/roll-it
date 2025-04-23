@@ -3,6 +3,7 @@ const { EventEmitter } = require("node:events")
 const { MessageFlags } = require("discord.js")
 
 const { ComponentInteraction } = require("./component-interaction")
+const { User } = require("./user")
 
 class Message {
   id
@@ -19,6 +20,9 @@ class Message {
   replies = []
   deleted = false
   resource
+  interaction
+  author
+  mentions
 
   constructor({
     content = "",
@@ -28,11 +32,14 @@ class Message {
     channelId,
     userId,
     flags = 0,
+    interaction,
   } = {}) {
+    const { Interaction } = require("./interaction")
     this.id = simpleflake()
     this.guildId = guildId ?? simpleflake()
     this.channelId = channelId ?? simpleflake()
     this.userId = userId ?? simpleflake()
+    this.author = new User(this.userId)
 
     this.content = content
     this.components = components
@@ -41,6 +48,11 @@ class Message {
     this.resource = {
       message: this
     }
+    this.mentions = {}
+  }
+
+  reply(opts) {
+    return this.interaction.reply(opts)
   }
 
   addReply(opts) {
@@ -161,6 +173,8 @@ class ComponentEventEmitter extends EventEmitter {
     this.emit("end", undefined, "user")
   }
 }
+
+require("../src/patches/whisper").patch(Message)
 
 module.exports = {
   Message,
