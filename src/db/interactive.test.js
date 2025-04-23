@@ -154,6 +154,12 @@ describe("Teamwork DB", () => {
       expect(result).toEqual(false)
     })
 
+    it("returns false with no records", () => {
+      const result = teamwork.isMessageExpired("test")
+
+      expect(result).toEqual(false)
+    })
+
     it("returns true when test expires in the past", () => {
       const tw_record = teamwork.addTeamwork({
         command: "test",
