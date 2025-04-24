@@ -14,7 +14,7 @@ Here are the supported systems:
 * [Kids On Bikes](/systems/kob) with `/kob`
 * [Powered by the Apocalypse](/systems/pba) with `/pba`
 * [Shadowrun](/systems/shadowrun) 4e, 5e, and 6e with `/shadowrun`
-* [Stars Without Number](/systems/swn) with `/d20` and `/2d6`
+* [Stars Without Number](/systems/swn) with `/d20` and `/swn`
 * [World of Darkness 20th Anniversary](/systems/wod20) with `/wod20`
 * [World of Darkness MET](/systems/met) rock-paper-scissors using `/met static` and `/met opposed`
 
