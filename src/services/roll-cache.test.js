@@ -6,8 +6,8 @@ describe("roll cache", () => {
       const interaction = {
         guildId: "guild",
         user: {
-          id: "user"
-        }
+          id: "user",
+        },
       }
 
       await roll_cache.set(interaction, "test")
@@ -22,8 +22,8 @@ describe("roll cache", () => {
       const interaction = {
         guildId: "guild",
         user: {
-          id: "user"
-        }
+          id: "user",
+        },
       }
       await roll_cache.set(interaction, "test")
 
@@ -38,8 +38,8 @@ describe("roll cache", () => {
       const interaction = {
         guildId: "guild",
         user: {
-          id: "user"
-        }
+          id: "user",
+        },
       }
       await roll_cache.set(interaction, "test")
 

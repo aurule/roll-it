@@ -1,4 +1,4 @@
-const {Keyv} = require("keyv")
+const { Keyv } = require("keyv")
 
 /**
  * Cache class for storing data from command interactions
@@ -10,7 +10,7 @@ const {Keyv} = require("keyv")
 class InteractionCache extends Keyv {
   constructor() {
     // default TTL of two days
-    super({ttl: 1.728e+8})
+    super({ ttl: 1.728e8 })
   }
 
   /**
@@ -32,7 +32,7 @@ class InteractionCache extends Keyv {
 
     const data = {
       commandName: interaction.commandName,
-      options
+      options,
     }
     return super.set(interaction.id, data)
   }

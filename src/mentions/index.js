@@ -14,7 +14,7 @@ const contents = fs
   .filter(jsNoTests)
   .filter(noDotFiles)
   .filter((file) => {
-    return (file !== basename && file !== "fallback.js")
+    return file !== basename && file !== "fallback.js"
   })
 
 contents.forEach((mention_file) => {
@@ -30,5 +30,5 @@ module.exports = {
       if (handler.canHandle(message)) return handler.handle(message)
     }
     return fallbackHandler.handle(message)
-  }
+  },
 }

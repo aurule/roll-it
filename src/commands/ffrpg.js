@@ -20,12 +20,8 @@ module.exports = {
       .addLocalizedIntegerOption("intrinsic")
       .addLocalizedIntegerOption("conditional")
       .addLocalizedIntegerOption("avoid")
-      .addLocalizedIntegerOption("crit", (option) =>
-        option.setMinValue(0).setMaxValue(100)
-      )
-      .addLocalizedIntegerOption("botch", (option) =>
-        option.setMinValue(0).setMaxValue(100)
-      )
+      .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(100))
+      .addLocalizedIntegerOption("botch", (option) => option.setMinValue(0).setMaxValue(100))
       .addLocalizedBooleanOption("flat")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
@@ -40,27 +36,27 @@ module.exports = {
     rolls: commonSchemas.rolls,
   }),
   judge(presenter, locale) {
-    const buckets = [0,0,0,0]
+    const buckets = [0, 0, 0, 0]
 
     for (let idx = 0; idx < presenter.raw.length; idx++) {
       switch (presenter.rollResult(idx)) {
         case "result.rule10":
         case "result.crit":
           buckets[0]++
-          break;
+          break
         case "result.simple":
           buckets[1]++
-          break;
+          break
         case "result.fail":
           buckets[2]++
-          break;
+          break
         case "result.botch":
           buckets[3]++
-          break;
+          break
       }
 
-      const dominating = buckets.findIndex(b => b >= presenter.raw.length / 2)
-      switch(dominating) {
+      const dominating = buckets.findIndex((b) => b >= presenter.raw.length / 2)
+      switch (dominating) {
         case 0:
           return sacrifice.great(locale)
         case 1:
@@ -74,7 +70,18 @@ module.exports = {
       }
     }
   },
-  perform({ base, intrinsic = 0, conditional = 0, avoid = 0, crit = 10, botch = 95, flat = false, rolls = 1, description, locale = "en-US" } = {}) {
+  perform({
+    base,
+    intrinsic = 0,
+    conditional = 0,
+    avoid = 0,
+    crit = 10,
+    botch = 95,
+    flat = false,
+    rolls = 1,
+    description,
+    locale = "en-US",
+  } = {}) {
     const raw_results = roll(1, 100, rolls)
 
     const presenter = new FfrpgPresenter({
@@ -94,7 +101,7 @@ module.exports = {
     const presented_result = presenter.presentResults()
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(presenter, locale);
+      const sacrifice_message = module.exports.judge(presenter, locale)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 

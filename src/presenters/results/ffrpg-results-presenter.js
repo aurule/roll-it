@@ -40,19 +40,18 @@ class FfrpgPresenter {
     description,
     locale = "en-US",
   } = {}) {
-    this.raw = raw,
-    this.base = base,
-    this.intrinsic = intrinsic,
-    this.conditional = conditional,
-    this.avoid = -avoid,
-    this.crit = crit,
-    this.botch = botch,
-    this.flat = flat,
-    this.rolls = rolls,
-    this.description = description,
-    this.locale = locale,
-
-    this.cos = base + intrinsic + conditional - avoid
+    ;(this.raw = raw),
+      (this.base = base),
+      (this.intrinsic = intrinsic),
+      (this.conditional = conditional),
+      (this.avoid = -avoid),
+      (this.crit = crit),
+      (this.botch = botch),
+      (this.flat = flat),
+      (this.rolls = rolls),
+      (this.description = description),
+      (this.locale = locale),
+      (this.cos = base + intrinsic + conditional - avoid)
     this.global_rule10 = this.cos <= 0
     this.t = i18n.getFixedT(locale, "commands", "ffrpg")
   }
@@ -72,17 +71,16 @@ class FfrpgPresenter {
     }
 
     if (this.rolls > 1) {
-      t_args.results = this.raw
-        .map((roll, roll_idx) => {
-          const res_args = {
-            result: this.t(this.rollResult(roll_idx)),
-            die: roll[0],
-            margin: this.rollMargin(roll_idx),
-            cos: this.cos,
-            context: this.rollIsRule10(roll_idx) ? "rule10" : undefined,
-          }
-          return this.t("response.result", res_args)
-        })
+      t_args.results = this.raw.map((roll, roll_idx) => {
+        const res_args = {
+          result: this.t(this.rollResult(roll_idx)),
+          die: roll[0],
+          margin: this.rollMargin(roll_idx),
+          cos: this.cos,
+          context: this.rollIsRule10(roll_idx) ? "rule10" : undefined,
+        }
+        return this.t("response.result", res_args)
+      })
     } else {
       t_args.result = this.t(this.rollResult(0))
       t_args.die = this.raw[0][0]
@@ -137,8 +135,7 @@ class FfrpgPresenter {
       })
     }
 
-    const mods = BONUS_ORDER
-      .filter((bonus_name) => this[bonus_name] !== 0)
+    const mods = BONUS_ORDER.filter((bonus_name) => this[bonus_name] !== 0)
       .map((bonus_name, bonus_idx) => {
         const value = this[bonus_name]
         const t_name = this.t(`response.detail.parts.${bonus_name}`)
@@ -150,14 +147,16 @@ class FfrpgPresenter {
     const thresholds = []
     if (this.global_rule10) thresholds.push(this.t("response.detail.rule10"))
     if (!this.botch) thresholds.push(this.t("response.detail.no-botch"))
-    if (this.botch && this.botch !== DEFAULT_BOTCH) thresholds.push(this.t("response.detail.botch", { botch: this.botch }))
+    if (this.botch && this.botch !== DEFAULT_BOTCH)
+      thresholds.push(this.t("response.detail.botch", { botch: this.botch }))
     if (!this.crit) thresholds.push(this.t("response.detail.no-crit"))
-    if (this.crit && this.crit !== DEFAULT_CRIT) thresholds.push(this.t("response.detail.crit", { crit: this.crit }))
+    if (this.crit && this.crit !== DEFAULT_CRIT)
+      thresholds.push(this.t("response.detail.crit", { crit: this.crit }))
 
     return this.t("response.detail.shape", {
       context: thresholds.length ? "fancy" : undefined,
       mods,
-      thresholds: thresholds.join(", ")
+      thresholds: thresholds.join(", "),
     })
   }
 

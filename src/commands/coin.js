@@ -41,7 +41,7 @@ module.exports = {
     })
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(raw_results, call, locale);
+      const sacrifice_message = module.exports.judge(raw_results, call, locale)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 

@@ -19,6 +19,8 @@ The command object looks like this:
     savable?: boolean;                  // Whether this command can be saved
     changeable?: Array<string>;         // List of options that can accept a numeric bonus, for use with saved rolls
     schema: Joi.object;                 // Validation object for options
+    judge: string;                      // Categorize results for the sacrifice easter egg
+    teamwork: Object;                   // roller, summer, and presenter methods for teamwork tests
     perform(Object): string;            // Take in options, return a string
     async execute(interaction): Promise;// Respond to an interaction
     async autocomplete?: Array<Object>; // () => [{name: "chop", value: "chop"}]

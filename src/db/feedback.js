@@ -64,7 +64,7 @@ class Feedback {
    * @param {bool}  options.canReply Whether the user is open to talking about their feedback
    * @return {Info}                  Query info object with `changes` and `lastInsertRowid` properties
    */
-  addNotes({id, userId, notes, canReply}) {
+  addNotes({ id, userId, notes, canReply }) {
     const update = this.db.prepare(oneLine`
       UPDATE feedback SET (
         content,

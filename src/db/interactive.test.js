@@ -32,7 +32,7 @@ describe("Teamwork DB", () => {
 
     it("inserts options json", () => {
       const original_options = {
-        "yes": true,
+        yes: true,
       }
 
       const result = teamwork.addTeamwork({
@@ -74,7 +74,7 @@ describe("Teamwork DB", () => {
 
     it("retrieves options json", () => {
       const original_options = {
-        "yes": true,
+        yes: true,
       }
       const result = teamwork.addTeamwork({
         command: "test",

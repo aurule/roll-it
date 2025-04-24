@@ -46,7 +46,7 @@ class Message {
     this.embeds = embeds
     this.flags = flags
     this.resource = {
-      message: this
+      message: this,
     }
     this.mentions = {}
   }

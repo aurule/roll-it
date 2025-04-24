@@ -40,7 +40,7 @@ module.exports = {
       content: JSON.stringify({
         options: cachedInvocation?.options,
         message: message.content,
-      })
+      }),
     })
 
     const modal = ReportRollModal.data(result.lastInsertRowid, interaction.locale)

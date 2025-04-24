@@ -13,7 +13,7 @@ const contents = fs
   .filter(jsNoTests)
   .filter(noDotFiles)
   .filter((file) => {
-    return (file !== basename)
+    return file !== basename
   })
 
 contents.forEach((mention_file) => {
@@ -28,5 +28,5 @@ module.exports = {
       if (handler.canHandle(interaction)) return handler.handle(interaction)
     }
     return
-  }
+  },
 }

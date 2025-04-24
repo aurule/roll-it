@@ -8,7 +8,7 @@ describe("MessageCreate event handler", () => {
     it("ignores the message", async () => {
       const message = new Message()
       message.mentions = {
-        users: new Map()
+        users: new Map(),
       }
 
       const result = await MessageCreate.execute(message)
@@ -19,9 +19,9 @@ describe("MessageCreate event handler", () => {
 
   describe("with a message in the wrong guild", () => {
     it("ignores the message", async () => {
-      const message = new Message({guildId: process.env.DEV_GUILDS[0]})
+      const message = new Message({ guildId: process.env.DEV_GUILDS[0] })
       message.mentions = {
-        users: new Map([[process.env.CLIENT_ID, "yes"]])
+        users: new Map([[process.env.CLIENT_ID, "yes"]]),
       }
 
       const result = await MessageCreate.execute(message)
@@ -35,7 +35,7 @@ describe("MessageCreate event handler", () => {
       const interaction = new Interaction()
       const message = interaction.message
       message.mentions = {
-        users: new Map([[process.env.CLIENT_ID, "yes"]])
+        users: new Map([[process.env.CLIENT_ID, "yes"]]),
       }
       jest.spyOn(message, "reply")
 

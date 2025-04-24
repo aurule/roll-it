@@ -43,9 +43,9 @@ module.exports = {
     const factor = 10 / (11 - difficulty)
     const expected = Math.round(pool / factor)
 
-    const buckets = [0,0,0,0,0]
+    const buckets = [0, 0, 0, 0, 0]
     for (const result of results) {
-      switch(true) {
+      switch (true) {
         case result >= expected * 2:
           buckets[0]++
           break
@@ -65,8 +65,8 @@ module.exports = {
       }
     }
 
-    const dominating = buckets.findIndex(b => b >= results.length / 2)
-    switch(dominating) {
+    const dominating = buckets.findIndex((b) => b >= results.length / 2)
+    switch (dominating) {
       case 0:
         return sacrifice.great(locale)
       case 1:
@@ -104,17 +104,19 @@ module.exports = {
       summed_results = wod20(raw_results, difficulty, specialty)
     }
 
-    const result_lines = [present({
-      rolls,
-      pool,
-      difficulty,
-      specialty,
-      until,
-      description,
-      raw: raw_results,
-      summed: summed_results,
-      locale,
-    })]
+    const result_lines = [
+      present({
+        rolls,
+        pool,
+        difficulty,
+        specialty,
+        until,
+        description,
+        raw: raw_results,
+        summed: summed_results,
+        locale,
+      }),
+    ]
 
     if (sacrifice.hasTrigger(description, locale)) {
       const sacrifice_message = module.exports.judge(summed_results, pool, difficulty, locale)

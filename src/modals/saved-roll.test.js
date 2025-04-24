@@ -21,13 +21,13 @@ describe("saved roll modal", () => {
     })
 
     it("presets name value if given", () => {
-      const modal = SavedRollModal.data("create", "en-US", {name: "test"})
+      const modal = SavedRollModal.data("create", "en-US", { name: "test" })
 
       expect(modal.components[0].components[0].data.value).toEqual("test")
     })
 
     it("presets description value if given", () => {
-      const modal = SavedRollModal.data("create", "en-US", {description: "test"})
+      const modal = SavedRollModal.data("create", "en-US", { description: "test" })
 
       expect(modal.components[1].components[0].data.value).toEqual("test")
     })
@@ -72,7 +72,7 @@ describe("saved roll modal", () => {
         await rollCache.set(interaction, { command: "roll" })
         interaction.setFields({
           name: "clean",
-          description: "test roll"
+          description: "test roll",
         })
       })
 
@@ -100,7 +100,7 @@ describe("saved roll modal", () => {
         await rollCache.set(interaction, { mangle: true, command: "roll" })
         interaction.setFields({
           name: "asplode",
-          description: "test roll"
+          description: "test roll",
         })
       })
 
@@ -112,7 +112,6 @@ describe("saved roll modal", () => {
     })
 
     describe("with a name collision", () => {
-
       beforeEach(async () => {
         user_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
         user_rolls.create({
@@ -124,7 +123,7 @@ describe("saved roll modal", () => {
         await rollCache.set(interaction, { command: "roll" })
         interaction.setFields({
           name: "collide",
-          description: "new data"
+          description: "new data",
         })
       })
 

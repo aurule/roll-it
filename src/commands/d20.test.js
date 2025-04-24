@@ -90,9 +90,11 @@ describe("schema", () => {
 describe("judge", () => {
   describe("with dominant outcome", () => {
     it("returns the correct message", () => {
-      const picked = [{
-        results: [20]
-      }]
+      const picked = [
+        {
+          results: [20],
+        },
+      ]
 
       const result = d20_command.judge(picked, "en-US")
 
@@ -104,13 +106,13 @@ describe("judge", () => {
     it("returns the neutral message", () => {
       const picked = [
         {
-          results: [20]
+          results: [20],
         },
         {
-          results: [10]
+          results: [10],
         },
         {
-          results: [1]
+          results: [1],
         },
       ]
 

@@ -184,7 +184,7 @@ describe("ffrpg command", () => {
       const options = {
         base: 50,
         intrinsic: -10,
-        description: "sacrifice"
+        description: "sacrifice",
       }
 
       const result = ffrpg_command.perform(options)

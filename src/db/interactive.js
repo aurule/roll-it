@@ -62,7 +62,7 @@ class Teamwork {
       locale,
       channel_uid: channelId,
       description,
-      timeout
+      timeout,
     })
   }
 
@@ -140,7 +140,7 @@ class Teamwork {
    * @param {int}       options.type        Message type code
    * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
    */
-  addMessage({message_uid, teamwork_id, type = MessageType.Plain} = {}) {
+  addMessage({ message_uid, teamwork_id, type = MessageType.Plain } = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO interactive.teamwork_messages (
         message_uid,
@@ -387,7 +387,7 @@ class Teamwork {
 
     if (raw_out === undefined) return undefined
 
-    return raw_out.map(r => {
+    return raw_out.map((r) => {
       return {
         ...r,
         requested: !!r.requested,

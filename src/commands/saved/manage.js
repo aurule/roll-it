@@ -55,7 +55,11 @@ module.exports = {
       .setCustomId("remove")
       .setLabel(t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
-    const manage_actions = new ActionRowBuilder().addComponents(edit_button, cancel_button, remove_button)
+    const manage_actions = new ActionRowBuilder().addComponents(
+      edit_button,
+      cancel_button,
+      remove_button,
+    )
     const manage_prompt = await cmd_interaction.reply({
       content: manage_text,
       components: [manage_actions],
@@ -66,7 +70,10 @@ module.exports = {
       switch (comp_interaction.customId) {
         case "edit":
           await rollCache.set(cmd_interaction, detail)
-          const modal = SavedRollModal.data("edit", cmd_interaction.locale, { name: detail.name, description: detail.description })
+          const modal = SavedRollModal.data("edit", cmd_interaction.locale, {
+            name: detail.name,
+            description: detail.description,
+          })
           await comp_interaction.showModal(modal)
           return comp_interaction.editReply({
             content: t("state.edit.response"),

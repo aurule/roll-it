@@ -30,7 +30,10 @@ module.exports = {
    * @return {bool}             True if the hummingbird is allowed, false if not
    */
   hasTrigger(description, locale) {
-    const triggers = i18n.t("easter-eggs.hummingbird.triggers", { lng: locale, returnObjects: true })
+    const triggers = i18n.t("easter-eggs.hummingbird.triggers", {
+      lng: locale,
+      returnObjects: true,
+    })
     const regex = new RegExp(triggers.join("|"), "iv")
     return regex.test(description)
   },
@@ -53,5 +56,5 @@ module.exports = {
    */
   spotted(locale) {
     return i18n.t("easter-eggs.hummingbird.spotted", { lng: locale })
-  }
+  },
 }

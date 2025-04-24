@@ -168,7 +168,9 @@ describe("interactionCreate handler", () => {
       interaction.commandName = "testing"
       interaction.focused_option = "testOption"
 
-      return expect(InteractionCreateEvent.handleAutocomplete(interaction)).resolves.toMatch("worked")
+      return expect(InteractionCreateEvent.handleAutocomplete(interaction)).resolves.toMatch(
+        "worked",
+      )
     })
   })
 
@@ -181,9 +183,7 @@ describe("interactionCreate handler", () => {
       interaction.client.modals.set("testing", testModal)
       interaction.customId = "nope"
 
-      return expect(InteractionCreateEvent.handleModal(interaction)).rejects.toMatch(
-        "no modal",
-      )
+      return expect(InteractionCreateEvent.handleModal(interaction)).rejects.toMatch("no modal")
     })
 
     it("executes the modal submit method", () => {
@@ -200,5 +200,4 @@ describe("interactionCreate handler", () => {
       return expect(InteractionCreateEvent.handleModal(interaction)).resolves.toMatch("5")
     })
   })
-
 })

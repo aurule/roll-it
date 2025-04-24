@@ -89,5 +89,4 @@ module.exports = {
   awful(locale) {
     return i18n.t("easter-eggs.sacrifice.awful", { lng: locale })
   },
-
 }

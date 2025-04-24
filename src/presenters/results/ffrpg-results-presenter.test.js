@@ -7,7 +7,7 @@ describe("FfrpgPresenter", () => {
         base: 60,
         raw: [[10]],
         rolls: 1,
-        description: "test description"
+        description: "test description",
       })
 
       const result = presenter.presentResults()
@@ -168,7 +168,7 @@ describe("FfrpgPresenter", () => {
       it("when die is under CoS and crit threshold", () => {
         const presenter = new FfrpgPresenter({
           base: 60,
-          raw: [[10]]
+          raw: [[10]],
         })
 
         const result = presenter.rollResult(0)
@@ -181,7 +181,7 @@ describe("FfrpgPresenter", () => {
       it("when die is under CoS and above crit threshold", () => {
         const presenter = new FfrpgPresenter({
           base: 60,
-          raw: [[40]]
+          raw: [[40]],
         })
 
         const result = presenter.rollResult(0)
@@ -194,7 +194,7 @@ describe("FfrpgPresenter", () => {
       it("when CoS is gte 10 and die is above CoS", () => {
         const presenter = new FfrpgPresenter({
           base: 60,
-          raw: [[80]]
+          raw: [[80]],
         })
 
         const result = presenter.rollResult(0)
@@ -207,7 +207,7 @@ describe("FfrpgPresenter", () => {
       it("when die is above botch threshold", () => {
         const presenter = new FfrpgPresenter({
           base: 60,
-          raw: [[99]]
+          raw: [[99]],
         })
 
         const result = presenter.rollResult(0)
@@ -220,7 +220,7 @@ describe("FfrpgPresenter", () => {
       it("when CoS is negative and die is under 10", () => {
         const presenter = new FfrpgPresenter({
           base: -10,
-          raw: [[5]]
+          raw: [[5]],
         })
 
         const result = presenter.rollResult(0)
@@ -231,7 +231,7 @@ describe("FfrpgPresenter", () => {
       it("when CoS is above zero, Cos is under 10, die is greater than CoS, and die is under 10", () => {
         const presenter = new FfrpgPresenter({
           base: 2,
-          raw: [[5]]
+          raw: [[5]],
         })
 
         const result = presenter.rollResult(0)
@@ -244,7 +244,7 @@ describe("FfrpgPresenter", () => {
       it("when CoS is negative and die is a normal fail", () => {
         const presenter = new FfrpgPresenter({
           base: -10,
-          raw: [[15]]
+          raw: [[15]],
         })
 
         const result = presenter.rollResult(0)
@@ -348,7 +348,7 @@ describe("FfrpgPresenter", () => {
     it("gives positive margin for success", () => {
       const presenter = new FfrpgPresenter({
         base: 60,
-        raw: [[40]]
+        raw: [[40]],
       })
 
       const result = presenter.rollMargin(0)
@@ -359,7 +359,7 @@ describe("FfrpgPresenter", () => {
     it("gives negative margin for failure", () => {
       const presenter = new FfrpgPresenter({
         base: 60,
-        raw: [[70]]
+        raw: [[70]],
       })
 
       const result = presenter.rollMargin(0)
@@ -371,7 +371,7 @@ describe("FfrpgPresenter", () => {
       it("shows margin from 10", () => {
         const presenter = new FfrpgPresenter({
           base: -10,
-          raw: [[20]]
+          raw: [[20]],
         })
 
         const result = presenter.rollMargin(0)
@@ -384,7 +384,7 @@ describe("FfrpgPresenter", () => {
       it("shows margin from 10", () => {
         const presenter = new FfrpgPresenter({
           base: 5,
-          raw: [[7]]
+          raw: [[7]],
         })
 
         const result = presenter.rollMargin(0)

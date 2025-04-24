@@ -49,15 +49,18 @@ module.exports = {
   }).oxor("keep", "with"),
   judge(picked, locale) {
     const buckets = picked
-      .reduce((acc, cur) => {
-        const bucket = Math.ceil(cur.results[0] / 4) - 1
-        acc[bucket]++
-        return acc
-      }, [0,0,0,0,0])
+      .reduce(
+        (acc, cur) => {
+          const bucket = Math.ceil(cur.results[0] / 4) - 1
+          acc[bucket]++
+          return acc
+        },
+        [0, 0, 0, 0, 0],
+      )
       .reverse()
 
-    const dominating = buckets.findIndex(b => b >= picked.length / 2)
-    switch(dominating) {
+    const dominating = buckets.findIndex((b) => b >= picked.length / 2)
+    switch (dominating) {
       case 0:
         return sacrifice.great(locale)
       case 1:
@@ -97,7 +100,7 @@ module.exports = {
     })
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(pick_results, locale);
+      const sacrifice_message = module.exports.judge(pick_results, locale)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 

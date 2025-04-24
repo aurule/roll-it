@@ -25,8 +25,7 @@ module.exports = {
       .setStyle(TextInputStyle.Paragraph)
       .setRequired(false)
       .setMaxLength(4000)
-    const notes_row = new ActionRowBuilder()
-      .addComponents(notes_input)
+    const notes_row = new ActionRowBuilder().addComponents(notes_input)
 
     const consent_length = t("inputs.consent.keyword").length
     const consent_input = new TextInputBuilder()
@@ -37,8 +36,7 @@ module.exports = {
       .setRequired(false)
       .setMinLength(consent_length)
       .setMaxLength(consent_length)
-    const consent_row = new ActionRowBuilder()
-      .addComponents(consent_input)
+    const consent_row = new ActionRowBuilder().addComponents(consent_input)
 
     modal.addComponents(notes_row, consent_row)
 
@@ -50,7 +48,8 @@ module.exports = {
     const notes = modal_interaction.fields.getTextInputValue("notes") ?? "no notes given"
 
     const data = {
-      canReply: modal_interaction.fields.getTextInputValue("consent") === t("inputs.consent.keyword"),
+      canReply:
+        modal_interaction.fields.getTextInputValue("consent") === t("inputs.consent.keyword"),
       notes,
       userId: modal_interaction.user.id,
       id: feedback_id,
@@ -65,13 +64,13 @@ module.exports = {
           err,
           user: modal_interaction.user,
           guild: modal_interaction.guildId,
-          inputs: modal_interaction.fields.fields
+          inputs: modal_interaction.fields.fields,
         },
-        "Could not update feedback record"
+        "Could not update feedback record",
       )
       return modal_interaction.whisper(t("response.error"))
     }
 
     return modal_interaction.whisper(t("response.success"))
-  }
+  },
 }

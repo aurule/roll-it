@@ -212,7 +212,7 @@ module.exports = {
   async sendMessage(channelId, payload) {
     return client
       .post(Routes.channelMessages(channelId), {
-        body: payload
+        body: payload,
       })
       .catch((error) => {
         logger.warn(error, `Error sending message`)
@@ -232,10 +232,10 @@ module.exports = {
   async editMessage(channelId, messageId, payload) {
     return client
       .patch(Routes.channelMessage(channelId, messageId), {
-        body: payload
+        body: payload,
       })
       .catch((error) => {
         logger.warn(error, `Error editing message`)
       })
-  }
+  },
 }

@@ -9,7 +9,7 @@ describe("/saved manage", () => {
     let prompt
 
     beforeEach(() => {
-      interaction = new CommandInteraction({commandName: "saved"})
+      interaction = new CommandInteraction({ commandName: "saved" })
       interaction.setOption("name", "test")
       saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
       saved_rolls.create({
@@ -92,7 +92,7 @@ describe("/saved manage", () => {
 
           await prompt.click("remove_cancel")
 
-        expect(saved_rolls.taken("test")).toEqual(true)
+          expect(saved_rolls.taken("test")).toEqual(true)
         })
       })
 

@@ -27,9 +27,9 @@ module.exports = {
     description: commonSchemas.description,
   }),
   judge(results, locale) {
-    const buckets = [0,0,0,0,0]
+    const buckets = [0, 0, 0, 0, 0]
     for (const result of results) {
-      switch(true) {
+      switch (true) {
         case result == 4:
           buckets[0]++
           break
@@ -49,8 +49,8 @@ module.exports = {
       }
     }
 
-    const dominating = buckets.findIndex(b => b >= results.length / 2)
-    switch(dominating) {
+    const dominating = buckets.findIndex((b) => b >= results.length / 2)
+    switch (dominating) {
       case 0:
         return sacrifice.great(locale)
       case 1:
@@ -77,7 +77,7 @@ module.exports = {
     })
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(summed_results, locale);
+      const sacrifice_message = module.exports.judge(summed_results, locale)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 

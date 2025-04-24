@@ -118,7 +118,10 @@ function presentInvocation(saved_roll, locale) {
   const command_name = cmd_t("name")
 
   const opts = Object.entries(base_options).map(([key, value]) => {
-    const opt_name = i18n.t([`commands:${base_name}.options.${key}.name`, `translation:options.${key}.name`], { lng: locale })
+    const opt_name = i18n.t(
+      [`commands:${base_name}.options.${key}.name`, `translation:options.${key}.name`],
+      { lng: locale },
+    )
     return `${opt_name}:${value}`
   })
 

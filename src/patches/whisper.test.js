@@ -1,6 +1,13 @@
 const whisper = require("./whisper")
 
-const { MessageFlags, CommandInteraction, ModalSubmitInteraction, ButtonInteraction, UserSelectMenuInteraction, Message } = require("discord.js")
+const {
+  MessageFlags,
+  CommandInteraction,
+  ModalSubmitInteraction,
+  ButtonInteraction,
+  UserSelectMenuInteraction,
+  Message,
+} = require("discord.js")
 
 class PatchMeWhisper {
   reply(args) {

@@ -46,5 +46,5 @@ module.exports = {
   message(locale) {
     const messages = i18n.t("easter-eggs.advice.messages", { returnObjects: true })
     return messages.at(randomInt(messages.length))
-  }
+  },
 }

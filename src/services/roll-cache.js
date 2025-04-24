@@ -1,4 +1,4 @@
-const {Keyv} = require("keyv")
+const { Keyv } = require("keyv")
 
 /**
  * Cache class for storing data about rolls that are in progress of being saved
@@ -8,7 +8,7 @@ const {Keyv} = require("keyv")
 class RollCache extends Keyv {
   constructor() {
     // default TTL of 15 minutes
-    super({ttl: 900_000})
+    super({ ttl: 900_000 })
   }
 
   makeId(interaction) {

@@ -12,7 +12,13 @@ require("./patches/roll-reply").patch()
 
 const fs = require("fs")
 const { join } = require("node:path")
-const { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus, Partials } = require("discord.js")
+const {
+  Client,
+  GatewayIntentBits,
+  ActivityType,
+  PresenceUpdateStatus,
+  Partials,
+} = require("discord.js")
 const { jsNoTests } = require("./util/filters")
 const commands = require("./commands")
 const modals = require("./modals")

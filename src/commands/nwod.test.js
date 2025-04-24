@@ -278,5 +278,4 @@ describe("nwod command", () => {
 
     test_secret_option(nwod_command)
   })
-
 })

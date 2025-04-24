@@ -58,7 +58,9 @@ module.exports = {
       )
     }
 
-    const modal = SavedRollModal.data("create", interaction.locale, { description: validated_options.description })
+    const modal = SavedRollModal.data("create", interaction.locale, {
+      description: validated_options.description,
+    })
     delete validated_options.description
 
     const cache_data = {

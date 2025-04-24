@@ -53,19 +53,21 @@ module.exports = {
 
     const compared = thrown.map((elem, idx) => compare(elem, vs[idx]))
 
-    const result_lines = [present({
-      throw_request,
-      vs_request,
-      rolls,
-      thrown,
-      vs,
-      compared,
-      description,
-      locale,
-    })]
+    const result_lines = [
+      present({
+        throw_request,
+        vs_request,
+        rolls,
+        thrown,
+        vs,
+        compared,
+        description,
+        locale,
+      }),
+    ]
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(compared, locale);
+      const sacrifice_message = module.exports.judge(compared, locale)
       result_lines.push(`-# ${sacrifice_message}`)
     }
 

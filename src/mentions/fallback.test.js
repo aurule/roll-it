@@ -14,11 +14,11 @@ describe("Fallback message mention handler", () => {
   describe("handle", () => {
     it("ignores messages from the bot", async () => {
       const interaction = new Interaction({
-        userId: process.env.CLIENT_ID
+        userId: process.env.CLIENT_ID,
       })
       const message = interaction.message
       message.mentions = {
-        users: new Map([[process.env.CLIENT_ID, "yes"]])
+        users: new Map([[process.env.CLIENT_ID, "yes"]]),
       }
       message.author.id = process.env.CLIENT_ID
       jest.spyOn(message, "reply")
@@ -33,14 +33,14 @@ describe("Fallback message mention handler", () => {
     describe("when other users are also mentioned", () => {
       it("reacts", async () => {
         const interaction = new Interaction({
-          userId: process.env.CLIENT_ID
+          userId: process.env.CLIENT_ID,
         })
         const message = interaction.message
         message.mentions = {
           users: new Map([
             [process.env.CLIENT_ID, "yes"],
             ["somebody_else", "yes"],
-          ])
+          ]),
         }
         jest.spyOn(message, "react")
 
@@ -52,18 +52,18 @@ describe("Fallback message mention handler", () => {
 
     describe("when mentioned alone", () => {
       it("replies", async () => {
-          const interaction = new Interaction({
-            userId: process.env.CLIENT_ID
-          })
-          const message = interaction.message
-          message.mentions = {
-            users: new Map([[process.env.CLIENT_ID, "yes"]])
-          }
-          jest.spyOn(message, "reply")
+        const interaction = new Interaction({
+          userId: process.env.CLIENT_ID,
+        })
+        const message = interaction.message
+        message.mentions = {
+          users: new Map([[process.env.CLIENT_ID, "yes"]]),
+        }
+        jest.spyOn(message, "reply")
 
-          await Fallback.handle(message)
+        await Fallback.handle(message)
 
-          expect(message.reply).toHaveBeenCalled()
+        expect(message.reply).toHaveBeenCalled()
       })
     })
   })

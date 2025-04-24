@@ -1,4 +1,13 @@
-const { ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder, ButtonStyle, ComponentType, MessageFlags } = require("discord.js")
+const {
+  ModalBuilder,
+  ActionRowBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType,
+  MessageFlags,
+} = require("discord.js")
 
 const { logger } = require("../util/logger")
 const rollCache = require("../services/roll-cache")
@@ -14,16 +23,14 @@ const VALID_MODES = ["create", "edit", "replace"]
  */
 module.exports = {
   name: "saved-roll",
-  data(mode, locale, {name, description} = {}) {
+  data(mode, locale, { name, description } = {}) {
     if (!VALID_MODES.includes(mode)) {
       throw new Error(`Unrecognized mode "${mode}" for saved roll modal`)
     }
 
     const t = i18n.getFixedT(locale, "modals", `save-roll.${mode}`)
 
-    const modal = new ModalBuilder()
-      .setCustomId(module.exports.name)
-      .setTitle(t("title"))
+    const modal = new ModalBuilder().setCustomId(module.exports.name).setTitle(t("title"))
 
     const name_input = new TextInputBuilder()
       .setCustomId("name")
@@ -37,8 +44,7 @@ module.exports = {
     if (name) {
       name_input.setValue(name)
     }
-    const name_row = new ActionRowBuilder()
-      .addComponents(name_input)
+    const name_row = new ActionRowBuilder().addComponents(name_input)
 
     const desc_input = new TextInputBuilder()
       .setCustomId("description")
@@ -50,8 +56,7 @@ module.exports = {
       .setMaxLength(1500)
     desc_input.data.value = undefined
     if (description) desc_input.setValue(description)
-    const desc_row = new ActionRowBuilder()
-      .addComponents(desc_input)
+    const desc_row = new ActionRowBuilder().addComponents(desc_input)
 
     modal.addComponents(name_row, desc_row)
 
@@ -67,9 +72,9 @@ module.exports = {
         {
           user: modal_interaction.user,
           guild: modal_interaction.guildId,
-          inputs: modal_interaction.fields.fields
+          inputs: modal_interaction.fields.fields,
         },
-        "no cached saved roll for user"
+        "no cached saved roll for user",
       )
       return modal_interaction.whisper(t("validation.missing"))
     }
@@ -77,7 +82,7 @@ module.exports = {
     const name = modal_interaction.fields.getTextInputValue("name")
     const description = modal_interaction.fields.getTextInputValue("description")
 
-    if (! (name && description)) {
+    if (!(name && description)) {
       return modal_interaction.whisper(t("validation.empty"))
     }
 
@@ -90,10 +95,10 @@ module.exports = {
       user_rolls.upsert(cached_roll)
 
       rollCache.delete(modal_interaction)
-      return modal_interaction.whisper(t("response.success", {name} ))
-    } catch(err) {
+      return modal_interaction.whisper(t("response.success", { name }))
+    } catch (err) {
       if (!user_rolls.taken(name)) {
-        logger.error({err, cached_roll}, `failed to update saved roll`)
+        logger.error({ err, cached_roll }, `failed to update saved roll`)
         return modal_interaction.whisper(t("response.error"))
       }
 
@@ -115,7 +120,7 @@ module.exports = {
       const buttons = new ActionRowBuilder().addComponents(retry, abort, overwrite)
 
       const prompt_response = await modal_interaction.reply({
-        content: t("response.collision.prompt", { name } ),
+        content: t("response.collision.prompt", { name }),
         components: [buttons],
         flags: MessageFlags.Ephemeral,
         withResponse: true,
@@ -135,7 +140,7 @@ module.exports = {
             user_rolls.upsert(cached_roll)
             rollCache.delete(modal_interaction)
             return button_interaction.update({
-              content: t("response.collision.overwritten", {name}),
+              content: t("response.collision.overwritten", { name }),
               components: [],
             })
           case "abort":
@@ -145,7 +150,9 @@ module.exports = {
               components: [],
             })
           case "retry":
-            const retry_modal = module.exports.data("replace", modal_interaction.locale, { description: cached_roll.description })
+            const retry_modal = module.exports.data("replace", modal_interaction.locale, {
+              description: cached_roll.description,
+            })
             await button_interaction.showModal(retry_modal)
             return button_interaction.editReply({
               content: t("response.collision.retry"),
