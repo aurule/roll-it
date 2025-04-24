@@ -147,8 +147,9 @@ teamwork:
       When a teamwork test begins, Roll It will show a prompt asking for contributions and offering a few
       controls to the test leader. At this point, helpers can make their own rolls to see how many dice they
       contribute to the group effort. Anyone can contribute by replying to the prompt, or to any message with
-      a helper summary. The test leader can also request that specific people help them. The summary will show
-      those people with a ✅ or a ❌, depending on whether they've added dice yet.
+      a helper summary. Roll It will use the first number in the message as that user's contribution. The test
+      leader can also request that specific people help them. The summary will show those people with a ✅ or
+      a ❌, depending on whether they've added dice yet.
     - >-
       Most dice systems do not use this particular kind of teamwork test, so it's only supported by the
       rollers that need it. Here are the commands that allow teamwork tests:
