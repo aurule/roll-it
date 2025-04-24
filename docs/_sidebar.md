@@ -15,11 +15,11 @@
     + [World of Darkness 20th Anniversary](/systems/wod20 "WoD | Roll It Docs")
     + [World of Darkness MET](/systems/met "MET | Roll It Docs")
 
-- [Teamwork](/features/teamwork "Teamwork Tests | Roll It Docs")
+- [Fancy Features](/features.md "Fancy Features | Roll It Docs")
 
-- [Tables](/features/tables "Tables | Roll It Docs")
-
-- [Saving Rolls](/features/saved "Saved Rolls | Roll It Docs")
+    + [Teamwork](/features/teamwork "Teamwork Tests | Roll It Docs")
+    + [Saving Rolls](/features/saved "Saved Rolls | Roll It Docs")
+    + [Tables](/features/tables "Tables | Roll It Docs")
 
 - Just For Fun
 
