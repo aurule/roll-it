@@ -4,6 +4,7 @@ const { Teamwork } = require("../../db/interactive")
 const teamwork_change = require("../../embeds/teamwork-change")
 const { arrayEq } = require("../../util/array-eq")
 const { logger } = require("../../util/logger")
+const { messageLink } = require("../../util/formatters/message-link")
 
 module.exports = {
   name: "teamwork_request",
@@ -53,10 +54,16 @@ module.exports = {
 
     const diff = current.filter((h) => !(h === test.leader || original.includes(h)))
 
+    const prompt_link = messageLink({
+      id: teamwork_db.getPromptUid(test.id),
+      channelId: test.channel_uid,
+      guildId: interaction.guildId,
+    })
     const t_args = {
       helpers: diff.map(userMention),
       leader: userMention(test.leader),
       context: diff.length > 0 ? "added" : "removed",
+      prompt_link,
     }
 
     const embed = teamwork_change.data(test)

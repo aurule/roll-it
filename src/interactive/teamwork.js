@@ -57,17 +57,14 @@ module.exports = {
     const request_row = new ActionRowBuilder().addComponents(helper_picker.data(locale))
 
     const expiry = new Date(Date.now() + MAX_DURATION)
-    const lines = [
-      t("prompt.initial", {
-        leader: userMention(leader_id),
-        description: description,
-        context: description ? "description" : undefined,
-      }),
-      t("prompt.timeout_warning", { timeout: time(expiry, TimestampStyles.RelativeTime) }),
-    ]
     return interaction
       .reply({
-        content: lines.join("\n"),
+        content: t("prompt.initial", {
+          leader: userMention(leader_id),
+          description: description,
+          context: description ? "description" : undefined,
+          timeout: time(expiry, TimestampStyles.RelativeTime),
+        }),
         components: [buttons_row, request_row],
         withResponse: true,
       })

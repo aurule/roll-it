@@ -4,6 +4,7 @@ const { i18n } = require("../locales")
 const teamwork_change = require("../embeds/teamwork-change")
 const { cleanup, teamworkTimeout } = require("../interactive/teamwork")
 const { logger } = require("../util/logger")
+const { messageLink } = require("../util/formatters/message-link")
 
 module.exports = {
   /**
@@ -61,7 +62,7 @@ module.exports = {
       )
     }
 
-    const dice_content = interaction.dice_content
+    const dice_content = interaction.content
     const clumped = dice_content.replace(/\s/, "")
     const match = dice_content.match(/-?\d/)
     if (match === null) {
@@ -98,10 +99,16 @@ module.exports = {
     const author_id = interaction.author.id
     teamwork_db.setDice(test.id, author_id, num)
 
+    const prompt_link = messageLink({
+      id: teamwork_db.getPromptUid(test.id),
+      channelId: test.channel_uid,
+      guildId: interaction.guildId,
+    })
     const t_args = {
       helper: userMention(author_id),
       count: num,
       context: author_id === test.leader ? "leader" : "helper",
+      prompt_link,
     }
 
     const embed = teamwork_change.data(test)
