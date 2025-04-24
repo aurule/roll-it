@@ -5,7 +5,7 @@ const { roll, NwodRollOptions } = require("../services/nwod-roller")
 const { rollUntil } = require("../services/until-roller")
 const { successes } = require("../services/tally")
 const { present } = require("../presenters/results/nwod-results-presenter")
-const { handleTeamwork } = require("../services/teamwork-manager")
+const { teamworkBegin } = require("../interactive/teamwork")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
@@ -46,9 +46,9 @@ module.exports = {
   judge(results, pool, locale) {
     const expected = Math.round(pool / 3)
 
-    const buckets = [0,0,0,0,0]
+    const buckets = [0, 0, 0, 0, 0]
     for (const result of results) {
-      switch(true) {
+      switch (true) {
         case result >= expected * 2:
           buckets[0]++
           break
@@ -68,8 +68,8 @@ module.exports = {
       }
     }
 
-    const dominating = buckets.findIndex(b => b >= results.length / 2)
-    switch(dominating) {
+    const dominating = buckets.findIndex((b) => b >= results.length / 2)
+    switch (dominating) {
       case 0:
         return sacrifice.great(locale)
       case 1:
@@ -82,6 +82,36 @@ module.exports = {
       case 4:
         return sacrifice.awful(locale)
     }
+  },
+  teamwork: {
+    roller: (final_pool, { explode, rote, threshold }) => {
+      const options = new NwodRollOptions({
+        pool: final_pool,
+        explode,
+        rote,
+        threshold,
+        rolls: 1,
+      })
+      return roll(options)
+    },
+    summer: (raw_results, { threshold }) => successes(raw_results, threshold),
+    presenter: (
+      final_pool,
+      raw_results,
+      summed_results,
+      { explode, threshold, rote, description },
+    ) =>
+      present({
+        rolls: 1,
+        pool: final_pool,
+        explode,
+        threshold,
+        rote,
+        until: 0,
+        description,
+        raw: raw_results,
+        summed: summed_results,
+      }),
   },
   perform({
     pool,
@@ -134,20 +164,22 @@ module.exports = {
       summed_results = successes(raw_results, threshold)
     }
 
-    const result_lines = [present({
-      rolls,
-      pool,
-      rote,
-      chance,
-      explode,
-      threshold,
-      until,
-      decreasing,
-      description,
-      raw: raw_results,
-      summed: summed_results,
-      locale,
-    })]
+    const result_lines = [
+      present({
+        rolls,
+        pool,
+        rote,
+        chance,
+        explode,
+        threshold,
+        until,
+        decreasing,
+        description,
+        raw: raw_results,
+        summed: summed_results,
+        locale,
+      }),
+    ]
 
     if (sacrifice.hasTrigger(description, locale)) {
       const sacrifice_message = module.exports.judge(summed_results, pool, locale)
@@ -171,7 +203,7 @@ module.exports = {
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const until = interaction.options.getInteger("until") ?? 0
     const decreasing = interaction.options.getBoolean("decreasing") ?? false
-    const roll_description = interaction.options.getString("description") ?? ""
+    const description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
     const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
 
@@ -184,34 +216,18 @@ module.exports = {
         return interaction.whisper(t("options.teamwork.validation.conflict"))
       }
 
-      return handleTeamwork({
+      const teamwork_options = {
+        roller: { explode, rote, threshold },
+        summer: { threshold },
+        presenter: { explode, threshold, rote, description },
+      }
+
+      return teamworkBegin({
         interaction,
-        userFlake,
-        description: roll_description,
-        initialPool: pool,
-        roller: (final_pool) => {
-          const options = new NwodRollOptions({
-            pool: final_pool,
-            explode,
-            rote,
-            threshold,
-            rolls,
-          })
-          return roll(options)
-        },
-        summer: (raw_results) => successes(raw_results, threshold),
-        presenter: (final_pool, raw_results, summed_results) =>
-          present({
-            rolls,
-            pool: final_pool,
-            explode,
-            threshold,
-            rote,
-            until,
-            description: roll_description,
-            raw: raw_results,
-            summed: summed_results,
-          }),
+        description,
+        command: "nwod",
+        options: teamwork_options,
+        pool,
       })
     }
 
@@ -223,7 +239,7 @@ module.exports = {
       threshold,
       until,
       decreasing,
-      description: roll_description,
+      description,
       locale: interaction.locale,
     })
     const full_text = injectMention(partial_message, userFlake)
