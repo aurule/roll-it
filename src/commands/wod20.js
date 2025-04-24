@@ -5,7 +5,7 @@ const { rollUntil } = require("../services/until-roller")
 const { roll } = require("../services/base-roller")
 const { wod20 } = require("../services/tally")
 const { present } = require("../presenters/results/wod20-results-presenter")
-const { handleTeamwork } = require("../services/teamwork-manager")
+const { teamworkBegin } = require("../interactive/teamwork")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
@@ -80,6 +80,28 @@ module.exports = {
         return sacrifice.awful(locale)
     }
   },
+  teamwork: {
+    roller: (final_pool) => roll(final_pool, 10, 1),
+    summer: (raw_results, { difficulty, specialty }) => wod20(raw_results, difficulty, specialty),
+    presenter: (
+      final_pool,
+      raw_results,
+      summed_results,
+      locale,
+      { difficulty, specialty, description },
+    ) =>
+      present({
+        rolls: 1,
+        pool: final_pool,
+        difficulty,
+        specialty,
+        until: 0,
+        description: roll_description,
+        raw: raw_results,
+        summed: summed_results,
+        locale,
+      }),
+  },
   perform({
     pool,
     difficulty = 7,
@@ -138,7 +160,7 @@ module.exports = {
     const specialty = interaction.options.getBoolean("specialty") ?? false
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const until = interaction.options.getInteger("until") ?? 0
-    const roll_description = interaction.options.getString("description") ?? ""
+    const description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
     const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
 
@@ -151,25 +173,18 @@ module.exports = {
         return interaction.whisper(t("options.teamwork.validation.conflict"))
       }
 
-      return handleTeamwork({
+      const teamwork_options = {
+        roller: {},
+        summer: { difficulty, specialty },
+        presenter: { difficulty, specialty, description },
+      }
+
+      return teamworkBegin({
         interaction,
-        userFlake,
-        description: roll_description,
-        initialPool: pool,
-        roller: (final_pool) => roll(final_pool, 10, rolls),
-        summer: (raw_results) => wod20(raw_results, difficulty, specialty),
-        presenter: (final_pool, raw_results, summed_results) =>
-          present({
-            rolls,
-            pool: final_pool,
-            difficulty,
-            specialty,
-            until,
-            description: roll_description,
-            raw: raw_results,
-            summed: summed_results,
-            locale: interaction.locale,
-          }),
+        description,
+        command: command_name,
+        options: teamwork_options,
+        pool,
       })
     }
 
@@ -179,7 +194,7 @@ module.exports = {
       difficulty,
       specialty,
       until,
-      description: roll_description,
+      description,
       locale: interaction.locale,
     })
     const full_text = injectMention(partial_message, userFlake)
