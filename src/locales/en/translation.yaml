@@ -94,6 +94,7 @@ easter-eggs:
       - sacrifice
       - sacrificing
       - sacrificial
+      - goat
       - 🐐
     great: Your sacrifice pleases me.
     good: Your sacrifice is accepted.
@@ -113,6 +114,7 @@ easter-eggs:
       # These do not need to be match across languages.
       - Did you drink water today?
       - Did you eat food today?
+      - Did you take your meds yet?
       - I hope you're doing well, because I'm a potato.
       - Did you know you're pretty cool?
       - When was the last time you stretched?
@@ -121,6 +123,9 @@ easter-eggs:
       - Sometimes I'm spicy.
       - Have you been seeing other dice bots?
       - Take a deep breath now and then.
+      - What am I going to do with all this goat blood?
+      - Statistically, your rolls *should* change soon.
+      - Well I never.
   mention:
     messages:
       # These do not need to be match across languages.
