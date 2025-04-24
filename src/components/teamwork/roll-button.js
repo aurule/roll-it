@@ -71,6 +71,7 @@ module.exports = {
       final_pool,
       raw_results,
       summed_results,
+      test.locale,
       test.options.presenter,
     )
     const presented = injectMention(presented_raw, test.leader)

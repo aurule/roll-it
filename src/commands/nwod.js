@@ -99,6 +99,7 @@ module.exports = {
       final_pool,
       raw_results,
       summed_results,
+      locale,
       { explode, threshold, rote, description },
     ) =>
       present({
@@ -111,6 +112,7 @@ module.exports = {
         description,
         raw: raw_results,
         summed: summed_results,
+        locale,
       }),
   },
   perform({
@@ -225,7 +227,7 @@ module.exports = {
       return teamworkBegin({
         interaction,
         description,
-        command: "nwod",
+        command: command_name,
         options: teamwork_options,
         pool,
       })
