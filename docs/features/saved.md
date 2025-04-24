@@ -23,22 +23,22 @@ _Save this roll_ is the first context command in Roll It, so it might need some 
 ?> Not all commands can be saved. Some do not roll actual dice (like `/table roll` or `/help`), don't have re-usable options (like `/coin`), or are so simple that it's more effort to use a saved roll than to just use the options.
 
 Here are the commands that can be saved:
-* `/curv` - Roll 3d6 for D&D 5e
+* `/curv` - Roll 3d6 for [D&D 5e](/systems/dnd5e)
 * `/d10` - Roll a single ten-sided die
 * `/d100` - Roll a single percentile (100-sided) die
 * `/d20` - Roll a single 20-sided die
 * `/d6` - Roll some six-sided dice
-* `/drh` - Roll pools of d6s for Don't Rest Your Head
-* `/fate` - Make a FATE roll of four fudge dice
+* `/drh` - Roll pools of d6s for [Don't Rest Your Head](/systems/drh)
+* `/fate` - Make a [FATE](/systems/fate) roll of four fudge dice
 * `/ffrpg` - Roll a percentile
-* `/kob` - Roll an exploding die for Kids On Bikes
-* `/nwod` - Roll a pool of d10s using rules for New World of Darkness
+* `/kob` - Roll an exploding die for [Kids On Bikes](/systems/kob)
+* `/nwod` - Roll a pool of d10s using rules for [New World of Darkness](/systems/nwod)
 * `/pba` - Roll and sum two six-sided dice
 * `/roll-formula` - Roll a combination of dice and complex modifiers
 * `/roll` - Roll a set of plain dice
-* `/shadowrun` - Roll a pool of d6s for Shadowrun
-* `/swn` - Roll and sum two six-sided dice using rules for Stars Without Number
-* `/wod20` - Roll a pool of d10s using rules for World of Darkness 20th Anniversary
+* `/shadowrun` - Roll a pool of d6s for [Shadowrun](/systems/shadowrun)
+* `/swn` - Roll and sum two six-sided dice using rules for [Stars Without Number](/systems/swn)
+* `/wod20` - Roll a pool of d10s using rules for [World of Darkness 20th Anniversary](/systems/wod20)
 
 !> It is not possible to save secret rolls. If you want to save something, it has to be publicly visible. This is because Discord does not show a context menu for secret messages, so those messages can never be sent to *Save this roll*.
 
