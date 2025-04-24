@@ -2,6 +2,7 @@ const fs = require("fs")
 const path = require("path")
 const { Collection } = require("discord.js")
 
+const { Teamwork }  = require("../db/interactive")
 const { teamworkTimeout } = require("../interactive/teamwork")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
@@ -46,7 +47,7 @@ module.exports = {
    */
   async handle(interaction) {
     const teamwork_db = new Teamwork()
-    if (!teamwork_db.has_message(interaction.message.id)) {
+    if (!teamwork_db.hasMessage(interaction.message.id)) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "teamwork")
       interaction
         .whisper(t("concluded"))
