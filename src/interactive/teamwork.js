@@ -8,7 +8,7 @@ const roll_button = require("../components/teamwork/roll-button")
 const helper_picker = require("../components/teamwork/helper-picker")
 const { logger } = require("../util/logger")
 
-const MAX_DURATION = 840_000 // 14 minutes
+const MAX_DURATION = 900_000 // 15 minutes
 
 module.exports = {
   /**
