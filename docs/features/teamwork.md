@@ -6,19 +6,19 @@ First added for the *New World of Darkness* system, the special `teamwork` mode 
 
 When a teamwork test begins, Roll It will show a prompt asking for contributions and offering a few controls to the test leader.
 
-![Discord message from Roll It giving instructions for contributing to a new teamwork test]()
+![Discord message from Roll It giving instructions for contributing to a new teamwork test](../_images/examples/teamwork/prompt.png)
 
 The leader can cancel the teamwork test or roll the final result at any time. They can also request that specific people help with the test. Requested helpers are shown with a ✅ or a ❌, depending on whether they've added dice yet.
 
-![Discord message from Roll It saying that a user was asked to help in a teamwork test, and showing a summary of helpers]()
+![Discord message from Roll It saying that a user was asked to help in a teamwork test, and showing a summary of helpers](../_images/examples/teamwork/requested.png)
 
-At this point, helpers can make their own rolls to see how many dice they contribute to the group effort. Anyone can contribute by replying to the prompt, or to any message with a helper summary.
+At this point, helpers can make their own rolls to see how many dice they contribute to the group effort. Anyone can contribute by replying to the prompt, or to any message with a helper summary. Roll It will use the first number in the message as that user's contribution. 
 
-![Discord message from Roll It saying that a user has added dice to a teamwork test, and showing a summary of helpers]()
+![Discord message from Roll It saying that a user has added dice to a teamwork test, and showing a summary of helpers](../_images/examples/teamwork/help.png)
 
 When the test is rolled, the final result will be displayed as appropriate for the dice system.
 
-![Discord message from Roll It containing the final result of a teamwork test, and showing a breakdown of users who contributed]()
+![Discord message from Roll It containing the final result of a teamwork test, and showing a breakdown of users who contributed](../_images/examples/teamwork/final.png)
 
 ## Supported Systems
 
