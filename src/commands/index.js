@@ -15,6 +15,7 @@ commands.deployable = new Collection()
 commands.savable = new Collection()
 commands.all_choices = []
 commands.deprecated = new Collection()
+commands.teamworkable = new Collection()
 
 const contents = fs
   .readdirSync(commandsDir)
@@ -41,6 +42,7 @@ contents.forEach((command_file) => {
 
   // subcommands never appear in these collections
   if (command.savable) commands.savable.set(command.name, command)
+  if (command.teamwork) commands.teamworkable.set(command.name, command)
   if (command.global) {
     commands.global.set(command.name, command)
   } else {
