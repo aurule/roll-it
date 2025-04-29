@@ -33,7 +33,7 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.18.0"],\
+          ["discord.js", "npm:14.19.2"],\
           ["dotenv", "npm:16.5.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
@@ -935,14 +935,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/builders", [\
-      ["npm:1.10.1", {\
-        "packageLocation": "./.yarn/cache/@discordjs-builders-npm-1.10.1-79a89a46c0-25e24c8bf3.zip/node_modules/@discordjs/builders/",\
+      ["npm:1.11.1", {\
+        "packageLocation": "./.yarn/cache/@discordjs-builders-npm-1.11.1-082fac10b8-ddfbc60350.zip/node_modules/@discordjs/builders/",\
         "packageDependencies": [\
-          ["@discordjs/builders", "npm:1.10.1"],\
-          ["@discordjs/formatters", "npm:0.6.0"],\
+          ["@discordjs/builders", "npm:1.11.1"],\
+          ["@discordjs/formatters", "npm:0.6.1"],\
           ["@discordjs/util", "npm:1.1.1"],\
           ["@sapphire/shapeshift", "npm:4.0.0"],\
-          ["discord-api-types", "npm:0.37.119"],\
+          ["discord-api-types", "npm:0.38.1"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["ts-mixer", "npm:6.0.4"],\
           ["tslib", "npm:2.7.0"]\
@@ -967,26 +967,26 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/formatters", [\
-      ["npm:0.6.0", {\
-        "packageLocation": "./.yarn/cache/@discordjs-formatters-npm-0.6.0-e0e16367fc-850fe67a5c.zip/node_modules/@discordjs/formatters/",\
+      ["npm:0.6.1", {\
+        "packageLocation": "./.yarn/cache/@discordjs-formatters-npm-0.6.1-487a5df6a1-463759a10b.zip/node_modules/@discordjs/formatters/",\
         "packageDependencies": [\
-          ["@discordjs/formatters", "npm:0.6.0"],\
-          ["discord-api-types", "npm:0.37.119"]\
+          ["@discordjs/formatters", "npm:0.6.1"],\
+          ["discord-api-types", "npm:0.38.1"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@discordjs/rest", [\
-      ["npm:2.4.3", {\
-        "packageLocation": "./.yarn/cache/@discordjs-rest-npm-2.4.3-a9d58d4250-68849edfa9.zip/node_modules/@discordjs/rest/",\
+      ["npm:2.5.0", {\
+        "packageLocation": "./.yarn/cache/@discordjs-rest-npm-2.5.0-cb56ee4305-9bfafd34c6.zip/node_modules/@discordjs/rest/",\
         "packageDependencies": [\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["@discordjs/rest", "npm:2.4.3"],\
+          ["@discordjs/rest", "npm:2.5.0"],\
           ["@discordjs/util", "npm:1.1.1"],\
           ["@sapphire/async-queue", "npm:1.5.3"],\
           ["@sapphire/snowflake", "npm:3.5.3"],\
           ["@vladfrangu/async_event_emitter", "npm:2.4.6"],\
-          ["discord-api-types", "npm:0.37.119"],\
+          ["discord-api-types", "npm:0.38.1"],\
           ["magic-bytes.js", "npm:1.10.0"],\
           ["tslib", "npm:2.7.0"],\
           ["undici", "npm:6.21.1"]\
@@ -1004,19 +1004,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/ws", [\
-      ["npm:1.2.1", {\
-        "packageLocation": "./.yarn/cache/@discordjs-ws-npm-1.2.1-2365b2f886-7cda15b070.zip/node_modules/@discordjs/ws/",\
+      ["npm:1.2.2", {\
+        "packageLocation": "./.yarn/cache/@discordjs-ws-npm-1.2.2-5a5a2ad350-de76890d14.zip/node_modules/@discordjs/ws/",\
         "packageDependencies": [\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["@discordjs/rest", "npm:2.4.3"],\
+          ["@discordjs/rest", "npm:2.5.0"],\
           ["@discordjs/util", "npm:1.1.1"],\
-          ["@discordjs/ws", "npm:1.2.1"],\
+          ["@discordjs/ws", "npm:1.2.2"],\
           ["@sapphire/async-queue", "npm:1.5.3"],\
           ["@types/ws", "npm:8.5.10"],\
           ["@vladfrangu/async_event_emitter", "npm:2.4.6"],\
-          ["discord-api-types", "npm:0.37.119"],\
+          ["discord-api-types", "npm:0.38.1"],\
           ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:2365b2f886ff4319ec4b51f1b5e00cf715712c571d2bedf9083baecea29618c231889c94b71488f17abdaf3d3645d0b4731f9bbe36e429dc6180d7ec3da305f6#npm:8.18.0"]\
+          ["ws", "virtual:5a5a2ad350cf8605e0a9d404b84cec284259076df281d9aaadce129297c29df64869fc8f52262be82f517ed39d355f04157dd77dd74b1a8f0770de65ee95469e#npm:8.18.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2517,29 +2517,30 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["discord-api-types", [\
-      ["npm:0.37.119", {\
-        "packageLocation": "./.yarn/cache/discord-api-types-npm-0.37.119-afc480029b-ae38b5b164.zip/node_modules/discord-api-types/",\
+      ["npm:0.38.1", {\
+        "packageLocation": "./.yarn/cache/discord-api-types-npm-0.38.1-586f0d66ee-8616eb025c.zip/node_modules/discord-api-types/",\
         "packageDependencies": [\
-          ["discord-api-types", "npm:0.37.119"]\
+          ["discord-api-types", "npm:0.38.1"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["discord.js", [\
-      ["npm:14.18.0", {\
-        "packageLocation": "./.yarn/cache/discord.js-npm-14.18.0-3b31885a85-e7ca2c3096.zip/node_modules/discord.js/",\
+      ["npm:14.19.2", {\
+        "packageLocation": "./.yarn/cache/discord.js-npm-14.19.2-50acb528d9-b9b3379802.zip/node_modules/discord.js/",\
         "packageDependencies": [\
-          ["@discordjs/builders", "npm:1.10.1"],\
+          ["@discordjs/builders", "npm:1.11.1"],\
           ["@discordjs/collection", "npm:1.5.3"],\
-          ["@discordjs/formatters", "npm:0.6.0"],\
-          ["@discordjs/rest", "npm:2.4.3"],\
+          ["@discordjs/formatters", "npm:0.6.1"],\
+          ["@discordjs/rest", "npm:2.5.0"],\
           ["@discordjs/util", "npm:1.1.1"],\
-          ["@discordjs/ws", "npm:1.2.1"],\
+          ["@discordjs/ws", "npm:1.2.2"],\
           ["@sapphire/snowflake", "npm:3.5.3"],\
-          ["discord-api-types", "npm:0.37.119"],\
-          ["discord.js", "npm:14.18.0"],\
+          ["discord-api-types", "npm:0.38.1"],\
+          ["discord.js", "npm:14.19.2"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["lodash.snakecase", "npm:4.1.1"],\
+          ["magic-bytes.js", "npm:1.10.0"],\
           ["tslib", "npm:2.7.0"],\
           ["undici", "npm:6.21.1"]\
         ],\
@@ -5039,7 +5040,7 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.18.0"],\
+          ["discord.js", "npm:14.19.2"],\
           ["dotenv", "npm:16.5.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
@@ -5832,14 +5833,14 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:2365b2f886ff4319ec4b51f1b5e00cf715712c571d2bedf9083baecea29618c231889c94b71488f17abdaf3d3645d0b4731f9bbe36e429dc6180d7ec3da305f6#npm:8.18.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-c4c80193ff/0/cache/ws-npm-8.18.0-56f68bc4d6-25eb33aff1.zip/node_modules/ws/",\
+      ["virtual:5a5a2ad350cf8605e0a9d404b84cec284259076df281d9aaadce129297c29df64869fc8f52262be82f517ed39d355f04157dd77dd74b1a8f0770de65ee95469e#npm:8.18.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-051d02c890/0/cache/ws-npm-8.18.0-56f68bc4d6-25eb33aff1.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
           ["utf-8-validate", null],\
-          ["ws", "virtual:2365b2f886ff4319ec4b51f1b5e00cf715712c571d2bedf9083baecea29618c231889c94b71488f17abdaf3d3645d0b4731f9bbe36e429dc6180d7ec3da305f6#npm:8.18.0"]\
+          ["ws", "virtual:5a5a2ad350cf8605e0a9d404b84cec284259076df281d9aaadce129297c29df64869fc8f52262be82f517ed39d355f04157dd77dd74b1a8f0770de65ee95469e#npm:8.18.0"]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\
