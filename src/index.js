@@ -1,6 +1,10 @@
+const { performance } = require("node:perf_hooks")
+const v8 = require("node:v8")
+
 require("dotenv").config()
 
 const { logger } = require("./util/logger")
+const { metrics } = require("./db/stats")
 
 process.on("unhandledRejection", (error) => {
   logger.error(error, "Unhandled promise rejection")
@@ -55,7 +59,32 @@ for (const file of eventFiles) {
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args))
   } else {
-    client.on(event.name, (...args) => event.execute(...args))
+    client.on(event.name, (...args) => {
+      const context = JSON.stringify(
+        args[0].toJSON(),
+        (key, value) => {
+          if (typeof value === "bigint") {
+            return value.toString()
+          }
+          return value
+        },
+      )
+
+      const timing_data = {
+        event: event.name,
+        serialized: v8.serialize(args).toString('hex'),
+        context,
+        began: performance.now(),
+        finished: 0,
+      }
+      try {
+        return event.execute(...args)
+      } finally {
+        timing_data.finished = performance.now()
+        logger.debug(timing_data)
+        metrics.logTiming(timing_data)
+      }
+    })
   }
 }
 

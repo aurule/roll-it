@@ -5,3 +5,14 @@ CREATE TABLE IF NOT EXISTS stats.commands (
   command TEXT NOT NULL,
   locale TEXT
 );
+
+CREATE TABLE IF NOT EXISTS stats.timing (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  event TEXT NOT NULL,
+  serialized TEXT,
+  context TEXT,
+  began REAL NOT NULL,
+  finished REAL NOT NULL,
+  duration REAL GENERATED ALWAYS AS (finished-began) STORED,
+  logged_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

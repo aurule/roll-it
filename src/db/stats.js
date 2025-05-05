@@ -29,6 +29,31 @@ class Stats {
       locale,
     })
   }
+
+  logTiming({event, serialized, context, began, finished}) {
+    const insert = this.db.prepare(oneLine`
+      INSERT INTO stats.timing (
+        event,
+        serialized,
+        context,
+        began,
+        finished
+      ) VALUES (
+        @event,
+        @serialized,
+        @context,
+        @began,
+        @finished
+      )
+    `)
+    return insert.run({
+      event,
+      serialized,
+      context,
+      began,
+      finished,
+    })
+  }
 }
 
 module.exports = {
