@@ -33,7 +33,7 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.19.2"],\
+          ["discord.js", "npm:14.19.3"],\
           ["dotenv", "npm:16.5.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
@@ -935,10 +935,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/builders", [\
-      ["npm:1.11.1", {\
-        "packageLocation": "./.yarn/cache/@discordjs-builders-npm-1.11.1-082fac10b8-ddfbc60350.zip/node_modules/@discordjs/builders/",\
+      ["npm:1.11.2", {\
+        "packageLocation": "./.yarn/cache/@discordjs-builders-npm-1.11.2-bb7d327147-7315f7e946.zip/node_modules/@discordjs/builders/",\
         "packageDependencies": [\
-          ["@discordjs/builders", "npm:1.11.1"],\
+          ["@discordjs/builders", "npm:1.11.2"],\
           ["@discordjs/formatters", "npm:0.6.1"],\
           ["@discordjs/util", "npm:1.1.1"],\
           ["@sapphire/shapeshift", "npm:4.0.0"],\
@@ -2526,10 +2526,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["discord.js", [\
-      ["npm:14.19.2", {\
-        "packageLocation": "./.yarn/cache/discord.js-npm-14.19.2-50acb528d9-b9b3379802.zip/node_modules/discord.js/",\
+      ["npm:14.19.3", {\
+        "packageLocation": "./.yarn/cache/discord.js-npm-14.19.3-c82dd8961c-5d1fb95682.zip/node_modules/discord.js/",\
         "packageDependencies": [\
-          ["@discordjs/builders", "npm:1.11.1"],\
+          ["@discordjs/builders", "npm:1.11.2"],\
           ["@discordjs/collection", "npm:1.5.3"],\
           ["@discordjs/formatters", "npm:0.6.1"],\
           ["@discordjs/rest", "npm:2.5.0"],\
@@ -2537,7 +2537,7 @@ const RAW_RUNTIME_STATE =
           ["@discordjs/ws", "npm:1.2.2"],\
           ["@sapphire/snowflake", "npm:3.5.3"],\
           ["discord-api-types", "npm:0.38.1"],\
-          ["discord.js", "npm:14.19.2"],\
+          ["discord.js", "npm:14.19.3"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["lodash.snakecase", "npm:4.1.1"],\
           ["magic-bytes.js", "npm:1.10.0"],\
@@ -5040,7 +5040,7 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.19.2"],\
+          ["discord.js", "npm:14.19.3"],\
           ["dotenv", "npm:16.5.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
