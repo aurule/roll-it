@@ -76,6 +76,13 @@ module.exports = {
           users: [diff],
         },
       })
+      .then((reply_interaction) => {
+        teamwork_db.addMessage({
+          teamwork_id: test.id,
+          message_uid: reply_interaction.id,
+          type: MessageType.Plain,
+        })
+      })
       .catch((error) =>
         logger.error(
           { err: error, user: interaction.user.id, component: "teamwork_request", test: test.id },

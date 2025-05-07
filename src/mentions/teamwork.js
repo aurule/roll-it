@@ -112,7 +112,7 @@ module.exports = {
     }
 
     const embed = teamwork_change.data(test)
-    interaction
+    return interaction
       .reply({
         content: t("help_given.success", t_args),
         embeds: [embed],
