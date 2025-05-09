@@ -248,6 +248,15 @@ d6:
     modifier:
       name: modifier
       description: Number to add to the result after adding up the rolled dice
+d8:
+  name: d8
+  description: Roll some eight-sided dice
+  help: |
+    {{cmd}} rolls one or more eight-sided dice and adds them together.
+  options:
+    modifier:
+      name: modifier
+      description: Number to add to the result after adding up the rolled dice
 drh:
   name: drh
   description: Roll pools of d6s for Don't Rest Your Head

@@ -28,6 +28,7 @@ Here are the commands that can be saved:
 * `/d100` - Roll a single percentile (100-sided) die
 * `/d20` - Roll a single 20-sided die
 * `/d6` - Roll some six-sided dice
+* `/d8` - Roll some eight-sided dice
 * `/drh` - Roll pools of d6s for [Don't Rest Your Head](/systems/drh)
 * `/fate` - Make a [FATE](/systems/fate) roll of four fudge dice
 * `/ffrpg` - Roll a percentile

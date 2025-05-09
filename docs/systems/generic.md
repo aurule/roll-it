@@ -7,6 +7,7 @@ Roll It supports these in a few ways, depending on what you want to do:
 * `/roll` rolls one or more dice with the same number of sides
 * `/roll-formula` rolls as many sets of dice as you want, along with powerful modifiers
 * `/d6` rolls one d6
+* `/d8` rolls one d8
 * `/d10` rolls one d10
 * `/d20` rolls one d20
 * `/d100` rolls one percentile
