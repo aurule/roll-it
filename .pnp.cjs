@@ -29,13 +29,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@biomejs/biome", "npm:1.9.4"],\
-          ["better-sqlite3", "npm:11.9.1"],\
+          ["better-sqlite3", "npm:11.10.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.19.3"],\
           ["dotenv", "npm:16.5.0"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
@@ -1951,10 +1951,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:11.9.1", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.9.1-fd86fc08ac/node_modules/better-sqlite3/",\
+      ["npm:11.10.0", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-11.10.0-0aa9a29473/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:11.9.1"],\
+          ["better-sqlite3", "npm:11.10.0"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -3125,19 +3125,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["i18next", [\
-      ["npm:25.0.2", {\
-        "packageLocation": "./.yarn/cache/i18next-npm-25.0.2-04d65aca7f-1f09bce7fa.zip/node_modules/i18next/",\
+      ["npm:25.1.2", {\
+        "packageLocation": "./.yarn/cache/i18next-npm-25.1.2-0993607c49-ba028411a2.zip/node_modules/i18next/",\
         "packageDependencies": [\
-          ["i18next", "npm:25.0.2"]\
+          ["i18next", "npm:25.1.2"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2", {\
-        "packageLocation": "./.yarn/__virtual__/i18next-virtual-a402f532af/0/cache/i18next-npm-25.0.2-04d65aca7f-1f09bce7fa.zip/node_modules/i18next/",\
+      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2", {\
+        "packageLocation": "./.yarn/__virtual__/i18next-virtual-f6c2c9d04a/0/cache/i18next-npm-25.1.2-0993607c49-ba028411a2.zip/node_modules/i18next/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@types/typescript", null],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2"],\
           ["typescript", null]\
         ],\
         "packagePeers": [\
@@ -5036,13 +5036,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@biomejs/biome", "npm:1.9.4"],\
-          ["better-sqlite3", "npm:11.9.1"],\
+          ["better-sqlite3", "npm:11.10.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.19.3"],\
           ["dotenv", "npm:16.5.0"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.0.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
