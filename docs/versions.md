@@ -2,7 +2,28 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
-# v1.11.1 <small>Released Mar 30, 2025</small>
+## v1.12.0 <small>Released May 9, 2025</small>
+
+This release completely overhauls the way teamwork tests are handled for `/nwod`, `/shadowrun`, and `/wod20`. It should be much more resilient against Discord's flakyness, as well as clearer and easier to use.
+
+### Added
+
+* New teamwork handling for `/nwod`, `/shadowrun`, and `/wod20`
+* Roll It can now respond to mentions and replies
+* New `/d8` roller
+* More sacrificial fun
+* Performance logging to investigate intermittent failures
+
+### Changed
+
+* Renamed `/roll-formula` to `/formula`
+* Allow `/table` commands to be used by all users
+
+### Fixed
+
+* The `/chop` command accepts descriptions again
+
+## v1.11.1 <small>Released Mar 30, 2025</small>
 
 ### Fixed
 
