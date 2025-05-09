@@ -62,7 +62,7 @@ describe("spot checks", () => {
       },
     ],
     [
-      "/roll-formula formula:3d6 + 1d8 + 5",
+      "/formula formula:3d6 + 1d8 + 5",
       {
         formula: "3d6 + 1d8 + 5",
       },

@@ -1,4 +1,4 @@
-const roll_formula_presenter = require("./roll-formula-results-presenter")
+const roll_formula_presenter = require("./formula-results-presenter")
 const { i18n } = require("../../locales")
 
 describe("presentOne", () => {
@@ -14,7 +14,7 @@ describe("presentOne", () => {
         labels: [undefined],
       },
     ],
-    t: i18n.getFixedT("en-US", "commands", "roll-formula"),
+    t: i18n.getFixedT("en-US", "commands", "formula"),
   }
 
   it("includes the original formula", () => {
@@ -80,7 +80,7 @@ describe("presentMany", () => {
         labels: [undefined],
       },
     ],
-    t: i18n.getFixedT("en-US", "commands", "roll-formula"),
+    t: i18n.getFixedT("en-US", "commands", "formula"),
   }
 
   it("includes the original formula", () => {
@@ -149,7 +149,7 @@ describe("detail", () => {
     raw: [[2], [1]],
     summed: [2, 1],
     labels: [undefined, undefined],
-    t: i18n.getFixedT("en-US", "commands", "roll-formula"),
+    t: i18n.getFixedT("en-US", "commands", "formula"),
   }
 
   it("shows every pool", () => {

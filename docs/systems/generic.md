@@ -5,7 +5,7 @@ Many systems work just fine using the standard polyhedral dice: d6, d8, d10, d12
 Roll It supports these in a few ways, depending on what you want to do:
 
 * `/roll` rolls one or more dice with the same number of sides
-* `/roll-formula` rolls as many sets of dice as you want, along with powerful modifiers
+* `/formula` rolls as many sets of dice as you want, along with powerful modifiers
 * `/d6` rolls one d6
 * `/d8` rolls one d8
 * `/d10` rolls one d10
@@ -29,9 +29,9 @@ The `/roll` command lets you roll one or more dice of the same type. The dice wi
 @user rolled **13** (3d6: [3,5,3] + 2)
 <!-- panels:end -->
 
-## `/roll-formula`
+## `/formula`
 
-The `/roll-formula` command lets you supply a complex series of dice pools, modifiers, and mathematical expressions to evaluate. To specify dice, use the format `1d6` where `1` is the number of dice and `6` is the sides. You can also label a pool by putting a word or two in quotes right after the pool, like `2d8"magic"`. Roll It will parse and roll these dice *before* every other operation.
+The `/formula` command lets you supply a complex series of dice pools, modifiers, and mathematical expressions to evaluate. To specify dice, use the format `1d6` where `1` is the number of dice and `6` is the sides. You can also label a pool by putting a word or two in quotes right after the pool, like `2d8"magic"`. Roll It will parse and roll these dice *before* every other operation.
 
 The math is handled by the excellent [math.js](https://mathjs.org) library. Read up on its [syntax guide](https://mathjs.org/docs/expressions/syntax.html) and [supported functions](https://mathjs.org/docs/reference/functions.html) if there's something really wild you want to try.
 
@@ -40,7 +40,7 @@ The math is handled by the excellent [math.js](https://mathjs.org) library. Read
 <!-- panels:start -->
 <!-- div:left-panel -->
 ```invocation
-/roll-formula formula:2d6 + 1d8"fire" + 19
+/formula formula:2d6 + 1d8"fire" + 19
 ```
 <!-- div:right-panel -->
 <@user> rolled **30** on `2d6 + 1d8"fire" + 19`:

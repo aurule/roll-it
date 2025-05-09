@@ -121,7 +121,7 @@ systems:
   description: The dice mechanics that Roll It supports
   lines:
     - >
-      Although you *can* use the `/roll` and `/roll-formula` commands to roll dice for basically any system
+      Although you *can* use the `/roll` and `/formula` commands to roll dice for basically any system
       you can think of, some systems have complex rules. Counting successes, exploding dice, or comparing
       different tallies is doable, but annoying with generic rollers. It's much easier if all that math is
       handled for you, which is where Roll It's game-specific commands come to the rescue.

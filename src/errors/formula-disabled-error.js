@@ -1,5 +1,5 @@
 /**
- * Error class to throw in roll-formula when a disabled function is called
+ * Error class to throw in /formula when a disabled function is called
  */
 class FormulaDisabledError extends Error {
   fnName

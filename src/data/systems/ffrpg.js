@@ -1,7 +1,7 @@
 module.exports = {
   name: "ffrpg",
   commands: {
-    required: ["ffrpg", "d10", "roll-formula"],
+    required: ["ffrpg", "d10", "formula"],
     recommended: ["d100"],
   },
 }

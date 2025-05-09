@@ -35,7 +35,7 @@ Here are the commands that can be saved:
 * `/kob` - Roll an exploding die for [Kids On Bikes](/systems/kob)
 * `/nwod` - Roll a pool of d10s using rules for [New World of Darkness](/systems/nwod)
 * `/pba` - Roll and sum two six-sided dice
-* `/roll-formula` - Roll a combination of dice and complex modifiers
+* `/formula` - Roll a combination of dice and complex modifiers
 * `/roll` - Roll a set of plain dice
 * `/shadowrun` - Roll a pool of d6s for [Shadowrun](/systems/shadowrun)
 * `/swn` - Roll and sum two six-sided dice using rules for [Stars Without Number](/systems/swn)

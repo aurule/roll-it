@@ -1040,8 +1040,8 @@ report-this-roll:
     description about why you're reporting it, but that is optional.
   validation:
     foreign: That message was not sent by a Roll It command.
-roll-formula:
-  name: roll-formula
+formula:
+  name: formula
   description: Roll a combination of dice and complex modifiers
   help-lines:
       - >
@@ -1079,7 +1079,7 @@ roll-formula:
         wild you want to try. Keep in mind that {{cmd}} resolves all dice pools *before* any other operation is
         evaluated.
   help: |-
-    $t(roll-formula.help-lines, { "joinArrays": "\n" })
+    $t(formula.help-lines, { "joinArrays": "\n" })
   options:
     formula:
       name: formula

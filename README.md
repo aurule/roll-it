@@ -18,7 +18,7 @@ Roll dice pools for a number of game systems:
 * Don't Rest Your Head with `/drh`
 * Dungeons & Dragons 5e with `/d20`
 * FATE fudge dice with `/fate`
-* Final Fantasy RPG with `/ffrpg`, `/d10`, and `/roll-formula`
+* Final Fantasy RPG with `/ffrpg`, `/d10`, and `/formula`
 * Kids On Bikes with `/kob`
 * New World of Darkness / Chronicles of Darkness d10s with `/nwod`
 * Powered by the Apocalypse with `/pba`
@@ -33,7 +33,7 @@ And of course, you can roll whatever standard dice you want:
 * Roll a d20 with `/d20`
 * Roll a percentile with `/d100`
 * Roll other dice with `/roll`
-* Do some dice math with `/roll-formula`
+* Do some dice math with `/formula`
 
 Most commands include some really helpful options:
 * A `description` so you don't forget what you rolled for

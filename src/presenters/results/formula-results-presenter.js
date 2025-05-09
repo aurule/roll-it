@@ -72,7 +72,7 @@ module.exports = {
    * @return {str}                String of presented roll results
    */
   present({ rolls, locale, ...rollOptions }) {
-    const t = i18n.getFixedT(locale, "commands", "roll-formula")
+    const t = i18n.getFixedT(locale, "commands", "formula")
     const presenter_options = {
       t,
       ...rollOptions,

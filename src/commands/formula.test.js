@@ -1,4 +1,4 @@
-const roll_formula_command = require("./roll-formula")
+const formula_command = require("./formula")
 
 const { Interaction } = require("../../testing/interaction")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
@@ -7,7 +7,7 @@ var interaction
 
 describe("schema", () => {
   describe("formula", () => {
-    const formula_schema = roll_formula_command.schema.extract("formula")
+    const formula_schema = formula_command.schema.extract("formula")
 
     it("is required", () => {
       const result = formula_schema.validate()
@@ -49,7 +49,7 @@ describe("perform", () => {
       description: description_text,
     }
 
-    const result = roll_formula_command.perform(options)
+    const result = formula_command.perform(options)
 
     expect(result).toMatch(description_text)
   })
@@ -59,7 +59,7 @@ describe("perform", () => {
       formula: "1d4 + 8",
     }
 
-    const result = roll_formula_command.perform(options)
+    const result = formula_command.perform(options)
 
     expect(result).toMatch(/\*\*\d+\*\*/)
   })
@@ -69,7 +69,7 @@ describe("perform", () => {
       formula: "1D4 + 8",
     }
 
-    const result = roll_formula_command.perform(options)
+    const result = formula_command.perform(options)
 
     expect(result).toMatch(/\*\*\d+\*\*/)
   })
@@ -79,7 +79,7 @@ describe("perform", () => {
       formula: "1d4 + 8",
     }
 
-    const result = roll_formula_command.perform(options)
+    const result = formula_command.perform(options)
 
     expect(result).toMatch("8")
   })
@@ -90,7 +90,7 @@ describe("perform", () => {
       modifier: 2,
     }
 
-    const result = roll_formula_command.perform(options)
+    const result = formula_command.perform(options)
 
     expect(result).toMatch("7")
   })
@@ -101,10 +101,10 @@ describe("perform", () => {
       modifier: -2,
     }
 
-    const result = roll_formula_command.perform(options)
+    const result = formula_command.perform(options)
 
     expect(result).toMatch("3")
   })
 })
 
-test_secret_option(roll_formula_command, { formula: "1d4" })
+test_secret_option(formula_command, { formula: "1d4" })

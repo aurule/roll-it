@@ -9,11 +9,10 @@ const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { operator } = require("../util/formatters")
 
-const command_name = "roll-formula"
+const command_name = "formula"
 
 module.exports = {
   name: command_name,
-  replacement: "formula",
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addLocalizedStringOption("formula", (option) =>

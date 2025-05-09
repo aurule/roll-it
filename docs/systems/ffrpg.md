@@ -11,7 +11,7 @@ The `/ffrpg` command handles a few corner cases that are not well described in t
 
 #> For example, rolling 7 against a CoS of 2 will show a simple success and note that it benefitted from the Rule of 10.
 
-?> The FFRPG system also benefits from the `/d10` command for rolling initiative and `/roll-formula` for handling weapon damage.
+?> The FFRPG system also benefits from the `/d10` command for rolling initiative and `/formula` for handling weapon damage.
 
 ## `/ffrpg`
 
