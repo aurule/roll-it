@@ -542,6 +542,73 @@ ffrpg:
         [{{mods}}] *{{thresholds}}*
       shape_flat: |-
        [{{base}} Base, *flat*]
+formula:
+  name: formula
+  description: Roll a combination of dice and complex modifiers
+  help-lines:
+      - >
+        {{cmd}} rolls multiple pools of dice at once and can add, subtract, and manipulate them using complex
+        math. It's especially useful when you need to add a bunch of dice pools together, like for magic weapon
+        damage rolls in D&D.
+      - >
+        Each formula should include at least one pool of dice, written as `dice`d`sides`. If you want to
+        label the outcome of a pool, you can add a label in quotes to the `sides`, like `1d6"fire"`.
+      - >
+        When run, {{cmd}} rolls every pool and then evaluates the math of the formula. This means that while
+        you can manipulate the outcome of multiple pools, you cannot manipulate the number of dice nor their
+        sides.
+      - >-
+        Here are a few examples where a formula is more helpful than rolling plain dice:
+      - >-
+        * A magic weapon damage roll of 2d4 slashing, 1d6 fire, and 1d6 holy, with a +6 bonus:
+        `2d4"slash" + 1d6"fire" + 1d6"holy" + 6`
+      - >-
+        * A D&D 3.5 crafting roll with a DC of 20: `(1d20 + 16) * 20`
+      - >-
+        * A crit damage roll in D&D 5e: `(1d8 + 4) * 2 + 1d6"holy"`
+      - >
+        * A VtM Sabbat vinculum check for multiple participants in a vaulderie:
+        `1d10"Marie" + 1d10"Jane" + 1d10"Foxfire"`. In this case, the labels are the important part and the
+        final sum doesn't matter.
+      - >
+        When used as a saved roll, {{cmd}} accepts a `modifier` like all other savable rolls. Its modifier is
+        limited to adding or subtracting a single number.
+      - >-
+        {{cmd}} uses [math.js](<https://mathjs.org>) under the hood to do the calculations, so it respects
+        proper order of operations and can do all sorts of fancy math. Read up on its
+        [syntax guide](<https://mathjs.org/docs/expressions/syntax.html>) and
+        [supported functions](<https://mathjs.org/docs/reference/functions.html>) if there's something really
+        wild you want to try. Keep in mind that {{cmd}} resolves all dice pools *before* any other operation is
+        evaluated.
+  help: |-
+    $t(formula.help-lines, { "joinArrays": "\n" })
+  options:
+    formula:
+      name: formula
+      description: The formula of dice to roll and operations to apply
+  response:
+    disabled: "Error: Function {{fnName}} is disabled"
+    pool:
+      bare: "{{sum}} from {{pool}} [{{raw}}]"
+      labeled: "{{sum}} {{label}} from {{pool}} [{{raw}}]"
+    total: "**{{final}}** = {{rolled}}"
+    detail: |-
+      {{total}}
+      {{pools}}
+    withDescription_one: |-
+      {{userMention}} rolled **{{final}}** for "{{description}}" on `{{formula}}`:
+      {{total}}
+      {{pools}}
+    withDescription_other: |-
+      {{userMention}} rolled {{count}} times for "{{description}}" on `{{formula}}`:
+      {{details}}
+    withoutDescription_one: |-
+      {{userMention}} rolled **{{final}}** on `{{formula}}`:
+      {{total}}
+      {{pools}}
+    withoutDescription_other: |-
+      {{userMention}} rolled {{count}} times on `{{formula}}`:
+      {{details}}
 help:
   name: help
   description: Get help with Roll It and its commands
@@ -1040,73 +1107,6 @@ report-this-roll:
     description about why you're reporting it, but that is optional.
   validation:
     foreign: That message was not sent by a Roll It command.
-formula:
-  name: formula
-  description: Roll a combination of dice and complex modifiers
-  help-lines:
-      - >
-        {{cmd}} rolls multiple pools of dice at once and can add, subtract, and manipulate them using complex
-        math. It's especially useful when you need to add a bunch of dice pools together, like for magic weapon
-        damage rolls in D&D.
-      - >
-        Each formula should include at least one pool of dice, written as `dice`d`sides`. If you want to
-        label the outcome of a pool, you can add a label in quotes to the `sides`, like `1d6"fire"`.
-      - >
-        When run, {{cmd}} rolls every pool and then evaluates the math of the formula. This means that while
-        you can manipulate the outcome of multiple pools, you cannot manipulate the number of dice nor their
-        sides.
-      - >-
-        Here are a few examples where a formula is more helpful than rolling plain dice:
-      - >-
-        * A magic weapon damage roll of 2d4 slashing, 1d6 fire, and 1d6 holy, with a +6 bonus:
-        `2d4"slash" + 1d6"fire" + 1d6"holy" + 6`
-      - >-
-        * A D&D 3.5 crafting roll with a DC of 20: `(1d20 + 16) * 20`
-      - >-
-        * A crit damage roll in D&D 5e: `(1d8 + 4) * 2 + 1d6"holy"`
-      - >
-        * A VtM Sabbat vinculum check for multiple participants in a vaulderie:
-        `1d10"Marie" + 1d10"Jane" + 1d10"Foxfire"`. In this case, the labels are the important part and the
-        final sum doesn't matter.
-      - >
-        When used as a saved roll, {{cmd}} accepts a `modifier` like all other savable rolls. Its modifier is
-        limited to adding or subtracting a single number.
-      - >-
-        {{cmd}} uses [math.js](<https://mathjs.org>) under the hood to do the calculations, so it respects
-        proper order of operations and can do all sorts of fancy math. Read up on its
-        [syntax guide](<https://mathjs.org/docs/expressions/syntax.html>) and
-        [supported functions](<https://mathjs.org/docs/reference/functions.html>) if there's something really
-        wild you want to try. Keep in mind that {{cmd}} resolves all dice pools *before* any other operation is
-        evaluated.
-  help: |-
-    $t(formula.help-lines, { "joinArrays": "\n" })
-  options:
-    formula:
-      name: formula
-      description: The formula of dice to roll and operations to apply
-  response:
-    disabled: "Error: Function {{fnName}} is disabled"
-    pool:
-      bare: "{{sum}} from {{pool}} [{{raw}}]"
-      labeled: "{{sum}} {{label}} from {{pool}} [{{raw}}]"
-    total: "**{{final}}** = {{rolled}}"
-    detail: |-
-      {{total}}
-      {{pools}}
-    withDescription_one: |-
-      {{userMention}} rolled **{{final}}** for "{{description}}" on `{{formula}}`:
-      {{total}}
-      {{pools}}
-    withDescription_other: |-
-      {{userMention}} rolled {{count}} times for "{{description}}" on `{{formula}}`:
-      {{details}}
-    withoutDescription_one: |-
-      {{userMention}} rolled **{{final}}** on `{{formula}}`:
-      {{total}}
-      {{pools}}
-    withoutDescription_other: |-
-      {{userMention}} rolled {{count}} times on `{{formula}}`:
-      {{details}}
 roll:
   name: roll
   description: Roll a set of plain dice
