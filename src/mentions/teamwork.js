@@ -119,11 +119,12 @@ module.exports = {
         allowedMentions: {
           users: [author_id],
         },
+        withResponse: true,
       })
       .then((reply_interaction) => {
         teamwork_db.addMessage({
           teamwork_id: test.id,
-          message_uid: reply_interaction.id,
+          message_uid: reply_interaction.resource.message.id,
           type: MessageType.Plain,
         })
       })
