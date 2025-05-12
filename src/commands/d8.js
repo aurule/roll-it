@@ -24,6 +24,7 @@ module.exports = {
   schema: Joi.object({
     description: commonSchemas.description,
     modifier: commonSchemas.modifier,
+    pool: commonSchemas.pool,
     rolls: commonSchemas.rolls,
   }),
   perform({ rolls = 1, modifier = 0, pool = 1, description, locale = "en-US" } = {}) {
