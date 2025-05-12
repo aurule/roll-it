@@ -38,6 +38,7 @@ class Interaction {
       id: this.guildId,
       members: [],
       name: "test guild",
+      locale: "en-US",
     }
     this.guild.members.fetch = (user) => user
     this.channel = {
