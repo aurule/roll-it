@@ -27,6 +27,7 @@ module.exports = {
    * @type Collection
    */
   components,
+
   /**
    * Get whether this handler accepts an interaction
    *
@@ -38,13 +39,14 @@ module.exports = {
   canHandle(interaction) {
     return components.has(interaction.customId)
   },
+
   /**
    * Handle an interaction
    *
    * This ensures the test is active and then dispatches handling to the appropriate component object.
    *
-   * @param  {[type]} interaction [description]
-   * @return {[type]}             [description]
+   * @param  {Interaction} interaction Discord component interaction
+   * @return {Promise}                 Promise from the component
    */
   async handle(interaction) {
     const teamwork_db = new Teamwork()
