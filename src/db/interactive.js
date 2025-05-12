@@ -415,7 +415,70 @@ class Teamwork {
   }
 }
 
+/**
+ * Class to manage met-opposed state tracking
+ */
+class Opposed {
+  /**
+   * Database object
+   * @type Database
+   */
+  db
+
+  constructor(db_obj) {
+    this.db = db_obj ?? require("./index").db
+  }
+
+  /**
+   * Add an opposed challenge
+   *
+   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
+   */
+  addChallenge({ locale, attacker_uid, attribute, retests_allowed, retest_ability, conditions = [], channel_uid, timeout } = {}) {
+    const insert = this.db.prepare(oneLine`
+      INSERT INTO interactive.opposed_challenges (
+        locale,
+        attacker_uid,
+        attribute,
+        description,
+        retests_allowed,
+        retest_ability,
+        conditions,
+        channel_uid,
+        expires_at
+      ) VALUES (
+        @locale,
+        @attacker_uid,
+        @attribute,
+        @description,
+        @retests_allowed,
+        @retest_ability
+        JSONB(@conditions),
+        @channel_uid,
+        datetime('now', @timeout || ' seconds')
+      )
+    `)
+
+    return insert.run({
+      locale,
+      attacker_uid,
+      attribute,
+      description,
+      retests_allowed,
+      retest_ability,
+      conditions: JSON.stringify(options),
+      channel_uid,
+      timeout,
+    })
+  }
+
+  hasMessage(message_uid) {}
+
+  isMessageExpired(message_uid) {}
+}
+
 module.exports = {
   MessageType,
   Teamwork,
+  Opposed,
 }
