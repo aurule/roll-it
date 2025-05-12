@@ -44,15 +44,14 @@ ON teamwork_helpers (teamwork_id, requested);
 
 -- Met Opposed Tables
 
-CREATE TABLE IF NOT EXISTS interactive.opposed (
+CREATE TABLE IF NOT EXISTS interactive.opposed_challenges (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   locale TEXT NOT NULL,
   attacker_uid TEXT NOT NULL,
   attribute TEXT NOT NULL,
   retests_allowed BOOLEAN DEFAULT true,
   retest_ability TEXT NOT NULL,
-  carrier BOOLEAN DEFAULT false,
-  altering BOOLEAN DEFAULT false,
+  conditions BLOB,
   channel_uid TEXT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   expires_at DATETIME
@@ -62,12 +61,10 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_participants (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_uid TEXT NOT NULL,
   mention TEXT NOT NULL,
-  bomb BOOLEAN DEFAULT false,
-  ties BOOLEAN DEFAULT false,
-  cancels BOOLEAN DEFAULT false,
-  opposed_id INTEGER NOT NULL,
-  FOREIGN KEY (opposed_id)
-    REFERENCES opposed (id)
+  advantages BLOB,
+  challenge_id INTEGER NOT NULL,
+  FOREIGN KEY (challenge_id)
+    REFERENCES opposed_challenges (id)
     ON DELETE CASCADE
 );
 
@@ -77,10 +74,12 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_tests (
   retest_reason TEXT,
   canceller_uid TEXT,
   cancelled_with TEXT,
-  opposed_id INTEGER NOT NULL,
+  attacker_ready BOOLEAN DEFAULT FALSE,
+  defender_ready BOOLEAN DEFAULT FALSE,
+  challenge_id INTEGER NOT NULL,
   done BOOLEAN DEFAULT false,
-  FOREIGN KEY (opposed_id)
-    REFERENCES opposed (id)
+  FOREIGN KEY (challenge_id)
+    REFERENCES opposed_challenges (id)
     ON DELETE CASCADE
 );
 
@@ -101,10 +100,10 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_test_chops (
 CREATE TABLE IF NOT EXISTS interactive.opposed_messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   message_uid TEXT NOT NULL,
-  opposed_id INTEGER NOT NULL,
-  test_id INTEGER NOT NULL,
-  FOREIGN KEY (opposed_id)
-    REFERENCES opposed (id)
+  challenge_id INTEGER NOT NULL,
+  test_id INTEGER,
+  FOREIGN KEY (challenge_id)
+    REFERENCES opposed_challenges (id)
     ON DELETE CASCADE
   FOREIGN KEY (test_id)
     REFERENCES opposed_tests (id)
