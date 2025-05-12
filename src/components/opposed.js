@@ -1,0 +1,86 @@
+const fs = require("fs")
+const path = require("path")
+const { Collection } = require("discord.js")
+
+const { Opposed }  = require("../db/interactive")
+const { opposedTimeout } = require("../interactive/opposed")
+const { jsNoTests, noDotFiles } = require("../util/filters")
+const { logger } = require("../util/logger")
+
+const basename = path.basename(__filename)
+const componentsDir = path.join(__dirname, "opposed")
+
+const components = new Collection()
+
+const contents = fs.readdirSync(componentsDir).filter(jsNoTests).filter(noDotFiles)
+
+contents.forEach((mention_file) => {
+  const handler = require(path.join(componentsDir, mention_file))
+  components.set(handler.name, handler)
+})
+
+module.exports = {
+  /**
+   * Collection of component objects related to met-opposed activities
+   *
+   * @type Collection
+   */
+  components,
+
+  /**
+   * Get whether this handler accepts an interaction
+   *
+   * To be handled here, the interaction must have a customId which appears in our components collection.
+   *
+   * @param  {Interaction} interaction Discord component interaction
+   * @return {boolean}                 True if the interaction can be handled, false if not
+   */
+  canHandle(interaction) {
+    return components.has(interaction.customId)
+  },
+
+  /**
+   * Handle an interaction
+   *
+   * This ensures the challenge (and possibly test) is active and then dispatches handling to the appropriate
+   * component object.
+   *
+   * @param  {Interaction} interaction Discord component interaction
+   * @return {Promise}                 Promise from the component
+   */
+  async handle(interaction) {
+    const opposed_db = new Opposed()
+    // if (!opposed_db.hasMessage(interaction.message.id)) {
+    //   const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
+    //   interaction
+    //     .whisper(t("concluded"))
+    //     .catch((error) =>
+    //       logger.warn(
+    //         { err: error, user: interaction.user.id, component: interaction.customId },
+    //         `Could not whisper about concluded opposed challenge from ${interaction.customId}`,
+    //       ),
+    //     )
+    //   return
+    // }
+
+    // if (opposed_db.isMessageExpired(interaction.message.id)) {
+    //   const challenge = challenge_db.findChallengeByMessage(interaction.message.id)
+    //   const t = i18n.getFixedT(interaction.locale, "interactive", "challenge")
+    //   await opposedTimeout(challenge.id)
+    //   await interaction
+    //     .whisper(t("concluded"))
+    //     .catch((error) =>
+    //       logger.warn(
+    //         { err: error, user: interaction.user.id, component: interaction.customId },
+    //         `Could not whisper about expired opposed challenge from ${interaction.customId}`,
+    //       ),
+    //     )
+    //   return
+    // }
+
+    // TODO handle case where message is associated with a (re)test that is finished, but the test itself is ongoing
+
+    const component = components.get(interaction.customId)
+    return component.execute(interaction)
+  },
+}

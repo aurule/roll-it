@@ -1,7 +1,8 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
 const { throwChoices } = require("../../util/met-throw-options")
-const { MetOpposedManager } = require("../../services/met-opposed-manager")
+// const { MetOpposedManager } = require("../../services/met-opposed-manager")
+const { opposedBegin } = require("../../interactive/opposed")
 const { i18n } = require("../../locales")
 
 const command_name = "opposed"
@@ -37,22 +38,36 @@ module.exports = {
       return interaction.whisper(t("options.opponent.validation.self"))
     }
 
-    const manager = new MetOpposedManager({
+    return opposedBegin({
       interaction,
       attackerId,
       defenderId,
       attribute: interaction.options.getString("attribute"),
-      retest_ability: interaction.options.getString("retest"),
+      retest: interaction.options.getString("retest"),
+      allow_retests: interaction.options.getBoolean("use-retests") ?? true,
+      carrier: interaction.options.getBoolean("carrier") ?? false,
+      altering: interaction.options.getBoolean("altering") ?? false,
+      bomb: interaction.options.getBoolean("bomb") ?? false,
+      ties: interaction.options.getBoolean("ties") ?? false,
+      cancels: interaction.options.getBoolean("cancels") ?? false
     })
-    manager.description = interaction.options.getString("description") ?? ""
-    manager.carrier = interaction.options.getBoolean("carrier") ?? false
-    manager.altering = interaction.options.getBoolean("altering") ?? false
-    manager.allow_retests = interaction.options.getBoolean("use-retests") ?? true
-    manager.attacker.bomb = interaction.options.getBoolean("bomb") ?? false
-    manager.attacker.ties = interaction.options.getBoolean("ties") ?? false
-    manager.attacker.cancels = interaction.options.getBoolean("cancels") ?? false
-    manager.current_test.chop(manager.attacker, interaction.options.getString("throw"))
 
-    return manager.begin()
+    // const manager = new MetOpposedManager({
+    //   interaction,
+    //   attackerId,
+    //   defenderId,
+    //   attribute: interaction.options.getString("attribute"),
+    //   retest_ability: interaction.options.getString("retest"),
+    // })
+    // manager.description = interaction.options.getString("description") ?? ""
+    // manager.carrier = interaction.options.getBoolean("carrier") ?? false
+    // manager.altering = interaction.options.getBoolean("altering") ?? false
+    // manager.allow_retests = interaction.options.getBoolean("use-retests") ?? true
+    // manager.attacker.bomb = interaction.options.getBoolean("bomb") ?? false
+    // manager.attacker.ties = interaction.options.getBoolean("ties") ?? false
+    // manager.attacker.cancels = interaction.options.getBoolean("cancels") ?? false
+    // manager.current_test.chop(manager.attacker, interaction.options.getString("throw"))
+
+    // return manager.begin()
   },
 }

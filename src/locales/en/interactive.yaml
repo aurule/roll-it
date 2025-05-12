@@ -98,3 +98,70 @@ teamwork:
   concluded: That teamwork test has concluded.
   invalid: That test has invalid options and cannot be rolled.
   unauthorized: Only the test leader {{leader}} can use this control.
+opposed:
+  shared:
+    attributes:
+      mental: a Mental
+      physical: a Physical
+      social: a Social
+    conditions:
+      normal: a normal
+      carrier: a Carrier
+      altering: an Altering
+    advantages:
+      bomb: >-
+        :firecracker: bomb
+      ties: >-
+        :neq: ties
+      cancels: >-
+        :prohibited: cancels
+      none: no advantages
+  prompt:
+    summary: >-
+      {{attacker}} is attacking {{defender}} with {{attribute}} challenge. This is {{conditions, list}}
+      attack. The named retest is {{retest}}. {{attacker}} has {{advantages, list}}.
+    withdraw: >-
+      {{attacker}}: If this challenge was made in error, you can withdraw it. Once chops begin, you can no longer withdraw.
+    relent: |-
+      {{defender}}: If you want to allow {{attacker}} to succeed, you can relent to their challenge.
+    advantages: >-
+      Otherwise, select your own advantages:
+    ready: >-
+      When you're ready to throw chops, click the Ready button. Once chops begin, you cannot change your declared advantages.
+    components:
+      withdraw: Withdraw
+  withdrawn: >-
+    {{attacker}} withdrew their challenge.
+  throws:
+    request: >-
+      {{participant}}, choose your throw:
+    cta: >-
+      Click the Go button when you're ready. The chop will be thrown once both participants click Go.
+  summary:
+    challenge: |-
+      {{attacker}} is challenging {{defender}} with {{attribute}} test. This is a {{conditions, list}} attack. The named retest is {{retest}}.
+      {{attacker}} has {{attacker_advantages, list}}.
+      {{defender}} has {{defender_advantages, list}}.
+    history: >-
+      Test history:
+  status:
+    winner: >-
+      {{leader}} is currently winning! ({{chops}})
+    concede: >-
+      {{trailer}}: If you are out of retests, you can concede to {{leader}} and end the challenge.
+    tied: >-
+      The challenge is tied. ({{chops}})
+    compare: >-
+      {{attacker}} and {{defender}}: If you both decide to compare traits, the chops will end with no automatic winner.
+    retest: >-
+      Either participant may retest for a new result:
+  retest:
+    withdraw: >-
+      {{retester}} is retesting with {{reason}}. If this was an accident, you can withdraw the retest.
+    cancel: >-
+      {{canceller}} may cancel.
+    cancel_special: |-
+      {{canceller}} may cancel.
+      -# You can cancel without using an ability, so you will see this prompt for every retest from {{retester}}.
+  concluded: >-
+    That challenge has concluded.
