@@ -174,7 +174,7 @@ d12:
       description: Number to add to the result after adding up the rolled dice
 d100:
   name: d100
-  description: Roll some single percentile (100-sided) dice
+  description: Roll some percentile (100-sided) dice
   help: |-
     {{cmd}} rolls one or more percentile, or 100-sided, die. That's it! The results are shown from 1 to 100.
   options:

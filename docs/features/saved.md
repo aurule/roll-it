@@ -24,13 +24,13 @@ _Save this roll_ is the first context command in Roll It, so it might need some 
 
 Here are the commands that can be saved:
 * `/curv` - Roll 3d6 for [D&D 5e](/systems/dnd5e)
-* `/d10` - Roll a single ten-sided die
-* `/d12` - Roll a single ten-sided die
-* `/d100` - Roll a single percentile (100-sided) die
-* `/d20` - Roll a single 20-sided die
-* `/d4` - Roll some four-sided dice
-* `/d6` - Roll some six-sided dice
-* `/d8` - Roll some eight-sided dice
+* `/d4` rolls one or more four-sided dice
+* `/d6` rolls one or more six-sided dice
+* `/d8` rolls one or more eight-sided dice
+* `/d10` rolls one or more ten-sided dice
+* `/d12` rolls one or more twelve-sided dice
+* `/d20` rolls one twenty-sided die
+* `/d100` rolls one or more percentile (100-sided) dice
 * `/drh` - Roll pools of d6s for [Don't Rest Your Head](/systems/drh)
 * `/fate` - Make a [FATE](/systems/fate) roll of four fudge dice
 * `/ffrpg` - Roll a percentile

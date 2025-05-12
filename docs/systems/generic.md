@@ -6,13 +6,13 @@ Roll It supports these in a few ways, depending on what you want to do:
 
 * `/roll` rolls one or more dice with the same number of sides
 * `/formula` rolls as many sets of dice as you want, along with powerful modifiers
-* `/d4` rolls one d4
-* `/d6` rolls one d6
-* `/d8` rolls one d8
-* `/d10` rolls one d10
-* `/d12` rolls one d12
-* `/d20` rolls one d20
-* `/d100` rolls one percentile
+* `/d4` rolls one or more four-sided dice
+* `/d6` rolls one or more six-sided dice
+* `/d8` rolls one or more eight-sided dice
+* `/d10` rolls one or more ten-sided dice
+* `/d12` rolls one or more twelve-sided dice
+* `/d20` rolls one twenty-sided die
+* `/d100` rolls one or more percentile dice
 
 ## `/roll`
 
