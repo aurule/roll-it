@@ -239,6 +239,15 @@ d20:
         {{results}}
       nomod: >-
         {{userMention}} rolled **{{result}}**
+d4:
+  name: d4
+  description: Roll some four-sided dice
+  help: |
+    {{cmd}} rolls one or more four-sided dice and adds them together.
+  options:
+    modifier:
+      name: modifier
+      description: Number to add to the result after adding up the rolled dice
 d6:
   name: d6
   description: Roll some six-sided dice

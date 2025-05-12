@@ -6,6 +6,7 @@ Roll It supports these in a few ways, depending on what you want to do:
 
 * `/roll` rolls one or more dice with the same number of sides
 * `/formula` rolls as many sets of dice as you want, along with powerful modifiers
+* `/d4` rolls one d4
 * `/d6` rolls one d6
 * `/d8` rolls one d8
 * `/d10` rolls one d10
