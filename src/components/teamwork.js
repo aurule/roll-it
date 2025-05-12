@@ -6,6 +6,7 @@ const { Teamwork }  = require("../db/interactive")
 const { teamworkTimeout } = require("../interactive/teamwork")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
+const { i18n } = require("../locales")
 
 const basename = path.basename(__filename)
 const componentsDir = path.join(__dirname, "teamwork")
