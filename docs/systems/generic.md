@@ -10,6 +10,7 @@ Roll It supports these in a few ways, depending on what you want to do:
 * `/d6` rolls one d6
 * `/d8` rolls one d8
 * `/d10` rolls one d10
+* `/d12` rolls one d12
 * `/d20` rolls one d20
 * `/d100` rolls one percentile
 
