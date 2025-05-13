@@ -105,6 +105,8 @@ function presentList(saved_rolls, locale) {
  *
  * If the saved_roll object has no `command`, this will return a string instead of `undefined`.`
  *
+ * This cannot currently handle saved subcommands.
+ *
  * @param  {obj} saved_roll Saved roll info object
  * @param  {str} locale     Name of the current locale
  * @return {str}            Invocation string
