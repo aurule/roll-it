@@ -679,7 +679,7 @@ class Opposed {
         cancelled_with,
         attacker_ready,
         defender_ready,
-        done,
+        done
       ) VALUES (
         @challenge_id,
         @retester_uid,
@@ -688,7 +688,7 @@ class Opposed {
         @cancelled_with,
         @attacker_ready,
         @defender_ready,
-        @done,
+        @done
       )
     `)
 
@@ -698,9 +698,9 @@ class Opposed {
       retest_reason,
       canceller_uid,
       cancelled_with,
-      attacker_ready,
-      defender_ready,
-      done,
+      attacker_ready: +!!attacker_ready,
+      defender_ready: +!!defender_ready,
+      done: +!!done,
     })
   }
 }
