@@ -101,6 +101,15 @@ module.exports = {
   async teamworkTimeout(teamwork_id) {
     const teamwork_db = new Teamwork()
     const test = teamwork_db.detail(teamwork_id)
+
+    if (test === undefined) {
+      logger.info({
+        teamwork_id,
+      },
+      "Teamwork test completed before timeout")
+      return
+    }
+
     module.exports.cleanup(teamwork_id)
 
     const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
