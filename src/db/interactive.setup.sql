@@ -47,6 +47,7 @@ ON teamwork_helpers (teamwork_id, requested);
 CREATE TABLE IF NOT EXISTS interactive.opposed_challenges (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   locale TEXT NOT NULL,
+  description TEXT,
   attacker_uid TEXT NOT NULL,
   attribute TEXT NOT NULL,
   retests_allowed BOOLEAN DEFAULT true,
@@ -62,6 +63,7 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_participants (
   user_uid TEXT NOT NULL,
   mention TEXT NOT NULL,
   advantages BLOB,
+  role INTEGER NOT NULL,
   challenge_id INTEGER NOT NULL,
   FOREIGN KEY (challenge_id)
     REFERENCES opposed_challenges (id)
