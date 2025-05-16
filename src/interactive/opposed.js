@@ -54,6 +54,7 @@ module.exports = {
       locale,
       attacker_uid: attackerId,
       attribute,
+      description,
       retests_allowed: allow_retests,
       retest_ability: retest,
       conditions,
@@ -79,6 +80,8 @@ module.exports = {
         content: t("summary", {
           attacker: attacker_mention,
           defender: defender_mention,
+          description,
+          context: description ? "description" : undefined,
           attribute: shared_t(`attributes.${attribute}`),
           conditions: conditions.map(c => shared_t(`conditions.${c}`)),
           retest,

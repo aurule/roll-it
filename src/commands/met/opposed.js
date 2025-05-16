@@ -43,6 +43,7 @@ module.exports = {
       attackerId,
       defenderId,
       attribute: interaction.options.getString("attribute"),
+      description: interaction.options.getString("description") ?? "",
       retest: interaction.options.getString("retest"),
       allow_retests: interaction.options.getBoolean("use-retests") ?? true,
       carrier: interaction.options.getBoolean("carrier") ?? false,
