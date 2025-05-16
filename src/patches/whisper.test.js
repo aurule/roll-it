@@ -6,6 +6,7 @@ const {
   ModalSubmitInteraction,
   ButtonInteraction,
   UserSelectMenuInteraction,
+  StringSelectMenuInteraction,
   Message,
 } = require("discord.js")
 
@@ -21,6 +22,7 @@ describe("patch", () => {
     [ModalSubmitInteraction],
     [ButtonInteraction],
     [UserSelectMenuInteraction],
+    [StringSelectMenuInteraction],
     [Message],
   ])("patches %p by default", (klass) => {
     whisper.patch()

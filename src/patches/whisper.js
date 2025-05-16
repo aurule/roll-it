@@ -8,6 +8,7 @@ const {
   ModalSubmitInteraction,
   ButtonInteraction,
   UserSelectMenuInteraction,
+  StringSelectMenuInteraction,
   Message,
 } = require("discord.js")
 
@@ -21,6 +22,7 @@ module.exports = {
       ModalSubmitInteraction,
       ButtonInteraction,
       UserSelectMenuInteraction,
+      StringSelectMenuInteraction,
       Message,
     ]
     if (target_klass) {
