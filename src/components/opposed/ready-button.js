@@ -3,7 +3,7 @@ const { editMessage } = require("../../services/api")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/interactive")
 const { logger } = require("../../util/logger")
-const ThrowMessage = require("../../messages/opposed/throw")
+const throw_message = require("../../messages/opposed/throw")
 
 module.exports = {
   name: "opposed_ready",
@@ -65,10 +65,10 @@ module.exports = {
       )
 
     return interaction
-      .reply(ThrowMessage.data({ challenge, attacker, defender }))
+      .reply(throw_message.data({ challenge, attacker, defender }))
       .then((reply_interaction) => {
         opposed_db.addMessage({
-          challenge_id,
+          challenge_id: challenge.id,
           test_id,
           message_uid: reply_interaction.resource.message.id,
         })
