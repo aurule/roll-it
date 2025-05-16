@@ -4,11 +4,11 @@ const { Opposed } = require("../../db/interactive")
 const { logger } = require("../../util/logger")
 
 module.exports = {
-  name: "opposed_withdraw_challenge",
+  name: "opposed_relent",
   data: (locale) =>
     new ButtonBuilder()
-      .setCustomId("opposed_withdraw_challenge")
-      .setLabel(i18n.t("opposed.prompt.components.withdraw", { ns: "interactive", lng: locale }))
+      .setCustomId("opposed_relent")
+      .setLabel(i18n.t("opposed.prompt.components.relent", { ns: "interactive", lng: locale }))
       .setStyle(ButtonStyle.Secondary),
   async execute(interaction) {
     const opposed_db = new Opposed()
@@ -17,12 +17,12 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    if (interaction.user.id !== challenge.attacker_uid) {
+    if (interaction.user.id !== defender.id) {
       return interaction
-        .whisper(t("unauthorized", { participant: attacker.mention }))
+        .whisper(t("unauthorized", { participant: defender.mention }))
         .catch((error) =>
           logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_withdraw_challenge" },
+            { err: error, user: interaction.user.id, component: "opposed_relent" },
             `Could not whisper about unauthorized usage from ${interaction.user.id}`,
           ),
         )
@@ -40,11 +40,11 @@ module.exports = {
 
     return interaction
       .reply({
-        content: t("withdrawn", t_args),
+        content: t("relented", t_args),
       })
       .catch((error) =>
         logger.warn(
-          { err: error, user: interaction.user.id, component: "opposed_withdraw_challenge" },
+          { err: error, user: interaction.user.id, component: "opposed_relent" },
           `Could not whisper about cancellation`,
         ),
       )
