@@ -7,17 +7,16 @@ const {
   TextDisplayBuilder,
   ActionRowBuilder,
   SeparatorBuilder,
-
-  StringSelectMenuBuilder,
-  ButtonBuilder,
-  ButtonStyle,
 } = require("discord.js")
 
 const { sendMessage, editMessage } = require("../services/api")
-const { Opposed } = require("../db/interactive")
+const { Opposed, ParticipantRoles } = require("../db/interactive")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const withdraw_button = require("../components/opposed/withdraw-challenge-button")
+const relent_button = require("../components/opposed/relent-button")
+const advantage_picker = require("../components/opposed/advantage-picker")
+const ready_button = require("../components/opposed/ready-button")
 
 const MAX_DURATION = 1_200_000 // 20 minutes
 const RETEST_DURATION_BONUS = 300_000 // 5 minutes
@@ -71,9 +70,19 @@ module.exports = {
     if (cancels) advantages.push("cancels")
     if (!advantages.length) advantages.push("none")
 
-    // create participant records for attacker and defender
-    // show initial prompt
-    // store prompt as message record
+    opposed_db.addParticipant({
+      user_uid: attackerId,
+      mention: attacker_mention,
+      advantages,
+      role: ParticipantRoles.Attacker,
+      challenge_id,
+    })
+    opposed_db.addParticipant({
+      user_uid: defenderId,
+      mention: defender_mention,
+      role: ParticipantRoles.Defender,
+      challenge_id,
+    })
 
     const components = [
       new TextDisplayBuilder({
@@ -108,30 +117,14 @@ module.exports = {
             }),
           }),
         ],
-        // relent button
-        accessory: new ButtonBuilder({
-          label: "Relent",
-          customId: "opposed_relent",
-          style: ButtonStyle.Secondary,
-        }),
+        accessory: relent_button.data(locale),
       }),
       new TextDisplayBuilder({
         content: t("advantages"),
       }),
       new ActionRowBuilder({
         components: [
-          // advantage picker
-          new StringSelectMenuBuilder({
-            customId: "opposed_advantage_select",
-            placeholder: "Select your advantages",
-            // * :firecracker: I have bomb <Lets you throw Bomb in place of Paper>
-            // * :neq: I have ties <You have an ability that lets you automatically win ties>
-            // * :prohibited: I have cancels <You have some way to cancel retests besides an ability>
-            options: [{
-              label: "bomb",
-              value: "bomb",
-            }]
-          }),
+          advantage_picker.data(locale),
         ],
       }),
       new TextDisplayBuilder({
@@ -139,12 +132,7 @@ module.exports = {
       }),
       new ActionRowBuilder({
         components: [
-          // ready button
-          new ButtonBuilder({
-            customId: "opposed_ready",
-            label: "Ready",
-            style: ButtonStyle.Success,
-          })
+          ready_button.data(locale),
         ],
       }),
     ]
@@ -156,37 +144,23 @@ module.exports = {
         flags: MessageFlags.IsComponentsV2,
       })
       .then((reply_interaction) => {
-        // setTimeout(module.exports.opposedTimeout, MAX_DURATION, challenge_id)
+        setTimeout(module.exports.opposedTimeout, MAX_DURATION, challenge_id)
 
-        // opposed_db.addMessage({
-        //   challenge_id,
-        //   message_uid: reply_interaction.resource.message.id,
-        // })
+        opposed_db.addMessage({
+          challenge_id,
+          message_uid: reply_interaction.resource.message.id,
+        })
       })
       .catch((error) =>
         logger.error(
           {
             err: error,
-            command: command,
-            leader: leader_id,
+            challenge_id,
             channel: interaction.channelId,
           },
-          "Could not reply with initial teamwork prompt",
+          "Could not reply with initial opposed prompt",
         ),
       )
-
-    // on readied up, edit the message
-    // {{attacker}} is challenging {{defender}} with {{an attribute}} test. This is a {{conditions}} attack. The named retest is {{retest}}.
-    // {{attacker}} has {{bomb, ties}}.
-    // {{defender}} has {{bomb}}.
-
-    // on throw time
-    // {{attacker}}, choose your throw:
-    // [throw request picker]
-    // {{defender}}, choose your throw:
-    // [throw request picker]
-    // Click the Go button when you're ready. Once both of you click it, the chop will be thrown.
-    // [:dagger:][:shield:]
 
     // status and summary
     // {{leader}} is currently winning! (:rock: rock *vs* :scissors: scissors)
@@ -218,13 +192,69 @@ module.exports = {
   },
 
   async opposedTimeout(challenge_id) {
-    // get challenge data
-    // cleanup(challenge_id)
-    // send timeout message
+    const opposed_db = new Opposed()
+    const challenge = opposed_db.getChallenge(challenge_id)
+
+    if (test === undefined) {
+      logger.info({
+        challenge_id,
+      },
+      "Opposed challenge completed before timeout")
+      return
+    }
+
+    module.exports.cleanup(challenge_id)
+
+    const t = i18n.getFixedT(test.locale, "interactive", "opposed")
+
+    // with no results
+    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and was automatically withdrawn.
+
+    // with attacker leading
+    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and has automatically ended. At the time, {{attacker}} was winning (:rock: rock *vs* :scissors: scissors).
+    // {{history}}
+
+    // with defender leading
+    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and has automatically ended. At the time, {{defender}} was winning (:rock: rock *vs* :scissors: scissors).
+    // {{history}}
+
+    // with tied outcome
+    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and has automatically ended. At the time, both were tied (:rock: rock *vs* :rock: rock).
+    // {{history}}
   },
 
   async cleanup(challenge_id) {
-    // get challenge data
-    // destroy challenge record
+    const opposed_db = new Opposed()
+    const challenge = opposed_db.getChallenge(challenge_id)
+    const prompt_uid = opposed_db.getPromptUid(challenge_id)
+    const { attacker, defender } = opposed_db.getParticipants(challenge_id)
+
+    opposed_db.destroy(challenge_id)
+
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+
+    const t_args = {
+      attacker: attacker.mention,
+      defender: defender.mention,
+      description: challenge.description,
+      context: challenge.description ? "description" : undefined
+    }
+    return editMessage(challenge.channel_uid, prompt_uid, {
+      components: [
+        new TextDisplayBuilder({
+          content: t("prompt.done", t_args),
+        })
+      ],
+      allowedMentions: { parse: [] },
+    }).catch((error) =>
+      logger.warning(
+        {
+          err: error,
+          channel: challenge.channel_uid,
+          prompt: prompt_uid,
+        },
+        "Unable to edit prompt message",
+      ),
+    )
   }
 }

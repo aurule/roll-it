@@ -98,6 +98,7 @@ teamwork:
   concluded: That teamwork test has concluded.
   invalid: That test has invalid options and cannot be rolled.
   unauthorized: Only the test leader {{leader}} can use this control.
+  unavailable: That teamwork test is no longer available.
 opposed:
   shared:
     attributes:
@@ -110,16 +111,19 @@ opposed:
       altering: an Altering
     advantages:
       bomb: >-
-        :firecracker: bomb
+        🧨 bomb
       ties: >-
-        :neq: ties
+        ≠ ties
       cancels: >-
-        :prohibited: cancels
+        🚫 cancels
       none: no advantages
   prompt:
     summary: >-
       {{attacker}} is attacking {{defender}} with {{attribute}} challenge. This is {{conditions, list}}
       attack. The named retest is {{retest}}. {{attacker}} has {{advantages, list}}.
+    summary_description: >-
+      {{attacker}} is attacking {{defender}} with {{attribute}} challenge for "{{description}}". This is
+      {{conditions, list}} attack. The named retest is {{retest}}. {{attacker}} has {{advantages, list}}.
     withdraw: >-
       {{attacker}}: If this challenge was made in error, you can withdraw it. Once chops begin, you can no longer withdraw.
     relent: |-
@@ -130,16 +134,66 @@ opposed:
       When you're ready to throw chops, click the Ready button. Once chops begin, you cannot change your declared advantages.
     components:
       withdraw: Withdraw
+      relent: Relent
+      advantages:
+        placeholder: Select your advantages
+        options:
+          - value: bomb
+            label: 🧨 I have bomb
+            description: Lets you throw Bomb in place of Paper
+          - value: ties
+            label: ≠ I have ties
+            description: You automatically win on a tied result
+          - value: cancels
+            label: 🚫 I have cancels
+            description: You have some way to cancel retests besides an ability
+      ready: Ready
+    done: >-
+      The challenge from {{attacker}} against {{defender}} has ended.
+    done_description: >-
+      The challenge from {{attacker}} against {{defender}} for "{{description}}" has ended.
   withdrawn: >-
-    {{attacker}} withdrew their challenge.
+    {{attacker}} withdrew their challenge against {{defender}}.
+  withdrawn_description: >-
+    {{attacker}} withdrew their challenge against {{defender}} for "{{description}}".
+  relented: >-
+    {{defender}} **relented** to the challenge from {{attacker}.
+  relented_description: >-
+    {{defender}} **relented** to the challenge from {{attacker} for "{{description}}".
   throws:
     request: >-
       {{participant}}, choose your throw:
     cta: >-
-      Click the Go button when you're ready. The chop will be thrown once both participants click Go.
+      Click the Go button when you're ready. Once both of you click it, your symbols will be compared.
+    components:
+      go: Go
+      symbols:
+        placeholder: Pick the symbol you want to throw
+        options:
+          - value: rock
+            label: ⛰️ Rock
+          - value: paper
+            label: 📜 Paper
+          - value: scissors
+            label: ✂️ Scissors
+          - value: rand
+            label: 🔀 Random Rock-Paper-Scissors
+        options_bomb:
+          - value: rock
+            label: ⛰️ Rock
+          - value: bomb
+            label: 🧨 Bomb
+          - value: scissors
+            label: ✂️ Scissors
+          - value: rand-bomb
+            label: 🔀🧨 Random Rock-Bomb-Scissors
   summary:
     challenge: |-
-      {{attacker}} is challenging {{defender}} with {{attribute}} test. This is a {{conditions, list}} attack. The named retest is {{retest}}.
+      {{attacker}} is challenging {{defender}} with {{attribute}} test. This is {{conditions, list}} attack. The named retest is {{retest}}.
+      {{attacker}} has {{attacker_advantages, list}}.
+      {{defender}} has {{defender_advantages, list}}.
+    challenge_description: |-
+      {{attacker}} is challenging {{defender}} with {{attribute}} test for "{{description}}". This is a {{conditions, list}} attack. The named retest is {{retest}}.
       {{attacker}} has {{attacker_advantages, list}}.
       {{defender}} has {{defender_advantages, list}}.
     history: >-
@@ -165,3 +219,5 @@ opposed:
       -# You can cancel without using an ability, so you will see this prompt for every retest from {{retester}}.
   concluded: >-
     That challenge has concluded.
+  unauthorized: >-
+    Only {{participant}} can use this control.
