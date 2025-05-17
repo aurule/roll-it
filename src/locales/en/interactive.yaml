@@ -220,4 +220,4 @@ opposed:
   concluded: >-
     That challenge has concluded.
   unauthorized: >-
-    Only {{participant}} can use this control.
+    Only {{participants, list(type: 'disjunction')}} can use this control.

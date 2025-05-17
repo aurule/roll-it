@@ -19,7 +19,7 @@ module.exports = {
 
     if (interaction.user.id !== challenge.attacker_uid) {
       return interaction
-        .whisper(t("unauthorized", { participant: attacker.mention }))
+        .whisper(t("unauthorized", { participants: [attacker.mention] }))
         .catch((error) =>
           logger.warn(
             { err: error, user: interaction.user.id, component: "opposed_withdraw_challenge" },

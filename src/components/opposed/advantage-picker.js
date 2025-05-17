@@ -23,7 +23,7 @@ module.exports = {
 
     if (interaction.user.id !== defender.id) {
       return interaction
-        .whisper(t("unauthorized", { participant: defender.mention }))
+        .whisper(t("unauthorized", { participants: [attacker.mention] }))
         .catch((error) =>
           logger.warn(
             { err: error, user: interaction.user.id, component: "opposed_advantage_select" },
