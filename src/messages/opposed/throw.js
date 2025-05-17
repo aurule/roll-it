@@ -1,5 +1,6 @@
 const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
 const { i18n } = require("../../locales")
+const throw_picker = require("../../components/opposed/throw-picker")
 
 module.exports = {
   data: ({ challenge, attacker, defender }) => {
@@ -11,13 +12,21 @@ module.exports = {
         new TextDisplayBuilder({
           content: t("request", { participant: attacker.mention })
         }),
+        new ActionRowBuilder({
+          components: [
+            throw_picker.data(challenge, attacker),
+          ]
+        }),
         new SeparatorBuilder(),
-        // attacker throw picker
         new TextDisplayBuilder({
           content: t("request", { participant: defender.mention })
         }),
+        new ActionRowBuilder({
+          components: [
+            throw_picker.data(challenge, defender),
+          ]
+        }),
         new SeparatorBuilder(),
-        // defender throw picker
         new TextDisplayBuilder({
           content: t("cta")
         }),

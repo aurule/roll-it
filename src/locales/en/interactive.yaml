@@ -162,11 +162,11 @@ opposed:
     {{defender}} **relented** to the challenge from {{attacker} for "{{description}}".
   throws:
     request: >-
-      {{participant}} choose your throw:
+      {{participant}} choose what you'll throw:
     cta: >-
-      Click the Go button when you're ready. Once both of you click it, your symbols will be compared.
+      Click the Throw button when you're ready. Once both of you click it, your symbols will be compared.
     components:
-      go: Go
+      go: Throw
       symbols:
         placeholder: Pick the symbol you want to throw
         options:
