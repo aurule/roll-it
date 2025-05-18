@@ -522,7 +522,7 @@ describe("Opposed DB", () => {
     opposed = new Opposed(db)
   })
 
-  describe.only("addParticipant", () => {
+  describe("addParticipant", () => {
     let challenge_id
     const attacker_uid = "atk"
 
