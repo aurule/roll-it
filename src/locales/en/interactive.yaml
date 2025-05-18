@@ -116,7 +116,7 @@ opposed:
         ≠ ties
       cancels: >-
         🚫 cancels
-      none: no advantages
+      none: no special advantages
   prompt:
     summary: >-
       {{attacker}} is attacking {{defender}} with {{attribute}} challenge. This is {{conditions, list}}
@@ -139,13 +139,15 @@ opposed:
         placeholder: Select your advantages
         options:
           - value: bomb
-            label: 🧨 I have bomb
+            label: I have bomb
+            emoji: 🧨
             description: Lets you throw Bomb in place of Paper
           - value: ties
             label: ≠ I have ties
             description: You automatically win on a tied result
           - value: cancels
-            label: 🚫 I have cancels
+            label: I have cancels
+            emoji: 🚫
             description: You have some way to cancel retests besides an ability
       ready: Ready
     done: >-
@@ -171,22 +173,30 @@ opposed:
         placeholder: Pick the symbol you want to throw
         options:
           - value: rock
-            label: ⛰️ Rock
+            label: Rock
+            emoji: ⛰️
           - value: paper
-            label: 📜 Paper
+            label: Paper
+            emoji: 📜
           - value: scissors
-            label: ✂️ Scissors
+            label: Scissors
+            emoji: ✂️
           - value: rand
-            label: 🔀 Random Rock-Paper-Scissors
+            label: Random Rock-Paper-Scissors
+            emoji: 🔀
         options_bomb:
           - value: rock
-            label: ⛰️ Rock
+            label: Rock
+            emoji: ⛰️
           - value: bomb
-            label: 🧨 Bomb
+            label: Bomb
+            emoji: 🧨
           - value: scissors
-            label: ✂️ Scissors
+            label: Scissors
+            emoji: ✂️
           - value: rand-bomb
-            label: 🔀🧨 Random Rock-Bomb-Scissors
+            label: Random Rock-Bomb-Scissors
+            emoji: 🔀
   summary:
     challenge: |-
       {{attacker}} is challenging {{defender}} with {{attribute}} test. This is {{conditions, list}} attack. The named retest is {{retest}}.
