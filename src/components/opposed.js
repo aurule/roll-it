@@ -19,7 +19,15 @@ contents.forEach((mention_file) => {
   components.set(handler.name, handler)
 })
 
+const num_regex = /_\d+/gi
+
+function sanitize_id(customId) {
+  return customId.replaceAll(num_regex, '')
+}
+
 module.exports = {
+  sanitize_id,
+
   /**
    * Collection of component objects related to met-opposed activities
    *
@@ -36,7 +44,7 @@ module.exports = {
    * @return {boolean}                 True if the interaction can be handled, false if not
    */
   canHandle(interaction) {
-    return components.has(interaction.customId)
+    return components.has(sanitize_id(interaction.customId))
   },
 
   /**
@@ -80,7 +88,7 @@ module.exports = {
 
     // TODO handle case where message is associated with a (re)test that is finished, but the test itself is ongoing
 
-    const component = components.get(interaction.customId)
+    const component = components.get(sanitize_id(interaction.customId))
     return component.execute(interaction)
   },
 }
