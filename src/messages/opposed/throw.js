@@ -1,6 +1,7 @@
 const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
 const { i18n } = require("../../locales")
 const throw_picker = require("../../components/opposed/throw-picker")
+const go_button = require("../../components/opposed/go-button")
 
 module.exports = {
   data: ({ challenge, attacker, defender }) => {
@@ -17,6 +18,9 @@ module.exports = {
             throw_picker.data(challenge, attacker),
           ]
         }),
+        new TextDisplayBuilder({
+          content: t("disclaimer", { participant: attacker.mention })
+        }),
         new SeparatorBuilder(),
         new TextDisplayBuilder({
           content: t("request", { participant: defender.mention })
@@ -26,21 +30,19 @@ module.exports = {
             throw_picker.data(challenge, defender),
           ]
         }),
+        new TextDisplayBuilder({
+          content: t("disclaimer", { participant: attacker.mention })
+        }),
         new SeparatorBuilder(),
         new TextDisplayBuilder({
           content: t("cta")
         }),
-        // go button
+        new ActionRowBuilder({
+          components: [
+            go_button.data(challenge.locale)
+          ],
+        }),
       ],
     }
   }
 }
-
-
-    // on throw time
-    // {{attacker}}, choose your throw:
-    // [throw request picker]
-    // {{defender}}, choose your throw:
-    // [throw request picker]
-    // Click the Go button when you're ready. Once both of you click it, the chop will be thrown.
-    // [:dagger:][:shield:]
