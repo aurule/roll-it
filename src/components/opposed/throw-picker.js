@@ -19,27 +19,42 @@ module.exports = {
       .setMaxValues(1)
   },
   async execute(interaction) {
+    const t = i18n.getFixedT(interaction.guild.locale, "interactive", "opposed")
+
     const opposed_db = new Opposed()
     const test = opposed_db.findTestByMessage(interaction.message.id)
-    const { attacker, defender } = opposed_db.getParticipants(test.challenge_id)
-    const allowed_users = new Set(attacker.user_uid, defender.user_uid)
+    const participant_id = parseInt(interaction.customId.match(/_(\d+)/)[1])
+    const allowed_participant = opposed_db.getParticipant(participant_id)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
-
-    if (!allowed_users.has(interaction.user.id)) {
+    if (allowed_participant === undefined) {
       return interaction
-        .whisper(t("unauthorized", { participants: [attacker.mention, defender.mention] }))
+        .whisper(t("concluded"))
         .catch((error) =>
           logger.warn(
-            { err: error, user: interaction.user.id, component: "throw_symbol_picker" },
+            { err: error, user: interaction.user.id, component: "throw_symbol_picker", participant_id },
             `Could not whisper about unauthorized usage from ${interaction.user.id}`,
           ),
         )
     }
 
-    // set request on test_chops
-    // react with appropriate symbol: dagger for attacker, shield for defender
+    if (false) {
+    // if (allowed_participant.user_uid !== interaction.user.id) {
+      return interaction
+        .whisper(t("unauthorized", { participants: [allowed_participant.mention] }))
+        .catch((error) =>
+          logger.warn(
+            { err: error, user: interaction.user.id, component: "throw_symbol_picker", participant_id },
+            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
+          ),
+        )
+    }
 
-    interaction.deferUpdate()
+    opposed_db.addChopRequest({
+      request: interaction.values[0],
+      test_id: test.id,
+      participant_id,
+    })
+
+    return interaction.deferUpdate()
   },
 }
