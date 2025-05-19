@@ -76,10 +76,9 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_tests (
   retest_reason TEXT,
   canceller_uid TEXT,
   cancelled_with TEXT,
-  attacker_ready BOOLEAN DEFAULT FALSE,
-  defender_ready BOOLEAN DEFAULT FALSE,
   challenge_id INTEGER NOT NULL,
   done BOOLEAN DEFAULT false,
+  outcome TEXT,
   FOREIGN KEY (challenge_id)
     REFERENCES opposed_challenges (id)
     ON DELETE CASCADE
@@ -89,6 +88,7 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_test_chops (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   request TEXT NOT NULL,
   result TEXT,
+  ready BOOLEAN DEFAULT FALSE,
   participant_id INTEGER NOT NULL,
   test_id INTEGER NOT NULL,
   FOREIGN KEY (participant_id)
@@ -98,6 +98,9 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_test_chops (
     REFERENCES opposed_tests (id)
     ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS interactive.opposed_test_chop_participant
+ON opposed_test_chops (test_id, participant_id);
 
 CREATE TABLE IF NOT EXISTS interactive.opposed_messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -112,5 +115,5 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_messages (
     ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS interactive.opposed_message_id
+CREATE UNIQUE INDEX IF NOT EXISTS interactive.opposed_message_id
 ON opposed_messages (message_uid);

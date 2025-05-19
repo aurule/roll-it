@@ -530,10 +530,6 @@ class Opposed {
     })
   }
 
-  hasMessage(message_uid) {}
-
-  isMessageExpired(message_uid) {}
-
   findChallengeByMessage(message_uid) {
     const select = this.db.prepare(oneLine`
       SELECT c.*,
@@ -677,8 +673,6 @@ class Opposed {
         retest_reason,
         canceller_uid,
         cancelled_with,
-        attacker_ready,
-        defender_ready,
         done
       ) VALUES (
         @challenge_id,
@@ -686,8 +680,6 @@ class Opposed {
         @retest_reason,
         @canceller_uid,
         @cancelled_with,
-        @attacker_ready,
-        @defender_ready,
         @done
       )
     `)
@@ -698,9 +690,60 @@ class Opposed {
       retest_reason,
       canceller_uid,
       cancelled_with,
-      attacker_ready: +!!attacker_ready,
-      defender_ready: +!!defender_ready,
       done: +!!done,
+    })
+  }
+
+  /**
+   * Get the individual RPS test associated with a Discord message ID
+   *
+   * @param  {Snowflake} message_uid Discord ID of the message
+   * @return {int}                   Internal ID of the associated RPS test
+   */
+  findTestByMessage(message_uid) {
+    const select = this.db.prepare(oneLine`
+      SELECT t.*
+      FROM   interactive.opposed_tests AS t
+             JOIN interactive.opposed_messages AS m
+               ON t.id = m.test_id
+      WHERE  m.message_uid = @message_uid
+    `)
+
+    const raw_out = select.get({
+      message_uid,
+    })
+
+    if (raw_out === undefined) return undefined
+
+    return {
+      ...raw_out,
+      attacker_ready: !!raw_out.attacker_ready,
+      defender_ready: !!raw_out.defender_ready,
+      done: !!raw_out.done,
+    }
+  }
+
+  addChopRequest({request, test_id, participant_id}) {
+    const upsert = this.db.prepare(oneLine`
+      INSERT INTO interactive.opposed_test_chops (
+        request,
+        test_id,
+        participant_id
+      )
+      VALUES (
+        @request,
+        @test_id,
+        @participant_id
+      )
+      ON CONFLICT (test_id, participant_id) DO
+      UPDATE SET
+        request = excluded.request
+    `)
+
+    return upsert.run({
+      request,
+      test_id,
+      participant_id,
     })
   }
 }
