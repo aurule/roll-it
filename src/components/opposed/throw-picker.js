@@ -32,7 +32,7 @@ module.exports = {
         .catch((error) =>
           logger.warn(
             { err: error, user: interaction.user.id, component: "throw_symbol_picker", participant_id },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
+            `Could not whisper about finished test from ${interaction.user.id}`,
           ),
         )
     }

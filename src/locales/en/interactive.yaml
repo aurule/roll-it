@@ -117,6 +117,26 @@ opposed:
       cancels: >-
         🚫 cancels
       none: no special advantages
+    history:
+      leader: >-
+        {{leader}} leads ({{breakdown}})
+      tied: >-
+        Tied ({{breakdown}})
+      retest: >-
+        {{retester}} retested with {{reason}}
+      cancelled: >-
+        {{canceller}} cancelled with {{reason}}
+    breakdown:
+      rock: ":rock: rock"
+      paper: ":scroll: paper"
+      bomb: ":firecracker: bomb"
+      scissors: ":scissors: scissors"
+      tied: >-
+        $t(opposed.shared.breakdown.{{result}}) *vs* $t(opposed.shared.breakdown.{{result}})
+      tiebreaker: >-
+        $t(opposed.shared.breakdown.{{result}}) *vs* $t(opposed.shared.breakdown.{{result}}), {{leader}} has ties
+      winner: >-
+        $t(opposed.shared.breakdown.{{leader_result}}) *vs* {{trailer}}'s $t(opposed.shared.breakdown.{{trailer_result}})
   prompt:
     summary: >-
       {{attacker}} is attacking {{defender}} with {{attribute}} challenge. This is {{conditions, list}}
@@ -176,7 +196,7 @@ opposed:
         options:
           - value: rock
             label: Rock
-            emoji: ⛰️
+            emoji: 🪨
           - value: paper
             label: Paper
             emoji: 📜
@@ -189,7 +209,7 @@ opposed:
         options_bomb:
           - value: rock
             label: Rock
-            emoji: ⛰️
+            emoji: 🪨
           - value: bomb
             label: Bomb
             emoji: 🧨
@@ -199,6 +219,14 @@ opposed:
           - value: rand-bomb
             label: Random Rock-Bomb-Scissors
             emoji: 🔀
+    done: >-
+      This test already resolved. {{history}}
+    premature: >-
+      You have to pick a symbol to throw.
+    result_leader: >-
+      {{leader}} leads ({{breakdown}})
+    result_tied: >-
+      Tied ({{breakdown}})
   summary:
     challenge: |-
       {{attacker}} is challenging {{defender}} with {{attribute}} test. This is {{conditions, list}} attack. The named retest is {{retest}}.
@@ -210,6 +238,11 @@ opposed:
       {{defender}} has {{defender_advantages, list}}.
     history: >-
       Test history:
+    headline:
+      leader: >-
+        {{leader}} is currently winning! ({{breakdown}})
+      tied: >-
+        The challenge is tied. ({{breakdown}})
   status:
     winner: >-
       {{leader}} is currently winning! ({{chops}})

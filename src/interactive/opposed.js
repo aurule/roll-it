@@ -165,7 +165,8 @@ module.exports = {
     // status and summary
     // {{leader}} is currently winning! (:rock: rock *vs* :scissors: scissors)
     //   {{leader}} is currently winning! (:rock: rock *vs* :rock: rock, {{leader}} has ties)
-    // {{trailer}}: If you are out of retests, you can concede to {{leader}}. [concede]
+    // {{trailer}}: If you are out of retests or wish to accept this result, you can concede to {{leader}}.
+    // [concede]
     // Either of you may retest for a new result:
     // [retest reason]
     // [retest]
@@ -178,7 +179,8 @@ module.exports = {
 
     // alternate status lines when actually tied
     // The challenge is tied. (:rock: rock *vs* :rock: rock)
-    // {{attacker}} and {{defender}}: If you both decide to compare traits, the chops will end with no automatic winner. [compare]
+    // {{attacker}} and {{defender}}: If you both decide to compare traits, the chops will end with no automatic winner.
+    // [compare]
 
     // on retest
     // {{retester}} is retesting with {{reason}}. If this was an accident, you can withdraw the retest. [withdraw]

@@ -33,6 +33,12 @@ module.exports = {
         )
     }
 
+    // set ties on the challenge
+    // if throws eq
+    //   if both ties are eq, tied
+    //   else if attacker has ties, attacker
+    //   else defender
+
     const test_id = opposed_db.addTest({ challenge_id: challenge.id }).lastInsertRowid
 
     const prompt_uid = opposed_db.getPromptUid(challenge.id)

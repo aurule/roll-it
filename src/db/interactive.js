@@ -432,6 +432,12 @@ class Opposed {
    */
   db
 
+  static TestState = {
+    Fresh: 0,
+    Bidding: 1,
+    Done: 2,
+  }
+
   constructor(db_obj) {
     this.db = db_obj ?? require("./index").db
   }
@@ -441,7 +447,7 @@ class Opposed {
    *
    * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
-  addChallenge({ locale, attacker_uid, attribute, description = "", retests_allowed, retest_ability, conditions = [], channel_uid, timeout } = {}) {
+  addChallenge({ locale, attacker_uid, attribute, description = "", retests_allowed, retest_ability, conditions = [], ties, channel_uid, timeout } = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO interactive.opposed_challenges (
         locale,
@@ -451,6 +457,7 @@ class Opposed {
         retests_allowed,
         retest_ability,
         conditions,
+        ties,
         channel_uid,
         expires_at
       ) VALUES (
@@ -461,6 +468,7 @@ class Opposed {
         @retests_allowed,
         @retest_ability,
         JSONB(@conditions),
+        @ties,
         @channel_uid,
         datetime('now', @timeout || ' seconds')
       )
@@ -474,6 +482,7 @@ class Opposed {
       retests_allowed: +!!retests_allowed,
       retest_ability,
       conditions: JSON.stringify(conditions),
+      ties,
       channel_uid,
       timeout,
     })
@@ -512,6 +521,19 @@ class Opposed {
     }
   }
 
+  getTiedResult(test_id) {
+    const select = this.db.prepare(oneLine`
+      SELECT ties
+      FROM   interactive.opposed_challenges AS c
+             JOIN interactive.opposed_tests AS t
+               ON c.id = t.challenge_id
+      WHERE  t.id = ?
+    `)
+    select.pluck()
+
+    return select.get(test_id)
+  }
+
   addMessage({ message_uid, challenge_id, test_id = null} = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO interactive.opposed_messages (
@@ -546,6 +568,29 @@ class Opposed {
     const raw_out = select.get({
       message_uid,
     })
+
+    if (raw_out === undefined) return undefined
+
+    return {
+      ...raw_out,
+      conditions: JSON.parse(raw_out.conditions),
+      retests_allowed: !!raw_out.retests_allowed,
+      expired: !!raw_out.expired,
+    }
+  }
+
+  findChallengeByTest(test_id) {
+    const select = this.db.prepare(oneLine`
+      SELECT c.*,
+             JSON_EXTRACT(c.conditions, '$') as conditions,
+             TIME('now') > TIME(c.expires_at) AS expired
+      FROM   interactive.opposed_challenges AS c
+             JOIN interactive.opposed_tests AS t
+               ON c.id = t.challenge_id
+      WHERE  t.id = ?
+    `)
+
+    const raw_out = select.get(test_id)
 
     if (raw_out === undefined) return undefined
 
@@ -666,7 +711,10 @@ class Opposed {
     cancelled_with = null,
     attacker_ready = false,
     defender_ready = false,
-    done = false,
+    state = 0,
+    history = null,
+    breakdown = null,
+    leader = null,
   } = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO opposed_tests (
@@ -675,14 +723,20 @@ class Opposed {
         retest_reason,
         canceller_uid,
         cancelled_with,
-        done
+        state,
+        history,
+        breakdown,
+        leader
       ) VALUES (
         @challenge_id,
         @retester_uid,
         @retest_reason,
         @canceller_uid,
         @cancelled_with,
-        @done
+        @state,
+        @history,
+        @breakdown,
+        @leader
       )
     `)
 
@@ -692,7 +746,10 @@ class Opposed {
       retest_reason,
       canceller_uid,
       cancelled_with,
-      done: +!!done,
+      state,
+      history,
+      breakdown,
+      leader,
     })
   }
 
@@ -711,18 +768,52 @@ class Opposed {
       WHERE  m.message_uid = @message_uid
     `)
 
-    const raw_out = select.get({
+    return select.get({
       message_uid,
     })
+  }
 
-    if (raw_out === undefined) return undefined
+  setTestBreakdown(test_id, breakdown) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_tests
+      SET (breakdown) = (@breakdown)
+      WHERE id = @id
+    `)
 
-    return {
-      ...raw_out,
-      attacker_ready: !!raw_out.attacker_ready,
-      defender_ready: !!raw_out.defender_ready,
-      done: !!raw_out.done,
+    return update.run({
+      id: test_id,
+      breakdown,
+    })
+  }
+
+  setTestState(test_id, state) {
+    if (!Object.values(Opposed.TestState).includes(state)) {
+      throw new Error(`invalid state "${state}". Value must appear in Opposed.TestState`)
     }
+
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_tests
+      SET    state = @state
+      WHERE  id = @id
+    `)
+
+    return update.run({
+      id: test_id,
+      state,
+    })
+  }
+
+  getTestTies(test_id) {
+    const select = this.db.prepare(oneLine`
+      SELECT ties
+      FROM   interactive.opposed_challenges AS c
+             JOIN interactive.opposed_tests AS T
+               ON t.id = c.challenge_id
+      WHERE t.id = ?
+    `)
+    select.pluck()
+
+    return select.get(test_id)
   }
 
   addChopRequest({request, test_id, participant_id}) {
@@ -746,6 +837,47 @@ class Opposed {
       request,
       test_id,
       participant_id,
+    })
+  }
+
+  getChopsForTest(test_id) {
+    const select = this.db.prepare(oneLine`
+      SELECT * FROM interactive.opposed_test_chops
+      WHERE test_id = ?
+    `)
+
+    const raw_out = select.all(test_id)
+
+    if (raw_out === undefined) return [undefined]
+
+    raw_out.forEach(t => t.ready = !!t.ready)
+
+    return raw_out
+  }
+
+  setChopReady(chop_id, ready) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_test_chops
+      SET (ready) = (@ready)
+      WHERE id = @id
+    `)
+
+    return update.run({
+      id: chop_id,
+      ready: +!!ready,
+    })
+  }
+
+  setChopResult(chop_id, result) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_test_chops
+      SET (result) = (@result)
+      WHERE id = @id
+    `)
+
+    return update.run({
+      id: chop_id,
+      result,
     })
   }
 }
