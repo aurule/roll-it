@@ -227,7 +227,9 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
     const prompt_uid = opposed_db.getPromptUid(challenge_id)
-    const { attacker, defender } = opposed_db.getParticipants(challenge_id)
+    const participants = opposed_db.getParticipants(challenge_id)
+    const attacker = participants.get("attacker")
+    const defender = participants.get("defender")
 
     opposed_db.destroy(challenge_id)
 

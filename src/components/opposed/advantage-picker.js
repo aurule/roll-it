@@ -17,13 +17,13 @@ module.exports = {
   async execute(interaction) {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
-    const { attacker, defender } = opposed_db.getParticipants(challenge.id)
+    const participants = opposed_db.getParticipants(challenge.id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    if (interaction.user.id !== defender.id) {
+    if (interaction.user.id !== participants.get("defender").id) {
       return interaction
-        .whisper(t("unauthorized", { participants: [attacker.mention] }))
+        .whisper(t("unauthorized", { participants: [participants.get("attacker").mention] }))
         .catch((error) =>
           logger.warn(
             { err: error, user: interaction.user.id, component: "opposed_advantage_select" },
@@ -34,6 +34,6 @@ module.exports = {
 
     interaction.deferUpdate()
 
-    opposed_db.updateParticipant(defender.id, interaction.values)
+    opposed_db.updateParticipant(participants.get("defender").id, interaction.values)
   },
 }

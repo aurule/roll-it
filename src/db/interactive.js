@@ -1,3 +1,5 @@
+const { Collection } = require("discord.js")
+
 const { oneLine } = require("common-tags")
 
 const MessageType = {
@@ -625,10 +627,10 @@ class Opposed {
 
     raw_out.forEach(p => p.advantages = JSON.parse(p.advantages))
 
-    return {
-      attacker: raw_out[0],
-      defender: raw_out[1],
-    }
+    return new Collection([
+      ["attacker", raw_out[0]],
+      ["defender", raw_out[1]],
+    ])
   }
 
   updateParticipant(participant_id, advantages) {

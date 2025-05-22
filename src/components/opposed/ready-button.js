@@ -15,7 +15,9 @@ module.exports = {
   async execute(interaction) {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
-    const { attacker, defender } = opposed_db.getParticipants(challenge.id)
+    const participants = opposed_db.getParticipants(challenge.id)
+    const attacker = participants.get("attacker")
+    const defender = participants.get("defender")
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
