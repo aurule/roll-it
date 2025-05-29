@@ -144,6 +144,16 @@ class Opposed {
     })
   }
 
+  hasMessage(message_uid) {
+    const select = this.db.prepare(oneLine`
+      SELECT 1 FROM interactive.opposed_messages
+      WHERE message_uid = ?
+    `)
+    select.pluck()
+
+    return !!select.get(message_uid)
+  }
+
   findChallengeByMessage(message_uid) {
     const select = this.db.prepare(oneLine`
       SELECT c.*,
