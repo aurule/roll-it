@@ -5,6 +5,7 @@ const throw_picker = require("../../components/opposed/throw-picker")
 const go_button = require("../../components/opposed/go-button")
 
 module.exports = {
+  state: "summary",
   data: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)

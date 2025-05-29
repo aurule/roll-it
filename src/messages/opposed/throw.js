@@ -4,6 +4,7 @@ const throw_picker = require("../../components/opposed/throw-picker")
 const go_button = require("../../components/opposed/go-button")
 
 module.exports = {
+  state: "throwing",
   data: ({ challenge, attacker, defender }) => {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.throws")
     return {
