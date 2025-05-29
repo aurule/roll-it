@@ -1,6 +1,6 @@
 const { ButtonBuilder, ButtonStyle, userMention } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Teamwork } = require("../../db/interactive")
+const { Teamwork } = require("../../db/teamwork")
 const { logger } = require("../../util/logger")
 
 module.exports = {

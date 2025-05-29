@@ -2,7 +2,7 @@ const fs = require("fs")
 const path = require("path")
 const { Collection } = require("discord.js")
 
-const { Opposed }  = require("../db/interactive")
+const { Opposed }  = require("../db/opposed")
 const { opposedTimeout } = require("../interactive/opposed")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")

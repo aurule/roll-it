@@ -1,7 +1,7 @@
 const { ActionRowBuilder, TimestampStyles, userMention, time } = require("discord.js")
 
 const { sendMessage, editMessage } = require("../services/api")
-const { Teamwork, MessageType } = require("../db/interactive")
+const { Teamwork, MessageType } = require("../db/teamwork")
 const { i18n } = require("../locales")
 const cancel_button = require("../components/teamwork/cancel-button")
 const roll_button = require("../components/teamwork/roll-button")

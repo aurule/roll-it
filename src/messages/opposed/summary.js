@@ -1,5 +1,5 @@
 const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
-const { Opposed } = require("../../db/interactive")
+const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const throw_picker = require("../../components/opposed/throw-picker")
 const go_button = require("../../components/opposed/go-button")

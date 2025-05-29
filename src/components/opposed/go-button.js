@@ -1,6 +1,6 @@
 const { ButtonBuilder, ButtonStyle, MessageFlags, TextDisplayBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/interactive")
+const { Opposed } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 const { handleRequest } = require("../../services/met-roller")
 const summary_message = require("../../messages/opposed/summary")

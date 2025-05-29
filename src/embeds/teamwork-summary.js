@@ -1,5 +1,5 @@
 const { EmbedBuilder, userMention } = require("discord.js")
-const { Teamwork } = require("../db/interactive")
+const { Teamwork } = require("../db/teamwork")
 const { i18n } = require("../locales")
 const { signed } = require("../util/formatters/signed")
 

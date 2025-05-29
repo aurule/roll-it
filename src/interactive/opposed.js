@@ -10,7 +10,7 @@ const {
 } = require("discord.js")
 
 const { sendMessage, editMessage } = require("../services/api")
-const { Opposed, ParticipantRoles } = require("../db/interactive")
+const { Opposed, ParticipantRoles } = require("../db/opposed")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const withdraw_button = require("../components/opposed/withdraw-challenge-button")

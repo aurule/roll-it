@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle, TextDisplayBuilder } = require("discord.js")
 const { editMessage } = require("../../services/api")
 const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/interactive")
+const { Opposed } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 const throw_message = require("../../messages/opposed/throw")
 

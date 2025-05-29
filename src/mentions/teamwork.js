@@ -1,5 +1,5 @@
 const { userMention } = require("discord.js")
-const { Teamwork, MessageType } = require("../db/interactive")
+const { Teamwork, MessageType } = require("../db/teamwork")
 const { i18n } = require("../locales")
 const teamwork_change = require("../embeds/teamwork-change")
 const { cleanup, teamworkTimeout } = require("../interactive/teamwork")

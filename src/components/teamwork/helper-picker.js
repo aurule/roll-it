@@ -1,6 +1,6 @@
 const { UserSelectMenuBuilder, userMention } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Teamwork } = require("../../db/interactive")
+const { Teamwork } = require("../../db/teamwork")
 const teamwork_change = require("../../embeds/teamwork-change")
 const { arrayEq } = require("../../util/array-eq")
 const { logger } = require("../../util/logger")

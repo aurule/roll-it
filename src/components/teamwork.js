@@ -2,7 +2,7 @@ const fs = require("fs")
 const path = require("path")
 const { Collection } = require("discord.js")
 
-const { Teamwork }  = require("../db/interactive")
+const { Teamwork }  = require("../db/teamwork")
 const { teamworkTimeout } = require("../interactive/teamwork")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
