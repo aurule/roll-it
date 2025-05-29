@@ -13,10 +13,7 @@ const { sendMessage, editMessage } = require("../services/api")
 const { Opposed, ParticipantRoles } = require("../db/opposed")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
-const withdraw_button = require("../components/opposed/withdraw-challenge-button")
-const relent_button = require("../components/opposed/relent-button")
-const advantage_picker = require("../components/opposed/advantage-picker")
-const ready_button = require("../components/opposed/ready-button")
+const advantages_message = require("../messages/opposed/advantages")
 
 const MAX_DURATION = 1_200_000 // 20 minutes
 const RETEST_DURATION_BONUS = 300_000 // 5 minutes
@@ -38,7 +35,6 @@ module.exports = {
     ties = false,
     cancels = false
   } = {}) {
-
     const locale = interaction.guild.locale ?? "en-US"
     const t = i18n.getFixedT(locale, "interactive", "opposed.prompt")
     const shared_t = i18n.getFixedT(locale, "interactive", "opposed.shared")
@@ -84,65 +80,8 @@ module.exports = {
       challenge_id,
     })
 
-    const components = [
-      new TextDisplayBuilder({
-        content: t("summary", {
-          attacker: attacker_mention,
-          defender: defender_mention,
-          description,
-          context: description ? "description" : undefined,
-          attribute: shared_t(`attributes.${attribute}`),
-          conditions: conditions.map(c => shared_t(`conditions.${c}`)),
-          retest,
-          advantages: advantages.map(c => shared_t(`advantages.${c}`)),
-        }),
-      }),
-      new SectionBuilder({
-        components: [
-          new TextDisplayBuilder({
-            content: t("withdraw", {
-              attacker: attacker_mention,
-            }),
-          }),
-        ],
-        accessory: withdraw_button.data(locale),
-      }),
-      new SeparatorBuilder(),
-      new SectionBuilder({
-        components: [
-          new TextDisplayBuilder({
-            content: t("relent", {
-              defender: defender_mention,
-              attacker: attacker_mention,
-            }),
-          }),
-        ],
-        accessory: relent_button.data(locale),
-      }),
-      new TextDisplayBuilder({
-        content: t("advantages"),
-      }),
-      new ActionRowBuilder({
-        components: [
-          advantage_picker.data(locale),
-        ],
-      }),
-      new TextDisplayBuilder({
-        content: t("ready"),
-      }),
-      new ActionRowBuilder({
-        components: [
-          ready_button.data(locale),
-        ],
-      }),
-    ]
-
     return interaction
-      .reply({
-        components,
-        withResponse: true,
-        flags: MessageFlags.IsComponentsV2,
-      })
+      .reply(advantages_message.data(challenge_id))
       .then((reply_interaction) => {
         setTimeout(module.exports.opposedTimeout, MAX_DURATION, challenge_id)
 
