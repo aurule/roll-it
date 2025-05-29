@@ -53,6 +53,7 @@ module.exports = {
       retests_allowed: allow_retests,
       retest_ability: retest,
       conditions,
+      state: "advantages",
       channel_uid: interaction.channelId,
       timeout: MAX_DURATION / 1_000,
     }).lastInsertRowid

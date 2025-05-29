@@ -32,7 +32,7 @@ class Opposed {
    *
    * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
-  addChallenge({ locale, attacker_uid, attribute, description = "", retests_allowed, retest_ability, conditions = [], ties, channel_uid, timeout } = {}) {
+  addChallenge({ locale, attacker_uid, attribute, description = "", retests_allowed, retest_ability, conditions = [], ties, state, channel_uid, timeout } = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO interactive.opposed_challenges (
         locale,
@@ -43,6 +43,7 @@ class Opposed {
         retest_ability,
         conditions,
         ties,
+        state,
         channel_uid,
         expires_at
       ) VALUES (
@@ -54,6 +55,7 @@ class Opposed {
         @retest_ability,
         JSONB(@conditions),
         @ties,
+        @state,
         @channel_uid,
         datetime('now', @timeout || ' seconds')
       )
@@ -68,6 +70,7 @@ class Opposed {
       retest_ability,
       conditions: JSON.stringify(conditions),
       ties,
+      state,
       channel_uid,
       timeout,
     })

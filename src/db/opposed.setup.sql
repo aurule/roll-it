@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_challenges (
   retest_ability TEXT NOT NULL,
   conditions BLOB,
   ties TEXT,
+  state TEXT NOT NULL,
   channel_uid TEXT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   expires_at DATETIME
