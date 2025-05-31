@@ -41,7 +41,9 @@ module.exports = {
     }
 
     if (interaction.content === "retry") {
-      const message_data = message_contents.get(challenge.state).data(challenge.id)
+      const message_file = message_contents.get(challenge.state)
+      const message_data = message_file.data(challenge.id)
+      const retry_followup = message_file.retryFollowup
       return interaction
         .reply(message_data)
         .then((reply_interaction) => {
@@ -49,6 +51,9 @@ module.exports = {
             challenge.id,
             message_uid: reply_interaction.resource.message.id,
           })
+          if (retry_followup !== undefined) {
+            retry_followup(reply_interaction.resource.message)
+          }
         })
         .catch((error) =>
           logger.error(

@@ -119,7 +119,7 @@ module.exports = {
     const leader = chooseLeader(chops, participants)
     const breakdown = makeBreakdown({leader, chops, participants, t})
     const result_args = {
-      leader: leader.mention,
+      leader: leader?.mention,
       breakdown,
       context: leader ? "leader" : "tied"
     }

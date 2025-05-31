@@ -5,6 +5,19 @@ const { Opposed } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 const throw_message = require("../../messages/opposed/throw")
 
+function hasTies(attacker, defender) {
+  const attacker_ties = attacker.advantages.includes("ties")
+  const defender_ties = defender.advantages.includes("ties")
+  if (attacker_ties) {
+    if (!defender_ties) {
+      return attacker.id
+    }
+  } else if (defender_ties) {
+      return defender.id
+  }
+  return null
+}
+
 module.exports = {
   name: "opposed_ready",
   data: (locale) =>
@@ -33,11 +46,7 @@ module.exports = {
         )
     }
 
-    // set ties on the challenge
-    // if throws eq
-    //   if both ties are eq, tied
-    //   else if attacker has ties, attacker
-    //   else defender
+    // set challenge ties to outcome of hasTies(attacker, defender)
 
     const test_id = opposed_db.addTest({ challenge_id: challenge.id }).lastInsertRowid
 
@@ -73,7 +82,7 @@ module.exports = {
       )
 
     return interaction
-      .reply(throw_message.data({ challenge, attacker, defender }))
+      .reply(throw_message.data(challenge.id))
       .then((reply_interaction) => {
         opposed_db.addMessage({
           challenge_id: challenge.id,
