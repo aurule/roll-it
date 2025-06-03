@@ -7,6 +7,19 @@ const ParticipantRoles = {
   Defender: 2,
 }
 
+const ChallengeStates = {
+  Advantages: "advantages",
+  Relented: "relented",
+  Withdrawn: "withdrawn",
+  Throwing: "throwing",
+  Bidding: "bidding",
+  Winning: "winning",
+  Tying: "tying",
+  Conceded: "conceded",
+  Accepted: "accepted",
+  Cancelling: "cancelling",
+}
+
 /**
  * Class to manage met-opposed state tracking
  */

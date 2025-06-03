@@ -10,7 +10,7 @@ const {
 } = require("discord.js")
 
 const { sendMessage, editMessage } = require("../services/api")
-const { Opposed, ParticipantRoles } = require("../db/opposed")
+const { Opposed, ParticipantRoles, ChallengeStates } = require("../db/opposed")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const advantages_message = require("../messages/opposed/advantages")
@@ -53,7 +53,7 @@ module.exports = {
       retests_allowed: allow_retests,
       retest_ability: retest,
       conditions,
-      state: "advantages",
+      state: ChallengeStates.Advantages,
       channel_uid: interaction.channelId,
       timeout: MAX_DURATION / 1_000,
     }).lastInsertRowid
