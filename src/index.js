@@ -11,6 +11,7 @@ process.on("unhandledRejection", (error) => {
 })
 
 require("./patches/whisper").patch()
+require("./patches/ensure").patch()
 require("./patches/paginate").patch()
 require("./patches/roll-reply").patch()
 
