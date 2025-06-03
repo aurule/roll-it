@@ -118,9 +118,9 @@ opposed:
         🚫 cancels
       none: no special advantages
     history:
-      leader: >-
+      outcome_leader: >-
         {{leader}} leads ({{breakdown}})
-      tied: >-
+      outcome_tied: >-
         Tied ({{breakdown}})
       retest: >-
         {{retester}} retested with {{reason}}
@@ -223,6 +223,8 @@ opposed:
       This test already resolved. {{history}}
     premature: >-
       You have to pick a symbol to throw.
+    bidding: >-
+      Tied throw ({{breakdown}}). Now bidding traits.
     result_leader: >-
       {{leader}} leads ({{breakdown}})
     result_tied: >-

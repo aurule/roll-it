@@ -1,9 +1,10 @@
 const { ButtonBuilder, ButtonStyle, MessageFlags, TextDisplayBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 const { handleRequest } = require("../../services/met-roller")
 const summary_message = require("../../messages/opposed/summary")
+const bidding_message = require("../../messages/opposed/bidding")
 
 const BEATS = new Map([
   ["rock", ["scissors"]],
@@ -12,10 +13,10 @@ const BEATS = new Map([
   ["scissors", ["paper", "bomb"]],
 ])
 
-function chooseLeader(chops, participants) {
+function chooseLeader(chops, participants, challenge_id) {
   if (chops[0].result === chops[1].result) {
     const opposed_db = new Opposed()
-    return opposed_db.getTiedResult(chops[0].test_id)
+    return opposed_db.getTieWinner(challenge_id)
   }
 
   const beaten = BEATS.get(chops[0].result)
@@ -47,6 +48,30 @@ function makeBreakdown({leader, chops, participants, t}) {
   return t("shared.breakdown.winner", t_args)
 }
 
+function makeHistory(test) {
+  const t = i18n.getFixedT(test.locale, "interactive", "opposed.shared.history")
+
+  const opposed_db = new Opposed()
+  const leader = opposed_db.getParticipant(test.leader_id)
+  const outcome_args = {
+    leader: leader.mention,
+    context: leader ? "leader" : "tied",
+    breakdown: test.breakdown,
+  }
+  const lines = [
+    `1. ${t("leader", outcome_args)}`
+  ]
+  if (test.retester_id) {
+    const retester = opposed_db.getParticipant(test.retester_id)
+    lines.push(t("retest", { retester: retester.mention, reason: test.retest_reason }))
+  }
+  if (test.canceller_id) {
+    const canceller = opposed_db.getParticipant(test.canceller_id)
+    lines.push(t("cancelled", { canceller: canceller.mention, reason: test.cancelled_with }))
+  }
+  return lines.join("\n\t- ")
+}
+
 module.exports = {
   name: "go_button",
   data: (locale) =>
@@ -56,12 +81,12 @@ module.exports = {
       .setEmoji("1303828291492515932")
       .setStyle(ButtonStyle.Success),
   async execute(interaction) {
-    const t = i18n.getFixedT(interaction.guild.locale, "interactive", "opposed")
-
     const opposed_db = new Opposed()
     const test = opposed_db.findTestByMessage(interaction.message.id)
     const participants = opposed_db.getParticipants(test.challenge_id)
     const current_participant = participants.find(p => p.user_uid == interaction.user.id)
+
+    const t = i18n.getFixedT(test.locale, "interactive", "opposed")
 
     if (!participants.some(p => p.user_uid === interaction.user.id)) {
       return interaction
@@ -116,54 +141,75 @@ module.exports = {
       opposed_db.setChopResult(chop.id, result[0])
     }
 
-    const leader = chooseLeader(chops, participants)
+    const leader = chooseLeader(chops, participants, test.challenge_id)
     const breakdown = makeBreakdown({leader, chops, participants, t})
-    const result_args = {
-      leader: leader?.mention,
-      breakdown,
-      context: leader ? "leader" : "tied"
-    }
 
-    opposed_db.setTestBreakdown(test.id, breakdown)
+    if (leader) {
+      opposed_db.setTestLeader(test.id, leader.id)
+      opposed_db.setTestBreakdown(test.id, breakdown)
+      const history = makeHistory(test, breakdown)
+      opposed_db.setTestHistory(test.id, history)
+      opposed_db.setChallengeState(ChallengeStates.Winning)
 
-    await interaction
-      .editReply({
-        flags: MessageFlags.IsComponentsV2,
-        allowedMentions: { parse: [] },
-        components: [
-          new TextDisplayBuilder({
-            content: t("throws.result", result_args)
-          })
-        ],
-      })
-      .catch((error) =>
-        logger.warn(
-          { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
-          `Could not edit throw prompt with results`,
-        )
-      )
-
-    if (!leader) {
-      opposed_db.setTestState(Opposed.TestState.Bidding)
+      const result_args = {
+        leader: leader?.mention,
+        breakdown,
+        context: leader ? "leader" : "tied"
+      }
       return interaction
-        .followUp(bidding_message.data(test.id))
+        .editReply({
+          flags: MessageFlags.IsComponentsV2,
+          allowedMentions: { parse: [] },
+          components: [
+            new TextDisplayBuilder({
+              content: t("throws.result", result_args)
+            })
+          ],
+        })
         .catch((error) =>
-          logger.error(
+          logger.warn(
             { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
-            `Could not reply with bidding message`,
+            `Could not edit throw prompt with results`,
           )
         )
-    }
-
-    // todo generate history using service
-    opposed_db.setTestState(Opposed.TestState.Done)
-    return interaction
-      .followUp(summary_message.data(test.challenge_id))
-      .catch((error) =>
-        logger.error(
-          { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
-          `Could not reply with summary message`,
+        .then(() => {
+          interaction
+            .followUp(summary_message.data(challenge_id))
+            .catch((error) =>
+              logger.warn(
+                { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
+                `Could not send summary message`,
+              )
+            )
+        })
+    } else {
+      opposed_db.setChallengeState(ChallengeStates.Bidding)
+      return interaction
+        .editReply({
+          flags: MessageFlags.IsComponentsV2,
+          allowedMentions: { parse: [] },
+          components: [
+            new TextDisplayBuilder({
+              content: t("throws.bidding", { breakdown })
+            })
+          ],
+        })
+        .catch((error) =>
+          logger.warn(
+            { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
+            `Could not edit throw prompt with status`,
+          )
         )
-      )
+        .then(() => {
+          interaction
+            .followUp(bidding_message.data(challenge_id))
+            .catch((error) =>
+              logger.warn(
+                { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
+                `Could not send bidding message`,
+              )
+            )
+        })
+    }
   }
 }

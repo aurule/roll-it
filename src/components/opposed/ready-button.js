@@ -1,11 +1,11 @@
 const { ButtonBuilder, ButtonStyle, TextDisplayBuilder } = require("discord.js")
 const { editMessage } = require("../../services/api")
 const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 const throw_message = require("../../messages/opposed/throw")
 
-function hasTies(attacker, defender) {
+function tieWinnerId(attacker, defender) {
   const attacker_ties = attacker.advantages.includes("ties")
   const defender_ties = defender.advantages.includes("ties")
   if (attacker_ties) {
@@ -46,9 +46,12 @@ module.exports = {
         )
     }
 
-    // set challenge ties to outcome of hasTies(attacker, defender)
+    if (tieWinnerId) {
+      opposed_db.setTieWinner(tieWinnerId)
+    }
+    opposed_db.setChallengeState(challenge.id, ChallengeStates.Throwing)
 
-    const test_id = opposed_db.addTest({ challenge_id: challenge.id }).lastInsertRowid
+    const test_id = opposed_db.addTest({ challenge_id: challenge.id, locale: challenge.locale }).lastInsertRowid
 
     const prompt_uid = opposed_db.getPromptUid(challenge.id)
     const t_args = {
