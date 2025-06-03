@@ -2,7 +2,7 @@ const fs = require("fs")
 const path = require("path")
 const { Collection } = require("discord.js")
 
-const { jsNoTests, noDotFiles } = require("../util/filters")
+const { jsNoTests, noDotFiles } = require("../../util/filters")
 
 const basename = path.basename(__filename)
 const messagesDir = __dirname
@@ -22,4 +22,4 @@ contents.forEach((message_file) => {
   messages.set(message.state, message)
 })
 
-module.exports = commands
+module.exports = messages
