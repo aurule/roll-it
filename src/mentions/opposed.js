@@ -22,7 +22,8 @@ module.exports = {
   /**
    * Handle a message
    *
-   * This first handles the special "retry" logic to send the message for the challenge's current state.
+   * This first handles the special "retry" logic to send the message for the challenge's current state. It
+   * will call an `afterReply` hook if present on the message.
    *
    * Otherwise, any message file with a `handleReply` function will have it called with the interaction.
    *
@@ -43,16 +44,16 @@ module.exports = {
     if (interaction.content === "retry") {
       const message_file = message_contents.get(challenge.state)
       const message_data = message_file.data(challenge.id)
-      const retry_followup = message_file.retryFollowup
+      const afterReply = message_file.afterReply
       return interaction
         .reply(message_data)
         .then((reply_interaction) => {
           opposed_db.addMessage({
-            challenge.id,
+            challenge_id: challenge.id,
             message_uid: reply_interaction.resource.message.id,
           })
           if (retry_followup !== undefined) {
-            retry_followup(reply_interaction.resource.message)
+            afterReply(reply_interaction.resource.message)
           }
         })
         .catch((error) =>

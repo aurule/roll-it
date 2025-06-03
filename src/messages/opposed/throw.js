@@ -54,7 +54,16 @@ module.exports = {
       ],
     }
   },
-  retryFollowup: (message) => {
-    // get test
+  async afterRetry: (message) => {
+    const opposed_db = new Opposed()
+    const test = opposed_db.findTestByMessage(message.id)
+    const participants = opposed_db.getParticipants(test.challenge_id)
+
+    if (opposed_db.didParticipantChop(participants.get("attacker").id, test.id)) {
+      await message.react("🗡️")
+    }
+    if (opposed_db.didParticipantChop(participants.get("defender").id, test.id)) {
+      await message.react("🛡️")
+    }
   }
 }
