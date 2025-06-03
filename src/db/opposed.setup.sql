@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_challenges (
   retests_allowed BOOLEAN DEFAULT true,
   retest_ability TEXT NOT NULL,
   conditions BLOB,
-  ties TEXT,
   state TEXT NOT NULL,
   channel_uid TEXT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -21,6 +20,7 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_participants (
   user_uid TEXT NOT NULL,
   mention TEXT NOT NULL,
   advantages BLOB,
+  tie_winner BOOLEAN DEFAULT FALSE,
   role INTEGER NOT NULL,
   challenge_id INTEGER NOT NULL,
   FOREIGN KEY (challenge_id)
@@ -30,15 +30,16 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_participants (
 
 CREATE TABLE IF NOT EXISTS interactive.opposed_tests (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  locale TEXT NOT NULL,
   retester_id TEXT,
   retest_reason TEXT,
   canceller_id TEXT,
   cancelled_with TEXT,
   challenge_id INTEGER NOT NULL,
-  state integer NOT NULL DEFAULT 0,
   history TEXT,
   breakdown TEXT,
-  leader_id TEXT,
+  leader_id INTEGER,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (challenge_id)
     REFERENCES opposed_challenges (id)
     ON DELETE CASCADE

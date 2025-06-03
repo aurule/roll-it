@@ -399,20 +399,16 @@ class Opposed {
     })
   }
 
-  setTestState(test_id, state) {
-    if (!Object.values(Opposed.TestState).includes(state)) {
-      throw new Error(`invalid state "${state}". Value must appear in Opposed.TestState`)
-    }
-
+  setTestHistory(test_id, history) {
     const update = this.db.prepare(oneLine`
       UPDATE interactive.opposed_tests
-      SET    state = @state
-      WHERE  id = @id
+      SET history = @history
+      WHERE id = @id
     `)
 
     return update.run({
       id: test_id,
-      state,
+      history,
     })
   }
 
@@ -497,5 +493,6 @@ class Opposed {
 
 module.exports = {
   ParticipantRoles,
+  ChallengeStates,
   Opposed,
 }
