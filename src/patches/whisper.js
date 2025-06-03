@@ -1,5 +1,5 @@
 /**
- * This patch creates a small helper method named "whisper" on all command interaction objects.
+ * This patch creates a small helper method named "whisper" on all interaction objects.
  */
 
 const {
