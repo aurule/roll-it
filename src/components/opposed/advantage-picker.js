@@ -34,6 +34,6 @@ module.exports = {
 
     interaction.deferUpdate()
 
-    opposed_db.updateParticipant(participants.get("defender").id, interaction.values)
+    opposed_db.setParticipantAdvantages(participants.get("defender").id, interaction.values)
   },
 }
