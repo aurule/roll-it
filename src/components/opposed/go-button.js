@@ -3,7 +3,7 @@ const { i18n } = require("../../locales")
 const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 const { handleRequest } = require("../../services/met-roller")
-const summary_message = require("../../messages/opposed/summary")
+const winning_message = require("../../messages/opposed/winning")
 const bidding_message = require("../../messages/opposed/bidding")
 
 const BEATS = new Map([
@@ -72,6 +72,87 @@ function makeHistory(test) {
   return lines.join("\n\t- ")
 }
 
+function resolveChops(chops, participants, test) {
+  const t = i18n.getFixedT(test.locale, "interactive", "opposed")
+
+  for (const chop of chops) {
+    const result = handleRequest(chop.request, 1)
+    chop.result = result[0]
+    opposed_db.setChopResult(chop.id, result[0])
+  }
+
+  const leader = chooseLeader(chops, participants, test.challenge_id)
+  const breakdown = makeBreakdown({leader, chops, participants, t})
+
+  if (leader) {
+    opposed_db.setTestLeader(test.id, leader.id)
+    opposed_db.setTestBreakdown(test.id, breakdown)
+    const history = makeHistory(test, breakdown)
+    opposed_db.setTestHistory(test.id, history)
+    opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Winning)
+
+    const result_args = {
+      leader: leader?.mention,
+      breakdown,
+      context: leader ? "leader" : "tied"
+    }
+    return interaction
+      .editReply({
+        flags: MessageFlags.IsComponentsV2,
+        allowedMentions: { parse: [] },
+        components: [
+          new TextDisplayBuilder({
+            content: t("throws.result", result_args)
+          })
+        ],
+      })
+      .catch((error) =>
+        logger.warn(
+          { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
+          `Could not edit throw prompt with results`,
+        )
+      )
+      .then(() => {
+        interaction
+          .followUp(winning_message.data(challenge_id))
+          .catch((error) =>
+            logger.warn(
+              { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
+              `Could not send summary message`,
+            )
+          )
+      })
+  } else {
+    opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Bidding)
+    return interaction
+      .editReply({
+        flags: MessageFlags.IsComponentsV2,
+        allowedMentions: { parse: [] },
+        components: [
+          new TextDisplayBuilder({
+            content: t("throws.bidding", { breakdown })
+          })
+        ],
+      })
+      .catch((error) =>
+        logger.warn(
+          { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
+          `Could not edit throw prompt with status`,
+        )
+      )
+      .then(() => {
+        interaction
+          .followUp(bidding_message.data(challenge_id))
+          .catch((error) =>
+            logger.warn(
+              { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
+              `Could not send bidding message`,
+            )
+          )
+      })
+  }
+}
+
 module.exports = {
   name: "go_button",
   data: (locale) =>
@@ -133,83 +214,8 @@ module.exports = {
       interaction.message.react(emoji)
     }
 
-    if (chops.length < 2 || !chops.every(c => c.ready)) return
-
-    for (const chop of chops) {
-      const result = handleRequest(chop.request, 1)
-      chop.result = result[0]
-      opposed_db.setChopResult(chop.id, result[0])
-    }
-
-    const leader = chooseLeader(chops, participants, test.challenge_id)
-    const breakdown = makeBreakdown({leader, chops, participants, t})
-
-    if (leader) {
-      opposed_db.setTestLeader(test.id, leader.id)
-      opposed_db.setTestBreakdown(test.id, breakdown)
-      const history = makeHistory(test, breakdown)
-      opposed_db.setTestHistory(test.id, history)
-      opposed_db.setChallengeState(ChallengeStates.Winning)
-
-      const result_args = {
-        leader: leader?.mention,
-        breakdown,
-        context: leader ? "leader" : "tied"
-      }
-      return interaction
-        .editReply({
-          flags: MessageFlags.IsComponentsV2,
-          allowedMentions: { parse: [] },
-          components: [
-            new TextDisplayBuilder({
-              content: t("throws.result", result_args)
-            })
-          ],
-        })
-        .catch((error) =>
-          logger.warn(
-            { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
-            `Could not edit throw prompt with results`,
-          )
-        )
-        .then(() => {
-          interaction
-            .followUp(summary_message.data(challenge_id))
-            .catch((error) =>
-              logger.warn(
-                { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
-                `Could not send summary message`,
-              )
-            )
-        })
-    } else {
-      opposed_db.setChallengeState(ChallengeStates.Bidding)
-      return interaction
-        .editReply({
-          flags: MessageFlags.IsComponentsV2,
-          allowedMentions: { parse: [] },
-          components: [
-            new TextDisplayBuilder({
-              content: t("throws.bidding", { breakdown })
-            })
-          ],
-        })
-        .catch((error) =>
-          logger.warn(
-            { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
-            `Could not edit throw prompt with status`,
-          )
-        )
-        .then(() => {
-          interaction
-            .followUp(bidding_message.data(challenge_id))
-            .catch((error) =>
-              logger.warn(
-                { test, err: error, user: interaction.user.id, component: "go_button", participant_id },
-                `Could not send bidding message`,
-              )
-            )
-        })
+    if (chops.length > 1 && chops.every(c => c.ready)) {
+      return resolveChops(chops, participants, test)
     }
   }
 }
