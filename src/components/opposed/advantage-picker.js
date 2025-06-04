@@ -21,7 +21,7 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    if (interaction.user.id !== participants.get("defender").id) {
+    if (interaction.user.id !== participants.get("defender").user_uid) {
       return interaction
         .whisper(t("unauthorized", { participants: [participants.get("attacker").mention] }))
         .catch((error) =>
