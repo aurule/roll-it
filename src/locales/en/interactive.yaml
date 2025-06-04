@@ -117,13 +117,100 @@ opposed:
       cancels: >-
         🚫 cancels
       none: no special advantages
+    summary: |-
+      {{attacker}} is challenging {{defender}} with {{attribute}} test. This is {{conditions, list}} attack. The named retest is {{retest}}.
+      {{attacker}} has {{attacker_advantages, list}}.
+      {{defender}} has {{defender_advantages, list}}.
+    summary_description: |-
+      {{attacker}} is challenging {{defender}} with {{attribute}} test for "{{description}}". This is a {{conditions, list}} attack. The named retest is {{retest}}.
+      {{attacker}} has {{attacker_advantages, list}}.
+      {{defender}} has {{defender_advantages, list}}.
+    retest:
+      cta: >-
+        Either of you may retest for a new result:
+      picker:
+        placeholder: How are you retesting?
+        options:
+          - value: named
+            label: "{{ability}}"
+            emoji: 💡
+            description: Named retest
+          - value: ability
+            label: Other ability
+            emoji: ⚙️
+            description: An ability other than the named retest
+          - value: item
+            label: Item
+            emoji: 💼
+          - value: merit
+            label: Merit
+            emoji: 🌟
+          - value: power
+            label: Power
+            emoji: ⚡
+            description: Discipline, thaum, etc.
+          - value: overbid
+            label: Overbid
+            emoji: ⬆️
+            description: Compare traits manually before choosing this
+          - value: willpower
+            label: Willpower
+            emoji: 💪
+            description: Not often available
+          - value: background
+            label: Background
+            emoji: 📜
+          - value: pve
+            label: PvE
+            emoji: 🎗️
+            description: Ensure PvE voucher is marked off or destroyed
+          - value: automatic
+            label: Automatic
+            emoji: 🔁
+            description: Typically only for STs
+          - value: forced
+            label: Forced
+            emoji: ❗
+            description: Typically only for STs
+          - value: other
+            label: Other
+            emoji: ✍️
+            description: Something not listed here
+      button:
+        text: Retest
+        emoji: 🔄
     history:
+      header: >-
+        Test history:
       outcome_leader: >-
         {{leader}} leads ({{breakdown}})
       outcome_tied: >-
         Tied ({{breakdown}})
-      retest: >-
-        {{retester}} retested with {{reason}}
+      retest:
+        named: >-
+          {{retester}} retested with the named ability "{{ability}}"
+        ability: >-
+          {{retester}} retested with a different ability
+        item: >-
+          {{retester}} retested with an item
+        merit: >-
+          {{retester}} retested with a merit
+        power: >-
+          {{retester}} retested with a power
+        overbid: >-
+          {{retester}} retested by overbidding
+        willpower: >-
+          {{retester}} retested with willpower
+        background: >-
+          {{retester}} retested with a background
+        pve: >-
+          {{retester}} used a PvE retest
+        automatic: >-
+          {{retester}} used an automatic retest
+        forced: >-
+          {{retester}} forced a retest
+        other: >-
+          {{retester}} retested with something unusual
       cancelled: >-
         {{canceller}} cancelled with {{reason}}
     breakdown:
@@ -229,22 +316,17 @@ opposed:
       {{leader}} leads ({{breakdown}})
     result_tied: >-
       Tied ({{breakdown}})
-  summary:
-    challenge: |-
-      {{attacker}} is challenging {{defender}} with {{attribute}} test. This is {{conditions, list}} attack. The named retest is {{retest}}.
-      {{attacker}} has {{attacker_advantages, list}}.
-      {{defender}} has {{defender_advantages, list}}.
-    challenge_description: |-
-      {{attacker}} is challenging {{defender}} with {{attribute}} test for "{{description}}". This is a {{conditions, list}} attack. The named retest is {{retest}}.
-      {{attacker}} has {{attacker_advantages, list}}.
-      {{defender}} has {{defender_advantages, list}}.
-    history: >-
-      Test history:
-    headline:
-      leader: >-
-        {{leader}} is currently winning! ({{breakdown}})
-      tied: >-
-        The challenge is tied. ({{breakdown}})
+  winning:
+    headline: >-
+      {{leader}} is currently winning! ({{breakdown}})
+    cta: >-
+      {{trailer}}: If you are out of retests or wish to accept this result, you can concede to {{leader}}.
+    concede:
+      text: Concede
+      emoji: 🏳️
+  tying:
+    headline: >-
+      The challenge is tied. ({{breakdown}})
   status:
     winner: >-
       {{leader}} is currently winning! ({{chops}})
@@ -268,3 +350,7 @@ opposed:
     That challenge has concluded.
   unauthorized: >-
     Only {{participants, list(type: 'disjunction')}} can use this control.
+  conceded: |-
+    {{leader}} wins!
+    {{summary}}
+    {{trailer}} conceded to {{leader}}
