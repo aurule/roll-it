@@ -46,9 +46,20 @@ module.exports = {
         )
     }
 
-    if (tieWinnerId) {
-      opposed_db.setTieWinner(tieWinnerId)
+    const summary_args = {
+      attacker: attacker.mention,
+      attacker_advantages: attacker.advantages,
+      defender: defender.mention,
+      defender_advantages: defender.advantages,
+      attribute: challenge.attribute,
+      conditions: challenge.conditions,
+      retest: challenge.retest_ability,
+      description: challenge.description,
+      context: challenge.description ? "description" : undefined,
     }
+    opposed_db.setChallengeSummary(challenge.id, t("shared.summary", summary_args))
+
+    opposed_db.setTieWinner(tieWinnerId(attacker, defender))
     opposed_db.setChallengeState(challenge.id, ChallengeStates.Throwing)
 
     const test_id = opposed_db.addTest({ challenge_id: challenge.id, locale: challenge.locale }).lastInsertRowid
