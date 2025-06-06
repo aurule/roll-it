@@ -1,6 +1,6 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 
 module.exports = {
@@ -11,6 +11,7 @@ module.exports = {
       .setCustomId("opposed_retest")
       .setLabel(t("text"))
       .setEmoji(t("emoji"))
+      .setStyle(ButtonStyle.Secondary)
   },
   async execute(interaction) {
     const opposed_db = new Opposed()
@@ -32,10 +33,79 @@ module.exports = {
         )
     }
 
-    // update winning message to remove controls
+    const test = opposed_db.getLatestTestWithParticipants(challenge.id)
 
-    // set retester_id on latest test
-    // set state to Cancelling
-    // reply with the Cancelling message
+    if (!test.retest_reason) {
+      return interaction
+        .ensure(
+          "whisper",
+          t("winning.retest.missing"),
+          {
+            component: "opposed_retest",
+            test: test,
+            challenge: challenge,
+            detail: "failed to whisper about missing retest reason"
+          }
+        )
+    }
+
+    if (test.retester.user_uid !== interaction.user.id) {
+      return interaction
+        .ensure(
+          "whisper",
+          t("winning.retest.conflict"),
+          {
+            component: "opposed_retest",
+            test: test,
+            challenge: challenge,
+            detail: "failed to whisper about conflicted retest"
+          }
+        )
+    }
+
+    const winning_message = require("../../messages/opposed/winning")
+    await interaction
+      .ensure(
+        "edit",
+        winning_message.inert(challenge.id),
+        {
+          component: "opposed_retest",
+          test: test,
+          challenge: challenge,
+          detail: "failed to update progress message to remove controls"
+        }
+      )
+      .catch(error => {
+        // suppress all errors so we can send other messages
+        return
+      })
+
+    // todo if the non-retester can cancel, then we move to cancelling state
+    //   canceller has cancels advantage
+    //   reason is "named" or "ability"
+
+    opposed_db.setChallengeState(challenge.id, ChallengeStates.Cancelling)
+    const cancelling_message = require("../../messages/opposed/cancelling")
+    return interaction
+      .ensure(
+        "reply",
+        cancelling_message.inert(challenge.id),
+        {
+          component: "opposed_retest",
+          test: test,
+          challenge: challenge,
+          detail: "failed to send cancelling prompt"
+        },
+      )
+      .then((reply_result) => {
+        const message_uid = reply_result.resource.message.id ?? reply_result.id
+
+        opposed_db.addMessage({
+          challenge_id: challenge.id,
+          message_uid,
+        })
+      })
+
+    // todo if they cannot cancel, we go straight on to Retesting
   },
 }

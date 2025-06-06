@@ -23,17 +23,20 @@ module.exports = {
 
     if (interaction.user.id !== participants.get("defender").user_uid) {
       return interaction
-        .whisper(t("unauthorized", { participants: [participants.get("attacker").mention] }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_advantage_select" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
+        .ensure(
+          "whisper",
+          t("unauthorized", { participants: [participants.get("defender").mention] }),
+          {
+            user: interaction.user.id,
+            component: "opposed_ready",
+            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
+          }
         )
     }
 
     interaction.deferUpdate()
 
+    console.log(interaction.values)
     opposed_db.setParticipantAdvantages(participants.get("defender").id, interaction.values)
   },
 }

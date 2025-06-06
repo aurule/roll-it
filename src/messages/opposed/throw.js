@@ -60,10 +60,26 @@ module.exports = {
     const participants = opposed_db.getParticipants(test.challenge_id)
 
     if (opposed_db.didParticipantChop(participants.get("attacker").id, test.id)) {
-      await message.react("🗡️")
+      await message
+        .react("🗡️")
+        .catch(err => {
+          logger.warn({
+            err,
+            test,
+          },
+          "Could not react with attacker emoji")
+        })
     }
     if (opposed_db.didParticipantChop(participants.get("defender").id, test.id)) {
-      await message.react("🛡️")
+      await message
+        .react("🛡️")
+        .catch(err => {
+          logger.warn({
+            err,
+            test,
+          },
+          "Could not react with defender emoji")
+        })
     }
   }
 }

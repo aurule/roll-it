@@ -12,13 +12,17 @@ const ChallengeStates = {
   Relented: "relented",
   Withdrawn: "withdrawn",
   Throwing: "throwing",
-  Bidding: "bidding",
+  BiddingAttacker: "bidding-attacker",
+  BiddingDefender: "bidding-defender",
   Winning: "winning",
   Tying: "tying",
   Conceded: "conceded",
   Accepted: "accepted",
   Cancelling: "cancelling",
+  Expired: "expired",
 }
+
+const FINAL_STATES = new Set('relented', 'withdrawn', 'conceded', 'accepted', 'expired')
 
 /**
  * Class to manage met-opposed state tracking
@@ -99,7 +103,7 @@ class Opposed {
   getChallenge(challenge_id) {
     const select = this.db.prepare(oneLine`
       SELECT   *,
-               JSON_EXTRACT(conditions, '$') as conditions,
+               JSON_EXTRACT(conditions, '$') AS conditions,
                TIME('now') > TIME(expires_at) AS expired
       FROM     interactive.opposed_challenges
       WHERE    id = ?
@@ -116,6 +120,30 @@ class Opposed {
     }
   }
 
+  getChallengeWithParticipants(challenge_id) {
+    const select = this.db.prepare(oneLine`
+      SELECT   *,
+               JSON_EXTRACT(conditions, '$') AS conditions,
+               TIME('now') > TIME(expires_at) AS expired
+      FROM     interactive.opposed_challenges
+      WHERE    id = ?
+    `)
+
+    const raw_out = select.get(challenge_id)
+
+    if (raw_out === undefined) return undefined
+
+    const participants = this.getParticipants(challenge_id)
+
+    return {
+      ...raw_out,
+      conditions: JSON.parse(raw_out.conditions),
+      expired: !!raw_out.expired,
+      attacker: participants.get("attacker"),
+      defender: participants.get("defender"),
+    }
+  }
+
   setChallengeState(challenge_id, state) {
     const update = this.db.prepare(oneLine`
       UPDATE interactive.opposed_challenges
@@ -129,10 +157,23 @@ class Opposed {
     })
   }
 
+  setChallengeSummary(challenge_id, summary) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_challenges
+      SET    summary = @summary
+      WHERE  id = @id
+    `)
+
+    return update.run({
+      id: challenge_id,
+      summary,
+    })
+  }
+
   findChallengeByMessage(message_uid) {
     const select = this.db.prepare(oneLine`
       SELECT c.*,
-             JSON_EXTRACT(c.conditions, '$') as conditions,
+             JSON_EXTRACT(c.conditions, '$') AS conditions,
              TIME('now') > TIME(c.expires_at) AS expired
       FROM   interactive.opposed_challenges AS c
              JOIN interactive.opposed_messages AS m
@@ -157,7 +198,7 @@ class Opposed {
   findChallengeByTest(test_id) {
     const select = this.db.prepare(oneLine`
       SELECT c.*,
-             JSON_EXTRACT(c.conditions, '$') as conditions,
+             JSON_EXTRACT(c.conditions, '$') AS conditions,
              TIME('now') > TIME(c.expires_at) AS expired
       FROM   interactive.opposed_challenges AS c
              JOIN interactive.opposed_tests AS t
@@ -184,8 +225,9 @@ class Opposed {
       WHERE    challenge_id = ?
       ORDER BY created_at ASC
     `)
+    select.pluck()
 
-    return select.get(challenge_id)
+    return select.all(challenge_id)
   }
 
   addMessage({ message_uid, challenge_id, test_id = null} = {}) {
@@ -258,7 +300,7 @@ class Opposed {
   getParticipant(participant_id) {
     const select = this.db.prepare(oneLine`
       SELECT   *,
-               JSON_EXTRACT(advantages, '$') as advantages
+               JSON_EXTRACT(advantages, '$') AS advantages
       FROM     interactive.opposed_participants
       WHERE    id = ?
     `)
@@ -276,7 +318,7 @@ class Opposed {
   getParticipants(challenge_id, index_by_id = false) {
     const select = this.db.prepare(oneLine`
       SELECT   *,
-               JSON_EXTRACT(advantages, '$') as advantages
+               JSON_EXTRACT(advantages, '$') AS advantages
       FROM     interactive.opposed_participants
       WHERE    challenge_id = ?
       ORDER BY role ASC
@@ -329,7 +371,7 @@ class Opposed {
   getTieWinner(challenge_id) {
     const select = this.db.prepare(oneLine`
       SELECT   *,
-               JSON_EXTRACT(advantages, '$') as advantages
+               JSON_EXTRACT(advantages, '$') AS advantages
       FROM     interactive.opposed_participants
       WHERE    challenge_id = ?
                AND tie_winner = 1
@@ -343,18 +385,6 @@ class Opposed {
       ...raw_out,
       advantages: JSON.parse(raw_out.advantages),
     }
-  }
-
-  getPromptUid(challenge_id) {
-    const select = this.db.prepare(oneLine`
-      SELECT message_uid
-      FROM   interactive.opposed_messages
-      WHERE  challenge_id = ?
-        AND  test_id IS NULL
-    `)
-    select.pluck()
-
-    return select.get(challenge_id)
   }
 
   addTest({
@@ -550,7 +580,11 @@ class Opposed {
 
     if (raw_out === undefined) return [undefined]
 
-    raw_out.forEach(t => t.ready = !!t.ready)
+    raw_out.forEach(t => {
+      t.ready = !!t.ready
+      t.tie_accepted = !!t.tie_accepted
+      return t
+    })
 
     return raw_out
   }
@@ -595,10 +629,37 @@ class Opposed {
       result,
     })
   }
+
+  setChopTraits(chop_id, traits) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_test_chops
+      SET traits = @traits
+      WHERE id = @id
+    `)
+
+    return update.run({
+      id: chop_id,
+      traits,
+    })
+  }
+
+  setChopTieAccepted(chop_id, accepted) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_test_chops
+      SET tie_accepted = @accepted
+      WHERE id = @id
+    `)
+
+    return update.run({
+      id: chop_id,
+      accepted: +!!accepted,
+    })
+  }
 }
 
 module.exports = {
   ParticipantRoles,
   ChallengeStates,
+  FINAL_STATES,
   Opposed,
 }

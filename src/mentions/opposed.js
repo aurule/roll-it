@@ -33,12 +33,10 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.reference.messageId)
 
-    // if challenge has expired, whisper about that
-
     const participants = opposed_db.getParticipants(challenge.id)
 
-    if (!participants.some(p => p.user_uid === interaction.user.id)) {
-      // whisper they aren't allowed
+    if (!participants.some(p => p.user_uid === interaction.author.id)) {
+      // todo whisper they aren't allowed
     }
 
     if (interaction.content === "retry") {
@@ -48,19 +46,21 @@ module.exports = {
       return interaction
         .reply(message_data)
         .then((reply_interaction) => {
-          opposed_db.addMessage({
+          const message_props = {
             challenge_id: challenge.id,
-            message_uid: reply_interaction.resource.message.id,
-          })
-          if (retry_followup !== undefined) {
-            afterReply(reply_interaction.resource.message)
+            message_uid: reply_interaction.id,
+            test_id: opposed_db.findTestByMessage(interaction.reference.messageId)?.id ?? null,
+          }
+          opposed_db.addMessage(message_props)
+          if (afterReply !== undefined) {
+            afterReply(reply_interaction)
           }
         })
         .catch((error) =>
           logger.error(
             {
               err: error,
-              challenge_id,
+              challenge_id: challenge.id,
               channel: interaction.channelId,
             },
             `Could not retry message for state "${challenge.state}"`,

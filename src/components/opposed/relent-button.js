@@ -1,7 +1,8 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
+const relented_message = require("../../messages/opposed/relented")
 
 module.exports = {
   name: "opposed_relent",
@@ -19,36 +20,40 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    if (interaction.user.id !== defender.id) {
+    if (false) {
+    // if (interaction.user.id !== defender.user_uid) {
       return interaction
-        .whisper(t("unauthorized", { participants: [attacker.mention] }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_relent" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
+        .ensure(
+          "whisper",
+          t("unauthorized", { participants: [defender.mention] }),
+          {
+            user: interaction.user.id,
+            component: "opposed_relent",
+            challenge_id: challenge.id,
+            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`,
+          }
         )
     }
 
-    const { cleanup } = require("../../interactive/opposed")
-    cleanup(challenge.id)
-
-    const t_args = {
-      attacker: attacker.mention,
-      defender: defender.mention,
-      description: challenge.description,
-      context: challenge.description ? "description" : undefined,
-    }
-
+    opposed_db.setChallengeState(challenge.id, ChallengeStates.Relented)
     return interaction
-      .reply({
-        content: t("relented", t_args),
-      })
-      .catch((error) =>
-        logger.warn(
-          { err: error, user: interaction.user.id, component: "opposed_relent" },
-          `Could not whisper about cancellation`,
-        ),
+      .ensure(
+        "reply",
+        relented_message.data(challenge.id),
+        {
+          component: "opposed_relent",
+          challenge_id: challenge.id,
+          detail: "Failed to reply with relented message",
+        }
       )
+      .then((reply_result) => {
+        // expect an InteractionCallbackResponse, but deal with a Message too
+        const message_uid = reply_result.resource.message.id ?? reply_result.id
+
+        opposed_db.addMessage({
+          challenge_id: challenge.id,
+          message_uid,
+        })
+      })
   },
 }

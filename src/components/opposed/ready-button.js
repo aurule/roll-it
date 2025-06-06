@@ -37,50 +37,39 @@ module.exports = {
     if (false) {
     // if (interaction.user.id !== defender.id) {
       return interaction
-        .whisper(t("unauthorized", { participants: [attacker.mention] }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_ready" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
+        .ensure(
+          "whisper",
+          t("unauthorized", { participants: [defender.mention] }),
+          {
+            user: interaction.user.id,
+            component: "opposed_ready",
+            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
+          }
         )
     }
 
     const summary_args = {
       attacker: attacker.mention,
-      attacker_advantages: attacker.advantages,
+      attacker_advantages: attacker.advantages.map(a => t(`shared.advantages.${a}`)),
       defender: defender.mention,
-      defender_advantages: defender.advantages,
+      defender_advantages: defender.advantages.map(a => t(`shared.advantages.${a}`)),
       attribute: challenge.attribute,
-      conditions: challenge.conditions,
+      conditions: challenge.conditions.map(c => t(`shared.conditions.${c}`)),
       retest: challenge.retest_ability,
       description: challenge.description,
       context: challenge.description ? "description" : undefined,
     }
-    opposed_db.setChallengeSummary(challenge.id, t("shared.summary", summary_args))
+    const challenge_summary = t("shared.summary", summary_args)
+    opposed_db.setChallengeSummary(challenge.id, challenge_summary)
 
     opposed_db.setTieWinner(tieWinnerId(attacker, defender))
     opposed_db.setChallengeState(challenge.id, ChallengeStates.Throwing)
 
     const test_id = opposed_db.addTest({ challenge_id: challenge.id, locale: challenge.locale }).lastInsertRowid
 
-    const prompt_uid = opposed_db.getPromptUid(challenge.id)
-    const t_args = {
-      description: challenge.description,
-      context: challenge.description ? "description" : undefined,
-      attacker: attacker.mention,
-      attacker_advantages: attacker.advantages.map(a => t(`shared.advantages.${a}`)),
-      defender: defender.mention,
-      defender_advantages: attacker.advantages.map(a => t(`shared.advantages.${a}`)),
-      conditions: challenge.conditions.map(c => t(`shared.conditions.${c}`)),
-      attribute: challenge.attribute,
-      retest: challenge.retest_ability,
-    }
-    await editMessage(challenge.channel_uid, prompt_uid, {
+    await editMessage(challenge.channel_uid, interaction.message.id, {
       components: [
-        new TextDisplayBuilder({
-          content: t("summary.challenge", t_args),
-        })
+        new TextDisplayBuilder({ content: challenge_summary })
       ],
       allowedMentions: { parse: [] },
     })
@@ -96,23 +85,24 @@ module.exports = {
       )
 
     return interaction
-      .reply(throw_message.data(challenge.id))
-      .then((reply_interaction) => {
+      .ensure(
+        "reply",
+        throw_message.data(challenge.id),
+        {
+          challenge,
+          component: "opposed_ready",
+          detail: "Failed to reply with throwing message"
+        }
+      )
+      .then((reply_result) => {
+        // expect an InteractionCallbackResponse, but deal with a Message too
+        const message_uid = reply_result.resource.message.id ?? reply_result.id
+
         opposed_db.addMessage({
           challenge_id: challenge.id,
           test_id,
-          message_uid: reply_interaction.resource.message.id,
+          message_uid,
         })
       })
-      .catch((error) =>
-        logger.error(
-          {
-            err: error,
-            challenge,
-            channel: interaction.channelId,
-          },
-          "Could not reply with first test prompt",
-        ),
-      )
   },
 }

@@ -17,13 +17,14 @@ module.exports = {
   async execute(interaction) {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
+    const test = opposed_db.getLatestTestWithParticipants(challenge.id)
     const participants = opposed_db.getParticipants(challenge.id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     if (!participants.some(p => interaction.user.id === p.user_uid)) {
       return interaction
-        .whisper(t("unauthorized", { participants: [participants.get("attacker").mention, participants.get("defender").mention] }))
+        .whisper(t("unauthorized", { participants: participants.map(p => p.mention) }))
         .catch((error) =>
           logger.warn(
             { err: error, user: interaction.user.id, component: "opposed_retest_select" },
@@ -34,6 +35,8 @@ module.exports = {
 
     interaction.deferUpdate()
 
-    // update latest test with new retest_reason
+    const current_participant = participants.find(p => p.user_uid == interaction.user.id)
+    const reason = interaction.values[0]
+    opposed_db.setRetest(test.id, current_participant.id, reason)
   },
 }

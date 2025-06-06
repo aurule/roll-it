@@ -220,10 +220,15 @@ opposed:
       scissors: ":scissors: scissors"
       tied: >-
         $t(opposed.shared.breakdown.{{result}}) *vs* $t(opposed.shared.breakdown.{{result}})
+      tied_bids: >-
+        $t(opposed.shared.breakdown.{{result}}) *vs* $t(opposed.shared.breakdown.{{result}}), both bid {{traits}}
       tiebreaker: >-
         $t(opposed.shared.breakdown.{{result}}) *vs* $t(opposed.shared.breakdown.{{result}}), {{leader}} has ties
       winner: >-
         $t(opposed.shared.breakdown.{{leader_result}}) *vs* {{trailer}}'s $t(opposed.shared.breakdown.{{trailer_result}})
+      winner_bids: >-
+        $t(opposed.shared.breakdown.{{leader_result}}) *vs* $t(opposed.shared.breakdown.{{trailer_result}}),
+        {{leader}} bid {{leader_traits}} *vs* {{trailer}}'s {{trailer_traits}}
   prompt:
     summary: >-
       {{attacker}} is attacking {{defender}} with {{attribute}} challenge. This is {{conditions, list}}
@@ -250,7 +255,7 @@ opposed:
             emoji: 🧨
             description: Lets you throw Bomb in place of Paper
           - value: ties
-            label: ≠ I have ties
+            label: I have ties
             description: You automatically win on a tied result
           - value: cancels
             label: I have cancels
@@ -266,9 +271,9 @@ opposed:
   withdrawn_description: >-
     {{attacker}} withdrew their challenge against {{defender}} for "{{description}}".
   relented: >-
-    {{defender}} **relented** to the challenge from {{attacker}.
+    {{defender}} **relented** to the challenge from {{attacker}}.
   relented_description: >-
-    {{defender}} **relented** to the challenge from {{attacker} for "{{description}}".
+    {{defender}} **relented** to the challenge from {{attacker}} for "{{description}}".
   throws:
     request: >-
       {{participant}} choose what you will throw:
@@ -310,12 +315,20 @@ opposed:
       This test already resolved. {{history}}
     premature: >-
       You have to pick a symbol to throw.
-    bidding: >-
-      Tied throw ({{breakdown}}). Now bidding traits.
     result_leader: >-
       {{leader}} leads ({{breakdown}})
     result_tied: >-
       Tied ({{breakdown}})
+  bidding:
+    prompt: >-
+      {{participant}}, you are currently tied. Reply to this message with the number of traits you want to bid
+      to try and break the tie. Your bid cannot be changed after it's sent, so check your math!
+    traits_one: >-
+      {{participant}} bid 1 trait.
+    traits_other: >-
+      {{participant}} bid {{count}} traits.
+    missing: I couldn't find a number in that message.
+    invalid: I don't know how you did it, but I know that's not a number.
   winning:
     headline: >-
       {{leader}} is currently winning! ({{breakdown}})
@@ -324,9 +337,17 @@ opposed:
     concede:
       text: Concede
       emoji: 🏳️
+    retest:
+      missing: You must select a reason before you can retest.
+      conflict: The other participant has also chosen a retest reason. Decide who will do the retest and try again.
   tying:
     headline: >-
       The challenge is tied. ({{breakdown}})
+    cta: >-
+      {{attacker}} and {{defender}}: If you both decide to accept the tie, the challenge will end with no winner.
+    accept:
+      text: Accept
+      emoji: 🉑
   status:
     winner: >-
       {{leader}} is currently winning! ({{chops}})
@@ -338,9 +359,24 @@ opposed:
       {{attacker}} and {{defender}}: If you both decide to compare traits, the chops will end with no automatic winner.
     retest: >-
       Either participant may retest for a new result:
-  retest:
+  cancelling:
     withdraw: >-
       {{retester}} is retesting with {{reason}}. If this was an accident, you can withdraw the retest.
+    components:
+      withdraw: Withdraw
+      picker:
+        placeholder: How are you cancelling?
+        options:
+          - value: ability
+            label: Ability
+            emoji: ⚙️
+            description: An ability
+      cancel:
+        text: Cancel
+        emoji: 🚫
+      continue:
+        text: Continue
+        emoji: ⏭️
     cancel: >-
       {{canceller}} may cancel.
     cancel_special: |-
@@ -351,6 +387,26 @@ opposed:
   unauthorized: >-
     Only {{participants, list(type: 'disjunction')}} can use this control.
   conceded: |-
-    {{leader}} wins!
+      ## {{leader}} wins!
+      {{trailer}} conceded to {{leader}}.
+  accepted: |-
+    The challenge ended in a tie.
     {{summary}}
-    {{trailer}} conceded to {{leader}}
+  expired:
+    empty: >-
+      The challenge from {{attacker}} against {{defender}} ran out of time and was automatically withdrawn.
+    empty_description: >-
+      The challenge from {{attacker}} against {{defender}} for "{{description}}" ran out of time and was
+      automatically withdrawn.
+    winner: >-
+      The challenge from {{attacker}} against {{defender}} ran out of time and has automatically ended. At the
+      time, {{leader}} was winning ({{breakdown}}).
+    winner_description: >-
+      The challenge from {{attacker}} against {{defender}} for "{{description}}" ran out of time and has
+      automatically ended. At the time, {{leader}} was winning ({{breakdown}}).
+    tied: >-
+      The challenge from {{attacker}} against {{defender}} ran out of time and has automatically ended. At the
+      time, both were tied ({{breakdown}}).
+    tied_description: >-
+      The challenge from {{attacker}} against {{defender}} for "{{description}}" ran out of time and has
+      automatically ended. At the time, both were tied ({{breakdown}}).

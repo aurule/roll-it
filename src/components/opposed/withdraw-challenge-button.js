@@ -1,7 +1,8 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
+const withdrawn_message = require("../../messages/opposed/withdrawn")
 
 module.exports = {
   name: "opposed_withdraw_challenge",
@@ -21,34 +22,37 @@ module.exports = {
 
     if (interaction.user.id !== challenge.attacker_uid) {
       return interaction
-        .whisper(t("unauthorized", { participants: [attacker.mention] }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_withdraw_challenge" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
+        .ensure(
+          "whisper",
+          t("unauthorized", { participants: [attacker.mention] }),
+          {
+            user: interaction.user.id,
+            component: "opposed_withdraw_challenge",
+            challenge_id: challenge.id,
+            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`,
+          }
         )
     }
 
-    const { cleanup } = require("../../interactive/opposed")
-    cleanup(challenge.id)
-
-    const t_args = {
-      attacker: attacker.mention,
-      defender: defender.mention,
-      description: challenge.description,
-      context: challenge.description ? "description" : undefined,
-    }
-
+    opposed_db.setChallengeState(challenge.id, ChallengeStates.Withdrawn)
     return interaction
-      .reply({
-        content: t("withdrawn", t_args),
-      })
-      .catch((error) =>
-        logger.warn(
-          { err: error, user: interaction.user.id, component: "opposed_withdraw_challenge" },
-          `Could not whisper about cancellation`,
-        ),
+      .ensure(
+        "reply",
+        withdrawn_message.data(challenge.id),
+        {
+          component: "opposed_withdraw_challenge",
+          challenge_id: challenge.id,
+          detail: "Failed to reply with withdrawn message",
+        }
       )
+      .then((reply_result) => {
+        // expect an InteractionCallbackResponse, but deal with a Message too
+        const message_uid = reply_result.resource?.message.id ?? reply_result.id
+
+        opposed_db.addMessage({
+          challenge_id: challenge.id,
+          message_uid,
+        })
+      })
   },
 }

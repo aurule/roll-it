@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_test_chops (
   request TEXT NOT NULL,
   result TEXT,
   ready BOOLEAN DEFAULT FALSE,
+  traits INTEGER DEFAULT -1,
+  tie_accepted BOOLEAN DEFAULT FALSE,
   participant_id INTEGER NOT NULL,
   test_id INTEGER NOT NULL,
   FOREIGN KEY (participant_id)
@@ -68,22 +70,6 @@ CREATE TABLE IF NOT EXISTS interactive.opposed_test_chops (
 
 CREATE UNIQUE INDEX IF NOT EXISTS interactive.opposed_test_chop_participant
 ON opposed_test_chops (test_id, participant_id);
-
-CREATE TABLE IF NOT EXISTS interactive.opposed_test_bids (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  traits INTEGER NOT NULL,
-  ready BOOLEAN DEFAULT FALSE,
-  participant_id INTEGER NOT NULL,
-  test_id INTEGER NOT NULL,
-  FOREIGN KEY (participant_id)
-    REFERENCES opposed_participants (id)
-  FOREIGN KEY (test_id)
-    REFERENCES opposed_tests (id)
-    ON DELETE CASCADE
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS interactive.opposed_test_bid_participant
-ON opposed_test_bids (test_id, participant_id);
 
 CREATE TABLE IF NOT EXISTS interactive.opposed_messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

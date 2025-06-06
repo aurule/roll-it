@@ -10,10 +10,11 @@ const {
 } = require("discord.js")
 
 const { sendMessage, editMessage } = require("../services/api")
-const { Opposed, ParticipantRoles, ChallengeStates } = require("../db/opposed")
+const { Opposed, ParticipantRoles, ChallengeStates, FINAL_STATES } = require("../db/opposed")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const advantages_message = require("../messages/opposed/advantages")
+const expired_message = require("../messages/opposed/expired")
 
 const MAX_DURATION = 1_200_000 // 20 minutes
 const RETEST_DURATION_BONUS = 300_000 // 5 minutes
@@ -77,45 +78,31 @@ module.exports = {
     opposed_db.addParticipant({
       user_uid: defenderId,
       mention: defender_mention,
+      advantages: ["none"],
       role: ParticipantRoles.Defender,
       challenge_id,
     })
 
     return interaction
-      .reply(advantages_message.data(challenge_id))
-      .then((reply_interaction) => {
+      .ensure(
+        "reply",
+        advantages_message.data(challenge_id),
+        {
+          challenge_id,
+          detail: "failed to send advantages prompt"
+        }
+      )
+      .then((reply_result) => {
         setTimeout(module.exports.opposedTimeout, MAX_DURATION, challenge_id)
+
+        // expect an InteractionCallbackResponse, but deal with a Message too
+        const message_uid = reply_result.resource.message.id ?? reply_result.id
 
         opposed_db.addMessage({
           challenge_id,
-          message_uid: reply_interaction.resource.message.id,
+          message_uid,
         })
       })
-      .catch((error) =>
-        logger.error(
-          {
-            err: error,
-            challenge_id,
-            channel: interaction.channelId,
-          },
-          "Could not reply with initial opposed prompt",
-        ),
-      )
-
-    // status and summary
-    // {{leader}} is currently winning! (:rock: rock *vs* :scissors: scissors)
-    //   {{leader}} is currently winning! (:rock: rock *vs* :rock: rock, {{leader}} has ties)
-    // {{trailer}}: If you are out of retests or wish to accept this result, you can concede to {{leader}}.
-    // [concede]
-    // Either of you may retest for a new result:
-    // [retest reason]
-    // [retest]
-    // --separator--
-    // {{attacker}} is challenging {{defender}} to {{an attribute}} test. This is a {{condisions}} attack. The named retest is {{retest}}.
-    // {{attacker}} has {{bomb, ties}}.
-    // {{defender}} has {{bomb}}.
-    // Test history:
-    // * {{leader}} leads (:rock: rock *vs* {{trailer}}'s :scissors: scissors')
 
     // alternate status lines when actually tied
     // The challenge is tied. (:rock: rock *vs* :rock: rock)
@@ -137,35 +124,32 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
 
-    if (test === undefined) {
-      logger.info({
-        challenge_id,
-      },
-      "Opposed challenge completed before timeout")
+    if (FINAL_STATES.has(challenge.state)) {
+      logger.info({ challenge }, "Challenge is already finished")
       return
     }
 
-    module.exports.cleanup(challenge_id)
-
-    const t = i18n.getFixedT(test.locale, "interactive", "opposed")
-
-    // with no results
-    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and was automatically withdrawn.
-
-    // with attacker leading
-    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and has automatically ended. At the time, {{attacker}} was winning (:rock: rock *vs* :scissors: scissors).
-    // {{history}}
-
-    // with defender leading
-    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and has automatically ended. At the time, {{defender}} was winning (:rock: rock *vs* :scissors: scissors).
-    // {{history}}
-
-    // with tied outcome
-    // The challenge from {{attacker}} against {{defender}} ?(for "{{description}}") ran out of time and has automatically ended. At the time, both were tied (:rock: rock *vs* :rock: rock).
-    // {{history}}
+    opposed_db.setChallengeState(challenge.id, ChallengStates.Expired)
+    return api
+      .sendMessage(challenge.channel_uid, expired_message.data(challenge_id))
+      .then(message => opposed_db.addMessage({
+        message_uid: message.id,
+        challenge_id,
+      }))
+      .catch(err => logger.error(
+        {
+          err,
+          channel: challenge.channel_uid,
+          challenge,
+        },
+        "Unable to send opposed timeout message"
+      ))
   },
 
   async cleanup(challenge_id) {
+    // this should no longer be called most of the time
+    // instead, put the challenge in a finished state and leave it for a while
+    // this allows time for users to ask for a retry of the final result message
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
     const prompt_uid = opposed_db.getPromptUid(challenge_id)

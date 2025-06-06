@@ -26,26 +26,17 @@ module.exports = {
     const participant_id = parseInt(interaction.customId.match(/_(\d+)/)[1])
     const allowed_participant = opposed_db.getParticipant(participant_id)
 
-    if (allowed_participant === undefined) {
-      return interaction
-        .whisper(t("concluded"))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "throw_symbol_picker", participant_id },
-            `Could not whisper about finished test from ${interaction.user.id}`,
-          ),
-        )
-    }
-
     if (false) {
     // if (allowed_participant.user_uid !== interaction.user.id) {
       return interaction
-        .whisper(t("unauthorized", { participants: [allowed_participant.mention] }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "throw_symbol_picker", participant_id },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
+        .ensure(
+          "whisper",
+          t("unauthorized", { participants: [allowed_participant.mention] }),
+          {
+            user: interaction.user.id,
+            component: "opposed_ready",
+            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
+          }
         )
     }
 
