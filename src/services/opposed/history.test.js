@@ -1,0 +1,124 @@
+const { Opposed, ChallengeStates, ParticipantRoles } = require("../../db/opposed")
+const { makeDB } = require("../../db/index")
+
+const { makeHistory } = require("./history")
+
+describe("makeHistory", () => {
+  let opposed
+  let challenge_id
+  let attacker_id
+  let defender_id
+  let test_id
+  let participant_ids
+  const attacker_uid = "atk"
+  const defender_uid = "def"
+
+  beforeEach(() => {
+    opposed = new Opposed()
+    let result = opposed.addChallenge({
+      locale: "en-US",
+      description: "testing challenge",
+      attacker_uid,
+      attribute: "mental",
+      retests_allowed: true,
+      retest_ability: "occult",
+      state: ChallengeStates.Advantages,
+      channel_uid: "testchan",
+      timeout: 1000,
+    })
+    challenge_id = result.lastInsertRowid
+
+    result = opposed.addParticipant({
+      challenge_id,
+      user_uid: attacker_uid,
+      mention: `<@${attacker_uid}>`,
+      role: ParticipantRoles.Attacker,
+      advantages: ['hi', 'there'],
+    })
+    attacker_id = result.lastInsertRowid
+    result = opposed.addParticipant({
+      challenge_id,
+      user_uid: "def",
+      mention: `<@${defender_uid}>`,
+      role: ParticipantRoles.Defender,
+      advantages: ['oh', 'no'],
+    })
+    defender_id = result.lastInsertRowid
+
+    result = opposed.addTest({
+      challenge_id,
+      locale: "en-US",
+    })
+    test_id = result.lastInsertRowid
+
+    test = opposed.getTest(test_id)
+  })
+
+  it("shows tied with no leader", () => {
+    test.leader_id = null
+    test.breakdown = "same v same"
+
+    const result = makeHistory(test)
+
+    expect(result).toMatch("Tied")
+  })
+
+  it("shows winner with a leader", () => {
+    test.leader_id = attacker_id
+    test.breakdown = "rock v defender's scissors"
+
+    const result = makeHistory(test)
+
+    expect(result).toMatch("<@atk> leads")
+  })
+
+  describe("retest line", () => {
+    it("shows retest line if retested", () => {
+      test.leader_id = attacker_id
+      test.breakdown = "rock v defender's scissors"
+      test.retester_id = defender_id
+      test.retest_reason = "merit"
+
+      const result = makeHistory(test)
+
+      expect(result).toMatch("<@def> retested")
+    })
+
+    it.each([
+      ["named", 'retested with the named ability "occult"'],
+      ["ability", "retested with a different ability"],
+      ["item", "retested with an item"],
+      ["merit", "retested with a merit"],
+      ["power", "retested with a power"],
+      ["overbid", "retested by overbidding"],
+      ["willpower", "retested with willpower"],
+      ["background", "retested with a background"],
+      ["pve", "used a PvE retest"],
+      ["automatic", "used an automatic retest"],
+      ["forced", "forced a retest"],
+      ["other", "retested with something unusual"],
+    ])("shows retest line for reason '%s'", (reason, text) => {
+      test.leader_id = attacker_id
+      test.breakdown = "rock v defender's scissors"
+      test.retester_id = defender_id
+      test.retest_reason = reason
+
+      const result = makeHistory(test)
+
+      expect(result).toMatch(text)
+    })
+  })
+
+  it("shows cancel line if cancelled", () => {
+    test.leader_id = attacker_id
+    test.breakdown = "rock v defender's scissors"
+    test.retester_id = defender_id
+    test.retest_reason = "merit"
+    test.canceller_id = attacker_id
+    test.cancelled_with = "ability"
+
+    const result = makeHistory(test)
+
+    expect(result).toMatch('<@atk> cancelled with "ability"')
+  })
+})
