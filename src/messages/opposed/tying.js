@@ -11,6 +11,7 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
     const test = opposed_db.getLatestTestWithParticipants(challenge_id)
+    const participants = opposed_db.getParticipants(challenge_id)
     const history = opposed_db.getChallengeHistory(challenge_id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
@@ -21,14 +22,13 @@ module.exports = {
       components: [
         new TextDisplayBuilder({
           content: t("tying.headline", {
-            leader: test.leader.mention,
             breakdown: test.breakdown,
           }),
         }),
         new TextDisplayBuilder({
           content: t("tying.cta", {
-            leader: test.leader.mention,
-            trailer: test.trailer.mention,
+            attacker: participants.get("attacker").mention,
+            defender: participants.get("defender").mention,
           }),
         }),
         new ActionRowBuilder({
