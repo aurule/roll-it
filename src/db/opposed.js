@@ -1,6 +1,7 @@
 const { Collection } = require("discord.js")
-
 const { oneLine } = require("common-tags")
+
+const { OpTest } = require("./opposed/optest")
 
 const ParticipantRoles = {
   Attacker: 1,
@@ -446,7 +447,8 @@ class Opposed {
       WHERE  id = ?
     `)
 
-    return select.get(test_id)
+    const result = select.get(test_id)
+    return new OpTest({ ...result, opposed_db: this })
   }
 
   /**
@@ -461,12 +463,25 @@ class Opposed {
       FROM   interactive.opposed_tests AS t
              JOIN interactive.opposed_messages AS m
                ON t.id = m.test_id
-      WHERE  m.message_uid = @message_uid
+      WHERE  m.message_uid = ?
     `)
 
-    return select.get({
-      message_uid,
-    })
+    const result = select.get(message_uid)
+
+    return new OpTest({ ...result, opposed_db: this })
+  }
+
+  getLatestTest(challenge_id) {
+    const test_select = this.db.prepare(oneLine`
+      SELECT   *
+      FROM     interactive.opposed_tests
+      WHERE    challenge_id = ?
+      ORDER BY created_at DESC
+      LIMIT    1
+    `)
+    const result = test_select.get(challenge_id)
+
+    return new OpTest({ ...result, opposed_db: this })
   }
 
   getLatestTestWithParticipants(challenge_id) {
@@ -477,17 +492,12 @@ class Opposed {
       ORDER BY created_at DESC
       LIMIT    1
     `)
-    const test = test_select.get(challenge_id)
+    const result = test_select.get(challenge_id)
 
-    const participants = this.getParticipants(challenge_id, true)
+    const test = new OpTest({ ...result, opposed_db: this })
+    test.populateParticipants()
 
-    return {
-      ...test,
-      leader: participants.get(test.leader_id),
-      trailer: participants.find(p => p.id != test.leader_id),
-      retester: participants.get(test.retester_id),
-      canceller: participants.get(test.canceller_id),
-    }
+    return test
   }
 
   setTestLeader(test_id, leader_id) {

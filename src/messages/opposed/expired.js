@@ -27,7 +27,7 @@ module.exports = {
     const history = opposed_db.getChallengeHistory(challenge_id)
 
     t_args.breakdown = test.breakdown
-    targs.leader = test.leader?.mention
+    t_args.leader = test.leader_id ? test.leader.mention : ""
     const key = test.leader ? "expired.winner" : "expired.tied"
 
     return {
