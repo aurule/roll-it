@@ -519,10 +519,10 @@ class Opposed {
     })
   }
 
-  setRetest(test_id, retester_id, reason) {
+  setRetest({test_id, retester_id, reason, canceller_id}) {
     const update = this.db.prepare(oneLine`
       UPDATE interactive.opposed_tests
-      SET    (retester_id, retest_reason) = (@retester_id, @reason)
+      SET    (retester_id, retest_reason, canceller_id) = (@retester_id, @reason, @canceller_id)
       WHERE  id = @id
     `)
 
@@ -530,6 +530,7 @@ class Opposed {
       id: test_id,
       retester_id,
       reason,
+      canceller_id
     })
   }
 

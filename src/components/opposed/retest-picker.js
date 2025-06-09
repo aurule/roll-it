@@ -35,8 +35,14 @@ module.exports = {
 
     interaction.deferUpdate()
 
-    const current_participant = participants.find(p => p.user_uid == interaction.user.id)
+    const current_participant = participants.find(p => p.user_uid === interaction.user.id)
+    const other_participant = participants.find(p => p.user_uid !== interaction.user.id)
     const reason = interaction.values[0]
-    opposed_db.setRetest(test.id, current_participant.id, reason)
+    opposed_db.setRetest({
+      test_id: test.id,
+      retester_id: current_participant.id,
+      reason,
+      canceller_id: other_participant.id,
+    })
   },
 }
