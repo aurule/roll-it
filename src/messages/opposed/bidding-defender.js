@@ -99,9 +99,11 @@ module.exports = {
       participants,
       t,
     })
-    const history = makeHistory(test, breakdown)
 
     opposed_db.setTestBreakdown(test.id, breakdown)
+    test.breakdown = breakdown
+    test.leader_id = leader_id
+    const history = makeHistory(test)
     opposed_db.setTestHistory(test.id, history)
 
     if (leader) {
