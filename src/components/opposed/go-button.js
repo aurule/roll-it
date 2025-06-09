@@ -73,8 +73,10 @@ async function resolveChops({interaction, chops, participants, test}) {
 
   if (leader) {
     opposed_db.setTestLeader(test.id, leader.id)
+    test.leader_id = leader.id
     opposed_db.setTestBreakdown(test.id, breakdown)
-    const history = makeHistory(test, breakdown)
+    test.breakdown = breakdown
+    const history = makeHistory(test)
     opposed_db.setTestHistory(test.id, history)
     opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Winning)
 
