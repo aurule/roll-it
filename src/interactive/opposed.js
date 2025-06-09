@@ -103,21 +103,6 @@ module.exports = {
           message_uid,
         })
       })
-
-    // alternate status lines when actually tied
-    // The challenge is tied. (:rock: rock *vs* :rock: rock)
-    // {{attacker}} and {{defender}}: If you both decide to compare traits, the chops will end with no automatic winner.
-    // [compare]
-
-    // on retest
-    // {{retester}} is retesting with {{reason}}. If this was an accident, you can withdraw the retest. [withdraw]
-    // {{canceller}} may cancel.
-    // [cancel with picker]
-    // [cancel][proceed]
-
-    // on retest with cancels
-    // ...may cancel
-    // -# You can cancel without using an ability, so you will see this prompt for every retest from {{retester.mention}}.
   },
 
   async opposedTimeout(challenge_id) {
