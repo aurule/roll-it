@@ -89,7 +89,7 @@ module.exports = {
     return interaction
       .ensure(
         "reply",
-        cancelling_message.inert(challenge.id),
+        cancelling_message.data(challenge.id),
         {
           component: "opposed_retest",
           test: test,
@@ -103,6 +103,7 @@ module.exports = {
         opposed_db.addMessage({
           challenge_id: challenge.id,
           message_uid,
+          test_id: test.id,
         })
       })
 
