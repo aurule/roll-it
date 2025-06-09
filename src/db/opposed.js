@@ -439,6 +439,16 @@ class Opposed {
     })
   }
 
+  getTest(test_id) {
+    const select = this.db.prepare(oneLine`
+      SELECT *
+      FROM   interactive.opposed_tests
+      WHERE  id = ?
+    `)
+
+    return select.get(test_id)
+  }
+
   /**
    * Get the individual RPS test associated with a Discord message ID
    *
