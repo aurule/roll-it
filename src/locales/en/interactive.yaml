@@ -212,7 +212,7 @@ opposed:
         other: >-
           {{retester}} retested with something unusual
       cancelled: >-
-        {{canceller}} cancelled with {{reason}}
+        {{canceller}} cancelled with "{{reason}}"
     breakdown:
       rock: ":rock: rock"
       paper: ":scroll: paper"
@@ -229,6 +229,7 @@ opposed:
       winner_bids: >-
         $t(opposed.shared.breakdown.{{leader_result}}) *vs* $t(opposed.shared.breakdown.{{trailer_result}}),
         {{leader}} bid {{leader_traits}} *vs* {{trailer}}'s {{trailer_traits}}
+    withdraw: Withdraw
   prompt:
     summary: >-
       {{attacker}} is attacking {{defender}} with {{attribute}} challenge. This is {{conditions, list}}
@@ -360,10 +361,38 @@ opposed:
     retest: >-
       Either participant may retest for a new result:
   cancelling:
+    headline:
+      named: >-
+        {{retester}} is retesting with the named ability "{{ability}}".
+      ability: >-
+        {{retester}} is retesting with an ability.
+      item: >-
+        {{retester}} is retesting with an item.
+      merit: >-
+        {{retester}} is retesting with a merit.
+      power: >-
+        {{retester}} is retesting with a power.
+      overbid: >-
+        {{retester}} is retesting by overbidding.
+      willpower: >-
+        {{retester}} is retesting with willpower.
+      background: >-
+        {{retester}} is retesting with a background.
+      pve: >-
+        {{retester}} is retesting with a PvE retest.
+      automatic: >-
+        {{retester}} is retesting with an automatic retest.
+      forced: >-
+        {{retester}} is retesting with a forced retest.
+      other: >-
+        {{retester}} is retesting with something unusual.
     withdraw: >-
-      {{retester}} is retesting with {{reason}}. If this was an accident, you can withdraw the retest.
+      If this was an accident, you can withdraw the retest.
+    cancel: >-
+      {{canceller}} may cancel the retest, or continue to a new chop.
+    disclaimer: >-
+      -# You can cancel without using an ability, so you will see this prompt for every retest from {{retester}}.
     components:
-      withdraw: Withdraw
       picker:
         placeholder: How are you cancelling?
         options:
@@ -371,17 +400,14 @@ opposed:
             label: Ability
             emoji: ⚙️
             description: An ability
+          - value: other
+            label: Something else
+            emoji: ✍️
+            description: An unusual cancel reason
       cancel:
         text: Cancel
-        emoji: 🚫
       continue:
         text: Continue
-        emoji: ⏭️
-    cancel: >-
-      {{canceller}} may cancel.
-    cancel_special: |-
-      {{canceller}} may cancel.
-      -# You can cancel without using an ability, so you will see this prompt for every retest from {{retester}}.
   concluded: >-
     That challenge has concluded.
   unauthorized: >-
