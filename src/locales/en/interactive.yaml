@@ -397,6 +397,7 @@ opposed:
         text: Cancel
       continue:
         text: Continue
+    missing: You must choose how you're cancelling before you can cancel the retest.
   concluded: >-
     That challenge has concluded.
   unauthorized: >-

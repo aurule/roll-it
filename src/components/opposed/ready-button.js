@@ -3,7 +3,7 @@ const { editMessage } = require("../../services/api")
 const { i18n } = require("../../locales")
 const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
-const throw_message = require("../../messages/opposed/throw")
+const throwing_message = require("../../messages/opposed/throwing")
 
 function tieWinnerId(attacker, defender) {
   const attacker_ties = attacker.advantages.includes("ties")
@@ -76,7 +76,7 @@ module.exports = {
     return interaction
       .ensure(
         "reply",
-        throw_message.data(challenge.id),
+        throwing_message.data(challenge.id),
         {
           challenge,
           component: "opposed_ready",

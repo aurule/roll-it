@@ -16,7 +16,7 @@ module.exports = {
       .addLocalizedStringOption("attribute", (option) =>
         option.setLocalizedChoices("mental", "social", "physical").setRequired(true),
       )
-      .addLocalizedStringOption("retest", (option) => option.setRequired(true))
+      .addLocalizedStringOption("retest", (option) => option.setRequired(true)),
   async execute(interaction) {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id

@@ -364,6 +364,16 @@ class Opposed {
     })
   }
 
+  setParticipantAbilityUsed(participant_id) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_participants
+      SET    ability_used = 1
+      WHERE  id = ?
+    `)
+
+    return update.run(participant_id)
+  }
+
   setTieWinner(participant_id) {
     if (!participant_id) return false
 
@@ -513,30 +523,37 @@ class Opposed {
     return test
   }
 
-  setTestRetested(retested) {
+  setTestRetested(test_id) {
     const update = this.db.prepare(oneLine`
       UPDATE interactive.opposed_tests
-      SET retested = @retested
+      SET retested = 1
+      WHERE id = ?
+    `)
+
+    return update.run(test_id)
+  }
+
+  setTestCancelledWith(test_id, reason) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_tests
+      SET cancelled_with = @cancelled_with
       WHERE id = @id
     `)
 
     return update.run({
       id: test_id,
-      retested: +!!retested,
+      cancelled_with: reason,
     })
   }
 
-  setTestCancelled(cancelled) {
+  setTestCancelled(test_id) {
     const update = this.db.prepare(oneLine`
       UPDATE interactive.opposed_tests
-      SET cancelled = @cancelled
-      WHERE id = @id
+      SET cancelled = 1
+      WHERE id = ?
     `)
 
-    return update.run({
-      id: test_id,
-      cancelled: +!!cancelled,
-    })
+    return update.run(test_id)
   }
 
   setTestLeader(test_id, leader_id) {

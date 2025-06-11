@@ -3,6 +3,12 @@ const { i18n } = require("../../locales")
 const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { logger } = require("../../util/logger")
 
+const AbilityReasons = new Set(["named", "ability"])
+
+function canCancel(test) {
+  return test.canceller.advantages.includes("cancels") || (AbilityReasons.has(test.retest_reason) && !test.canceller.ability_used)
+}
+
 module.exports = {
   name: "opposed_retest",
   data: (locale) => {
@@ -54,11 +60,17 @@ module.exports = {
         )
     }
 
-    const winning_message = require("../../messages/opposed/winning")
+    let message
+    if (challenge.state === ChallengeStates.Winning) {
+      message = require("../../messages/opposed/winning")
+    } else {
+      message = require("../../messages/opposed/tying")
+    }
+
     await interaction
       .ensure(
         "edit",
-        winning_message.inert(challenge.id),
+        message.inert(challenge.id),
         {
           component: "opposed_retest",
           test: test,
@@ -71,22 +83,32 @@ module.exports = {
         return
       })
 
-    opposed_db.setTestRetested(true)
-    // todo if the non-retester can cancel, then we move to cancelling state
-    //   canceller has cancels advantage
-    //   reason is "named" or "ability"
+    opposed_db.setTestRetested(test.id)
+    if (AbilityReasons.has(test.retest_reason)) {
+      opposed_db.setParticipantAbilityUsed(test.retester_id)
+    }
 
-    opposed_db.setChallengeState(challenge.id, ChallengeStates.Cancelling)
-    const cancelling_message = require("../../messages/opposed/cancelling")
+    let next_message
+    if (canCancel(test)) {
+      opposed_db.setChallengeState(challenge.id, ChallengeStates.Cancelling)
+      if (!test.canceller.advantages.includes("cancels")) {
+        opposed_db.setTestCancelledWith(test.id, "ability")
+      }
+      next_message = require("../../messages/opposed/cancelling")
+    } else {
+      opposed_db.setChallengeState(challenge.id, ChallengeStates.Retesting)
+      next_message = require("../../messages/opposed/retesting")
+    }
+
     return interaction
       .ensure(
         "reply",
-        cancelling_message.data(challenge.id),
+        next_message.data(challenge.id),
         {
           component: "opposed_retest",
           test: test,
           challenge: challenge,
-          detail: "failed to send cancelling prompt"
+          detail: `failed to send ${next_message.state} prompt`
         },
       )
       .then((reply_result) => {
@@ -98,7 +120,5 @@ module.exports = {
           test_id: test.id,
         })
       })
-
-    // todo if they cannot cancel, we go straight on to Retesting
   },
 }
