@@ -1,7 +1,5 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
-const { throwChoices } = require("../../util/met-throw-options")
-// const { MetOpposedManager } = require("../../services/met-opposed-manager")
 const { opposedBegin } = require("../../interactive/opposed")
 const { i18n } = require("../../locales")
 
@@ -13,21 +11,12 @@ module.exports = {
   parent: parent_name,
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
+      .addStringOption(commonOpts.description)
       .addLocalizedUserOption("opponent", (option) => option.setRequired(true))
       .addLocalizedStringOption("attribute", (option) =>
         option.setLocalizedChoices("mental", "social", "physical").setRequired(true),
       )
       .addLocalizedStringOption("retest", (option) => option.setRequired(true))
-      .addLocalizedStringOption("throw", (option) =>
-        option.setChoices(...throwChoices).setRequired(true),
-      )
-      .addStringOption(commonOpts.description)
-      .addLocalizedBooleanOption("bomb")
-      .addLocalizedBooleanOption("ties")
-      .addLocalizedBooleanOption("cancels")
-      .addLocalizedBooleanOption("carrier")
-      .addLocalizedBooleanOption("altering")
-      .addLocalizedBooleanOption("use-retests"),
   async execute(interaction) {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id
@@ -45,30 +34,6 @@ module.exports = {
       attribute: interaction.options.getString("attribute"),
       description: interaction.options.getString("description") ?? "",
       retest: interaction.options.getString("retest"),
-      allow_retests: interaction.options.getBoolean("use-retests") ?? true,
-      carrier: interaction.options.getBoolean("carrier") ?? false,
-      altering: interaction.options.getBoolean("altering") ?? false,
-      bomb: interaction.options.getBoolean("bomb") ?? false,
-      ties: interaction.options.getBoolean("ties") ?? false,
-      cancels: interaction.options.getBoolean("cancels") ?? false
     })
-
-    // const manager = new MetOpposedManager({
-    //   interaction,
-    //   attackerId,
-    //   defenderId,
-    //   attribute: interaction.options.getString("attribute"),
-    //   retest_ability: interaction.options.getString("retest"),
-    // })
-    // manager.description = interaction.options.getString("description") ?? ""
-    // manager.carrier = interaction.options.getBoolean("carrier") ?? false
-    // manager.altering = interaction.options.getBoolean("altering") ?? false
-    // manager.allow_retests = interaction.options.getBoolean("use-retests") ?? true
-    // manager.attacker.bomb = interaction.options.getBoolean("bomb") ?? false
-    // manager.attacker.ties = interaction.options.getBoolean("ties") ?? false
-    // manager.attacker.cancels = interaction.options.getBoolean("cancels") ?? false
-    // manager.current_test.chop(manager.attacker, interaction.options.getString("throw"))
-
-    // return manager.begin()
   },
 }

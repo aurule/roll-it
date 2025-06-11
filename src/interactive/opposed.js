@@ -29,20 +29,15 @@ module.exports = {
     defenderId,
     attribute,
     retest,
-    allow_retests = true,
-    carrier = false,
-    altering = false,
-    bomb = false,
-    ties = false,
-    cancels = false
   } = {}) {
     const locale = interaction.guild.locale ?? "en-US"
     const t = i18n.getFixedT(locale, "interactive", "opposed.prompt")
     const shared_t = i18n.getFixedT(locale, "interactive", "opposed.shared")
 
+    // todo this will be replaced by a new attacker-advantages state
     const conditions = []
-    if (carrier) conditions.push("carrier")
-    if (altering) conditions.push("altering")
+    // if (carrier) conditions.push("carrier")
+    // if (altering) conditions.push("altering")
     if (!conditions.length) conditions.push("normal")
 
     const opposed_db = new Opposed()
@@ -51,7 +46,6 @@ module.exports = {
       attacker_uid: attackerId,
       attribute,
       description,
-      retests_allowed: allow_retests,
       retest_ability: retest,
       conditions,
       state: ChallengeStates.Advantages,
@@ -62,10 +56,11 @@ module.exports = {
     const attacker_mention = userMention(attackerId)
     const defender_mention = userMention(defenderId)
 
+    // todo this will be replaced by a new attacker-advantages state
     const advantages = []
-    if (bomb) advantages.push("bomb")
-    if (ties) advantages.push("ties")
-    if (cancels) advantages.push("cancels")
+    // if (bomb) advantages.push("bomb")
+    // if (ties) advantages.push("ties")
+    // if (cancels) advantages.push("cancels")
     if (!advantages.length) advantages.push("none")
 
     opposed_db.addParticipant({
