@@ -5,28 +5,24 @@ function makeHistory(test) {
   const t = i18n.getFixedT(test.locale, "interactive", "opposed.shared.history")
 
   const opposed_db = new Opposed()
-  const leader = opposed_db.getParticipant(test.leader_id)
   const outcome_args = {
-    leader: leader?.mention,
-    context: leader ? "leader" : "tied",
+    leader: test.leader?.mention,
+    context: test.leader ? "leader" : "tied",
     breakdown: test.breakdown,
   }
   const lines = [
     `1. ${t("outcome", outcome_args)}`
   ]
-  if (test.retester_id) {
-    const retester = opposed_db.getParticipant(test.retester_id)
-    const reason = test.retest_reason
+  if (test.retested) {
     const challenge = opposed_db.getChallenge(test.challenge_id)
     const ability = challenge.retest_ability
-    lines.push(t(`retest.${reason}`, {
-      retester: retester.mention,
+    lines.push(t(`retest.${test.retest_reason}`, {
+      retester: test.retester.mention,
       ability,
     }))
   }
-  if (test.cancelled_with) {
-    const canceller = opposed_db.getParticipant(test.canceller_id)
-    lines.push(t("cancelled", { canceller: canceller.mention, reason: test.cancelled_with }))
+  if (test.cancelled) {
+    lines.push(t("cancelled", { canceller: test.canceller.mention, reason: test.cancelled_with }))
   }
   return lines.join("\n\t- ")
 }

@@ -1,15 +1,22 @@
 const { Collection } = require("discord.js")
 
+/**
+ * Special class for handling opposed test records
+ *
+ * The main feature is that this class will lazy-load and pouplate the various related participant records.
+ *
+ * @class
+ */
 class OpTest {
   id
   challenge_id
   locale
   retester_id = null
   retest_reason = null
+  retested = false
   canceller_id = null
   cancelled_with = null
-  attacker_ready = false
-  defender_ready = false
+  cancelled = false
   history = null
   breakdown = null
   leader_id = null
@@ -25,8 +32,6 @@ class OpTest {
     retest_reason = null,
     canceller_id = null,
     cancelled_with = null,
-    attacker_ready = false,
-    defender_ready = false,
     history = null,
     breakdown = null,
     leader_id = null,
@@ -37,10 +42,10 @@ class OpTest {
     this.locale = locale
     this.retester_id = retester_id
     this.retest_reason = retest_reason
+    this.retested = !!retested
     this.canceller_id = canceller_id
     this.cancelled_with = cancelled_with
-    this.attacker_ready = !!attacker_ready
-    this.defender_ready = !!defender_ready
+    this.cancelled = !!cancelled
     this.history = history
     this.breakdown = breakdown
     this.leader_id = leader_id

@@ -80,6 +80,7 @@ module.exports = {
         return
       })
 
+    opposed_db.setTestRetested(true)
     // todo if the non-retester can cancel, then we move to cancelling state
     //   canceller has cancels advantage
     //   reason is "named" or "ability"
