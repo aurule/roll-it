@@ -19,26 +19,12 @@ module.exports = {
       .setMaxValues(1)
   },
   async execute(interaction) {
-    const t = i18n.getFixedT(interaction.guild.locale, "interactive", "opposed")
-
     const opposed_db = new Opposed()
     const test = opposed_db.findTestByMessage(interaction.message.id)
     const participant_id = parseInt(interaction.customId.match(/_(\d+)/)[1])
     const allowed_participant = opposed_db.getParticipant(participant_id)
 
-    if (false) {
-    // if (allowed_participant.user_uid !== interaction.user.id) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("unauthorized", { participants: [allowed_participant.mention] }),
-          {
-            user: interaction.user.id,
-            component: "opposed_ready",
-            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
-          }
-        )
-    }
+    interaction.authorize(allowed_participant.user_uid)
 
     opposed_db.addChopRequest({
       request: interaction.values[0],

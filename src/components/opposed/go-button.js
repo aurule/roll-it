@@ -139,20 +139,9 @@ module.exports = {
     const participants = opposed_db.getParticipants(test.challenge_id)
     const current_participant = participants.find(p => p.user_uid == interaction.user.id)
 
-    const t = i18n.getFixedT(test.locale, "interactive", "opposed")
+    interaction.authorize(participants.map(p => p.user_uid))
 
-    if (!participants.some(p => p.user_uid === interaction.user.id)) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("unauthorized", { participants: participants.map(p => p.mention) }),
-          {
-            user: interaction.user.id,
-            component: "go_button",
-            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
-          }
-        )
-    }
+    const t = i18n.getFixedT(test.locale, "interactive", "opposed")
 
     let chops = opposed_db.getChopsForTest(test.id)
     const user_chop = chops.find(c => c.participant_id === current_participant.id)

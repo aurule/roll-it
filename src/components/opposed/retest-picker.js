@@ -20,22 +20,17 @@ module.exports = {
     const test = opposed_db.getLatestTest(challenge.id)
     const participants = opposed_db.getParticipants(challenge.id)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    interaction.authorize(participants.map(p => p.user_uid))
 
-    if (!participants.some(p => interaction.user.id === p.user_uid)) {
-      return interaction
-        .whisper(t("unauthorized", { participants: participants.map(p => p.mention) }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_retest_select" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
-        )
-    }
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     interaction.deferUpdate()
 
     const current_participant = participants.find(p => p.user_uid === interaction.user.id)
+
+    // todo if reason is named or ability, and current_participant.ability_used is true
+    //    respond that they have already used an ability on this test and must choose something else
+
     const other_participant = participants.find(p => p.user_uid !== interaction.user.id)
     const reason = interaction.values[0]
     opposed_db.setRetest({

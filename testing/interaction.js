@@ -173,6 +173,7 @@ class Interaction {
 }
 
 require("../src/patches/whisper").patch(Interaction)
+require("../src/patches/authorize").patch(Interaction)
 require("../src/patches/ensure").patch(Interaction)
 require("../src/patches/paginate").patch(Interaction)
 require("../src/patches/roll-reply").patch(Interaction)

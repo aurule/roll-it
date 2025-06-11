@@ -14,24 +14,10 @@ module.exports = {
   async execute(interaction) {
     const opposed_db = new Opposed()
     const test = opposed_db.findTestByMessage(interaction.message.id)
-    test.retester = opposed_db.getParticipant(test.retester_id)
 
-    if (interaction.user.id !== test.retester.user_uid) {
-      return interaction.ensure(
-        "whisper",
-        t("unauthorized", { participants: [test.retester.mention] }),
-        {
-          user: interaction.user.id,
-          component: "opposed_withdraw_retest",
-          challenge_id: test.challenge_id,
-          test_id: test.id,
-          detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
-        }
-      )
-    }
+    interaction.authorize(test.retester.user_uid)
 
     // todo update the test
-    // * remove retester_id and retest_reason
     // * generate new history
 
     const cancelling_message = require("../../messages/opposed/cancelling")

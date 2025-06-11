@@ -32,21 +32,10 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
+    interaction.authorize(defender.user_uid)
+
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    if (false) {
-    // if (interaction.user.id !== defender.id) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("unauthorized", { participants: [defender.mention] }),
-          {
-            user: interaction.user.id,
-            component: "opposed_ready",
-            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
-          }
-        )
-    }
 
     const summary_args = {
       attacker: attacker.mention,

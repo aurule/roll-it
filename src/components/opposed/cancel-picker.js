@@ -15,6 +15,13 @@ module.exports = {
       .setMaxValues(1)
   },
   async execute(interaction) {
-    //
+    const opposed_db = new Opposed()
+    const test = opposed_db.findTestByMessage(interaction.message.id)
+
+    interaction.authorize(test.canceller.user_uid)
+
+    opposed_db.setTestCancelledWith(test.id, interaction.values[0])
+
+    return interaction.deferUpdate()
   },
 }

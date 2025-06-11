@@ -14,6 +14,7 @@ require("./patches/whisper").patch()
 require("./patches/ensure").patch()
 require("./patches/paginate").patch()
 require("./patches/roll-reply").patch()
+require("./patches/authorize").patch()
 
 const fs = require("fs")
 const { join } = require("node:path")

@@ -18,21 +18,7 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
-
-    if (interaction.user.id !== challenge.attacker_uid) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("unauthorized", { participants: [attacker.mention] }),
-          {
-            user: interaction.user.id,
-            component: "opposed_withdraw_challenge",
-            challenge_id: challenge.id,
-            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`,
-          }
-        )
-    }
+    interaction.authorize(challenge.attacker_uid)
 
     opposed_db.setChallengeState(challenge.id, ChallengeStates.Withdrawn)
     return interaction

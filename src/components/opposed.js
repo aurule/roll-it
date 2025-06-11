@@ -1,11 +1,12 @@
 const fs = require("fs")
 const path = require("path")
-const { Collection } = require("discord.js")
+const { Collection, userMention } = require("discord.js")
 
 const { Opposed }  = require("../db/opposed")
 const { opposedTimeout } = require("../interactive/opposed")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
+const { i18n } = require("../locales")
 
 const basename = path.basename(__filename)
 const componentsDir = path.join(__dirname, "opposed")
@@ -89,6 +90,35 @@ module.exports = {
     // TODO handle case where message is associated with a (re)test that is finished, but the test itself is ongoing
 
     const component = components.get(sanitize_id(interaction.customId))
-    return component.execute(interaction)
+    try {
+      return component.execute(interaction)
+    } catch (err) {
+      if (err instanceof UnauthorizedError) {
+        logger.info({
+          user: interaction.user,
+          component: interaction.customId,
+          detail: "unauthorized component interaction",
+        })
+        return interaction
+          .whisper(i18n.t("opposed.unauthorized", {
+            ns: "interactive",
+            lng: interaction.locale,
+            participants: err.allowed_uids.map(userMention),
+          }))
+          .catch(err => {
+            logger.error({
+              err,
+              user: interaction.user,
+              component: interaction.customId,
+            })
+          })
+      } else {
+        logger.error({
+          err,
+          user: interaction.user,
+          component: interaction.customId,
+        })
+      }
+    }
   },
 }

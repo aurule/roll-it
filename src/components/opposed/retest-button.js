@@ -20,18 +20,9 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    interaction.authorize(participants.map(p => p.user_uid))
 
-    if (!participants.some(p => interaction.user.id === p.user_uid)) {
-      return interaction
-        .whisper(t("unauthorized", { participants: [attacker.mention, defender.mention] }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_retest" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
-        )
-    }
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const test = opposed_db.getLatestTestWithParticipants(challenge.id)
 

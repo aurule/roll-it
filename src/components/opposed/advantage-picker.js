@@ -19,20 +19,7 @@ module.exports = {
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
     const participants = opposed_db.getParticipants(challenge.id)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
-
-    if (interaction.user.id !== participants.get("defender").user_uid) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("unauthorized", { participants: [participants.get("defender").mention] }),
-          {
-            user: interaction.user.id,
-            component: "opposed_ready",
-            detail: `Failed to whisper about unauthorized usage from ${interaction.user.id}`
-          }
-        )
-    }
+    interaction.authorize(participants.get("defender").user_uid)
 
     interaction.deferUpdate()
 

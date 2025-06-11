@@ -19,18 +19,7 @@ module.exports = {
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
     const test = opposed_db.getLatestTestWithParticipants(challenge.id)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
-
-    if (interaction.user.id !== test.trailer.user_uid) {
-      return interaction
-        .whisper(t("unauthorized", { participants: [test.trailer.mention] }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "opposed_concede" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
-        )
-    }
+    interaction.authorize(test.trailer.user_uid)
 
     // todo update winning message to remove controls
 
