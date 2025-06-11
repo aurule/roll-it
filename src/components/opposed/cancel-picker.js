@@ -10,7 +10,7 @@ module.exports = {
     return new StringSelectMenuBuilder()
       .setCustomId("opposed_cancel_select")
       .setPlaceholder(t("placeholder"))
-      .setOptions(t("options", { ability: challenge.retest_ability, returnObjects: true }))
+      .setOptions(t("options", { returnObjects: true }))
       .setMinValues(1)
       .setMaxValues(1)
   },

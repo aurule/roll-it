@@ -349,17 +349,6 @@ opposed:
     accept:
       text: Accept
       emoji: 🉑
-  status:
-    winner: >-
-      {{leader}} is currently winning! ({{chops}})
-    concede: >-
-      {{trailer}}: If you are out of retests, you can concede to {{leader}} and end the challenge.
-    tied: >-
-      The challenge is tied. ({{chops}})
-    compare: >-
-      {{attacker}} and {{defender}}: If you both decide to compare traits, the chops will end with no automatic winner.
-    retest: >-
-      Either participant may retest for a new result:
   cancelling:
     headline:
       named: >-

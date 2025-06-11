@@ -35,7 +35,6 @@ module.exports = {
       }),
     ]
 
-    console.log(test.canceller)
     if (test.canceller.advantages.includes("cancels")) {
       components.push(
         new ActionRowBuilder({

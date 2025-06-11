@@ -44,14 +44,13 @@ class Opposed {
    *
    * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
-  addChallenge({ locale, attacker_uid, attribute, description = "", retests_allowed, retest_ability, conditions = [], summary, state, channel_uid, timeout } = {}) {
+  addChallenge({ locale, attacker_uid, attribute, description = "", retest_ability, conditions = [], summary, state, channel_uid, timeout } = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO interactive.opposed_challenges (
         locale,
         attacker_uid,
         attribute,
         description,
-        retests_allowed,
         retest_ability,
         conditions,
         summary,
@@ -63,7 +62,6 @@ class Opposed {
         @attacker_uid,
         @attribute,
         @description,
-        @retests_allowed,
         @retest_ability,
         JSONB(@conditions),
         @summary,
@@ -78,7 +76,6 @@ class Opposed {
       attacker_uid,
       attribute,
       description,
-      retests_allowed: +!!retests_allowed,
       retest_ability,
       conditions: JSON.stringify(conditions),
       summary,
@@ -191,7 +188,6 @@ class Opposed {
     return {
       ...raw_out,
       conditions: JSON.parse(raw_out.conditions),
-      retests_allowed: !!raw_out.retests_allowed,
       expired: !!raw_out.expired,
     }
   }
@@ -214,7 +210,6 @@ class Opposed {
     return {
       ...raw_out,
       conditions: JSON.parse(raw_out.conditions),
-      retests_allowed: !!raw_out.retests_allowed,
       expired: !!raw_out.expired,
     }
   }
@@ -261,18 +256,22 @@ class Opposed {
     return !!select.get(message_uid)
   }
 
-  addParticipant({ user_uid, mention, advantages = [], role, challenge_id } = {}) {
+  addParticipant({ user_uid, mention, advantages = [], tie_winner = false, ability_used = false, role, challenge_id } = {}) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO interactive.opposed_participants (
         user_uid,
         mention,
         advantages,
+        tie_winner,
+        ability_used,
         role,
         challenge_id
       ) VALUES (
         @user_uid,
         @mention,
         JSONB(@advantages),
+        @tie_winner,
+        @ability_used,
         @role,
         @challenge_id
       )
@@ -282,6 +281,8 @@ class Opposed {
       user_uid,
       mention,
       advantages: JSON.stringify(advantages),
+      tie_winner: +!!tie_winner,
+      ability_used: +!!ability_used,
       role,
       challenge_id,
     })
@@ -313,6 +314,8 @@ class Opposed {
     return {
       ...raw_out,
       advantages: JSON.parse(raw_out.advantages),
+      tie_winner: !!raw_out.tie_winner,
+      ability_used: !!raw_out.ability_used,
     }
   }
 
@@ -329,7 +332,11 @@ class Opposed {
 
     if (raw_out === undefined) return undefined
 
-    raw_out.forEach(p => p.advantages = JSON.parse(p.advantages))
+    raw_out.forEach(p => {
+      p.advantages = JSON.parse(p.advantages)
+      p.tie_winner = !!p.tie_winner
+      p.ability_used = !!p.ability_used
+    })
 
     if (index_by_id) {
       return new Collection([
@@ -385,6 +392,8 @@ class Opposed {
     return {
       ...raw_out,
       advantages: JSON.parse(raw_out.advantages),
+      tie_winner: !!raw_out.tie_winner,
+      ability_used: !!raw_out.ability_used,
     }
   }
 
@@ -393,10 +402,10 @@ class Opposed {
     locale,
     retester_id = null,
     retest_reason = null,
+    retested = false,
     canceller_id = null,
     cancelled_with = null,
-    attacker_ready = false,
-    defender_ready = false,
+    cancelled = false,
     history = null,
     breakdown = null,
     leader_id = null,
@@ -407,8 +416,10 @@ class Opposed {
         locale,
         retester_id,
         retest_reason,
+        retested,
         canceller_id,
         cancelled_with,
+        cancelled,
         history,
         breakdown,
         leader_id
@@ -417,8 +428,10 @@ class Opposed {
         @locale,
         @retester_id,
         @retest_reason,
+        @retested,
         @canceller_id,
         @cancelled_with,
+        @cancelled,
         @history,
         @breakdown,
         @leader_id
@@ -430,10 +443,10 @@ class Opposed {
       locale,
       retester_id,
       retest_reason,
+      retested: +!!cancelled,
       canceller_id,
       cancelled_with,
-      attacker_ready: +!!attacker_ready,
-      defender_ready: +!!defender_ready,
+      cancelled: +!!cancelled,
       history,
       breakdown,
       leader_id,
@@ -498,6 +511,32 @@ class Opposed {
     test.populateParticipants()
 
     return test
+  }
+
+  setTestRetested(retested) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_tests
+      SET retested = @retested
+      WHERE id = @id
+    `)
+
+    return update.run({
+      id: test_id,
+      retested: +!!retested,
+    })
+  }
+
+  setTestCancelled(cancelled) {
+    const update = this.db.prepare(oneLine`
+      UPDATE interactive.opposed_tests
+      SET cancelled = @cancelled
+      WHERE id = @id
+    `)
+
+    return update.run({
+      id: test_id,
+      cancelled: +!!cancelled,
+    })
   }
 
   setTestLeader(test_id, leader_id) {
