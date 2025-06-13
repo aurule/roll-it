@@ -1,5 +1,4 @@
 const { Opposed, ChallengeStates, ParticipantRoles } = require("../../db/opposed")
-const { makeDB } = require("../../db/index")
 
 const { makeHistory } = require("./history")
 
@@ -9,6 +8,7 @@ describe("makeHistory", () => {
   let attacker_id
   let defender_id
   let test_id
+  let opposed_test
   let participant_ids
   const attacker_uid = "atk"
   const defender_uid = "def"
@@ -51,35 +51,35 @@ describe("makeHistory", () => {
     })
     test_id = result.lastInsertRowid
 
-    test = opposed.getTest(test_id)
+    opposed_test = opposed.getTest(test_id)
   })
 
   it("shows tied with no leader", () => {
-    test.leader_id = null
-    test.breakdown = "same v same"
+    opposed_test.leader_id = null
+    opposed_test.breakdown = "same v same"
 
-    const result = makeHistory(test)
+    const result = makeHistory(opposed_test)
 
     expect(result).toMatch("Tied")
   })
 
   it("shows winner with a leader", () => {
-    test.leader_id = attacker_id
-    test.breakdown = "rock v defender's scissors"
+    opposed_test.leader_id = attacker_id
+    opposed_test.breakdown = "rock v defender's scissors"
 
-    const result = makeHistory(test)
+    const result = makeHistory(opposed_test)
 
     expect(result).toMatch("<@atk> leads")
   })
 
   describe("retest line", () => {
     it("shows retest line if retested", () => {
-      test.leader_id = attacker_id
-      test.breakdown = "rock v defender's scissors"
-      test.retester_id = defender_id
-      test.retest_reason = "merit"
+      opposed_test.leader_id = attacker_id
+      opposed_test.breakdown = "rock v defender's scissors"
+      opposed_test.retester_id = defender_id
+      opposed_test.retest_reason = "merit"
 
-      const result = makeHistory(test)
+      const result = makeHistory(opposed_test)
 
       expect(result).toMatch("<@def> retested")
     })
@@ -98,26 +98,26 @@ describe("makeHistory", () => {
       ["forced", "forced a retest"],
       ["other", "retested with something unusual"],
     ])("shows retest line for reason '%s'", (reason, text) => {
-      test.leader_id = attacker_id
-      test.breakdown = "rock v defender's scissors"
-      test.retester_id = defender_id
-      test.retest_reason = reason
+      opposed_test.leader_id = attacker_id
+      opposed_test.breakdown = "rock v defender's scissors"
+      opposed_test.retester_id = defender_id
+      opposed_test.retest_reason = reason
 
-      const result = makeHistory(test)
+      const result = makeHistory(opposed_test)
 
       expect(result).toMatch(text)
     })
   })
 
   it("shows cancel line if cancelled", () => {
-    test.leader_id = attacker_id
-    test.breakdown = "rock v defender's scissors"
-    test.retester_id = defender_id
-    test.retest_reason = "merit"
-    test.canceller_id = attacker_id
-    test.cancelled_with = "ability"
+    opposed_test.leader_id = attacker_id
+    opposed_test.breakdown = "rock v defender's scissors"
+    opposed_test.retester_id = defender_id
+    opposed_test.retest_reason = "merit"
+    opposed_test.canceller_id = attacker_id
+    opposed_test.cancelled_with = "ability"
 
-    const result = makeHistory(test)
+    const result = makeHistory(opposed_test)
 
     expect(result).toMatch('<@atk> cancelled with "ability"')
   })
