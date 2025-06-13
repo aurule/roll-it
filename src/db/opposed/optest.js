@@ -30,8 +30,10 @@ class OpTest {
     locale,
     retester_id = null,
     retest_reason = null,
+    retested = false,
     canceller_id = null,
     cancelled_with = null,
+    cancelled = false,
     history = null,
     breakdown = null,
     leader_id = null,
@@ -68,27 +70,27 @@ class OpTest {
   }
 
   get leader() {
-    return this.records.ensure("leader", this.populateParticipants)
+    return this.records.ensure("leader", (key) => this.populateParticipants(key))
   }
 
   get trailer() {
-    return this.records.ensure("trailer", this.populateParticipants)
+    return this.records.ensure("trailer", (key) => this.populateParticipants(key))
   }
 
   get retester() {
-    return this.records.ensure("retester", this.populateParticipants)
+    return this.records.ensure("retester", (key) => this.populateParticipants(key))
   }
 
   get canceller() {
-    return this.records.ensure("canceller", this.populateParticipants)
+    return this.records.ensure("canceller", (key) => this.populateParticipants(key))
   }
 
   get attacker() {
-    return this.records.ensure("attacker", this.populateParticipants)
+    return this.records.ensure("attacker", (key) => this.populateParticipants(key))
   }
 
   get defender() {
-    return this.records.ensure("defender", this.populateParticipants)
+    return this.records.ensure("defender", (key) => this.populateParticipants(key))
   }
 
   get challenge() {
