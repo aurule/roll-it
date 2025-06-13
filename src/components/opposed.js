@@ -59,44 +59,62 @@ module.exports = {
    */
   async handle(interaction) {
     const opposed_db = new Opposed()
-    // if (!opposed_db.hasMessage(interaction.message.id)) {
-    //   const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-    //   interaction
-    //     .whisper(t("concluded"))
-    //     .catch((error) =>
-    //       logger.warn(
-    //         { err: error, user: interaction.user.id, component: interaction.customId },
-    //         `Could not whisper about concluded opposed challenge from ${interaction.customId}`,
-    //       ),
-    //     )
-    //   return
-    // }
+    const message_id = interaction.message.id
+    const component_name = interaction.customId
 
-    // if (opposed_db.isMessageExpired(interaction.message.id)) {
-    //   const challenge = challenge_db.findChallengeByMessage(interaction.message.id)
-    //   const t = i18n.getFixedT(interaction.locale, "interactive", "challenge")
-    //   await opposedTimeout(challenge.id)
-    //   await interaction
-    //     .whisper(t("concluded"))
-    //     .catch((error) =>
-    //       logger.warn(
-    //         { err: error, user: interaction.user.id, component: interaction.customId },
-    //         `Could not whisper about expired opposed challenge from ${interaction.customId}`,
-    //       ),
-    //     )
-    //   return
-    // }
+    // component's message is not recorded
+    if (!opposed_db.hasMessage(message_id)) {
+      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
+      return interaction
+        .ensure(
+          "whisper",
+          t("concluded"),
+          {
+            user: interaction.user.id,
+            component: interaction.customId,
+            detail: `Could not whisper about concluded opposed challenge from ${component_name}`
+          }
+        )
+    }
 
-    // TODO handle case where message is associated with a (re)test that is finished, but the test itself is ongoing
+    // message belongs to a finished challenge
+    if (opposed_db.challengeFromMessageIsFinalized(message_id)) {
+      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
+      return interaction
+        .ensure(
+          "whisper",
+          t("concluded"),
+          {
+            user: interaction.user.id,
+            component: interaction.customId,
+            detail: `Could not whisper about concluded opposed challenge from ${component_name}`
+          }
+        )
+    }
 
-    const component = components.get(sanitize_id(interaction.customId))
+    // message belongs to a test other than the most recent one
+    if (!opposed_db.messageIsForLatestTest(message_id)) {
+      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
+      return interaction
+        .ensure(
+          "whisper",
+          t("outdated"),
+          {
+            user: interaction.user.id,
+            component: interaction.customId,
+            detail: `Could not whisper about outdated message from ${component_name}`
+          }
+        )
+    }
+
+    const component = components.get(sanitize_id(component_name))
     try {
       return component.execute(interaction)
     } catch (err) {
       if (err instanceof UnauthorizedError) {
         logger.info({
           user: interaction.user,
-          component: interaction.customId,
+          component: component_name,
           detail: "unauthorized component interaction",
         })
         return interaction
@@ -109,14 +127,14 @@ module.exports = {
             logger.error({
               err,
               user: interaction.user,
-              component: interaction.customId,
+              component: component_name,
             })
           })
       } else {
         logger.error({
           err,
           user: interaction.user,
-          component: interaction.customId,
+          component: component_name,
         })
       }
     }

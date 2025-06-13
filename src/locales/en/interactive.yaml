@@ -402,8 +402,8 @@ opposed:
       continue:
         text: Continue
     missing: You must choose how you're cancelling before you can cancel the retest.
-  concluded: >-
-    That challenge has concluded.
+  concluded: That challenge has concluded.
+  outdated: That message is outdated. Try using a control on a more recent message.
   unauthorized: >-
     Only {{participants, list(type: 'disjunction')}} can use this control.
   conceded: |-
