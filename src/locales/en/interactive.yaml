@@ -131,6 +131,7 @@ opposed:
       picker:
         placeholder: How are you retesting?
         options:
+          # the value fields must not be changed
           - value: named
             label: "{{ability}}"
             emoji: 💡
@@ -251,6 +252,7 @@ opposed:
       advantages:
         placeholder: Select your advantages
         options:
+          # the value fields must not be changed
           - value: bomb
             label: I have bomb
             emoji: 🧨
@@ -287,6 +289,7 @@ opposed:
       symbols:
         placeholder: Pick the symbol you want to throw
         options:
+          # the value fields must not be changed
           - value: rock
             label: Rock
             emoji: 🪨
@@ -385,6 +388,7 @@ opposed:
       picker:
         placeholder: How are you cancelling?
         options:
+          # the value fields must not be changed
           - value: ability
             label: Ability
             emoji: ⚙️
