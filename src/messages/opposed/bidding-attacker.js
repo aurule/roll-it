@@ -22,6 +22,13 @@ module.exports = {
     }
   },
   handleReply(interaction) {
+    const opposed_db = new Opposed()
+    const test = opposed_db.findTestByMessage(interaction.reference.messageId)
+
+    const t = i18n.getFixedT(interaction.guild.locale ?? "en-US", "interactive", "opposed")
+
+    interaction.authorize(test.attacker.user_uid)
+
     const traits_content = interaction.content
     const clumped = traits_content.replace(/\s/, "")
     const match = traits_content.match(/\d+/)
@@ -54,13 +61,8 @@ module.exports = {
       )
     }
 
-    const opposed_db = new Opposed()
-    const test = opposed_db.findTestByMessage(interaction.reference.messageId)
-    const participants = opposed_db.getParticipants(test.challenge_id)
     const chops = opposed_db.getChopsForTest(test.id)
-    // todo only allow attacker to reply
-    const current_participant = participants.find(p => p.user_uid == interaction.author.id)
-    const user_chop = chops.find(c => c.participant_id === current_participant.id)
+    const user_chop = chops.find(c => c.participant_id === test.attacker.id)
 
     opposed_db.setChopTraits(user_chop.id, num)
     opposed_db.setChallengeState(test.challenge_id, ChallengeStates.BiddingDefender)
@@ -70,7 +72,7 @@ module.exports = {
         bidding_defender_message.data(test.challenge_id),
         {
           test,
-          current_participant,
+          attacker,
           user_chop,
           traits: num,
           detail: "Failed to send defender bid prompt",

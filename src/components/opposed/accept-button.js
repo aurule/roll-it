@@ -34,8 +34,22 @@ module.exports = {
     }
 
     if (chops.every(c => c.tie_accepted)) {
-
-      // todo update tying message to remove controls
+      const tying_message = require("../../messages/opposed/tying")
+      await interaction
+        .ensure(
+          "edit",
+          tying_message.inert(challenge.id),
+          {
+            component: "opposed_retest",
+            test: test,
+            challenge: challenge,
+            detail: "failed to update tying message to remove controls"
+          }
+        )
+        .catch(error => {
+          // suppress all errors so we can send other messages
+          return
+        })
 
       opposed_db.setChallengeState(challenge.id, ChallengeStates.Accepted)
       return interaction

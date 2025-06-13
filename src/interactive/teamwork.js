@@ -30,7 +30,6 @@ module.exports = {
    * @param  {int}         options.pool        Initial pool of the teamwork leader
    */
   async teamworkBegin({ interaction, description, command, options, pool }) {
-    // todo: if we don't have permission to send messages in this interaction's channel, we need to tell the admin
     const teamwork_db = new Teamwork()
 
     const locale = interaction.guild.locale ?? "en-US"

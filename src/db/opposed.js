@@ -392,14 +392,17 @@ class Opposed extends CachedDb {
     })
   }
 
-  setParticipantAbilityUsed(participant_id) {
+  setParticipantAbilityUsed(participant_id, used = true) {
     const update = this.prepared("setParticipantAbilityUsed", oneLine`
       UPDATE interactive.opposed_participants
-      SET    ability_used = 1
-      WHERE  id = ?
+      SET    ability_used = @used
+      WHERE  id = @id
     `)
 
-    return update.run(participant_id)
+    return update.run({
+      id: participant_id,
+      used: +!!used,
+    })
   }
 
   setTieWinner(participant_id) {
@@ -551,14 +554,17 @@ class Opposed extends CachedDb {
     return test
   }
 
-  setTestRetested(test_id) {
+  setTestRetested(test_id, retested = true) {
     const update = this.prepared("setTestRetested", oneLine`
       UPDATE interactive.opposed_tests
-      SET retested = 1
-      WHERE id = ?
+      SET retested = @retested
+      WHERE id = @id
     `)
 
-    return update.run(test_id)
+    return update.run({
+      id: test_id,
+      retested: +!!retested,
+    })
   }
 
   setTestCancelledWith(test_id, reason) {

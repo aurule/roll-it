@@ -44,7 +44,12 @@ module.exports = {
     }
   },
   handleReply(interaction) {
+    const opposed_db = new Opposed()
+    const test = opposed_db.findTestByMessage(interaction.reference.messageId)
+
     const t = i18n.getFixedT(interaction.guild.locale ?? "en-US", "interactive", "opposed")
+
+    interaction.authorize(test.defender.user_uid)
 
     const traits_content = interaction.content
     const clumped = traits_content.replace(/\s/, "")
@@ -80,13 +85,9 @@ module.exports = {
       )
     }
 
-    const opposed_db = new Opposed()
-    const test = opposed_db.findTestByMessage(interaction.reference.messageId)
     const participants = opposed_db.getParticipants(test.challenge_id, true)
     const chops = opposed_db.getChopsForTest(test.id)
-    // todo only allow defender to reply
-    const current_participant = participants.find(p => p.user_uid == interaction.author.id)
-    const user_chop = chops.find(c => c.participant_id === current_participant.id)
+    const user_chop = chops.find(c => c.participant_id === test.defender.id)
 
     opposed_db.setChopTraits(user_chop.id, num)
     user_chop.traits = num

@@ -33,18 +33,20 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.reference.messageId)
 
-    const participants = opposed_db.getParticipants(challenge.id)
-
-    if (!participants.some(p => p.user_uid === interaction.author.id)) {
-      // todo whisper they aren't allowed
-    }
-
     if (interaction.content === "retry") {
       const message_file = message_contents.get(challenge.state)
       const message_data = message_file.data(challenge.id)
       const afterReply = message_file.afterReply
       return interaction
-        .reply(message_data)
+        .ensure(
+          "reply",
+          message_data,
+          {
+            challenge_id: challenge.id,
+            channel_id: interaction.channelId,
+            detail: `failed to retry message for state "${challenge.state}"`
+          }
+        )
         .then((reply_interaction) => {
           const message_props = {
             challenge_id: challenge.id,
@@ -56,21 +58,40 @@ module.exports = {
             afterReply(reply_interaction)
           }
         })
-        .catch((error) =>
-          logger.error(
-            {
-              err: error,
-              challenge_id: challenge.id,
-              channel: interaction.channelId,
-            },
-            `Could not retry message for state "${challenge.state}"`,
-          ),
-        )
     }
 
     const state_handler = message_contents.get(challenge.state).handleReply
     if (state_handler !== undefined) {
-      return state_handler(interaction)
+      try {
+        return state_handler(interaction)
+      } catch (err) {
+        if (err instanceof UnauthorizedError) {
+          logger.info({
+            user: interaction.user,
+            component: component_name,
+            detail: "unauthorized component interaction",
+          })
+          return interaction
+            .ensure(
+              "whisper",
+              i18n.t("opposed.unauthorized", {
+                ns: "interactive",
+                lng: interaction.locale,
+                context: "mention",
+                participants: err.allowed_uids.map(userMention),
+              }),
+              {
+                user: interaction.user,
+                message: interaction.message
+              }
+        } else {
+          logger.error({
+            err,
+            user: interaction.user,
+            component: component_name,
+          })
+        }
+      }
     }
   },
 }

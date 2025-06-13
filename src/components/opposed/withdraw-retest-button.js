@@ -17,8 +17,10 @@ module.exports = {
 
     interaction.authorize(test.retester.user_uid)
 
-    // todo update the test
-    // * generate new history
+    opposed_db.setTestRetested(test.id, false)
+    if (AbilityReasons.has(test.retest_reason)) {
+      opposed_db.setParticipantAbilityUsed(test.retester_id)
+    }
 
     const cancelling_message = require("../../messages/opposed/cancelling")
     await interaction

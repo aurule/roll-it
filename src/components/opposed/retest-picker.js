@@ -28,11 +28,21 @@ module.exports = {
 
     const current_participant = participants.find(p => p.user_uid === interaction.user.id)
 
-    // todo if reason is named or ability, and current_participant.ability_used is true
-    //    respond that they have already used an ability on this test and must choose something else
+    const reason = interaction.values[0]
+    if (reason in ["named", "ability"] && current_participant.ability_used) {
+      return interaction
+        .ensure(
+          "whisper",
+          t("shared.retest.invalid"),
+          {
+            component: "opposed_retest_select",
+            user: current_participant,
+            detail: "could not whisper about ability already used",
+          }
+        )
+    }
 
     const other_participant = participants.find(p => p.user_uid !== interaction.user.id)
-    const reason = interaction.values[0]
     opposed_db.setRetest({
       test_id: test.id,
       retester_id: current_participant.id,

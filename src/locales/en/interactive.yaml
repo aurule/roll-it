@@ -180,6 +180,8 @@ opposed:
       button:
         text: Retest
         emoji: 🔄
+      invalid: >-
+        You have already used an ability for this challenge. Please retest with something else.
     history:
       header: >-
         Test history:
@@ -406,6 +408,8 @@ opposed:
   outdated: That message is outdated. Try using a control on a more recent message.
   unauthorized: >-
     Only {{participants, list(type: 'disjunction')}} can use this control.
+  unauthorized_mention: >-
+    Only {{participants, list(type: 'disjunction')}} can reply to this message.
   conceded: |-
       ## {{leader}} wins!
       {{trailer}} conceded to {{leader}}.
