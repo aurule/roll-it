@@ -5,8 +5,6 @@ const {
   ButtonStyle,
   ButtonBuilder,
   subtext,
-  time,
-  TimestampStyles,
   MessageFlags,
 } = require("discord.js")
 const { oneLine } = require("common-tags")
@@ -17,6 +15,7 @@ const CommandSelectTransformer = require("../transformers/command-select-transfo
 const SystemSelectTransformer = require("../transformers/system-select-transformer")
 const api = require("../services/api")
 const { arrayEq } = require("../util/array-eq")
+const { relativeTimestamp } = require("../util/timestamps")
 const { systems } = require("../data")
 const { pluralize, capitalize, inlineList } = require("../util/formatters")
 const { i18n } = require("../locales")
@@ -97,7 +96,7 @@ module.exports = {
 
     const expiry = new Date(Date.now() + timeout_ms)
     const prompt = await cmd_interaction.editReply({
-      content: t("prompt", { timeout: time(expiry, TimestampStyles.RelativeTime) }),
+      content: t("prompt", { timeout: relativeTimestamp(expiry),
       components: prompt_components(deployable, systems, deployed_set, locale),
     })
 

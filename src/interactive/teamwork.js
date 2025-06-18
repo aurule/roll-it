@@ -1,4 +1,4 @@
-const { ActionRowBuilder, TimestampStyles, userMention, time } = require("discord.js")
+const { ActionRowBuilder, userMention } = require("discord.js")
 
 const { sendMessage, editMessage } = require("../services/api")
 const { Teamwork, MessageType } = require("../db/teamwork")
@@ -7,6 +7,7 @@ const cancel_button = require("../components/teamwork/cancel-button")
 const roll_button = require("../components/teamwork/roll-button")
 const helper_picker = require("../components/teamwork/helper-picker")
 const { logger } = require("../util/logger")
+const { relativeTimestamp } = require("../util/timestamps")
 
 const MAX_DURATION = 900_000 // 15 minutes
 
@@ -62,7 +63,7 @@ module.exports = {
           leader: userMention(leader_id),
           description: description,
           context: description ? "description" : undefined,
-          timeout: time(expiry, TimestampStyles.RelativeTime),
+          timeout: relativeTimestamp(expiry),
         }),
         components: [buttons_row, request_row],
         withResponse: true,
