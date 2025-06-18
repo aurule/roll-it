@@ -33,16 +33,16 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.19.3"],\
+          ["discord.js", "npm:14.20.0"],\
           ["dotenv", "npm:16.5.0"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["keyv", "npm:5.3.3"],\
-          ["mathjs", "npm:14.4.0"],\
+          ["keyv", "npm:5.3.4"],\
+          ["mathjs", "npm:14.5.2"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:9.6.0"],\
+          ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
           ["prettier", "npm:2.8.8"],\
@@ -790,6 +790,13 @@ const RAW_RUNTIME_STATE =
           ["regenerator-runtime", "npm:0.14.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:7.27.6", {\
+        "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.27.6-350e7a5827-89726be83f.zip/node_modules/@babel/runtime/",\
+        "packageDependencies": [\
+          ["@babel/runtime", "npm:7.27.6"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@babel/template", [\
@@ -976,11 +983,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/rest", [\
-      ["npm:2.5.0", {\
-        "packageLocation": "./.yarn/cache/@discordjs-rest-npm-2.5.0-cb56ee4305-9bfafd34c6.zip/node_modules/@discordjs/rest/",\
+      ["npm:2.5.1", {\
+        "packageLocation": "./.yarn/cache/@discordjs-rest-npm-2.5.1-7f77302947-5eb7c97e8c.zip/node_modules/@discordjs/rest/",\
         "packageDependencies": [\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["@discordjs/rest", "npm:2.5.0"],\
+          ["@discordjs/rest", "npm:2.5.1"],\
           ["@discordjs/util", "npm:1.1.1"],\
           ["@sapphire/async-queue", "npm:1.5.3"],\
           ["@sapphire/snowflake", "npm:3.5.3"],\
@@ -988,7 +995,7 @@ const RAW_RUNTIME_STATE =
           ["discord-api-types", "npm:0.38.1"],\
           ["magic-bytes.js", "npm:1.10.0"],\
           ["tslib", "npm:2.7.0"],\
-          ["undici", "npm:6.21.1"]\
+          ["undici", "npm:6.21.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1003,19 +1010,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@discordjs/ws", [\
-      ["npm:1.2.2", {\
-        "packageLocation": "./.yarn/cache/@discordjs-ws-npm-1.2.2-5a5a2ad350-de76890d14.zip/node_modules/@discordjs/ws/",\
+      ["npm:1.2.3", {\
+        "packageLocation": "./.yarn/cache/@discordjs-ws-npm-1.2.3-7b8183fa17-3add9b8e24.zip/node_modules/@discordjs/ws/",\
         "packageDependencies": [\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["@discordjs/rest", "npm:2.5.0"],\
+          ["@discordjs/rest", "npm:2.5.1"],\
           ["@discordjs/util", "npm:1.1.1"],\
-          ["@discordjs/ws", "npm:1.2.2"],\
+          ["@discordjs/ws", "npm:1.2.3"],\
           ["@sapphire/async-queue", "npm:1.5.3"],\
           ["@types/ws", "npm:8.5.10"],\
           ["@vladfrangu/async_event_emitter", "npm:2.4.6"],\
           ["discord-api-types", "npm:0.38.1"],\
           ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:5a5a2ad350cf8605e0a9d404b84cec284259076df281d9aaadce129297c29df64869fc8f52262be82f517ed39d355f04157dd77dd74b1a8f0770de65ee95469e#npm:8.18.0"]\
+          ["ws", "virtual:7b8183fa17935e9277c71326b6374a2aa30cbc3f62e9a3e71b424145023cf1b09fd715bb037d68e2ac7b0658583a2df6fc0c9d164660f14b69e2a6c1bacf1f24#npm:8.18.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2525,23 +2532,23 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["discord.js", [\
-      ["npm:14.19.3", {\
-        "packageLocation": "./.yarn/cache/discord.js-npm-14.19.3-c82dd8961c-5d1fb95682.zip/node_modules/discord.js/",\
+      ["npm:14.20.0", {\
+        "packageLocation": "./.yarn/cache/discord.js-npm-14.20.0-add226f09b-78c847f5cc.zip/node_modules/discord.js/",\
         "packageDependencies": [\
           ["@discordjs/builders", "npm:1.11.2"],\
           ["@discordjs/collection", "npm:1.5.3"],\
           ["@discordjs/formatters", "npm:0.6.1"],\
-          ["@discordjs/rest", "npm:2.5.0"],\
+          ["@discordjs/rest", "npm:2.5.1"],\
           ["@discordjs/util", "npm:1.1.1"],\
-          ["@discordjs/ws", "npm:1.2.2"],\
+          ["@discordjs/ws", "npm:1.2.3"],\
           ["@sapphire/snowflake", "npm:3.5.3"],\
           ["discord-api-types", "npm:0.38.1"],\
-          ["discord.js", "npm:14.19.3"],\
+          ["discord.js", "npm:14.20.0"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["lodash.snakecase", "npm:4.1.1"],\
           ["magic-bytes.js", "npm:1.10.0"],\
           ["tslib", "npm:2.7.0"],\
-          ["undici", "npm:6.21.1"]\
+          ["undici", "npm:6.21.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3124,19 +3131,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["i18next", [\
-      ["npm:25.1.2", {\
-        "packageLocation": "./.yarn/cache/i18next-npm-25.1.2-0993607c49-ba028411a2.zip/node_modules/i18next/",\
+      ["npm:25.2.1", {\
+        "packageLocation": "./.yarn/cache/i18next-npm-25.2.1-e3a3291e87-9e8817bdb9.zip/node_modules/i18next/",\
         "packageDependencies": [\
-          ["i18next", "npm:25.1.2"]\
+          ["i18next", "npm:25.2.1"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2", {\
-        "packageLocation": "./.yarn/__virtual__/i18next-virtual-f6c2c9d04a/0/cache/i18next-npm-25.1.2-0993607c49-ba028411a2.zip/node_modules/i18next/",\
+      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1", {\
+        "packageLocation": "./.yarn/__virtual__/i18next-virtual-0cbf1b67e5/0/cache/i18next-npm-25.2.1-e3a3291e87-9e8817bdb9.zip/node_modules/i18next/",\
         "packageDependencies": [\
-          ["@babel/runtime", "npm:7.26.10"],\
+          ["@babel/runtime", "npm:7.27.6"],\
           ["@types/typescript", null],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
           ["typescript", null]\
         ],\
         "packagePeers": [\
@@ -4060,11 +4067,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["keyv", [\
-      ["npm:5.3.3", {\
-        "packageLocation": "./.yarn/cache/keyv-npm-5.3.3-aa570f9711-6b9064d061.zip/node_modules/keyv/",\
+      ["npm:5.3.4", {\
+        "packageLocation": "./.yarn/cache/keyv-npm-5.3.4-bf6aaecb1e-d6f62dceca.zip/node_modules/keyv/",\
         "packageDependencies": [\
           ["@keyv/serialize", "npm:1.0.3"],\
-          ["keyv", "npm:5.3.3"]\
+          ["keyv", "npm:5.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4192,8 +4199,8 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:14.4.0", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-14.4.0-097c3affa8-212e6592ae.zip/node_modules/mathjs/",\
+      ["npm:14.5.2", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-14.5.2-ea2b29278b-11eca2d882.zip/node_modules/mathjs/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["complex.js", "npm:2.4.2"],\
@@ -4201,7 +4208,7 @@ const RAW_RUNTIME_STATE =
           ["escape-latex", "npm:1.2.0"],\
           ["fraction.js", "npm:5.2.1"],\
           ["javascript-natural-sort", "npm:0.7.1"],\
-          ["mathjs", "npm:14.4.0"],\
+          ["mathjs", "npm:14.5.2"],\
           ["seedrandom", "npm:3.0.5"],\
           ["tiny-emitter", "npm:2.1.0"],\
           ["typed-function", "npm:4.2.1"]\
@@ -4666,16 +4673,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.6.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.6.0-043d7ccc5e-bcd1e9d9b3.zip/node_modules/pino/",\
+      ["npm:9.7.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-9.7.0-169cc56689-c7f8a83a9a.zip/node_modules/pino/",\
         "packageDependencies": [\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino", "npm:9.6.0"],\
+          ["pino", "npm:9.7.0"],\
           ["pino-abstract-transport", "npm:2.0.0"],\
           ["pino-std-serializers", "npm:7.0.0"],\
-          ["process-warning", "npm:4.0.0"],\
+          ["process-warning", "npm:5.0.0"],\
           ["quick-format-unescaped", "npm:4.0.4"],\
           ["real-require", "npm:0.2.0"],\
           ["safe-stable-stringify", "npm:2.4.3"],\
@@ -4830,10 +4837,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["process-warning", [\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/process-warning-npm-4.0.0-d61ed74d22-5312a72b69.zip/node_modules/process-warning/",\
+      ["npm:5.0.0", {\
+        "packageLocation": "./.yarn/cache/process-warning-npm-5.0.0-7999058ecd-941f48863d.zip/node_modules/process-warning/",\
         "packageDependencies": [\
-          ["process-warning", "npm:4.0.0"]\
+          ["process-warning", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5039,16 +5046,16 @@ const RAW_RUNTIME_STATE =
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
-          ["discord.js", "npm:14.19.3"],\
+          ["discord.js", "npm:14.20.0"],\
           ["dotenv", "npm:16.5.0"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.1.2"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:29.7.0"],\
           ["joi", "npm:17.13.3"],\
-          ["keyv", "npm:5.3.3"],\
-          ["mathjs", "npm:14.4.0"],\
+          ["keyv", "npm:5.3.4"],\
+          ["mathjs", "npm:14.5.2"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:9.6.0"],\
+          ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
           ["prettier", "npm:2.8.8"],\
@@ -5662,10 +5669,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["undici", [\
-      ["npm:6.21.1", {\
-        "packageLocation": "./.yarn/cache/undici-npm-6.21.1-0f7fc2c179-d604080e4f.zip/node_modules/undici/",\
+      ["npm:6.21.3", {\
+        "packageLocation": "./.yarn/cache/undici-npm-6.21.3-28d9334837-294da10985.zip/node_modules/undici/",\
         "packageDependencies": [\
-          ["undici", "npm:6.21.1"]\
+          ["undici", "npm:6.21.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5822,14 +5829,14 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:5a5a2ad350cf8605e0a9d404b84cec284259076df281d9aaadce129297c29df64869fc8f52262be82f517ed39d355f04157dd77dd74b1a8f0770de65ee95469e#npm:8.18.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-051d02c890/0/cache/ws-npm-8.18.0-56f68bc4d6-25eb33aff1.zip/node_modules/ws/",\
+      ["virtual:7b8183fa17935e9277c71326b6374a2aa30cbc3f62e9a3e71b424145023cf1b09fd715bb037d68e2ac7b0658583a2df6fc0c9d164660f14b69e2a6c1bacf1f24#npm:8.18.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-274ab88ace/0/cache/ws-npm-8.18.0-56f68bc4d6-25eb33aff1.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
           ["utf-8-validate", null],\
-          ["ws", "virtual:5a5a2ad350cf8605e0a9d404b84cec284259076df281d9aaadce129297c29df64869fc8f52262be82f517ed39d355f04157dd77dd74b1a8f0770de65ee95469e#npm:8.18.0"]\
+          ["ws", "virtual:7b8183fa17935e9277c71326b6374a2aa30cbc3f62e9a3e71b424145023cf1b09fd715bb037d68e2ac7b0658583a2df6fc0c9d164660f14b69e2a6c1bacf1f24#npm:8.18.0"]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\
