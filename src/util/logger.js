@@ -2,20 +2,20 @@ const Pino = require("pino")
 
 require("dotenv").config()
 
-function pickStream() {
-  if (process.env.NODE_ENV == "development") {
+function pickStream(env_name = process.env.NODE_ENV) {
+  if (env_name == "development") {
     const pretty = require("pino-pretty")
     return pretty()
   }
-  if (process.env.NODE_ENV == "test") {
+  if (env_name == "test") {
     const devnull = require("dev-null")
     return devnull()
   }
-  if (process.env.NODE_ENV == "ci") {
+  if (env_name == "ci") {
     const devnull = require("dev-null")
     return devnull()
   }
-  if (process.env.NODE_ENV == "production") {
+  if (env_name == "production") {
     const papertrail = require("pino-papertrail")
     return papertrail.createWriteStream(
       {
@@ -34,6 +34,7 @@ function pickStream() {
     //   }
     // })
   }
+  throw new Error(`unknown environment "${env_name}"`)
 }
 
 const default_levels = {
@@ -50,4 +51,5 @@ module.exports = {
     },
     pickStream(),
   ),
+  pickStream,
 }
