@@ -96,7 +96,7 @@ module.exports = {
 
     const expiry = new Date(Date.now() + timeout_ms)
     const prompt = await cmd_interaction.editReply({
-      content: t("prompt", { timeout: relativeTimestamp(expiry),
+      content: t("prompt", { timeout: relativeTimestamp(expiry) }),
       components: prompt_components(deployable, systems, deployed_set, locale),
     })
 
