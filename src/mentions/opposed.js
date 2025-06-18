@@ -84,6 +84,7 @@ module.exports = {
                 user: interaction.user,
                 message: interaction.message
               }
+            )
         } else {
           logger.error({
             err,

@@ -10,7 +10,8 @@ const ParticipantRoles = {
 }
 
 const ChallengeStates = {
-  Advantages: "advantages",
+  AdvantagesAttacker: "advantages-attacker",
+  AdvantagesDefender: "advantages-defender",
   Relented: "relented",
   Withdrawn: "withdrawn",
   Throwing: "throwing",
@@ -157,6 +158,19 @@ class Opposed extends CachedDb {
     return update.run({
       id: challenge_id,
       summary,
+    })
+  }
+
+  setChallengeConditions(challenge_id, conditions) {
+    const update = this.prepared("setChallengeConditions", oneLine`
+      UPDATE interactive.opposed_challenges
+      SET    conditions = JSONB(@conditions)
+      WHERE  id = @id
+    `)
+
+    return update.run({
+      id: challenge_id,
+      conditions: JSON.stringify(conditions),
     })
   }
 

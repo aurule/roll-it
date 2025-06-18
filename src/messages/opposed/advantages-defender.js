@@ -1,7 +1,6 @@
 const { TextDisplayBuilder, SeparatorBuilder, SectionBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
-const withdraw_button = require("../../components/opposed/withdraw-challenge-button")
 const relent_button = require("../../components/opposed/relent-button")
 const advantage_picker = require("../../components/opposed/advantage-picker")
 const ready_button = require("../../components/opposed/ready-button")
@@ -15,7 +14,7 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.prompt")
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.advantages-defender")
     const shared_t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
 
     const components = [
@@ -34,19 +33,7 @@ module.exports = {
       new SectionBuilder({
         components: [
           new TextDisplayBuilder({
-            content: t("withdraw", {
-              attacker: attacker.mention,
-            }),
-          }),
-        ],
-        accessory: withdraw_button.data(challenge.locale),
-      }),
-      new SeparatorBuilder(),
-      new SectionBuilder({
-        components: [
-          new TextDisplayBuilder({
             content: t("relent", {
-              defender: defender.mention,
               attacker: attacker.mention,
             }),
           }),
@@ -58,7 +45,7 @@ module.exports = {
       }),
       new ActionRowBuilder({
         components: [
-          advantage_picker.data(challenge.locale),
+          advantage_picker.data(challenge.locale, defender),
         ],
       }),
       new TextDisplayBuilder({
@@ -75,6 +62,39 @@ module.exports = {
       components,
       withResponse: true,
       flags: MessageFlags.IsComponentsV2,
+      allowedMentions: { users: [defender.user_uid] },
+    }
+  },
+  inert: (challenge_id) => {
+    const opposed_db = new Opposed()
+    const challenge = opposed_db.getChallenge(challenge_id)
+    const participants = opposed_db.getParticipants(challenge_id)
+    const attacker = participants.get("attacker")
+    const defender = participants.get("defender")
+
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
+
+    const components = [
+      new TextDisplayBuilder({
+        content: t("summary", {
+          attacker: attacker.mention,
+          defender: defender.mention,
+          attribute: t(`attributes.${challenge.attribute}`),
+          description: challenge.description,
+          context: challenge.description ? "description" : undefined,
+          retest: challenge.retest,
+          conditions: challenge.conditions.map(c => t(`conditions.${c}`)),
+          attacker_advantages: attacker.advantages.map(c => t(`advantages.${c}`)),
+          defender_advantages: defender.advantages.map(c => t(`advantages.${c}`)),
+        })
+      })
+    ]
+
+    return {
+      components,
+      withResponse: true,
+      flags: MessageFlags.IsComponentsV2,
+      allowedMentions: { parse: [] },
     }
   }
 }

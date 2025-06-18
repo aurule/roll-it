@@ -22,7 +22,7 @@ describe("makeHistory", () => {
       attribute: "mental",
       retests_allowed: true,
       retest_ability: "occult",
-      state: ChallengeStates.Advantages,
+      state: ChallengeStates.Tying,
       channel_uid: "testchan",
       timeout: 1000,
     })
@@ -78,6 +78,7 @@ describe("makeHistory", () => {
       opposed_test.breakdown = "rock v defender's scissors"
       opposed_test.retester_id = defender_id
       opposed_test.retest_reason = "merit"
+      opposed_test.retested = true
 
       const result = makeHistory(opposed_test)
 
@@ -102,6 +103,7 @@ describe("makeHistory", () => {
       opposed_test.breakdown = "rock v defender's scissors"
       opposed_test.retester_id = defender_id
       opposed_test.retest_reason = reason
+      opposed_test.retested = true
 
       const result = makeHistory(opposed_test)
 
@@ -116,6 +118,7 @@ describe("makeHistory", () => {
     opposed_test.retest_reason = "merit"
     opposed_test.canceller_id = attacker_id
     opposed_test.cancelled_with = "ability"
+    opposed_test.cancelled = true
 
     const result = makeHistory(opposed_test)
 

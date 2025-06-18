@@ -13,7 +13,7 @@ const { sendMessage, editMessage } = require("../services/api")
 const { Opposed, ParticipantRoles, ChallengeStates, FINAL_STATES } = require("../db/opposed")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
-const advantages_message = require("../messages/opposed/advantages")
+const advantages_attacker_message = require("../messages/opposed/advantages-attacker")
 const expired_message = require("../messages/opposed/expired")
 
 const MAX_DURATION = 1_200_000 // 20 minutes
@@ -34,12 +34,6 @@ module.exports = {
     const t = i18n.getFixedT(locale, "interactive", "opposed.prompt")
     const shared_t = i18n.getFixedT(locale, "interactive", "opposed.shared")
 
-    // todo this will be replaced by a new attacker-advantages state
-    const conditions = []
-    // if (carrier) conditions.push("carrier")
-    // if (altering) conditions.push("altering")
-    if (!conditions.length) conditions.push("normal")
-
     const opposed_db = new Opposed()
     const challenge_id = opposed_db.addChallenge({
       locale,
@@ -47,8 +41,8 @@ module.exports = {
       attribute,
       description,
       retest_ability: retest,
-      conditions,
-      state: ChallengeStates.Advantages,
+      conditions: ["normal"],
+      state: ChallengeStates.AdvantagesAttacker,
       channel_uid: interaction.channelId,
       timeout: MAX_DURATION / 1_000,
     }).lastInsertRowid
@@ -56,17 +50,10 @@ module.exports = {
     const attacker_mention = userMention(attackerId)
     const defender_mention = userMention(defenderId)
 
-    // todo this will be replaced by a new attacker-advantages state
-    const advantages = []
-    // if (bomb) advantages.push("bomb")
-    // if (ties) advantages.push("ties")
-    // if (cancels) advantages.push("cancels")
-    if (!advantages.length) advantages.push("none")
-
     opposed_db.addParticipant({
       user_uid: attackerId,
       mention: attacker_mention,
-      advantages,
+      advantages: ["none"],
       role: ParticipantRoles.Attacker,
       challenge_id,
     })
@@ -81,7 +68,7 @@ module.exports = {
     return interaction
       .ensure(
         "reply",
-        advantages_message.data(challenge_id),
+        advantages_attacker_message.data(challenge_id),
         {
           challenge_id,
           detail: "failed to send advantages prompt"

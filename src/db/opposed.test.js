@@ -27,7 +27,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.Advantages,
+        state: ChallengeStates.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -71,7 +71,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.Advantages,
+        state: ChallengeStates.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -177,7 +177,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.Advantages,
+        state: ChallengeStates.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -224,7 +224,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.Advantages,
+        state: ChallengeStates.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -277,7 +277,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.Advantages,
+        state: ChallengeStates.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })

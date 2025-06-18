@@ -24,7 +24,7 @@ module.exports = {
         }),
         new ActionRowBuilder({
           components: [
-            throw_picker.data(challenge, attacker),
+            throw_picker.data(locale, attacker),
           ]
         }),
         new TextDisplayBuilder({
@@ -36,7 +36,7 @@ module.exports = {
         }),
         new ActionRowBuilder({
           components: [
-            throw_picker.data(challenge, defender),
+            throw_picker.data(locale, defender),
           ]
         }),
         new TextDisplayBuilder({
