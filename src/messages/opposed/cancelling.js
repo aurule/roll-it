@@ -1,4 +1,10 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags, SectionBuilder } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+  SectionBuilder,
+} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const withdraw_button = require("../../components/opposed/withdraw-retest-button")
@@ -19,13 +25,16 @@ module.exports = {
 
     const components = [
       new TextDisplayBuilder({
-        content: t(`headline.${reason}`, { retester: test.retester.mention, ability: challenge.retest_ability }),
+        content: t(`headline.${reason}`, {
+          retester: test.retester.mention,
+          ability: challenge.retest_ability,
+        }),
       }),
       new SectionBuilder({
         components: [
           new TextDisplayBuilder({
             content: t("withdraw"),
-          })
+          }),
         ],
         accessory: withdraw_button.data(challenge.locale),
       }),
@@ -38,24 +47,19 @@ module.exports = {
     if (test.canceller.advantages.includes("cancels")) {
       components.push(
         new ActionRowBuilder({
-          components: [
-            cancel_picker.data(challenge.locale),
-          ],
-        })
+          components: [cancel_picker.data(challenge.locale)],
+        }),
       )
       components.push(
         new TextDisplayBuilder({
-          content: t("disclaimer")
-        })
+          content: t("disclaimer"),
+        }),
       )
     }
 
     components.push(
       new ActionRowBuilder({
-        components: [
-          cancel_button.data(challenge.locale),
-          continue_button.data(challenge.locale),
-        ],
+        components: [cancel_button.data(challenge.locale), continue_button.data(challenge.locale)],
       }),
     )
 
@@ -80,9 +84,12 @@ module.exports = {
       flags: MessageFlags.IsComponentsV2,
       components: [
         new TextDisplayBuilder({
-          content: t(`headline.${reason}`, { retester: test.retester.mention, ability: challenge.retest_ability }),
+          content: t(`headline.${reason}`, {
+            retester: test.retester.mention,
+            ability: challenge.retest_ability,
+          }),
         }),
-      ]
+      ],
     }
-  }
+  },
 }

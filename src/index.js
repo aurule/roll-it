@@ -62,19 +62,16 @@ for (const file of eventFiles) {
     client.once(event.name, (...args) => event.execute(...args))
   } else {
     client.on(event.name, (...args) => {
-      const context = JSON.stringify(
-        args[0].toJSON(),
-        (key, value) => {
-          if (typeof value === "bigint") {
-            return value.toString()
-          }
-          return value
-        },
-      )
+      const context = JSON.stringify(args[0].toJSON(), (key, value) => {
+        if (typeof value === "bigint") {
+          return value.toString()
+        }
+        return value
+      })
 
       const timing_data = {
         event: event.name,
-        serialized: v8.serialize(args).toString('hex'),
+        serialized: v8.serialize(args).toString("hex"),
         context,
         began: performance.now(),
         finished: 0,

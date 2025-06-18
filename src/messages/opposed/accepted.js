@@ -1,4 +1,9 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 
@@ -14,7 +19,7 @@ module.exports = {
     }
     return {
       withResponse: true,
-      content: t("accepted", t_args)
+      content: t("accepted", t_args),
     }
-  }
+  },
 }

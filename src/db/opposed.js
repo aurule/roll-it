@@ -25,8 +25,10 @@ const ChallengeStates = {
   Expired: "expired",
 }
 
-const FINAL_STATES = new Set(['relented', 'withdrawn', 'conceded', 'accepted', 'expired'])
-const final_states_expr = Array.from(FINAL_STATES).map(s => `'${s}'`).join(",")
+const FINAL_STATES = new Set(["relented", "withdrawn", "conceded", "accepted", "expired"])
+const final_states_expr = Array.from(FINAL_STATES)
+  .map((s) => `'${s}'`)
+  .join(",")
 
 /**
  * Class to manage met-opposed state tracking
@@ -37,8 +39,21 @@ class Opposed extends CachedDb {
    *
    * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
-  addChallenge({ locale, attacker_uid, attribute, description = "", retest_ability, conditions = [], summary, state, channel_uid, timeout } = {}) {
-    const insert = this.prepared("addChallenge", oneLine`
+  addChallenge({
+    locale,
+    attacker_uid,
+    attribute,
+    description = "",
+    retest_ability,
+    conditions = [],
+    summary,
+    state,
+    channel_uid,
+    timeout,
+  } = {}) {
+    const insert = this.prepared(
+      "addChallenge",
+      oneLine`
       INSERT INTO interactive.opposed_challenges (
         locale,
         attacker_uid,
@@ -62,7 +77,8 @@ class Opposed extends CachedDb {
         @channel_uid,
         datetime('now', @timeout || ' seconds')
       )
-    `)
+    `,
+    )
 
     return insert.run({
       locale,
@@ -85,20 +101,26 @@ class Opposed extends CachedDb {
    * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
    */
   destroy(id) {
-    const destroy = this.prepared("destroy", oneLine`
+    const destroy = this.prepared(
+      "destroy",
+      oneLine`
       DELETE FROM interactive.opposed_challenges WHERE id = ?
-    `)
+    `,
+    )
     return destroy.run(id)
   }
 
   getChallenge(challenge_id) {
-    const select = this.prepared("getChallenge", oneLine`
+    const select = this.prepared(
+      "getChallenge",
+      oneLine`
       SELECT   *,
                JSON_EXTRACT(conditions, '$') AS conditions,
                TIME('now') > TIME(expires_at) AS expired
       FROM     interactive.opposed_challenges
       WHERE    id = ?
-    `)
+    `,
+    )
 
     const raw_out = select.get(challenge_id)
 
@@ -112,13 +134,16 @@ class Opposed extends CachedDb {
   }
 
   getChallengeWithParticipants(challenge_id) {
-    const select = this.prepared("getChallengeWithParticipants", oneLine`
+    const select = this.prepared(
+      "getChallengeWithParticipants",
+      oneLine`
       SELECT   *,
                JSON_EXTRACT(conditions, '$') AS conditions,
                TIME('now') > TIME(expires_at) AS expired
       FROM     interactive.opposed_challenges
       WHERE    id = ?
-    `)
+    `,
+    )
 
     const raw_out = select.get(challenge_id)
 
@@ -136,11 +161,14 @@ class Opposed extends CachedDb {
   }
 
   setChallengeState(challenge_id, state) {
-    const update = this.prepared("setChallengeState", oneLine`
+    const update = this.prepared(
+      "setChallengeState",
+      oneLine`
       UPDATE interactive.opposed_challenges
       SET    state = @state
       WHERE  id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: challenge_id,
@@ -149,11 +177,14 @@ class Opposed extends CachedDb {
   }
 
   setChallengeSummary(challenge_id, summary) {
-    const update = this.prepared("setChallengeSummary", oneLine`
+    const update = this.prepared(
+      "setChallengeSummary",
+      oneLine`
       UPDATE interactive.opposed_challenges
       SET    summary = @summary
       WHERE  id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: challenge_id,
@@ -162,11 +193,14 @@ class Opposed extends CachedDb {
   }
 
   setChallengeConditions(challenge_id, conditions) {
-    const update = this.prepared("setChallengeConditions", oneLine`
+    const update = this.prepared(
+      "setChallengeConditions",
+      oneLine`
       UPDATE interactive.opposed_challenges
       SET    conditions = JSONB(@conditions)
       WHERE  id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: challenge_id,
@@ -175,7 +209,9 @@ class Opposed extends CachedDb {
   }
 
   findChallengeByMessage(message_uid) {
-    const select = this.prepared("findChallengeByMessage", oneLine`
+    const select = this.prepared(
+      "findChallengeByMessage",
+      oneLine`
       SELECT c.*,
              JSON_EXTRACT(c.conditions, '$') AS conditions,
              TIME('now') > TIME(c.expires_at) AS expired
@@ -183,7 +219,8 @@ class Opposed extends CachedDb {
              JOIN interactive.opposed_messages AS m
                ON c.id = m.challenge_id
       WHERE  m.message_uid = ?
-    `)
+    `,
+    )
 
     const raw_out = select.get(message_uid)
 
@@ -197,21 +234,26 @@ class Opposed extends CachedDb {
   }
 
   challengeFromMessageIsFinalized(message_uid) {
-    const select = this.prepared("challengeFromMessageIsFinalized", oneLine`
+    const select = this.prepared(
+      "challengeFromMessageIsFinalized",
+      oneLine`
       SELECT 1
       FROM   interactive.opposed_challenges AS c
              JOIN interactive.opposed_messages AS m
                ON c.id = m.challenge_id
       WHERE  m.message_uid = ?
         AND  c.state IN (${final_states_expr})
-    `)
+    `,
+    )
     select.pluck()
 
     return !!select.get(message_uid)
   }
 
   findChallengeByTest(test_id) {
-    const select = this.prepared("findChallengeByTest", oneLine`
+    const select = this.prepared(
+      "findChallengeByTest",
+      oneLine`
       SELECT c.*,
              JSON_EXTRACT(c.conditions, '$') AS conditions,
              TIME('now') > TIME(c.expires_at) AS expired
@@ -219,7 +261,8 @@ class Opposed extends CachedDb {
              JOIN interactive.opposed_tests AS t
                ON c.id = t.challenge_id
       WHERE  t.id = ?
-    `)
+    `,
+    )
 
     const raw_out = select.get(test_id)
 
@@ -233,19 +276,24 @@ class Opposed extends CachedDb {
   }
 
   getChallengeHistory(challenge_id) {
-    const select = this.prepared("getChallengeHistory", oneLine`
+    const select = this.prepared(
+      "getChallengeHistory",
+      oneLine`
       SELECT   history
       FROM     interactive.opposed_tests
       WHERE    challenge_id = ?
       ORDER BY created_at ASC
-    `)
+    `,
+    )
     select.pluck()
 
     return select.all(challenge_id)
   }
 
-  addMessage({ message_uid, challenge_id, test_id = null} = {}) {
-    const insert = this.prepared("addMessage", oneLine`
+  addMessage({ message_uid, challenge_id, test_id = null } = {}) {
+    const insert = this.prepared(
+      "addMessage",
+      oneLine`
       INSERT INTO interactive.opposed_messages (
         message_uid,
         challenge_id,
@@ -255,7 +303,8 @@ class Opposed extends CachedDb {
         @challenge_id,
         @test_id
       )
-    `)
+    `,
+    )
 
     return insert.run({
       message_uid,
@@ -265,32 +314,41 @@ class Opposed extends CachedDb {
   }
 
   hasMessage(message_uid) {
-    const select = this.prepared("hasMessage", oneLine`
+    const select = this.prepared(
+      "hasMessage",
+      oneLine`
       SELECT 1 FROM interactive.opposed_messages
       WHERE message_uid = ?
-    `)
+    `,
+    )
     select.pluck()
 
     return !!select.get(message_uid)
   }
 
   messageIsForLatestTest(message_uid) {
-    const message_select = this.prepared("messageIsForLatestTest-message", oneLine`
+    const message_select = this.prepared(
+      "messageIsForLatestTest-message",
+      oneLine`
       SELECT test_id, challenge_id FROM interactive.opposed_messages
       WHERE message_uid = ?
-    `)
+    `,
+    )
 
     const message_result = message_select.get(message_uid)
 
     if (!message_result.test_id) return true
 
-    const test_select = this.prepared("messageIsForLatestTest-test", oneLine`
+    const test_select = this.prepared(
+      "messageIsForLatestTest-test",
+      oneLine`
       SELECT   id
       FROM     interactive.opposed_tests
       WHERE    challenge_id = ?
       ORDER BY created_at DESC
       LIMIT    1
-    `)
+    `,
+    )
     test_select.pluck()
 
     const test_result = test_select.get(message_result.challenge_id)
@@ -298,8 +356,18 @@ class Opposed extends CachedDb {
     return test_result === message_result.test_id
   }
 
-  addParticipant({ user_uid, mention, advantages = [], tie_winner = false, ability_used = false, role, challenge_id } = {}) {
-    const insert = this.prepared("addParticipant", oneLine`
+  addParticipant({
+    user_uid,
+    mention,
+    advantages = [],
+    tie_winner = false,
+    ability_used = false,
+    role,
+    challenge_id,
+  } = {}) {
+    const insert = this.prepared(
+      "addParticipant",
+      oneLine`
       INSERT INTO interactive.opposed_participants (
         user_uid,
         mention,
@@ -317,7 +385,8 @@ class Opposed extends CachedDb {
         @role,
         @challenge_id
       )
-    `)
+    `,
+    )
 
     return insert.run({
       user_uid,
@@ -331,23 +400,29 @@ class Opposed extends CachedDb {
   }
 
   participantCount(challenge_id) {
-    const select = this.prepared("participantCount", oneLine`
+    const select = this.prepared(
+      "participantCount",
+      oneLine`
       SELECT count(1)
       FROM interactive.opposed_participants
       WHERE challenge_id = ?
-    `)
+    `,
+    )
     select.pluck()
 
     return select.get(challenge_id)
   }
 
   getParticipant(participant_id) {
-    const select = this.prepared("getParticipant", oneLine`
+    const select = this.prepared(
+      "getParticipant",
+      oneLine`
       SELECT   *,
                JSON_EXTRACT(advantages, '$') AS advantages
       FROM     interactive.opposed_participants
       WHERE    id = ?
-    `)
+    `,
+    )
 
     const raw_out = select.get(participant_id)
 
@@ -362,19 +437,22 @@ class Opposed extends CachedDb {
   }
 
   getParticipants(challenge_id, index_by_id = false) {
-    const select = this.prepared("getParticipants", oneLine`
+    const select = this.prepared(
+      "getParticipants",
+      oneLine`
       SELECT   *,
                JSON_EXTRACT(advantages, '$') AS advantages
       FROM     interactive.opposed_participants
       WHERE    challenge_id = ?
       ORDER BY role ASC
-    `)
+    `,
+    )
 
     const raw_out = select.all(challenge_id)
 
     if (raw_out === undefined) return undefined
 
-    raw_out.forEach(p => {
+    raw_out.forEach((p) => {
       p.advantages = JSON.parse(p.advantages)
       p.tie_winner = !!p.tie_winner
       p.ability_used = !!p.ability_used
@@ -394,11 +472,14 @@ class Opposed extends CachedDb {
   }
 
   setParticipantAdvantages(participant_id, advantages) {
-    const update = this.prepared("setParticipantAdvantages", oneLine`
+    const update = this.prepared(
+      "setParticipantAdvantages",
+      oneLine`
       UPDATE opposed_participants
       SET advantages = JSONB(@advantages)
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: participant_id,
@@ -407,11 +488,14 @@ class Opposed extends CachedDb {
   }
 
   setParticipantAbilityUsed(participant_id, used = true) {
-    const update = this.prepared("setParticipantAbilityUsed", oneLine`
+    const update = this.prepared(
+      "setParticipantAbilityUsed",
+      oneLine`
       UPDATE interactive.opposed_participants
       SET    ability_used = @used
       WHERE  id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: participant_id,
@@ -422,23 +506,29 @@ class Opposed extends CachedDb {
   setTieWinner(participant_id) {
     if (!participant_id) return false
 
-    const update = this.prepared("setTieWinner", oneLine`
+    const update = this.prepared(
+      "setTieWinner",
+      oneLine`
       UPDATE interactive.opposed_participants
       SET    tie_winner = 1
       WHERE  id = ?
-    `)
+    `,
+    )
 
     return update.run(participant_id)
   }
 
   getTieWinner(challenge_id) {
-    const select = this.prepared("getTieWinner", oneLine`
+    const select = this.prepared(
+      "getTieWinner",
+      oneLine`
       SELECT   *,
                JSON_EXTRACT(advantages, '$') AS advantages
       FROM     interactive.opposed_participants
       WHERE    challenge_id = ?
                AND tie_winner = 1
-    `)
+    `,
+    )
 
     const raw_out = select.get(challenge_id)
 
@@ -465,7 +555,9 @@ class Opposed extends CachedDb {
     breakdown = null,
     leader_id = null,
   } = {}) {
-    const insert = this.prepared("addTest", oneLine`
+    const insert = this.prepared(
+      "addTest",
+      oneLine`
       INSERT INTO opposed_tests (
         challenge_id,
         locale,
@@ -491,7 +583,8 @@ class Opposed extends CachedDb {
         @breakdown,
         @leader_id
       )
-    `)
+    `,
+    )
 
     return insert.run({
       challenge_id,
@@ -509,11 +602,14 @@ class Opposed extends CachedDb {
   }
 
   getTest(test_id) {
-    const select = this.prepared("getTest", oneLine`
+    const select = this.prepared(
+      "getTest",
+      oneLine`
       SELECT *
       FROM   interactive.opposed_tests
       WHERE  id = ?
-    `)
+    `,
+    )
 
     const result = select.get(test_id)
     return new OpTest({ ...result, opposed_db: this })
@@ -526,13 +622,16 @@ class Opposed extends CachedDb {
    * @return {int}                   Internal ID of the associated RPS test
    */
   findTestByMessage(message_uid) {
-    const select = this.prepared("findTestByMessage", oneLine`
+    const select = this.prepared(
+      "findTestByMessage",
+      oneLine`
       SELECT t.*
       FROM   interactive.opposed_tests AS t
              JOIN interactive.opposed_messages AS m
                ON t.id = m.test_id
       WHERE  m.message_uid = ?
-    `)
+    `,
+    )
 
     const result = select.get(message_uid)
 
@@ -540,26 +639,32 @@ class Opposed extends CachedDb {
   }
 
   getLatestTest(challenge_id) {
-    const test_select = this.prepared("getLatestTest", oneLine`
+    const test_select = this.prepared(
+      "getLatestTest",
+      oneLine`
       SELECT   *
       FROM     interactive.opposed_tests
       WHERE    challenge_id = ?
       ORDER BY created_at DESC
       LIMIT    1
-    `)
+    `,
+    )
     const result = test_select.get(challenge_id)
 
     return new OpTest({ ...result, opposed_db: this })
   }
 
   getLatestTestWithParticipants(challenge_id) {
-    const test_select = this.prepared("getLatestTestWithParticipants", oneLine`
+    const test_select = this.prepared(
+      "getLatestTestWithParticipants",
+      oneLine`
       SELECT   *
       FROM     interactive.opposed_tests
       WHERE    challenge_id = ?
       ORDER BY created_at DESC
       LIMIT    1
-    `)
+    `,
+    )
     const result = test_select.get(challenge_id)
 
     const test = new OpTest({ ...result, opposed_db: this })
@@ -569,11 +674,14 @@ class Opposed extends CachedDb {
   }
 
   setTestRetested(test_id, retested = true) {
-    const update = this.prepared("setTestRetested", oneLine`
+    const update = this.prepared(
+      "setTestRetested",
+      oneLine`
       UPDATE interactive.opposed_tests
       SET retested = @retested
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: test_id,
@@ -582,11 +690,14 @@ class Opposed extends CachedDb {
   }
 
   setTestCancelledWith(test_id, reason) {
-    const update = this.prepared("setTestCancelledWith", oneLine`
+    const update = this.prepared(
+      "setTestCancelledWith",
+      oneLine`
       UPDATE interactive.opposed_tests
       SET cancelled_with = @cancelled_with
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: test_id,
@@ -595,21 +706,27 @@ class Opposed extends CachedDb {
   }
 
   setTestCancelled(test_id) {
-    const update = this.prepared("setTestCancelled", oneLine`
+    const update = this.prepared(
+      "setTestCancelled",
+      oneLine`
       UPDATE interactive.opposed_tests
       SET cancelled = 1
       WHERE id = ?
-    `)
+    `,
+    )
 
     return update.run(test_id)
   }
 
   setTestLeader(test_id, leader_id) {
-    const update = this.prepared("setTestLeader", oneLine`
+    const update = this.prepared(
+      "setTestLeader",
+      oneLine`
       UPDATE interactive.opposed_tests
       SET leader_id = @leader_id
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: test_id,
@@ -618,11 +735,14 @@ class Opposed extends CachedDb {
   }
 
   setTestBreakdown(test_id, breakdown) {
-    const update = this.prepared("setTestBreakdown", oneLine`
+    const update = this.prepared(
+      "setTestBreakdown",
+      oneLine`
       UPDATE interactive.opposed_tests
       SET breakdown = @breakdown
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: test_id,
@@ -631,11 +751,14 @@ class Opposed extends CachedDb {
   }
 
   setTestHistory(test_id, history) {
-    const update = this.prepared("setTestHistory", oneLine`
+    const update = this.prepared(
+      "setTestHistory",
+      oneLine`
       UPDATE interactive.opposed_tests
       SET history = @history
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: test_id,
@@ -643,36 +766,44 @@ class Opposed extends CachedDb {
     })
   }
 
-  setRetest({test_id, retester_id, reason, canceller_id}) {
-    const update = this.prepared("setRetest", oneLine`
+  setRetest({ test_id, retester_id, reason, canceller_id }) {
+    const update = this.prepared(
+      "setRetest",
+      oneLine`
       UPDATE interactive.opposed_tests
       SET    (retester_id, retest_reason, canceller_id) = (@retester_id, @reason, @canceller_id)
       WHERE  id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: test_id,
       retester_id,
       reason,
-      canceller_id
+      canceller_id,
     })
   }
 
   getTestTies(test_id) {
-    const select = this.prepared("getTestTies", oneLine`
+    const select = this.prepared(
+      "getTestTies",
+      oneLine`
       SELECT ties
       FROM   interactive.opposed_challenges AS c
              JOIN interactive.opposed_tests AS T
                ON t.id = c.challenge_id
       WHERE t.id = ?
-    `)
+    `,
+    )
     select.pluck()
 
     return select.get(test_id)
   }
 
-  addChopRequest({request, test_id, participant_id}) {
-    const upsert = this.prepared("addChopRequest", oneLine`
+  addChopRequest({ request, test_id, participant_id }) {
+    const upsert = this.prepared(
+      "addChopRequest",
+      oneLine`
       INSERT INTO interactive.opposed_test_chops (
         request,
         test_id,
@@ -686,7 +817,8 @@ class Opposed extends CachedDb {
       ON CONFLICT (test_id, participant_id) DO
       UPDATE SET
         request = excluded.request
-    `)
+    `,
+    )
 
     return upsert.run({
       request,
@@ -696,16 +828,19 @@ class Opposed extends CachedDb {
   }
 
   getChopsForTest(test_id) {
-    const select = this.prepared("getChopsForTest", oneLine`
+    const select = this.prepared(
+      "getChopsForTest",
+      oneLine`
       SELECT * FROM interactive.opposed_test_chops
       WHERE test_id = ?
-    `)
+    `,
+    )
 
     const raw_out = select.all(test_id)
 
     if (raw_out === undefined) return [undefined]
 
-    raw_out.forEach(t => {
+    raw_out.forEach((t) => {
       t.ready = !!t.ready
       t.tie_accepted = !!t.tie_accepted
       return t
@@ -715,11 +850,14 @@ class Opposed extends CachedDb {
   }
 
   setChopReady(chop_id, ready) {
-    const update = this.prepared("setChopReady", oneLine`
+    const update = this.prepared(
+      "setChopReady",
+      oneLine`
       UPDATE interactive.opposed_test_chops
       SET ready = @ready
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: chop_id,
@@ -728,12 +866,15 @@ class Opposed extends CachedDb {
   }
 
   didParticipantChop(participant_id, test_id) {
-    const select = this.prepared("didParticipantChop", oneLine`
+    const select = this.prepared(
+      "didParticipantChop",
+      oneLine`
       SELECT 1
       FROM   interactive.opposed_test_chops
       WHERE  test_id = @test_id
              AND participant_id = @participant_id
-    `)
+    `,
+    )
     select.pluck()
 
     return !!select.get({
@@ -743,11 +884,14 @@ class Opposed extends CachedDb {
   }
 
   setChopResult(chop_id, result) {
-    const update = this.prepared("setChopResult", oneLine`
+    const update = this.prepared(
+      "setChopResult",
+      oneLine`
       UPDATE interactive.opposed_test_chops
       SET result = @result
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: chop_id,
@@ -756,11 +900,14 @@ class Opposed extends CachedDb {
   }
 
   setChopTraits(chop_id, traits) {
-    const update = this.prepared("setChopTraits", oneLine`
+    const update = this.prepared(
+      "setChopTraits",
+      oneLine`
       UPDATE interactive.opposed_test_chops
       SET traits = @traits
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: chop_id,
@@ -769,11 +916,14 @@ class Opposed extends CachedDb {
   }
 
   setChopTieAccepted(chop_id, accepted) {
-    const update = this.prepared("setChopTieAccepted", oneLine`
+    const update = this.prepared(
+      "setChopTieAccepted",
+      oneLine`
       UPDATE interactive.opposed_test_chops
       SET tie_accepted = @accepted
       WHERE id = @id
-    `)
+    `,
+    )
 
     return update.run({
       id: chop_id,

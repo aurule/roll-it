@@ -1,4 +1,10 @@
-const { TextDisplayBuilder, SeparatorBuilder, SectionBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  SectionBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const withdraw_button = require("../../components/opposed/withdraw-challenge-button")
@@ -39,28 +45,22 @@ module.exports = {
       }),
       new SeparatorBuilder(),
       new TextDisplayBuilder({
-        content: t("conditions")
+        content: t("conditions"),
       }),
       new ActionRowBuilder({
-        components: [
-          condition_picker.data(challenge.locale),
-        ],
+        components: [condition_picker.data(challenge.locale)],
       }),
       new TextDisplayBuilder({
         content: t("advantages"),
       }),
       new ActionRowBuilder({
-        components: [
-          advantage_picker.data(challenge.locale, attacker),
-        ],
+        components: [advantage_picker.data(challenge.locale, attacker)],
       }),
       new TextDisplayBuilder({
         content: t("ready"),
       }),
       new ActionRowBuilder({
-        components: [
-          ready_button.data(challenge.locale),
-        ],
+        components: [ready_button.data(challenge.locale)],
       }),
     ]
 
@@ -89,11 +89,11 @@ module.exports = {
           description: challenge.description,
           context: challenge.description ? "description" : undefined,
           attribute: shared_t(`attributes.${challenge.attribute}`),
-          conditions: challenge.conditions.map(c => shared_t(`conditions.${c}`)),
+          conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
           retest: challenge.retest,
-          advantages: attacker.advantages.map(c => shared_t(`advantages.${c}`)),
-        })
-      })
+          advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
+        }),
+      }),
     ]
 
     return {
@@ -102,5 +102,5 @@ module.exports = {
       flags: MessageFlags.IsComponentsV2,
       allowedMentions: { parse: [] },
     }
-  }
+  },
 }

@@ -5,5 +5,5 @@ function relativeTimestamp(utc_date) {
 }
 
 module.exports = {
-  relativeTimestamp
+  relativeTimestamp,
 }

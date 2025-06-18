@@ -33,7 +33,7 @@ describe("makeHistory", () => {
       user_uid: attacker_uid,
       mention: `<@${attacker_uid}>`,
       role: ParticipantRoles.Attacker,
-      advantages: ['hi', 'there'],
+      advantages: ["hi", "there"],
     })
     attacker_id = result.lastInsertRowid
     result = opposed.addParticipant({
@@ -41,7 +41,7 @@ describe("makeHistory", () => {
       user_uid: "def",
       mention: `<@${defender_uid}>`,
       role: ParticipantRoles.Defender,
-      advantages: ['oh', 'no'],
+      advantages: ["oh", "no"],
     })
     defender_id = result.lastInsertRowid
 

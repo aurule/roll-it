@@ -20,17 +20,12 @@ module.exports = {
 
     if (!test.cancelled_with) {
       const t = i18n.getFixedT(locale, "interactive", "opposed.cancelling")
-      return interaction
-        .ensure(
-          "whisper",
-          t("missing"),
-          {
-            component: "opposed_cancel",
-            test: test,
-            challenge: challenge,
-            detail: "failed to whisper about missing cancel reason "
-          }
-        )
+      return interaction.ensure("whisper", t("missing"), {
+        component: "opposed_cancel",
+        test: test,
+        challenge: challenge,
+        detail: "failed to whisper about missing cancel reason ",
+      })
     }
 
     opposed_db.setTestCancelled(test.id)
@@ -42,17 +37,13 @@ module.exports = {
 
     const cancelling_message = require("../../messages/opposed/cancelling")
     await interaction
-      .ensure(
-        "edit",
-        cancelling_message.inert(challenge.id),
-        {
-          component: "opposed_cancel",
-          test: test,
-          challenge: challenge,
-          detail: "failed to update cancelling message to remove controls"
-        }
-      )
-      .catch(error => {
+      .ensure("edit", cancelling_message.inert(challenge.id), {
+        component: "opposed_cancel",
+        test: test,
+        challenge: challenge,
+        detail: "failed to update cancelling message to remove controls",
+      })
+      .catch((error) => {
         // suppress all errors so we can send other messages
         return
       })
@@ -67,16 +58,12 @@ module.exports = {
     }
 
     return interaction
-      .ensure(
-        "reply",
-        next_message.data(challenge.id),
-        {
-          component: "opposed_cancel",
-          test: test,
-          challenge: challenge,
-          detail: `failed to send ${next_message.state} prompt`
-        },
-      )
+      .ensure("reply", next_message.data(challenge.id), {
+        component: "opposed_cancel",
+        test: test,
+        challenge: challenge,
+        detail: `failed to send ${next_message.state} prompt`,
+      })
       .then((reply_result) => {
         const message_uid = reply_result.resource.message.id ?? reply_result.id
 

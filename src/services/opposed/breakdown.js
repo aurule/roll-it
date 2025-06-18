@@ -1,22 +1,22 @@
-function makeBreakdown({leader, chops, participants, t}) {
+function makeBreakdown({ leader, chops, participants, t }) {
   if (leader === null) {
     return t("shared.breakdown.tied", {
       result: chops[0].result,
       traits: chops[0].traits,
-      context: chops[0].traits >= 0 ? "bids" : undefined
+      context: chops[0].traits >= 0 ? "bids" : undefined,
     })
   }
 
   if (chops[0].result === chops[1].result && chops[0].traits < 0) {
     return t("shared.breakdown.tiebreaker", {
       result: chops[0].result,
-      leader: leader.mention
+      leader: leader.mention,
     })
   }
 
-  const leader_chop = chops.find(c => c.participant_id === leader.id)
-  const trailer = participants.find(p => p.user_uid !== leader.user_uid)
-  const trailer_chop = chops.find(c => c.participant_id === trailer.id)
+  const leader_chop = chops.find((c) => c.participant_id === leader.id)
+  const trailer = participants.find((p) => p.user_uid !== leader.user_uid)
+  const trailer_chop = chops.find((c) => c.participant_id === trailer.id)
 
   const t_args = {
     leader: leader.mention,

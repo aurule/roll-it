@@ -1,4 +1,9 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const bidding_defender_message = require("./bidding-defender")
@@ -62,22 +67,18 @@ module.exports = {
     }
 
     const chops = opposed_db.getChopsForTest(test.id)
-    const user_chop = chops.find(c => c.participant_id === test.attacker.id)
+    const user_chop = chops.find((c) => c.participant_id === test.attacker.id)
 
     opposed_db.setChopTraits(user_chop.id, num)
     opposed_db.setChallengeState(test.challenge_id, ChallengeStates.BiddingDefender)
     return interaction
-      .ensure(
-        "reply",
-        bidding_defender_message.data(test.challenge_id),
-        {
-          test,
-          attacker,
-          user_chop,
-          traits: num,
-          detail: "Failed to send defender bid prompt",
-        }
-      )
+      .ensure("reply", bidding_defender_message.data(test.challenge_id), {
+        test,
+        attacker,
+        user_chop,
+        traits: num,
+        detail: "Failed to send defender bid prompt",
+      })
       .then((reply_result) => {
         const message_uid = reply_result.id
 
@@ -87,5 +88,5 @@ module.exports = {
           test_id: test.id,
         })
       })
-  }
+  },
 }

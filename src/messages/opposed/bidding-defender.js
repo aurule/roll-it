@@ -1,4 +1,9 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed, ChallengeStates } = require("../../db/opposed")
 const { makeBreakdown } = require("../../services/opposed/breakdown")
 const { makeHistory } = require("../../services/opposed/history")
@@ -23,7 +28,7 @@ module.exports = {
     const challenge = opposed_db.getChallengeWithParticipants(challenge_id)
     const test = opposed_db.getLatestTest(challenge_id)
     const chops = opposed_db.getChopsForTest(test.id)
-    const attacker_chop = chops.find(c => c.participant_id === challenge.attacker.id)
+    const attacker_chop = chops.find((c) => c.participant_id === challenge.attacker.id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.bidding")
     return {
@@ -87,7 +92,7 @@ module.exports = {
 
     const participants = opposed_db.getParticipants(test.challenge_id, true)
     const chops = opposed_db.getChopsForTest(test.id)
-    const user_chop = chops.find(c => c.participant_id === test.defender.id)
+    const user_chop = chops.find((c) => c.participant_id === test.defender.id)
 
     opposed_db.setChopTraits(user_chop.id, num)
     user_chop.traits = num
@@ -112,16 +117,12 @@ module.exports = {
       opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Winning)
 
       return interaction
-        .ensure(
-          "reply",
-          winning_message.data(test.challenge_id),
-          {
-            test,
-            user_uid: interaction.user.id,
-            component: "go_button",
-            detail: "Failed to send 'winning' prompt"
-          }
-        )
+        .ensure("reply", winning_message.data(test.challenge_id), {
+          test,
+          user_uid: interaction.user.id,
+          component: "go_button",
+          detail: "Failed to send 'winning' prompt",
+        })
         .then((reply_result) => {
           // expect an InteractionCallbackResponse, but deal with a Message too
           const message_uid = reply_result.resource.message.id ?? reply_result.id
@@ -135,16 +136,12 @@ module.exports = {
       opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Tying)
 
       return interaction
-        .ensure(
-          "reply",
-          tying_message.data(test.challenge_id),
-          {
-            test,
-            user_uid: interaction.user.id,
-            component: "go_button",
-            detail: "Failed to send 'tying' prompt"
-          }
-        )
+        .ensure("reply", tying_message.data(test.challenge_id), {
+          test,
+          user_uid: interaction.user.id,
+          component: "go_button",
+          detail: "Failed to send 'tying' prompt",
+        })
         .then((reply_result) => {
           // expect an InteractionCallbackResponse, but deal with a Message too
           const message_uid = reply_result.resource.message.id ?? reply_result.id

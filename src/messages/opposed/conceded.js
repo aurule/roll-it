@@ -1,4 +1,9 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 
@@ -32,7 +37,7 @@ module.exports = {
         new TextDisplayBuilder({
           content: history,
         }),
-      ]
+      ],
     }
-  }
+  },
 }

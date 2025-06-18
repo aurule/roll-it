@@ -46,13 +46,16 @@ describe("Opposed DB", () => {
       expect(result).toEqual(false)
     })
 
-    it.each(Array.from(FINAL_STATES).map(s => [s]))("returns true for final state '%s'", (state) => {
-      opposed.setChallengeState(challenge_id, state)
+    it.each(Array.from(FINAL_STATES).map((s) => [s]))(
+      "returns true for final state '%s'",
+      (state) => {
+        opposed.setChallengeState(challenge_id, state)
 
-      const result = opposed.challengeFromMessageIsFinalized(message_uid)
+        const result = opposed.challengeFromMessageIsFinalized(message_uid)
 
-      expect(result).toEqual(true)
-    })
+        expect(result).toEqual(true)
+      },
+    )
   })
 
   describe("messageIsForLatestTest", () => {
@@ -82,7 +85,7 @@ describe("Opposed DB", () => {
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
         role: ParticipantRoles.Attacker,
-        advantages: ['hi', 'there'],
+        advantages: ["hi", "there"],
       })
       attacker_id = result.lastInsertRowid
       result = opposed.addParticipant({
@@ -90,7 +93,7 @@ describe("Opposed DB", () => {
         user_uid: "def",
         mention: `<@${defender_uid}>`,
         role: ParticipantRoles.Defender,
-        advantages: ['oh', 'no'],
+        advantages: ["oh", "no"],
       })
       defender_id = result.lastInsertRowid
       participant_ids = new Collection([
@@ -235,14 +238,14 @@ describe("Opposed DB", () => {
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
         role: ParticipantRoles.Attacker,
-        advantages: ['hi', 'there'],
+        advantages: ["hi", "there"],
       })
       opposed.addParticipant({
         challenge_id,
         user_uid: "def",
         mention: `<@${defender_uid}>`,
         role: ParticipantRoles.Defender,
-        advantages: ['oh', 'no'],
+        advantages: ["oh", "no"],
       })
     })
 
@@ -288,7 +291,7 @@ describe("Opposed DB", () => {
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
         role: ParticipantRoles.Attacker,
-        advantages: ['hi', 'there'],
+        advantages: ["hi", "there"],
       })
       attacker_id = result.lastInsertRowid
       result = opposed.addParticipant({
@@ -296,7 +299,7 @@ describe("Opposed DB", () => {
         user_uid: "def",
         mention: `<@${defender_uid}>`,
         role: ParticipantRoles.Defender,
-        advantages: ['oh', 'no'],
+        advantages: ["oh", "no"],
       })
       defender_id = result.lastInsertRowid
       participant_ids = new Collection([

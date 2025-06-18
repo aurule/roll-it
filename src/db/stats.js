@@ -30,7 +30,7 @@ class Stats {
     })
   }
 
-  logTiming({event, serialized, context, began, finished}) {
+  logTiming({ event, serialized, context, began, finished }) {
     const insert = this.db.prepare(oneLine`
       INSERT INTO stats.timing (
         event,

@@ -16,11 +16,7 @@ module.exports = {
    * Create the authorize method
    */
   patch(target_klass) {
-    let klasses = [
-      ButtonInteraction,
-      UserSelectMenuInteraction,
-      StringSelectMenuInteraction,
-    ]
+    let klasses = [ButtonInteraction, UserSelectMenuInteraction, StringSelectMenuInteraction]
     if (target_klass) {
       klasses = [target_klass]
     }

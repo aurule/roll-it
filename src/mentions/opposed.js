@@ -38,15 +38,11 @@ module.exports = {
       const message_data = message_file.data(challenge.id)
       const afterReply = message_file.afterReply
       return interaction
-        .ensure(
-          "reply",
-          message_data,
-          {
-            challenge_id: challenge.id,
-            channel_id: interaction.channelId,
-            detail: `failed to retry message for state "${challenge.state}"`
-          }
-        )
+        .ensure("reply", message_data, {
+          challenge_id: challenge.id,
+          channel_id: interaction.channelId,
+          detail: `failed to retry message for state "${challenge.state}"`,
+        })
         .then((reply_interaction) => {
           const message_props = {
             challenge_id: challenge.id,
@@ -71,20 +67,19 @@ module.exports = {
             component: component_name,
             detail: "unauthorized component interaction",
           })
-          return interaction
-            .ensure(
-              "whisper",
-              i18n.t("opposed.unauthorized", {
-                ns: "interactive",
-                lng: interaction.locale,
-                context: "mention",
-                participants: err.allowed_uids.map(userMention),
-              }),
-              {
-                user: interaction.user,
-                message: interaction.message
-              }
-            )
+          return interaction.ensure(
+            "whisper",
+            i18n.t("opposed.unauthorized", {
+              ns: "interactive",
+              lng: interaction.locale,
+              context: "mention",
+              participants: err.allowed_uids.map(userMention),
+            }),
+            {
+              user: interaction.user,
+              message: interaction.message,
+            },
+          )
         } else {
           logger.error({
             err,

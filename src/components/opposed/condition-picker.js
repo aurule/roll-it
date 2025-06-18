@@ -7,7 +7,11 @@ const { valuesOrDefault } = require("../../util/values-or-default")
 module.exports = {
   name: "opposed_condition_select",
   data: (locale) => {
-    const t = i18n.getFixedT(locale, "interactive", "opposed.advantages-attacker.components.conditions")
+    const t = i18n.getFixedT(
+      locale,
+      "interactive",
+      "opposed.advantages-attacker.components.conditions",
+    )
     return new StringSelectMenuBuilder()
       .setCustomId("opposed_condition_select")
       .setPlaceholder(t("placeholder"))

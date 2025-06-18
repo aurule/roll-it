@@ -103,10 +103,12 @@ module.exports = {
     const test = teamwork_db.detail(teamwork_id)
 
     if (test === undefined) {
-      logger.info({
-        teamwork_id,
-      },
-      "Teamwork test completed before timeout")
+      logger.info(
+        {
+          teamwork_id,
+        },
+        "Teamwork test completed before timeout",
+      )
       return
     }
 

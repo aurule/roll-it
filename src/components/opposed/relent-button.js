@@ -22,15 +22,11 @@ module.exports = {
 
     opposed_db.setChallengeState(challenge.id, ChallengeStates.Relented)
     return interaction
-      .ensure(
-        "reply",
-        relented_message.data(challenge.id),
-        {
-          component: "opposed_relent",
-          challenge_id: challenge.id,
-          detail: "Failed to reply with relented message",
-        }
-      )
+      .ensure("reply", relented_message.data(challenge.id), {
+        component: "opposed_relent",
+        challenge_id: challenge.id,
+        detail: "Failed to reply with relented message",
+      })
       .then((reply_result) => {
         // expect an InteractionCallbackResponse, but deal with a Message too
         const message_uid = reply_result.resource.message.id ?? reply_result.id

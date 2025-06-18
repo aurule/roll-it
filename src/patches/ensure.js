@@ -68,32 +68,31 @@ module.exports = {
      * @return {Promise}         Promise resolving to a Message or an InteractionCallbackResponse
      */
     const ensure = async function (funktion, args, context = {}) {
-      return this[funktion](args)
-        .catch(err => {
-          if (err.code === 10062) {
-            logger.warn(
+      return this[funktion](args).catch((err) => {
+        if (err.code === 10062) {
+          logger.warn(
+            {
+              ...context,
+              err,
+              fn: funktion,
+              args,
+            },
+            `Got "Unknown interaction" error for "${funktion}". Sending as detached message.`,
+          )
+          return api.sendMessage(this.channel.id, args).catch((err) =>
+            logger.error(
               {
                 ...context,
                 err,
                 fn: funktion,
                 args,
+                channel: this.channel,
               },
-              `Got "Unknown interaction" error for "${funktion}". Sending as detached message.`
-            )
-            return api
-              .sendMessage(this.channel.id, args)
-              .catch(err => logger.error(
-                {
-                  ...context,
-                  err,
-                  fn: funktion,
-                  args,
-                  channel: this.channel,
-                },
-                `Unable to send detached message for "${funktion}".`
-              ))
-          }
-        })
+              `Unable to send detached message for "${funktion}".`,
+            ),
+          )
+        }
+      })
     }
 
     for (const klass of klasses) {

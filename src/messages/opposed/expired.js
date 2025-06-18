@@ -1,4 +1,9 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 
@@ -19,7 +24,7 @@ module.exports = {
 
     if (!test) {
       return {
-        content: t("expired.empty", t_args)
+        content: t("expired.empty", t_args),
       }
     }
 
@@ -49,5 +54,5 @@ module.exports = {
         }),
       ],
     }
-  }
+  },
 }

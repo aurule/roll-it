@@ -1,4 +1,9 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const accept_button = require("../../components/opposed/accept-button")
@@ -32,22 +37,16 @@ module.exports = {
           }),
         }),
         new ActionRowBuilder({
-          components: [
-            accept_button.data(challenge.locale),
-          ]
+          components: [accept_button.data(challenge.locale)],
         }),
         new TextDisplayBuilder({
           content: t("shared.retest.cta"),
         }),
         new ActionRowBuilder({
-          components: [
-            retest_picker.data(challenge),
-          ]
+          components: [retest_picker.data(challenge)],
         }),
         new ActionRowBuilder({
-          components: [
-            retest_button.data(challenge.locale),
-          ]
+          components: [retest_button.data(challenge.locale)],
         }),
         new SeparatorBuilder(),
         new TextDisplayBuilder({
@@ -61,5 +60,5 @@ module.exports = {
         }),
       ],
     }
-  }
+  },
 }

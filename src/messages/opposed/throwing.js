@@ -1,4 +1,9 @@
-const { TextDisplayBuilder, SeparatorBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const throw_picker = require("../../components/opposed/throw-picker")
@@ -20,36 +25,30 @@ module.exports = {
       flags: MessageFlags.IsComponentsV2,
       components: [
         new TextDisplayBuilder({
-          content: t("request", { participant: attacker.mention })
+          content: t("request", { participant: attacker.mention }),
         }),
         new ActionRowBuilder({
-          components: [
-            throw_picker.data(locale, attacker),
-          ]
+          components: [throw_picker.data(locale, attacker)],
         }),
         new TextDisplayBuilder({
-          content: t("disclaimer", { participant: attacker.mention })
+          content: t("disclaimer", { participant: attacker.mention }),
         }),
         new SeparatorBuilder(),
         new TextDisplayBuilder({
-          content: t("request", { participant: defender.mention })
+          content: t("request", { participant: defender.mention }),
         }),
         new ActionRowBuilder({
-          components: [
-            throw_picker.data(locale, defender),
-          ]
+          components: [throw_picker.data(locale, defender)],
         }),
         new TextDisplayBuilder({
-          content: t("disclaimer", { participant: attacker.mention })
+          content: t("disclaimer", { participant: attacker.mention }),
         }),
         new SeparatorBuilder(),
         new TextDisplayBuilder({
-          content: t("cta")
+          content: t("cta"),
         }),
         new ActionRowBuilder({
-          components: [
-            go_button.data(challenge.locale)
-          ],
+          components: [go_button.data(challenge.locale)],
         }),
       ],
     }
@@ -60,26 +59,26 @@ module.exports = {
     const participants = opposed_db.getParticipants(test.challenge_id)
 
     if (opposed_db.didParticipantChop(participants.get("attacker").id, test.id)) {
-      await message
-        .react("🗡️")
-        .catch(err => {
-          logger.warn({
+      await message.react("🗡️").catch((err) => {
+        logger.warn(
+          {
             err,
             test,
           },
-          "Could not react with attacker emoji")
-        })
+          "Could not react with attacker emoji",
+        )
+      })
     }
     if (opposed_db.didParticipantChop(participants.get("defender").id, test.id)) {
-      await message
-        .react("🛡️")
-        .catch(err => {
-          logger.warn({
+      await message.react("🛡️").catch((err) => {
+        logger.warn(
+          {
             err,
             test,
           },
-          "Could not react with defender emoji")
-        })
+          "Could not react with defender emoji",
+        )
+      })
     }
-  }
+  },
 }

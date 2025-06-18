@@ -23,13 +23,13 @@ function chooseLeader(chops, participants, challenge_id) {
 
   const beaten = BEATS.get(chops[0].result)
   if (beaten.includes(chops[1].result)) {
-    return participants.find(p => p.id == chops[0].participant_id)
+    return participants.find((p) => p.id == chops[0].participant_id)
   } else {
-    return participants.find(p => p.id == chops[1].participant_id)
+    return participants.find((p) => p.id == chops[1].participant_id)
   }
 }
 
-async function resolveChops({interaction, chops, participants, test}) {
+async function resolveChops({ interaction, chops, participants, test }) {
   const opposed_db = new Opposed()
   const t = i18n.getFixedT(test.locale, "interactive", "opposed")
 
@@ -40,12 +40,12 @@ async function resolveChops({interaction, chops, participants, test}) {
   }
 
   const leader = chooseLeader(chops, participants, test.challenge_id)
-  const breakdown = makeBreakdown({leader, chops, participants, t})
+  const breakdown = makeBreakdown({ leader, chops, participants, t })
 
   const result_args = {
     leader: leader?.mention,
     breakdown,
-    context: leader ? "leader" : "tied"
+    context: leader ? "leader" : "tied",
   }
   await interaction
     .ensure(
@@ -55,18 +55,18 @@ async function resolveChops({interaction, chops, participants, test}) {
         allowedMentions: { parse: [] },
         components: [
           new TextDisplayBuilder({
-            content: t("throws.result", result_args)
-          })
+            content: t("throws.result", result_args),
+          }),
         ],
       },
       {
         test,
         user_uid: interaction.user.id,
         component: "go_button",
-        detail: "Failed to edit throw prompt to show result"
-      }
+        detail: "Failed to edit throw prompt to show result",
+      },
     )
-    .catch(error => {
+    .catch((error) => {
       // suppress all other errors so we can try to send something else
       return
     })
@@ -81,16 +81,12 @@ async function resolveChops({interaction, chops, participants, test}) {
     opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Winning)
 
     return interaction
-      .ensure(
-        "followUp",
-        winning_message.data(test.challenge_id),
-        {
-          test,
-          user_uid: interaction.user.id,
-          component: "go_button",
-          detail: "Failed to send 'winning' prompt"
-        }
-      )
+      .ensure("followUp", winning_message.data(test.challenge_id), {
+        test,
+        user_uid: interaction.user.id,
+        component: "go_button",
+        detail: "Failed to send 'winning' prompt",
+      })
       .then((reply_result) => {
         const message_uid = reply_result.id
 
@@ -103,16 +99,12 @@ async function resolveChops({interaction, chops, participants, test}) {
   } else {
     opposed_db.setChallengeState(test.challenge_id, ChallengeStates.BiddingAttacker)
     return interaction
-      .ensure(
-        "followUp",
-        bidding_atk_message.data(test.challenge_id),
-        {
-          test,
-          user_uid: interaction.user.id,
-          component: "go_button",
-          detail: "Failed to send 'bidding_attacker' prompt"
-        }
-      )
+      .ensure("followUp", bidding_atk_message.data(test.challenge_id), {
+        test,
+        user_uid: interaction.user.id,
+        component: "go_button",
+        detail: "Failed to send 'bidding_attacker' prompt",
+      })
       .then((reply_result) => {
         const message_uid = reply_result.id
 
@@ -137,26 +129,21 @@ module.exports = {
     const opposed_db = new Opposed()
     const test = opposed_db.findTestByMessage(interaction.message.id)
     const participants = opposed_db.getParticipants(test.challenge_id)
-    const current_participant = participants.find(p => p.user_uid == interaction.user.id)
+    const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
 
-    interaction.authorize(participants.map(p => p.user_uid))
+    interaction.authorize(participants.map((p) => p.user_uid))
 
     const t = i18n.getFixedT(test.locale, "interactive", "opposed")
 
     let chops = opposed_db.getChopsForTest(test.id)
-    const user_chop = chops.find(c => c.participant_id === current_participant.id)
+    const user_chop = chops.find((c) => c.participant_id === current_participant.id)
     if (user_chop === undefined) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("throws.premature"),
-          {
-              test,
-              user_uid: interaction.user.id,
-              component: "go_button",
-              detail: "Whispering about premature go click"
-          }
-        )
+      return interaction.ensure("whisper", t("throws.premature"), {
+        test,
+        user_uid: interaction.user.id,
+        component: "go_button",
+        detail: "Whispering about premature go click",
+      })
     }
 
     await interaction.deferUpdate()
@@ -169,8 +156,8 @@ module.exports = {
     }
 
     chops = opposed_db.getChopsForTest(test.id)
-    if (chops.length > 1 && chops.every(c => c.ready)) {
-      return resolveChops({interaction, chops, participants, test})
+    if (chops.length > 1 && chops.every((c) => c.ready)) {
+      return resolveChops({ interaction, chops, participants, test })
     }
   },
   chooseLeader,

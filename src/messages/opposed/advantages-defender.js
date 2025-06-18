@@ -1,4 +1,10 @@
-const { TextDisplayBuilder, SeparatorBuilder, SectionBuilder, ActionRowBuilder, MessageFlags } = require("discord.js")
+const {
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  SectionBuilder,
+  ActionRowBuilder,
+  MessageFlags,
+} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const relent_button = require("../../components/opposed/relent-button")
@@ -25,9 +31,9 @@ module.exports = {
           description: challenge.description,
           context: challenge.description ? "description" : undefined,
           attribute: shared_t(`attributes.${challenge.attribute}`),
-          conditions: challenge.conditions.map(c => shared_t(`conditions.${c}`)),
+          conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
           retest: challenge.retest,
-          advantages: attacker.advantages.map(c => shared_t(`advantages.${c}`)),
+          advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
         }),
       }),
       new SectionBuilder({
@@ -44,17 +50,13 @@ module.exports = {
         content: t("advantages"),
       }),
       new ActionRowBuilder({
-        components: [
-          advantage_picker.data(challenge.locale, defender),
-        ],
+        components: [advantage_picker.data(challenge.locale, defender)],
       }),
       new TextDisplayBuilder({
         content: t("ready"),
       }),
       new ActionRowBuilder({
-        components: [
-          ready_button.data(challenge.locale),
-        ],
+        components: [ready_button.data(challenge.locale)],
       }),
     ]
 
@@ -83,11 +85,11 @@ module.exports = {
           description: challenge.description,
           context: challenge.description ? "description" : undefined,
           retest: challenge.retest,
-          conditions: challenge.conditions.map(c => t(`conditions.${c}`)),
-          attacker_advantages: attacker.advantages.map(c => t(`advantages.${c}`)),
-          defender_advantages: defender.advantages.map(c => t(`advantages.${c}`)),
-        })
-      })
+          conditions: challenge.conditions.map((c) => t(`conditions.${c}`)),
+          attacker_advantages: attacker.advantages.map((c) => t(`advantages.${c}`)),
+          defender_advantages: defender.advantages.map((c) => t(`advantages.${c}`)),
+        }),
+      }),
     ]
 
     return {
@@ -96,5 +98,5 @@ module.exports = {
       flags: MessageFlags.IsComponentsV2,
       allowedMentions: { parse: [] },
     }
-  }
+  },
 }

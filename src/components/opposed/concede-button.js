@@ -23,31 +23,23 @@ module.exports = {
 
     const winning_message = require("../../messages/opposed/winning")
     await interaction
-      .ensure(
-        "edit",
-        winning_message.inert(challenge.id),
-        {
-          component: "opposed_retest",
-          test: test,
-          challenge: challenge,
-          detail: "failed to update winning message to remove controls"
-        }
-      )
-      .catch(error => {
+      .ensure("edit", winning_message.inert(challenge.id), {
+        component: "opposed_retest",
+        test: test,
+        challenge: challenge,
+        detail: "failed to update winning message to remove controls",
+      })
+      .catch((error) => {
         // suppress all errors so we can send other messages
         return
       })
 
     opposed_db.setChallengeState(challenge.id, ChallengeStates.Conceded)
     return interaction
-      .ensure(
-        "reply",
-        conceded_message.data(challenge.id),
-        {
-          user_uid: interaction.user.id,
-          component: "opposed_concede"
-        }
-      )
+      .ensure("reply", conceded_message.data(challenge.id), {
+        user_uid: interaction.user.id,
+        component: "opposed_concede",
+      })
       .then((reply_result) => {
         // expect an InteractionCallbackResponse, but deal with a Message too
         const message_uid = reply_result.resource.message.id ?? reply_result.id

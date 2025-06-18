@@ -6,7 +6,11 @@ const { logger } = require("../../util/logger")
 module.exports = {
   name: "opposed_cancel_select",
   data: (challenge) => {
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling.components.picker")
+    const t = i18n.getFixedT(
+      challenge.locale,
+      "interactive",
+      "opposed.cancelling.components.picker",
+    )
     return new StringSelectMenuBuilder()
       .setCustomId("opposed_cancel_select")
       .setPlaceholder(t("placeholder"))

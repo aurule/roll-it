@@ -4,5 +4,5 @@ function valuesOrDefault(interaction, default_values) {
 }
 
 module.exports = {
-  valuesOrDefault
+  valuesOrDefault,
 }

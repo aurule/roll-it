@@ -21,17 +21,13 @@ module.exports = {
 
     const cancelling_message = require("../../messages/opposed/cancelling")
     await interaction
-      .ensure(
-        "edit",
-        cancelling_message.inert(challenge.id),
-        {
-          component: "opposed_continue",
-          test: test,
-          challenge: challenge,
-          detail: "failed to update cancelling message to remove controls"
-        }
-      )
-      .catch(error => {
+      .ensure("edit", cancelling_message.inert(challenge.id), {
+        component: "opposed_continue",
+        test: test,
+        challenge: challenge,
+        detail: "failed to update cancelling message to remove controls",
+      })
+      .catch((error) => {
         // suppress all errors so we can send other messages
         return
       })
@@ -43,16 +39,12 @@ module.exports = {
     opposed_db.setChallengeState(ChallengeStates.Throwing)
 
     return interaction
-      .ensure(
-        "reply",
-        throwing_message.data(challenge.id),
-        {
-          component: "opposed_continue",
-          test: test,
-          challenge: challenge,
-          detail: "failed to send throwing prompt"
-        },
-      )
+      .ensure("reply", throwing_message.data(challenge.id), {
+        component: "opposed_continue",
+        test: test,
+        challenge: challenge,
+        detail: "failed to send throwing prompt",
+      })
       .then((reply_result) => {
         const message_uid = reply_result.resource.message.id ?? reply_result.id
 

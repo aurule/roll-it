@@ -2,7 +2,7 @@ const fs = require("fs")
 const path = require("path")
 const { Collection, userMention } = require("discord.js")
 
-const { Opposed }  = require("../db/opposed")
+const { Opposed } = require("../db/opposed")
 const { opposedTimeout } = require("../interactive/opposed")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
@@ -23,7 +23,7 @@ contents.forEach((mention_file) => {
 const num_regex = /_\d+/gi
 
 function sanitize_id(customId) {
-  return customId.replaceAll(num_regex, '')
+  return customId.replaceAll(num_regex, "")
 }
 
 module.exports = {
@@ -65,46 +65,31 @@ module.exports = {
     // component's message is not recorded
     if (!opposed_db.hasMessage(message_id)) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-      return interaction
-        .ensure(
-          "whisper",
-          t("concluded"),
-          {
-            user: interaction.user.id,
-            component: interaction.customId,
-            detail: `Could not whisper about concluded opposed challenge from ${component_name}`
-          }
-        )
+      return interaction.ensure("whisper", t("concluded"), {
+        user: interaction.user.id,
+        component: interaction.customId,
+        detail: `Could not whisper about concluded opposed challenge from ${component_name}`,
+      })
     }
 
     // message belongs to a finished challenge
     if (opposed_db.challengeFromMessageIsFinalized(message_id)) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-      return interaction
-        .ensure(
-          "whisper",
-          t("concluded"),
-          {
-            user: interaction.user.id,
-            component: interaction.customId,
-            detail: `Could not whisper about concluded opposed challenge from ${component_name}`
-          }
-        )
+      return interaction.ensure("whisper", t("concluded"), {
+        user: interaction.user.id,
+        component: interaction.customId,
+        detail: `Could not whisper about concluded opposed challenge from ${component_name}`,
+      })
     }
 
     // message belongs to a test other than the most recent one
     if (!opposed_db.messageIsForLatestTest(message_id)) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-      return interaction
-        .ensure(
-          "whisper",
-          t("outdated"),
-          {
-            user: interaction.user.id,
-            component: interaction.customId,
-            detail: `Could not whisper about outdated message from ${component_name}`
-          }
-        )
+      return interaction.ensure("whisper", t("outdated"), {
+        user: interaction.user.id,
+        component: interaction.customId,
+        detail: `Could not whisper about outdated message from ${component_name}`,
+      })
     }
 
     const component = components.get(sanitize_id(component_name))
@@ -118,12 +103,14 @@ module.exports = {
           detail: "unauthorized component interaction",
         })
         return interaction
-          .whisper(i18n.t("opposed.unauthorized", {
-            ns: "interactive",
-            lng: interaction.locale,
-            participants: err.allowed_uids.map(userMention),
-          }))
-          .catch(err => {
+          .whisper(
+            i18n.t("opposed.unauthorized", {
+              ns: "interactive",
+              lng: interaction.locale,
+              participants: err.allowed_uids.map(userMention),
+            }),
+          )
+          .catch((err) => {
             logger.error({
               err,
               user: interaction.user,

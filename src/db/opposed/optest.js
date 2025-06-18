@@ -61,11 +61,20 @@ class OpTest {
     const { ParticipantRoles } = require("../opposed")
     const participants = this.opposed_db.getParticipants(this.challenge_id, true)
     this.records.set("leader", participants.get(this.leader_id))
-    this.records.set("trailer", participants.find(p => p.id != this.leader_id))
+    this.records.set(
+      "trailer",
+      participants.find((p) => p.id != this.leader_id),
+    )
     this.records.set("retester", participants.get(this.retester_id))
     this.records.set("canceller", participants.get(this.canceller_id))
-    this.records.set("attacker", participants.find(p => p.role === ParticipantRoles.Attacker))
-    this.records.set("defender", participants.find(p => p.role === ParticipantRoles.Defender))
+    this.records.set(
+      "attacker",
+      participants.find((p) => p.role === ParticipantRoles.Attacker),
+    )
+    this.records.set(
+      "defender",
+      participants.find((p) => p.role === ParticipantRoles.Defender),
+    )
     return this.records.get(key)
   }
 

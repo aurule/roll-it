@@ -22,14 +22,7 @@ const RETEST_DURATION_BONUS = 300_000 // 5 minutes
 module.exports = {
   MAX_DURATION,
   RETEST_DURATION_BONUS,
-  async opposedBegin({
-    interaction,
-    description,
-    attackerId,
-    defenderId,
-    attribute,
-    retest,
-  } = {}) {
+  async opposedBegin({ interaction, description, attackerId, defenderId, attribute, retest } = {}) {
     const locale = interaction.guild.locale ?? "en-US"
     const t = i18n.getFixedT(locale, "interactive", "opposed.prompt")
     const shared_t = i18n.getFixedT(locale, "interactive", "opposed.shared")
@@ -66,14 +59,10 @@ module.exports = {
     })
 
     return interaction
-      .ensure(
-        "reply",
-        advantages_attacker_message.data(challenge_id),
-        {
-          challenge_id,
-          detail: "failed to send advantages prompt"
-        }
-      )
+      .ensure("reply", advantages_attacker_message.data(challenge_id), {
+        challenge_id,
+        detail: "failed to send advantages prompt",
+      })
       .then((reply_result) => {
         setTimeout(module.exports.opposedTimeout, MAX_DURATION, challenge_id)
 
@@ -99,18 +88,22 @@ module.exports = {
     opposed_db.setChallengeState(challenge.id, ChallengStates.Expired)
     return api
       .sendMessage(challenge.channel_uid, expired_message.data(challenge_id))
-      .then(message => opposed_db.addMessage({
-        message_uid: message.id,
-        challenge_id,
-      }))
-      .catch(err => logger.error(
-        {
-          err,
-          channel: challenge.channel_uid,
-          challenge,
-        },
-        "Unable to send opposed timeout message"
-      ))
+      .then((message) =>
+        opposed_db.addMessage({
+          message_uid: message.id,
+          challenge_id,
+        }),
+      )
+      .catch((err) =>
+        logger.error(
+          {
+            err,
+            channel: challenge.channel_uid,
+            challenge,
+          },
+          "Unable to send opposed timeout message",
+        ),
+      )
   },
 
   async cleanup(challenge_id) {
@@ -132,13 +125,13 @@ module.exports = {
       attacker: attacker.mention,
       defender: defender.mention,
       description: challenge.description,
-      context: challenge.description ? "description" : undefined
+      context: challenge.description ? "description" : undefined,
     }
     return editMessage(challenge.channel_uid, prompt_uid, {
       components: [
         new TextDisplayBuilder({
           content: t("prompt.done", t_args),
-        })
+        }),
       ],
       allowedMentions: { parse: [] },
     }).catch((error) =>
@@ -151,5 +144,5 @@ module.exports = {
         "Unable to edit prompt message",
       ),
     )
-  }
+  },
 }

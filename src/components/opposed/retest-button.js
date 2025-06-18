@@ -6,7 +6,10 @@ const { logger } = require("../../util/logger")
 const AbilityReasons = new Set(["named", "ability"])
 
 function canCancel(test) {
-  return test.canceller.advantages.includes("cancels") || (AbilityReasons.has(test.retest_reason) && !test.canceller.ability_used)
+  return (
+    test.canceller.advantages.includes("cancels") ||
+    (AbilityReasons.has(test.retest_reason) && !test.canceller.ability_used)
+  )
 }
 
 module.exports = {
@@ -26,38 +29,28 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
-    interaction.authorize(participants.map(p => p.user_uid))
+    interaction.authorize(participants.map((p) => p.user_uid))
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const test = opposed_db.getLatestTestWithParticipants(challenge.id)
 
     if (!test.retest_reason) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("winning.retest.missing"),
-          {
-            component: "opposed_retest",
-            test: test,
-            challenge: challenge,
-            detail: "failed to whisper about missing retest reason"
-          }
-        )
+      return interaction.ensure("whisper", t("winning.retest.missing"), {
+        component: "opposed_retest",
+        test: test,
+        challenge: challenge,
+        detail: "failed to whisper about missing retest reason",
+      })
     }
 
     if (test.retester.user_uid !== interaction.user.id) {
-      return interaction
-        .ensure(
-          "whisper",
-          t("winning.retest.conflict"),
-          {
-            component: "opposed_retest",
-            test: test,
-            challenge: challenge,
-            detail: "failed to whisper about conflicted retest"
-          }
-        )
+      return interaction.ensure("whisper", t("winning.retest.conflict"), {
+        component: "opposed_retest",
+        test: test,
+        challenge: challenge,
+        detail: "failed to whisper about conflicted retest",
+      })
     }
 
     let message
@@ -68,17 +61,13 @@ module.exports = {
     }
 
     await interaction
-      .ensure(
-        "edit",
-        message.inert(challenge.id),
-        {
-          component: "opposed_retest",
-          test: test,
-          challenge: challenge,
-          detail: "failed to update progress message to remove controls"
-        }
-      )
-      .catch(error => {
+      .ensure("edit", message.inert(challenge.id), {
+        component: "opposed_retest",
+        test: test,
+        challenge: challenge,
+        detail: "failed to update progress message to remove controls",
+      })
+      .catch((error) => {
         // suppress all errors so we can send other messages
         return
       })
@@ -101,16 +90,12 @@ module.exports = {
     }
 
     return interaction
-      .ensure(
-        "reply",
-        next_message.data(challenge.id),
-        {
-          component: "opposed_retest",
-          test: test,
-          challenge: challenge,
-          detail: `failed to send ${next_message.state} prompt`
-        },
-      )
+      .ensure("reply", next_message.data(challenge.id), {
+        component: "opposed_retest",
+        test: test,
+        challenge: challenge,
+        detail: `failed to send ${next_message.state} prompt`,
+      })
       .then((reply_result) => {
         const message_uid = reply_result.resource.message.id ?? reply_result.id
 
