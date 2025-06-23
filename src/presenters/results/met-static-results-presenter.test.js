@@ -144,4 +144,24 @@ describe("presentMany", () => {
       expect(result).not.toMatch("vs")
     })
   })
+
+  describe("random throws", () => {
+    it("notes random vs symbol", () => {
+      const result = presentMany({
+        ...default_opts,
+        vs_request: "rand",
+      })
+
+      expect(result).toMatch("random")
+    })
+
+    it("notes random vs symbol with bomb", () => {
+      const result = presentMany({
+        ...default_opts,
+        vs_request: "rand-bomb",
+      })
+
+      expect(result).toMatch("bomb")
+    })
+  })
 })

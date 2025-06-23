@@ -3,18 +3,19 @@ const { i18n } = require("../../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {
-    modifier: 0,
     sides: 6,
-    description: "test roll",
     raw: [[1]],
     summed: [1],
     t: i18n.getFixedT("en-US", "commands", "kob"),
   }
 
   it("includes description if present", () => {
-    const result = kobPresenter.presentOne(defaultArgs)
+    const result = kobPresenter.presentOne({
+      description: "test roll",
+      ...defaultArgs
+    })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
+    expect(result).toMatch('"test roll"')
   })
 
   it("includes the sum", () => {
@@ -40,21 +41,40 @@ describe("presentOne", () => {
 
     expect(result).toMatch(`, 2`)
   })
+
+  it("includes modifier if present", () => {
+    const result = kobPresenter.presentOne({
+      modifier: 3,
+      ...defaultArgs
+    })
+
+    expect(result).toMatch("+ 3")
+  })
 })
 
 describe("presentMany", () => {
   const defaultArgs = {
-    modifier: 0,
-    description: "test roll",
     raw: [[1], [2]],
     summed: [1, 2],
     t: i18n.getFixedT("en-US", "commands", "kob"),
   }
 
   it("includes description if present", () => {
-    const result = kobPresenter.presentMany(defaultArgs)
+    const result = kobPresenter.presentMany({
+      description: "test roll",
+      ...defaultArgs
+    })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
+    expect(result).toMatch('"test roll"')
+  })
+
+  it("includes modifier if present", () => {
+    const result = kobPresenter.presentMany({
+      modifier: 3,
+      ...defaultArgs
+    })
+
+    expect(result).toMatch("+ 3")
   })
 })
 
