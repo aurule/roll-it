@@ -1,3 +1,13 @@
+/**
+ * Describe the outcome of an opposed tests
+ *
+ * @param  {object}                  options
+ * @param  {Participant|null}        options.leader       Participant who won the chop, or null
+ * @param  {Chop[]}                  options.chops        Array of database Chop objects
+ * @param  {Collection<Participant>} options.participants Collection of test participants
+ * @param  {i18n.t}                  options.t            Localization function
+ * @return {str}                                          String describing the outcome
+ */
 function makeBreakdown({ leader, chops, participants, t }) {
   if (leader === null) {
     return t("shared.breakdown.tied", {
