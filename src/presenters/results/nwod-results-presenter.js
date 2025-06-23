@@ -13,17 +13,18 @@ class NwodPresenter {
   /**
    * Create a new NwodPresenter object
    *
-   * @param  {Int}       options.pool        Number of dice rolled
-   * @param  {Int}       options.rolls       Number of rolls made
+   * @param  {object}    options
+   * @param  {int}       options.pool        Number of dice rolled
+   * @param  {int}       options.rolls       Number of rolls made
    * @param  {bool}      options.chance      Whether this is the result of a chance roll
    * @param  {bool}      options.rote        Whether this is the result of a rote roll
-   * @param  {Int}       options.threshold   Threshold for success
-   * @param  {Bool}      options.explode     Whether 10s were re-rolled
-   * @param  {Int}       options.until       Target number of successes from multiple rolls
+   * @param  {int}       options.threshold   Threshold for success
+   * @param  {int}       options.explode     Threshold for re-rolls
+   * @param  {int}       options.until       Target number of successes from multiple rolls
    * @param  {bool}      options.decreasing  Whether the pool of subsequent rolls is lowered
-   * @param  {String}    options.description Text describing the roll
-   * @param  {Array<int[]>} options.raw      Array of one array with ints representing raw dice rolls
-   * @param  {int[]}     options.summed      Array of one int, summing the rolled dice
+   * @param  {str}       options.description Text describing the roll
+   * @param  {Array<int[]>} options.raw      Array of arrays with ints representing raw dice rolls
+   * @param  {int[]}     options.summed      Array of ints, summing the rolled dice
    */
   constructor({
     pool,
@@ -65,13 +66,13 @@ class NwodPresenter {
         .map((result, index) => {
           return (
             "\t" +
-            this.t("response.result", { tally: this.xtally(index), detail: this.notateDice(index) })
+            this.t("response.result", { tally: this.makeTally(index), detail: this.notateDice(index) })
           )
         })
         .join("\n"),
-      tally: this.xtally(0),
+      tally: this.makeTally(0),
       detail: this.notateDice(0),
-      pool: this.xpool(),
+      pool: this.describePool(),
     }
 
     const key_parts = ["response"]
@@ -101,14 +102,30 @@ class NwodPresenter {
     return content
   }
 
-  xtally(result_index) {
+  /**
+   * Make a string describing the successes of a roll
+   *
+   * A chance roll that has a natural 1 on its first die will always result in a special "dramatic failure"
+   * string. Otherwise, this formats the sum.
+   *
+   * @param  {int} result_index Index of the roll to tally
+   * @return {str}              String describing the result
+   */
+  makeTally(result_index) {
     if (this.rollChance(result_index) && this.raw[result_index][0] === 1) {
       return this.t("response.tally.fail")
     }
     return this.t("response.tally.number", { tally: this.summed[result_index] })
   }
 
-  xpool() {
+  /**
+   * Make a string describing the dice pool of our rolls
+   *
+   * @return {str} String describing the dice pool
+   */
+  describePool() {
+    const default_threshold = this.chance ? 10 : 8
+
     const dice_key = this.chance ? "response.pool.dice.chance" : "response.pool.dice.total"
     const dice = this.t(dice_key, { count: this.pool })
 
@@ -123,7 +140,7 @@ class NwodPresenter {
     const key_parts = ["response.pool.explanation"]
 
     if (this.rote) key_parts.push("rote")
-    if (this.threshold !== 8) key_parts.push("threshold")
+    if (this.threshold !== default_threshold) key_parts.push("threshold")
     if (this.explode !== 10) key_parts.push("explode")
     if (this.decreasing) {
       key_parts.push("decreasing")

@@ -211,6 +211,230 @@ describe("NwodPresenter", () => {
     })
   })
 
+  describe("makeTally", () => {
+    describe("with a chance roll and natural 1", () => {
+      it("reports a dramatic failure", () => {
+        const presenter = new NwodPresenter({
+          pool: 1,
+          rolls: 1,
+          chance: true,
+          rote: false,
+          threshold: 10,
+          explode: 10,
+          until: 0,
+          decreasing: false,
+          raw: [[1]],
+          summed: [0]
+        })
+
+        const result = presenter.makeTally(0)
+
+        expect(result).toMatch("dramatic failure")
+      })
+    })
+
+    describe("with a regular result", () => {
+      it("shows the total successes", () => {
+        const presenter = new NwodPresenter({
+          pool: 2,
+          rolls: 1,
+          chance: false,
+          rote: false,
+          threshold: 8,
+          explode: 10,
+          until: 0,
+          decreasing: false,
+          raw: [[4, 9]],
+          summed: [1]
+        })
+
+        const result = presenter.makeTally(0)
+
+        expect(result).toMatch("**1**")
+      })
+    })
+  })
+
+  describe("describePool", () => {
+    let roll_options
+
+    beforeEach(() => {
+      roll_options = {
+        pool: 1,
+        rolls: 1,
+        chance: true,
+        rote: false,
+        threshold: 10,
+        explode: 10,
+        until: 0,
+        decreasing: false,
+        raw: [[1]],
+        summed: [0]
+      }
+    })
+
+    describe("with a chance roll", () => {
+      it("names the chance die", () => {
+        const presenter = new NwodPresenter(roll_options)
+
+        const result = presenter.describePool()
+
+        expect(result).toMatch("chance die")
+      })
+
+      describe("with rote", () => {
+        it("names rote benefit", () => {
+          roll_options.rote = true
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("with rote")
+        })
+      })
+
+      it("with threshold 10, does not name threshold", () => {
+        const presenter = new NwodPresenter(roll_options)
+
+        const result = presenter.describePool()
+
+        expect(result).not.toMatch("succeeding on 10")
+      })
+
+      it("with threshold 9, names threshold range", () => {
+        roll_options.threshold = 9
+        const presenter = new NwodPresenter(roll_options)
+
+        const result = presenter.describePool()
+
+        expect(result).toMatch("succeeding on 9 and up")
+      })
+    })
+
+    describe("with a regular roll", () => {
+      let roll_options
+
+      beforeEach(() => {
+        roll_options = {
+          pool: 3,
+          rolls: 1,
+          chance: false,
+          rote: false,
+          threshold: 8,
+          explode: 10,
+          until: 0,
+          decreasing: false,
+          raw: [[1, 5, 8]],
+          summed: [1]
+        }
+      })
+
+      describe("of one die", () => {
+        it("uses singular die", () => {
+          roll_options.pool = 1
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("1 die")
+        })
+      })
+
+      describe("of many dide", () => {
+        it("uses plural dice", () => {
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("3 dice")
+        })
+      })
+
+      describe("threshold", () => {
+        it("default 8, does not name threshold", () => {
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).not.toMatch("succeeding on")
+        })
+
+        it("9, names range", () => {
+          roll_options.threshold = 9
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("succeeding on 9 and up")
+        })
+
+        it("7, names range", () => {
+          roll_options.threshold = 7
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("succeeding on 7 and up")
+        })
+
+        it("10, names static number", () => {
+          roll_options.threshold = 10
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("succeeding on 10")
+        })
+      })
+
+      describe("explode", () => {
+        it("default 10, does not name explode", () => {
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).not.toMatch("again")
+        })
+
+        it("over 10, names no explodes", () => {
+          roll_options.explode = 11
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("no 10-again")
+        })
+
+        it("9, names 9-again", () => {
+          roll_options.explode = 9
+          const presenter = new NwodPresenter(roll_options)
+
+          const result = presenter.describePool()
+
+          expect(result).toMatch("with 9-again")
+        })
+      })
+
+      it("names rote for rote roll", () => {
+        roll_options.rote = true
+        const presenter = new NwodPresenter(roll_options)
+
+        const result = presenter.describePool()
+
+        expect(result).toMatch("with rote")
+      })
+
+      it("names decreasing for decreasing roll", () => {
+        roll_options.decreasing = true
+        const presenter = new NwodPresenter(roll_options)
+
+        const result = presenter.describePool()
+
+        expect(result).toMatch("decreasing")
+      })
+    })
+  })
+
   describe("notateDice", () => {
     it("displays the correct result", () => {
       const presenter = new NwodPresenter({
