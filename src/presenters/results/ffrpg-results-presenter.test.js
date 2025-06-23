@@ -94,6 +94,19 @@ describe("FfrpgPresenter", () => {
         expect(result).toMatch("critical success")
         expect(result).toMatch("success")
       })
+
+      it("shows rule of 10", () => {
+        const presenter = new FfrpgPresenter({
+          base: 5,
+          crit: 20,
+          raw: [[7], [50]],
+          rolls: 2,
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("rule of 10")
+      })
     })
   })
 
