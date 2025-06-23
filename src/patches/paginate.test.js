@@ -4,155 +4,162 @@ const { CommandInteraction, MessageFlags } = require("discord.js")
 
 class PatchMePaginate {
   messages = []
+  replied = false
 
   reply(args) {
+    if (this.replied) throw new Error("already replied")
     this.messages.push(args)
+    this.replied = true
     return args
   }
 
   followUp(args) {
-    return this.reply(args)
+    if (!this.replied) throw new Error("not yet replied")
+    this.messages.push(args)
+    return args
   }
 }
 
-describe("patch", () => {
-  it("targets the base command class by default", () => {
-    paginate.patch()
+describe("pagination helper", () => {
+  describe("patch", () => {
+    it("targets the base command class by default", () => {
+      paginate.patch()
 
-    expect(CommandInteraction.prototype.paginate).not.toBeUndefined()
-  })
-})
-
-describe("paginate", () => {
-  beforeAll(() => {
-    paginate.patch(PatchMePaginate)
-  })
-
-  describe("with a short message", () => {
-    it("sends one reply", async () => {
-      const fake = new PatchMePaginate()
-
-      await fake.paginate({
-        content: "I am surprisingly short, actually.",
-        max_length: 100,
-      })
-
-      expect(fake.messages.length).toEqual(1)
-    })
-
-    it("sends ephemeral if given", async () => {
-      const fake = new PatchMePaginate()
-
-      await fake.paginate({
-        content: "I am surprisingly short, actually.",
-        max_length: 100,
-        secret: true,
-      })
-
-      expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
+      expect(CommandInteraction.prototype.paginate).not.toBeUndefined()
     })
   })
 
-  describe("with a long message", () => {
-    it("sends multiple replies", async () => {
-      const fake = new PatchMePaginate()
-
-      await fake.paginate({
-        content:
-          "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
-        max_length: 100,
-      })
-
-      expect(fake.messages.length).toEqual(2)
+  describe("paginate", () => {
+    beforeAll(() => {
+      paginate.patch(PatchMePaginate)
     })
 
-    it("sends ephemeral on each message", async () => {
-      const fake = new PatchMePaginate()
+    describe("with a short message", () => {
+      it("sends one reply", async () => {
+        const fake = new PatchMePaginate()
 
-      await fake.paginate({
-        content:
-          "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
-        max_length: 100,
-        secret: true,
+        await fake.paginate({
+          content: "I am surprisingly short, actually.",
+          max_length: 100,
+        })
+
+        expect(fake.messages.length).toEqual(1)
       })
 
-      expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
-      expect(fake.messages[1].flags).toEqual(MessageFlags.Ephemeral)
+      it("sends ephemeral if given", async () => {
+        const fake = new PatchMePaginate()
+
+        await fake.paginate({
+          content: "I am surprisingly short, actually.",
+          max_length: 100,
+          secret: true,
+        })
+
+        expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
+      })
+    })
+
+    describe("with a long message", () => {
+      it("sends multiple replies", async () => {
+        const fake = new PatchMePaginate()
+
+        await fake.paginate({
+          content:
+            "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
+          max_length: 100,
+        })
+
+        expect(fake.messages.length).toEqual(2)
+      })
+
+      it("sends ephemeral on each message", async () => {
+        const fake = new PatchMePaginate()
+
+        await fake.paginate({
+          content:
+            "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!",
+          max_length: 100,
+          secret: true,
+        })
+
+        expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
+        expect(fake.messages[1].flags).toEqual(MessageFlags.Ephemeral)
+      })
     })
   })
-})
 
-describe("splitMessage", () => {
-  it("returns a single message when it's short", () => {
-    const message = "I am surprisingly short"
-    const length = 100
+  describe("splitMessage", () => {
+    it("returns a single message when it's short", () => {
+      const message = "I am surprisingly short"
+      const length = 100
 
-    const result = paginate.splitMessage(message, undefined, length)
+      const result = paginate.splitMessage(message, undefined, length)
 
-    expect(result.length).toEqual(1)
+      expect(result.length).toEqual(1)
+    })
+
+    it("caps messages at length", () => {
+      const message = "I am surprisingly short"
+      const length = 100
+
+      const result = paginate.splitMessage(message, undefined, length)
+
+      for (const m of result) {
+        expect(m.length).toBeLessThanOrEqual(length)
+      }
+    })
+
+    it("splits at the separator", () => {
+      const message =
+        "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!"
+      const length = 100
+
+      const result = paginate.splitMessage(message, " ", length)
+
+      expect(result).toEqual([
+        "I am surprisingly long, actually. I know, it's a real surprise, but truly I…\n-# (message 1/2)",
+        "…have over 100 characters!\n-# (message 2/2)",
+      ])
+    })
   })
 
-  it("caps messages at length", () => {
-    const message = "I am surprisingly short"
-    const length = 100
+  describe("prefixer", () => {
+    it("returns empty string for page 1", () => {
+      const result = paginate.prefixer(1)
 
-    const result = paginate.splitMessage(message, undefined, length)
+      expect(result).toEqual("")
+    })
 
-    for (const m of result) {
-      expect(m.length).toBeLessThanOrEqual(length)
-    }
+    it("returns ellipsis for page 2+", () => {
+      const result = paginate.prefixer(2)
+
+      expect(result).toEqual("…")
+    })
   })
 
-  it("splits at the separator", () => {
-    const message =
-      "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!"
-    const length = 100
+  describe("suffixer", () => {
+    it("shows page number", () => {
+      const result = paginate.suffixer(2, 3)
 
-    const result = paginate.splitMessage(message, " ", length)
+      expect(result).toMatch("2/")
+    })
 
-    expect(result).toEqual([
-      "I am surprisingly long, actually. I know, it's a real surprise, but truly I…\n-# (message 1/2)",
-      "…have over 100 characters!\n-# (message 2/2)",
-    ])
-  })
-})
+    it("shows max pages", () => {
+      const result = paginate.suffixer(2, 3)
 
-describe("prefixer", () => {
-  it("returns empty string for page 1", () => {
-    const result = paginate.prefixer(1)
+      expect(result).toMatch("/3")
+    })
 
-    expect(result).toEqual("")
-  })
+    it("includes ellipsis on non-final messages", () => {
+      const result = paginate.suffixer(2, 3)
 
-  it("returns ellipsis for page 2+", () => {
-    const result = paginate.prefixer(2)
+      expect(result).toMatch("…")
+    })
 
-    expect(result).toEqual("…")
-  })
-})
+    it("omits ellipsis on final message", () => {
+      const result = paginate.suffixer(3, 3)
 
-describe("suffixer", () => {
-  it("shows page number", () => {
-    const result = paginate.suffixer(2, 3)
-
-    expect(result).toMatch("2/")
-  })
-
-  it("shows max pages", () => {
-    const result = paginate.suffixer(2, 3)
-
-    expect(result).toMatch("/3")
-  })
-
-  it("includes ellipsis on non-final messages", () => {
-    const result = paginate.suffixer(2, 3)
-
-    expect(result).toMatch("…")
-  })
-
-  it("omits ellipsis on final message", () => {
-    const result = paginate.suffixer(3, 3)
-
-    expect(result).not.toMatch("…")
+      expect(result).not.toMatch("…")
+    })
   })
 })

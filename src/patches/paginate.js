@@ -80,11 +80,12 @@ module.exports = {
      * This is a convenience api that's handy when your content might spill into multiple messages. If you
      * know it will fit in a single message, use rollReply instead.
      *
-     * @param  {str}         content    The potentially long string to send
-     * @param  {bool}        secret  Whether the messages should be ephemeral
-     * @param  {str}         split_on   String to use when separating the content
-     * @param  {int}         max_length Maximum length of a single message
-     * @return {Interaction}            Interaction object
+     * @param  {object}      options
+     * @param  {str}         options.content    The potentially long string to send
+     * @param  {bool}        options.secret     Whether the messages should be ephemeral
+     * @param  {str}         options.split_on   String to use when separating the content
+     * @param  {int}         options.max_length Maximum length of a single message
+     * @return {Interaction}                    Interaction object
      */
     klass.prototype.paginate = async function ({ content, secret, split_on, max_length }) {
       const contents = splitMessage(content, split_on, max_length, this.locale)
