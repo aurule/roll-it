@@ -76,9 +76,5 @@ module.exports = {
         value,
       }
     })
-
-    return module.exports
-      .throwChoices(bomb)
-      .map((choice) => ({ label: choice.name, value: choice.value }))
   },
 }
