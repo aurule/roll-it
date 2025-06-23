@@ -30,10 +30,16 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
 
     this.base_key = command_name
     this.setName(this.base_key)
-    this.setLocalizations()
+    this.localizeCommand()
   }
 
-  setLocalizations() {
+  /**
+   * Populate the basic fields from i18n files
+   *
+   * This sets the `description`, `name_localizations`, and `description_localizations` properties using data
+   * from all available locale files.
+   */
+  localizeCommand() {
     this.setNameLocalizations(mapped("name", this.base_key))
     this.setDescription(canonical("description", this.base_key))
     this.setDescriptionLocalizations(mapped("description", this.base_key))
@@ -206,10 +212,16 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
     this.base_key = `${parent_name}.${command_name}`
 
     this.setName(command_name)
-    this.setLocalizations()
+    this.localizeSubcommand()
   }
 
-  setLocalizations() {
+  /**
+   * Populate the basic fields from i18n files
+   *
+   * This sets the `description`, `name_localizations`, and `description_localizations` properties using data
+   * from all available locale files.
+   */
+  localizeSubcommand() {
     this.setNameLocalizations(mapped("name", this.base_key))
     this.setDescription(canonical("description", this.base_key))
     this.setDescriptionLocalizations(mapped("description", this.base_key))

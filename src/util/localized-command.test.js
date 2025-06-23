@@ -75,6 +75,60 @@ describe("LocalizedSlashCommandBuilder", () => {
     })
   })
 
+  describe("injectLocalizeChoices", () => {
+    it("adds the method to the option", () => {
+      const command = new LocalizedSlashCommandBuilder("8ball")
+      const option = {}
+
+      command.injectLocalizeChoices(option)
+
+      expect(option.setLocalizedChoices).toBeTruthy()
+    })
+
+    describe("setLocalizedChoices", () => {
+      it("populates choice name", () => {
+        const command = new LocalizedSlashCommandBuilder("curv")
+        let extracted
+
+        command.addLocalizedStringOption("with", (option) => {
+          extracted = option
+          option.setLocalizedChoices("advantage")
+          return option
+        })
+
+        expect(extracted.choices[0].name).toEqual(canonical("choices.advantage", "curv", "with"))
+      })
+
+      it("populates choice localized names", () => {
+        const command = new LocalizedSlashCommandBuilder("curv")
+        let extracted
+
+        command.addLocalizedStringOption("with", (option) => {
+          extracted = option
+          option.setLocalizedChoices("advantage")
+          return option
+        })
+
+        expect(extracted.choices[0].name_localizations).toEqual(
+          mapped("choices.advantage", "curv", "with"),
+        )
+      })
+
+      it("populates choice value", () => {
+        const command = new LocalizedSlashCommandBuilder("curv")
+        let extracted
+
+        command.addLocalizedStringOption("with", (option) => {
+          extracted = option
+          option.setLocalizedChoices("advantage")
+          return option
+        })
+
+        expect(extracted.choices[0].value).toEqual("advantage")
+      })
+    })
+  })
+
   describe("addLocalizedOption", () => {
     it("sets the name", () => {
       const command = new LocalizedSlashCommandBuilder("8ball")
@@ -100,61 +154,7 @@ describe("LocalizedSlashCommandBuilder", () => {
       expect(extracted.name_localizations).toEqual(mapped("name", "8ball", "question"))
     })
 
-    describe("injectLocalizeChoices", () => {
-      it("adds the method to the option", () => {
-        const command = new LocalizedSlashCommandBuilder("8ball")
-        const option = {}
-
-        command.injectLocalizeChoices(option)
-
-        expect(option.setLocalizedChoices).toBeTruthy()
-      })
-
-      describe("setLocalizedChoices", () => {
-        it("populates choice name", () => {
-          const command = new LocalizedSlashCommandBuilder("curv")
-          let extracted
-
-          command.addLocalizedStringOption("with", (option) => {
-            extracted = option
-            option.setLocalizedChoices("advantage")
-            return option
-          })
-
-          expect(extracted.choices[0].name).toEqual(canonical("choices.advantage", "curv", "with"))
-        })
-
-        it("populates choice localized names", () => {
-          const command = new LocalizedSlashCommandBuilder("curv")
-          let extracted
-
-          command.addLocalizedStringOption("with", (option) => {
-            extracted = option
-            option.setLocalizedChoices("advantage")
-            return option
-          })
-
-          expect(extracted.choices[0].name_localizations).toEqual(
-            mapped("choices.advantage", "curv", "with"),
-          )
-        })
-
-        it("populates choice value", () => {
-          const command = new LocalizedSlashCommandBuilder("curv")
-          let extracted
-
-          command.addLocalizedStringOption("with", (option) => {
-            extracted = option
-            option.setLocalizedChoices("advantage")
-            return option
-          })
-
-          expect(extracted.choices[0].value).toEqual("advantage")
-        })
-      })
-    })
-
-    describe("option types", () => {
+    describe("string options", () => {
       it("creates string options", () => {
         const command = new LocalizedSlashCommandBuilder("8ball")
         let extracted
@@ -167,7 +167,7 @@ describe("LocalizedSlashCommandBuilder", () => {
         expect(extracted).toBeTruthy()
       })
 
-      it("injects choices helper into string options", () => {
+      it("injects choices helper", () => {
         const command = new LocalizedSlashCommandBuilder("8ball")
         let extracted
 
@@ -178,7 +178,9 @@ describe("LocalizedSlashCommandBuilder", () => {
 
         expect(extracted.setLocalizedChoices).toBeTruthy()
       })
+    })
 
+    describe("option types", () => {
       it("creates integer options", () => {
         const command = new LocalizedSlashCommandBuilder("curv")
         let extracted
@@ -237,7 +239,7 @@ describe("LocalizedSlashCommandBuilder", () => {
       })
     })
 
-    describe("with a callable", () => {
+    describe("with an optionfn", () => {
       it("invokes the callable", () => {
         const command = new LocalizedSlashCommandBuilder("8ball")
         let called = false
