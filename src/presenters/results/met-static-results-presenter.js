@@ -4,7 +4,7 @@ const { i18n } = require("../../locales")
 /**
  * Present the results of a single MET roll
  *
- * @param  {str}    options.throw_request Keyword for the user's request
+ * @param  {object} options
  * @param  {str}    options.vs_request    Keyword for the automated opponent request
  * @param  {str[]}  options.thrown        Array of user results
  * @param  {str[]}  options.vs            Array of automated opponent results
@@ -13,7 +13,7 @@ const { i18n } = require("../../locales")
  * @param  {i18n.t} options.t             Translation function
  * @return {str}                          Fully presented roll
  */
-function presentOne({ throw_request, vs_request, thrown, vs, compared, description, t }) {
+function presentOne({ vs_request, thrown, vs, compared, description, t }) {
   const user_throw = thrown[0]
   const bot_throw = vs[0]
 
@@ -56,7 +56,7 @@ function presentOne({ throw_request, vs_request, thrown, vs, compared, descripti
 /**
  * Present the results of multiple MET rolls
  *
- * @param  {str}    options.throw_request Keyword for the user's request
+ * @param  {object} options
  * @param  {str}    options.vs_request    Keyword for the automated opponent request
  * @param  {str[]}  options.thrown        Array of user results
  * @param  {str[]}  options.vs            Array of automated opponent results
@@ -65,7 +65,7 @@ function presentOne({ throw_request, vs_request, thrown, vs, compared, descripti
  * @param  {i18n.t} options.t             Translation function
  * @return {str}                          Fully presented roll
  */
-function presentMany({ throw_request, vs_request, rolls, thrown, vs, compared, description, t }) {
+function presentMany({ vs_request, rolls, thrown, vs, compared, description, t }) {
   const t_args = {
     description,
     count: rolls,

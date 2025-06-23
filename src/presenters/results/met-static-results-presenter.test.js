@@ -61,7 +61,6 @@ describe("presentOne", () => {
     it("notes random vs symbol", () => {
       const result = presentOne({
         ...default_opts,
-        throw_request: "rock",
         thrown: ["rock"],
         vs_request: "rand",
         vs: ["paper"],
@@ -73,7 +72,6 @@ describe("presentOne", () => {
     it("notes random vs symbol with bomb", () => {
       const result = presentOne({
         ...default_opts,
-        throw_request: "rock",
         thrown: ["rock"],
         vs_request: "rand-bomb",
         vs: ["paper"],

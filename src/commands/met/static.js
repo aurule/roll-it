@@ -55,7 +55,6 @@ module.exports = {
 
     const result_lines = [
       present({
-        throw_request,
         vs_request,
         rolls,
         thrown,
