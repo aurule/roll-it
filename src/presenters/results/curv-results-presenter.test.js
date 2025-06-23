@@ -76,6 +76,31 @@ describe("CurvPresenter", () => {
         expect(result).toMatch("advantage")
       })
 
+      it("shows disadvantage if present", () => {
+        const presenter = new CurvPresenter({
+          ...args,
+          raw: [
+            [
+              [3, 4, 5],
+              [1, 2, 3],
+            ],
+            [
+              [2, 4, 6],
+              [2, 3, 4],
+            ],
+          ],
+          sums: [
+            [12, 6],
+            [12, 9],
+          ],
+          keep: "lowest",
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("disadvantage")
+      })
+
       it("shows each roll", () => {
         const presenter = new CurvPresenter(args)
 
@@ -135,6 +160,24 @@ describe("CurvPresenter", () => {
         expect(result).toMatch("advantage")
       })
 
+      it("shows disadvantage if present", () => {
+        const presenter = new CurvPresenter({
+          ...args,
+          raw: [
+            [
+              [3, 4, 5],
+              [1, 2, 3],
+            ],
+          ],
+          sums: [[12], [6]],
+          keep: "lowest",
+        })
+
+        const result = presenter.presentResults()
+
+        expect(result).toMatch("disadvantage")
+      })
+
       it("breaks down the dice", () => {
         const presenter = new CurvPresenter(args)
 
@@ -186,6 +229,36 @@ describe("CurvPresenter", () => {
         const result = presenter.explainOutcome(0)
 
         expect(result).toEqual("**10**")
+      })
+    })
+
+    describe("with a crit success", () => {
+      let args
+
+      beforeEach(() => {
+        args = {
+          rolls: 1,
+          raw: [[[6, 5, 6]]],
+          sums: [[17]],
+          picked: [0],
+          modifier: 2,
+        }
+      })
+
+      it("says it's a crit success", () => {
+        const presenter = new CurvPresenter(args)
+
+        const result = presenter.explainOutcome(0)
+
+        expect(result).toMatch("a crit!")
+      })
+
+      it("shows the sum", () => {
+        const presenter = new CurvPresenter(args)
+
+        const result = presenter.explainOutcome(0)
+
+        expect(result).toMatch("19")
       })
     })
 
