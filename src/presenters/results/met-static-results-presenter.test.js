@@ -39,6 +39,7 @@ describe("presentOne", () => {
     it("shows the user's symbol", () => {
       const result = presentOne({
         ...default_opts,
+        vs_request: "none",
         vs: ["none"],
         compared: [""],
       })
@@ -49,6 +50,7 @@ describe("presentOne", () => {
     it("does not show a comparison", () => {
       const result = presentOne({
         ...default_opts,
+        vs_request: "none",
         vs: ["none"],
         compared: [""],
       })
@@ -122,6 +124,7 @@ describe("presentMany", () => {
     it("shows the user's symbols", () => {
       const result = presentMany({
         ...default_opts,
+        vs_request: "none",
         vs: ["none", "none"],
         compared: ["", ""],
       })
@@ -133,6 +136,7 @@ describe("presentMany", () => {
     it("does not show comparisons", () => {
       const result = presentMany({
         ...default_opts,
+        vs_request: "none",
         vs: ["none", "none"],
         compared: ["", ""],
       })

@@ -104,6 +104,15 @@ function presentMany({ vs_request, rolls, thrown, vs, compared, description, t }
 module.exports = {
   presentOne,
   presentMany,
+  /**
+   * Present a met static roll
+   *
+   * @param  {object}   options
+   * @param  {int}      options.rolls       Number of rolls made
+   * @param  {str}      options.locale      Locale for the final string
+   * @param  {obj}      options.rollOptions Options used in the roll
+   * @return {str}                          String showing the roll and its outcome
+   */
   present({ rolls, locale, ...rollOptions }) {
     const presenter_options = {
       ...rollOptions,
