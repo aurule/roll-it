@@ -1,5 +1,3 @@
-const { bold, inlineCode } = require("discord.js")
-
 const { FormulaDisabledError } = require("../../errors/formula-disabled-error")
 const { i18n } = require("../../locales")
 
@@ -35,11 +33,12 @@ math.import(
 /**
  * Show the breakdown of the pools in a roll
  *
- * @param  {str[]}        pools  Array of formula specifier strings
- * @param  {Array<int[]>} raw    Array of dice results, one array for each pool and one int for each die in the pool
- * @param  {int[]}        summed Array of summed dice rolls, one int per pool
- * @param  {string}       labels Array of roll labels
- * @return {string}              String with the details of all the pools
+ * @param  {object}       options
+ * @param  {str[]}        options.pools  Array of formula specifier strings
+ * @param  {Array<int[]>} options.raw    Array of dice results, one array for each pool and one int for each die in the pool
+ * @param  {int[]}        options.summed Array of summed dice rolls, one int per pool
+ * @param  {string}       options.labels Array of roll labels
+ * @return {string}                      String with the details of all the pools
  */
 function detail({ pools, raw, summed, labels, t }) {
   return pools
@@ -67,9 +66,11 @@ module.exports = {
    *
    * The string returned might be an error message if the formula uses one of the disabled functions above.
    *
-   * @param  {int}    rolls       Total number of rolls made
-   * @param  {...obj} rollOptions Object with the roll results
-   * @return {str}                String of presented roll results
+   * @param  {object} options
+   * @param  {int}    options.rolls       Total number of rolls made
+   * @param  {string} options.locale      Locale string for the final output
+   * @param  {object} options.rollOptions Object with the roll results
+   * @return {string}                     String of presented roll results
    */
   present({ rolls, locale, ...rollOptions }) {
     const t = i18n.getFixedT(locale, "commands", "formula")
@@ -95,11 +96,12 @@ module.exports = {
    *   {string}       labels        Array of roll labels
    * }
    *
-   * @param  {str}    formula     Text of the original formula, before any dice were rolled
-   * @param  {str}    description Text describing the roll
-   * @param  {Obj[]}  results     Array of roll result objects. Must have a single element. See above for format.
-   * @param  {i18n.t} t           Translation function
-   * @return {str}                String of the presented roll result
+   * @param  {object} options
+   * @param  {string}    options.formula     Text of the original formula, before any dice were rolled
+   * @param  {string}    options.description Text describing the roll
+   * @param  {obj[]}  options.results     Array of roll result objects. Must have a single element. See above for format.
+   * @param  {i18n.t} options.t           Translation function
+   * @return {string}                        String of the presented roll result
    */
   presentOne({ formula, description, results, t }) {
     const { rolledFormula } = results[0]
@@ -145,11 +147,12 @@ module.exports = {
    *   {string}       labels        Array of roll labels
    * }
    *
-   * @param  {str}    formula     Text of the original formula, before any dice were rolled
-   * @param  {str}    description Text describing the roll
-   * @param  {Obj[]}  results     Array of roll result objects. See above.
-   * @param  {i18n.t} t           Translation function
-   * @return {str}                String of presented roll results
+   * @param  {object} options
+   * @param  {str}    options.formula     Text of the original formula, before any dice were rolled
+   * @param  {str}    options.description Text describing the roll
+   * @param  {Obj[]}  options.results     Array of roll result objects. See above.
+   * @param  {i18n.t} options.t           Translation function
+   * @return {str}                        String of presented roll results
    */
   presentMany({ formula, description, results, t }) {
     const t_args = {
