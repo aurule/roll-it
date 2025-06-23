@@ -106,12 +106,12 @@ function presentMany({ modifier, description, raw, picked, keep, t }) {
 
 /**
  * Get the result of a single roll
- * @param  {int[]}  result   Array of die results
- * @param  {int[]}  indexes  Array of a single number containing the index of the die to keep
- * @param  {Number} modifier Number to add to the roll
- * @return {Number}          Final die result
+ * @param  {int[]} result   Array of die results
+ * @param  {int[]} indexes  Array of a single number containing the index of the die to keep
+ * @param  {int}   modifier Number to add to the roll
+ * @return {int}            Final die result
  */
-function rollResult(result, indexes, modifier = 0) {
+function rollResult(result, indexes, modifier) {
   const die = result[indexes[0]]
   return die + modifier
 }
@@ -119,12 +119,12 @@ function rollResult(result, indexes, modifier = 0) {
 /**
  * Describe a single roll result
  *
- * @param  {Int[]} result    Array of raw die numbers
- * @param  {int[]} indexes   Array of indexes kept after rolling
- * @param  {Int}   modifier  Number to add to the raw die
+ * @param  {int[]}  result   Array of raw die numbers
+ * @param  {int[]}  indexes  Array of indexes kept after rolling
+ * @param  {int}    modifier Number to add to the raw die
  * @return {string}          Description of the result and modifier
  */
-function detail(result, indexes, modifier = 0) {
+function detail(result, indexes, modifier) {
   const die = result[indexes[0]]
 
   const nums = result
@@ -149,10 +149,11 @@ module.exports = {
   /**
    * Present one or more results from the d20 command
    *
-   * @param  {Int}        options.rolls       Total number of rolls to show
-   * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
-   * @param  {str}        options.locale      Locale name
-   * @return {String}                         String describing the roll results
+   * @param  {object} options
+   * @param  {int}    options.rolls       Total number of rolls to show
+   * @param  {object} options.rollOptions The rest of the options, passed to presentOne or presentMany
+   * @param  {str}    options.locale      Locale name
+   * @return {str}                        String describing the roll results
    */
   present: ({ rolls, locale, ...rollOptions }) => {
     const t = i18n.getFixedT(locale, "commands", "d20")
