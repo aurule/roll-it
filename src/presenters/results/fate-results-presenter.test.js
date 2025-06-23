@@ -3,7 +3,6 @@ const { i18n } = require("../../locales")
 
 describe("presentOne", () => {
   const defaultArgs = {
-    description: "test roll",
     raw: [[1, 1, 2, 3]],
     summed: [-1],
     modifier: 2,
@@ -23,15 +22,17 @@ describe("presentOne", () => {
   })
 
   it("includes description if present", () => {
-    const result = FateResultsPresenter.presentOne(defaultArgs)
+    const result = FateResultsPresenter.presentOne({
+      description: "test roll",
+      ...defaultArgs,
+    })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
+    expect(result).toMatch('"test roll"')
   })
 })
 
 describe("presentMany", () => {
   const defaultArgs = {
-    description: "test roll",
     raw: [
       [1, 2, 3, 3],
       [2, 1, 3, 2],
@@ -54,9 +55,12 @@ describe("presentMany", () => {
   })
 
   it("includes description if present", () => {
-    const result = FateResultsPresenter.presentMany(defaultArgs)
+    const result = FateResultsPresenter.presentMany({
+      description: "test roll",
+      ...defaultArgs,
+    })
 
-    expect(result).toMatch(`"${defaultArgs.description}"`)
+    expect(result).toMatch('"test roll"')
   })
 })
 
