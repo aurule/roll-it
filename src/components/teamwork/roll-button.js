@@ -16,20 +16,10 @@ module.exports = {
     const teamwork_db = new Teamwork()
     const test = teamwork_db.findTestByMessage(interaction.message.id)
 
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
-
-    if (interaction.user.id !== test.leader) {
-      return interaction
-        .whisper(t("unauthorized", { leader: userMention(test.leader) }))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: "teamwork_roll" },
-            `Could not whisper about unauthorized usage from ${interaction.user.id}`,
-          ),
-        )
-    }
+    interaction.authorize(test.leader)
 
     const TeamworkManager = require("../../interactive/teamwork")
+    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
 
     const final_pool = teamwork_db.getFinalSumByMessage(interaction.message.id)
     if (final_pool === undefined) {

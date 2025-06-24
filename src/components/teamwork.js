@@ -7,6 +7,7 @@ const { teamworkTimeout } = require("../interactive/teamwork")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
 const { i18n } = require("../locales")
+const { UnauthorizedError } = require("../errors/unauthorized-error")
 
 const basename = path.basename(__filename)
 const componentsDir = path.join(__dirname, "teamwork")
@@ -79,6 +80,37 @@ module.exports = {
     }
 
     const component = components.get(interaction.customId)
-    return component.execute(interaction)
+    try {
+      return component.execute(interaction)
+    } catch (err) {
+      if (err instanceof UnauthorizedError) {
+        logger.info({
+          user: interaction.user,
+          component: component_name,
+          detail: "unauthorized component interaction",
+        })
+        return interaction
+          .whisper(
+            i18n.t("opposed.unauthorized", {
+              ns: "interactive",
+              lng: interaction.locale,
+              participants: err.allowed_uids.map(userMention),
+            }),
+          )
+          .catch((err) => {
+            logger.error({
+              err,
+              user: interaction.user,
+              component: component_name,
+            })
+          })
+      } else {
+        logger.error({
+          err,
+          user: interaction.user,
+          component: component_name,
+        })
+      }
+    }
   },
 }
