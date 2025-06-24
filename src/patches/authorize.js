@@ -22,7 +22,7 @@ module.exports = {
     }
 
     const authorize = function (...allowed_uids) {
-      if (allowed_uids.findIndex(this.user.id) < 0) {
+      if (allowed_uids.findIndex(v => v === this.user.id) < 0) {
         throw new UnauthorizedError(this, allowed_uids)
       }
     }
