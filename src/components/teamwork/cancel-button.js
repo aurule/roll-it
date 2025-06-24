@@ -28,14 +28,12 @@ module.exports = {
     }
 
     return interaction
-      .reply({
+      .ensure("reply", {
         content: t("cancelled", t_args),
+      },
+      {
+        component: "teamwork_cancel",
+        detail: "could not whisper about teamwork cancellation"
       })
-      .catch((error) =>
-        logger.warn(
-          { err: error, user: interaction.user.id, component: "teamwork_cancel" },
-          `Could not whisper about cancellation`,
-        ),
-      )
   },
 }
