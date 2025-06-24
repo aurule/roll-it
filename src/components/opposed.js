@@ -7,6 +7,7 @@ const { opposedTimeout } = require("../interactive/opposed")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
 const { i18n } = require("../locales")
+const { UnauthorizedError } = require("../errors/unauthorized-error")
 
 const basename = path.basename(__filename)
 const componentsDir = path.join(__dirname, "opposed")
