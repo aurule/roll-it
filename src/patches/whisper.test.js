@@ -16,39 +16,41 @@ class PatchMeWhisper {
   }
 }
 
-describe("patch", () => {
-  it.each([
-    [CommandInteraction],
-    [ModalSubmitInteraction],
-    [ButtonInteraction],
-    [UserSelectMenuInteraction],
-    [StringSelectMenuInteraction],
-    [Message],
-  ])("patches %p by default", (klass) => {
-    whisper.patch()
+describe("whisper helper", () => {
+  describe("patch", () => {
+    it.each([
+      [CommandInteraction],
+      [ModalSubmitInteraction],
+      [ButtonInteraction],
+      [UserSelectMenuInteraction],
+      [StringSelectMenuInteraction],
+      [Message],
+    ])("patches %p by default", (klass) => {
+      whisper.patch()
 
-    expect(klass.prototype.whisper).not.toBeUndefined()
-  })
-})
-
-describe("whisper", () => {
-  beforeAll(() => {
-    whisper.patch(PatchMeWhisper)
+      expect(klass.prototype.whisper).not.toBeUndefined()
+    })
   })
 
-  it("sends a reply that includes the message", () => {
-    const fake = new PatchMeWhisper()
+  describe("whisper", () => {
+    beforeAll(() => {
+      whisper.patch(PatchMeWhisper)
+    })
 
-    const result = fake.whisper("test message")
+    it("sends a reply that includes the message", () => {
+      const fake = new PatchMeWhisper()
 
-    expect(result.content).toMatch("test message")
-  })
+      const result = fake.whisper("test message")
 
-  it("sends an ephemeral reply", () => {
-    const fake = new PatchMeWhisper()
+      expect(result.content).toMatch("test message")
+    })
 
-    const result = fake.whisper("test message")
+    it("sends an ephemeral reply", () => {
+      const fake = new PatchMeWhisper()
 
-    expect(result.flags).toEqual(MessageFlags.Ephemeral)
+      const result = fake.whisper("test message")
+
+      expect(result.flags).toEqual(MessageFlags.Ephemeral)
+    })
   })
 })
