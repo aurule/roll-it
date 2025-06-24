@@ -197,7 +197,7 @@ class Teamwork {
   }
 
   /**
-   * Get the ID of the teamwork test associated with a Discord message ID
+   * Get the teamwork test associated with a Discord message ID
    *
    * This method adds an `expired` property for convenience.
    *
