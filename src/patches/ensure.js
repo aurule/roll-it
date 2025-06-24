@@ -3,7 +3,7 @@
  */
 
 const api = require("../services/api")
-const logger = require("../util/logger")
+const { logger } = require("../util/logger")
 
 const {
   MessageFlags,

@@ -1,5 +1,3 @@
-const ensure = require("./ensure")
-
 const {
   MessageFlags,
   CommandInteraction,
@@ -10,37 +8,64 @@ const {
   Message,
 } = require("discord.js")
 
+jest.mock("../services/api")
+
 class PatchMeEnsure {
+  channel = {
+    id: "testchan",
+  }
+
   reply(args) {
     return Promise.resolve(args)
   }
+
+  explode(args) {
+    return Promise.reject({
+      code: 10062,
+    })
+  }
 }
 
-describe("patch", () => {
-  it.each([
-    [CommandInteraction],
-    [ModalSubmitInteraction],
-    [ButtonInteraction],
-    [UserSelectMenuInteraction],
-    [StringSelectMenuInteraction],
-    [Message],
-  ])("patches %p by default", (klass) => {
-    ensure.patch()
+describe("ensure helper", () => {
+  describe("patch", () => {
+    const ensure = require("./ensure")
 
-    expect(klass.prototype.ensure).not.toBeUndefined()
-  })
-})
+    it.each([
+      [CommandInteraction],
+      [ModalSubmitInteraction],
+      [ButtonInteraction],
+      [UserSelectMenuInteraction],
+      [StringSelectMenuInteraction],
+      [Message],
+    ])("patches %p by default", (klass) => {
+      ensure.patch()
 
-describe("ensure", () => {
-  beforeAll(() => {
-    ensure.patch(PatchMeEnsure)
+      expect(klass.prototype.ensure).not.toBeUndefined()
+    })
   })
 
-  it("calls the named function", async () => {
-    const fake = new PatchMeEnsure()
+  describe("ensure", () => {
+    beforeAll(() => {
+      require("./ensure").patch(PatchMeEnsure)
+    })
 
-    const result = await fake.ensure("reply", "test message")
+    it("calls the named function", async () => {
+      const fake = new PatchMeEnsure()
 
-    expect(result).toMatch("test message")
+      const result = await fake.ensure("reply", "test message")
+
+      expect(result).toMatch("test message")
+    })
+
+    describe("on unknown interaction error", () => {
+      it("sends a plain message", async () => {
+        const fake = new PatchMeEnsure()
+
+        const result = await fake.ensure("explode", "test message")
+
+        expect(result.payload).toMatch("test message")
+      })
+    })
   })
+
 })
