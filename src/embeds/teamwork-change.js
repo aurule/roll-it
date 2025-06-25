@@ -3,6 +3,14 @@ const { Teamwork } = require("../db/teamwork")
 const { i18n } = require("../locales")
 const { signed } = require("../util/formatters/signed")
 
+/**
+ * Embed to show changes in teamwork helpers
+ *
+ * Shows helper mentions along with their added dice and a symbol based on their current status. Helpers who
+ * were not requested but have contributed dice get a plus symbol. Helpers who were requested and have
+ * contributed get a green check. Helpers who were requested but have *not* contributed dice get a red x.
+ */
+
 module.exports = {
   name: "teamwork_change",
   data: (test) => {
