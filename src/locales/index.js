@@ -30,11 +30,15 @@ for (const [key, fn] of Object.entries(own_formatters)) {
 /**
  * List of discord-specific locales that have translations
  * @see https://discord.com/developers/docs/reference#locales
- * @type {Array}
+ * @type {str[]}
  */
 const available_locales = ["en-US"]
 
 module.exports = {
+  /**
+   * Initialized i18next module
+   * @type {i18next}
+   */
   i18n: i18next,
   available_locales,
 }
