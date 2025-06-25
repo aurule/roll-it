@@ -28,10 +28,18 @@ contents.forEach((mention_file) => {
 
 module.exports = {
   handlers,
-  async handle(interaction) {
-    for (const handler of handlers) {
+  /**
+   * Handle a component interaction
+   *
+   * @param  {Interaction} interaction Message component interaction
+   * @param  {Handler[]}   handlers    Array of component handler objects
+   * @return {Promise}                 Promise resolving to the outcome of the handler, usually a Message object
+   */
+  async handle(interaction, handlers_override) {
+    const our_handlers = handlers_override ?? handlers
+    for (const handler of our_handlers) {
       if (handler.canHandle(interaction)) return handler.handle(interaction)
     }
-    return
+    return false
   },
 }
