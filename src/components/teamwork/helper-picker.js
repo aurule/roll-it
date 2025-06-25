@@ -70,6 +70,7 @@ module.exports = {
         allowed_mentions: {
           users: [diff],
         },
+        withResponse: true,
       }, {
         test: test.id,
         detail: 'Failed to reply with updated helper information',
