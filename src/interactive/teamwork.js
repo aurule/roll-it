@@ -24,6 +24,15 @@ module.exports = {
    * This sets up the test records in the database and shows a few controls for the test creator to manage
    * things.
    *
+   * The options object must have three property:
+   *
+   * - roller: object
+   * - summer: object
+   * - presenter: object
+   *
+   * Each property contains whatever data you need to pass to the command's teamwork roller, summer, and
+   * presenter functions.
+   *
    * @param  {Interaction} options.interaction Command interaction object that started the test
    * @param  {str}         options.description Description for the eventual roll
    * @param  {str}         options.command     Name/ID of the command this roll will use
