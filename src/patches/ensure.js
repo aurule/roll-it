@@ -65,7 +65,7 @@ module.exports = {
      * @param  {string} funktion The name of the interaction function to call
      * @param  {obj}    args     Object of arguments for the function
      * @param  {obj}    context  Object of additional data to include in any warning or error logs
-     * @return {Promise}         Promise resolving to a Message or an InteractionCallbackResponse
+     * @return {Promise<Message | InteractionCallbackResponse} Promise resolving to a Message or an InteractionCallbackResponse
      */
     const ensure = async function (funktion, args, context = {}) {
       return this[funktion](args).catch((err) => {
