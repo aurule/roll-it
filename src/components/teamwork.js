@@ -1,6 +1,6 @@
 const fs = require("fs")
 const path = require("path")
-const { Collection } = require("discord.js")
+const { Collection, userMention } = require("discord.js")
 
 const { Teamwork } = require("../db/teamwork")
 const { teamworkTimeout } = require("../interactive/teamwork")
@@ -9,7 +9,6 @@ const { logger } = require("../util/logger")
 const { i18n } = require("../locales")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
 
-const basename = path.basename(__filename)
 const componentsDir = path.join(__dirname, "teamwork")
 
 const components = new Collection()
@@ -51,32 +50,35 @@ module.exports = {
    */
   async handle(interaction) {
     const teamwork_db = new Teamwork()
+
+    // ensure the component's message still exists in the database
     if (!teamwork_db.hasMessage(interaction.message.id)) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "teamwork")
-      interaction
-        .whisper(t("concluded"))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: interaction.customId },
-            `Could not whisper about concluded teamwork test from ${interaction.customId}`,
-          ),
-        )
-      return
+      return interaction
+        .ensure("whisper", t("concluded"), {
+          component: interaction.customId,
+          message: interaction.message,
+          detail: "could not whisper about missing teamwork test from message"
+        })
     }
 
+    /*
+     * handle case where
+     * - message exists
+     * - teamwork test is past its expiry time
+     * - teamwork test is not yet marked as concluded
+     */
     if (teamwork_db.isMessageExpired(interaction.message.id)) {
-      const test = teamwork_db.findTestByMessage(interaction.message.id)
+      const teamwork_test = teamwork_db.findTestByMessage(interaction.message.id)
+      await teamworkTimeout(teamwork_test.id)
       const t = i18n.getFixedT(interaction.locale, "interactive", "teamwork")
-      await teamworkTimeout(test.id)
-      await interaction
-        .whisper(t("concluded"))
-        .catch((error) =>
-          logger.warn(
-            { err: error, user: interaction.user.id, component: interaction.customId },
-            `Could not whisper about expired teamwork test from ${interaction.customId}`,
-          ),
-        )
-      return
+      return interaction
+        .ensure("whisper", t("concluded"), {
+          test: teamwork_test,
+          component: interaction.customId,
+          message: interaction.message,
+          detail: "could not whisper about expired teamwork test"
+        })
     }
 
     const component = components.get(interaction.customId)
@@ -86,7 +88,7 @@ module.exports = {
       if (err instanceof UnauthorizedError) {
         logger.info({
           user: interaction.user,
-          component: component_name,
+          component: component.name,
           detail: "unauthorized component interaction",
         })
         return interaction
@@ -101,14 +103,14 @@ module.exports = {
             logger.error({
               err,
               user: interaction.user,
-              component: component_name,
+              component: component.name,
             })
           })
       } else {
         logger.error({
           err,
           user: interaction.user,
-          component: component_name,
+          component: component.name,
         })
       }
     }
