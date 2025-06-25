@@ -64,7 +64,7 @@ module.exports = {
 
     const dice_content = interaction.content
     const clumped = dice_content.replace(/\s/, "")
-    const match = dice_content.match(/-?\d+/)
+    const match = clumped.match(/-?\d+/)
     if (match === null) {
       return interaction.whisper(t("help_given.missing")).catch((error) =>
         logger.error(
