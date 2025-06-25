@@ -7,6 +7,13 @@ const { jsNoTests, noDotFiles } = require("../util/filters")
 const basename = path.basename(__filename)
 const commandsDir = __dirname
 
+/**
+ * Top-level collection of command objects
+ *
+ * Various keys are reserved for grouping commands. Otherwise, keys match the name of the bot's commands.
+ *
+ * @type {Collection}
+ */
 const commands = new Collection()
 
 commands.global = new Collection()
