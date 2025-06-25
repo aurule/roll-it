@@ -12,19 +12,19 @@ module.exports = {
       .setStyle(ButtonStyle.Danger),
   async execute(interaction) {
     const teamwork_db = new Teamwork()
-    const test = teamwork_db.findTestByMessage(interaction.message.id)
+    const teamwork_test = teamwork_db.findTestByMessage(interaction.message.id)
 
-    interaction.authorize(test.leader)
+    interaction.authorize(teamwork_test.leader)
 
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
+    const t = i18n.getFixedT(teamwork_test.locale, "interactive", "teamwork")
 
     const { cleanup } = require("../../interactive/teamwork")
-    cleanup(test.id)
+    cleanup(teamwork_test.id)
 
     const t_args = {
-      leader: userMention(test.leader),
-      description: test.description,
-      context: test.description ? "description" : undefined,
+      leader: userMention(teamwork_test.leader),
+      description: teamwork_test.description,
+      context: teamwork_test.description ? "description" : undefined,
     }
 
     return interaction
