@@ -27,8 +27,9 @@ class Teamwork {
    * The options is an object with three sets of arbitrary parameters that are passed to the command's
    * teamwork roller, summer, and presenter methods.
    *
+   * @param  {object}    options
    * @param  {str}       options.command     Name of the command to roll
-   * @param  {obj}       options.options     Options object
+   * @param  {object}    options.options     Options object
    * @param  {Snowflake} options.leader      Discord ID of the user who can roll the test
    * @param  {str}       options.locale      Localization locale code
    * @param  {Snowflake} options.channelId   Discord ID of the channel where the test was started
@@ -137,10 +138,11 @@ class Teamwork {
    *
    * This lets users reply to a message in order to help.
    *
-   * @param {Snowflake} options.message_uid Discord ID of the message
-   * @param {int}       options.teamwork_id Internal ID of the teamwork record
-   * @param {int}       options.type        Message type code
-   * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
+   * @param  {object}    options
+   * @param  {Snowflake} options.message_uid Discord ID of the message
+   * @param  {int}       options.teamwork_id Internal ID of the teamwork record
+   * @param  {int}       options.type        Message type code
+   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
   addMessage({ message_uid, teamwork_id, type = MessageType.Plain } = {}) {
     const insert = this.db.prepare(oneLine`
