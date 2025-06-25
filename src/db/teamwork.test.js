@@ -273,9 +273,9 @@ describe("Teamwork DB", () => {
     })
   })
 
-  describe("getFinalSumByMessage", () => {
-    it("returns undefined with missing message", () => {
-      const result = teamwork.getFinalSumByMessage("flumph")
+  describe("getFinalSum", () => {
+    it("returns undefined with bad id", () => {
+      const result = teamwork.getFinalSum(567)
 
       expect(result).toBeUndefined()
     })
@@ -299,7 +299,7 @@ describe("Teamwork DB", () => {
       teamwork.setDice(test_id, "user2", 2)
       teamwork.setDice(test_id, "user3", 3)
 
-      const result = teamwork.getFinalSumByMessage("normal")
+      const result = teamwork.getFinalSum(test_id)
 
       expect(result).toEqual(6)
     })

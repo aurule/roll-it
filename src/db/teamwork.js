@@ -231,22 +231,20 @@ class Teamwork {
   }
 
   /**
-   * Sum the dice of all helpers for a test, found using the snowflake of a message
+   * Sum the dice of all helpers for a test
    *
-   * @param  {Snowflake} message_uid Discord ID of the message
-   * @return {int}                   Total number of dice to roll
+   * @param  {int} teamwork_id Internal ID of the teamwork test
+   * @return {int}             Total number of dice to roll
    */
-  getFinalSumByMessage(message_uid) {
+  getFinalSum(test_id) {
     const select = this.db.prepare(oneLine`
-      SELECT SUM(h.dice) as total
-      FROM   interactive.teamwork_helpers AS h
-             JOIN interactive.teamwork_messages as m
-               ON h.teamwork_id = m.teamwork_id
-      WHERE  m.message_uid = ?
+      SELECT SUM(dice) as total
+      FROM   interactive.teamwork_helpers
+      WHERE  teamwork_id = ?
     `)
     select.pluck()
 
-    const raw_out = select.get(message_uid)
+    const raw_out = select.get(test_id)
 
     if (raw_out === null) return undefined
 
