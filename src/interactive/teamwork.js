@@ -106,6 +106,7 @@ module.exports = {
    * roll.
    *
    * @param  {int} teamwork_id Internal ID of the test which has timed out
+   * @return {Promise}         Promise resolving to the sendMessage output, probably a Message object
    */
   async teamworkTimeout(teamwork_id) {
     const teamwork_db = new Teamwork()

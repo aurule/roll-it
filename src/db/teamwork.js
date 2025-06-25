@@ -2,6 +2,10 @@ const { Collection } = require("discord.js")
 
 const { oneLine } = require("common-tags")
 
+/**
+ * Message type enum
+ * @type {Object}
+ */
 const MessageType = {
   Prompt: 1,
   Plain: 2,

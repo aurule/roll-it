@@ -6,6 +6,11 @@ const { jsNoTests, noDotFiles } = require("../util/filters")
 const basename = path.basename(__filename)
 const handlersDir = __dirname
 
+/**
+ * Array of component handlers
+ *
+ * @type {Handler[]}
+ */
 const handlers = []
 
 const contents = fs
