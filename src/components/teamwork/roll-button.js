@@ -21,19 +21,7 @@ module.exports = {
     const TeamworkManager = require("../../interactive/teamwork")
     const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
 
-    const final_pool = teamwork_db.getFinalSumByMessage(interaction.message.id)
-    if (final_pool === undefined) {
-      logger.error({ test }, "Test has undefined final dice pool")
-      await TeamworkManager.cleanup(test.id)
-      return interaction
-        .reply(t("invalid"))
-        .catch((error) =>
-          logger.error(
-            { err: error, user: interaction.user.id, component: "teamwork_roll", test: test.id },
-            `Test has invalid pool`,
-          ),
-        )
-    }
+    const final_pool = teamwork_db.getFinalSum(test.id)
 
     const command = require("../../commands").get(test.command)
 
@@ -46,13 +34,10 @@ module.exports = {
       )
       await TeamworkManager.cleanup(test.id)
       return interaction
-        .reply(t("invalid"))
-        .catch((error) =>
-          logger.error(
-            { err: error, user: interaction.user.id, component: "teamwork_roll", test: test.id },
-            `Test has invalid command`,
-          ),
-        )
+        .ensure("reply", t("invalid"), {
+          test: test.id,
+          detail: "Could not reply about invalid test"
+        })
     }
 
     const raw_results = command.teamwork.roller(final_pool, test.options.roller)
@@ -74,23 +59,15 @@ module.exports = {
       presented,
     }
     return interaction
-      .reply({
+      .ensure("reply", {
         content: t("rolled", t_args),
         embeds: [embed],
+      }, {
+        test: test.id,
+        raw: raw_results,
+        summed: summed_results,
+        presented,
+        detail: "Unable to reply with final teamwork roll"
       })
-      .catch((error) =>
-        logger.error(
-          {
-            err: error,
-            user: interaction.user.id,
-            component: "teamwork_roll",
-            test: test.id,
-            raw: raw_results,
-            summed: summed_results,
-            presented,
-          },
-          `Unable to reply with final roll`,
-        ),
-      )
   },
 }
