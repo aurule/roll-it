@@ -344,6 +344,28 @@ class Teamwork {
   }
 
   /**
+   * Get a single user's helper record
+   *
+   * @param  {int}       teamwork_id Internal ID of the teamwork test
+   * @param  {Snowflake} helper_uid  Discord ID of the helping user
+   * @return {Helper}                Helper object
+   */
+  getHelperDetails(teamwork_id, helper_uid) {
+    const select = this.db.prepare(oneLine`
+      SELECT *
+      FROM   interactive.teamwork_helpers
+      WHERE  teamwork_id = @teamwork_id
+        AND  user_uid = @user_uid
+      LIMIT  1
+    `)
+
+    return select.get({
+      teamwork_id,
+      user_uid: helper_uid,
+    })
+  }
+
+  /**
    * Set the dice for a helper
    *
    * This will create a new helper record for the given user if one does not already exist.
