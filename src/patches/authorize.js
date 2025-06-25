@@ -21,6 +21,13 @@ module.exports = {
       klasses = [target_klass]
     }
 
+    /**
+     * Allow users with the given discord uids to continue
+     *
+     * @throws UnauthorizedError if user uid is not in the array
+     *
+     * @param  {...Snowflake} allowed_uids Array of allowed user snowflakes
+     */
     const authorize = function (...allowed_uids) {
       if (allowed_uids.findIndex(v => v === this.user.id) < 0) {
         throw new UnauthorizedError(this, allowed_uids)
