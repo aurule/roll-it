@@ -12,12 +12,18 @@ describe("fate command", () => {
 
   describe("judge", () => {
     describe("with dominant outcome", () => {
-      it("returns the correct message", () => {
-        const results = [4]
+      it.each([
+        [4, "pleases"],
+        [2, "accepted"],
+        [0, "noted"],
+        [-2, "inadequate"],
+        [-4, "angers"],
+      ])("returns correct text for %i", (die, text) => {
+        const results = [die]
 
         const result = fate_command.judge(results, "en-US")
 
-        expect(result).toMatch("pleases")
+        expect(result).toMatch(text)
       })
     })
 
@@ -53,6 +59,17 @@ describe("fate command", () => {
       const result = fate_command.perform(options)
 
       expect(result).toMatch("8")
+    })
+
+    it("displays the sacrifice easter egg if present", () => {
+      const description_text = "sacrificing a goat"
+      const options = {
+        description: description_text,
+      }
+
+      const result = fate_command.perform(options)
+
+      expect(result).toMatch("Your sacrifice")
     })
   })
 
