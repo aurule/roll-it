@@ -95,6 +95,10 @@ class Interaction {
     return this.message.replies.map((r) => r.content).join("\n-----\n")
   }
 
+  get channelId() {
+    return this.channel.id
+  }
+
   async reply(msg) {
     if (this.deferred) return Promise.reject("cannot reply: interaction is in deferred state")
     if (this.replied) return Promise.reject("cannot reply: interaction is already in replied state")
