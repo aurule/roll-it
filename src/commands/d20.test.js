@@ -88,17 +88,23 @@ describe("schema", () => {
 })
 
 describe("judge", () => {
-  describe("with dominant outcome", () => {
-    it("returns the correct message", () => {
+  describe("with a dominant outcome", () => {
+    it.each([
+      [20, "pleases"],
+      [15, "accepted"],
+      [10, "noted"],
+      [5, "inadequate"],
+      [1, "angers"],
+    ])("returns correct text for %i", (die, text) => {
       const picked = [
         {
-          results: [20],
+          results: [die],
         },
       ]
 
       const result = d20_command.judge(picked, "en-US")
 
-      expect(result).toMatch("pleases")
+      expect(result).toMatch(text)
     })
   })
 
@@ -144,6 +150,17 @@ describe("perform", () => {
     const result = d20_command.perform(options)
 
     expect(result).toMatch("advantage")
+  })
+
+  it("displays the sacrifice easter egg if present", () => {
+    const options = {
+      description: "sacrificing a chicken",
+      rolls: 1,
+    }
+
+    const result = d20_command.perform(options)
+
+    expect(result).toMatch("Your sacrifice")
   })
 })
 
