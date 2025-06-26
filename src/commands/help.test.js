@@ -31,6 +31,19 @@ describe("/help command", () => {
     })
   })
 
+  describe("autocomplete", () => {
+    it("delegates to the subcommand", async () => {
+      const interaction = new Interaction()
+      interaction.command_options.subcommand_name = "command"
+      interaction.partial_text = "ff"
+      interaction.focused_option = "command"
+
+      const result = await help_command.autocomplete(interaction)
+
+      expect(result[0].name).toMatch("ffrpg")
+    })
+  })
+
   describe("help_data", () => {
     it("includes topic names", () => {
       const help_data = help_command.help_data({ locale: "en-US" })
