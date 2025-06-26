@@ -8,7 +8,7 @@ function getChangelog(changelog_version, locale) {
   try {
     return fs.readFileSync(path.join(__dirname, "../../../changelog", `${changelog_version}.md`))
   } catch {
-    return i18n.t("help:changes.missing", { version: changelog_version })
+    return i18n.t("changes.missing", { ns: "help", lng: locale, version: changelog_version })
   }
 }
 
