@@ -4,7 +4,7 @@ const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { roll, NwodRollOptions } = require("../services/nwod-roller")
 const { rollUntil } = require("../services/until-roller")
 const { successes } = require("../services/tally")
-const { present } = require("../presenters/results/nwod-results-presenter")
+const { NwodPresenter, present } = require("../presenters/results/nwod-results-presenter")
 const { teamworkBegin } = require("../interactive/teamwork")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
@@ -43,44 +43,63 @@ module.exports = {
     description: commonSchemas.description,
     decreasing: Joi.boolean().optional(),
   }),
-  judge(results, pool, locale) {
-    const expected = Math.round(pool / 3)
-
+  judge(presenter) {
     const buckets = [0, 0, 0, 0, 0]
-    for (const result of results) {
-      switch (true) {
-        case result >= expected * 2:
-          buckets[0]++
-          break
-        case result > expected:
-          buckets[1]++
-          break
-        default:
-        case result === expected:
-          buckets[2]++
-          break
-        case result >= expected / 2:
-          buckets[3]++
-          break
-        case result < expected / 2:
-          buckets[4]++
-          break
+
+    if (presenter.chance) {
+      for (const rollNum of presenter.summed.keys()) {
+        const result = presenter.summed[rollNum]
+        const raw = presenter.raw[0][0]
+        switch(true) {
+          case result > 0:
+            buckets[0]++
+            break
+          case raw > 1:
+            buckets[3]++
+            break
+          default:
+            buckets[4]++
+            break
+        }
+      }
+    } else {
+      const expected = Math.round(presenter.pool / 3)
+
+      for (const result of presenter.summed) {
+        switch (true) {
+          case result >= expected * 2:
+            buckets[0]++
+            break
+          case result > expected:
+            buckets[1]++
+            break
+          default:
+          case result === expected:
+            buckets[2]++
+            break
+          case result >= expected / 2:
+            buckets[3]++
+            break
+          case result < expected / 2:
+            buckets[4]++
+            break
+        }
       }
     }
 
-    const dominating = buckets.findIndex((b) => b >= results.length / 2)
+    const dominating = buckets.findIndex((b) => b >= presenter.summed.length / 2)
     switch (dominating) {
       case 0:
-        return sacrifice.great(locale)
+        return sacrifice.great(presenter.locale)
       case 1:
-        return sacrifice.good(locale)
+        return sacrifice.good(presenter.locale)
       case 2:
       default:
-        return sacrifice.neutral(locale)
+        return sacrifice.neutral(presenter.locale)
       case 3:
-        return sacrifice.bad(locale)
+        return sacrifice.bad(presenter.locale)
       case 4:
-        return sacrifice.awful(locale)
+        return sacrifice.awful(presenter.locale)
     }
   },
   teamwork: {
@@ -166,33 +185,32 @@ module.exports = {
       summed_results = successes(raw_results, threshold)
     }
 
+    const presenter = new NwodPresenter({
+      rolls,
+      pool,
+      rote,
+      chance,
+      explode,
+      threshold,
+      until,
+      decreasing,
+      description,
+      raw: raw_results,
+      summed: summed_results,
+      locale,
+    })
     const result_lines = [
-      present({
-        rolls,
-        pool,
-        rote,
-        chance,
-        explode,
-        threshold,
-        until,
-        decreasing,
-        description,
-        raw: raw_results,
-        summed: summed_results,
-        locale,
-      }),
+      presenter.presentResults(),
     ]
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(summed_results, pool, locale)
+      const sacrifice_message = module.exports.judge(presenter)
       result_lines.push(`-# ${sacrifice_message}`)
     }
 
-    if (hummingbird.hasTrigger(description, locale)) {
-      if (summed_results.some(hummingbird.qualified)) {
-        const hummingbird_message = hummingbird.spotted(locale)
-        result_lines.push(`-# ${hummingbird_message}`)
-      }
+    if (hummingbird.hasTrigger(description, locale) && summed_results.some(hummingbird.qualified)) {
+      const hummingbird_message = hummingbird.spotted(locale)
+      result_lines.push(`-# ${hummingbird_message}`)
     }
 
     return result_lines.join("\n")

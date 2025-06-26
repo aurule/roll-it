@@ -3,6 +3,7 @@ const nwod_command = require("./nwod")
 const { Interaction } = require("../../testing/interaction")
 const { schemaMessages } = require("../../testing/schema-messages")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
+const { NwodPresenter } = require("../presenters/results/nwod-results-presenter")
 
 describe("nwod command", () => {
   describe("schema", () => {
@@ -121,24 +122,59 @@ describe("nwod command", () => {
 
   describe("judge", () => {
     describe("with dominant outcome", () => {
-      it("returns the correct message", () => {
-        const pool = 6
-        const results = [4]
+      it.each([
+        [4, "pleases"],
+        [3, "accepted"],
+        [2, "noted"],
+        [1, "inadequate"],
+        [0, "angers"],
+      ])("returns correct text for %i", (successes, text) => {
+        const presenter = new NwodPresenter({
+          pool: 6,
+          summed: [successes],
+          rolls: 1,
+          locale: "en-US",
+        })
 
-        const result = nwod_command.judge(results, pool, "en-US")
+        const result = nwod_command.judge(presenter)
 
-        expect(result).toMatch("pleases")
+        expect(result).toMatch(text)
       })
     })
 
     describe("with no dominant outcome", () => {
       it("returns the neutral message", () => {
-        const pool = 6
-        const results = [0, 2, 4]
+        const presenter = new NwodPresenter({
+          pool: 6,
+          summed: [0, 2, 4],
+          rolls: 3,
+          locale: "en-US",
+        })
 
-        const result = nwod_command.judge(results, pool, "en-US")
+        const result = nwod_command.judge(presenter)
 
         expect(result).toMatch("noted")
+      })
+    })
+
+    describe("with a chance roll", () => {
+      it.each([
+        [10, 1, "pleases"],
+        [5, 0, "inadequate"],
+        [1, 0, "angers"],
+      ])("returns correct text for %i", (die, successes, text) => {
+        const presenter = new NwodPresenter({
+          pool: 1,
+          summed: [successes],
+          raw: [[die]],
+          chance: true,
+          rolls: 1,
+          locale: "en-US",
+        })
+
+        const result = nwod_command.judge(presenter)
+
+        expect(result).toMatch(text)
       })
     })
   })
@@ -181,14 +217,15 @@ describe("nwod command", () => {
         expect(result).toMatch("Your sacrifice")
       })
 
-      it("thinks about the hummingbird message", () => {
-        // The message is not easy to test, thanks to randomess and the very low chance of the required
-        // successes.
+      it("displays the hummingbird message", () => {
         options.description = "perception"
+        options.threshold = 1
+        options.pool = 11
+        options.explode = 11
 
         const result = nwod_command.perform(options)
 
-        expect(result).toMatch(/\*\*\d\*\*/)
+        expect(result).toMatch("hummingbird")
       })
     })
 
@@ -273,6 +310,15 @@ describe("nwod command", () => {
         nwod_command.execute(interaction)
 
         expect(interaction.replyContent).toMatch("cannot use teamwork")
+      })
+
+      it("shows the teamwork prompt with correct options", () => {
+        interaction.command_options.teamwork = true
+        interaction.command_options.pool = 5
+
+        nwod_command.execute(interaction)
+
+        expect(interaction.replyContent).toMatch("started a teamwork")
       })
     })
 
