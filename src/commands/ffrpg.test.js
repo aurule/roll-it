@@ -130,15 +130,21 @@ describe("ffrpg command", () => {
 
   describe("judge", () => {
     describe("with dominant outcome", () => {
-      it("returns the correct message", () => {
+      it.each([
+        [1, 40, "pleases"],
+        [9, 5, "pleases"], // rule of 10
+        [30, 40, "accepted"],
+        [50, 40, "noted"],
+        [99, 40, "inadequate"],
+      ])("returns correct text for %i", (die, base, text) => {
         const presenter = new FfrpgPresenter({
-          raw: [[23], [31]],
-          base: 40,
+          raw: [[die]],
+          base,
         })
 
         const result = ffrpg_command.judge(presenter, "en-US")
 
-        expect(result).toMatch("accepted")
+        expect(result).toMatch(text)
       })
     })
 
@@ -200,15 +206,29 @@ describe("ffrpg command", () => {
       interaction = new CommandInteraction("ffrpg")
     })
 
-    it("shows error message for modifiers with flat", async () => {
-      interaction.setOptions({
-        flat: true,
-        conditional: 10,
+    describe("flat roll", () => {
+      it("shows error message if modifiers are present", async () => {
+        interaction.setOptions({
+          flat: true,
+          conditional: 10,
+          base: 50,
+        })
+
+        await ffrpg_command.execute(interaction)
+
+        expect(interaction.message.content).toMatch("do not allow")
       })
 
-      await ffrpg_command.execute(interaction)
+      it("reports flat roll", async () => {
+        interaction.setOptions({
+          flat: true,
+          base: 50,
+        })
 
-      expect(interaction.message.content).toMatch("do not allow")
+        await ffrpg_command.execute(interaction)
+
+        expect(interaction.message.content).toMatch("*flat*")
+      })
     })
 
     it("shows error message for crit over botch", async () => {
