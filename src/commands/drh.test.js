@@ -386,6 +386,19 @@ describe("execute", () => {
       expect(interaction.replyContent).toMatch("need at least 1 `exhaustion`")
     })
 
+    it("allows exhaustion talent with exhaustion pool", async () => {
+      interaction.setOptions({
+        talent: "minor",
+        discipline: 1,
+        exhaustion: 1,
+        pain: 1,
+      })
+
+      await drh_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("dominated")
+    })
+
     it("with madness talent, requires madness", async () => {
       interaction.setOptions({
         talent: "madness",
@@ -398,11 +411,12 @@ describe("execute", () => {
       expect(interaction.replyContent).toMatch("need at least 1 `madness`")
     })
 
-    it("allows exhaustion talent with exhaustion pool", async () => {
+    it("allows madness talent with madness pool", async () => {
       interaction.setOptions({
-        talent: "minor",
+        talent: "madness",
         discipline: 1,
         exhaustion: 1,
+        madness: 1,
         pain: 1,
       })
 
