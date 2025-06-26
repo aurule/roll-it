@@ -10,6 +10,20 @@ const { i18n } = require("../../locales")
  * different inputs.
  */
 class NwodPresenter {
+  pool
+  rolls
+  chance
+  rote
+  threshold
+  explode
+  until
+  description
+  raw
+  summed
+  decreasing
+  locale
+  t
+
   /**
    * Create a new NwodPresenter object
    *
@@ -25,6 +39,7 @@ class NwodPresenter {
    * @param  {str}       options.description Text describing the roll
    * @param  {Array<int[]>} options.raw      Array of arrays with ints representing raw dice rolls
    * @param  {int[]}     options.summed      Array of ints, summing the rolled dice
+   * @returns {NwodPresenter}                New presenter object
    */
   constructor({
     pool,
@@ -51,6 +66,7 @@ class NwodPresenter {
     this.raw = raw
     this.summed = summed
     this.decreasing = decreasing
+    this.locale = locale
     this.t = i18n.getFixedT(locale, "commands", "nwod")
   }
 
