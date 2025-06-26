@@ -8,17 +8,7 @@ const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const sacrifice = require("../services/easter-eggs/sacrifice")
-
-function with_to_keep(value) {
-  switch (value) {
-    case "advantage":
-      return "highest"
-    case "disadvantage":
-      return "lowest"
-    default:
-      return "all"
-  }
-}
+const { with_to_keep } = require("../util/with-to-keep")
 
 const command_name = "d20"
 
