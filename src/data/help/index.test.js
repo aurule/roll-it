@@ -5,5 +5,9 @@ describe("help topics", () => {
     it("has a name", () => {
       expect(topic.name).toBeTruthy()
     })
+
+    it("data name matches file name", () => {
+      expect(topic.name).toEqual(name)
+    })
   })
 })
