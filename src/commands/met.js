@@ -15,7 +15,4 @@ module.exports = {
   async execute(interaction) {
     return dispatch(interaction, module.exports.subcommands)
   },
-  async autocomplete(interaction) {
-    return dispatch(interaction, module.exports.subcommands, "autocomplete")
-  },
 }
