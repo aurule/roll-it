@@ -1,7 +1,7 @@
 const { performance } = require("node:perf_hooks")
 const v8 = require("node:v8")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 
 const { logger } = require("./util/logger")
 const { metrics } = require("./db/stats")

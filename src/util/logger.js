@@ -1,6 +1,6 @@
 const Pino = require("pino")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 
 function pickStream(env_name = process.env.NODE_ENV) {
   if (env_name == "development") {

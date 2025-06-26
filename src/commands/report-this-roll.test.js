@@ -3,7 +3,7 @@ const interactionCache = require("../services/interaction-cache")
 
 const report_roll_command = require("./report-this-roll")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 const botId = process.env.CLIENT_ID
 
 describe("Report this roll", () => {

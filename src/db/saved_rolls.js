@@ -528,7 +528,7 @@ class GlobalSavedRolls {
 }
 
 function seed() {
-  require("dotenv").config()
+  require("dotenv").config({ quiet: true })
   if (process.env.NODE_ENV !== "development") return
 
   const fs = require("fs")

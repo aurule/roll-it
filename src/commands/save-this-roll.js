@@ -8,7 +8,7 @@ const { canonical, mapped } = require("../locales/helpers")
 const rollCache = require("../services/roll-cache")
 const SavedRollModal = require("../modals/saved-roll")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 const botId = process.env.CLIENT_ID
 
 const command_id = "save-this-roll"

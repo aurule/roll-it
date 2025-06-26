@@ -2,7 +2,7 @@
  * Module to isolate calls to discord API endpoints.
  */
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 
 const { REST, Routes } = require("discord.js")
 const { logger } = require("../util/logger")

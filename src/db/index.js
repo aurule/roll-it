@@ -4,7 +4,7 @@ const path = require("path")
 
 const Database = require("better-sqlite3")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 
 /**
  * Get the correct database file path for our environment

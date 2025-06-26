@@ -4,7 +4,7 @@ const interactionCache = require("../services/interaction-cache")
 
 const save_roll_command = require("./save-this-roll")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 const botId = process.env.CLIENT_ID
 
 describe("Save this roll", () => {

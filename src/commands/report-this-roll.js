@@ -6,7 +6,7 @@ const { i18n } = require("../locales")
 const { canonical, mapped } = require("../locales/helpers")
 const ReportRollModal = require("../modals/report-roll")
 
-require("dotenv").config()
+require("dotenv").config({ quiet: true })
 const botId = process.env.CLIENT_ID
 
 const command_id = "report-this-roll"
