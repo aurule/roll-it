@@ -1,3 +1,5 @@
+const { pickStream } = require("./logger")
+
 var old_env
 
 beforeAll(() => {
@@ -20,18 +22,12 @@ describe("logger", () => {
   })
 
   describe("pickStream", () => {
-    let pickStream
-
-    beforeEach(() => {
-      pickStream = require("./logger").pickStream
-    })
-
-    it.each([
+    it.concurrent.each([
       ["development", "Transform"],
       ["test", "DevNull"],
       ["ci", "DevNull"],
       ["production", "Pumpify"],
-    ])("in %s env, uses %s object", (env_name, obj_name) => {
+    ])("in %s env, uses %s object", async (env_name, obj_name) => {
       const log_stream = pickStream(env_name)
 
       expect(log_stream.constructor.name).toMatch(obj_name)

@@ -45,7 +45,7 @@ describe("with a savable command", () => {
 })
 
 describe("spot checks", () => {
-  it.each([
+  it.concurrent.each([
     ["/d20", {}],
     ["/d20 modifier:4", { modifier: 4 }],
     ["/fate", {}],

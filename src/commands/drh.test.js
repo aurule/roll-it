@@ -241,7 +241,7 @@ describe("/drh command", () => {
         expect(result.error).toBeFalsy()
       })
 
-      it.each([["minor"], ["major"], ["madness"]])("accepts %s", (talent_value) => {
+      it.concurrent.each([["minor"], ["major"], ["madness"]])("accepts %s", async (talent_value) => {
         const result = talent_schema.validate(talent_value)
 
         expect(result.error).toBeFalsy()

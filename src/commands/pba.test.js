@@ -12,13 +12,13 @@ beforeEach(() => {
 describe("pba command", () => {
   describe("judge", () => {
     describe("with dominant outcome", () => {
-      it.each([
+      it.concurrent.each([
         [11, "pleases"],
         [9, "accepted"],
         [6, "noted"],
         [4, "inadequate"],
         [2, "angers"],
-      ])("returns correct text for %i", (die, text) => {
+      ])("returns correct text for %i", async (die, text) => {
         const results = [die]
 
         const result = pba_command.judge(results, "en-US")

@@ -295,11 +295,11 @@ describe("FfrpgPresenter", () => {
       })
     })
 
-    it.each([
+    it.concurrent.each([
       ["intrinsic", 10, "+"],
       ["conditional", 30, "+"],
       ["avoid", 40, "-"],
-    ])("shows %s bonus", (name, value, sign) => {
+    ])("shows %s bonus", async (name, value, sign) => {
       const presenter = new FfrpgPresenter({
         base: 60,
         raw: [[20]],
@@ -323,10 +323,10 @@ describe("FfrpgPresenter", () => {
     })
 
     describe("with non-standard crit or botch", () => {
-      it.each([
+      it.concurrent.each([
         ["crit", 20],
         ["botch", 80],
-      ])("shows %s threshold", (name, value) => {
+      ])("shows %s threshold", async (name, value) => {
         const presenter = new FfrpgPresenter({
           base: 60,
           raw: [[20]],
@@ -340,10 +340,10 @@ describe("FfrpgPresenter", () => {
     })
 
     describe("with zero crit or botch", () => {
-      it.each([
+      it.concurrent.each([
         ["crit", 0],
         ["botch", 0],
-      ])("shows no %s", (name, value) => {
+      ])("shows no %s", async (name, value) => {
         const presenter = new FfrpgPresenter({
           base: 60,
           raw: [[20]],

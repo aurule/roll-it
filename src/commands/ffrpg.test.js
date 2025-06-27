@@ -130,13 +130,13 @@ describe("ffrpg command", () => {
 
   describe("judge", () => {
     describe("with dominant outcome", () => {
-      it.each([
+      it.concurrent.each([
         [1, 40, "pleases"],
         [9, 5, "pleases"], // rule of 10
         [30, 40, "accepted"],
         [50, 40, "noted"],
         [99, 40, "inadequate"],
-      ])("returns correct text for %i", (die, base, text) => {
+      ])("returns correct text for %i", async (die, base, text) => {
         const presenter = new FfrpgPresenter({
           raw: [[die]],
           base,

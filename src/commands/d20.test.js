@@ -27,7 +27,7 @@ describe("d20 command", () => {
         expect(result.error).toBeTruthy()
       })
 
-      it.each([["all"], ["highest"], ["lowest"]])("accepts '%s'", (value) => {
+      it.concurrent.each([["all"], ["highest"], ["lowest"]])("accepts '%s'", async (value) => {
         const result = keep_schema.validate(value)
 
         expect(result.error).toBeFalsy()
@@ -49,7 +49,7 @@ describe("d20 command", () => {
         expect(result.error).toBeTruthy()
       })
 
-      it.each([["advantage"], ["disadvantage"]])("accepts '%s'", (value) => {
+      it.concurrent.each([["advantage"], ["disadvantage"]])("accepts '%s'", async (value) => {
         const result = with_schema.validate(value)
 
         expect(result.error).toBeFalsy()
@@ -90,13 +90,13 @@ describe("d20 command", () => {
 
   describe("judge", () => {
     describe("with a dominant outcome", () => {
-      it.each([
+      it.concurrent.each([
         [20, "pleases"],
         [15, "accepted"],
         [10, "noted"],
         [5, "inadequate"],
         [1, "angers"],
-      ])("returns correct text for %i", (die, text) => {
+      ])("returns correct text for %i", async (die, text) => {
         const picked = [
           {
             results: [die],

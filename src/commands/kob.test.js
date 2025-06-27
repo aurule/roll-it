@@ -26,7 +26,7 @@ describe("schema", () => {
       expect(result.error).toBeTruthy()
     })
 
-    it.each([[4], [6], [8], [10], [12], [20], [100]])("allows %i", (die) => {
+    it.concurrent.each([[4], [6], [8], [10], [12], [20], [100]])("allows %i", async (die) => {
       const result = sides_schema.validate(die)
 
       expect(result.error).toBeFalsy()

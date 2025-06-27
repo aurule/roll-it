@@ -133,9 +133,9 @@ describe("presentMany", () => {
 })
 
 describe("limitedEvaluate", () => {
-  it.each([["import"], ["createUnit"], ["evaluate"], ["parse"], ["simplify"], ["derivative"]])(
+  it.concurrent.each([["import"], ["createUnit"], ["evaluate"], ["parse"], ["simplify"], ["derivative"]])(
     "disables %s",
-    (fn_name) => {
+    async (fn_name) => {
       expect(() => {
         roll_formula_presenter.limitedEvaluate(`${fn_name}()`)
       }).toThrow(`${fn_name} is disabled`)

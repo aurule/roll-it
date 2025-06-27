@@ -10,11 +10,11 @@ describe("saved roll modal", () => {
       expect(() => SavedRollModal.data("nope", "en-US")).toThrow("Unrecognized mode")
     })
 
-    it.each([
+    it.concurrent.each([
       ["create", "New Roll"],
       ["edit", "Edit a"],
       ["replace", "New Name"],
-    ])("shows %s mode title", (mode, title) => {
+    ])("shows %s mode title", async (mode, title) => {
       const modal = SavedRollModal.data(mode, "en-US")
 
       expect(modal.data.title).toMatch(title)

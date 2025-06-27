@@ -30,14 +30,14 @@ describe("ensure helper", () => {
   describe("patch", () => {
     const ensure = require("./ensure")
 
-    it.each([
+    it.concurrent.each([
       [CommandInteraction],
       [ModalSubmitInteraction],
       [ButtonInteraction],
       [UserSelectMenuInteraction],
       [StringSelectMenuInteraction],
       [Message],
-    ])("patches %p by default", (klass) => {
+    ])("patches %p by default", async (klass) => {
       ensure.patch()
 
       expect(klass.prototype.ensure).not.toBeUndefined()

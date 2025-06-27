@@ -27,7 +27,7 @@ describe("/curv command", () => {
         expect(result.error).toBeTruthy()
       })
 
-      it.each([["all"], ["highest"], ["lowest"]])("accepts '%s'", (value) => {
+      it.concurrent.each([["all"], ["highest"], ["lowest"]])("accepts '%s'", async (value) => {
         const result = keep_schema.validate(value)
 
         expect(result.error).toBeFalsy()
@@ -49,7 +49,7 @@ describe("/curv command", () => {
         expect(result.error).toBeTruthy()
       })
 
-      it.each([["advantage"], ["disadvantage"]])("accepts '%s'", (value) => {
+      it.concurrent.each([["advantage"], ["disadvantage"]])("accepts '%s'", async (value) => {
         const result = with_schema.validate(value)
 
         expect(result.error).toBeFalsy()

@@ -74,9 +74,9 @@ describe("saved rolls db", () => {
       expect(result.values.invalid).toEqual(1)
     })
 
-    it.each([["id"], ["guildFlake"], ["userFlake"]])(
+    it.concurrent.each([["id"], ["guildFlake"], ["userFlake"]])(
       "skips restricted attribute %s",
-      (attr_name) => {
+      async (attr_name) => {
         const data = {}
         data[attr_name] = "test"
 

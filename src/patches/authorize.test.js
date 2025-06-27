@@ -22,11 +22,11 @@ class PatchMeAuthorize {
 
 describe("authorize helper", () => {
   describe("patch", () => {
-    it.each([
+    it.concurrent.each([
       [ButtonInteraction],
       [UserSelectMenuInteraction],
       [StringSelectMenuInteraction],
-    ])("patches %p by default", (klass) => {
+    ])("patches %p by default", async (klass) => {
       authorize.patch()
 
       expect(klass.prototype.authorize).not.toBeUndefined()

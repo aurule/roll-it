@@ -12,13 +12,13 @@ describe("fate command", () => {
 
   describe("judge", () => {
     describe("with dominant outcome", () => {
-      it.each([
+      it.concurrent.each([
         [4, "pleases"],
         [2, "accepted"],
         [0, "noted"],
         [-2, "inadequate"],
         [-4, "angers"],
-      ])("returns correct text for %i", (die, text) => {
+      ])("returns correct text for %i", async (die, text) => {
         const results = [die]
 
         const result = fate_command.judge(results, "en-US")

@@ -122,13 +122,13 @@ describe("nwod command", () => {
 
   describe("judge", () => {
     describe("with dominant outcome", () => {
-      it.each([
+      it.concurrent.each([
         [4, "pleases"],
         [3, "accepted"],
         [2, "noted"],
         [1, "inadequate"],
         [0, "angers"],
-      ])("returns correct text for %i", (successes, text) => {
+      ])("returns correct text for %i", async (successes, text) => {
         const presenter = new NwodPresenter({
           pool: 6,
           summed: [successes],
@@ -158,11 +158,11 @@ describe("nwod command", () => {
     })
 
     describe("with a chance roll", () => {
-      it.each([
+      it.concurrent.each([
         [10, 1, "pleases"],
         [5, 0, "inadequate"],
         [1, 0, "angers"],
-      ])("returns correct text for %i", (die, successes, text) => {
+      ])("returns correct text for %i", async (die, successes, text) => {
         const presenter = new NwodPresenter({
           pool: 1,
           summed: [successes],

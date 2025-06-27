@@ -65,7 +65,7 @@ describe("rolls", () => {
     expect(schemaMessages(result)).toMatch("between")
   })
 
-  it.each([[1], [15], [100]])("allows normal value %i", (val) => {
+  it.concurrent.each([[1], [15], [100]])("allows normal value %i", async (val) => {
     const rolls_value = val
 
     const result = commonSchemas.rolls.validate(rolls_value, {

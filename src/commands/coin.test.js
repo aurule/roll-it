@@ -84,7 +84,7 @@ describe("/coin command", () => {
         expect(schemaMessages(result)).not.toMatch("call")
       })
 
-      it.each([["1"], ["2"]])("allows %s", (call_value) => {
+      it.concurrent.each([["1"], ["2"]])("allows %s", async (call_value) => {
         const options = {
           call: call_value,
         }

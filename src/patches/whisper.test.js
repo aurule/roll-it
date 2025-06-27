@@ -18,14 +18,14 @@ class PatchMeWhisper {
 
 describe("whisper helper", () => {
   describe("patch", () => {
-    it.each([
+    it.concurrent.each([
       [CommandInteraction],
       [ModalSubmitInteraction],
       [ButtonInteraction],
       [UserSelectMenuInteraction],
       [StringSelectMenuInteraction],
       [Message],
-    ])("patches %p by default", (klass) => {
+    ])("patches %p by default", async (klass) => {
       whisper.patch()
 
       expect(klass.prototype.whisper).not.toBeUndefined()
