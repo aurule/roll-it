@@ -73,11 +73,6 @@ module.exports = {
       locale,
     })
 
-    if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(sum(raw_results), locale)
-      return `${presented_result}\n-# ${sacrifice_message}`
-    }
-
     return presented_result
   },
   execute(interaction) {
