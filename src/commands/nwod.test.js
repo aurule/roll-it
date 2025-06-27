@@ -312,11 +312,11 @@ describe("nwod command", () => {
         expect(interaction.replyContent).toMatch("cannot use teamwork")
       })
 
-      it("shows the teamwork prompt with correct options", () => {
+      it("shows the teamwork prompt with correct options", async () => {
         interaction.command_options.teamwork = true
         interaction.command_options.pool = 5
 
-        nwod_command.execute(interaction)
+        await nwod_command.execute(interaction)
 
         expect(interaction.replyContent).toMatch("started a teamwork")
       })
