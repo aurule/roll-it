@@ -4,12 +4,13 @@ const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { rollUntil } = require("../services/until-roller")
 const { rollExplode } = require("../services/base-roller")
 const { successes } = require("../services/tally")
-const { present } = require("../presenters/results/shadowrun-results-presenter")
+const { ShadowrunPresenter, present } = require("../presenters/results/shadowrun-results-presenter")
 const { teamworkBegin } = require("../interactive/teamwork")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const sacrifice = require("../services/easter-eggs/sacrifice")
 
 const command_name = "shadowrun"
 
@@ -50,6 +51,47 @@ module.exports = {
         locale,
       }),
   },
+  judge(presenter) {
+    const buckets = [0, 0, 0, 0, 0]
+    const expected = Math.round(presenter.pool / 3)
+
+    for (const rollNum of presenter.summed.keys()) {
+      const result = presenter.summed[rollNum]
+      switch (true) {
+        case presenter.glitch(rollNum) && result === 0:
+          buckets[4]++
+          break
+        case presenter.glitch(rollNum):
+          buckets[3]++
+          break
+        case result >= expected * 2:
+          buckets[0]++
+          break
+        case result > expected:
+          buckets[1]++
+          break
+        default:
+        case result >= expected / 2:
+          buckets[2]++
+          break
+      }
+    }
+
+    const dominating = buckets.findIndex((b) => b >= presenter.summed.length / 2)
+    switch (dominating) {
+      case 0:
+        return sacrifice.great(presenter.locale)
+      case 1:
+        return sacrifice.good(presenter.locale)
+      case 2:
+      default:
+        return sacrifice.neutral(presenter.locale)
+      case 3:
+        return sacrifice.bad(presenter.locale)
+      case 4:
+        return sacrifice.awful(presenter.locale)
+    }
+  },
   perform({ pool, edge, rolls = 1, until, description, locale = "en-US" } = {}) {
     let raw_results
     let summed_results
@@ -68,7 +110,7 @@ module.exports = {
       summed_results = successes(raw_results, 5)
     }
 
-    return present({
+    const presenter = new ShadowrunPresenter({
       rolls,
       pool,
       edge,
@@ -78,6 +120,16 @@ module.exports = {
       summed: summed_results,
       locale,
     })
+    const result_lines = [
+      presenter.presentResults(),
+    ]
+
+    if (sacrifice.hasTrigger(description, locale)) {
+      const sacrifice_message = module.exports.judge(presenter)
+      result_lines.push(`-# ${sacrifice_message}`)
+    }
+
+    return result_lines.join("\n")
   },
   async execute(interaction) {
     const pool = interaction.options.getInteger("pool")
