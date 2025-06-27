@@ -53,7 +53,7 @@ module.exports = {
           buckets[1]++
           break
         default:
-        case result === expected:
+        case result == expected:
           buckets[2]++
           break
         case result >= expected / 2:
