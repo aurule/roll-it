@@ -4,12 +4,12 @@ const { oneLine } = require("common-tags")
 const { CachedDb } = require("./cached-db")
 const { OpTest } = require("./opposed/optest")
 
-const ParticipantRoles = {
+const ParticipantRoles = Object.freeze({
   Attacker: 1,
   Defender: 2,
-}
+})
 
-const ChallengeStates = {
+const ChallengeStates = Object.freeze({
   AdvantagesAttacker: "advantages-attacker",
   AdvantagesDefender: "advantages-defender",
   Relented: "relented",
@@ -23,12 +23,12 @@ const ChallengeStates = {
   Accepted: "accepted",
   Cancelling: "cancelling",
   Expired: "expired",
-}
+})
 
-const FINAL_STATES = new Set(["relented", "withdrawn", "conceded", "accepted", "expired"])
-const final_states_expr = Array.from(FINAL_STATES)
+const FINAL_STATES = Object.freeze(new Set(["relented", "withdrawn", "conceded", "accepted", "expired"]))
+const final_states_expr = Object.freeze(Array.from(FINAL_STATES)
   .map((s) => `'${s}'`)
-  .join(",")
+  .join(","))
 
 /**
  * Class to manage met-opposed state tracking

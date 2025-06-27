@@ -6,10 +6,10 @@ const { oneLine } = require("common-tags")
  * Message type enum
  * @type {Object}
  */
-const MessageType = {
+const MessageType = Object.freeze({
   Prompt: 1,
   Plain: 2,
-}
+})
 
 /**
  * Class to manage teamwork state tracking
@@ -21,6 +21,11 @@ class Teamwork {
    */
   db
 
+  /**
+   * Create a new Teamwork object
+   * @param  {Database} db_obj Sqlite database object
+   * @return {Teamwork}        New Teamwork object
+   */
   constructor(db_obj) {
     this.db = db_obj ?? require("./index").db
   }

@@ -9,7 +9,6 @@ const { logger } = require("../util/logger")
 const { i18n } = require("../locales")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
 
-const basename = path.basename(__filename)
 const componentsDir = path.join(__dirname, "opposed")
 
 const components = new Collection()
@@ -21,8 +20,20 @@ contents.forEach((mention_file) => {
   components.set(handler.name, handler)
 })
 
-const num_regex = /_\d+/gi
+/**
+ * Regex matching an underscore followed by one or more digits
+ * @type {RegExp}
+ */
+const num_regex = new RegExp(/_\d+/, "gi")
 
+/**
+ * Sanitize a component ID
+ *
+ * This removes any trailing database ID.
+ *
+ * @param  {str} customId ID to sanitize
+ * @return {str}          Sanitized ID
+ */
 function sanitize_id(customId) {
   return customId.replaceAll(num_regex, "")
 }
