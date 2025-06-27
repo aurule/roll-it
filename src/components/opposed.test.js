@@ -1,5 +1,5 @@
 const { Interaction } = require("../../testing/interaction")
-const { Opposed } = require("../db/opposed")
+const { Opposed, ChallengeStates } = require("../db/opposed")
 const cancel_button = require("./opposed/cancel-button")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
 
@@ -44,11 +44,41 @@ describe("opposed component handler", () => {
     })
 
     describe("with no challenge record for the message", () => {
-      it.todo("replies that the challenge is over")
+      it("replies that the challenge is over", async () => {
+        await opposed_handler.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("has concluded")
+      })
     })
 
     describe("with expired challenge", () => {
-      it.todo("replies that the challenge is over")
+      let opposed_db
+
+      beforeEach(() => {
+        interaction.customId = "opposed_cancel"
+
+        opposed_db = new Opposed()
+        let challenge_id = opposed_db.addChallenge({
+          locale: "en-US",
+          description: "testing challenge",
+          attacker_uid: "atk",
+          attribute: "mental",
+          retest_ability: "occult",
+          state: ChallengeStates.Conceded,
+          channel_uid: "testchan",
+          timeout: 1000,
+        }).lastInsertRowid
+        opposed_db.addMessage({
+          message_uid: interaction.message.id,
+          challenge_id,
+        })
+      })
+
+      it("replies that the challenge is over", async () => {
+        await opposed_handler.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("has concluded")
+      })
     })
 
     describe("with an older test", () => {
