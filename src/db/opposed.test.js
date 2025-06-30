@@ -90,7 +90,7 @@ describe("Opposed DB", () => {
       attacker_id = result.lastInsertRowid
       result = opposed.addParticipant({
         challenge_id,
-        user_uid: "def",
+        user_uid: defender_uid,
         mention: `<@${defender_uid}>`,
         role: ParticipantRoles.Defender,
         advantages: ["oh", "no"],
