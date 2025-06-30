@@ -28,13 +28,13 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.0.5"],\
-          ["better-sqlite3", "npm:12.1.1"],\
+          ["@biomejs/biome", "npm:2.0.6"],\
+          ["better-sqlite3", "npm:12.2.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
-          ["dotenv", "npm:16.6.0"],\
+          ["dotenv", "npm:17.0.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.3"],\
@@ -45,7 +45,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
-          ["prettier", "npm:3.6.1"],\
+          ["prettier", "npm:3.6.2"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["simpleflakes", "npm:2.2.2"]\
@@ -889,90 +889,90 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@biomejs/biome", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/cache/@biomejs-biome-npm-2.0.5-b22fb1e4c2-850b5bbcdf.zip/node_modules/@biomejs/biome/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/cache/@biomejs-biome-npm-2.0.6-1e75f2488b-eafaf39815.zip/node_modules/@biomejs/biome/",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.0.5"],\
-          ["@biomejs/cli-darwin-arm64", "npm:2.0.5"],\
-          ["@biomejs/cli-darwin-x64", "npm:2.0.5"],\
-          ["@biomejs/cli-linux-arm64", "npm:2.0.5"],\
-          ["@biomejs/cli-linux-arm64-musl", "npm:2.0.5"],\
-          ["@biomejs/cli-linux-x64", "npm:2.0.5"],\
-          ["@biomejs/cli-linux-x64-musl", "npm:2.0.5"],\
-          ["@biomejs/cli-win32-arm64", "npm:2.0.5"],\
-          ["@biomejs/cli-win32-x64", "npm:2.0.5"]\
+          ["@biomejs/biome", "npm:2.0.6"],\
+          ["@biomejs/cli-darwin-arm64", "npm:2.0.6"],\
+          ["@biomejs/cli-darwin-x64", "npm:2.0.6"],\
+          ["@biomejs/cli-linux-arm64", "npm:2.0.6"],\
+          ["@biomejs/cli-linux-arm64-musl", "npm:2.0.6"],\
+          ["@biomejs/cli-linux-x64", "npm:2.0.6"],\
+          ["@biomejs/cli-linux-x64-musl", "npm:2.0.6"],\
+          ["@biomejs/cli-win32-arm64", "npm:2.0.6"],\
+          ["@biomejs/cli-win32-x64", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-darwin-arm64", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-arm64-npm-2.0.5-3823464eba/node_modules/@biomejs/cli-darwin-arm64/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-arm64-npm-2.0.6-5f7952ce06/node_modules/@biomejs/cli-darwin-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-darwin-arm64", "npm:2.0.5"]\
+          ["@biomejs/cli-darwin-arm64", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-darwin-x64", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-x64-npm-2.0.5-74a5a68c22/node_modules/@biomejs/cli-darwin-x64/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-x64-npm-2.0.6-3b68648ae3/node_modules/@biomejs/cli-darwin-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-darwin-x64", "npm:2.0.5"]\
+          ["@biomejs/cli-darwin-x64", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-arm64", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-npm-2.0.5-66faec59bc/node_modules/@biomejs/cli-linux-arm64/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-npm-2.0.6-6817c03704/node_modules/@biomejs/cli-linux-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-arm64", "npm:2.0.5"]\
+          ["@biomejs/cli-linux-arm64", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-arm64-musl", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-musl-npm-2.0.5-5b31534c29/node_modules/@biomejs/cli-linux-arm64-musl/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-musl-npm-2.0.6-3967cf6909/node_modules/@biomejs/cli-linux-arm64-musl/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-arm64-musl", "npm:2.0.5"]\
+          ["@biomejs/cli-linux-arm64-musl", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-x64", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-npm-2.0.5-bdfed24627/node_modules/@biomejs/cli-linux-x64/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-npm-2.0.6-ceac6e55a5/node_modules/@biomejs/cli-linux-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-x64", "npm:2.0.5"]\
+          ["@biomejs/cli-linux-x64", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-x64-musl", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-musl-npm-2.0.5-4f017ec813/node_modules/@biomejs/cli-linux-x64-musl/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-musl-npm-2.0.6-0a015c0bf9/node_modules/@biomejs/cli-linux-x64-musl/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-x64-musl", "npm:2.0.5"]\
+          ["@biomejs/cli-linux-x64-musl", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-win32-arm64", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-arm64-npm-2.0.5-748aa2f39a/node_modules/@biomejs/cli-win32-arm64/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-arm64-npm-2.0.6-80981ed0c9/node_modules/@biomejs/cli-win32-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-win32-arm64", "npm:2.0.5"]\
+          ["@biomejs/cli-win32-arm64", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-win32-x64", [\
-      ["npm:2.0.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-x64-npm-2.0.5-ce9d847991/node_modules/@biomejs/cli-win32-x64/",\
+      ["npm:2.0.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-x64-npm-2.0.6-83757fb3ca/node_modules/@biomejs/cli-win32-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-win32-x64", "npm:2.0.5"]\
+          ["@biomejs/cli-win32-x64", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2266,10 +2266,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:12.1.1", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-12.1.1-0d45ed4187/node_modules/better-sqlite3/",\
+      ["npm:12.2.0", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-12.2.0-f99288306c/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:12.1.1"],\
+          ["better-sqlite3", "npm:12.2.0"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -2813,10 +2813,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["dotenv", [\
-      ["npm:16.6.0", {\
-        "packageLocation": "./.yarn/cache/dotenv-npm-16.6.0-0966b0c594-c1029a8656.zip/node_modules/dotenv/",\
+      ["npm:17.0.0", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-17.0.0-f61b2005b0-961c984152.zip/node_modules/dotenv/",\
         "packageDependencies": [\
-          ["dotenv", "npm:16.6.0"]\
+          ["dotenv", "npm:17.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5023,10 +5023,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["prettier", [\
-      ["npm:3.6.1", {\
-        "packageLocation": "./.yarn/unplugged/prettier-npm-3.6.1-19cd29005b/node_modules/prettier/",\
+      ["npm:3.6.2", {\
+        "packageLocation": "./.yarn/unplugged/prettier-npm-3.6.2-2668152203/node_modules/prettier/",\
         "packageDependencies": [\
-          ["prettier", "npm:3.6.1"]\
+          ["prettier", "npm:3.6.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5234,13 +5234,13 @@ const RAW_RUNTIME_STATE =
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.0.5"],\
-          ["better-sqlite3", "npm:12.1.1"],\
+          ["@biomejs/biome", "npm:2.0.6"],\
+          ["better-sqlite3", "npm:12.2.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
-          ["dotenv", "npm:16.6.0"],\
+          ["dotenv", "npm:17.0.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.3"],\
@@ -5251,7 +5251,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.0.0"],\
-          ["prettier", "npm:3.6.1"],\
+          ["prettier", "npm:3.6.2"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["simpleflakes", "npm:2.2.2"]\

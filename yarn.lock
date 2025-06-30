@@ -391,18 +391,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/biome@npm:2.0.5"
+"@biomejs/biome@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/biome@npm:2.0.6"
   dependencies:
-    "@biomejs/cli-darwin-arm64": "npm:2.0.5"
-    "@biomejs/cli-darwin-x64": "npm:2.0.5"
-    "@biomejs/cli-linux-arm64": "npm:2.0.5"
-    "@biomejs/cli-linux-arm64-musl": "npm:2.0.5"
-    "@biomejs/cli-linux-x64": "npm:2.0.5"
-    "@biomejs/cli-linux-x64-musl": "npm:2.0.5"
-    "@biomejs/cli-win32-arm64": "npm:2.0.5"
-    "@biomejs/cli-win32-x64": "npm:2.0.5"
+    "@biomejs/cli-darwin-arm64": "npm:2.0.6"
+    "@biomejs/cli-darwin-x64": "npm:2.0.6"
+    "@biomejs/cli-linux-arm64": "npm:2.0.6"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.0.6"
+    "@biomejs/cli-linux-x64": "npm:2.0.6"
+    "@biomejs/cli-linux-x64-musl": "npm:2.0.6"
+    "@biomejs/cli-win32-arm64": "npm:2.0.6"
+    "@biomejs/cli-win32-x64": "npm:2.0.6"
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -422,62 +422,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/850b5bbcdf4f4d964c25785f2eb8121657873acd57bc4d943663a402faf74f6c2c2be3e8d3c6cd4b67a0d63211980c35ebcde7ecd3e7b86866f32234bde80fd1
+  checksum: 10c0/eafaf3981580314c08085542152396f3417637d08d7b8aaee6a5173a978435d7688b1b6b547096e3a9d3573f03cfe526f7342dd341143c322c03d545df126f18
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-darwin-arm64@npm:2.0.5"
+"@biomejs/cli-darwin-arm64@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.0.6"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-darwin-x64@npm:2.0.5"
+"@biomejs/cli-darwin-x64@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-darwin-x64@npm:2.0.6"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.0.5"
+"@biomejs/cli-linux-arm64-musl@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.0.6"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-linux-arm64@npm:2.0.5"
+"@biomejs/cli-linux-arm64@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-linux-arm64@npm:2.0.6"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-linux-x64-musl@npm:2.0.5"
+"@biomejs/cli-linux-x64-musl@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.0.6"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-linux-x64@npm:2.0.5"
+"@biomejs/cli-linux-x64@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-linux-x64@npm:2.0.6"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-win32-arm64@npm:2.0.5"
+"@biomejs/cli-win32-arm64@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-win32-arm64@npm:2.0.6"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:2.0.5":
-  version: 2.0.5
-  resolution: "@biomejs/cli-win32-x64@npm:2.0.5"
+"@biomejs/cli-win32-x64@npm:2.0.6":
+  version: 2.0.6
+  resolution: "@biomejs/cli-win32-x64@npm:2.0.6"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1539,14 +1539,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"better-sqlite3@npm:^12.1.1":
-  version: 12.1.1
-  resolution: "better-sqlite3@npm:12.1.1"
+"better-sqlite3@npm:^12.2.0":
+  version: 12.2.0
+  resolution: "better-sqlite3@npm:12.2.0"
   dependencies:
     bindings: "npm:^1.5.0"
     node-gyp: "npm:latest"
     prebuild-install: "npm:^7.1.1"
-  checksum: 10c0/d16e6ac685f2c68f2893de458e2e839c46447d7494988bff5d800334de55b3979353e2a60fc723b4c4ab6c56ba6851b4439e7d9be71d1c6d0b110dccb030a4d8
+  checksum: 10c0/842247e9bbb775f366ac91f604117112c312497e643bac21648d8b69f479763de0ac049b14b609d6d5ecaee50debcc09a854f682d3dc099a1d933fea92ce68d0
   languageName: node
   linkType: hard
 
@@ -1987,10 +1987,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.6.0":
-  version: 16.6.0
-  resolution: "dotenv@npm:16.6.0"
-  checksum: 10c0/c1029a8656e03abc53c0522baf733131ffd4e633d8ab66c3f2d470ebdd7c5d143ffab64945afc475e60c5f803f0e734a9f9247949d17cc8ff564fba5c15978b1
+"dotenv@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "dotenv@npm:17.0.0"
+  checksum: 10c0/961c9841529f691efb0547cf20b62c952b40e195ef23a254e6b3cd2487bd529b29e194ffcb1f97d4e6a0d9c2df9a6555464f2491da10e725c7bc40855c7b45af
   languageName: node
   linkType: hard
 
@@ -3903,12 +3903,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.6.1":
-  version: 3.6.1
-  resolution: "prettier@npm:3.6.1"
+"prettier@npm:^3.6.2":
+  version: 3.6.2
+  resolution: "prettier@npm:3.6.2"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10c0/cf54254b9ddf1a8dff12f84bf0089e6aef3eeb9d0ce9d0344e39549ddc4f5c290fc5060d7d5a597848b9617e53e05b33a4118e37cd560f9e132ecc19c211300a
+  checksum: 10c0/488cb2f2b99ec13da1e50074912870217c11edaddedeadc649b1244c749d15ba94e846423d062e2c4c9ae683e2d65f754de28889ba06e697ac4f988d44f45812
   languageName: node
   linkType: hard
 
@@ -4088,13 +4088,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "roll-it@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:2.0.5"
-    better-sqlite3: "npm:^12.1.1"
+    "@biomejs/biome": "npm:2.0.6"
+    better-sqlite3: "npm:^12.2.0"
     cli-progress: "npm:^3.12.0"
     common-tags: "npm:^1.8.2"
     dev-null: "npm:^0.1.1"
     discord.js: "npm:^14.21.0"
-    dotenv: "npm:^16.6.0"
+    dotenv: "npm:^17.0.0"
     i18next: "npm:^25.2.1"
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.0.3"
@@ -4105,7 +4105,7 @@ __metadata:
     pino: "npm:^9.7.0"
     pino-papertrail: "npm:^2.1.0"
     pino-pretty: "npm:^13.0.0"
-    prettier: "npm:^3.6.1"
+    prettier: "npm:^3.6.2"
     prompts: "npm:^2.4.2"
     simpleflakes: "npm:^2.2.2"
   languageName: unknown
