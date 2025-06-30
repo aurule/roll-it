@@ -27,13 +27,15 @@ module.exports = {
       context: teamwork_test.description ? "description" : undefined,
     }
 
-    return interaction
-      .ensure("reply", {
+    return interaction.ensure(
+      "reply",
+      {
         content: t("cancelled", t_args),
       },
       {
         component: "teamwork_cancel",
-        detail: "could not whisper about teamwork cancellation"
-      })
+        detail: "could not whisper about teamwork cancellation",
+      },
+    )
   },
 }

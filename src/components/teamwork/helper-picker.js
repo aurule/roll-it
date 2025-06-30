@@ -23,7 +23,7 @@ module.exports = {
 
     const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
 
-    const original = teamwork_db.getRequestedHelpers(test.id).map(h => h.user_uid)
+    const original = teamwork_db.getRequestedHelpers(test.id).map((h) => h.user_uid)
     const current = interaction.values
 
     if (arrayEq(original, current)) {
@@ -64,17 +64,21 @@ module.exports = {
     const embed = teamwork_change.data(test)
 
     return interaction
-      .ensure("reply", {
-        content: t("help_requested.message", t_args),
-        embeds: [embed],
-        allowed_mentions: {
-          users: [diff],
+      .ensure(
+        "reply",
+        {
+          content: t("help_requested.message", t_args),
+          embeds: [embed],
+          allowed_mentions: {
+            users: [diff],
+          },
+          withResponse: true,
         },
-        withResponse: true,
-      }, {
-        test: test.id,
-        detail: 'Failed to reply with updated helper information',
-      })
+        {
+          test: test.id,
+          detail: "Failed to reply with updated helper information",
+        },
+      )
       .then((reply_result) => {
         // expect an InteractionCallbackResponse, but deal with a Message too
         const message_uid = reply_result.resource.message.id ?? reply_result.id

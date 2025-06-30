@@ -50,7 +50,7 @@ module.exports = {
       for (const rollNum of presenter.summed.keys()) {
         const result = presenter.summed[rollNum]
         const raw = presenter.raw[0][0]
-        switch(true) {
+        switch (true) {
           case result > 0:
             buckets[0]++
             break
@@ -199,9 +199,7 @@ module.exports = {
       summed: summed_results,
       locale,
     })
-    const result_lines = [
-      presenter.presentResults(),
-    ]
+    const result_lines = [presenter.presentResults()]
 
     if (sacrifice.hasTrigger(description, locale)) {
       const sacrifice_message = module.exports.judge(presenter)

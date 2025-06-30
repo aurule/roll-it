@@ -12,7 +12,7 @@ describe("presentOne", () => {
   it("includes description if present", () => {
     const result = kobPresenter.presentOne({
       description: "test roll",
-      ...defaultArgs
+      ...defaultArgs,
     })
 
     expect(result).toMatch('"test roll"')
@@ -45,7 +45,7 @@ describe("presentOne", () => {
   it("includes modifier if present", () => {
     const result = kobPresenter.presentOne({
       modifier: 3,
-      ...defaultArgs
+      ...defaultArgs,
     })
 
     expect(result).toMatch("+ 3")
@@ -62,7 +62,7 @@ describe("presentMany", () => {
   it("includes description if present", () => {
     const result = kobPresenter.presentMany({
       description: "test roll",
-      ...defaultArgs
+      ...defaultArgs,
     })
 
     expect(result).toMatch('"test roll"')
@@ -71,7 +71,7 @@ describe("presentMany", () => {
   it("includes modifier if present", () => {
     const result = kobPresenter.presentMany({
       modifier: 3,
-      ...defaultArgs
+      ...defaultArgs,
     })
 
     expect(result).toMatch("+ 3")

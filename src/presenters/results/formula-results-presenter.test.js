@@ -133,14 +133,18 @@ describe("presentMany", () => {
 })
 
 describe("limitedEvaluate", () => {
-  it.concurrent.each([["import"], ["createUnit"], ["evaluate"], ["parse"], ["simplify"], ["derivative"]])(
-    "disables %s",
-    async (fn_name) => {
-      expect(() => {
-        roll_formula_presenter.limitedEvaluate(`${fn_name}()`)
-      }).toThrow(`${fn_name} is disabled`)
-    },
-  )
+  it.concurrent.each([
+    ["import"],
+    ["createUnit"],
+    ["evaluate"],
+    ["parse"],
+    ["simplify"],
+    ["derivative"],
+  ])("disables %s", async (fn_name) => {
+    expect(() => {
+      roll_formula_presenter.limitedEvaluate(`${fn_name}()`)
+    }).toThrow(`${fn_name} is disabled`)
+  })
 })
 
 describe("detail", () => {

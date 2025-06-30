@@ -224,7 +224,7 @@ describe("NwodPresenter", () => {
           until: 0,
           decreasing: false,
           raw: [[1]],
-          summed: [0]
+          summed: [0],
         })
 
         const result = presenter.makeTally(0)
@@ -245,7 +245,7 @@ describe("NwodPresenter", () => {
           until: 0,
           decreasing: false,
           raw: [[4, 9]],
-          summed: [1]
+          summed: [1],
         })
 
         const result = presenter.makeTally(0)
@@ -269,7 +269,7 @@ describe("NwodPresenter", () => {
         until: 0,
         decreasing: false,
         raw: [[1]],
-        summed: [0]
+        summed: [0],
       }
     })
 
@@ -325,7 +325,7 @@ describe("NwodPresenter", () => {
           until: 0,
           decreasing: false,
           raw: [[1, 5, 8]],
-          summed: [1]
+          summed: [1],
         }
       })
 

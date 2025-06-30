@@ -82,7 +82,10 @@ class NwodPresenter {
         .map((result, index) => {
           return (
             "\t" +
-            this.t("response.result", { tally: this.makeTally(index), detail: this.notateDice(index) })
+            this.t("response.result", {
+              tally: this.makeTally(index),
+              detail: this.notateDice(index),
+            })
           )
         })
         .join("\n"),

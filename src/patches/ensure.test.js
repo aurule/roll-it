@@ -67,5 +67,4 @@ describe("ensure helper", () => {
       })
     })
   })
-
 })

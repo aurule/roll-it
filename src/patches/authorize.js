@@ -29,7 +29,7 @@ module.exports = {
      * @param  {...Snowflake} allowed_uids Array of allowed user snowflakes
      */
     const authorize = function (...allowed_uids) {
-      if (allowed_uids.findIndex(v => v === this.user.id) < 0) {
+      if (allowed_uids.findIndex((v) => v === this.user.id) < 0) {
         throw new UnauthorizedError(this, allowed_uids)
       }
     }

@@ -120,9 +120,7 @@ module.exports = {
       summed: summed_results,
       locale,
     })
-    const result_lines = [
-      presenter.presentResults(),
-    ]
+    const result_lines = [presenter.presentResults()]
 
     if (sacrifice.hasTrigger(description, locale)) {
       const sacrifice_message = module.exports.judge(presenter)

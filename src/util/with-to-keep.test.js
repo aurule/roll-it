@@ -1,4 +1,4 @@
-const { with_to_keep } = require("./with-to-keep");
+const { with_to_keep } = require("./with-to-keep")
 
 describe("with_to_keep", () => {
   it("translates `advantage` to `highest`", () => {

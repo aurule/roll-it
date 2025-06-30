@@ -6,6 +6,6 @@ module.exports = {
       detail: `sent message to channel ${channelId}`,
     }
   }),
-  getGuildCommands: jest.fn(async _guildId => []),
+  getGuildCommands: jest.fn(async (_guildId) => []),
   setGuildCommands: jest.fn(async (_guildId, _commandNames) => true),
 }

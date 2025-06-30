@@ -8,13 +8,13 @@ const teamwork = require("./teamwork")
 describe("teamwork component handler", () => {
   describe("canHandle", () => {
     it("returns true when customId matches a teamwork component", () => {
-      const result = teamwork.canHandle({customId: "teamwork_cancel"})
+      const result = teamwork.canHandle({ customId: "teamwork_cancel" })
 
       expect(result).toBe(true)
     })
 
     it("returns false when customId does not match a teamwork component", () => {
-      const result = teamwork.canHandle({customId: "nope"})
+      const result = teamwork.canHandle({ customId: "nope" })
 
       expect(result).toBe(false)
     })
@@ -132,7 +132,9 @@ describe("teamwork component handler", () => {
       })
 
       it("replies with an error message when user is unauthorized", async () => {
-        execute_spy.mockImplementation(() => {throw new UnauthorizedError(interaction, [interaction.user.id])})
+        execute_spy.mockImplementation(() => {
+          throw new UnauthorizedError(interaction, [interaction.user.id])
+        })
 
         await teamwork.handle(interaction)
 

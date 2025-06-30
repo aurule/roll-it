@@ -51,7 +51,7 @@ describe("teamwork cancel button", () => {
 
       try {
         await cancel_button.execute(interaction)
-      } catch(e) {
+      } catch (e) {
         expect(e.message).toMatch("not allowed")
       }
     })

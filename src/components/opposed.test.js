@@ -18,19 +18,19 @@ describe("opposed component handler", () => {
 
   describe("canHandle", () => {
     it("returns true when customId matches an opposed component", () => {
-      const result = opposed_handler.canHandle({customId: "opposed_cancel"})
+      const result = opposed_handler.canHandle({ customId: "opposed_cancel" })
 
       expect(result).toBe(true)
     })
 
     it("returns true when sanitizedcustomId matches an opposed component", () => {
-      const result = opposed_handler.canHandle({customId: "opposed_cancel_5"})
+      const result = opposed_handler.canHandle({ customId: "opposed_cancel_5" })
 
       expect(result).toBe(true)
     })
 
     it("returns false when customId does not match an opposed component", () => {
-      const result = opposed_handler.canHandle({customId: "nope"})
+      const result = opposed_handler.canHandle({ customId: "nope" })
 
       expect(result).toBe(false)
     })
@@ -95,7 +95,9 @@ describe("opposed component handler", () => {
       })
 
       it.skip("replies with an error message when user is unauthorized", async () => {
-        execute_spy.mockImplementation(() => {throw new UnauthorizedError(interaction, [interaction.user.id])})
+        execute_spy.mockImplementation(() => {
+          throw new UnauthorizedError(interaction, [interaction.user.id])
+        })
 
         await teamwork.handle(interaction)
 

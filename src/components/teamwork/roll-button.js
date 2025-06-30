@@ -33,11 +33,10 @@ module.exports = {
         "Test has undefined command name",
       )
       await TeamworkManager.cleanup(test.id)
-      return interaction
-        .ensure("reply", t("invalid"), {
-          test: test.id,
-          detail: "Could not reply about invalid test"
-        })
+      return interaction.ensure("reply", t("invalid"), {
+        test: test.id,
+        detail: "Could not reply about invalid test",
+      })
     }
 
     const raw_results = command.teamwork.roller(final_pool, test.options.roller)
@@ -58,16 +57,19 @@ module.exports = {
     const t_args = {
       presented,
     }
-    return interaction
-      .ensure("reply", {
+    return interaction.ensure(
+      "reply",
+      {
         content: t("rolled", t_args),
         embeds: [embed],
-      }, {
+      },
+      {
         test: test.id,
         raw: raw_results,
         summed: summed_results,
         presented,
-        detail: "Unable to reply with final teamwork roll"
-      })
+        detail: "Unable to reply with final teamwork roll",
+      },
+    )
   },
 }

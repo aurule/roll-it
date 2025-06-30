@@ -54,12 +54,11 @@ module.exports = {
     // ensure the component's message still exists in the database
     if (!teamwork_db.hasMessage(interaction.message.id)) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "teamwork")
-      return interaction
-        .ensure("whisper", t("concluded"), {
-          component: interaction.customId,
-          message: interaction.message,
-          detail: "could not whisper about missing teamwork test from message"
-        })
+      return interaction.ensure("whisper", t("concluded"), {
+        component: interaction.customId,
+        message: interaction.message,
+        detail: "could not whisper about missing teamwork test from message",
+      })
     }
 
     /*
@@ -72,13 +71,12 @@ module.exports = {
       const teamwork_test = teamwork_db.findTestByMessage(interaction.message.id)
       await teamworkTimeout(teamwork_test.id)
       const t = i18n.getFixedT(interaction.locale, "interactive", "teamwork")
-      return interaction
-        .ensure("whisper", t("concluded"), {
-          test: teamwork_test,
-          component: interaction.customId,
-          message: interaction.message,
-          detail: "could not whisper about expired teamwork test"
-        })
+      return interaction.ensure("whisper", t("concluded"), {
+        test: teamwork_test,
+        component: interaction.customId,
+        message: interaction.message,
+        detail: "could not whisper about expired teamwork test",
+      })
     }
 
     const component = components.get(interaction.customId)

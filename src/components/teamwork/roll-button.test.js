@@ -68,7 +68,7 @@ describe("teamwork roll button", () => {
 
       try {
         await roll_button.execute(interaction)
-      } catch(e) {
+      } catch (e) {
         expect(e.message).toMatch("not allowed")
       }
     })

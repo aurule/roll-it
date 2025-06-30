@@ -241,11 +241,14 @@ describe("/drh command", () => {
         expect(result.error).toBeFalsy()
       })
 
-      it.concurrent.each([["minor"], ["major"], ["madness"]])("accepts %s", async (talent_value) => {
-        const result = talent_schema.validate(talent_value)
+      it.concurrent.each([["minor"], ["major"], ["madness"]])(
+        "accepts %s",
+        async (talent_value) => {
+          const result = talent_schema.validate(talent_value)
 
-        expect(result.error).toBeFalsy()
-      })
+          expect(result.error).toBeFalsy()
+        },
+      )
 
       it("disallows unknown values", () => {
         const result = talent_schema.validate("other")

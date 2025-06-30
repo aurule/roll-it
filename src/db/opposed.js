@@ -25,10 +25,14 @@ const ChallengeStates = Object.freeze({
   Expired: "expired",
 })
 
-const FINAL_STATES = Object.freeze(new Set(["relented", "withdrawn", "conceded", "accepted", "expired"]))
-const final_states_expr = Object.freeze(Array.from(FINAL_STATES)
-  .map((s) => `'${s}'`)
-  .join(","))
+const FINAL_STATES = Object.freeze(
+  new Set(["relented", "withdrawn", "conceded", "accepted", "expired"]),
+)
+const final_states_expr = Object.freeze(
+  Array.from(FINAL_STATES)
+    .map((s) => `'${s}'`)
+    .join(","),
+)
 
 /**
  * Class to manage met-opposed state tracking

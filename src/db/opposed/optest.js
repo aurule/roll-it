@@ -130,7 +130,7 @@ class OpTest {
     history = null,
     breakdown = null,
     leader_id = null,
-    opposed_db
+    opposed_db,
   } = {}) {
     this.id = id
     this.challenge_id = challenge_id

@@ -52,7 +52,7 @@ describe("teamwork helper picker", () => {
 
       try {
         await helper_picker.execute(interaction)
-      } catch(e) {
+      } catch (e) {
         expect(e.message).toMatch("not allowed")
       }
     })
@@ -80,7 +80,7 @@ describe("teamwork helper picker", () => {
       await helper_picker.execute(interaction)
 
       const helpers = teamwork_db.getRequestedHelpers(teamwork_test_id)
-      const helper_uids = helpers.map(h => h.user_uid)
+      const helper_uids = helpers.map((h) => h.user_uid)
       expect(helper_uids).toContain("helper1")
     })
 

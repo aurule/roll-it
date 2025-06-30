@@ -66,14 +66,18 @@ describe("roll", () => {
 
 describe("NwodRollOptions", () => {
   describe("constructor", () => {
-    it.concurrent.each([["explode"], ["threshold"], ["chance"], ["rote"], ["rolls"], ["decreasing"]])(
-      "sets the default %s",
-      async (attr_name) => {
-        const options = new NwodRollOptions({ pool: 5 })
+    it.concurrent.each([
+      ["explode"],
+      ["threshold"],
+      ["chance"],
+      ["rote"],
+      ["rolls"],
+      ["decreasing"],
+    ])("sets the default %s", async (attr_name) => {
+      const options = new NwodRollOptions({ pool: 5 })
 
-        expect(options[attr_name]).not.toBeUndefined()
-      },
-    )
+      expect(options[attr_name]).not.toBeUndefined()
+    })
   })
 
   describe("next", () => {

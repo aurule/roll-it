@@ -82,13 +82,16 @@ describe("wod20 command", () => {
         [9, 1, 6, "noted"],
         [9, 0, 6, "angers"],
       ]
-      it.concurrent.each(parameters)(`difficulty %i, returns the correct text for %i successes`, async (difficulty, sum, pool, text) => {
-        const results = [[sum]]
+      it.concurrent.each(parameters)(
+        `difficulty %i, returns the correct text for %i successes`,
+        async (difficulty, sum, pool, text) => {
+          const results = [[sum]]
 
-        const result = wod_command.judge(results, pool, difficulty, "en-US")
+          const result = wod_command.judge(results, pool, difficulty, "en-US")
 
-        expect(result).toMatch(text)
-      })
+          expect(result).toMatch(text)
+        },
+      )
     })
 
     describe("with no dominant outcome", () => {
