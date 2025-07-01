@@ -35,7 +35,7 @@ const RAW_RUNTIME_STATE =
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
           ["dotenv", "npm:17.0.0"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.0"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.3"],\
           ["joi", "npm:17.13.3"],\
@@ -3365,19 +3365,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["i18next", [\
-      ["npm:25.2.1", {\
-        "packageLocation": "./.yarn/cache/i18next-npm-25.2.1-e3a3291e87-9e8817bdb9.zip/node_modules/i18next/",\
+      ["npm:25.3.0", {\
+        "packageLocation": "./.yarn/cache/i18next-npm-25.3.0-da77de6eb0-25ffea3d07.zip/node_modules/i18next/",\
         "packageDependencies": [\
-          ["i18next", "npm:25.2.1"]\
+          ["i18next", "npm:25.3.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1", {\
-        "packageLocation": "./.yarn/__virtual__/i18next-virtual-0cbf1b67e5/0/cache/i18next-npm-25.2.1-e3a3291e87-9e8817bdb9.zip/node_modules/i18next/",\
+      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.0", {\
+        "packageLocation": "./.yarn/__virtual__/i18next-virtual-5e6845d050/0/cache/i18next-npm-25.3.0-da77de6eb0-25ffea3d07.zip/node_modules/i18next/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.27.6"],\
           ["@types/typescript", null],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.0"],\
           ["typescript", null]\
         ],\
         "packagePeers": [\
@@ -5241,7 +5241,7 @@ const RAW_RUNTIME_STATE =
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
           ["dotenv", "npm:17.0.0"],\
-          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.2.1"],\
+          ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.0"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.3"],\
           ["joi", "npm:17.13.3"],\
