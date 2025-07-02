@@ -143,6 +143,25 @@ describe("saved rolls db", () => {
 
     describe("upsert", () => {
       describe("with no conflict", () => {
+        it.each([
+          ["guildFlake"],
+          ["userFlake"],
+        ])("removes privileged property %s", (propName) => {
+          const saved_rolls = new UserSavedRolls("test-guild", "user-upsert", db)
+          const data = {
+            name: "test roll",
+            description: "a test",
+            command: "d20",
+            options: {},
+          }
+          data[propName] = "bad"
+
+          saved_rolls.upsert(data)
+
+          const record = saved_rolls.detail(1)
+          expect(record[propName]).not.toEqual("bad")
+        })
+
         it("inserts a new complete record", () => {
           const saved_rolls = new UserSavedRolls("test-guild", "user-upsert", db)
           const data = {
@@ -557,6 +576,19 @@ describe("saved rolls db", () => {
         const result = saved_rolls.detail(insertion.lastInsertRowid)
 
         expect(result).toBeTruthy()
+      })
+
+      it("returns undefined for bad id", () => {
+        const saved_rolls = new GlobalSavedRolls(db)
+        const insertion = fakeSavedRoll(saved_rolls, {
+          guildFlake: "test-guild",
+          userFlake: "user-detail",
+          name: "test1",
+        })
+
+        const result = saved_rolls.detail(25)
+
+        expect(result).toBeUndefined()
       })
 
       it("converts options to an object", () => {
