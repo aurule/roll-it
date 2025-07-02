@@ -80,7 +80,7 @@ module.exports = {
       return interaction.ensure("whisper", t("concluded"), {
         user: interaction.user.id,
         component: interaction.customId,
-        detail: `Could not whisper about concluded opposed challenge from ${component_name}`,
+        detail: `Could not whisper about missing opposed challenge from ${component_name}`,
       })
     }
 
@@ -91,6 +91,16 @@ module.exports = {
         user: interaction.user.id,
         component: interaction.customId,
         detail: `Could not whisper about concluded opposed challenge from ${component_name}`,
+      })
+    }
+
+    // message belongs to an open challenge past its expiration
+    if (opposed_db.challengeFromMessageIsExpired(message_id)) {
+      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
+      return interaction.ensure("whisper", t("concluded"), {
+        user: interaction.user.id,
+        component: interaction.customId,
+        detail: `Could not whisper about expired opposed challenge from ${component_name}`,
       })
     }
 
