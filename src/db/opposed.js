@@ -254,6 +254,28 @@ class Opposed extends CachedDb {
     return !!select.get(message_uid)
   }
 
+  /**
+   * Get whether the challenge associated with a message has expired
+   * @param  {Snowflake} message_uid Discord ID of the message to use for lookup
+   * @return {boolean}               True if the associated challenge is expired, false if not
+   */
+  challengeFromMessageIsExpired(message_uid) {
+    const select = this.prepared(
+      "challengeFromMessageIsExpired",
+      oneLine`
+      SELECT 1
+      FROM   interactive.opposed_challenges AS c
+             JOIN interactive.opposed_messages AS m
+               ON c.id = m.challenge_id
+      WHERE  m.message_uid = ?
+        AND  TIME('now') >= TIME(c.expires_at)
+    `,
+    )
+    select.pluck()
+
+    return !!select.get(message_uid)
+  }
+
   findChallengeByTest(test_id) {
     const select = this.prepared(
       "findChallengeByTest",
@@ -602,6 +624,37 @@ class Opposed extends CachedDb {
       history,
       breakdown,
       leader_id,
+    })
+  }
+
+  addFutureTest({
+    challenge_id,
+    locale,
+    leader_id = null,
+    gap = 1,
+  } = {}) {
+    const insert = this.prepared(
+      "addFutureTest",
+      oneLine`
+      INSERT INTO opposed_tests (
+        challenge_id,
+        locale,
+        leader_id,
+        created_at
+      ) VALUES (
+        @challenge_id,
+        @locale,
+        @leader_id,
+        datetime('now', @gap || ' seconds')
+      )
+    `,
+    )
+
+    return insert.run({
+      challenge_id,
+      locale,
+      leader_id,
+      gap,
     })
   }
 

@@ -58,6 +58,52 @@ describe("Opposed DB", () => {
     )
   })
 
+  describe("challengeFromMessageIsExpired", () => {
+    const message_uid = "msg"
+
+    it("returns false for message with future expiration date", () => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: ChallengeStates.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+      opposed.addMessage({
+        message_uid,
+        challenge_id,
+      })
+
+      const result = opposed.challengeFromMessageIsExpired(message_uid)
+
+      expect(result).toEqual(false)
+    })
+
+    it("returns true for message with past expiration date", () => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: ChallengeStates.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: -1000,
+      }).lastInsertRowid
+      opposed.addMessage({
+        message_uid,
+        challenge_id,
+      })
+
+      const result = opposed.challengeFromMessageIsExpired(message_uid)
+
+      expect(result).toEqual(true)
+    })
+  })
+
   describe("messageIsForLatestTest", () => {
     let challenge_id
     let attacker_id
