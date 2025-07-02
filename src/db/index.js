@@ -12,10 +12,11 @@ require("dotenv").config({ quiet: true })
  * Dev and prod use a specific location. Other environments are expected to use an in-memory database, so
  * this just returns the current directory for those.
  *
- * @return {str} String to the folder where sqlite db files should be stored
+ * @param  {str} env_name Name of the current environment
+ * @return {str}          String to the folder where sqlite db files should be stored
  */
-function dbFileParent() {
-  switch (process.env.NODE_ENV) {
+function dbFileParent(env_name = process.env.NODE_ENV) {
+  switch (env_name) {
     case "development":
       return path.join(__dirname, "..", "..", ".sqlite")
     case "production":
@@ -30,14 +31,16 @@ function dbFileParent() {
  *
  * Dev and prod both use real files, while test and ci environments use an in-memory database.
  *
- * @return {str} String to the sqlite database file to use
+ * @param  {str} env_name Name of the current environment
+ * @return {str}          String to the sqlite database file to use
  */
-function mainDatabaseFile() {
-  switch (process.env.NODE_ENV) {
+function mainDatabaseFile(env_name = process.env.NODE_ENV) {
+  const parent = dbFileParent(env_name)
+  switch (env_name) {
     case "development":
-      return path.join(dbFileParent(), "roll-it.dev.db")
+      return path.join(parent, "roll-it.dev.db")
     case "production":
-      return path.join(dbFileParent(), "roll-it.prod.db")
+      return path.join(parent, "roll-it.prod.db")
     default:
       return ":memory:"
   }
@@ -48,14 +51,16 @@ function mainDatabaseFile() {
  *
  * Dev and prod both use real files, while test and ci environments use an in-memory database.
  *
- * @return {str} String to the sqlite database file to use
+ * @param  {str} env_name Name of the current environment
+ * @return {str}          String to the sqlite database file to use
  */
-function statsDatabaseFile() {
-  switch (process.env.NODE_ENV) {
+function statsDatabaseFile(env_name = process.env.NODE_ENV) {
+  const parent = dbFileParent(env_name)
+  switch (env_name) {
     case "development":
-      return path.join(dbFileParent(), "roll-it-stats.dev.db")
+      return path.join(parent, "roll-it-stats.dev.db")
     case "production":
-      return path.join(dbFileParent(), "roll-it-stats.prod.db")
+      return path.join(parent, "roll-it-stats.prod.db")
     default:
       return ":memory:"
   }
@@ -66,14 +71,16 @@ function statsDatabaseFile() {
  *
  * Dev and prod both use real files, while test and ci environments use an in-memory database.
  *
- * @return {str} String to the sqlite database file to use
+ * @param  {str} env_name Name of the current environment
+ * @return {str}          String to the sqlite database file to use
  */
-function interactiveDatabaseFile() {
-  switch (process.env.NODE_ENV) {
+function interactiveDatabaseFile(env_name = process.env.NODE_ENV) {
+  const parent = dbFileParent(env_name)
+  switch (env_name) {
     case "development":
-      return path.join(dbFileParent(), "roll-it-interactive.dev.db")
+      return path.join(parent, "roll-it-interactive.dev.db")
     case "production":
-      return path.join(dbFileParent(), "roll-it-interactive.prod.db")
+      return path.join(parent, "roll-it-interactive.prod.db")
     default:
       return ":memory:"
   }
@@ -112,4 +119,7 @@ module.exports = {
   db: makeDB(),
   makeDB,
   dbFileParent,
+  mainDatabaseFile,
+  statsDatabaseFile,
+  interactiveDatabaseFile
 }
