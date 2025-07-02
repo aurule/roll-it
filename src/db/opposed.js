@@ -241,15 +241,15 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "challengeFromMessageIsFinalized",
       oneLine`
-      SELECT 1
-      FROM   interactive.opposed_challenges AS c
-             JOIN interactive.opposed_messages AS m
-               ON c.id = m.challenge_id
-      WHERE  m.message_uid = ?
-        AND  c.state IN (${final_states_expr})
-    `,
+        SELECT 1
+        FROM   interactive.opposed_challenges AS c
+               JOIN interactive.opposed_messages AS m
+                 ON c.id = m.challenge_id
+        WHERE  m.message_uid = ?
+          AND  c.state IN (${final_states_expr})
+      `,
+      true,
     )
-    select.pluck()
 
     return !!select.get(message_uid)
   }
@@ -263,15 +263,15 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "challengeFromMessageIsExpired",
       oneLine`
-      SELECT 1
-      FROM   interactive.opposed_challenges AS c
-             JOIN interactive.opposed_messages AS m
-               ON c.id = m.challenge_id
-      WHERE  m.message_uid = ?
-        AND  TIME('now') >= TIME(c.expires_at)
-    `,
+        SELECT 1
+        FROM   interactive.opposed_challenges AS c
+               JOIN interactive.opposed_messages AS m
+                 ON c.id = m.challenge_id
+        WHERE  m.message_uid = ?
+          AND  TIME('now') >= TIME(c.expires_at)
+      `,
+      true,
     )
-    select.pluck()
 
     return !!select.get(message_uid)
   }
@@ -305,13 +305,13 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "getChallengeHistory",
       oneLine`
-      SELECT   history
-      FROM     interactive.opposed_tests
-      WHERE    challenge_id = ?
-      ORDER BY created_at ASC
-    `,
+        SELECT   history
+        FROM     interactive.opposed_tests
+        WHERE    challenge_id = ?
+        ORDER BY created_at ASC
+      `,
+      true,
     )
-    select.pluck()
 
     return select.all(challenge_id)
   }
@@ -343,11 +343,11 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "hasMessage",
       oneLine`
-      SELECT 1 FROM interactive.opposed_messages
-      WHERE message_uid = ?
-    `,
+        SELECT 1 FROM interactive.opposed_messages
+        WHERE message_uid = ?
+      `,
+      true,
     )
-    select.pluck()
 
     return !!select.get(message_uid)
   }
@@ -356,9 +356,9 @@ class Opposed extends CachedDb {
     const message_select = this.prepared(
       "messageIsForLatestTest-message",
       oneLine`
-      SELECT test_id, challenge_id FROM interactive.opposed_messages
-      WHERE message_uid = ?
-    `,
+        SELECT test_id, challenge_id FROM interactive.opposed_messages
+        WHERE message_uid = ?
+      `,
     )
 
     const message_result = message_select.get(message_uid)
@@ -368,14 +368,14 @@ class Opposed extends CachedDb {
     const test_select = this.prepared(
       "messageIsForLatestTest-test",
       oneLine`
-      SELECT   id
-      FROM     interactive.opposed_tests
-      WHERE    challenge_id = ?
-      ORDER BY created_at DESC
-      LIMIT    1
-    `,
+        SELECT   id
+        FROM     interactive.opposed_tests
+        WHERE    challenge_id = ?
+        ORDER BY created_at DESC
+        LIMIT    1
+      `,
+      true,
     )
-    test_select.pluck()
 
     const test_result = test_select.get(message_result.challenge_id)
 
@@ -429,12 +429,12 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "participantCount",
       oneLine`
-      SELECT count(1)
-      FROM interactive.opposed_participants
-      WHERE challenge_id = ?
-    `,
+        SELECT count(1)
+        FROM interactive.opposed_participants
+        WHERE challenge_id = ?
+      `,
+      true,
     )
-    select.pluck()
 
     return select.get(challenge_id)
   }
@@ -845,14 +845,14 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "getTestTies",
       oneLine`
-      SELECT ties
-      FROM   interactive.opposed_challenges AS c
-             JOIN interactive.opposed_tests AS T
-               ON t.id = c.challenge_id
-      WHERE t.id = ?
-    `,
+        SELECT ties
+        FROM   interactive.opposed_challenges AS c
+               JOIN interactive.opposed_tests AS T
+                 ON t.id = c.challenge_id
+        WHERE t.id = ?
+      `,
+      true,
     )
-    select.pluck()
 
     return select.get(test_id)
   }
@@ -926,13 +926,13 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "didParticipantChop",
       oneLine`
-      SELECT 1
-      FROM   interactive.opposed_test_chops
-      WHERE  test_id = @test_id
-             AND participant_id = @participant_id
-    `,
+        SELECT 1
+        FROM   interactive.opposed_test_chops
+        WHERE  test_id = @test_id
+               AND participant_id = @participant_id
+      `,
+      true,
     )
-    select.pluck()
 
     return !!select.get({
       participant_id,
