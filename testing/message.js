@@ -5,6 +5,11 @@ const { MessageFlags } = require("discord.js")
 const { ComponentInteraction } = require("./component-interaction")
 const { User } = require("./user")
 
+/**
+ * Fake message class for testing
+ *
+ * This mimics the data and behavior of Discord's Message class, but not perfectly.
+ */
 class Message {
   id
   guildId

@@ -2,6 +2,14 @@ const { simpleflake } = require("simpleflakes")
 const { PermissionFlagsBits, Collection } = require("discord.js")
 const { User } = require("./user")
 
+/**
+ * Fake interaction class for testing
+ *
+ * This mimics the structure and behavior of a Discord Interaction object, but not perfectly.
+ *
+ * To test against the output of a command, you can use the `replyContent` property, which aggregates all text
+ * from simple calls to reply() and friends.
+ */
 class Interaction {
   constructor(guildId = null, member_flake = null) {
     const { Message } = require("./message")
