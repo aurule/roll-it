@@ -1,5 +1,8 @@
 const { Collection } = require("discord.js")
 
+/**
+ * Database helper superclass to cache prepared statements
+ */
 class CachedDb {
   /**
    * Database object
@@ -13,6 +16,14 @@ class CachedDb {
    */
   queries = new Collection()
 
+  /**
+   * Create a new CachedDb object
+   *
+   * If a database connection object is omitted, this will use the default global object.
+   *
+   * @param  {DB}       db_obj Database object
+   * @return {CachedDb}        New CachedDb object
+   */
   constructor(db_obj) {
     this.db = db_obj ?? require("./index").db
   }
@@ -24,7 +35,7 @@ class CachedDb {
    *
    * @param  {str}       key   Key to associate with the query
    * @param  {str}       query Query string
-   * @param  {Boolean}   pluck Value of the query's pluck property
+   * @param  {Boolean}   pluck Whether to 'pluck' a single value instead of returning a row.
    * @return {Statement}       Prepared query Statement object
    */
   prepared(key, query, pluck = false) {
