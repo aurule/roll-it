@@ -527,38 +527,10 @@ class GlobalSavedRolls {
   }
 }
 
-function seed() {
-  require("dotenv").config({ quiet: true })
-  if (process.env.NODE_ENV !== "development") return
-
-  const fs = require("fs")
-  const path = require("path")
-
-  const file_path = path.join(__dirname, "saved_rolls.seed.json")
-  const seed_rolls = JSON.parse(fs.readFileSync(file_path))
-  const dev_guilds = JSON.parse(process.env.DEV_GUILDS)
-  const dev_users = JSON.parse(process.env.DEV_USERS)
-
-  for (const guildId of dev_guilds) {
-    for (const userId of dev_users) {
-      const saved_rolls = new UserSavedRolls(guildId, userId)
-      for (const r of seed_rolls) {
-        try {
-          saved_rolls.create(r)
-        } catch (e) {
-          console.log(e)
-          continue
-        }
-      }
-    }
-  }
-}
-
 module.exports = {
   makeUpdateFields,
   UserSavedRolls,
   GlobalSavedRolls,
-  seed,
 
   /**
    * Minimal schema to validate saved roll attributes

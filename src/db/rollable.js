@@ -291,37 +291,6 @@ class GuildRollables {
   }
 }
 
-/**
- * Populate the development database with some rollables
- *
- * Each guild in the envvar DEV_GUILDS gets a copy of each rollable specified in `rollable.seed.json`. The
- * errors from duplicate inserts are suppressed for convenience.
- *
- * Outside of development mode, this is a no-op.
- */
-function seed() {
-  if (process.env.NODE_ENV !== "development") return
-
-  const fs = require("fs")
-  const path = require("path")
-
-  const file_path = path.join(__dirname, "rollable.seed.json")
-  const seed_rollables = JSON.parse(fs.readFileSync(file_path))
-  const dev_guilds = JSON.parse(process.env.DEV_GUILDS)
-
-  for (const guildId of dev_guilds) {
-    const rollables = new GuildRollables(guildId)
-    for (const r of seed_rollables) {
-      try {
-        rollables.create(r.name, r.description, r.contents)
-      } catch {
-        continue
-      }
-    }
-  }
-}
-
 module.exports = {
   GuildRollables,
-  seed,
 }
