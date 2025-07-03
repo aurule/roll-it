@@ -4,11 +4,19 @@ const { oneLine } = require("common-tags")
 const { CachedDb } = require("./cached-db")
 const { OpTest } = require("./opposed/optest")
 
+/**
+ * Enum of valid participant role codes
+ * @type {Record<string, int>}
+ */
 const ParticipantRoles = Object.freeze({
   Attacker: 1,
   Defender: 2,
 })
 
+/**
+ * Enum of valid challenge states
+ * @type {Record<string, string>}
+ */
 const ChallengeStates = Object.freeze({
   AdvantagesAttacker: "advantages-attacker",
   AdvantagesDefender: "advantages-defender",
@@ -25,9 +33,19 @@ const ChallengeStates = Object.freeze({
   Expired: "expired",
 })
 
+/**
+ * Set of states which are considered final
+ * @type {Set<string>}
+ */
 const FINAL_STATES = Object.freeze(
   new Set(["relented", "withdrawn", "conceded", "accepted", "expired"]),
 )
+/**
+ * Database expression for use in a `WHERE state IN` clause
+ *
+ * @see Opposed.challengeFromMessageIsFinalized
+ * @type {string}
+ */
 const final_states_expr = Object.freeze(
   Array.from(FINAL_STATES)
     .map((s) => `'${s}'`)
@@ -35,13 +53,40 @@ const final_states_expr = Object.freeze(
 )
 
 /**
+ * Turn challenge fields into a standardized js object
+ *
+ * This decodes the json of `conditions` and converts `expired` from an int to a bool.
+ *
+ * @param  {object} raw_output Raw SQLite query output containing a challenge record
+ * @return {object}            Sanitized challenge record object
+ */
+function sanitizeChallenge(raw_output) {
+  return {
+    ...raw_output,
+    conditions: JSON.parse(raw_output.conditions),
+    expired: !!raw_output.expired,
+  }
+}
+
+/**
  * Class to manage met-opposed state tracking
  */
 class Opposed extends CachedDb {
   /**
-   * Add an opposed challenge
+   * Create a new opposed challenge record
    *
-   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
+   * @param  {object}   options
+   * @param  {string}   options.locale         Locale code
+   * @param  {string}   options.attacker_uid   Discord ID of the initiating user
+   * @param  {string}   options.attribute      Name of the attribute related to the test
+   * @param  {string}   options.description    Description given for the challenge
+   * @param  {string}   options.retest_ability Name of the ability for retests
+   * @param  {string[]} options.conditions     List of condition keywords
+   * @param  {string}   options.summary        Generated summary of the challenge
+   * @param  {string}   options.state          State of the challenge
+   * @param  {string}   options.channel_uid    Discord ID of the channel where the challenge was initiated
+   * @param  {int}      options.timeout        Number of seconds until the challenge expires
+   * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
    */
   addChallenge({
     locale,
@@ -99,6 +144,19 @@ class Opposed extends CachedDb {
   }
 
   /**
+   * Get a total number of challenge records
+   * @return {int} Number of challenge records
+   */
+  challengeCount() {
+    const select = this.prepared("challengeCount", oneLine`
+      SELECT count(1)
+      FROM   interactive.opposed_challenges
+    `, true)
+
+    return select.get()
+  }
+
+  /**
    * Remove an opposed challenge
    *
    * @param  {int} id Internal ID of the challenge record
@@ -114,6 +172,11 @@ class Opposed extends CachedDb {
     return destroy.run(id)
   }
 
+  /**
+   * Get the details of a challenge
+   * @param  {int} challenge_id Internal ID of the challenge record
+   * @return {Challenge}        Full challenge record
+   */
   getChallenge(challenge_id) {
     const select = this.prepared(
       "getChallenge",
@@ -130,13 +193,14 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    return {
-      ...raw_out,
-      conditions: JSON.parse(raw_out.conditions),
-      expired: !!raw_out.expired,
-    }
+    return sanitizeChallenge(raw_out)
   }
 
+  /**
+   * Get a challenge record with associated participant records
+   * @param  {int} challenge_id Internal ID of the challenge record
+   * @return {Challenge}        Full challenge record with attacker and defender records
+   */
   getChallengeWithParticipants(challenge_id) {
     const select = this.prepared(
       "getChallengeWithParticipants",
@@ -155,15 +219,20 @@ class Opposed extends CachedDb {
 
     const participants = this.getParticipants(challenge_id)
 
+    const sanitized = sanitizeChallenge(raw_out)
     return {
-      ...raw_out,
-      conditions: JSON.parse(raw_out.conditions),
-      expired: !!raw_out.expired,
+      ...sanitized,
       attacker: participants.get("attacker"),
       defender: participants.get("defender"),
     }
   }
 
+  /**
+   * Update the state of a challenge
+   *
+   * @param {int}    challenge_id Internal ID of the challenge record
+   * @param {string} state        State string. Must be from `ChallengeStates`
+   */
   setChallengeState(challenge_id, state) {
     const update = this.prepared(
       "setChallengeState",
@@ -180,6 +249,11 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Update the summary of the challenge
+   * @param {int}    challenge_id Internal ID of the challenge record
+   * @param {string} summary      New summary string
+   */
   setChallengeSummary(challenge_id, summary) {
     const update = this.prepared(
       "setChallengeSummary",
@@ -196,6 +270,11 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Update the conditions of the challenge
+   * @param {int}      challenge_id Internal ID of the challenge record
+   * @param {string[]} conditions   Array of new condition keywords
+   */
   setChallengeConditions(challenge_id, conditions) {
     const update = this.prepared(
       "setChallengeConditions",
@@ -212,6 +291,11 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Get the challenge record associated with a discord message
+   * @param  {Snowflake} message_uid Discord ID of the message to look up
+   * @return {Challenge}             Challenge record associated with that message
+   */
   findChallengeByMessage(message_uid) {
     const select = this.prepared(
       "findChallengeByMessage",
@@ -230,13 +314,14 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    return {
-      ...raw_out,
-      conditions: JSON.parse(raw_out.conditions),
-      expired: !!raw_out.expired,
-    }
+    return sanitizeChallenge(raw_out)
   }
 
+  /**
+   * Get whether the challenge associated with a given message is finalized
+   * @param  {Snowflake} message_uid Discord ID of the message to look up
+   * @return {boolean}               True if the message's state is in FINAL_STATES, false if not
+   */
   challengeFromMessageIsFinalized(message_uid) {
     const select = this.prepared(
       "challengeFromMessageIsFinalized",
@@ -276,6 +361,11 @@ class Opposed extends CachedDb {
     return !!select.get(message_uid)
   }
 
+  /**
+   * Get the challenge record associated with a given test record
+   * @param  {int}       test_id Internal ID of the test record to look up
+   * @return {Challenge}         Challenge record
+   */
   findChallengeByTest(test_id) {
     const select = this.prepared(
       "findChallengeByTest",
@@ -294,13 +384,14 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    return {
-      ...raw_out,
-      conditions: JSON.parse(raw_out.conditions),
-      expired: !!raw_out.expired,
-    }
+    return sanitizeChallenge(raw_out)
   }
 
+  /**
+   * Get all test history strings for a challenge
+   * @param  {int}      challenge_id Internal ID of the challenge to look up
+   * @return {string[]}              Array of history strings for all tests associated with that challenge
+   */
   getChallengeHistory(challenge_id) {
     const select = this.prepared(
       "getChallengeHistory",
@@ -316,6 +407,15 @@ class Opposed extends CachedDb {
     return select.all(challenge_id)
   }
 
+  /**
+   * Add a new message record
+   *
+   * @param  {object}    options
+   * @param  {Snowflake} options.message_uid  Discord ID of the message
+   * @param  {int}       options.challenge_id Internal ID of the associated challenge
+   * @param  {int?}      options.test_id      Internal ID of the associated test
+   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
+   */
   addMessage({ message_uid, challenge_id, test_id = null } = {}) {
     const insert = this.prepared(
       "addMessage",
@@ -337,6 +437,16 @@ class Opposed extends CachedDb {
       challenge_id,
       test_id,
     })
+  }
+
+  getMessage(message_id) {
+    const select = this.prepared("getMessage", oneLine`
+      SELECT *
+      FROM   interactive.opposed_messages
+      WHERE  id = ?
+    `)
+
+    return select.get(message_id)
   }
 
   hasMessage(message_uid) {
@@ -631,6 +741,7 @@ class Opposed extends CachedDb {
     challenge_id,
     locale,
     leader_id = null,
+    history = null,
     gap = 1,
   } = {}) {
     const insert = this.prepared(
@@ -640,11 +751,13 @@ class Opposed extends CachedDb {
         challenge_id,
         locale,
         leader_id,
+        history,
         created_at
       ) VALUES (
         @challenge_id,
         @locale,
         @leader_id,
+        @history,
         datetime('now', @gap || ' seconds')
       )
     `,
@@ -654,6 +767,7 @@ class Opposed extends CachedDb {
       challenge_id,
       locale,
       leader_id,
+      history,
       gap,
     })
   }
@@ -994,4 +1108,5 @@ module.exports = {
   ChallengeStates,
   FINAL_STATES,
   Opposed,
+  sanitizeChallenge,
 }
