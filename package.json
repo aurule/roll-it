@@ -17,7 +17,7 @@
     "better-sqlite3": "^12.2.0",
     "common-tags": "^1.8.2",
     "discord.js": "^14.21.0",
-    "i18next": "^25.3.1",
+    "i18next": "^25.3.2",
     "i18next-fs-backend": "^2.6.0",
     "joi": "^17.13.3",
     "keyv": "^5.3.4",
@@ -26,10 +26,10 @@
     "pino-papertrail": "^2.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.6",
+    "@biomejs/biome": "2.1.1",
     "cli-progress": "^3.12.0",
     "dev-null": "^0.1.1",
-    "dotenv": "^17.0.1",
+    "dotenv": "^17.1.0",
     "jest": "^30.0.4",
     "nodemon": "^3.1.10",
     "pino-pretty": "^13.0.0",
