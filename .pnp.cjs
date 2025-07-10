@@ -34,7 +34,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
-          ["dotenv", "npm:17.1.0"],\
+          ["dotenv", "npm:17.2.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.4"],\
@@ -2813,10 +2813,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["dotenv", [\
-      ["npm:17.1.0", {\
-        "packageLocation": "./.yarn/cache/dotenv-npm-17.1.0-a6f3de02b5-abce8964f2.zip/node_modules/dotenv/",\
+      ["npm:17.2.0", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-17.2.0-4ee4b4bbd1-d4cb5c2a09.zip/node_modules/dotenv/",\
         "packageDependencies": [\
-          ["dotenv", "npm:17.1.0"]\
+          ["dotenv", "npm:17.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5240,7 +5240,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
-          ["dotenv", "npm:17.1.0"],\
+          ["dotenv", "npm:17.2.0"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.4"],\
