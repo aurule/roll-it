@@ -2,6 +2,8 @@ const { Collection } = require("discord.js")
 const { oneLine } = require("common-tags")
 
 const { CachedDb } = require("./cached-db")
+const { Challenge } = require("./opposed/challenge")
+const { Participant } = require("./opposed/participant")
 const { OpTest } = require("./opposed/optest")
 
 /**
@@ -51,22 +53,6 @@ const final_states_expr = Object.freeze(
     .map((s) => `'${s}'`)
     .join(","),
 )
-
-/**
- * Turn challenge fields into a standardized js object
- *
- * This decodes the json of `conditions` and converts `expired` from an int to a bool.
- *
- * @param  {object} raw_output Raw SQLite query output containing a challenge record
- * @return {object}            Sanitized challenge record object
- */
-function sanitizeChallenge(raw_output) {
-  return {
-    ...raw_output,
-    conditions: JSON.parse(raw_output.conditions),
-    expired: !!raw_output.expired,
-  }
-}
 
 /**
  * Class to manage met-opposed state tracking
@@ -193,7 +179,7 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    return sanitizeChallenge(raw_out)
+    return new Challenge(raw_out)
   }
 
   /**
@@ -219,7 +205,7 @@ class Opposed extends CachedDb {
 
     const participants = this.getParticipants(challenge_id)
 
-    const sanitized = sanitizeChallenge(raw_out)
+    const sanitized = new Challenge(raw_out)
     return {
       ...sanitized,
       attacker: participants.get("attacker"),
@@ -314,7 +300,7 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    return sanitizeChallenge(raw_out)
+    return new Challenge(raw_out)
   }
 
   /**
@@ -384,7 +370,7 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    return sanitizeChallenge(raw_out)
+    return new Challenge(raw_out)
   }
 
   /**
@@ -439,6 +425,11 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Get the message record for a given ID
+   * @param  {int}    message_id Internal ID of the message
+   * @return {object}            Message object or undefined if not found
+   */
   getMessage(message_id) {
     const select = this.prepared("getMessage", oneLine`
       SELECT *
@@ -449,6 +440,11 @@ class Opposed extends CachedDb {
     return select.get(message_id)
   }
 
+  /**
+   * Get whether a message UID is stored
+   * @param  {Snowflake}  message_uid Discord message ID
+   * @return {Boolean}                True if the message is stored, false if not
+   */
   hasMessage(message_uid) {
     const select = this.prepared(
       "hasMessage",
@@ -462,6 +458,11 @@ class Opposed extends CachedDb {
     return !!select.get(message_uid)
   }
 
+  /**
+   * Get whether a message UID matches its challenge's most recent test
+   * @param  {Snowflake} message_uid Discord ID of the message
+   * @return {boolean}               True if the message is stored and references the most recent test of its challenge. False otherwise.
+   */
   messageIsForLatestTest(message_uid) {
     const message_select = this.prepared(
       "messageIsForLatestTest-message",
@@ -492,6 +493,19 @@ class Opposed extends CachedDb {
     return test_result === message_result.test_id
   }
 
+  /**
+   * Add a new participant record
+   *
+   * @param {options}
+   * @param {Snowflake} options.user_uid     Discord ID of the participating user
+   * @param {string}    options.mention      Mention string for including in messages
+   * @param {string[]}  options.advantages   List of advantage keywords
+   * @param {boolean}   options.tie_winner   Whether this participant wins ties against its partner
+   * @param {boolean}   options.ability_used Whether this participant has used an ability on the current challenge
+   * @param {int}       options.role         Role identifier for attacker or defender
+   * @param {int}       options.challenge_id Internal ID of the challenge they're participating in
+   * @return {Info} Info object
+   */
   addParticipant({
     user_uid,
     mention,
@@ -535,6 +549,11 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Get the total number of participants in a challenge
+   * @param  {int} challenge_id Internal ID of the challenge
+   * @return {int}              Number of related participant records
+   */
   participantCount(challenge_id) {
     const select = this.prepared(
       "participantCount",
@@ -549,6 +568,11 @@ class Opposed extends CachedDb {
     return select.get(challenge_id)
   }
 
+  /**
+   * Get a single participant record
+   * @param  {int}    participant_id Internal ID to look up
+   * @return {object}                Participant object, or undefined if the ID is not found
+   */
   getParticipant(participant_id) {
     const select = this.prepared(
       "getParticipant",
@@ -564,14 +588,15 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    return {
-      ...raw_out,
-      advantages: JSON.parse(raw_out.advantages),
-      tie_winner: !!raw_out.tie_winner,
-      ability_used: !!raw_out.ability_used,
-    }
+    return new Participant(raw_out)
   }
 
+  /**
+   * Get the participants for a challenge
+   * @param  {int}     challenge_id Internal ID of the challenge
+   * @param  {boolean} index_by_id  Whether to index the results by participant role name, or by internal ID
+   * @return {Collection<string | int, Participant>} Collection of participants
+   */
   getParticipants(challenge_id, index_by_id = false) {
     const select = this.prepared(
       "getParticipants",
@@ -588,11 +613,7 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    raw_out.forEach((p) => {
-      p.advantages = JSON.parse(p.advantages)
-      p.tie_winner = !!p.tie_winner
-      p.ability_used = !!p.ability_used
-    })
+    raw_out.forEach((p) => new Participant(p))
 
     if (index_by_id) {
       return new Collection([
@@ -607,6 +628,11 @@ class Opposed extends CachedDb {
     ])
   }
 
+  /**
+   * Update the advantages for a participant
+   * @param {int} participant_id  Internal ID of the participant record to update
+   * @param {string[]} advantages Array of advantage keywords to store
+   */
   setParticipantAdvantages(participant_id, advantages) {
     const update = this.prepared(
       "setParticipantAdvantages",
@@ -623,7 +649,14 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Update the ability_used flag for a participant record
+   * @param {int}     participant_id Internal ID of the participant record
+   * @param {boolean} used           Value of the flag. Defaults to true.
+   */
   setParticipantAbilityUsed(participant_id, used = true) {
+    if (!participant_id) return false
+
     const update = this.prepared(
       "setParticipantAbilityUsed",
       oneLine`
@@ -639,21 +672,34 @@ class Opposed extends CachedDb {
     })
   }
 
-  setTieWinner(participant_id) {
+  /**
+   * Update the tie_winner flag for a participant record
+   * @param {in}      participant_id Internal ID of the participant record
+   * @param {boolean} winner         Value of the flag. Defaults to true.
+   */
+  setTieWinner(participant_id, winner = true) {
     if (!participant_id) return false
 
     const update = this.prepared(
       "setTieWinner",
       oneLine`
       UPDATE interactive.opposed_participants
-      SET    tie_winner = 1
-      WHERE  id = ?
+      SET    tie_winner = @tie_winner
+      WHERE  id = @id
     `,
     )
 
-    return update.run(participant_id)
+    return update.run({
+      id: participant_id,
+      tie_winner: +!!winner,
+    })
   }
 
+  /**
+   * Get the participant who wins ties for a challenge
+   * @param  {int}         challenge_id Internal challenge ID
+   * @return {Participant}              Winning participant record, or null
+   */
   getTieWinner(challenge_id) {
     const select = this.prepared(
       "getTieWinner",
@@ -670,12 +716,7 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return null
 
-    return {
-      ...raw_out,
-      advantages: JSON.parse(raw_out.advantages),
-      tie_winner: !!raw_out.tie_winner,
-      ability_used: !!raw_out.ability_used,
-    }
+    return new Participant(raw_out)
   }
 
   addTest({
@@ -1108,5 +1149,4 @@ module.exports = {
   ChallengeStates,
   FINAL_STATES,
   Opposed,
-  sanitizeChallenge,
 }

@@ -1,5 +1,6 @@
 const { Interaction } = require("../../testing/interaction")
-const { Opposed, ChallengeStates, ParticipantRoles, FINAL_STATES } = require("../db/opposed")
+const { Opposed, ChallengeStates, FINAL_STATES } = require("../db/opposed")
+const { Participant } = require("../db/opposed/participant")
 const cancel_button = require("./opposed/cancel-button")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
 
@@ -106,14 +107,14 @@ describe("opposed component handler", () => {
           challenge_id,
           user_uid: attacker_uid,
           mention: `<@${attacker_uid}>`,
-          role: ParticipantRoles.Attacker,
+          role: Participant.Roles.Attacker,
           advantages: ["hi", "there"],
         })
         opposed_db.addParticipant({
           challenge_id,
           user_uid: defender_uid,
           mention: `<@${defender_uid}>`,
-          role: ParticipantRoles.Defender,
+          role: Participant.Roles.Defender,
           advantages: ["oh", "no"],
         })
       })
@@ -149,14 +150,14 @@ describe("opposed component handler", () => {
           challenge_id,
           user_uid: attacker_uid,
           mention: `<@${attacker_uid}>`,
-          role: ParticipantRoles.Attacker,
+          role: Participant.Roles.Attacker,
           advantages: ["hi", "there"],
         }).lastInsertRowid
         let defender_id = opposed_db.addParticipant({
           challenge_id,
           user_uid: interaction.user.id,
           mention: `<@${interaction.user.id}>`,
-          role: ParticipantRoles.Defender,
+          role: Participant.Roles.Defender,
           advantages: ["oh", "no"],
         }).lastInsertRowid
 
@@ -215,14 +216,14 @@ describe("opposed component handler", () => {
           challenge_id,
           user_uid: attacker_uid,
           mention: `<@${attacker_uid}>`,
-          role: ParticipantRoles.Attacker,
+          role: Participant.Roles.Attacker,
           advantages: ["hi", "there"],
         }).lastInsertRowid
         let defender_id = opposed_db.addParticipant({
           challenge_id,
           user_uid: interaction.user.id,
           mention: `<@${interaction.user.id}>`,
-          role: ParticipantRoles.Defender,
+          role: Participant.Roles.Defender,
           advantages: ["oh", "no"],
         }).lastInsertRowid
 
