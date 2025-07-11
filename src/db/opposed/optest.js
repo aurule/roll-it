@@ -5,7 +5,7 @@ const { Collection } = require("discord.js")
  *
  * The main feature is that this class will lazy-load and pouplate the various related participant records.
  *
- * @class
+ * This is the only class with the "Op" prefix, in order to distinguish it from parts of the testing package.
  */
 class OpTest {
   /**
@@ -157,7 +157,7 @@ class OpTest {
    * @return {Participant|undefined} The named participant record, or undefined if not found
    */
   populateParticipants(key) {
-    const { ParticipantRoles } = require("../opposed")
+    const { Participant } = require("../opposed/participant")
     const participants = this.opposed_db.getParticipants(this.challenge_id, true)
     this.records.set("leader", participants.get(this.leader_id))
     this.records.set(
@@ -168,11 +168,11 @@ class OpTest {
     this.records.set("canceller", participants.get(this.canceller_id))
     this.records.set(
       "attacker",
-      participants.find((p) => p.role === ParticipantRoles.Attacker),
+      participants.find((p) => p.role === Participant.Roles.Attacker),
     )
     this.records.set(
       "defender",
-      participants.find((p) => p.role === ParticipantRoles.Defender),
+      participants.find((p) => p.role === Participant.Roles.Defender),
     )
     return this.records.get(key)
   }

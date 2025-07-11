@@ -1,7 +1,8 @@
 const { ButtonBuilder, ButtonStyle, TextDisplayBuilder } = require("discord.js")
 const { editMessage } = require("../../services/api")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const { logger } = require("../../util/logger")
 const throwing_message = require("../../messages/opposed/throwing")
 
@@ -47,12 +48,12 @@ module.exports = {
           component: "opposed_ready",
           detail: "Failed to edit attacker advantages prompt to show result",
         })
-        .catch((error) => {
+        .catch(() => {
           // suppress all other errors so we can try to send something else
           return
         })
 
-      opposed_db.setChallengeState(challenge.id, ChallengeStates.AdvantagesDefender)
+      opposed_db.setChallengeState(challenge.id, Challenge.States.AdvantagesDefender)
 
       const advantages_defender = require("../../message/opposed/advantages_defender")
       return interaction
@@ -80,7 +81,7 @@ module.exports = {
         component: "opposed_ready",
         detail: "Failed to edit defender advantages prompt to show result",
       })
-      .catch((error) => {
+      .catch(() => {
         // suppress all other errors so we can try to send something else
         return
       })
@@ -100,7 +101,7 @@ module.exports = {
     opposed_db.setChallengeSummary(challenge.id, challenge_summary)
 
     opposed_db.setTieWinner(tieWinnerId(attacker, defender))
-    opposed_db.setChallengeState(challenge.id, ChallengeStates.Throwing)
+    opposed_db.setChallengeState(challenge.id, Challenge.States.Throwing)
 
     const test_id = opposed_db.addTest({
       challenge_id: challenge.id,

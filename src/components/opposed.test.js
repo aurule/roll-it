@@ -1,5 +1,6 @@
 const { Interaction } = require("../../testing/interaction")
-const { Opposed, ChallengeStates, FINAL_STATES } = require("../db/opposed")
+const { Opposed } = require("../db/opposed")
+const { Challenge } = require("../db/opposed/challenge")
 const { Participant } = require("../db/opposed/participant")
 const cancel_button = require("./opposed/cancel-button")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
@@ -52,7 +53,7 @@ describe("opposed component handler", () => {
 
     describe("with a challenge in a final state", () => {
       it.concurrent.each([
-        ...FINAL_STATES,
+        ...Challenge.FinalStates,
       ])("%s: replies that the challenge is over", async (state) => {
         const interaction = new Interaction()
         const opposed_db = new Opposed()
@@ -62,7 +63,7 @@ describe("opposed component handler", () => {
           attacker_uid: "atk",
           attribute: "mental",
           retest_ability: "occult",
-          state: ChallengeStates.Conceded,
+          state: Challenge.States.Conceded,
           channel_uid: "testchan",
           timeout: 1000,
         }).lastInsertRowid
@@ -94,7 +95,7 @@ describe("opposed component handler", () => {
           attacker_uid,
           attribute: "mental",
           retest_ability: "occult",
-          state: ChallengeStates.AdvantagesAttacker,
+          state: Challenge.States.AdvantagesAttacker,
           channel_uid: "testchan",
           timeout: -1000,
         }).lastInsertRowid
@@ -141,7 +142,7 @@ describe("opposed component handler", () => {
           attacker_uid,
           attribute: "mental",
           retest_ability: "occult",
-          state: ChallengeStates.Winning,
+          state: Challenge.States.Winning,
           channel_uid: "testchan",
           timeout: 1000,
         }).lastInsertRowid
@@ -207,7 +208,7 @@ describe("opposed component handler", () => {
           attacker_uid,
           attribute: "mental",
           retest_ability: "occult",
-          state: ChallengeStates.Winning,
+          state: Challenge.States.Winning,
           channel_uid: "testchan",
           timeout: 1000,
         }).lastInsertRowid

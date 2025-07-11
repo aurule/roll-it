@@ -1,10 +1,9 @@
 const {
   TextDisplayBuilder,
-  SeparatorBuilder,
-  ActionRowBuilder,
   MessageFlags,
 } = require("discord.js")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const { i18n } = require("../../locales")
 const bidding_defender_message = require("./bidding-defender")
 
@@ -36,7 +35,7 @@ module.exports = {
 
     const traits_content = interaction.content
     const clumped = traits_content.replace(/\s/, "")
-    const match = traits_content.match(/\d+/)
+    const match = clumped.match(/\d+/)
     if (match === null) {
       return interaction.whisper(t("bidding.missing")).catch((error) =>
         logger.error(
@@ -70,7 +69,7 @@ module.exports = {
     const user_chop = chops.find((c) => c.participant_id === test.attacker.id)
 
     opposed_db.setChopTraits(user_chop.id, num)
-    opposed_db.setChallengeState(test.challenge_id, ChallengeStates.BiddingDefender)
+    opposed_db.setChallengeState(test.challenge_id, Challenge.States.BiddingDefender)
     return interaction
       .ensure("reply", bidding_defender_message.data(test.challenge_id), {
         test,

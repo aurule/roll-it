@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const throwing_message = require("../../messages/opposed/throwing")
 
 module.exports = {
@@ -21,13 +21,12 @@ module.exports = {
 
     const cancelling_message = require("../../messages/opposed/cancelling")
     await interaction
-      .ensure("edit", cancelling_message.inert(challenge.id), {
+      .ensure("edit", cancelling_message.inert(test.challenge_id), {
         component: "opposed_continue",
         test: test,
-        challenge: challenge,
         detail: "failed to update cancelling message to remove controls",
       })
-      .catch((error) => {
+      .catch(() => {
         // suppress all errors so we can send other messages
         return
       })
@@ -36,20 +35,19 @@ module.exports = {
       challenge_id: test.challenge_id,
       locale: test.locale,
     }).lastInsertRowid
-    opposed_db.setChallengeState(ChallengeStates.Throwing)
+    opposed_db.setChallengeState(Challenge.States.Throwing)
 
     return interaction
-      .ensure("reply", throwing_message.data(challenge.id), {
+      .ensure("reply", throwing_message.data(test.challenge_id), {
         component: "opposed_continue",
         test: test,
-        challenge: challenge,
         detail: "failed to send throwing prompt",
       })
       .then((reply_result) => {
         const message_uid = reply_result.resource.message.id ?? reply_result.id
 
         opposed_db.addMessage({
-          challenge_id: challenge.id,
+          challenge_id: test.challenge_id,
           message_uid,
           test_id: next_test_id,
         })

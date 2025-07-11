@@ -1,4 +1,6 @@
-const { Opposed, ParticipantRoles, ChallengeStates } = require("../opposed")
+const { Opposed } = require("../opposed")
+const { Challenge } = require("./challenge")
+const { Participant } = require("./participant")
 
 const { OpTest } = require("./optest")
 
@@ -37,7 +39,7 @@ describe("OpTest", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -47,7 +49,7 @@ describe("OpTest", () => {
         challenge_id,
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
-        role: ParticipantRoles.Attacker,
+        role: Participant.Roles.Attacker,
         advantages: ["hi", "there"],
       })
       let attacker_id = result.lastInsertRowid
@@ -57,7 +59,7 @@ describe("OpTest", () => {
         challenge_id,
         user_uid: "def",
         mention: `<@${defender_uid}>`,
-        role: ParticipantRoles.Defender,
+        role: Participant.Roles.Defender,
         advantages: ["oh", "no"],
       })
       let defender_id = result.lastInsertRowid

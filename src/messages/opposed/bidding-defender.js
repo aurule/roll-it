@@ -1,10 +1,9 @@
 const {
   TextDisplayBuilder,
-  SeparatorBuilder,
-  ActionRowBuilder,
   MessageFlags,
 } = require("discord.js")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const { makeBreakdown } = require("../../services/opposed/breakdown")
 const { makeHistory } = require("../../services/opposed/history")
 const { i18n } = require("../../locales")
@@ -58,7 +57,7 @@ module.exports = {
 
     const traits_content = interaction.content
     const clumped = traits_content.replace(/\s/, "")
-    const match = traits_content.match(/\d+/)
+    const match = clumped.match(/\d+/)
     if (match === null) {
       return interaction.whisper(t("bidding.missing")).catch((error) =>
         logger.error(
@@ -114,7 +113,7 @@ module.exports = {
 
     if (leader) {
       opposed_db.setTestLeader(test.id, leader.id)
-      opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Winning)
+      opposed_db.setChallengeState(test.challenge_id, Challenge.States.Winning)
 
       return interaction
         .ensure("reply", winning_message.data(test.challenge_id), {
@@ -133,7 +132,7 @@ module.exports = {
           })
         })
     } else {
-      opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Tying)
+      opposed_db.setChallengeState(test.challenge_id, Challenge.States.Tying)
 
       return interaction
         .ensure("reply", tying_message.data(test.challenge_id), {

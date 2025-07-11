@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const accepted_message = require("../../messages/opposed/accepted")
 
 module.exports = {
@@ -42,12 +42,12 @@ module.exports = {
           challenge: challenge,
           detail: "failed to update tying message to remove controls",
         })
-        .catch((error) => {
+        .catch(() => {
           // suppress all errors so we can send other messages
           return
         })
 
-      opposed_db.setChallengeState(challenge.id, ChallengeStates.Accepted)
+      opposed_db.setChallengeState(challenge.id, Challenge.States.Accepted)
       return interaction
         .ensure("reply", accepted_message.data(challenge.id), {
           user_uid: interaction.user.id,

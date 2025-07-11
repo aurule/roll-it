@@ -1,6 +1,7 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const { makeHistory } = require("../../services/opposed/history")
 
 module.exports = {
@@ -48,10 +49,10 @@ module.exports = {
 
     let next_message
     if (test.leader) {
-      opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Winning)
+      opposed_db.setChallengeState(test.challenge_id, Challenge.States.Winning)
       next_message = require("../../messages/opposed/winning")
     } else {
-      opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Tying)
+      opposed_db.setChallengeState(test.challenge_id, Challenge.States.Tying)
       next_message = require("../../messages/opposed/tying")
     }
 

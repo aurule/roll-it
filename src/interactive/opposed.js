@@ -10,7 +10,9 @@ const {
 } = require("discord.js")
 
 const { sendMessage, editMessage } = require("../services/api")
-const { Opposed, ParticipantRoles, ChallengeStates, FINAL_STATES } = require("../db/opposed")
+const { Opposed } = require("../db/opposed")
+const { Challenge } = require("../db/opposed/challenge")
+const { Participant } = require("../db/opposed/participant")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const advantages_attacker_message = require("../messages/opposed/advantages-attacker")
@@ -35,7 +37,7 @@ module.exports = {
       description,
       retest_ability: retest,
       conditions: ["normal"],
-      state: ChallengeStates.AdvantagesAttacker,
+      state: Challenge.States.AdvantagesAttacker,
       channel_uid: interaction.channelId,
       timeout: MAX_DURATION / 1_000,
     }).lastInsertRowid
@@ -47,14 +49,14 @@ module.exports = {
       user_uid: attackerId,
       mention: attacker_mention,
       advantages: ["none"],
-      role: ParticipantRoles.Attacker,
+      role: Participant.Roles.Attacker,
       challenge_id,
     })
     opposed_db.addParticipant({
       user_uid: defenderId,
       mention: defender_mention,
       advantages: ["none"],
-      role: ParticipantRoles.Defender,
+      role: Participant.Roles.Defender,
       challenge_id,
     })
 
@@ -80,7 +82,7 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
 
-    if (FINAL_STATES.has(challenge.state)) {
+    if (Challenge.FinalStates.has(challenge.state)) {
       logger.info({ challenge }, "Challenge is already finished")
       return
     }

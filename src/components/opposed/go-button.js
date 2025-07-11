@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle, MessageFlags, TextDisplayBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const { handleRequest } = require("../../services/met-roller")
 const { makeBreakdown } = require("../../services/opposed/breakdown")
 const { makeHistory } = require("../../services/opposed/history")
@@ -66,7 +66,7 @@ async function resolveChops({ interaction, chops, participants, test }) {
         detail: "Failed to edit throw prompt to show result",
       },
     )
-    .catch((error) => {
+    .catch(() => {
       // suppress all other errors so we can try to send something else
       return
     })
@@ -78,7 +78,7 @@ async function resolveChops({ interaction, chops, participants, test }) {
     test.breakdown = breakdown
     const history = makeHistory(test)
     opposed_db.setTestHistory(test.id, history)
-    opposed_db.setChallengeState(test.challenge_id, ChallengeStates.Winning)
+    opposed_db.setChallengeState(test.challenge_id, Challenge.States.Winning)
 
     return interaction
       .ensure("followUp", winning_message.data(test.challenge_id), {
@@ -97,7 +97,7 @@ async function resolveChops({ interaction, chops, participants, test }) {
         })
       })
   } else {
-    opposed_db.setChallengeState(test.challenge_id, ChallengeStates.BiddingAttacker)
+    opposed_db.setChallengeState(test.challenge_id, Challenge.States.BiddingAttacker)
     return interaction
       .ensure("followUp", bidding_atk_message.data(test.challenge_id), {
         test,

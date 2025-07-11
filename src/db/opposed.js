@@ -7,54 +7,6 @@ const { Participant } = require("./opposed/participant")
 const { OpTest } = require("./opposed/optest")
 
 /**
- * Enum of valid participant role codes
- * @type {Record<string, int>}
- */
-const ParticipantRoles = Object.freeze({
-  Attacker: 1,
-  Defender: 2,
-})
-
-/**
- * Enum of valid challenge states
- * @type {Record<string, string>}
- */
-const ChallengeStates = Object.freeze({
-  AdvantagesAttacker: "advantages-attacker",
-  AdvantagesDefender: "advantages-defender",
-  Relented: "relented",
-  Withdrawn: "withdrawn",
-  Throwing: "throwing",
-  BiddingAttacker: "bidding-attacker",
-  BiddingDefender: "bidding-defender",
-  Winning: "winning",
-  Tying: "tying",
-  Conceded: "conceded",
-  Accepted: "accepted",
-  Cancelling: "cancelling",
-  Expired: "expired",
-})
-
-/**
- * Set of states which are considered final
- * @type {Set<string>}
- */
-const FINAL_STATES = Object.freeze(
-  new Set(["relented", "withdrawn", "conceded", "accepted", "expired"]),
-)
-/**
- * Database expression for use in a `WHERE state IN` clause
- *
- * @see Opposed.challengeFromMessageIsFinalized
- * @type {string}
- */
-const final_states_expr = Object.freeze(
-  Array.from(FINAL_STATES)
-    .map((s) => `'${s}'`)
-    .join(","),
-)
-
-/**
  * Class to manage met-opposed state tracking
  */
 class Opposed extends CachedDb {
@@ -306,7 +258,7 @@ class Opposed extends CachedDb {
   /**
    * Get whether the challenge associated with a given message is finalized
    * @param  {Snowflake} message_uid Discord ID of the message to look up
-   * @return {boolean}               True if the message's state is in FINAL_STATES, false if not
+   * @return {boolean}               True if the message's state is in Challenge.FinalStates, false if not
    */
   challengeFromMessageIsFinalized(message_uid) {
     const select = this.prepared(
@@ -317,7 +269,7 @@ class Opposed extends CachedDb {
                JOIN interactive.opposed_messages AS m
                  ON c.id = m.challenge_id
         WHERE  m.message_uid = ?
-          AND  c.state IN (${final_states_expr})
+          AND  c.state IN (${Challenge.FinalStatesExpr})
       `,
       true,
     )
@@ -831,7 +783,7 @@ class Opposed extends CachedDb {
    * Get the individual RPS test associated with a Discord message ID
    *
    * @param  {Snowflake} message_uid Discord ID of the message
-   * @return {int}                   Internal ID of the associated RPS test
+   * @return {OpTest}                Test object
    */
   findTestByMessage(message_uid) {
     const select = this.prepared(
@@ -1145,8 +1097,5 @@ class Opposed extends CachedDb {
 }
 
 module.exports = {
-  ParticipantRoles,
-  ChallengeStates,
-  FINAL_STATES,
   Opposed,
 }

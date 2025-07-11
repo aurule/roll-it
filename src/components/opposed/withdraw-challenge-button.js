@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const withdrawn_message = require("../../messages/opposed/withdrawn")
 
 module.exports = {
@@ -14,13 +14,10 @@ module.exports = {
   async execute(interaction) {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
-    const participants = opposed_db.getParticipants(challenge.id)
-    const attacker = participants.get("attacker")
-    const defender = participants.get("defender")
 
     interaction.authorize(challenge.attacker_uid)
 
-    opposed_db.setChallengeState(challenge.id, ChallengeStates.Withdrawn)
+    opposed_db.setChallengeState(challenge.id, Challenge.States.Withdrawn)
     return interaction
       .ensure("reply", withdrawn_message.data(challenge.id), {
         component: "opposed_withdraw_challenge",

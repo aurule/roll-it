@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 const conceded_message = require("../../messages/opposed/conceded")
 
 module.exports = {
@@ -29,12 +29,12 @@ module.exports = {
         challenge: challenge,
         detail: "failed to update winning message to remove controls",
       })
-      .catch((error) => {
+      .catch(() => {
         // suppress all errors so we can send other messages
         return
       })
 
-    opposed_db.setChallengeState(challenge.id, ChallengeStates.Conceded)
+    opposed_db.setChallengeState(challenge.id, Challenge.States.Conceded)
     return interaction
       .ensure("reply", conceded_message.data(challenge.id), {
         user_uid: interaction.user.id,

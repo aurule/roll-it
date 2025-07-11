@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 
 module.exports = {
   name: "opposed_withdraw_retest",
@@ -29,7 +29,7 @@ module.exports = {
         test: test,
         detail: "failed to update retest cancelling message to remove controls",
       })
-      .catch((error) => {
+      .catch(() => {
         // suppress all errors so we can send other messages
         return
       })
@@ -37,10 +37,10 @@ module.exports = {
     let state
     let message
     if (test.leader_id) {
-      state = ChallengeStates.Winning
+      state = Challenge.States.Winning
       message = require("../../messages/opposed/winning")
     } else {
-      state = ChallengeStates.Tying
+      state = Challenge.States.Tying
       message = require("../../messages/opposed/tying")
     }
     opposed_db.setChallengeState(test.challenge_id, state)

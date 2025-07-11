@@ -1,39 +1,14 @@
 const { Collection } = require("discord.js")
 const { makeDB } = require("./index")
 
-const { Opposed, ParticipantRoles, ChallengeStates, FINAL_STATES, sanitizeChallenge } = require("./opposed")
+const { Opposed } = require("./opposed")
+const { Challenge } = require("./opposed/challenge")
+const { Participant } = require("./opposed/participant")
 
 let db
 
 beforeEach(() => {
   db = makeDB()
-})
-
-describe("sanitizeChallenge", () => {
-    const challenge_data = {
-      locale: "en-US",
-      description: "testing challenge",
-      attacker_uid: "atk",
-      attribute: "mental",
-      retest_ability: "occult",
-      state: ChallengeStates.AdvantagesAttacker,
-      channel_uid: "testchan",
-      timeout: 1000,
-      expired: 0,
-      conditions: JSON.stringify(["altering"]),
-    }
-
-    it("makes expired a boolean", () => {
-      const result = sanitizeChallenge(challenge_data)
-
-      expect(result.expired).toBe(false)
-    })
-
-    it("makes conditions an array", () => {
-      const result = sanitizeChallenge(challenge_data)
-
-      expect(result.conditions).toEqual(["altering"])
-    })
 })
 
 describe("Opposed DB", () => {
@@ -51,7 +26,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -68,7 +43,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -78,7 +53,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -97,7 +72,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       }).lastInsertRowid
@@ -115,7 +90,7 @@ describe("Opposed DB", () => {
       attacker_uid: "atk",
       attribute: "mental",
       retest_ability: "occult",
-      state: ChallengeStates.AdvantagesAttacker,
+      state: Challenge.States.AdvantagesAttacker,
       channel_uid: "testchan",
       timeout: 1000,
     }
@@ -142,19 +117,19 @@ describe("Opposed DB", () => {
       attacker_uid: "atk",
       attribute: "mental",
       retest_ability: "occult",
-      state: ChallengeStates.AdvantagesAttacker,
+      state: Challenge.States.AdvantagesAttacker,
       channel_uid: "testchan",
       timeout: 1000,
     }
     const attacker_data = {
       user_uid: "attacker",
       mention: "<@attacker>",
-      role: ParticipantRoles.Attacker,
+      role: Participant.Roles.Attacker,
     }
     const defender_data = {
       user_uid: "defender",
       mention: "<@defender>",
-      role: ParticipantRoles.Defender,
+      role: Participant.Roles.Defender,
     }
 
     it("returns undefined for bad id", () => {
@@ -220,15 +195,15 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       }).lastInsertRowid
 
-      opposed.setChallengeState(challenge_id, ChallengeStates.Relented)
+      opposed.setChallengeState(challenge_id, Challenge.States.Relented)
 
       const record = opposed.getChallenge(challenge_id)
-      expect(record.state).toEqual(ChallengeStates.Relented)
+      expect(record.state).toEqual(Challenge.States.Relented)
     })
   })
 
@@ -240,7 +215,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       }).lastInsertRowid
@@ -260,7 +235,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
         conditions: ["carrier"],
@@ -280,7 +255,7 @@ describe("Opposed DB", () => {
       attacker_uid: "atk",
       attribute: "mental",
       retest_ability: "occult",
-      state: ChallengeStates.AdvantagesAttacker,
+      state: Challenge.States.AdvantagesAttacker,
       channel_uid: "testchan",
       timeout: 1000,
     }
@@ -315,7 +290,7 @@ describe("Opposed DB", () => {
         attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -327,14 +302,14 @@ describe("Opposed DB", () => {
     })
 
     it("returns false for in progress states", () => {
-      opposed.setChallengeState(challenge_id, ChallengeStates.Cancelling)
+      opposed.setChallengeState(challenge_id, Challenge.States.Cancelling)
 
       const result = opposed.challengeFromMessageIsFinalized(message_uid)
 
       expect(result).toEqual(false)
     })
 
-    it.each(Array.from(FINAL_STATES).map((s) => [s]))(
+    it.each(Array.from(Challenge.FinalStates).map((s) => [s]))(
       "returns true for final state '%s'",
       (state) => {
         opposed.setChallengeState(challenge_id, state)
@@ -354,7 +329,7 @@ describe("Opposed DB", () => {
       attacker_uid: "atk",
       attribute: "mental",
       retest_ability: "occult",
-      state: ChallengeStates.AdvantagesAttacker,
+      state: Challenge.States.AdvantagesAttacker,
       channel_uid: "testchan",
       timeout: 1000,
     }
@@ -403,7 +378,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       }).lastInsertRowid
@@ -411,14 +386,14 @@ describe("Opposed DB", () => {
         challenge_id,
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
-        role: ParticipantRoles.Attacker,
+        role: Participant.Roles.Attacker,
         advantages: ["hi", "there"],
       }).lastInsertRowid
       const defender_id = opposed.addParticipant({
         challenge_id,
         user_uid: defender_uid,
         mention: `<@${defender_uid}>`,
-        role: ParticipantRoles.Defender,
+        role: Participant.Roles.Defender,
         advantages: ["oh", "no"],
       }).lastInsertRowid
       const test_id = opposed.addTest({
@@ -439,7 +414,7 @@ describe("Opposed DB", () => {
       attacker_uid: "atk",
       attribute: "mental",
       retest_ability: "occult",
-      state: ChallengeStates.AdvantagesAttacker,
+      state: Challenge.States.AdvantagesAttacker,
       channel_uid: "testchan",
       timeout: 1000,
     }
@@ -496,7 +471,7 @@ describe("Opposed DB", () => {
       attacker_uid: "atk",
       attribute: "mental",
       retest_ability: "occult",
-      state: ChallengeStates.AdvantagesAttacker,
+      state: Challenge.States.AdvantagesAttacker,
       channel_uid: "testchan",
       timeout: 1000,
     }
@@ -542,6 +517,74 @@ describe("Opposed DB", () => {
     })
   })
 
+  describe("getMessage", () => {
+    const challenge_data = {
+      locale: "en-US",
+      description: "testing challenge",
+      attacker_uid: "atk",
+      attribute: "mental",
+      retest_ability: "occult",
+      state: Challenge.States.AdvantagesAttacker,
+      channel_uid: "testchan",
+      timeout: 1000,
+    }
+    let message_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge(challenge_data).lastInsertRowid
+      message_id = opposed.addMessage({
+        message_uid: "test message",
+        challenge_id,
+      }).lastInsertRowid
+    })
+
+    it("gets the message for the id", () => {
+      const result = opposed.getMessage(message_id)
+
+      expect(result.message_uid).toEqual("test message")
+    })
+
+    it("returns undefined for unknown ID", () => {
+      const result = opposed.getMessage(55)
+
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe("hasMessage", () => {
+    const challenge_data = {
+      locale: "en-US",
+      description: "testing challenge",
+      attacker_uid: "atk",
+      attribute: "mental",
+      retest_ability: "occult",
+      state: Challenge.States.AdvantagesAttacker,
+      channel_uid: "testchan",
+      timeout: 1000,
+    }
+    let message_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge(challenge_data).lastInsertRowid
+      message_id = opposed.addMessage({
+        message_uid: "test message",
+        challenge_id,
+      }).lastInsertRowid
+    })
+
+    it("returns true if the uid exists", () => {
+      const result = opposed.hasMessage("test message")
+
+      expect(result).toBe(true)
+    })
+
+    it("returns false if the uid does not exist", () => {
+      const result = opposed.hasMessage("nope")
+
+      expect(result).toBe(false)
+    })
+  })
+
   describe("messageIsForLatestTest", () => {
     let challenge_id
     let attacker_id
@@ -558,7 +601,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -568,7 +611,7 @@ describe("Opposed DB", () => {
         challenge_id,
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
-        role: ParticipantRoles.Attacker,
+        role: Participant.Roles.Attacker,
         advantages: ["hi", "there"],
       })
       attacker_id = result.lastInsertRowid
@@ -576,7 +619,7 @@ describe("Opposed DB", () => {
         challenge_id,
         user_uid: defender_uid,
         mention: `<@${defender_uid}>`,
-        role: ParticipantRoles.Defender,
+        role: Participant.Roles.Defender,
         advantages: ["oh", "no"],
       })
       defender_id = result.lastInsertRowid
@@ -664,7 +707,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -677,7 +720,7 @@ describe("Opposed DB", () => {
       opposed.addParticipant({
         user_uid: "test",
         mention: "<@test>",
-        role: ParticipantRoles.Defender,
+        role: Participant.Roles.Defender,
         advantages: [],
         challenge_id,
       })
@@ -689,7 +732,7 @@ describe("Opposed DB", () => {
       const result = opposed.addParticipant({
         user_uid: "test",
         mention: "<@test>",
-        role: ParticipantRoles.Defender,
+        role: Participant.Roles.Defender,
         advantages: ["ties"],
         challenge_id,
       })
@@ -699,8 +742,112 @@ describe("Opposed DB", () => {
     })
   })
 
+  describe("participantCount", () => {
+    let challenge_id
+
+    beforeEach(() => {
+      const result = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      })
+      challenge_id = result.lastInsertRowid
+    })
+
+    it("returns zero with no participants", () => {
+      const result = opposed.participantCount(challenge_id)
+
+      expect(result).toEqual(0)
+    })
+
+    it("returns 1 with one participant", () => {
+      opposed.addParticipant({
+        user_uid: "atk",
+        mention: "<@atk>",
+        advantages: [],
+        challenge_id,
+        role: Participant.Roles.Attacker,
+      })
+
+      const result = opposed.participantCount(challenge_id)
+
+      expect(result).toEqual(1)
+    })
+
+    it("returns 2 with two participants", () => {
+      opposed.addParticipant({
+        user_uid: "atk",
+        mention: "<@atk>",
+        advantages: [],
+        challenge_id,
+        role: Participant.Roles.Attacker,
+      })
+      opposed.addParticipant({
+        user_uid: "def",
+        mention: "<@def>",
+        advantages: [],
+        challenge_id,
+        role: Participant.Roles.Defender,
+      })
+
+      const result = opposed.participantCount(challenge_id)
+
+      expect(result).toEqual(2)
+    })
+  })
+
+  describe("getParticipant", () => {
+    let challenge_id
+    let participant_id
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+      participant_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "atk",
+        mention: `<@atk>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+    })
+
+    it("returns undefined for unknown id", () => {
+      const result = opposed.getParticipant(55)
+
+      expect(result).toBeUndefined()
+    })
+
+    it("gets the record", () => {
+      const result = opposed.getParticipant(participant_id)
+
+      expect(result.user_uid).toEqual("atk")
+    })
+
+    it("converts advantages from json", () => {
+      const result = opposed.getParticipant(participant_id)
+
+      expect(result.advantages).toEqual(["hi", "there"])
+    })
+  })
+
   describe("getParticipants", () => {
     let challenge_id
+    let attacker_id
+    let defender_id
     const attacker_uid = "atk"
     const defender_uid = "def"
 
@@ -711,33 +858,41 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
       challenge_id = result.lastInsertRowid
 
-      opposed.addParticipant({
+      attacker_id = opposed.addParticipant({
         challenge_id,
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
-        role: ParticipantRoles.Attacker,
+        role: Participant.Roles.Attacker,
         advantages: ["hi", "there"],
-      })
-      opposed.addParticipant({
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
         challenge_id,
         user_uid: "def",
         mention: `<@${defender_uid}>`,
-        role: ParticipantRoles.Defender,
+        role: Participant.Roles.Defender,
         advantages: ["oh", "no"],
-      })
+      }).lastInsertRowid
     })
 
-    it("uses the correct keys", () => {
+    it("indexes by attacker/defender by default", () => {
       const result = opposed.getParticipants(challenge_id)
 
       expect(result.get("attacker").user_uid).toEqual(attacker_uid)
       expect(result.get("defender").user_uid).toEqual(defender_uid)
+    })
+
+    it("indexes by ID when requested", () => {
+      const result = opposed.getParticipants(challenge_id, true)
+
+      expect(result.get(attacker_id).user_uid).toEqual(attacker_uid)
+      expect(result.get(defender_id).user_uid).toEqual(defender_uid)
     })
 
     it("extracts advantages", () => {
@@ -745,6 +900,185 @@ describe("Opposed DB", () => {
 
       expect(result.get("attacker").advantages).toContain("hi")
       expect(result.get("attacker").advantages).toContain("there")
+    })
+  })
+
+  describe("setParticipantAdvantages", () => {
+    let challenge_id
+    let attacker_id
+    const attacker_uid = "atk"
+
+    beforeEach(() => {
+      const result = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      })
+      challenge_id = result.lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+    })
+
+    it("saves the new advantages", () => {
+      opposed.setParticipantAdvantages(attacker_id, ["new", "things"])
+
+      const participant = opposed.getParticipant(attacker_id)
+      expect(participant.advantages).toEqual(["new", "things"])
+    })
+  })
+
+  describe("setParticipantAbilityUsed", () => {
+    let challenge_id
+    let attacker_id
+    const attacker_uid = "atk"
+
+    beforeEach(() => {
+      const result = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      })
+      challenge_id = result.lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+        ability_used: false,
+      }).lastInsertRowid
+    })
+
+    it("updates the ability_used flag to true by default", () => {
+      opposed.setParticipantAbilityUsed(attacker_id)
+
+      const participant = opposed.getParticipant(attacker_id)
+      expect(participant.ability_used).toBe(true)
+    })
+
+    it("updates the ability_used flag to false by request", () => {
+      opposed.setParticipantAbilityUsed(attacker_id, false)
+
+      const participant = opposed.getParticipant(attacker_id)
+      expect(participant.ability_used).toBe(false)
+    })
+  })
+
+  describe("setTieWinner", () => {
+    let challenge_id
+    let attacker_id
+    const attacker_uid = "atk"
+
+    beforeEach(() => {
+      const result = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      })
+      challenge_id = result.lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+        tie_winner: false,
+      }).lastInsertRowid
+    })
+
+    it("updates the tie_winner flag to true by default", () => {
+      opposed.setTieWinner(attacker_id)
+
+      const participant = opposed.getParticipant(attacker_id)
+      expect(participant.tie_winner).toBe(true)
+    })
+
+    it("updates the tie_winner flag to false by request", () => {
+      opposed.setTieWinner(attacker_id, false)
+
+      const participant = opposed.getParticipant(attacker_id)
+      expect(participant.tie_winner).toBe(false)
+    })
+  })
+
+  describe("getTieWinner", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      const result = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      })
+      challenge_id = result.lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+    })
+
+    it("with a winner, returns the winning participant", () => {
+      opposed.setTieWinner(attacker_id, true)
+
+      const result = opposed.getTieWinner(challenge_id)
+
+      expect(result.id).toEqual(attacker_id)
+    })
+
+    it("with no winner, returns null", () => {
+      const result = opposed.getTieWinner(challenge_id)
+
+      expect(result).toBeNull()
+    })
+
+    it("with bad challenge ID, returns null", () => {
+      const result = opposed.getTieWinner(55)
+
+      expect(result).toBeNull()
     })
   })
 
@@ -764,7 +1098,7 @@ describe("Opposed DB", () => {
         attacker_uid,
         attribute: "mental",
         retest_ability: "occult",
-        state: ChallengeStates.AdvantagesAttacker,
+        state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
       })
@@ -774,7 +1108,7 @@ describe("Opposed DB", () => {
         challenge_id,
         user_uid: attacker_uid,
         mention: `<@${attacker_uid}>`,
-        role: ParticipantRoles.Attacker,
+        role: Participant.Roles.Attacker,
         advantages: ["hi", "there"],
       })
       attacker_id = result.lastInsertRowid
@@ -782,7 +1116,7 @@ describe("Opposed DB", () => {
         challenge_id,
         user_uid: "def",
         mention: `<@${defender_uid}>`,
-        role: ParticipantRoles.Defender,
+        role: Participant.Roles.Defender,
         advantages: ["oh", "no"],
       })
       defender_id = result.lastInsertRowid

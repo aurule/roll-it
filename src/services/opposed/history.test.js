@@ -1,4 +1,6 @@
-const { Opposed, ChallengeStates, ParticipantRoles } = require("../../db/opposed")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
+const { Participant } = require("../../db/opposed/participant")
 
 const { makeHistory } = require("./history")
 
@@ -9,7 +11,6 @@ describe("makeHistory", () => {
   let defender_id
   let test_id
   let opposed_test
-  let participant_ids
   const attacker_uid = "atk"
   const defender_uid = "def"
 
@@ -22,7 +23,7 @@ describe("makeHistory", () => {
       attribute: "mental",
       retests_allowed: true,
       retest_ability: "occult",
-      state: ChallengeStates.Tying,
+      state: Challenge.States.Tying,
       channel_uid: "testchan",
       timeout: 1000,
     })
@@ -32,7 +33,7 @@ describe("makeHistory", () => {
       challenge_id,
       user_uid: attacker_uid,
       mention: `<@${attacker_uid}>`,
-      role: ParticipantRoles.Attacker,
+      role: Participant.Roles.Attacker,
       advantages: ["hi", "there"],
     })
     attacker_id = result.lastInsertRowid
@@ -40,7 +41,7 @@ describe("makeHistory", () => {
       challenge_id,
       user_uid: "def",
       mention: `<@${defender_uid}>`,
-      role: ParticipantRoles.Defender,
+      role: Participant.Roles.Defender,
       advantages: ["oh", "no"],
     })
     defender_id = result.lastInsertRowid

@@ -1,7 +1,7 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
-const { Opposed, ChallengeStates } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
+const { Opposed } = require("../../db/opposed")
+const { Challenge } = require("../../db/opposed/challenge")
 
 const AbilityReasons = new Set(["named", "ability"])
 
@@ -26,8 +26,6 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
     const participants = opposed_db.getParticipants(challenge.id)
-    const attacker = participants.get("attacker")
-    const defender = participants.get("defender")
 
     interaction.authorize(participants.map((p) => p.user_uid))
 
@@ -54,7 +52,7 @@ module.exports = {
     }
 
     let message
-    if (challenge.state === ChallengeStates.Winning) {
+    if (challenge.state === Challenge.States.Winning) {
       message = require("../../messages/opposed/winning")
     } else {
       message = require("../../messages/opposed/tying")
@@ -67,7 +65,7 @@ module.exports = {
         challenge: challenge,
         detail: "failed to update progress message to remove controls",
       })
-      .catch((error) => {
+      .catch(() => {
         // suppress all errors so we can send other messages
         return
       })
@@ -79,13 +77,13 @@ module.exports = {
 
     let next_message
     if (canCancel(test)) {
-      opposed_db.setChallengeState(challenge.id, ChallengeStates.Cancelling)
+      opposed_db.setChallengeState(challenge.id, Challenge.States.Cancelling)
       if (!test.canceller.advantages.includes("cancels")) {
         opposed_db.setTestCancelledWith(test.id, "ability")
       }
       next_message = require("../../messages/opposed/cancelling")
     } else {
-      opposed_db.setChallengeState(challenge.id, ChallengeStates.Retesting)
+      opposed_db.setChallengeState(challenge.id, Challenge.States.Retesting)
       next_message = require("../../messages/opposed/retesting")
     }
 
