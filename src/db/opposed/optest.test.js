@@ -12,6 +12,30 @@ describe("OpTest", () => {
   })
 
   describe("constructor", () => {
+    it("coerces `retested` to a boolean", () => {
+      const test_record = new OpTest({
+        id: 1,
+        challenge_id: 1,
+        locale: "en-US",
+        retested: 1,
+        opposed_db,
+      })
+
+      expect(test_record.retested).toBe(true)
+    })
+
+    it("coerces `cancelled` to a boolean", () => {
+      const test_record = new OpTest({
+        id: 1,
+        challenge_id: 1,
+        locale: "en-US",
+        cancelled: 1,
+        opposed_db,
+      })
+
+      expect(test_record.cancelled).toBe(true)
+    })
+
     it("leaves associated records for lazy loading", () => {
       const test_record = new OpTest({
         id: 1,

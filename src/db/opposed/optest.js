@@ -107,10 +107,10 @@ class OpTest {
    * @param  {str}     options.locale         Locale code
    * @param  {int}     options.retester_id    ID of the retesting participant
    * @param  {str}     options.retest_reason  Retest code
-   * @param  {Boolean} options.retested       Whether the initial result was retested
+   * @param  {number}  options.retested       Whether the initial result was retested
    * @param  {int}     options.canceller_id   ID of the cancelling participant
    * @param  {str}     options.cancelled_with Cancel code
-   * @param  {Boolean} options.cancelled      Whether the retest was cancelled
+   * @param  {number}  options.cancelled      Whether the retest was cancelled
    * @param  {str}     options.history        Displayable test history
    * @param  {str}     options.breakdown      Displayable result details
    * @param  {int}     options.leader_id      ID of the winning participant
