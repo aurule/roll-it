@@ -7,9 +7,9 @@ The command object looks like this:
 ```ts
 {
     name: string;                       // "command-name"
+    i18nId?: string;                    // "special-command-name"
     parent?: string;                    // "parent-name"
     replacement?: string;               // "other-command-name"
-    description: string;                // "user visible description"
     type?: string;                      // "slash"
     policy?: Object|Array<Object>;      // ManagerPolicy
     global?: bool;                      // Whether the command is a global command or a guild command

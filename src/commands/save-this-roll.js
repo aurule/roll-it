@@ -14,7 +14,7 @@ const botId = process.env.CLIENT_ID
 const command_id = "save-this-roll"
 
 module.exports = {
-  id: command_id,
+  i18nId: command_id,
   name: canonical("name", command_id),
   type: "menu",
   global: true,

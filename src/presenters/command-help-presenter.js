@@ -13,8 +13,8 @@ module.exports = {
   present: (command, locale) => {
     const prefix_parts = []
     if (command.parent) prefix_parts.push(command.parent)
-    if (command.id) {
-      prefix_parts.push(command.id)
+    if (command.i18nId) {
+      prefix_parts.push(command.i18nId)
     } else {
       prefix_parts.push(command.name)
     }

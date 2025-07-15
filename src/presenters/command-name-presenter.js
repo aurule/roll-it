@@ -23,7 +23,7 @@ const { i18n } = require("../locales")
  */
 function present(command, locale) {
   const t = i18n.getFixedT(locale)
-  const command_id = command.id ?? command.name
+  const command_id = command.i18nId ?? command.name
 
   if (command.type == "menu")
     return t("command-name.menu", { command_name: t(`commands:${command_id}.name`) })
