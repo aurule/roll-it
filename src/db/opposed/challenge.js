@@ -79,6 +79,25 @@ class Challenge {
 
   /**
    * Enum of valid challenge states
+   *
+   * Challenges effectively use a state machine, but it isn't formalized. The typical flow is:
+   *
+   * ```
+   * AdvantagesAttacker > AdvantagesDefender > Throwing <> Winning|Tying > Conceded|Accepted
+   * ```
+   *
+   * When there is no clear tie winner, the Throwing state has an additional flow:
+   *
+   * ```
+   * Throwing > BiddingAttacker > BiddingDefender > Winning|Tying
+   * ```
+   *
+   * Off-ramps are final states that avoid the main flow:
+   *
+   * - AdvantagesAttacker > Withdrawn
+   * - AdvantagesDefender > Relented
+   * - any > Expired
+   *
    * @type {Record<string, string>}
    */
   static States = Object.freeze({
