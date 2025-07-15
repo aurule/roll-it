@@ -12,7 +12,7 @@ const advantage_picker = require("../../components/opposed/advantage-picker")
 const ready_button = require("../../components/opposed/ready-button")
 
 module.exports = {
-  state: "advantages",
+  state: "advantages-defender",
   data: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
