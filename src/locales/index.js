@@ -1,13 +1,13 @@
 const { join } = require("node:path")
 const i18next = require("i18next")
-const Backend = require("i18next-fs-backend")
+const fs_backend = require("i18next-fs-backend")
 
 const own_formatters = require("../util/formatters/i18n")
 
-i18next.use(Backend).init({
+i18next.use(fs_backend).init({
   debug: false,
   fallbackLng: {
-    default: ["en-US"],
+    default: ["en"],
   },
   lng: "en-US",
   defaultLng: "en-US",
