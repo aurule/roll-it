@@ -1,15 +1,9 @@
 const {
-  TimestampStyles,
   userMention,
-  time,
-  MessageFlags,
-  SectionBuilder,
   TextDisplayBuilder,
-  ActionRowBuilder,
-  SeparatorBuilder,
 } = require("discord.js")
 
-const { sendMessage, editMessage } = require("../services/api")
+const { editMessage } = require("../services/api")
 const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")
 const { Participant } = require("../db/opposed/participant")
@@ -18,16 +12,16 @@ const { logger } = require("../util/logger")
 const advantages_attacker_message = require("../messages/opposed/advantages-attacker")
 const expired_message = require("../messages/opposed/expired")
 
-const MAX_DURATION = 1_200_000 // 20 minutes
-const RETEST_DURATION_BONUS = 300_000 // 5 minutes
+/**
+ * How long the challenge is allowed to be active, in seconds
+ * @type {int}
+ */
+const MAX_DURATION = 7_200 // 2 hours
 
 module.exports = {
   MAX_DURATION,
-  RETEST_DURATION_BONUS,
   async opposedBegin({ interaction, description, attackerId, defenderId, attribute, retest } = {}) {
     const locale = interaction.guild.locale ?? "en-US"
-    const t = i18n.getFixedT(locale, "interactive", "opposed.prompt")
-    const shared_t = i18n.getFixedT(locale, "interactive", "opposed.shared")
 
     const opposed_db = new Opposed()
     const challenge_id = opposed_db.addChallenge({
@@ -39,7 +33,7 @@ module.exports = {
       conditions: ["normal"],
       state: Challenge.States.AdvantagesAttacker,
       channel_uid: interaction.channelId,
-      timeout: MAX_DURATION / 1_000,
+      timeout: MAX_DURATION,
     }).lastInsertRowid
 
     const attacker_mention = userMention(attackerId)
@@ -66,7 +60,7 @@ module.exports = {
         detail: "failed to send advantages prompt",
       })
       .then((reply_result) => {
-        setTimeout(module.exports.opposedTimeout, MAX_DURATION, challenge_id)
+        setTimeout(module.exports.opposedTimeout, MAX_DURATION * 1_000, challenge_id)
 
         // expect an InteractionCallbackResponse, but deal with a Message too
         const message_uid = reply_result.resource.message.id ?? reply_result.id
