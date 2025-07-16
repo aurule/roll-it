@@ -45,13 +45,13 @@ describe("saved roll completers", () => {
     })
   })
 
-  describe("change_target", () => {
+  describe("changeable_choices", () => {
     it("gets changeables from named roll's command", () => {
       const interaction = new Interaction()
       interaction.command_options.name = "very well"
       const rolls = [{ name: "very well", id: 5, command: "nwod" }]
 
-      const result = saved_roll_completers.change_target("", rolls, interaction.options)
+      const result = saved_roll_completers.changeable_choices("", rolls, interaction.options)
 
       expect(result[0].value).toEqual("pool")
     })
@@ -61,7 +61,7 @@ describe("saved roll completers", () => {
       interaction.command_options.name = "5"
       const rolls = [{ name: "very well", id: 5, command: "nwod" }]
 
-      const result = saved_roll_completers.change_target("", rolls, interaction.options)
+      const result = saved_roll_completers.changeable_choices("", rolls, interaction.options)
 
       expect(result[0].value).toEqual("pool")
     })
@@ -71,7 +71,7 @@ describe("saved roll completers", () => {
       interaction.command_options.name = "5"
       const rolls = [{ name: "very well", id: 5, command: "wod20" }]
 
-      const result = saved_roll_completers.change_target("di", rolls, interaction.options)
+      const result = saved_roll_completers.changeable_choices("di", rolls, interaction.options)
 
       expect(result[0].value).toEqual("difficulty")
     })
@@ -81,7 +81,7 @@ describe("saved roll completers", () => {
       interaction.command_options.name = "5"
       const rolls = [{ name: "very well", id: 5, command: "nah" }]
 
-      const result = saved_roll_completers.change_target("di", rolls, interaction.options)
+      const result = saved_roll_completers.changeable_choices("di", rolls, interaction.options)
 
       expect(result).toEqual([])
     })

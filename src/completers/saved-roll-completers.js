@@ -36,7 +36,7 @@ module.exports = {
    * @param  {options} interaction_options Object of options. Used to get the right command.
    * @return {obj[]}                       Array of choice objects
    */
-  change_target(partialText, saved_rolls, interaction_options) {
+  changeable_choices(partialText, saved_rolls, interaction_options) {
     const search = partialText.normalize().toLowerCase()
 
     const name = interaction_options.getString("name")
