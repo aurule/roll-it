@@ -1,7 +1,6 @@
 const {
   TextDisplayBuilder,
   SeparatorBuilder,
-  ActionRowBuilder,
   MessageFlags,
 } = require("discord.js")
 const { Opposed } = require("../../db/opposed")
@@ -50,7 +49,7 @@ module.exports = {
           content: t("shared.history.header"),
         }),
         new TextDisplayBuilder({
-          content: hitory.join("\n"),
+          content: history.join("\n"),
         }),
       ],
     }
