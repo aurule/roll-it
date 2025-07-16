@@ -95,38 +95,3 @@ describe("execute", () => {
     expect(details.options.modifier).toEqual(3)
   })
 })
-
-describe("change_target", () => {
-  describe("with a named option", () => {
-    it("returns the option if it's in the list", () => {
-      const bonus = 1
-      const change = "pool"
-      const changeable = ["modifier", "pool"]
-
-      const result = saved_grow_command.change_target(bonus, change, changeable)
-
-      expect(result).toMatch("pool")
-    })
-
-    it("returns the first changeable entry if it's not in the list", () => {
-      const bonus = 1
-      const change = "nope"
-      const changeable = ["modifier", "pool"]
-
-      const result = saved_grow_command.change_target(bonus, change, changeable)
-
-      expect(result).toMatch("modifier")
-    })
-  })
-
-  describe("without a named option", () => {
-    it("returns the first changeable entry", () => {
-      const bonus = 1
-      const changeable = ["modifier", "pool"]
-
-      const result = saved_grow_command.change_target(bonus, undefined, changeable)
-
-      expect(result).toMatch("modifier")
-    })
-  })
-})

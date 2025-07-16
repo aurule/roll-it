@@ -3,11 +3,7 @@ const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const present_command = require("../../presenters/command-name-presenter").present
 const { i18n } = require("../../locales")
-
-function change_target(bonus, change, changeable) {
-  if (change && changeable.includes(change)) return change
-  return changeable[0]
-}
+const { saved_bonus_target } = require("../../util/saved-bonus-target")
 
 const command_name = "grow"
 const parent_name = "saved"
@@ -20,7 +16,6 @@ module.exports = {
       .addLocalizedStringOption("name", (option) => option.setRequired(true).setAutocomplete(true))
       .addLocalizedIntegerOption("adjustment")
       .addLocalizedStringOption("change", (option) => option.setAutocomplete(true)),
-  change_target,
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
@@ -48,7 +43,7 @@ module.exports = {
 
     const savable_commands = require("../index").savable
     const command = savable_commands.get(roll_detail.command)
-    const target = change_target(adjustment, change, command.changeable)
+    const target = saved_bonus_target(adjustment, change, command.changeable)
 
     if (!command.changeable.includes(target)) {
       return interaction.whisper(
@@ -87,7 +82,7 @@ module.exports = {
       case "name":
         return saved_roll_completers.saved_roll(partialText, all_rolls)
       case "change":
-        return saved_roll_completers.change_target(partialText, all_rolls, interaction.options)
+        return saved_roll_completers.changeable_choices(partialText, all_rolls, interaction.options)
     }
   },
 }
