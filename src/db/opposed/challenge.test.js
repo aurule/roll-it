@@ -22,4 +22,24 @@ describe("Challenge class", () => {
       expect(challenge.expired).toBe(true)
     })
   })
+
+  describe("finished", () => {
+    it("true when challenge is in a final state", () => {
+      const challenge = new Challenge({
+        id: 1,
+        state: Challenge.States.Withdrawn
+      })
+
+      expect(challenge.finished).toBe(true)
+    })
+
+    it("false when challenge is in a final state", () => {
+      const challenge = new Challenge({
+        id: 1,
+        state: Challenge.States.Throwing
+      })
+
+      expect(challenge.finished).toBe(false)
+    })
+  })
 })

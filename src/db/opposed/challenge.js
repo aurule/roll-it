@@ -78,6 +78,12 @@ class Challenge {
   expired
 
   /**
+   * Whether the challenge is in a final state
+   * @type {boolean}
+   */
+  finished
+
+  /**
    * Enum of valid challenge states
    *
    * Challenges effectively use a state machine, but it isn't formalized. The typical flow is:
@@ -188,6 +194,7 @@ class Challenge {
     this.channel_uid = channel_uid
     this.timeout = timeout
     this.expired = !!expired
+    this.finished = Challenge.FinalStates.has(this.state)
   }
 }
 
