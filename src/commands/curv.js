@@ -66,7 +66,6 @@ module.exports = {
       locale,
     })
   },
-  with_to_keep,
   execute(interaction) {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const keep = with_to_keep(interaction.options.getString("with"))
