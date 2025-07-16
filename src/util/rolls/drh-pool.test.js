@@ -46,4 +46,30 @@ describe("DrhPool", () => {
       expect(pool.spread).toEqual([0, 0, 1, 1, 2, 1, 0])
     })
   })
+
+  describe("fromPool", () => {
+    it("returns undefined with no dice", () => {
+      const result = DrhPool.fromPool("test", 0)
+
+      expect(result).toBeUndefined()
+    })
+
+    it("includes pool name", () => {
+      const result = DrhPool.fromPool("test", 1)
+
+      expect(result.name).toEqual("test")
+    })
+
+    it("includes raw results", () => {
+      const result = DrhPool.fromPool("test", 1)
+
+      expect(result.raw.length).toEqual(1)
+    })
+
+    it("includes summed results", () => {
+      const result = DrhPool.fromPool("test", 1)
+
+      expect(result.summed.length).toEqual(1)
+    })
+  })
 })

@@ -258,32 +258,6 @@ describe("/drh command", () => {
     })
   })
 
-  describe("roll_pool", () => {
-    it("returns undefined with no dice", () => {
-      const result = drh_command.roll_pool(0, "test")
-
-      expect(result).toBeUndefined()
-    })
-
-    it("includes pool name", () => {
-      const result = drh_command.roll_pool(1, "test")
-
-      expect(result.name).toEqual("test")
-    })
-
-    it("includes raw results", () => {
-      const result = drh_command.roll_pool(1, "test")
-
-      expect(result.raw.length).toEqual(1)
-    })
-
-    it("includes summed results", () => {
-      const result = drh_command.roll_pool(1, "test")
-
-      expect(result.summed.length).toEqual(1)
-    })
-  })
-
   describe("perform", () => {
     it("rolls multiple times", () => {
       const options = {

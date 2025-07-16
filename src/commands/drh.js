@@ -62,13 +62,6 @@ module.exports = {
     rolls: commonSchemas.rolls,
     modifier: commonSchemas.modifier,
   }),
-  roll_pool(pool, pool_name) {
-    if (!pool) return undefined
-
-    const raw = roll(pool, 6)
-
-    return new DrhPool(pool_name, raw)
-  },
   perform({
     discipline,
     pain,
@@ -84,7 +77,7 @@ module.exports = {
       const pool_options = new Collection([["discipline", discipline]])
 
       const tests = Array.from({ length: rolls }, () => {
-        return pool_options.mapValues(module.exports.roll_pool).filter((pool) => pool !== undefined)
+        return pool_options.mapValues(DrhPool.fromPool).filter((pool) => pool !== undefined)
       })
 
       return present({
@@ -104,7 +97,7 @@ module.exports = {
     ])
 
     const tests = Array.from({ length: rolls }, () => {
-      return pool_options.mapValues(module.exports.roll_pool).filter((pool) => pool !== undefined)
+      return pool_options.mapValues(DrhPool.fromPool).filter((pool) => pool !== undefined)
     })
 
     return present({
