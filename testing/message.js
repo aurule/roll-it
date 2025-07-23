@@ -39,7 +39,6 @@ class Message {
     flags = 0,
     interaction,
   } = {}) {
-    const { Interaction } = require("./interaction")
     this.id = simpleflake()
     this.guildId = guildId ?? simpleflake()
     this.channelId = channelId ?? simpleflake()
@@ -54,6 +53,7 @@ class Message {
       message: this,
     }
     this.mentions = {}
+    this.interaction = interaction
   }
 
   reply(opts) {
