@@ -1,18 +1,17 @@
 const {
   ButtonBuilder,
   ButtonStyle,
-  ActionRowBuilder,
   ComponentType,
-  MessageFlags,
 } = require("discord.js")
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
-const { UserSavedRolls, saved_roll_schema } = require("../../db/saved_rolls")
+const { UserSavedRolls } = require("../../db/saved_rolls")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
 const { i18n } = require("../../locales")
 const rollCache = require("../../services/roll-cache")
 const SavedRollModal = require("../../modals/saved-roll")
+const build = require("../../util/message-builders")
 
 const command_name = "manage"
 const parent_name = "saved"
@@ -55,16 +54,12 @@ module.exports = {
       .setCustomId("remove")
       .setLabel(t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
-    const manage_actions = new ActionRowBuilder().addComponents(
-      edit_button,
-      cancel_button,
-      remove_button,
-    )
-    const manage_prompt = await cmd_interaction.reply({
-      content: manage_text,
-      components: [manage_actions],
-      flags: MessageFlags.Ephemeral,
-    })
+
+    const prompt_components = [
+      build.text(manage_text),
+      build.actions(edit_button, cancel_button, remove_button)
+    ]
+    const manage_prompt = await cmd_interaction.reply(build.message(prompt_components, { secret: true }))
 
     const manageHandler = async (comp_interaction) => {
       switch (comp_interaction.customId) {
@@ -75,10 +70,7 @@ module.exports = {
             description: detail.description,
           })
           await comp_interaction.showModal(modal)
-          return comp_interaction.editReply({
-            content: t("state.edit.response"),
-            components: [],
-          })
+          return comp_interaction.editReply(build.textMessage(t("state.edit.response")))
         case "remove":
           const remove_cancel = new ButtonBuilder()
             .setCustomId("remove_cancel")
@@ -88,12 +80,12 @@ module.exports = {
             .setCustomId("remove_confirm")
             .setLabel(t("state.remove.buttons.confirm"))
             .setStyle(ButtonStyle.Danger)
-          const remove_actions = new ActionRowBuilder().addComponents(remove_cancel, remove_confirm)
-          const remove_chicken = await manage_prompt.edit({
-            content: t("state.remove.prompt", { name: detail.name }),
-            components: [remove_actions],
-            flags: MessageFlags.Ephemeral,
-          })
+
+          const remove_components = [
+            build.text(t("state.remove.prompt", { name: detail.name })),
+            build.actions(remove_cancel, remove_confirm)
+          ]
+          const remove_chicken = await manage_prompt.edit(build.message(remove_components, { secret: true }))
 
           remove_chicken
             .awaitMessageComponent({
@@ -103,21 +95,13 @@ module.exports = {
             .then((remove_interaction) => {
               remove_interaction.deferUpdate()
               if (remove_interaction.customId == "remove_cancel") {
-                manage_prompt.edit({
-                  content: t("state.remove.response.cancel"),
-                  components: [],
-                  flags: MessageFlags.Ephemeral,
-                })
+                manage_prompt.edit(build.textMessage(t("state.remove.response.cancel"), { secret: true }))
                 return cmd_interaction
               }
 
               saved_rolls.destroy(detail.id)
 
-              return manage_prompt.edit({
-                content: t("state.remove.response.success", { name: detail.name }),
-                components: [],
-                flags: MessageFlags.Ephemeral,
-              })
+              return manage_prompt.edit(build.textMessage(t("state.remove.response.success", { name: detail.name }), { secret: true }))
             })
             .catch(() => {
               manage_prompt.delete()
@@ -137,10 +121,7 @@ module.exports = {
     collector.once("collect", manageHandler)
     collector.once("end", (_, reason) => {
       if (reason === "time") {
-        return cmd_interaction.editReply({
-          content: t("response.timeout"),
-          components: [],
-        })
+        return cmd_interaction.editReply(build.textMessage(t("response.timeout")))
       }
     })
   },
