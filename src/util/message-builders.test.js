@@ -21,6 +21,7 @@ describe("message builders", () => {
       const message = build.message([build.text("asdf")], { secret: true })
 
       expect(message.flags).toHaveFlag(MessageFlags.Ephemeral)
+      expect(message.secret).toBeUndefined()
     })
 
     it("passes along other options", () => {
@@ -35,6 +36,13 @@ describe("message builders", () => {
       const message = build.textMessage("asdf")
 
       expect(message.components[0].data.content).toMatch("asdf")
+    })
+
+    it("translates legacy `secret` option", () => {
+      const message = build.textMessage("asdf", { secret: true })
+
+      expect(message.flags).toHaveFlag(MessageFlags.Ephemeral)
+      expect(message.secret).toBeUndefined()
     })
   })
 

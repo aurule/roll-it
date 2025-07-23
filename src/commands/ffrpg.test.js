@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const ffrpg_command = require("./ffrpg")
 
 const { Interaction } = require("../../testing/interaction")

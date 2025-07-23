@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const swn_command = require("./swn")
 
 const { Interaction } = require("../../testing/interaction")

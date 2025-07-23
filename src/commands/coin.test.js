@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const coin_command = require("./coin")
 
 const { Interaction } = require("../../testing/interaction")

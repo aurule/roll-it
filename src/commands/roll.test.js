@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const roll_command = require("./roll")
 
 const { Interaction } = require("../../testing/interaction")

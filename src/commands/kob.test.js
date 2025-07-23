@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const kob_command = require("./kob")
 
 const { Interaction } = require("../../testing/interaction")

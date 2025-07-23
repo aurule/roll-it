@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const pba_command = require("./pba")
 
 const { Interaction } = require("../../testing/interaction")

@@ -50,7 +50,7 @@ describe("whisper helper", () => {
 
       const result = fake.whisper("test message")
 
-      expect(result.flags).toEqual(MessageFlags.Ephemeral)
+      expect(result.flags).toHaveFlag(MessageFlags.Ephemeral)
     })
   })
 })

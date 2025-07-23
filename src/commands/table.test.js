@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const { GuildRollables } = require("../db/rollable")
 const { Interaction } = require("../../testing/interaction")
 const { Attachment } = require("../../testing/attachment")

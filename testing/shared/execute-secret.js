@@ -40,7 +40,7 @@ function test_secret_option(command, interaction_options, after_interaction) {
 
       await command.execute(interaction)
 
-      expect(interaction.replies[0].flags).toEqual(MessageFlags.Ephemeral)
+      expect(interaction.replies[0].flags).toHaveFlag(MessageFlags.Ephemeral)
     })
 
     it("when secret is false, reply is not ephemeral", async () => {
@@ -48,13 +48,13 @@ function test_secret_option(command, interaction_options, after_interaction) {
 
       await command.execute(interaction)
 
-      expect(interaction.replies[0].flags).not.toEqual(MessageFlags.Ephemeral)
+      expect(interaction.replies[0].flags).not.toHaveFlag(MessageFlags.Ephemeral)
     })
 
     it("secret defaults to false", async () => {
       await command.execute(interaction)
 
-      expect(interaction.replies[0].flags).not.toEqual(MessageFlags.Ephemeral)
+      expect(interaction.replies[0].flags).not.toHaveFlag(MessageFlags.Ephemeral)
     })
   })
 }

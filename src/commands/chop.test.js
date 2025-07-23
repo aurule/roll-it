@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const chop_command = require("./chop")
 
 const { Interaction } = require("../../testing/interaction")

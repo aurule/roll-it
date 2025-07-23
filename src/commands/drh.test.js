@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const drh_command = require("./drh")
 
 const { CommandInteraction } = require("../../testing/command-interaction")

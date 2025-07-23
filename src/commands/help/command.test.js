@@ -1,3 +1,5 @@
+jest.mock("../../util/message-builders")
+
 const eightball_command = require("../../commands/8ball")
 const command_help_command = require("./command")
 

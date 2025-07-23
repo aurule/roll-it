@@ -1,3 +1,5 @@
+jest.mock("../../util/message-builders")
+
 const { GuildRollables } = require("../../db/rollable")
 const { Interaction } = require("../../../testing/interaction")
 const { test_secret_option } = require("../../../testing/shared/execute-secret")

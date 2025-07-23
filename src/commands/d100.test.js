@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const d100_command = require("./d100")
 
 const { Interaction } = require("../../testing/interaction")

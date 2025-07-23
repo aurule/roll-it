@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const curv_command = require("./curv")
 
 const { Interaction } = require("../../testing/interaction")
