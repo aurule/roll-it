@@ -6,6 +6,10 @@ module.exports = {
   message: jest.fn((components = [], options = {}) => {
     const opt_flags = options.flags ?? 0
     let flags = MessageFlags.IsComponentsV2 | opt_flags
+    if (options.secret) {
+      flags = flags | MessageFlags.Ephemeral
+      options.secret = undefined
+    }
 
     let paragraphs = []
     let interactables = []
@@ -23,15 +27,7 @@ module.exports = {
     }
   }),
   textMessage: jest.fn((text, options = {}) => {
-    const opt_flags = options.flags ?? 0
-    let flags = MessageFlags.IsComponentsV2 | opt_flags
-
-    return {
-      content: text,
-      components: [],
-      flags,
-      ...options,
-    }
+    return module.exports.message([module.exports.text(text)], options)
   }),
   text: jest.fn((content) => { return { content } }),
   section: jest.fn((paragraphs, accessory) => {
