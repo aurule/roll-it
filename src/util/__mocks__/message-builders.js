@@ -21,7 +21,7 @@ module.exports = {
 
     return {
       content: paragraphs.join("\n"),
-      components: interactables.flat(),
+      components: [{components: interactables.flat()}],
       flags,
       ...options,
     }
