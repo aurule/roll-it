@@ -17,9 +17,9 @@ module.exports = {
       context: challenge.description ? "description" : undefined,
     }
 
-    if (!test) return build.textMessage(t("expired.empty", t_args))
+    const test = opposed_db.getLatestTest(challenge_id)
+    if (!test.id) return build.textMessage(t("expired.empty", t_args))
 
-    const test = opposed_db.getLatestTestWithParticipants(challenge_id)
     const history = opposed_db.getChallengeHistory(challenge_id)
 
     t_args.breakdown = test.breakdown

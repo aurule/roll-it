@@ -1,9 +1,7 @@
 const { userMention } = require("discord.js")
 const { Opposed } = require("../db/opposed")
 const { i18n } = require("../locales")
-const { cleanup, teamworkTimeout } = require("../interactive/opposed")
 const { logger } = require("../util/logger")
-const { messageLink } = require("../util/formatters/message-link")
 const message_contents = require("../messages/opposed")
 
 module.exports = {
