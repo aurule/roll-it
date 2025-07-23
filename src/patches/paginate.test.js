@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const paginate = require("./paginate")
 
 const { CommandInteraction, MessageFlags } = require("discord.js")
@@ -55,7 +57,7 @@ describe("pagination helper", () => {
           secret: true,
         })
 
-        expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
+        expect(fake.messages[0].flags).toHaveFlag(MessageFlags.Ephemeral)
       })
     })
 
@@ -82,8 +84,8 @@ describe("pagination helper", () => {
           secret: true,
         })
 
-        expect(fake.messages[0].flags).toEqual(MessageFlags.Ephemeral)
-        expect(fake.messages[1].flags).toEqual(MessageFlags.Ephemeral)
+        expect(fake.messages[0].flags).toHaveFlag(MessageFlags.Ephemeral)
+        expect(fake.messages[1].flags).toHaveFlag(MessageFlags.Ephemeral)
       })
     })
   })

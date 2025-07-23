@@ -2,7 +2,8 @@
  * This patch creates a small helper method named "rollReply" on all command interaction objects.
  */
 
-const { CommandInteraction, MessageFlags } = require("discord.js")
+const { CommandInteraction } = require("discord.js")
+const build = require("../util/message-builders")
 
 module.exports = {
   /**
@@ -21,16 +22,10 @@ module.exports = {
      * @param  {bool}    secret Whether the message is ephemeral or not
      * @return {Promise}           Interaction response promise
      */
-    klass.prototype.rollReply = function (content, secret) {
-      const reply_args = {
-        content,
-      }
+    klass.prototype.rollReply = function (content, secret = false) {
+      const message = build.textMessage(content, { secret })
 
-      if (secret) {
-        reply_args.flags = MessageFlags.Ephemeral
-      }
-
-      return this.reply(reply_args)
+      return this.reply(message)
     }
   },
 }

@@ -2,9 +2,10 @@
  * This patch creates a helper method named "paginate" on all command interaction objects.
  */
 
-const { CommandInteraction, subtext, MessageFlags } = require("discord.js")
+const { CommandInteraction, subtext } = require("discord.js")
 const { ceil } = require("mathjs")
 const { i18n } = require("../locales")
+const build = require("../util/message-builders")
 
 /**
  * Default prefix generator
@@ -87,16 +88,11 @@ module.exports = {
      * @param  {int}         options.max_length Maximum length of a single message
      * @return {Interaction}                    Interaction object
      */
-    klass.prototype.paginate = async function ({ content, secret, split_on, max_length }) {
+    klass.prototype.paginate = async function ({ content, secret = false, split_on, max_length }) {
       const contents = splitMessage(content, split_on, max_length, this.locale)
 
       for (let idx = 0; idx < contents.length; idx++) {
-        const reply_args = {
-          content: contents[idx],
-        }
-        if (secret) {
-          reply_args.flags = MessageFlags.Ephemeral
-        }
+        const reply_args = build.textMessage(contents[idx], { secret })
 
         if (this.replied) await this.followUp(reply_args)
         else await this.reply(reply_args)
