@@ -1,7 +1,6 @@
-const { Collection } = require("discord.js")
-const { logger } = require("../util/logger")
+jest.mock("../util/message-builders")
+
 const { Interaction } = require("../../testing/interaction")
-const EnvAllowsGuild = require("../util/env-allows-guild")
 
 const InteractionCreateEvent = require("./interactionCreate")
 
@@ -86,7 +85,7 @@ describe("interactionCreate handler", () => {
 
   describe("handleCommand", () => {
     const testCommand = {
-      execute: (interaction) => "worked",
+      execute: (_interaction) => "worked",
     }
 
     beforeEach(() => {
@@ -117,7 +116,7 @@ describe("interactionCreate handler", () => {
 
       it("executes the command when the policy allows", () => {
         testCommand.policy = {
-          allow: async (interaction) => true,
+          allow: async (_interaction) => true,
         }
 
         return expect(InteractionCreateEvent.handleCommand(interaction)).resolves.toMatch("worked")
@@ -125,7 +124,7 @@ describe("interactionCreate handler", () => {
 
       it("replies with the policy error message when the policy disallows", () => {
         testCommand.policy = {
-          allow: async (interaction) => false,
+          allow: async (_interaction) => false,
           errorMessage: "not allowed",
         }
 
@@ -138,7 +137,7 @@ describe("interactionCreate handler", () => {
 
   describe("handleAutocomplete", () => {
     const testCommand = {
-      autocomplete: async (interaction) => "worked",
+      autocomplete: async (_interaction) => "worked",
     }
 
     const invalidTestCommand = {
@@ -176,7 +175,7 @@ describe("interactionCreate handler", () => {
 
   describe("handleModal", () => {
     const testModal = {
-      submit: async (interaction, id) => `worked ${id}`,
+      submit: async (_interaction, id) => `worked ${id}`,
     }
 
     it("rejects on unknown modal", () => {

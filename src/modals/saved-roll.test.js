@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const rollCache = require("../services/roll-cache")
 const { ModalInteraction } = require("../../testing/modal-interaction")
 const { UserSavedRolls } = require("../db/saved_rolls")

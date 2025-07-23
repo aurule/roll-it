@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const { Interaction } = require("../../testing/interaction")
 const { Teamwork } = require("../db/teamwork")
 const cancel_button = require("./teamwork/cancel-button")

@@ -1,6 +1,7 @@
+jest.mock("../../util/message-builders")
+
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const { Interaction } = require("../../../testing/interaction")
-const { test_secret_option } = require("../../../testing/shared/execute-secret")
 
 const saved_grow_command = require("./grow")
 

@@ -1,7 +1,8 @@
+jest.mock("../util/message-builders")
+
 const nwod_command = require("./nwod")
 
 const { Interaction } = require("../../testing/interaction")
-const { schemaMessages } = require("../../testing/schema-messages")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 const { NwodPresenter } = require("../presenters/results/nwod-results-presenter")
 

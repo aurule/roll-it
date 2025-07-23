@@ -3,7 +3,6 @@
  */
 
 const {
-  MessageFlags,
   CommandInteraction,
   ModalSubmitInteraction,
   ButtonInteraction,
@@ -11,6 +10,8 @@ const {
   StringSelectMenuInteraction,
   Message,
 } = require("discord.js")
+
+const build = require("../util/message-builders")
 
 module.exports = {
   /**
@@ -36,10 +37,8 @@ module.exports = {
      * @return {Promise}         Interaction response promise
      */
     const whisper = function (content) {
-      return this.reply({
-        content,
-        flags: MessageFlags.Ephemeral,
-      })
+      const message = build.textMessage(content, { secret: true })
+      return this.reply(message)
     }
 
     for (const klass of klasses) {

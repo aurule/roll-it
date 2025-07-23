@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const whisper = require("./whisper")
 
 const {

@@ -1,5 +1,6 @@
+jest.mock("../util/message-builders")
+
 const { Interaction } = require("../../testing/interaction")
-const interactionCache = require("../services/interaction-cache")
 
 const report_roll_command = require("./report-this-roll")
 
@@ -10,7 +11,6 @@ describe("Report this roll", () => {
   describe("execute", () => {
     let interaction
     let past_interaction
-    let saved_rolls
     beforeEach(() => {
       interaction = new Interaction()
       past_interaction = new Interaction(interaction.guildId)

@@ -1,3 +1,5 @@
+jest.mock("../../util/message-builders")
+
 const { Interaction } = require("../../../testing/interaction")
 const { Teamwork } = require("../../db/teamwork")
 
@@ -21,7 +23,6 @@ describe("teamwork helper picker", () => {
   describe("execute", () => {
     let interaction
     let teamwork_db
-    let teamwork_test
     let teamwork_test_id
 
     beforeEach(() => {
@@ -39,7 +40,7 @@ describe("teamwork helper picker", () => {
         timeout: 1000,
       }).lastInsertRowid
 
-      teamwork_test = teamwork_db.detail(teamwork_test_id)
+      teamwork_db.detail(teamwork_test_id)
 
       teamwork_db.addMessage({
         message_uid: interaction.message.id,

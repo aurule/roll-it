@@ -1,8 +1,8 @@
-const path = require("path")
+jest.mock("../util/message-builders")
+
 const { Collection } = require("discord.js")
 const { Interaction } = require("../../testing/interaction")
 const helpers = require("./subcommands")
-const { isNativeError } = require("util/types")
 
 const test_command = {
   name: "test-command",
@@ -17,10 +17,10 @@ const test_command = {
       .addStringOption((option) =>
         option.setName("subtitle").setDescription("Subtitle description"),
       ),
-  execute(interaction) {
+  execute(_interaction) {
     return "did the thing"
   },
-  help: ({ command_name }) => "test help output",
+  help: () => "test help output",
 }
 
 describe("subcommands", () => {

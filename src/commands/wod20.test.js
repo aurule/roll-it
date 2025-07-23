@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 const { Interaction } = require("../../testing/interaction")
 

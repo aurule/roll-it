@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const { Feedback } = require("../db/feedback")
 const { ModalInteraction } = require("../../testing/modal-interaction")
 

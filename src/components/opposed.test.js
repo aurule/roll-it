@@ -1,3 +1,5 @@
+jest.mock("../util/message-builders")
+
 const { Interaction } = require("../../testing/interaction")
 const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")

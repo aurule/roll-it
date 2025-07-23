@@ -1,3 +1,5 @@
+jest.mock("../../util/message-builders")
+
 const feedback_help_command = require("./feedback")
 
 const { Interaction } = require("../../../testing/interaction")

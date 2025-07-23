@@ -1,3 +1,5 @@
+jest.mock("../../util/message-builders")
+
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const { CommandInteraction } = require("../../../testing/command-interaction")
 const saved_manage_command = require("./manage")
