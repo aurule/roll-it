@@ -12,7 +12,7 @@ function toHaveFlag(bitfield, flag) {
     promise: this.promise,
   }
 
-  this.utils.ensureNumbers(bitfield, flag, "toHaveFlag", hint_options)
+  this.utils?.ensureNumbers(bitfield, flag, "toHaveFlag", hint_options)
 
   const pass = (bitfield & flag) !== 0
 
