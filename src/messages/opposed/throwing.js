@@ -1,13 +1,8 @@
-const {
-  TextDisplayBuilder,
-  SeparatorBuilder,
-  ActionRowBuilder,
-  MessageFlags,
-} = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const throw_picker = require("../../components/opposed/throw-picker")
 const go_button = require("../../components/opposed/go-button")
+const build = require("../../util/message-builders")
 
 module.exports = {
   state: "throwing",
@@ -20,38 +15,19 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.throws")
 
-    return {
-      withResponse: true,
-      flags: MessageFlags.IsComponentsV2,
-      components: [
-        new TextDisplayBuilder({
-          content: t("request", { participant: attacker.mention }),
-        }),
-        new ActionRowBuilder({
-          components: [throw_picker.data(locale, attacker)],
-        }),
-        new TextDisplayBuilder({
-          content: t("disclaimer", { participant: attacker.mention }),
-        }),
-        new SeparatorBuilder(),
-        new TextDisplayBuilder({
-          content: t("request", { participant: defender.mention }),
-        }),
-        new ActionRowBuilder({
-          components: [throw_picker.data(locale, defender)],
-        }),
-        new TextDisplayBuilder({
-          content: t("disclaimer", { participant: attacker.mention }),
-        }),
-        new SeparatorBuilder(),
-        new TextDisplayBuilder({
-          content: t("cta"),
-        }),
-        new ActionRowBuilder({
-          components: [go_button.data(challenge.locale)],
-        }),
-      ],
-    }
+    const components = [
+      build.text(t("request", { participant: attacker.mention })),
+      build.actions(throw_picker.data(locale, attacker)),
+      build.text(t("disclaimer")),
+      build.separator(),
+      build.text(t("request", { participant: defender.mention })),
+      build.actions(throw_picker.data(locale, defender)),
+      build.text(t("disclaimer")),
+      build.separator(),
+      build.text(t("cta")),
+      build.actions(go_button.data(challenge.locale))
+    ]
+    return build.message(components, { withResponse: true })
   },
   afterRetry: async (message) => {
     const opposed_db = new Opposed()

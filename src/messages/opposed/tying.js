@@ -1,14 +1,9 @@
-const {
-  TextDisplayBuilder,
-  SeparatorBuilder,
-  ActionRowBuilder,
-  MessageFlags,
-} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const accept_button = require("../../components/opposed/accept-button")
 const retest_picker = require("../../components/opposed/retest-picker")
 const retest_button = require("../../components/opposed/retest-button")
+const build = require("../../util/message-builders")
 
 module.exports = {
   state: "tying",
@@ -21,44 +16,23 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    return {
-      withResponse: true,
-      flags: MessageFlags.IsComponentsV2,
-      components: [
-        new TextDisplayBuilder({
-          content: t("tying.headline", {
-            breakdown: test.breakdown,
-          }),
-        }),
-        new TextDisplayBuilder({
-          content: t("tying.cta", {
-            attacker: participants.get("attacker").mention,
-            defender: participants.get("defender").mention,
-          }),
-        }),
-        new ActionRowBuilder({
-          components: [accept_button.data(challenge.locale)],
-        }),
-        new TextDisplayBuilder({
-          content: t("shared.retest.cta"),
-        }),
-        new ActionRowBuilder({
-          components: [retest_picker.data(challenge)],
-        }),
-        new ActionRowBuilder({
-          components: [retest_button.data(challenge.locale)],
-        }),
-        new SeparatorBuilder(),
-        new TextDisplayBuilder({
-          content: challenge.summary,
-        }),
-        new TextDisplayBuilder({
-          content: t("shared.history.header"),
-        }),
-        new TextDisplayBuilder({
-          content: history.join("\n"),
-        }),
-      ],
-    }
+    const components = [
+      build.text(t("tying.headline", {
+        breakdown: test.breakdown,
+      })),
+      build.text(t("tying.cta", {
+        attacker: participants.get("attacker").mention,
+        defender: participants.get("defender").mention,
+      })),
+      build.actions(accept_button.data(challenge.locale)),
+      build.text(t("shared.retest.cta")),
+      build.actions(retest_picker.data(challenge)),
+      build.actions(retest_button.data(challenge.locale)),
+      build.separator(),
+      build.text(challenge.summary),
+      build.text(t("shared.history.header")),
+      build.text(history.join("\n")),
+    ]
+    return build.message(components, { withResponse: true })
   },
 }

@@ -1,11 +1,6 @@
-const {
-  TextDisplayBuilder,
-  SeparatorBuilder,
-  ActionRowBuilder,
-  MessageFlags,
-} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
+const build = require("../../util/message-builders")
 
 module.exports = {
   state: "conceded",
@@ -17,27 +12,16 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    return {
-      withResponse: true,
-      flags: MessageFlags.IsComponentsV2,
-      components: [
-        new TextDisplayBuilder({
-          content: t("conceded", {
-            leader: test.leader.mention,
-            trailer: test.trailer.mention,
-          }),
-        }),
-        new SeparatorBuilder(),
-        new TextDisplayBuilder({
-          content: challenge.summary,
-        }),
-        new TextDisplayBuilder({
-          content: t("shared.history.header"),
-        }),
-        new TextDisplayBuilder({
-          content: history,
-        }),
-      ],
-    }
+    const components = [
+      build.text(t("conceded", {
+        leader: test.leader.mention,
+        trailer: test.trailer.mention,
+      })),
+      build.separator(),
+      build.text(challenge.summary),
+      build.text(t("shared.history.header")),
+      build.text(history)
+    ]
+    return build.message(components, { withResponse: true })
   },
 }

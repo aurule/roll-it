@@ -1,15 +1,9 @@
-const {
-  TextDisplayBuilder,
-  SeparatorBuilder,
-  SectionBuilder,
-  ActionRowBuilder,
-  MessageFlags,
-} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const relent_button = require("../../components/opposed/relent-button")
 const advantage_picker = require("../../components/opposed/advantage-picker")
 const ready_button = require("../../components/opposed/ready-button")
+const build = require("../../util/message-builders")
 
 module.exports = {
   state: "advantages-defender",
@@ -24,48 +18,24 @@ module.exports = {
     const shared_t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
 
     const components = [
-      new TextDisplayBuilder({
-        content: t("summary", {
-          attacker: attacker.mention,
-          defender: defender.mention,
-          description: challenge.description,
-          context: challenge.description ? "description" : undefined,
-          attribute: shared_t(`attributes.${challenge.attribute}`),
-          conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
-          retest: challenge.retest,
-          advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
-        }),
-      }),
-      new SectionBuilder({
-        components: [
-          new TextDisplayBuilder({
-            content: t("relent", {
-              attacker: attacker.mention,
-            }),
-          }),
-        ],
-        accessory: relent_button.data(challenge.locale),
-      }),
-      new TextDisplayBuilder({
-        content: t("advantages"),
-      }),
-      new ActionRowBuilder({
-        components: [advantage_picker.data(challenge.locale, defender)],
-      }),
-      new TextDisplayBuilder({
-        content: t("ready"),
-      }),
-      new ActionRowBuilder({
-        components: [ready_button.data(challenge.locale)],
-      }),
+      build.text(t("summary", {
+        attacker: attacker.mention,
+        defender: defender.mention,
+        description: challenge.description,
+        context: challenge.description ? "description" : undefined,
+        attribute: shared_t(`attributes.${challenge.attribute}`),
+        conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
+        retest: challenge.retest,
+        advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
+      })),
+      build.section(t("relent", {attacker: attacker.mention}), relent_button.data(challenge.locale)),
+      build.text(t("advantages")),
+      build.actions(advantage_picker.data(challenge.locale, defender)),
+      build.text(t("ready")),
+      build.actions(ready_button.data(challenge.locale)),
     ]
 
-    return {
-      components,
-      withResponse: true,
-      flags: MessageFlags.IsComponentsV2,
-      allowedMentions: { users: [defender.user_uid] },
-    }
+    return build.message(components, { withResponse: true, allowedMentions: { users: [defender.user_uid] } })
   },
   inert: (challenge_id) => {
     const opposed_db = new Opposed()
@@ -76,27 +46,22 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
 
-    const components = [
-      new TextDisplayBuilder({
-        content: t("summary", {
-          attacker: attacker.mention,
-          defender: defender.mention,
-          attribute: t(`attributes.${challenge.attribute}`),
-          description: challenge.description,
-          context: challenge.description ? "description" : undefined,
-          retest: challenge.retest,
-          conditions: challenge.conditions.map((c) => t(`conditions.${c}`)),
-          attacker_advantages: attacker.advantages.map((c) => t(`advantages.${c}`)),
-          defender_advantages: defender.advantages.map((c) => t(`advantages.${c}`)),
-        }),
+    return build.textMessage(
+      t("summary", {
+        attacker: attacker.mention,
+        defender: defender.mention,
+        attribute: t(`attributes.${challenge.attribute}`),
+        description: challenge.description,
+        context: challenge.description ? "description" : undefined,
+        retest: challenge.retest,
+        conditions: challenge.conditions.map((c) => t(`conditions.${c}`)),
+        attacker_advantages: attacker.advantages.map((c) => t(`advantages.${c}`)),
+        defender_advantages: defender.advantages.map((c) => t(`advantages.${c}`)),
       }),
-    ]
-
-    return {
-      components,
-      withResponse: true,
-      flags: MessageFlags.IsComponentsV2,
-      allowedMentions: { parse: [] },
-    }
+      {
+        withResponse: true,
+        allowedMentions: { parse: [] },
+      }
+    )
   },
 }

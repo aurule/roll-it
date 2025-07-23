@@ -1,11 +1,6 @@
-const {
-  TextDisplayBuilder,
-  SeparatorBuilder,
-  ActionRowBuilder,
-  MessageFlags,
-} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
+const build = require("../../util/message-builders")
 
 module.exports = {
   state: "withdrawn",
@@ -20,9 +15,6 @@ module.exports = {
       description: challenge.description,
       context: challenge.description ? "description" : undefined,
     }
-    return {
-      content: t("withdrawn", t_args),
-      withResponse: true,
-    }
+    return build.textMessage(t("withdrawn", t_args), { withResponse: true })
   },
 }

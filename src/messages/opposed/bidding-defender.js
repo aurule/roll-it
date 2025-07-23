@@ -1,7 +1,3 @@
-const {
-  TextDisplayBuilder,
-  MessageFlags,
-} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const { makeBreakdown } = require("../../services/opposed/breakdown")
@@ -9,6 +5,7 @@ const { makeHistory } = require("../../services/opposed/history")
 const { i18n } = require("../../locales")
 const winning_message = require("./winning")
 const tying_message = require("./tying")
+const build = require("../../util/message-builders")
 
 function getLeaderId(chops) {
   if (chops[0].traits == chops[1].traits) {
@@ -30,22 +27,14 @@ module.exports = {
     const attacker_chop = chops.find((c) => c.participant_id === challenge.attacker.id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.bidding")
-    return {
-      withResponse: true,
-      flags: MessageFlags.IsComponentsV2,
-      allowedMentions: { users: [challenge.defender.user_uid] },
-      components: [
-        new TextDisplayBuilder({
-          content: t("prompt", { participant: challenge.defender.mention }),
-        }),
-        new TextDisplayBuilder({
-          content: t("traits", {
-            participant: challenge.attacker.mention,
-            count: attacker_chop.traits,
-          }),
-        }),
-      ],
-    }
+    const components = [
+      build.text(t("prompt", { participant: challenge.defender.mention })),
+      build.text(t("traits", {
+        participant: challenge.attacker.mention,
+        count: attacker_chop.traits,
+      })),
+    ]
+    return build.message(components, { withResponse: true, allowedMentions: { users: [challenge.defender.user_uid] } })
   },
   handleReply(interaction) {
     const opposed_db = new Opposed()

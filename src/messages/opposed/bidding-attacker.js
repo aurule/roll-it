@@ -1,11 +1,8 @@
-const {
-  TextDisplayBuilder,
-  MessageFlags,
-} = require("discord.js")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const { i18n } = require("../../locales")
 const bidding_defender_message = require("./bidding-defender")
+const build = require("../../util/message-builders")
 
 module.exports = {
   state: "bidding-attacker",
@@ -15,15 +12,7 @@ module.exports = {
     const participants = opposed_db.getParticipants(challenge_id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.bidding")
-    return {
-      withResponse: true,
-      flags: MessageFlags.IsComponentsV2,
-      components: [
-        new TextDisplayBuilder({
-          content: t("prompt", { participant: participants.get("attacker").mention }),
-        }),
-      ],
-    }
+    return build.textMessage(t("prompt", { participant: participants.get("attacker").mention }), { withResponse: true })
   },
   handleReply(interaction) {
     const opposed_db = new Opposed()
