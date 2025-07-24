@@ -1,7 +1,6 @@
 const { StringSelectMenuBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
 const { valuesOrDefault } = require("../../util/values-or-default")
 
 module.exports = {
@@ -17,7 +16,6 @@ module.exports = {
   },
   async execute(interaction) {
     const opposed_db = new Opposed()
-    const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
     const participant_id = parseInt(interaction.customId.match(/_(\d+)/)[1])
     const allowed_participant = opposed_db.getParticipant(participant_id)
 

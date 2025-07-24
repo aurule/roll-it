@@ -1,7 +1,6 @@
 const { StringSelectMenuBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
 const { valuesOrDefault } = require("../../util/values-or-default")
 
 module.exports = {

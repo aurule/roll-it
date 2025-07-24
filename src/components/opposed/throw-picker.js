@@ -1,7 +1,6 @@
 const { StringSelectMenuBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
-const { logger } = require("../../util/logger")
 
 module.exports = {
   name: "throw_symbol_picker",
