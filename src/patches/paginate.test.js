@@ -8,14 +8,14 @@ class PatchMePaginate {
   messages = []
   replied = false
 
-  reply(args) {
+  async reply(args) {
     if (this.replied) throw new Error("already replied")
     this.messages.push(args)
     this.replied = true
     return args
   }
 
-  followUp(args) {
+  async followUp(args) {
     if (!this.replied) throw new Error("not yet replied")
     this.messages.push(args)
     return args

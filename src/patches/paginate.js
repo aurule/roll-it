@@ -5,6 +5,7 @@
 const { CommandInteraction, subtext } = require("discord.js")
 const { ceil } = require("mathjs")
 const { i18n } = require("../locales")
+const { logger } = require("../util/logger")
 const build = require("../util/message-builders")
 
 /**
@@ -68,6 +69,27 @@ function splitMessage(message, separator = " ", max_length = 2000, locale = "en"
   return messages
 }
 
+/**
+ * Send a message without referencing our channel ID
+ * @param  {Snowflake} channel_id Discord ID of the channel to send the message in
+ * @param  {object}    message    Object of message data
+ * @return {Promise}              Promise resolving once the API call is made
+ */
+async function sendDetached(channel_id, message) {
+  return api
+    .sendMessage(channel_id, message)
+    .catch((err) => {
+      logger.error(
+        {
+          err,
+          channel: channel_id,
+          args: message,
+        },
+        "Unable to send detached message",
+      )
+    })
+}
+
 module.exports = {
   /**
    * Create the paginate method
@@ -91,11 +113,63 @@ module.exports = {
     klass.prototype.paginate = async function ({ content, secret = false, split_on, max_length }) {
       const contents = splitMessage(content, split_on, max_length, this.locale)
 
+      /**
+       * Mode for sending the paginated messages
+       *
+       * Defaults to "reply", with expected transition to "followup" after the first message is sent. In the
+       * case of an "unknown interaction" error from discord, changes to "detached" to send messages without
+       * referencing our interaction.
+       *
+       * @type {"reply" | "followup" | "detached"}
+       */
+      let mode = "reply"
+
       for (let idx = 0; idx < contents.length; idx++) {
         const reply_args = build.textMessage(contents[idx], { secret })
 
-        if (this.replied) await this.followUp(reply_args)
-        else await this.reply(reply_args)
+        switch(mode) {
+          case "reply":
+            await this
+              .reply(reply_args)
+              .catch(err => {
+                if (err.code === 10062) {
+                  logger.warn(
+                    {
+                      err,
+                      fn: "reply",
+                      args: reply_args
+                    },
+                    'Got "Unknown interaction" for "reply". Re-sending this and followups as detached messages.',
+                  )
+                  mode = "detached"
+                  sendDetached(this.channel.id, reply_args)
+                }
+              })
+            break
+          case "followup":
+            await this
+              .followUp(reply_args)
+              .catch(err => {
+                if (err.code === 10062) {
+                  logger.warn(
+                    {
+                      err,
+                      fn: "followUp",
+                      args: reply_args
+                    },
+                    'Got "Unknown interaction" for "followUp". Re-sending this and other followups as detached messages.',
+                  )
+                  mode = "detached"
+                  sendDetached(this.channel.id, reply_args)
+                }
+              })
+            break
+          case "detached":
+            await sendDetached(this.channel.id, reply_args)
+            break
+        }
+
+        if (mode == "reply" && this.replied) mode = "followup"
       }
 
       return this
@@ -105,4 +179,5 @@ module.exports = {
   prefixer,
   suffixer,
   splitMessage,
+  sendDetached,
 }

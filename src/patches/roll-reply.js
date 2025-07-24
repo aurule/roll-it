@@ -18,6 +18,11 @@ module.exports = {
      * This is a convenience api that's handy when you know your content will fit within one message. If it
      * might spill into more messages, use paginate instead.
      *
+     * This helper wraps the reply in `ensure` to hopefully send the message contents even if Discord screws
+     * up the interaction handling.
+     *
+     * @see ensure
+     *
      * @param  {str}     content   The message contents to send
      * @param  {bool}    secret Whether the message is ephemeral or not
      * @return {Promise}           Interaction response promise
@@ -25,7 +30,10 @@ module.exports = {
     klass.prototype.rollReply = function (content, secret = false) {
       const message = build.textMessage(content, { secret })
 
-      return this.reply(message)
+      return this.ensure(
+        "reply",
+        message,
+      )
     }
   },
 }
