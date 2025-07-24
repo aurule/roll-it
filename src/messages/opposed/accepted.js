@@ -2,6 +2,9 @@ const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const build = require("../../util/message-builders")
 
+/**
+ * Message shown after a tied result is accepted.
+ */
 module.exports = {
   state: "accepted",
   data: (challenge_id) => {
