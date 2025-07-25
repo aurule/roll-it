@@ -1975,10 +1975,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^17.2.0":
-  version: 17.2.0
-  resolution: "dotenv@npm:17.2.0"
-  checksum: 10c0/d4cb5c2a09c288c921ef47a78f51c765a763266e23e84465cde6a87b28b9f7fc5a9d1fe349ed3c880b4c7297f82dd736dba5b08fe95ce53833ce4a7258d0fc43
+"dotenv@npm:^17.2.1":
+  version: 17.2.1
+  resolution: "dotenv@npm:17.2.1"
+  checksum: 10c0/918dd2f9d8b8f86b0afabad9534793d51de3718c437f9e7b6525628cf68c1d4ae768cc37a5afff38c066f58a8ecf549f4ac6cd5617485bd328e826112cc2650a
   languageName: node
   linkType: hard
 
@@ -3334,9 +3334,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:^14.5.3":
-  version: 14.5.3
-  resolution: "mathjs@npm:14.5.3"
+"mathjs@npm:^14.6.0":
+  version: 14.6.0
+  resolution: "mathjs@npm:14.6.0"
   dependencies:
     "@babel/runtime": "npm:^7.26.10"
     complex.js: "npm:^2.2.5"
@@ -3349,7 +3349,7 @@ __metadata:
     typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10c0/02cdb13db7b7ecbbad93f297c3108e80ae6516593b9aecfc3ffb02c13a7e39fc7bd1f8a79cd68fe74dadc22cd6eac81769be1bc7341abde5f099dfbbd2ea3582
+  checksum: 10c0/1f1cadf7ce0241d916b1d6e0a3712d494c090f39cadf312c033ed24b61502312062f3c234e8efcd941a54c644621b9a0893b495083b2f2679ac07115e9a01e3f
   languageName: node
   linkType: hard
 
@@ -4082,13 +4082,13 @@ __metadata:
     common-tags: "npm:^1.8.2"
     dev-null: "npm:^0.1.1"
     discord.js: "npm:^14.21.0"
-    dotenv: "npm:^17.2.0"
+    dotenv: "npm:^17.2.1"
     i18next: "npm:^25.3.2"
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.0.5"
     joi: "npm:^17.13.3"
     keyv: "npm:^5.4.0"
-    mathjs: "npm:^14.5.3"
+    mathjs: "npm:^14.6.0"
     nodemon: "npm:^3.1.10"
     pino: "npm:^9.7.0"
     pino-papertrail: "npm:^2.1.0"

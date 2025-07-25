@@ -34,13 +34,13 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
-          ["dotenv", "npm:17.2.0"],\
+          ["dotenv", "npm:17.2.1"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.5"],\
           ["joi", "npm:17.13.3"],\
           ["keyv", "npm:5.4.0"],\
-          ["mathjs", "npm:14.5.3"],\
+          ["mathjs", "npm:14.6.0"],\
           ["nodemon", "npm:3.1.10"],\
           ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
@@ -2803,10 +2803,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["dotenv", [\
-      ["npm:17.2.0", {\
-        "packageLocation": "./.yarn/cache/dotenv-npm-17.2.0-4ee4b4bbd1-d4cb5c2a09.zip/node_modules/dotenv/",\
+      ["npm:17.2.1", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-17.2.1-33fbb0afbc-918dd2f9d8.zip/node_modules/dotenv/",\
         "packageDependencies": [\
-          ["dotenv", "npm:17.2.0"]\
+          ["dotenv", "npm:17.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4405,8 +4405,8 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["mathjs", [\
-      ["npm:14.5.3", {\
-        "packageLocation": "./.yarn/cache/mathjs-npm-14.5.3-2242fb70d9-02cdb13db7.zip/node_modules/mathjs/",\
+      ["npm:14.6.0", {\
+        "packageLocation": "./.yarn/cache/mathjs-npm-14.6.0-aa1ac03fa0-1f1cadf7ce.zip/node_modules/mathjs/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.27.6"],\
           ["complex.js", "npm:2.4.2"],\
@@ -4414,7 +4414,7 @@ const RAW_RUNTIME_STATE =
           ["escape-latex", "npm:1.2.0"],\
           ["fraction.js", "npm:5.2.1"],\
           ["javascript-natural-sort", "npm:0.7.1"],\
-          ["mathjs", "npm:14.5.3"],\
+          ["mathjs", "npm:14.6.0"],\
           ["seedrandom", "npm:3.0.5"],\
           ["tiny-emitter", "npm:2.1.0"],\
           ["typed-function", "npm:4.2.1"]\
@@ -5230,13 +5230,13 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.21.0"],\
-          ["dotenv", "npm:17.2.0"],\
+          ["dotenv", "npm:17.2.1"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.5"],\
           ["joi", "npm:17.13.3"],\
           ["keyv", "npm:5.4.0"],\
-          ["mathjs", "npm:14.5.3"],\
+          ["mathjs", "npm:14.6.0"],\
           ["nodemon", "npm:3.1.10"],\
           ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
