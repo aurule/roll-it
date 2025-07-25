@@ -88,6 +88,16 @@ class Interaction {
     return this.message.replies
   }
 
+  get author() {
+    return this.user
+  }
+
+  get reference() {
+    return {
+      messageId: this.message.id,
+    }
+  }
+
   normalizeMessage(msg) {
     switch (typeof msg) {
       case "string":
