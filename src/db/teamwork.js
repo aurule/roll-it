@@ -1,5 +1,3 @@
-const { Collection } = require("discord.js")
-
 const { oneLine } = require("common-tags")
 
 /**
