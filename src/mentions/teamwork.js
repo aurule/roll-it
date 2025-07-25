@@ -123,31 +123,30 @@ module.exports = {
 
     const embed = teamwork_change.data(test)
     return interaction
-      .reply({
-        content: t("help_given.success", t_args),
-        embeds: [embed],
-        allowedMentions: {
-          users: [author_id],
+      .ensure(
+        "reply",
+        {
+          content: t("help_given.success", t_args),
+          embeds: [embed],
+          allowedMentions: {
+            users: [author_id],
+          },
+          withResponse: true,
         },
-        withResponse: true,
-      })
-      .then((reply_interaction) => {
+        {
+          test: test.id,
+          detail: "Could not reply with added dice",
+        }
+      )
+      .then((reply_result) => {
+        // expect an InteractionCallbackResponse, but deal with a Message too
+        const message_uid = reply_result.resource.message.id ?? reply_result.id
+
         teamwork_db.addMessage({
           teamwork_id: test.id,
-          message_uid: reply_interaction.resource.message.id,
+          message_uid: message_uid,
           type: MessageType.Plain,
         })
       })
-      .catch((error) =>
-        logger.error(
-          {
-            err: error,
-            test: test.id,
-            reply_to: interaction.reference.messageId,
-            message: interaction.id,
-          },
-          "Could not reply with added dice",
-        ),
-      )
   },
 }
