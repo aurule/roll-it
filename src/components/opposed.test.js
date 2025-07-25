@@ -3,6 +3,7 @@ jest.mock("../util/message-builders")
 const { Interaction } = require("../../testing/interaction")
 const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")
+const { OpTest } = require("../db/opposed/optest")
 const { Participant } = require("../db/opposed/participant")
 const cancel_button = require("./opposed/cancel-button")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
@@ -169,9 +170,9 @@ describe("opposed component handler", () => {
           locale: "en-US",
           leader_id: attacker_id,
           retester_id: attacker_id,
-          retest_reason: "ability",
+          retest_reason: OpTest.RetestReasons.Ability,
           canceller_id: defender_id,
-          cancelled_with: "ability",
+          cancelled_with: OpTest.CancelReasons.Ability,
         }).lastInsertRowid
 
         opposed_db.addMessage({
@@ -235,9 +236,9 @@ describe("opposed component handler", () => {
           locale: "en-US",
           leader_id: attacker_id,
           retester_id: attacker_id,
-          retest_reason: "ability",
+          retest_reason: OpTest.RetestReasons.Ability,
           canceller_id: defender_id,
-          cancelled_with: "ability",
+          cancelled_with: OpTest.CancelReasons.Ability,
         }).lastInsertRowid
 
         opposed_db.addMessage({

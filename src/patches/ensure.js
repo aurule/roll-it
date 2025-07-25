@@ -41,9 +41,9 @@ module.exports = {
      *
      * All other errors will not be retried, as they may be made worse by trying to send a new message.
      *
-     * This method will only preserve the Ephemeral message flag if it appears in the given args. Methods like
-     * whisper that inject that flag on their own will result in the message being sent publicly if it is
-     * retried.
+     * Since standalone messages do not support the Ephemeral flag, be cautious when using this helper for
+     * anything that is supposed to remain secret or private. If the original reply fails, the message will
+     * be sent publically in the channel.
      *
      * This wrapper only makes sense for a few base methods:
      * - `editReply`

@@ -99,6 +99,34 @@ class OpTest {
   records
 
   /**
+   * Enum of retest keywords
+   * @type {Object}
+   */
+  static RetestReasons = Object.freeze({
+    Named: "named",
+    Ability: "ability",
+    Item: "item",
+    Merit: "merit",
+    Power: "power",
+    Overbid: "overbid",
+    Willpower: "willpower",
+    Background: "background",
+    Pve: "pve",
+    Automatic: "automatic",
+    Forced: "forced",
+    Other: "other",
+  })
+
+  /**
+   * Enum of retest cancel keywords
+   * @type {Object}
+   */
+  static CancelReasons = Object.freeze({
+    Ability: "ability",
+    Other: "other",
+  })
+
+  /**
    * Create a new OpTest
    *
    * @param  {object}  options

@@ -3,6 +3,7 @@ const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const { makeHistory } = require("../../services/opposed/history")
+const { OpTest } = require("../../db/opposed/optest")
 
 module.exports = {
   name: "opposed_cancel",
@@ -31,7 +32,7 @@ module.exports = {
     opposed_db.setTestCancelled(test.id)
     test.cancelled = true
     opposed_db.setTestHistory(test.id, makeHistory(test))
-    if (test.cancelled_with === "ability") {
+    if (test.cancelled_with === OpTest.CancelReasons.Ability) {
       opposed_db.setParticipantAbilityUsed(test.canceller.id)
     }
 
