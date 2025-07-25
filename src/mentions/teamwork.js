@@ -2,7 +2,7 @@ const { userMention } = require("discord.js")
 const { Teamwork, MessageType } = require("../db/teamwork")
 const { i18n } = require("../locales")
 const teamwork_change = require("../embeds/teamwork-change")
-const { cleanup, teamworkTimeout } = require("../interactive/teamwork")
+const { teamworkTimeout } = require("../interactive/teamwork")
 const { logger } = require("../util/logger")
 const { messageLink } = require("../util/formatters/message-link")
 
@@ -19,6 +19,19 @@ module.exports = {
     const teamwork_db = new Teamwork()
     return teamwork_db.hasMessage(interaction.reference?.messageId)
   },
+
+  /**
+   * Pull the first number out of the given content
+   * 
+   * @param  {string}  content String to parse
+   * @return {number?}         Extracted number, or null if one is not found
+   */
+  extractNumber(content) {
+    const match = content.replace(/\s/g, "").match(/-?\d+/)
+    if (match === null) return undefined
+    return parseInt(match[0])
+  },
+
   /**
    * Handle a message
    *
@@ -62,10 +75,8 @@ module.exports = {
       )
     }
 
-    const dice_content = interaction.content
-    const clumped = dice_content.replace(/\s/, "")
-    const match = clumped.match(/-?\d+/)
-    if (match === null) {
+    const matched_number = module.exports.extractNumber(interaction.content)
+    if (matched_number === undefined) {
       return interaction.whisper(t("help_given.missing")).catch((error) =>
         logger.error(
           {
@@ -80,8 +91,7 @@ module.exports = {
       )
     }
 
-    const num = parseInt(match[0])
-    if (num === NaN) {
+    if (matched_number === NaN) {
       return interaction.whisper(t("help_given.invalid")).catch((error) =>
         logger.error(
           {
@@ -97,7 +107,7 @@ module.exports = {
     }
 
     const author_id = interaction.author.id
-    teamwork_db.setDice(test.id, author_id, num)
+    teamwork_db.setDice(test.id, author_id, matched_number)
 
     const prompt_link = messageLink({
       id: teamwork_db.getPromptUid(test.id),
@@ -106,7 +116,7 @@ module.exports = {
     })
     const t_args = {
       helper: userMention(author_id),
-      count: num,
+      count: matched_number,
       context: author_id === test.leader ? "leader" : "helper",
       prompt_link,
     }
