@@ -7,6 +7,7 @@ const { ceil } = require("mathjs")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const build = require("../util/message-builders")
+const api = require("../services/api")
 
 /**
  * Default prefix generator
