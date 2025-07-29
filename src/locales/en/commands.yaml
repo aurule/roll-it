@@ -818,27 +818,6 @@ met:
       retest:
         name: retest
         description: Named ability to use for a retest
-      throw:
-        name: throw
-        description: The symbol you want to use for the first chop
-      bomb:
-        name: bomb
-        description: Can you throw Bomb? Defaults to false.
-      ties:
-        name: ties
-        description: Do you automatically win on ties? Defaults to false.
-      cancels:
-        name: cancels
-        description: Can you cancel a retest after abilities (Orisha's Fortune, etc)? Defaults to false.
-      carrier:
-        name: carrier
-        description: Is this an attack that will target your opponent with a different power? Defaults to false.
-      altering:
-        name: altering
-        description: Is this a challenge that will reshape your opponent? Defaults to false.
-      use-retests:
-        name: use-retests
-        description: Whether to allow retests, or use a single opposed throw. Defaults to true (allow retests).
   static:
     name: static
     description: Make a MET rock-paper-scissors roll
