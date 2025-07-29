@@ -13,14 +13,16 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const components = [
-      build.text(t("conceded", {
-        leader: test.leader.mention,
-        trailer: test.trailer.mention,
-      })),
+      build.text(
+        t("conceded", {
+          leader: test.leader.mention,
+          trailer: test.trailer.mention,
+        }),
+      ),
       build.separator(),
       build.text(challenge.summary),
       build.text(t("shared.history.header")),
-      build.text(history)
+      build.text(history),
     ]
     return build.message(components, { withResponse: true })
   },

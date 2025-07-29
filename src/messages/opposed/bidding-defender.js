@@ -29,12 +29,17 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.bidding")
     const components = [
       build.text(t("prompt", { participant: challenge.defender.mention })),
-      build.text(t("traits", {
-        participant: challenge.attacker.mention,
-        count: attacker_chop.traits,
-      })),
+      build.text(
+        t("traits", {
+          participant: challenge.attacker.mention,
+          count: attacker_chop.traits,
+        }),
+      ),
     ]
-    return build.message(components, { withResponse: true, allowedMentions: { users: [challenge.defender.user_uid] } })
+    return build.message(components, {
+      withResponse: true,
+      allowedMentions: { users: [challenge.defender.user_uid] },
+    })
   },
   handleReply(interaction) {
     const opposed_db = new Opposed()

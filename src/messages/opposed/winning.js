@@ -16,14 +16,18 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const components = [
-      build.text(t("winning.headline", {
-        leader: test.leader.mention,
-        breakdown: test.breakdown,
-      })),
-      build.text(t("winning.cta", {
-        leader: test.leader.mention,
-        trailer: test.trailer.mention,
-      })),
+      build.text(
+        t("winning.headline", {
+          leader: test.leader.mention,
+          breakdown: test.breakdown,
+        }),
+      ),
+      build.text(
+        t("winning.cta", {
+          leader: test.leader.mention,
+          trailer: test.trailer.mention,
+        }),
+      ),
       build.actions(concede_button.data(challenge.locale)),
       build.text(t("shared.retest.cta")),
       build.actions(retest_picker.data(challenge)),
@@ -44,10 +48,12 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const components = [
-      build.text(t("winning.headline", {
-        leader: test.leader.mention,
-        breakdown: test.breakdown,
-      })),
+      build.text(
+        t("winning.headline", {
+          leader: test.leader.mention,
+          breakdown: test.breakdown,
+        }),
+      ),
       build.separator(),
       build.text(challenge.summary),
       build.text(t("shared.history.header")),

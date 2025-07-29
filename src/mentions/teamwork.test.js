@@ -35,7 +35,7 @@ describe("teamwork reply handler", () => {
     })
 
     it("returns false when message does not exist", () => {
-      const result = teamwork.canHandle({reference: {messageId: "nope"}})
+      const result = teamwork.canHandle({ reference: { messageId: "nope" } })
 
       expect(result).toBe(false)
     })

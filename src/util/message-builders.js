@@ -72,7 +72,7 @@ module.exports = {
    * @return {SectionBuilder}            Section builder object
    */
   section(paragraphs, accessory) {
-    const texts = forceArray(paragraphs).map(t => module.exports.text(t))
+    const texts = forceArray(paragraphs).map((t) => module.exports.text(t))
     return new SectionBuilder({ components: texts, accessory })
   },
 

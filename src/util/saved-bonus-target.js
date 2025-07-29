@@ -13,5 +13,5 @@ function saved_bonus_target(bonus, change, changeable) {
 }
 
 module.exports = {
-  saved_bonus_target
+  saved_bonus_target,
 }

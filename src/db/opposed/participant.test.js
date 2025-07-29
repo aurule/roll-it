@@ -7,7 +7,7 @@ describe("Participant class", () => {
 
       const participant = new Participant({
         id: 1,
-        advantages: JSON.stringify(advantages)
+        advantages: JSON.stringify(advantages),
       })
 
       expect(participant.advantages).toEqual(advantages)

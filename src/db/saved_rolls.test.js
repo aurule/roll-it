@@ -143,10 +143,7 @@ describe("saved rolls db", () => {
 
     describe("upsert", () => {
       describe("with no conflict", () => {
-        it.each([
-          ["guildFlake"],
-          ["userFlake"],
-        ])("removes privileged property %s", (propName) => {
+        it.each([["guildFlake"], ["userFlake"]])("removes privileged property %s", (propName) => {
           const saved_rolls = new UserSavedRolls("test-guild", "user-upsert", db)
           const data = {
             name: "test roll",

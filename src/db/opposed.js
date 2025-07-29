@@ -86,10 +86,14 @@ class Opposed extends CachedDb {
    * @return {int} Number of challenge records
    */
   challengeCount() {
-    const select = this.prepared("challengeCount", oneLine`
+    const select = this.prepared(
+      "challengeCount",
+      oneLine`
       SELECT count(1)
       FROM   interactive.opposed_challenges
-    `, true)
+    `,
+      true,
+    )
 
     return select.get()
   }
@@ -383,11 +387,14 @@ class Opposed extends CachedDb {
    * @return {object}            Message object or undefined if not found
    */
   getMessage(message_id) {
-    const select = this.prepared("getMessage", oneLine`
+    const select = this.prepared(
+      "getMessage",
+      oneLine`
       SELECT *
       FROM   interactive.opposed_messages
       WHERE  id = ?
-    `)
+    `,
+    )
 
     return select.get(message_id)
   }
@@ -730,13 +737,7 @@ class Opposed extends CachedDb {
     })
   }
 
-  addFutureTest({
-    challenge_id,
-    locale,
-    leader_id = null,
-    history = null,
-    gap = 1,
-  } = {}) {
+  addFutureTest({ challenge_id, locale, leader_id = null, history = null, gap = 1 } = {}) {
     const insert = this.prepared(
       "addFutureTest",
       oneLine`

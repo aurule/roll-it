@@ -18,10 +18,12 @@ module.exports = {
     const reason = test.retest_reason
 
     const components = [
-      build.text(t(`headline.${reason}`, {
-        retester: test.retester.mention,
-        ability: challenge.retest_ability,
-      })),
+      build.text(
+        t(`headline.${reason}`, {
+          retester: test.retester.mention,
+          ability: challenge.retest_ability,
+        }),
+      ),
       build.section(t("withdraw"), withdraw_button.data(challenge.locale)),
       build.separator(),
       build.text(t("cancel", { canceller: test.canceller.mention })),
@@ -32,7 +34,9 @@ module.exports = {
       components.push(build.text(t("disclaimer")))
     }
 
-    components.push(build.actions(cancel_button.data(challenge.locale), continue_button.data(challenge.locale)))
+    components.push(
+      build.actions(cancel_button.data(challenge.locale), continue_button.data(challenge.locale)),
+    )
 
     const t_args = {
       summary: challenge.summary,
@@ -46,9 +50,12 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const reason = test.retest_reason
-    return build.textMessage(t(`headline.${reason}`, {
+    return build.textMessage(
+      t(`headline.${reason}`, {
         retester: test.retester.mention,
         ability: challenge.retest_ability,
-      }), { withResponse: true })
+      }),
+      { withResponse: true },
+    )
   },
 }

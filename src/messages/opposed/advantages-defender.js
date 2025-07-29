@@ -18,24 +18,32 @@ module.exports = {
     const shared_t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
 
     const components = [
-      build.text(t("summary", {
-        attacker: attacker.mention,
-        defender: defender.mention,
-        description: challenge.description,
-        context: challenge.description ? "description" : undefined,
-        attribute: shared_t(`attributes.${challenge.attribute}`),
-        conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
-        retest: challenge.retest,
-        advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
-      })),
-      build.section(t("relent", {attacker: attacker.mention}), relent_button.data(challenge.locale)),
+      build.text(
+        t("summary", {
+          attacker: attacker.mention,
+          defender: defender.mention,
+          description: challenge.description,
+          context: challenge.description ? "description" : undefined,
+          attribute: shared_t(`attributes.${challenge.attribute}`),
+          conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
+          retest: challenge.retest,
+          advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
+        }),
+      ),
+      build.section(
+        t("relent", { attacker: attacker.mention }),
+        relent_button.data(challenge.locale),
+      ),
       build.text(t("advantages")),
       build.actions(advantage_picker.data(challenge.locale, defender)),
       build.text(t("ready")),
       build.actions(ready_button.data(challenge.locale)),
     ]
 
-    return build.message(components, { withResponse: true, allowedMentions: { users: [defender.user_uid] } })
+    return build.message(components, {
+      withResponse: true,
+      allowedMentions: { users: [defender.user_uid] },
+    })
   },
   inert: (challenge_id) => {
     const opposed_db = new Opposed()
@@ -61,7 +69,7 @@ module.exports = {
       {
         withResponse: true,
         allowedMentions: { parse: [] },
-      }
+      },
     )
   },
 }

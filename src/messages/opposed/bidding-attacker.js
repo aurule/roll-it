@@ -12,7 +12,9 @@ module.exports = {
     const participants = opposed_db.getParticipants(challenge_id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.bidding")
-    return build.textMessage(t("prompt", { participant: participants.get("attacker").mention }), { withResponse: true })
+    return build.textMessage(t("prompt", { participant: participants.get("attacker").mention }), {
+      withResponse: true,
+    })
   },
   handleReply(interaction) {
     const opposed_db = new Opposed()

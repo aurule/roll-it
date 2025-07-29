@@ -22,7 +22,7 @@ module.exports = {
 
   /**
    * Pull the first number out of the given content
-   * 
+   *
    * @param  {string}  content String to parse
    * @return {number?}         Extracted number, or null if one is not found
    */
@@ -136,7 +136,7 @@ module.exports = {
         {
           test: test.id,
           detail: "Could not reply with added dice",
-        }
+        },
       )
       .then((reply_result) => {
         // expect an InteractionCallbackResponse, but deal with a Message too

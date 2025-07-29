@@ -21,7 +21,7 @@ module.exports = {
 
     return {
       content: paragraphs.join("\n"),
-      components: [{components: interactables.flat()}],
+      components: [{ components: interactables.flat() }],
       flags,
       ...options,
     }
@@ -29,7 +29,9 @@ module.exports = {
   textMessage: jest.fn((text, options = {}) => {
     return module.exports.message([module.exports.text(text)], options)
   }),
-  text: jest.fn((content) => { return { content } }),
+  text: jest.fn((content) => {
+    return { content }
+  }),
   section: jest.fn((paragraphs, accessory) => {
     const texts = forceArray(paragraphs)
     return {
@@ -38,5 +40,7 @@ module.exports = {
     }
   }),
   separator: jest.fn(() => "---"),
-  actions: jest.fn((...components) => { return { components } }),
+  actions: jest.fn((...components) => {
+    return { components }
+  }),
 }

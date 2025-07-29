@@ -77,18 +77,16 @@ function splitMessage(message, separator = " ", max_length = 2000, locale = "en"
  * @return {Promise}              Promise resolving once the API call is made
  */
 async function sendDetached(channel_id, message) {
-  return api
-    .sendMessage(channel_id, message)
-    .catch((err) => {
-      logger.error(
-        {
-          err,
-          channel: channel_id,
-          args: message,
-        },
-        "Unable to send detached message",
-      )
-    })
+  return api.sendMessage(channel_id, message).catch((err) => {
+    logger.error(
+      {
+        err,
+        channel: channel_id,
+        args: message,
+      },
+      "Unable to send detached message",
+    )
+  })
 }
 
 module.exports = {
@@ -128,42 +126,38 @@ module.exports = {
       for (let idx = 0; idx < contents.length; idx++) {
         const reply_args = build.textMessage(contents[idx], { secret })
 
-        switch(mode) {
+        switch (mode) {
           case "reply":
-            await this
-              .reply(reply_args)
-              .catch(err => {
-                if (err.code === 10062) {
-                  logger.warn(
-                    {
-                      err,
-                      fn: "reply",
-                      args: reply_args
-                    },
-                    'Got "Unknown interaction" for "reply". Re-sending this and followups as detached messages.',
-                  )
-                  mode = "detached"
-                  sendDetached(this.channel.id, reply_args)
-                }
-              })
+            await this.reply(reply_args).catch((err) => {
+              if (err.code === 10062) {
+                logger.warn(
+                  {
+                    err,
+                    fn: "reply",
+                    args: reply_args,
+                  },
+                  'Got "Unknown interaction" for "reply". Re-sending this and followups as detached messages.',
+                )
+                mode = "detached"
+                sendDetached(this.channel.id, reply_args)
+              }
+            })
             break
           case "followup":
-            await this
-              .followUp(reply_args)
-              .catch(err => {
-                if (err.code === 10062) {
-                  logger.warn(
-                    {
-                      err,
-                      fn: "followUp",
-                      args: reply_args
-                    },
-                    'Got "Unknown interaction" for "followUp". Re-sending this and other followups as detached messages.',
-                  )
-                  mode = "detached"
-                  sendDetached(this.channel.id, reply_args)
-                }
-              })
+            await this.followUp(reply_args).catch((err) => {
+              if (err.code === 10062) {
+                logger.warn(
+                  {
+                    err,
+                    fn: "followUp",
+                    args: reply_args,
+                  },
+                  'Got "Unknown interaction" for "followUp". Re-sending this and other followups as detached messages.',
+                )
+                mode = "detached"
+                sendDetached(this.channel.id, reply_args)
+              }
+            })
             break
           case "detached":
             await sendDetached(this.channel.id, reply_args)

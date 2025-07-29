@@ -43,5 +43,4 @@ describe("arrayEq helper", () => {
 
     expect(result).toBeTruthy()
   })
-
 })

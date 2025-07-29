@@ -19,14 +19,16 @@ module.exports = {
     const shared_t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
 
     const components = [
-      build.text(t("summary", {
-        attacker: attacker.mention,
-        defender: defender.mention,
-        description: challenge.description,
-        context: challenge.description ? "description" : undefined,
-        attribute: shared_t(`attributes.${challenge.attribute}`),
-        retest: challenge.retest,
-      })),
+      build.text(
+        t("summary", {
+          attacker: attacker.mention,
+          defender: defender.mention,
+          description: challenge.description,
+          context: challenge.description ? "description" : undefined,
+          attribute: shared_t(`attributes.${challenge.attribute}`),
+          retest: challenge.retest,
+        }),
+      ),
       build.section(t("withdraw"), withdraw_button.data(challenge.locale)),
       build.separator(),
       build.text(t("conditions")),
@@ -66,7 +68,7 @@ module.exports = {
       {
         withResponse: true,
         allowedMentions: { parse: [] },
-      }
+      },
     )
   },
 }

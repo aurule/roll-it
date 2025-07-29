@@ -181,7 +181,7 @@ class Challenge {
     channel_uid,
     timeout,
     expired,
-} = {}) {
+  } = {}) {
     this.id = id
     this.locale = locale
     this.attacker_uid = attacker_uid

@@ -55,30 +55,31 @@ describe("opposed component handler", () => {
     })
 
     describe("with a challenge in a final state", () => {
-      it.concurrent.each([
-        ...Challenge.FinalStates,
-      ])("%s: replies that the challenge is over", async (state) => {
-        const interaction = new Interaction()
-        const opposed_db = new Opposed()
-        let challenge_id = opposed_db.addChallenge({
-          locale: "en-US",
-          description: "testing challenge",
-          attacker_uid: "atk",
-          attribute: "mental",
-          retest_ability: "occult",
-          state: Challenge.States.Conceded,
-          channel_uid: "testchan",
-          timeout: 1000,
-        }).lastInsertRowid
-        opposed_db.addMessage({
-          message_uid: interaction.message.id,
-          challenge_id,
-        })
+      it.concurrent.each([...Challenge.FinalStates])(
+        "%s: replies that the challenge is over",
+        async (state) => {
+          const interaction = new Interaction()
+          const opposed_db = new Opposed()
+          let challenge_id = opposed_db.addChallenge({
+            locale: "en-US",
+            description: "testing challenge",
+            attacker_uid: "atk",
+            attribute: "mental",
+            retest_ability: "occult",
+            state: Challenge.States.Conceded,
+            channel_uid: "testchan",
+            timeout: 1000,
+          }).lastInsertRowid
+          opposed_db.addMessage({
+            message_uid: interaction.message.id,
+            challenge_id,
+          })
 
-        await opposed_handler.handle(interaction)
+          await opposed_handler.handle(interaction)
 
-        expect(interaction.replyContent).toMatch("has concluded")
-      })
+          expect(interaction.replyContent).toMatch("has concluded")
+        },
+      )
     })
 
     describe("with a challenge in a non-final state, but past its timeout", () => {

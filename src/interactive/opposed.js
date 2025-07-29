@@ -1,6 +1,4 @@
-const {
-  userMention,
-} = require("discord.js")
+const { userMention } = require("discord.js")
 
 const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")

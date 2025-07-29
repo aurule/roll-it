@@ -10,8 +10,13 @@ const command_schema = Joi.object({
   data: Joi.function().required().arity(0),
   execute: Joi.function().required().arity(1),
   i18nId: Joi.string(),
-  parent: Joi.string().valid(...command_names).invalid(Joi.ref("name")).when('type', { is: "menu", then: Joi.forbidden() }),
-  replacement: Joi.string().valid(...command_names).invalid(Joi.ref("name")),
+  parent: Joi.string()
+    .valid(...command_names)
+    .invalid(Joi.ref("name"))
+    .when("type", { is: "menu", then: Joi.forbidden() }),
+  replacement: Joi.string()
+    .valid(...command_names)
+    .invalid(Joi.ref("name")),
   type: Joi.string().valid("slash", "menu"),
   policy: Joi.alternatives().try(Joi.object(), Joi.array().items(Joi.object())),
   global: Joi.boolean(),
@@ -29,8 +34,7 @@ const command_schema = Joi.object({
   perform: Joi.function(),
   autocomplete: Joi.function().arity(1),
   help_data: Joi.function().arity(1),
-})
-  .with('savable', ['changeable', "schema"])
+}).with("savable", ["changeable", "schema"])
 
 describe("commands", () => {
   it("loads command files", () => {

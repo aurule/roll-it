@@ -25,7 +25,7 @@ module.exports = {
       build.text(t("disclaimer")),
       build.separator(),
       build.text(t("cta")),
-      build.actions(go_button.data(challenge.locale))
+      build.actions(go_button.data(challenge.locale)),
     ]
     return build.message(components, { withResponse: true })
   },

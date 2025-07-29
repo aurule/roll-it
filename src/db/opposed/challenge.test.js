@@ -27,7 +27,7 @@ describe("Challenge class", () => {
     it("true when challenge is in a final state", () => {
       const challenge = new Challenge({
         id: 1,
-        state: Challenge.States.Withdrawn
+        state: Challenge.States.Withdrawn,
       })
 
       expect(challenge.finished).toBe(true)
@@ -36,7 +36,7 @@ describe("Challenge class", () => {
     it("false when challenge is in a final state", () => {
       const challenge = new Challenge({
         id: 1,
-        state: Challenge.States.Throwing
+        state: Challenge.States.Throwing,
       })
 
       expect(challenge.finished).toBe(false)

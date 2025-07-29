@@ -1,8 +1,4 @@
-const {
-  ButtonBuilder,
-  ButtonStyle,
-  ComponentType,
-} = require("discord.js")
+const { ButtonBuilder, ButtonStyle, ComponentType } = require("discord.js")
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
@@ -57,9 +53,11 @@ module.exports = {
 
     const prompt_components = [
       build.text(manage_text),
-      build.actions(edit_button, cancel_button, remove_button)
+      build.actions(edit_button, cancel_button, remove_button),
     ]
-    const manage_prompt = await cmd_interaction.reply(build.message(prompt_components, { secret: true }))
+    const manage_prompt = await cmd_interaction.reply(
+      build.message(prompt_components, { secret: true }),
+    )
 
     const manageHandler = async (comp_interaction) => {
       switch (comp_interaction.customId) {
@@ -83,9 +81,11 @@ module.exports = {
 
           const remove_components = [
             build.text(t("state.remove.prompt", { name: detail.name })),
-            build.actions(remove_cancel, remove_confirm)
+            build.actions(remove_cancel, remove_confirm),
           ]
-          const remove_chicken = await manage_prompt.edit(build.message(remove_components, { secret: true }))
+          const remove_chicken = await manage_prompt.edit(
+            build.message(remove_components, { secret: true }),
+          )
 
           remove_chicken
             .awaitMessageComponent({
@@ -95,13 +95,19 @@ module.exports = {
             .then((remove_interaction) => {
               remove_interaction.deferUpdate()
               if (remove_interaction.customId == "remove_cancel") {
-                manage_prompt.edit(build.textMessage(t("state.remove.response.cancel"), { secret: true }))
+                manage_prompt.edit(
+                  build.textMessage(t("state.remove.response.cancel"), { secret: true }),
+                )
                 return cmd_interaction
               }
 
               saved_rolls.destroy(detail.id)
 
-              return manage_prompt.edit(build.textMessage(t("state.remove.response.success", { name: detail.name }), { secret: true }))
+              return manage_prompt.edit(
+                build.textMessage(t("state.remove.response.success", { name: detail.name }), {
+                  secret: true,
+                }),
+              )
             })
             .catch(() => {
               manage_prompt.delete()

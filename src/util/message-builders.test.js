@@ -91,14 +91,12 @@ describe("message builders", () => {
     })
 
     it("adds a single component", () => {
-      const component = build.actions(
-        {
-          custom_id: "custom id",
-          label: "Click me",
-          style: ButtonStyle.Primary,
-          type: ComponentType.Button,
-        },
-      )
+      const component = build.actions({
+        custom_id: "custom id",
+        label: "Click me",
+        style: ButtonStyle.Primary,
+        type: ComponentType.Button,
+      })
 
       expect(component.components[0].custom_id).toMatch("custom")
     })

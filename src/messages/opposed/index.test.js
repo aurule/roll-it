@@ -4,7 +4,9 @@ const { Challenge } = require("../../db/opposed/challenge")
 const messages = require("./index")
 
 const message_schema = Joi.object({
-  state: Joi.string().required().valid(...Object.values(Challenge.States)),
+  state: Joi.string()
+    .required()
+    .valid(...Object.values(Challenge.States)),
   data: Joi.function().required(),
   inert: Joi.function().optional(),
   afterRetry: Joi.function().optional(),
@@ -24,9 +26,7 @@ describe("opposed messages", () => {
     expect(messages.has(undefined)).toBeFalsy()
   })
 
-  it.each(
-    messages.map(m => [m.state, m]),
-  )("%s message matches schema", (_state, message) => {
+  it.each(messages.map((m) => [m.state, m]))("%s message matches schema", (_state, message) => {
     expect(message).toMatchSchema(message_schema)
   })
 })

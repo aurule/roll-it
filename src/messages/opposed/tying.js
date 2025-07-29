@@ -17,13 +17,17 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const components = [
-      build.text(t("tying.headline", {
-        breakdown: test.breakdown,
-      })),
-      build.text(t("tying.cta", {
-        attacker: participants.get("attacker").mention,
-        defender: participants.get("defender").mention,
-      })),
+      build.text(
+        t("tying.headline", {
+          breakdown: test.breakdown,
+        }),
+      ),
+      build.text(
+        t("tying.cta", {
+          attacker: participants.get("attacker").mention,
+          defender: participants.get("defender").mention,
+        }),
+      ),
       build.actions(accept_button.data(challenge.locale)),
       build.text(t("shared.retest.cta")),
       build.actions(retest_picker.data(challenge)),

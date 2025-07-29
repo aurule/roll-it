@@ -30,10 +30,7 @@ module.exports = {
     klass.prototype.rollReply = function (content, secret = false) {
       const message = build.textMessage(content, { secret })
 
-      return this.ensure(
-        "reply",
-        message,
-      )
+      return this.ensure("reply", message)
     }
   },
 }
