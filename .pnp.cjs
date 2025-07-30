@@ -44,7 +44,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:3.1.10"],\
           ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:13.0.0"],\
+          ["pino-pretty", "npm:13.1.1"],\
           ["prettier", "npm:3.6.2"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
@@ -4933,8 +4933,8 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
-      ["npm:13.0.0", {\
-        "packageLocation": "./.yarn/cache/pino-pretty-npm-13.0.0-70bb86dd46-015dac2500.zip/node_modules/pino-pretty/",\
+      ["npm:13.1.1", {\
+        "packageLocation": "./.yarn/cache/pino-pretty-npm-13.1.1-9105c2b985-845c07afd3.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
           ["colorette", "npm:2.0.20"],\
           ["dateformat", "npm:4.6.3"],\
@@ -4945,11 +4945,11 @@ const RAW_RUNTIME_STATE =
           ["minimist", "npm:1.2.8"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
           ["pino-abstract-transport", "npm:2.0.0"],\
-          ["pino-pretty", "npm:13.0.0"],\
+          ["pino-pretty", "npm:13.1.1"],\
           ["pump", "npm:3.0.0"],\
-          ["secure-json-parse", "npm:2.7.0"],\
+          ["secure-json-parse", "npm:4.0.0"],\
           ["sonic-boom", "npm:4.0.1"],\
-          ["strip-json-comments", "npm:3.1.1"]\
+          ["strip-json-comments", "npm:5.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5240,7 +5240,7 @@ const RAW_RUNTIME_STATE =
           ["nodemon", "npm:3.1.10"],\
           ["pino", "npm:9.7.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
-          ["pino-pretty", "npm:13.0.0"],\
+          ["pino-pretty", "npm:13.1.1"],\
           ["prettier", "npm:3.6.2"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
@@ -5277,10 +5277,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["secure-json-parse", [\
-      ["npm:2.7.0", {\
-        "packageLocation": "./.yarn/cache/secure-json-parse-npm-2.7.0-d5b89b0a3e-f57eb6a44a.zip/node_modules/secure-json-parse/",\
+      ["npm:4.0.0", {\
+        "packageLocation": "./.yarn/cache/secure-json-parse-npm-4.0.0-5f46627578-1a298cf00e.zip/node_modules/secure-json-parse/",\
         "packageDependencies": [\
-          ["secure-json-parse", "npm:2.7.0"]\
+          ["secure-json-parse", "npm:4.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5628,6 +5628,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/strip-json-comments-npm-3.1.1-dcb2324823-9681a6257b.zip/node_modules/strip-json-comments/",\
         "packageDependencies": [\
           ["strip-json-comments", "npm:3.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.0.2", {\
+        "packageLocation": "./.yarn/cache/strip-json-comments-npm-5.0.2-430187d559-e9841b8fac.zip/node_modules/strip-json-comments/",\
+        "packageDependencies": [\
+          ["strip-json-comments", "npm:5.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
