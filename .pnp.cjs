@@ -29,6 +29,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@biomejs/biome", "npm:2.1.3"],\
+          ["@discordjs/collection", "npm:2.1.1"],\
           ["better-sqlite3", "npm:12.2.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
@@ -5225,6 +5226,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@biomejs/biome", "npm:2.1.3"],\
+          ["@discordjs/collection", "npm:2.1.1"],\
           ["better-sqlite3", "npm:12.2.0"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
