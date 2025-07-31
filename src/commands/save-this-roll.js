@@ -1,6 +1,5 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js")
 
-const { UserSavedRolls, saved_roll_schema } = require("../db/saved_rolls")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const interactionCache = require("../services/interaction-cache")
 const { i18n } = require("../locales")

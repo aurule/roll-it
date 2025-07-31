@@ -2,7 +2,6 @@ const { Collection } = require("discord.js")
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
 const { present } = require("../presenters/results/drh-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")

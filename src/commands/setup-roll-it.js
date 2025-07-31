@@ -4,10 +4,8 @@ const {
   StringSelectMenuBuilder,
   ButtonStyle,
   ButtonBuilder,
-  subtext,
   MessageFlags,
 } = require("discord.js")
-const { oneLine } = require("common-tags")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
@@ -17,7 +15,6 @@ const api = require("../services/api")
 const { arrayEq } = require("../util/array-eq")
 const { relativeTimestamp } = require("../util/timestamps")
 const { systems } = require("../data")
-const { pluralize, capitalize, inlineList } = require("../util/formatters")
 const { i18n } = require("../locales")
 
 const timeout_ms = 120_000 // 2 minute timeout

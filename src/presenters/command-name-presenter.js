@@ -41,7 +41,7 @@ function present(command, locale) {
 /**
  * Make a text list of all commands
  *
- * @param  {Collection}       all_commands Collection of Command objects
+ * @param  {Collection}       all_commands Collection of Command objects, ideally sorted
  * @param  {str}              locale       Locale name for the command string
  * @return {Array<str|str[]>}              List of markdown-formatted command names, including subcommands
  */
