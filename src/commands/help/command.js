@@ -43,7 +43,7 @@ module.exports = {
   help_data(opts) {
     const commands = require("../index")
     return {
-      commands: CommandNamePresenter.list(commands, opts.locale),
+      commands: CommandNamePresenter.list(commands.sorted.get(opts.locale), opts.locale),
     }
   },
 }

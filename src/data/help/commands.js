@@ -1,11 +1,11 @@
-const commandNamePresenter = require("../../presenters/command-name-presenter")
+const CommandNamePresenter = require("../../presenters/command-name-presenter")
 
 module.exports = {
   name: "commands",
   help_data(locale) {
-    const commands = require("../../commands")
+    const commands = require("../../commands").sorted.get(locale)
     return {
-      commands: commandNamePresenter.list(commands, locale),
+      commands: CommandNamePresenter.list(commands, locale),
     }
   },
 }

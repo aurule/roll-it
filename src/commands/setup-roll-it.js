@@ -184,9 +184,11 @@ module.exports = {
   },
   help_data(opts) {
     const commands = require("./index")
+    const guild_commands = commands.sorted.guild.get(opts.locale)
+    const global_commands = commands.sorted.global.get(opts.locale)
     return {
-      deployables: CommandNamePresenter.list(commands.guild, opts.locale),
-      globals: CommandNamePresenter.list(commands.global, opts.locale),
+      deployables: CommandNamePresenter.list(guild_commands, opts.locale),
+      globals: CommandNamePresenter.list(global_commands, opts.locale),
     }
   },
 }

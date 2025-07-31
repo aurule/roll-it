@@ -72,7 +72,7 @@ module.exports = {
     return interaction.showModal(modal)
   },
   help_data(opts) {
-    const savable_commands = require("./index").savable
+    const savable_commands = require("./index").sorted.savable.get(opts.locale)
     return {
       savable: CommandNamePresenter.list(savable_commands, opts.locale),
     }

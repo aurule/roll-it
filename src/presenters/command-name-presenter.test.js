@@ -1,4 +1,3 @@
-const { Collection } = require("discord.js")
 const eightball_command = require("../commands/8ball")
 const save_this_roll_command = require("../commands/save-this-roll")
 const table_list_command = require("../commands/table/list")
@@ -30,13 +29,13 @@ describe("present", () => {
 
 describe("list", () => {
   it("shows commands", () => {
-    const result = CommandNamePresenter.list(commands)
+    const result = CommandNamePresenter.list(commands.sorted.get("en-US"))
 
     expect(result.some((r) => r.includes("8ball"))).toBeTruthy()
   })
 
   it("shows subcommands", () => {
-    const result = CommandNamePresenter.list(commands)
+    const result = CommandNamePresenter.list(commands.sorted.get("en-US"))
 
     expect(result.some((r) => r.includes("saved list"))).toBeTruthy()
   })

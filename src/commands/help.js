@@ -27,7 +27,7 @@ module.exports = {
     const commands = require("./index")
     return {
       topics: TopicNamePresenter.list(opts.locale),
-      commands: CommandNamePresenter.list(commands, opts.locale),
+      commands: CommandNamePresenter.list(commands.sorted.get(opts.locale), opts.locale),
     }
   },
 }
