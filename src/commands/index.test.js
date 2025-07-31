@@ -1,5 +1,4 @@
 const Joi = require("joi")
-const { pretty } = require("../../testing/command-pretty")
 const CommandHelpPresenter = require("../presenters/command-help-presenter")
 
 const commands = require("./index")
@@ -146,9 +145,23 @@ describe("commands", () => {
     })
   })
 
-  describe("minimal correctness", () => {
+  describe("sorted collections", () => {
+    it("organized by locale", () => {
+      expect(commands.sorted.has("en-US")).toBe(true)
+    })
+
+    it("is actually sorted", () => {
+      const keys = Array.from(commands.sorted.get("en-US").keys())
+      const d4_id = keys.indexOf("d4")
+      const d100_id = keys.indexOf("d100")
+
+      expect(d100_id).toBeGreaterThan(d4_id)
+    })
+  })
+
+  describe("minimal command correctness", () => {
     const command_objects = Array.from(commands.entries())
-    describe.each(command_objects)("%s", (_name, command) => {
+    describe.each(command_objects)("`%s` command", (_name, command) => {
       describe(`replacement`, () => {
         it("when present, the replacement exists", () => {
           const replacement_name = command.replacement
@@ -177,7 +190,7 @@ describe("commands", () => {
 
       describe(`help contents`, () => {
         it("has nothing undefined", () => {
-          const result = CommandHelpPresenter.present(command)
+          const result = CommandHelpPresenter.present(command, "en-US")
 
           expect(result).not.toMatch("{{")
         })

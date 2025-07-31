@@ -1,6 +1,8 @@
 const fs = require("fs")
 const path = require("path")
-const { Collection } = require("discord.js")
+const { Collection } = require("@discordjs/collection")
+const { available_locales } = require("../locales")
+const { comparator } = require("../util/command-sorter")
 
 const { jsNoTests, noDotFiles } = require("../util/filters")
 
@@ -23,6 +25,12 @@ commands.savable = new Collection()
 commands.all_choices = []
 commands.deprecated = new Collection()
 commands.teamworkable = new Collection()
+
+commands.sorted = new Collection()
+commands.sorted.guild = new Collection()
+commands.sorted.global = new Collection()
+commands.sorted.savable = new Collection()
+commands.sorted.teamworkable = new Collection()
 
 const contents = fs
   .readdirSync(commandsDir)
@@ -60,5 +68,13 @@ contents.forEach((command_file) => {
     }
   }
 })
+
+for (const locale of available_locales) {
+  commands.sorted.set(locale, commands.toSorted(comparator(locale)))
+  commands.sorted.guild.set(locale, commands.guild.toSorted(comparator(locale)))
+  commands.sorted.global.set(locale, commands.global.toSorted(comparator(locale)))
+  commands.sorted.savable.set(locale, commands.savable.toSorted(comparator(locale)))
+  commands.sorted.teamworkable.set(locale, commands.teamworkable.toSorted(comparator(locale)))
+}
 
 module.exports = commands
