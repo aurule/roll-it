@@ -19,23 +19,30 @@ const { i18n } = require("../locales")
  *
  * @param  {Command} command  The command object to present
  * @param  {str}     locale   Locale name for the command string
+ * @param  {object}  options  Optional options object
  * @return {String}           Markdown-formatted string of the command's name
  */
-function present(command, locale) {
+function present(command, locale, options = {}) {
   const t = i18n.getFixedT(locale)
   const command_id = command.i18nId ?? command.name
+  const t_args = {}
+
+  if (options.unformatted) {
+    t_args.context = "plain"
+  }
 
   if (command.type == "menu")
-    return t("command-name.menu", { command_name: t(`commands:${command_id}.name`) })
+    return t("command-name.menu", { ...t_args, command_name: t(`commands:${command_id}.name`) })
 
   if (command.parent) {
     return t("command-name.subcommand", {
+      ...t_args,
       parent_name: t(`commands:${command.parent}.name`),
       command_name: t(`commands:${command.parent}.${command_id}.name`),
     })
   }
 
-  return t("command-name.slash", { command_name: t(`commands:${command_id}.name`) })
+  return t("command-name.slash", { ...t_args, command_name: t(`commands:${command_id}.name`) })
 }
 
 /**

@@ -5,16 +5,18 @@ const commands = require("../commands")
 
 const { transform } = require("./command-select-transformer")
 
-it("creates an array of suitable objects", () => {
-  const data = transform(commands, "en-US")
+describe("command select option transformer", () => {
+  it("creates an array of suitable objects", () => {
+    const data = transform(commands, "en-US")
 
-  expect(data).toMatchSchema(stringSelectMenuOptions)
-})
+    expect(data).toMatchSchema(stringSelectMenuOptions)
+  })
 
-it("sets default property based on deployed arg", () => {
-  const deployed = ["8ball"]
+  it("sets default property based on deployed arg", () => {
+    const deployed = ["8ball"]
 
-  const data = transform(commands, "en-US", deployed)
+    const data = transform(commands, "en-US", deployed)
 
-  expect(data[0].default).toBeTruthy()
+    expect(data[0].default).toBeTruthy()
+  })
 })

@@ -21,8 +21,11 @@ options:
     description: Begin a teamwork roll where others can contribute dice
 command-name:
   menu: "*{{command_name}}*"
+  menu_plain: "{{command_name}}"
   slash: "`/{{command_name}}`"
+  slash_plain: "/{{command_name}}"
   subcommand: "`/{{parent_name}} {{command_name}}`"
+  subcommand_plain: "/{{parent_name}} {{command_name}}"
 systems:
   listing: |-
     **{{title}}**: {{commands, list}}. {{description}}

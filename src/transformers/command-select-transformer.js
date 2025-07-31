@@ -13,12 +13,12 @@ module.exports = {
   transform: (commands, locale, deployed = []) => {
     const t = i18n.getFixedT(locale, "commands")
     return commands.map((command) => {
-      const name = command.name
+      const cmd_id = command.i18nId ?? command.name
       return {
-        label: "/" + t(`${name}.name`),
-        description: t(`${name}.description`),
-        value: name,
-        default: deployed.includes(name),
+        label: CommandNamePresenter.present(command, locale, { unformatted: true }),
+        description: t(`${cmd_id}.description`),
+        value: command.name,
+        default: deployed.includes(command.name),
       }
     })
   },
