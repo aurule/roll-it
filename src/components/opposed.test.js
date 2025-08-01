@@ -60,7 +60,7 @@ describe("opposed component handler", () => {
         async (state) => {
           const interaction = new Interaction()
           const opposed_db = new Opposed()
-          let challenge_id = opposed_db.addChallenge({
+          const challenge_id = opposed_db.addChallenge({
             locale: "en-US",
             description: "testing challenge",
             attacker_uid: "atk",
