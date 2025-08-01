@@ -100,6 +100,7 @@ teamwork:
   unauthorized: Only the test leader {{leader}} can use this control.
   unavailable: That teamwork test is no longer available.
 opposed:
+  retry: retry
   shared:
     attributes:
       mental: a Mental
