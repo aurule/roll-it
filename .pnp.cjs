@@ -39,8 +39,8 @@ const RAW_RUNTIME_STATE =
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.5"],\
-          ["joi", "npm:17.13.3"],\
-          ["keyv", "npm:5.4.0"],\
+          ["joi", "npm:18.0.0"],\
+          ["keyv", "npm:5.5.0"],\
           ["mathjs", "npm:14.6.0"],\
           ["nodemon", "npm:3.1.10"],\
           ["pino", "npm:9.7.0"],\
@@ -1096,21 +1096,58 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@hapi/hoek", [\
-      ["npm:9.3.0", {\
-        "packageLocation": "./.yarn/cache/@hapi-hoek-npm-9.3.0-447eb8d274-a096063805.zip/node_modules/@hapi/hoek/",\
+    ["@hapi/address", [\
+      ["npm:5.1.1", {\
+        "packageLocation": "./.yarn/cache/@hapi-address-npm-5.1.1-2944e6ed9b-78138effe1.zip/node_modules/@hapi/address/",\
         "packageDependencies": [\
-          ["@hapi/hoek", "npm:9.3.0"]\
+          ["@hapi/address", "npm:5.1.1"],\
+          ["@hapi/hoek", "npm:11.0.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@hapi/formula", [\
+      ["npm:3.0.2", {\
+        "packageLocation": "./.yarn/cache/@hapi-formula-npm-3.0.2-70d8fffc4e-794d30dd13.zip/node_modules/@hapi/formula/",\
+        "packageDependencies": [\
+          ["@hapi/formula", "npm:3.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@hapi/hoek", [\
+      ["npm:11.0.7", {\
+        "packageLocation": "./.yarn/cache/@hapi-hoek-npm-11.0.7-67a33297f6-39a4a3ae95.zip/node_modules/@hapi/hoek/",\
+        "packageDependencies": [\
+          ["@hapi/hoek", "npm:11.0.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@hapi/pinpoint", [\
+      ["npm:2.0.1", {\
+        "packageLocation": "./.yarn/cache/@hapi-pinpoint-npm-2.0.1-4da9d8fcbc-b3072f2c57.zip/node_modules/@hapi/pinpoint/",\
+        "packageDependencies": [\
+          ["@hapi/pinpoint", "npm:2.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@hapi/tlds", [\
+      ["npm:1.1.2", {\
+        "packageLocation": "./.yarn/cache/@hapi-tlds-npm-1.1.2-80b5f7031d-1735a13c0a.zip/node_modules/@hapi/tlds/",\
+        "packageDependencies": [\
+          ["@hapi/tlds", "npm:1.1.2"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@hapi/topo", [\
-      ["npm:5.1.0", {\
-        "packageLocation": "./.yarn/cache/@hapi-topo-npm-5.1.0-5e0b776809-b16b06d935.zip/node_modules/@hapi/topo/",\
+      ["npm:6.0.2", {\
+        "packageLocation": "./.yarn/cache/@hapi-topo-npm-6.0.2-2ca029706c-5a0079805e.zip/node_modules/@hapi/topo/",\
         "packageDependencies": [\
-          ["@hapi/hoek", "npm:9.3.0"],\
-          ["@hapi/topo", "npm:5.1.0"]\
+          ["@hapi/hoek", "npm:11.0.7"],\
+          ["@hapi/topo", "npm:6.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1606,34 +1643,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@sideway/address", [\
-      ["npm:4.1.5", {\
-        "packageLocation": "./.yarn/cache/@sideway-address-npm-4.1.5-a3852745c8-638eb6f7e7.zip/node_modules/@sideway/address/",\
-        "packageDependencies": [\
-          ["@hapi/hoek", "npm:9.3.0"],\
-          ["@sideway/address", "npm:4.1.5"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@sideway/formula", [\
-      ["npm:3.0.1", {\
-        "packageLocation": "./.yarn/cache/@sideway-formula-npm-3.0.1-ee371b2ddf-3fe81fa966.zip/node_modules/@sideway/formula/",\
-        "packageDependencies": [\
-          ["@sideway/formula", "npm:3.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@sideway/pinpoint", [\
-      ["npm:2.0.0", {\
-        "packageLocation": "./.yarn/cache/@sideway-pinpoint-npm-2.0.0-66d94e687e-d2ca75daca.zip/node_modules/@sideway/pinpoint/",\
-        "packageDependencies": [\
-          ["@sideway/pinpoint", "npm:2.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@sinclair/typebox", [\
       ["npm:0.34.35", {\
         "packageLocation": "./.yarn/cache/@sinclair-typebox-npm-0.34.35-4698edbad1-2e10a655ea.zip/node_modules/@sinclair/typebox/",\
@@ -1659,6 +1668,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@sinonjs/commons", "npm:3.0.1"],\
           ["@sinonjs/fake-timers", "npm:13.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@standard-schema/spec", [\
+      ["npm:1.0.0", {\
+        "packageLocation": "./.yarn/cache/@standard-schema-spec-npm-1.0.0-e86c6647f1-a1ab9a8bdc.zip/node_modules/@standard-schema/spec/",\
+        "packageDependencies": [\
+          ["@standard-schema/spec", "npm:1.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4195,15 +4213,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["joi", [\
-      ["npm:17.13.3", {\
-        "packageLocation": "./.yarn/cache/joi-npm-17.13.3-866dad5bc8-9262aef1da.zip/node_modules/joi/",\
+      ["npm:18.0.0", {\
+        "packageLocation": "./.yarn/cache/joi-npm-18.0.0-1ebac7eadf-13bacd15e3.zip/node_modules/joi/",\
         "packageDependencies": [\
-          ["@hapi/hoek", "npm:9.3.0"],\
-          ["@hapi/topo", "npm:5.1.0"],\
-          ["@sideway/address", "npm:4.1.5"],\
-          ["@sideway/formula", "npm:3.0.1"],\
-          ["@sideway/pinpoint", "npm:2.0.0"],\
-          ["joi", "npm:17.13.3"]\
+          ["@hapi/address", "npm:5.1.1"],\
+          ["@hapi/formula", "npm:3.0.2"],\
+          ["@hapi/hoek", "npm:11.0.7"],\
+          ["@hapi/pinpoint", "npm:2.0.1"],\
+          ["@hapi/tlds", "npm:1.1.2"],\
+          ["@hapi/topo", "npm:6.0.2"],\
+          ["@standard-schema/spec", "npm:1.0.0"],\
+          ["joi", "npm:18.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4274,11 +4294,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["keyv", [\
-      ["npm:5.4.0", {\
-        "packageLocation": "./.yarn/cache/keyv-npm-5.4.0-24070d1f4b-e4dc553ff5.zip/node_modules/keyv/",\
+      ["npm:5.5.0", {\
+        "packageLocation": "./.yarn/cache/keyv-npm-5.5.0-dd4b8da482-2db63fd2ab.zip/node_modules/keyv/",\
         "packageDependencies": [\
           ["@keyv/serialize", "npm:1.1.0"],\
-          ["keyv", "npm:5.4.0"]\
+          ["keyv", "npm:5.5.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5236,8 +5256,8 @@ const RAW_RUNTIME_STATE =
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.3.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.0.5"],\
-          ["joi", "npm:17.13.3"],\
-          ["keyv", "npm:5.4.0"],\
+          ["joi", "npm:18.0.0"],\
+          ["keyv", "npm:5.5.0"],\
           ["mathjs", "npm:14.6.0"],\
           ["nodemon", "npm:3.1.10"],\
           ["pino", "npm:9.7.0"],\

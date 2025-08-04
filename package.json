@@ -20,8 +20,8 @@
     "discord.js": "^14.21.0",
     "i18next": "^25.3.2",
     "i18next-fs-backend": "^2.6.0",
-    "joi": "^17.13.3",
-    "keyv": "^5.4.0",
+    "joi": "^18.0.0",
+    "keyv": "^5.5.0",
     "mathjs": "^14.6.0",
     "pino": "^9.7.0",
     "pino-papertrail": "^2.1.0"
