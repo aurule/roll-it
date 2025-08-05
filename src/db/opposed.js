@@ -399,6 +399,19 @@ class Opposed extends CachedDb {
     return select.get(message_id)
   }
 
+  getChallengeMessages(challenge_id) {
+    const select = this.prepared(
+      "getChallengeMessages",
+      oneLine`
+      SELECT *
+      FROM   interactive.opposed_messages
+      WHERE  challenge_id = ?
+    `,
+    )
+
+    return select.all(challenge_id)
+  }
+
   /**
    * Get whether a message UID is stored
    * @param  {Snowflake}  message_uid Discord message ID
