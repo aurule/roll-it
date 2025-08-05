@@ -63,6 +63,7 @@ class Message {
   addReply(opts) {
     this.replies.push(opts)
     Object.assign(this, opts)
+    this.id = simpleflake()
     this.editEvents.emit("edited", opts)
   }
 
