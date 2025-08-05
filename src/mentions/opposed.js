@@ -32,7 +32,8 @@ module.exports = {
    */
   async handle(interaction) {
     const opposed_db = new Opposed()
-    const challenge = opposed_db.findChallengeByMessage(interaction.reference.messageId)
+    const mention_message_uuid = interaction.reference.messageId
+    const challenge = opposed_db.findChallengeByMessage(mention_message_uuid)
 
     if (RETRY_KEYWORDS.includes(interaction.content)) {
       const message_file = message_contents.get(challenge.state)
@@ -45,10 +46,12 @@ module.exports = {
           detail: `failed to retry message for state "${challenge.state}"`,
         })
         .then((reply_interaction) => {
+          const message_uid = reply_interaction.resource.message.id ?? reply_interaction.id
+
           const message_props = {
             challenge_id: challenge.id,
-            message_uid: reply_interaction.id,
-            test_id: opposed_db.findTestByMessage(interaction.reference.messageId)?.id ?? null,
+            message_uid,
+            test_id: opposed_db.findTestByMessage(mention_message_uuid)?.id ?? null,
           }
           opposed_db.addMessage(message_props)
           if (afterRetry !== undefined) {
