@@ -17,11 +17,11 @@ module.exports = {
 
     const components = [
       build.text(t("request", { participant: attacker.mention })),
-      build.actions(throw_picker.data(locale, attacker)),
+      build.actions(throw_picker.data(challenge.locale, attacker)),
       build.text(t("disclaimer")),
       build.separator(),
       build.text(t("request", { participant: defender.mention })),
-      build.actions(throw_picker.data(locale, defender)),
+      build.actions(throw_picker.data(challenge.locale, defender)),
       build.text(t("disclaimer")),
       build.separator(),
       build.text(t("cta")),
