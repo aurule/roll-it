@@ -727,7 +727,7 @@ class Opposed extends CachedDb {
       locale,
       retester_id,
       retest_reason,
-      retested: +!!cancelled,
+      retested: +!!retested,
       canceller_id,
       cancelled_with,
       cancelled: +!!cancelled,

@@ -1082,6 +1082,65 @@ describe("Opposed DB", () => {
     })
   })
 
+  describe("addTest", () => {
+    let challenge_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      })
+
+      opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      })
+    })
+
+    it("stores retested flag", () => {
+      const test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        retested: true
+      }).lastInsertRowid
+
+      const record = opposed.getTest(test_id)
+
+      expect(record.retested).toBe(true)
+    })
+
+    it("stores cancelled flag", () => {
+      const test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        cancelled: true
+      }).lastInsertRowid
+
+      const record = opposed.getTest(test_id)
+
+      expect(record.cancelled).toBe(true)
+    })
+  })
+
   describe("getLatestTestWithParticipants", () => {
     let challenge_id
     let attacker_id
