@@ -34,7 +34,7 @@ module.exports = {
     const test = opposed_db.findTestByMessage(message.id)
     const participants = opposed_db.getParticipants(test.challenge_id)
 
-    if (opposed_db.didParticipantChop(participants.get("attacker").id, test.id)) {
+    if (opposed_db.didParticipantChop(participants.get("attacker")?.id, test.id)) {
       await message.react("🗡️").catch((err) => {
         logger.warn(
           {
@@ -45,7 +45,7 @@ module.exports = {
         )
       })
     }
-    if (opposed_db.didParticipantChop(participants.get("defender").id, test.id)) {
+    if (opposed_db.didParticipantChop(participants.get("defender")?.id, test.id)) {
       await message.react("🛡️").catch((err) => {
         logger.warn(
           {
