@@ -6,6 +6,12 @@ const advantage_picker = require("../../components/opposed/advantage-picker")
 const ready_button = require("../../components/opposed/ready-button")
 const build = require("../../util/message-builders")
 
+/**
+ * Message shown at the start of a challenge
+ *
+ * This has controls for the challenge initiator to set their advantages as well as the general conditions
+ * of the test.
+ */
 module.exports = {
   state: "advantages-attacker",
   data: (challenge_id) => {
@@ -26,7 +32,7 @@ module.exports = {
           description: challenge.description,
           context: challenge.description ? "description" : undefined,
           attribute: shared_t(`attributes.${challenge.attribute}`),
-          retest: challenge.retest,
+          retest: challenge.retest_ability,
         }),
       ),
       build.section(t("withdraw"), withdraw_button.data(challenge.locale)),
@@ -62,7 +68,7 @@ module.exports = {
         context: challenge.description ? "description" : undefined,
         attribute: shared_t(`attributes.${challenge.attribute}`),
         conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
-        retest: challenge.retest,
+        retest: challenge.retest_ability,
         advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
       }),
       {
