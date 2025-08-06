@@ -5,6 +5,12 @@ const advantage_picker = require("../../components/opposed/advantage-picker")
 const ready_button = require("../../components/opposed/ready-button")
 const build = require("../../util/message-builders")
 
+/**
+ * Message shown to let the defending participant set their advantages
+ *
+ * This has controls for the challenge defender to set their advantages or to immediately allow the challenge
+ * to succeed.
+ */
 module.exports = {
   state: "advantages-defender",
   data: (challenge_id) => {
@@ -26,7 +32,7 @@ module.exports = {
           context: challenge.description ? "description" : undefined,
           attribute: shared_t(`attributes.${challenge.attribute}`),
           conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
-          retest: challenge.retest,
+          retest: challenge.retest_ability,
           advantages: attacker.advantages.map((c) => shared_t(`advantages.${c}`)),
         }),
       ),
@@ -37,7 +43,7 @@ module.exports = {
       build.text(t("advantages")),
       build.actions(advantage_picker.data(challenge.locale, defender)),
       build.text(t("ready")),
-      build.actions(ready_button.data(challenge.locale)),
+      build.actions(ready_button.data(challenge.locale, defender)),
     ]
 
     return build.message(components, {
@@ -61,7 +67,7 @@ module.exports = {
         attribute: t(`attributes.${challenge.attribute}`),
         description: challenge.description,
         context: challenge.description ? "description" : undefined,
-        retest: challenge.retest,
+        retest: challenge.retest_ability,
         conditions: challenge.conditions.map((c) => t(`conditions.${c}`)),
         attacker_advantages: attacker.advantages.map((c) => t(`advantages.${c}`)),
         defender_advantages: defender.advantages.map((c) => t(`advantages.${c}`)),
