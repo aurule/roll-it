@@ -3,10 +3,9 @@ jest.mock("../util/message-builders")
 const { Interaction } = require("../../testing/interaction")
 const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")
-const { OpTest } = require("../db/opposed/optest")
-const { Participant } = require("../db/opposed/participant")
 const cancel_button = require("./opposed/cancel-button")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
+const { ChallengeFixture } = require("../../testing/challenge-fixture")
 
 const opposed_handler = require("./opposed")
 
@@ -59,21 +58,7 @@ describe("opposed component handler", () => {
         "%s: replies that the challenge is over",
         async (state) => {
           const interaction = new Interaction()
-          const opposed_db = new Opposed()
-          const challenge_id = opposed_db.addChallenge({
-            locale: "en-US",
-            description: "testing challenge",
-            attacker_uid: "atk",
-            attribute: "mental",
-            retest_ability: "occult",
-            state: Challenge.States.Conceded,
-            channel_uid: "testchan",
-            timeout: 1000,
-          }).lastInsertRowid
-          opposed_db.addMessage({
-            message_uid: interaction.message.id,
-            challenge_id,
-          })
+          new ChallengeFixture(state).attachMessage(interaction.message.id)
 
           await opposed_handler.handle(interaction)
 
@@ -83,45 +68,17 @@ describe("opposed component handler", () => {
     })
 
     describe("with a challenge in a non-final state, but past its timeout", () => {
-      let opposed_db
-      let challenge_id
-      const attacker_uid = "atk"
-      const defender_uid = "def"
+      let challenge
 
       beforeEach(() => {
         interaction = new Interaction()
         interaction.customId = "opposed_cancel"
 
-        opposed_db = new Opposed()
-        challenge_id = opposed_db.addChallenge({
-          locale: "en-US",
-          description: "testing challenge",
-          attacker_uid,
-          attribute: "mental",
-          retest_ability: "occult",
-          state: Challenge.States.AdvantagesAttacker,
-          channel_uid: "testchan",
-          timeout: -1000,
-        }).lastInsertRowid
-        opposed_db.addMessage({
-          message_uid: interaction.message.id,
-          challenge_id,
-        })
+        challenge = new ChallengeFixture().withParticipants().expire().attachMessage(interaction.message.id)
+      })
 
-        opposed_db.addParticipant({
-          challenge_id,
-          user_uid: attacker_uid,
-          mention: `<@${attacker_uid}>`,
-          role: Participant.Roles.Attacker,
-          advantages: ["hi", "there"],
-        })
-        opposed_db.addParticipant({
-          challenge_id,
-          user_uid: defender_uid,
-          mention: `<@${defender_uid}>`,
-          role: Participant.Roles.Defender,
-          advantages: ["oh", "no"],
-        })
+      afterEach(() => {
+        challenge.cleanup()
       })
 
       it("replies that the challenge is over", async () => {
@@ -132,60 +89,21 @@ describe("opposed component handler", () => {
     })
 
     describe("with a valid challenge, but for a finished test record", () => {
+      let challenge
       let opposed_db
-      const attacker_uid = "atk"
 
       beforeEach(() => {
         interaction = new Interaction()
         interaction.customId = "opposed_cancel"
 
         opposed_db = new Opposed()
-        let challenge_id = opposed_db.addChallenge({
-          locale: "en-US",
-          description: "testing challenge",
-          attacker_uid,
-          attribute: "mental",
-          retest_ability: "occult",
-          state: Challenge.States.Winning,
-          channel_uid: "testchan",
-          timeout: 1000,
-        }).lastInsertRowid
-
-        let attacker_id = opposed_db.addParticipant({
-          challenge_id,
-          user_uid: attacker_uid,
-          mention: `<@${attacker_uid}>`,
-          role: Participant.Roles.Attacker,
-          advantages: ["hi", "there"],
-        }).lastInsertRowid
-        let defender_id = opposed_db.addParticipant({
-          challenge_id,
-          user_uid: interaction.user.id,
-          mention: `<@${interaction.user.id}>`,
-          role: Participant.Roles.Defender,
-          advantages: ["oh", "no"],
-        }).lastInsertRowid
-
-        let test_id = opposed_db.addTest({
-          challenge_id,
-          locale: "en-US",
-          leader_id: attacker_id,
-          retester_id: attacker_id,
-          retest_reason: OpTest.RetestReasons.Ability,
-          canceller_id: defender_id,
-          cancelled_with: OpTest.CancelReasons.Ability,
-        }).lastInsertRowid
-
-        opposed_db.addMessage({
-          message_uid: interaction.message.id,
-          challenge_id,
-          test_id,
-        })
+        challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
+        challenge.addTest().attachMessage(interaction.message.id)
 
         opposed_db.addFutureTest({
-          challenge_id,
+          challenge_id: challenge.id,
           locale: "en-US",
-          leader_id: attacker_id,
+          leader_id: challenge.attacker_id,
         })
       })
 
@@ -197,56 +115,14 @@ describe("opposed component handler", () => {
     })
 
     describe("with a valid, current challenge", () => {
-      let opposed_db
       let execute_spy
-      const attacker_uid = "atk"
 
       beforeEach(() => {
         interaction = new Interaction()
         interaction.customId = "opposed_cancel"
 
-        opposed_db = new Opposed()
-        let challenge_id = opposed_db.addChallenge({
-          locale: "en-US",
-          description: "testing challenge",
-          attacker_uid,
-          attribute: "mental",
-          retest_ability: "occult",
-          state: Challenge.States.Winning,
-          channel_uid: "testchan",
-          timeout: 1000,
-        }).lastInsertRowid
-
-        let attacker_id = opposed_db.addParticipant({
-          challenge_id,
-          user_uid: attacker_uid,
-          mention: `<@${attacker_uid}>`,
-          role: Participant.Roles.Attacker,
-          advantages: ["hi", "there"],
-        }).lastInsertRowid
-        let defender_id = opposed_db.addParticipant({
-          challenge_id,
-          user_uid: interaction.user.id,
-          mention: `<@${interaction.user.id}>`,
-          role: Participant.Roles.Defender,
-          advantages: ["oh", "no"],
-        }).lastInsertRowid
-
-        let test_id = opposed_db.addTest({
-          challenge_id,
-          locale: "en-US",
-          leader_id: attacker_id,
-          retester_id: attacker_id,
-          retest_reason: OpTest.RetestReasons.Ability,
-          canceller_id: defender_id,
-          cancelled_with: OpTest.CancelReasons.Ability,
-        }).lastInsertRowid
-
-        opposed_db.addMessage({
-          message_uid: interaction.message.id,
-          challenge_id,
-          test_id,
-        })
+        challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
+        challenge.addTest().attachMessage(interaction.message.id)
 
         execute_spy = jest.spyOn(cancel_button, "execute")
       })

@@ -1,34 +1,29 @@
 jest.mock("../../util/message-builders")
 
-const { Opposed } = require("../../db/opposed")
+const { ChallengeFixture } = require("../../../testing/challenge-fixture")
+const { Challenge } = require("../../db/opposed/challenge")
 const accepted = require("./accepted")
 
 describe("opposed tie accepted message", () => {
   describe("data", () => {
-    let challenge_id
-    let opposed_db
+    let challenge
 
     beforeEach(() => {
-      opposed_db = new Opposed()
-      challenge_id = opposed_db.addChallenge({
-        locale: "en-US",
-        attacker_uid: "atk",
-        attribute: "mental",
-        retest_ability: "occult",
-        state: "accepted",
-        channel_uid: "chan",
-        summary: "challenge summary",
-      }).lastInsertRowid
+      challenge = new ChallengeFixture(Challenge.States.Accepted).setSummary("challenge summary")
+    })
+
+    afterEach(() => {
+      challenge.cleanup()
     })
 
     it("shows the accepted message", () => {
-      const result = accepted.data(challenge_id)
+      const result = accepted.data(challenge.id)
 
       expect(result.content).toMatch("ended in a tie")
     })
 
     it("includes the challenge summary", () => {
-      const result = accepted.data(challenge_id)
+      const result = accepted.data(challenge.id)
 
       expect(result.content).toMatch("challenge summary")
     })

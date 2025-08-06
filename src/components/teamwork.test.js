@@ -31,7 +31,7 @@ describe("teamwork component handler", () => {
 
     describe("with no teamwork test", () => {
       it("replies that the test is concluded", async () => {
-        const result = teamwork.handle(interaction)
+        teamwork.handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })

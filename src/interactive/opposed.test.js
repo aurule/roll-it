@@ -3,8 +3,8 @@ jest.mock("../services/api")
 
 const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")
-const { Participant } = require("../db/opposed/participant")
 const { Interaction } = require("../../testing/interaction")
+const { ChallengeFixture } = require("../../testing/challenge-fixture")
 const api = require("../services/api")
 
 const InteractiveOpposed = require("./opposed")
@@ -102,64 +102,43 @@ describe("interactive opposed challenge", () => {
 
   describe("opposedTimeout", () => {
     let opposed_db
-    let challenge_id
+    let challenge
 
     beforeEach(() => {
       opposed_db = new Opposed()
-      challenge_id = opposed_db.addChallenge({
-        locale: "en-US",
-        description: "testing challenge",
-        attacker_uid: "atk",
-        attribute: "mental",
-        retest_ability: "occult",
-        state: Challenge.States.AdvantagesAttacker,
-        channel_uid: "testchan",
-        timeout: 1000,
-      }).lastInsertRowid
-      opposed_db.addParticipant({
-        challenge_id,
-        user_uid: "atk",
-        mention: "<@atk>",
-        role: Participant.Roles.Attacker,
-        advantages: ["hi", "there"],
-      }).lastInsertRowid
-      opposed_db.addParticipant({
-        challenge_id,
-        user_uid: "def",
-        mention: "<@def>",
-        role: Participant.Roles.Defender,
-        advantages: ["oh", "no"],
-      }).lastInsertRowid
+      challenge = new ChallengeFixture().withParticipants()
+    })
+
+    afterEach(() => {
+      challenge.cleanup()
     })
 
     describe("challenge is finished", () => {
       beforeEach(() => {
-        opposed_db.setChallengeState(challenge_id, Challenge.States.Accepted)
+        opposed_db.setChallengeState(challenge.id, Challenge.States.Accepted)
       })
 
       it("leaves state unchanged", async () => {
-        await InteractiveOpposed.opposedTimeout(challenge_id)
+        await InteractiveOpposed.opposedTimeout(challenge.id)
 
-        const challenge = opposed_db.getChallenge(challenge_id)
-        expect(challenge.state).toEqual(Challenge.States.Accepted)
+        expect(challenge.record.state).toEqual(Challenge.States.Accepted)
       })
 
       it("does not send a message", async () => {
-        await InteractiveOpposed.opposedTimeout(challenge_id)
+        await InteractiveOpposed.opposedTimeout(challenge.id)
 
         expect(api.sendMessage).not.toHaveBeenCalled()
       })
     })
 
     it("sets challenge to expired state", async () => {
-      await InteractiveOpposed.opposedTimeout(challenge_id)
+      await InteractiveOpposed.opposedTimeout(challenge.id)
 
-      const challenge = opposed_db.getChallenge(challenge_id)
-      expect(challenge.state).toEqual(Challenge.States.Expired)
+      expect(challenge.record.state).toEqual(Challenge.States.Expired)
     })
 
     it("shows expired message", async () => {
-      await InteractiveOpposed.opposedTimeout(challenge_id)
+      await InteractiveOpposed.opposedTimeout(challenge.id)
 
       expect(api.sendMessage).toHaveBeenCalled()
     })
