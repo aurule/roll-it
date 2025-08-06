@@ -3,6 +3,7 @@ const { Opposed } = require("../db/opposed")
 const { i18n, available_locales } = require("../locales")
 const { logger } = require("../util/logger")
 const message_contents = require("../messages/opposed")
+const { UnauthorizedError } = require("../errors/unauthorized-error")
 
 const RETRY_KEYWORDS = available_locales.map(locale => i18n.t("opposed.retry", { lng: locale, ns: "interactive" }))
 
@@ -68,8 +69,8 @@ module.exports = {
         if (err instanceof UnauthorizedError) {
           logger.info({
             user: interaction.user,
-            component: component_name,
-            detail: "unauthorized component interaction",
+            challenge,
+            detail: "unauthorized message reply interaction",
           })
           return interaction.ensure(
             "whisper",
@@ -88,7 +89,7 @@ module.exports = {
           logger.error({
             err,
             user: interaction.user,
-            component: component_name,
+            challenge,
           })
         }
       }
