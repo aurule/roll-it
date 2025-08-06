@@ -10,7 +10,7 @@ const build = require("../../util/message-builders")
  * Message shown at the start of a challenge
  *
  * This has controls for the challenge initiator to set their advantages as well as the general conditions
- * of the test.
+ * of the test, or to immediately cancel the entire challenge.
  */
 module.exports = {
   state: "advantages-attacker",
