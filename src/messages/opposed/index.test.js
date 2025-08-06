@@ -26,7 +26,7 @@ describe("opposed messages", () => {
     expect(messages.has(undefined)).toBeFalsy()
   })
 
-  it.each(messages.map((m) => [m.state, m]))("%s message matches schema", (_state, message) => {
+  it.concurrent.each(messages.map((m) => [m.state, m]))("%s message matches schema", (_state, message) => {
     expect(message).toMatchSchema(message_schema)
   })
 })
