@@ -2,6 +2,9 @@ const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const build = require("../../util/message-builders")
 
+/**
+ * Message shown for a challenge that has run out of time
+ */
 module.exports = {
   state: "expired",
   data: (challenge_id) => {

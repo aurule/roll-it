@@ -2,6 +2,9 @@ const { Opposed } = require("../../db/opposed")
 const { i18n } = require("../../locales")
 const build = require("../../util/message-builders")
 
+/**
+ * Message shown when one participant refuses to challenge the current win of their opponent
+ */
 module.exports = {
   state: "conceded",
   data: (challenge_id) => {
