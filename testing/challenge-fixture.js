@@ -26,7 +26,7 @@ class ChallengeFixture {
       attribute: "mental",
       description: "fake challenge",
       retest_ability: "occult",
-      conditions: [],
+      conditions: [Challenge.Conditions.Normal],
       state,
       channel_uid: "fake_channel",
       timeout: 1000,
@@ -51,7 +51,7 @@ class ChallengeFixture {
     return this
   }
 
-  attacker({ advantages = [], tie_winner = false, ability_used = false } = {}) {
+  attacker({ advantages = [Participant.Advantages.None], tie_winner = false, ability_used = false } = {}) {
     this.attacker_id = this.db.addParticipant({
       user_uid: this.attacker_uid,
       mention: `<@${this.attacker_uid}>`,
@@ -65,7 +65,7 @@ class ChallengeFixture {
     return this
   }
 
-  defender({ advantages = [], tie_winner = false, ability_used = false } = {}) {
+  defender({ advantages = [Participant.Advantages.None], tie_winner = false, ability_used = false } = {}) {
     this.defender_id = this.db.addParticipant({
       user_uid: this.defender_uid,
       mention: `<@${this.defender_uid}>`,
