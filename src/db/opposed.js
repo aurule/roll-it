@@ -191,6 +191,19 @@ class Opposed extends CachedDb {
     })
   }
 
+  setChallengeExpired(challenge_id) {
+    const update = this.prepared(
+      "setChallengeExpired",
+      oneLine`
+      UPDATE interactive.opposed_challenges
+      SET    expires_at = datetime('now', '-1000 seconds')
+      WHERE  id = ?
+    `,
+    )
+
+    return update.run(challenge_id)
+  }
+
   /**
    * Update the summary of the challenge
    * @param {int}    challenge_id Internal ID of the challenge record
