@@ -598,18 +598,18 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    raw_out.forEach((p) => new Participant(p))
+    const participants = raw_out.map(p => new Participant(p))
 
     if (index_by_id) {
       return new Collection([
-        [raw_out[0].id, raw_out[0]],
-        [raw_out[1].id, raw_out[1]],
+        [participants[0].id, participants[0]],
+        [participants[1].id, participants[1]],
       ])
     }
 
     return new Collection([
-      ["attacker", raw_out[0]],
-      ["defender", raw_out[1]],
+      ["attacker", participants[0]],
+      ["defender", participants[1]],
     ])
   }
 
