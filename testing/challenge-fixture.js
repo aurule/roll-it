@@ -5,7 +5,7 @@ const { Participant } = require("../src/db/opposed/participant")
 class ChallengeFixture {
   /**
    * Database object
-   * @type Database
+   * @type Opposed
    */
   db
 
@@ -94,37 +94,55 @@ class ChallengeFixture {
     return this
   }
 
-  addTest() {
-    const test = new TestFixture(this)
+  addTest(options = {}) {
+    const test = new TestFixture(this, options)
     this.tests.push(test)
     return test
   }
 
   attackerRetest(reason) {
-    const test = new TestFixture(this, {
+    return this.addTest({
       retester_id: this.attacker_id,
       canceller_id: this.defender_id,
       retest_reason: reason,
+      retested: true,
     })
-    this.tests.push(test)
-    return test
   }
 
   defenderRetest(reason) {
-    const test = new TestFixture(this, {
+    return this.addTest({
       retester_id: this.defender_id,
       canceller_id: this.attacker_id,
       retest_reason: reason,
+      retested: true,
     })
-    this.tests.push(test)
-    return test
+  }
+
+  addAttackerWin() {
+    return this.addTest({
+      leader_id: this.attacker_id,
+      breakdown: "scissors vs paper",
+    })
+  }
+
+  addDefenderWin() {
+    return this.addTest({
+      leader_id: this.defender_id,
+      breakdown: "rock vs paper",
+    })
+  }
+
+  addTie() {
+    return this.addTest({
+      breakdown: "paper vs paper",
+    })
   }
 }
 
 class TestFixture {
   /**
    * Database object
-   * @type Database
+   * @type Opposed
    */
   db
 
