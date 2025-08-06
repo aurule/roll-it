@@ -23,6 +23,13 @@ module.exports = {
       content: paragraphs.join("\n"),
       components: [{ components: interactables.flat() }],
       flags,
+      hasComponent(search_id) {
+        return this.components.some((row) => {
+          return row.components.some((component) => {
+            return component.data.custom_id === search_id
+          })
+        })
+      },
       ...options,
     }
   }),
