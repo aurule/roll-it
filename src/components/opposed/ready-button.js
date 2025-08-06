@@ -23,7 +23,7 @@ module.exports = {
   name: "opposed_ready",
   data: (locale, participant) =>
     new ButtonBuilder()
-      .setCustomId(`"opposed_ready_${participant.id}`)
+      .setCustomId(`opposed_ready_${participant.id}`)
       .setLabel(i18n.t("opposed.shared.ready", { ns: "interactive", lng: locale }))
       .setStyle(ButtonStyle.Success),
   async execute(interaction) {
