@@ -9,13 +9,13 @@ function toHaveComponent(message, component_id) {
   if (message.hasComponent(component_id)) {
     return {
       message: () =>
-        `expected ${this.utils.printReceived(message)} not to have a component with id ${this.utils.printExpected("component_id")}`,
+        `expected ${this.utils.printReceived(message.components)} not to have a component with id ${this.utils.printExpected(component_id)}`,
       pass: true,
     }
   } else {
     return {
       message: () =>
-        `expected ${this.utils.printReceived(message)} to have a component with id ${this.utils.printExpected("component_id")}`,
+        `expected ${this.utils.printReceived(message.components)} to have a component with id ${this.utils.printExpected(component_id)}`,
       pass: false,
     }
   }
