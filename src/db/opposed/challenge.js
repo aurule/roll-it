@@ -147,6 +147,7 @@ class Challenge {
    * @type {Record<string, string>}
    */
   static Conditions = Object.freeze({
+    Normal: "normal",
     Carrier: "carrier",
     Altering: "altering",
   })

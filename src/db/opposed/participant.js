@@ -55,6 +55,7 @@ class Participant {
    * @type {Record<string, string>}
    */
   static Advantages = Object.freeze({
+    None: "none",
     Bomb: "bomb",
     Ties: "ties",
     Cancels: "cancels",
