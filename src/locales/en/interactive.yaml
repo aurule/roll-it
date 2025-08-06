@@ -135,11 +135,11 @@ opposed:
       none: no special advantages
     ready: Ready
     summary: |-
-      {{attacker}} is challenging {{defender}} with {{attribute}} test. This is {{conditions, list}} attack. The named retest is {{retest}}.
+      {{attacker}} is attacking {{defender}} with {{attribute}} challenge. This is {{conditions, list}} attack. The named retest is {{retest}}.
       {{attacker}} has {{attacker_advantages, list}}.
       {{defender}} has {{defender_advantages, list}}.
     summary_description: |-
-      {{attacker}} is challenging {{defender}} with {{attribute}} test for "{{description}}". This is a {{conditions, list}} attack. The named retest is {{retest}}.
+      {{attacker}} is attacking {{defender}} with {{attribute}} challenge for "{{description}}". This is a {{conditions, list}} attack. The named retest is {{retest}}.
       {{attacker}} has {{attacker_advantages, list}}.
       {{defender}} has {{defender_advantages, list}}.
     retest:
