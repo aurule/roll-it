@@ -57,7 +57,7 @@ module.exports = {
         logger.error(
           {
             err: error,
-            challenge,
+            test,
             reply_to: interaction.reference.messageId,
             message: interaction.id,
             content: traits_content,
@@ -73,7 +73,7 @@ module.exports = {
         logger.error(
           {
             err: error,
-            challenge,
+            test,
             reply_to: interaction.reference.messageId,
             message: interaction.id,
             content: traits_content,
@@ -121,7 +121,7 @@ module.exports = {
           const message_uid = reply_result.resource.message.id ?? reply_result.id
 
           opposed_db.addMessage({
-            challenge_id: challenge.id,
+            challenge_id: test.challenge_id,
             message_uid,
           })
         })
@@ -140,7 +140,7 @@ module.exports = {
           const message_uid = reply_result.resource.message.id ?? reply_result.id
 
           opposed_db.addMessage({
-            challenge_id: challenge.id,
+            challenge_id: test.challenge_id,
             message_uid,
           })
         })

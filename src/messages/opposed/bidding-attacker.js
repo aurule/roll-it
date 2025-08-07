@@ -3,6 +3,7 @@ const { Challenge } = require("../../db/opposed/challenge")
 const { i18n } = require("../../locales")
 const bidding_defender_message = require("./bidding-defender")
 const build = require("../../util/message-builders")
+const { extractNumber } = require("../../util/extract-number")
 
 module.exports = {
   state: "bidding-attacker",
@@ -24,10 +25,8 @@ module.exports = {
 
     interaction.authorize(test.attacker.user_uid)
 
-    const traits_content = interaction.content
-    const clumped = traits_content.replace(/\s/, "")
-    const match = clumped.match(/\d+/)
-    if (match === null) {
+    const matched_number = extractNumber(interaction.content)
+    if (matched_number === undefined) {
       return interaction.whisper(t("bidding.missing")).catch((error) =>
         logger.error(
           {
@@ -41,8 +40,7 @@ module.exports = {
       )
     }
 
-    const num = parseInt(match[0])
-    if (num === NaN) {
+    if (matched_number === NaN) {
       return interaction.whisper(t("bidding.invalid")).catch((error) =>
         logger.error(
           {
@@ -59,14 +57,14 @@ module.exports = {
     const chops = opposed_db.getChopsForTest(test.id)
     const user_chop = chops.find((c) => c.participant_id === test.attacker.id)
 
-    opposed_db.setChopTraits(user_chop.id, num)
+    opposed_db.setChopTraits(user_chop.id, matched_number)
     opposed_db.setChallengeState(test.challenge_id, Challenge.States.BiddingDefender)
     return interaction
       .ensure("reply", bidding_defender_message.data(test.challenge_id), {
         test,
-        attacker,
+        attacker: test.attacker,
         user_chop,
-        traits: num,
+        traits: matched_number,
         detail: "Failed to send defender bid prompt",
       })
       .then((reply_result) => {
