@@ -1018,6 +1018,26 @@ class Opposed extends CachedDb {
     })
   }
 
+  getChop(chop_id) {
+    const select = this.prepared(
+      "getChop",
+      oneLine`
+        SELECT * FROM interactive.opposed_test_chops
+        WHERE id = ?
+      `
+    )
+
+    const raw_out = select.get(chop_id)
+
+    if (raw_out === undefined) return undefined
+
+    return {
+      ...raw_out,
+      ready: !!raw_out.ready,
+      accepted: !!raw_out.accepted,
+    }
+  }
+
   getChopsForTest(test_id) {
     const select = this.prepared(
       "getChopsForTest",
