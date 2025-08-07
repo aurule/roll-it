@@ -66,7 +66,8 @@ describe("opposed reply handler", () => {
 
       it("calls the afterRetry hook", async () => {
         opposed_db.setChallengeState(challenge.id, Challenge.States.Throwing)
-        challenge.addTest().defenderChop("rock").attachMessage(interaction.message.id)
+        const after_test = challenge.addTest().attachMessage(interaction.message.id)
+        after_test.defenderChop("rock")
 
         await opposed.handle(interaction)
 
@@ -82,7 +83,8 @@ describe("opposed reply handler", () => {
       beforeEach(() => {
         opposed_db = new Opposed()
         challenge = new ChallengeFixture(Challenge.States.BiddingAttacker).withParticipants()
-        bidding_test = challenge.addTest().attackerChop("rock")
+        bidding_test = challenge.addTest()
+        bidding_test.attackerChop("rock")
 
         interaction = new Interaction()
         interaction.author.id = challenge.attacker_uid
@@ -98,7 +100,7 @@ describe("opposed reply handler", () => {
 
         await opposed.handle(interaction)
 
-        expect(bidding_test.chops[0].traits).toEqual(17)
+        expect(bidding_test.attacker_chop.record.traits).toEqual(17)
       })
     })
   })
