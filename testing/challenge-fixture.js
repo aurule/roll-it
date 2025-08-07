@@ -148,8 +148,8 @@ class TestFixture {
 
   id
   challenge
-  attacker_chop_id
-  defender_chop_id
+  attacker_chop
+  defender_chop
 
   constructor(challenge, options) {
     this.challenge = challenge
@@ -176,25 +176,62 @@ class TestFixture {
   }
 
   attackerChop(request) {
-    this.attacker_chop_id = this.db.addChopRequest({
-      request,
-      test_id: this.id,
-      participant_id: this.challenge.attacker_id,
-    }).lastInsertRowid
-    return this
+    this.attacker_chop = new ChopFixture(request, this, this.challenge.attacker_id)
+    return this.attacker_chop
   }
 
   defenderChop(request) {
-    this.defender_chop_id = this.db.addChopRequest({
+    this.defender_chop = new ChopFixture(request, this, this.challenge.defender_id)
+    return this.defender_chop
+  }
+}
+
+class ChopFixture {
+  /**
+   * Database object
+   * @type Opposed
+   */
+  db
+
+  id
+  test
+  request
+
+  constructor(request, test, participant_id) {
+    this.test = test
+    this.db = test.db
+    this.request = request
+
+    this.id = this.db.addChopRequest({
       request,
-      test_id: this.id,
-      participant_id: this.challenge.defender_id,
+      test_id: this.test.id,
+      participant_id: participant_id,
     }).lastInsertRowid
+  }
+
+  get record() {
+    return this.db.getChop(this.id)
+  }
+
+  setTraits(traits) {
+    this.db.setChopTraits(this.id, traits)
     return this
   }
 
-  get chops() {
-    return this.db.getChopsForTest(this.id)
+  ready() {
+    this.db.setChopReady(this.id, true)
+    return this
+  }
+
+  resolve(forced_result) {
+    const result = forced_result ?? this.request
+    this.db.setChopResult(this.id, result)
+    return this
+  }
+
+  accept() {
+    this.db.setChopTieAccepted(this.id, true)
+    return this
   }
 }
 
