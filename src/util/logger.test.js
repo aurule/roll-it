@@ -26,7 +26,7 @@ describe("logger", () => {
       ["development", "Transform"],
       ["test", "DevNull"],
       ["ci", "DevNull"],
-      ["production", "Pumpify"],
+      // we intentionally do not test the production logger, since it makes a live connection to papertrail
     ])("in %s env, uses %s object", async (env_name, obj_name) => {
       const log_stream = pickStream(env_name)
 
