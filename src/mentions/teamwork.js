@@ -5,6 +5,7 @@ const teamwork_change = require("../embeds/teamwork-change")
 const { teamworkTimeout } = require("../interactive/teamwork")
 const { logger } = require("../util/logger")
 const { messageLink } = require("../util/formatters/message-link")
+const { extractNumber } = require("../util/extract-number")
 
 module.exports = {
   /**
@@ -18,18 +19,6 @@ module.exports = {
   canHandle(interaction) {
     const teamwork_db = new Teamwork()
     return teamwork_db.hasMessage(interaction.reference?.messageId)
-  },
-
-  /**
-   * Pull the first number out of the given content
-   *
-   * @param  {string}  content String to parse
-   * @return {number?}         Extracted number, or null if one is not found
-   */
-  extractNumber(content) {
-    const match = content.replace(/\s/g, "").match(/-?\d+/)
-    if (match === null) return undefined
-    return parseInt(match[0])
   },
 
   /**
@@ -75,7 +64,7 @@ module.exports = {
       )
     }
 
-    const matched_number = module.exports.extractNumber(interaction.content)
+    const matched_number = extractNumber(interaction.content)
     if (matched_number === undefined) {
       return interaction.whisper(t("help_given.missing")).catch((error) =>
         logger.error(

@@ -41,38 +41,6 @@ describe("teamwork reply handler", () => {
     })
   })
 
-  describe("extractNumber", () => {
-    it("returns a positive number", () => {
-      const result = teamwork.extractNumber("I got 5 successes")
-
-      expect(result).toEqual(5)
-    })
-
-    it("returns multi-digit numbers", () => {
-      const result = teamwork.extractNumber("I got 11 successes")
-
-      expect(result).toEqual(11)
-    })
-
-    it("returns a negative number with no spaces", () => {
-      const result = teamwork.extractNumber("I got -5 successes")
-
-      expect(result).toEqual(-5)
-    })
-
-    it("returns a negative number with spaces", () => {
-      const result = teamwork.extractNumber("I got - 5 successes")
-
-      expect(result).toEqual(-5)
-    })
-
-    it("returns undefined with no number", () => {
-      const result = teamwork.extractNumber("I got zapped")
-
-      expect(result).toBeUndefined()
-    })
-  })
-
   describe("handle", () => {
     let interaction
     let teamwork_db
