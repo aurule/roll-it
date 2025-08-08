@@ -10,7 +10,7 @@ describe("makeHistory", () => {
 
   beforeEach(() => {
     challenge = new ChallengeFixture(Challenge.States.Tying).withParticipants()
-    opposed_test = challenge.attackerRetest().record
+    opposed_test = challenge.attackerRetest("ability").record
   })
 
   afterEach(() => {
@@ -27,7 +27,7 @@ describe("makeHistory", () => {
   })
 
   it("shows winner with a leader", () => {
-    opposed_test.leader_id = challenge.attacker_id
+    opposed_test.leader_id = challenge.attacker.id
     opposed_test.breakdown = "rock v defender's scissors"
 
     const result = makeHistory(opposed_test)
@@ -37,9 +37,9 @@ describe("makeHistory", () => {
 
   describe("retest line", () => {
     it("shows retest line if retested", () => {
-      opposed_test.leader_id = challenge.attacker_id
+      opposed_test.leader_id = challenge.attacker.id
       opposed_test.breakdown = "rock v defender's scissors"
-      opposed_test.retester_id = challenge.defender_id
+      opposed_test.retester_id = challenge.defender.id
       opposed_test.retest_reason = OpTest.RetestReasons.Merit
       opposed_test.retested = true
 
@@ -62,9 +62,9 @@ describe("makeHistory", () => {
       [OpTest.RetestReasons.Forced, "forced a retest"],
       [OpTest.RetestReasons.Other, "retested with something unusual"],
     ])("shows retest line for reason '%s'", (reason, text) => {
-      opposed_test.leader_id = challenge.attacker_id
+      opposed_test.leader_id = challenge.attacker.id
       opposed_test.breakdown = "rock v defender's scissors"
-      opposed_test.retester_id = challenge.defender_id
+      opposed_test.retester_id = challenge.defender.id
       opposed_test.retest_reason = reason
       opposed_test.retested = true
 
@@ -75,11 +75,11 @@ describe("makeHistory", () => {
   })
 
   it("shows cancel line if cancelled", () => {
-    opposed_test.leader_id = challenge.attacker_id
+    opposed_test.leader_id = challenge.attacker.id
     opposed_test.breakdown = "rock v defender's scissors"
-    opposed_test.retester_id = challenge.defender_id
+    opposed_test.retester_id = challenge.defender.id
     opposed_test.retest_reason = OpTest.RetestReasons.Merit
-    opposed_test.canceller_id = challenge.attacker_id
+    opposed_test.canceller_id = challenge.attacker.id
     opposed_test.cancelled_with = OpTest.CancelReasons.Ability
     opposed_test.cancelled = true
 

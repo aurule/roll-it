@@ -61,13 +61,13 @@ describe("opposed defender advantages message", () => {
     it("shows the advantages picker", () => {
       const result = advantages_defender.data(challenge.id)
 
-      expect(result).toHaveComponent(`opposed_advantage_select_${challenge.defender_id}`)
+      expect(result).toHaveComponent(`opposed_advantage_select_${challenge.defender.id}`)
     })
 
     it("shows the ready button", () => {
       const result = advantages_defender.data(challenge.id)
 
-      expect(result).toHaveComponent(`opposed_ready_${challenge.defender_id}`)
+      expect(result).toHaveComponent(`opposed_ready_${challenge.defender.id}`)
     })
   })
 

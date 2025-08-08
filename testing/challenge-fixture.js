@@ -11,9 +11,9 @@ class ChallengeFixture {
 
   id
   attacker_uid = "atk"
-  attacker_id
+  attacker
   defender_uid = "def"
-  defender_id
+  defender
   tests = []
 
   constructor(state = Challenge.States.AdvantagesAttacker, db_obj) {
@@ -51,37 +51,19 @@ class ChallengeFixture {
     return this
   }
 
-  attacker({ advantages = [Participant.Advantages.None], tie_winner = false, ability_used = false } = {}) {
-    this.attacker_id = this.db.addParticipant({
-      user_uid: this.attacker_uid,
-      mention: `<@${this.attacker_uid}>`,
-      role: Participant.Roles.Attacker,
-      challenge_id: this.id,
-      advantages,
-      tie_winner,
-      ability_used,
-    }).lastInsertRowid
-
-    return this
+  addAttacker() {
+    this.attacker = new ParticipantFixture(this, this.attacker_uid, Participant.Roles.Attacker)
+    return this.attacker
   }
 
-  defender({ advantages = [Participant.Advantages.None], tie_winner = false, ability_used = false } = {}) {
-    this.defender_id = this.db.addParticipant({
-      user_uid: this.defender_uid,
-      mention: `<@${this.defender_uid}>`,
-      role: Participant.Roles.Defender,
-      challenge_id: this.id,
-      advantages,
-      tie_winner,
-      ability_used,
-    }).lastInsertRowid
-
-    return this
+  addDefender() {
+    this.defender = new ParticipantFixture(this, this.defender_uid, Participant.Roles.Defender)
+    return this.attacker
   }
 
   withParticipants() {
-    this.attacker()
-    this.defender()
+    this.addAttacker()
+    this.addDefender()
 
     return this
   }
@@ -102,8 +84,8 @@ class ChallengeFixture {
 
   attackerRetest(reason) {
     return this.addTest({
-      retester_id: this.attacker_id,
-      canceller_id: this.defender_id,
+      retester_id: this.attacker.id,
+      canceller_id: this.defender.id,
       retest_reason: reason,
       retested: true,
     })
@@ -111,8 +93,8 @@ class ChallengeFixture {
 
   defenderRetest(reason) {
     return this.addTest({
-      retester_id: this.defender_id,
-      canceller_id: this.attacker_id,
+      retester_id: this.defender.id,
+      canceller_id: this.attacker.id,
       retest_reason: reason,
       retested: true,
     })
@@ -120,14 +102,14 @@ class ChallengeFixture {
 
   addAttackerWin() {
     return this.addTest({
-      leader_id: this.attacker_id,
+      leader_id: this.attacker.id,
       breakdown: "scissors vs paper",
     })
   }
 
   addDefenderWin() {
     return this.addTest({
-      leader_id: this.defender_id,
+      leader_id: this.defender.id,
       breakdown: "rock vs paper",
     })
   }
@@ -136,6 +118,41 @@ class ChallengeFixture {
     return this.addTest({
       breakdown: "paper vs paper",
     })
+  }
+}
+
+class ParticipantFixture {
+  /**
+   * Database object
+   * @type Opposed
+   */
+  db
+
+  id
+  challenge
+  uid
+
+  constructor(challenge, uid, role) {
+    this.challenge = challenge
+    this.db = challenge.db
+    this.uid = uid
+
+    this.id = this.db.addParticipant({
+      user_uid: uid,
+      mention: `<@${uid}>`,
+      role,
+      challenge_id: challenge.id,
+      advantages: [Participant.Advantages.None],
+    }).lastInsertRowid
+  }
+
+  get record() {
+    return this.db.getParticipant(this.id)
+  }
+
+  setAdvantages(advantages) {
+    this.db.setParticipantAdvantages(this.id, advantages)
+    return this
   }
 }
 
@@ -176,12 +193,12 @@ class TestFixture {
   }
 
   attackerChop(request) {
-    this.attacker_chop = new ChopFixture(request, this, this.challenge.attacker_id)
+    this.attacker_chop = new ChopFixture(request, this, this.challenge.attacker.id)
     return this.attacker_chop
   }
 
   defenderChop(request) {
-    this.defender_chop = new ChopFixture(request, this, this.challenge.defender_id)
+    this.defender_chop = new ChopFixture(request, this, this.challenge.defender.id)
     return this.defender_chop
   }
 }
