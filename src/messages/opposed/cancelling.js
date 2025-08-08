@@ -5,6 +5,7 @@ const cancel_picker = require("../../components/opposed/cancel-picker")
 const cancel_button = require("../../components/opposed/cancel-button")
 const continue_button = require("../../components/opposed/continue-button")
 const build = require("../../util/message-builders")
+const { Participant } = require("../../db/opposed/participant")
 
 module.exports = {
   state: "cancelling",
@@ -29,7 +30,7 @@ module.exports = {
       build.text(t("cancel", { canceller: test.canceller.mention })),
     ]
 
-    if (test.canceller.advantages.includes("cancels")) {
+    if (test.canceller.advantages.includes(Participant.Advantages.Cancels)) {
       components.push(build.actions(cancel_picker.data(challenge.locale)))
       components.push(build.text(t("disclaimer")))
     }
@@ -38,16 +39,13 @@ module.exports = {
       build.actions(cancel_button.data(challenge.locale), continue_button.data(challenge.locale)),
     )
 
-    const t_args = {
-      summary: challenge.summary,
-    }
     return build.message(components, { withResponse: true })
   },
   inert: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
     const test = opposed_db.getLatestTestWithParticipants(challenge_id)
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
 
     const reason = test.retest_reason
     return build.textMessage(
