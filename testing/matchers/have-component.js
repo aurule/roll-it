@@ -6,19 +6,29 @@
  * @return {obj}              Jest matcher result object
  */
 function toHaveComponent(message, component_id) {
-  if (message.hasComponent(component_id)) {
-    return {
-      message: () =>
-        `expected ${this.utils.printReceived(message.components)} not to have a component with id ${this.utils.printExpected(component_id)}`,
-      pass: true,
-    }
-  } else {
-    return {
-      message: () =>
-        `expected ${this.utils.printReceived(message.components)} to have a component with id ${this.utils.printExpected(component_id)}`,
-      pass: false,
-    }
+  const components = message.components.map(row => row.components.map(c => c.data.custom_id)).flat()
+
+  const hint_options = {
+    comment: `${components}.includes(${component_id})`,
+    isNot: this.isNot,
+    promise: this.promise,
   }
+
+  const pass = message.hasComponent(component_id)
+
+  const response = pass
+    ? () =>
+        this.utils.matcherHint("toHaveFlag", undefined, undefined, hint_options) +
+        "\n\n" +
+        `Expected: not ${this.utils.printExpected(component_id)}\n` +
+        `Received: ${this.utils.printReceived(components)}`
+    : () =>
+        this.utils.matcherHint("toHaveFlag", undefined, undefined, hint_options) +
+        "\n\n" +
+        `Expected: ${this.utils.printExpected(component_id)}\n` +
+        `Received: ${this.utils.printReceived(components)}`
+
+  return { actual: components, message: response, pass }
 }
 
 module.exports = {
