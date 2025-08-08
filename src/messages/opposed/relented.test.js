@@ -9,7 +9,9 @@ describe("opposed relented message", () => {
     let challenge
 
     beforeEach(() => {
-      challenge = new ChallengeFixture(Challenge.States.Relented).withParticipants().setSummary("challenge summary")
+      challenge = new ChallengeFixture(Challenge.States.Relented)
+        .withParticipants()
+        .setSummary("challenge summary")
     })
 
     afterEach(() => {

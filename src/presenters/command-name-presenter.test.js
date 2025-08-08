@@ -14,7 +14,9 @@ describe("present", () => {
     })
 
     it("with unformatted true, strips md formatting", () => {
-      const result = CommandNamePresenter.present(save_this_roll_command, "en-US", { unformatted: true })
+      const result = CommandNamePresenter.present(save_this_roll_command, "en-US", {
+        unformatted: true,
+      })
 
       expect(result).toEqual(`Save this roll`)
     })
@@ -42,7 +44,9 @@ describe("present", () => {
     })
 
     it("with unformatted true, strips md formatting", () => {
-      const result = CommandNamePresenter.present(table_list_command, "en-US", { unformatted: true })
+      const result = CommandNamePresenter.present(table_list_command, "en-US", {
+        unformatted: true,
+      })
 
       expect(result).toMatch("/table list")
     })

@@ -74,7 +74,10 @@ describe("opposed component handler", () => {
         interaction = new Interaction()
         interaction.customId = "opposed_cancel"
 
-        challenge = new ChallengeFixture().withParticipants().expire().attachMessage(interaction.message.id)
+        challenge = new ChallengeFixture()
+          .withParticipants()
+          .expire()
+          .attachMessage(interaction.message.id)
       })
 
       afterEach(() => {

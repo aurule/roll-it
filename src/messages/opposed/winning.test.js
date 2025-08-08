@@ -8,7 +8,9 @@ describe("opposed winning summary message", () => {
   let challenge
 
   beforeEach(() => {
-    challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants().setSummary("test summary")
+    challenge = new ChallengeFixture(Challenge.States.Winning)
+      .withParticipants()
+      .setSummary("test summary")
     challenge.addAttackerWin()
   })
 
@@ -76,7 +78,7 @@ describe("opposed winning summary message", () => {
     it("has no components", () => {
       const result = winning.inert(challenge.id)
 
-      expect(result.components).toEqual([{components: []}])
+      expect(result.components).toEqual([{ components: [] }])
     })
   })
 })

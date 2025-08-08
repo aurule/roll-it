@@ -8,7 +8,9 @@ describe("opposed tying summary message", () => {
   let challenge
 
   beforeEach(() => {
-    challenge = new ChallengeFixture(Challenge.States.Tying).withParticipants().setSummary("test summary")
+    challenge = new ChallengeFixture(Challenge.States.Tying)
+      .withParticipants()
+      .setSummary("test summary")
     challenge.addTie()
   })
 

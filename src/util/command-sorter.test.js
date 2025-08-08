@@ -43,7 +43,7 @@ describe("command sorter", () => {
     ])("%s vs %s = %d", (first_name, second_name, order) => {
       const compare = comparator("en-US")
 
-      const result = compare({name: first_name}, {name: second_name})
+      const result = compare({ name: first_name }, { name: second_name })
 
       expect(result).toEqual(order)
     })

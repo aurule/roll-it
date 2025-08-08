@@ -40,7 +40,7 @@ function comparator(locale) {
     const second_parts = name_cache.ensure(second_name, splitter)
 
     let idx = 0
-    while(true) {
+    while (true) {
       const first_part = first_parts.at(idx)
       const second_part = second_parts.at(idx)
       if (first_part === undefined || second_part === undefined) return 0

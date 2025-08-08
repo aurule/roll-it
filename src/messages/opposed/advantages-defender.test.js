@@ -117,7 +117,7 @@ describe("opposed defender advantages message", () => {
     it("has no components", () => {
       const result = advantages_defender.inert(challenge.id)
 
-      expect(result.components).toEqual([{components: []}])
+      expect(result.components).toEqual([{ components: [] }])
     })
   })
 })

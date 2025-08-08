@@ -9,7 +9,9 @@ describe("opposed challenge withdrawn message", () => {
     let challenge
 
     beforeEach(() => {
-      challenge = new ChallengeFixture(Challenge.States.Withdrawn).withParticipants().setSummary("challenge summary")
+      challenge = new ChallengeFixture(Challenge.States.Withdrawn)
+        .withParticipants()
+        .setSummary("challenge summary")
     })
 
     afterEach(() => {

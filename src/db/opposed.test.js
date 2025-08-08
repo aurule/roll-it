@@ -1120,7 +1120,7 @@ describe("Opposed DB", () => {
       const test_id = opposed.addTest({
         challenge_id,
         locale: "en-US",
-        retested: true
+        retested: true,
       }).lastInsertRowid
 
       const record = opposed.getTest(test_id)
@@ -1132,7 +1132,7 @@ describe("Opposed DB", () => {
       const test_id = opposed.addTest({
         challenge_id,
         locale: "en-US",
-        cancelled: true
+        cancelled: true,
       }).lastInsertRowid
 
       const record = opposed.getTest(test_id)

@@ -6,7 +6,9 @@
  * @return {obj}              Jest matcher result object
  */
 function toHaveComponent(message, component_id) {
-  const components = message.components.map(row => row.components.map(c => c.data.custom_id)).flat()
+  const components = message.components
+    .map((row) => row.components.map((c) => c.data.custom_id))
+    .flat()
 
   const hint_options = {
     comment: `${components}.includes(${component_id})`,

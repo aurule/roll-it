@@ -5,7 +5,9 @@ const { logger } = require("../util/logger")
 const message_contents = require("../messages/opposed")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
 
-const RETRY_KEYWORDS = available_locales.map(locale => i18n.t("opposed.retry", { lng: locale, ns: "interactive" }))
+const RETRY_KEYWORDS = available_locales.map((locale) =>
+  i18n.t("opposed.retry", { lng: locale, ns: "interactive" }),
+)
 
 module.exports = {
   /**

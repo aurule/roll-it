@@ -65,7 +65,7 @@ describe("opposed cancelling a retest message", () => {
     it("has no components", () => {
       const result = cancelling.inert(challenge.id)
 
-      expect(result.components).toEqual([{components: []}])
+      expect(result.components).toEqual([{ components: [] }])
     })
   })
 })

@@ -9,7 +9,9 @@ describe("opposed challenge expired message", () => {
     let challenge
 
     beforeEach(() => {
-      challenge = new ChallengeFixture(Challenge.States.Expired).withParticipants().setSummary("challenge summary")
+      challenge = new ChallengeFixture(Challenge.States.Expired)
+        .withParticipants()
+        .setSummary("challenge summary")
     })
 
     afterEach(() => {

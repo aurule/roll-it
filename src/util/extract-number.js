@@ -11,5 +11,5 @@ function extractNumber(content) {
 }
 
 module.exports = {
-  extractNumber
+  extractNumber,
 }

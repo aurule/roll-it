@@ -598,7 +598,7 @@ class Opposed extends CachedDb {
 
     if (raw_out === undefined) return undefined
 
-    const participants = raw_out.map(p => new Participant(p))
+    const participants = raw_out.map((p) => new Participant(p))
 
     if (index_by_id) {
       return new Collection([
@@ -1024,7 +1024,7 @@ class Opposed extends CachedDb {
       oneLine`
         SELECT * FROM interactive.opposed_test_chops
         WHERE id = ?
-      `
+      `,
     )
 
     const raw_out = select.get(chop_id)
