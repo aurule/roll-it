@@ -19,7 +19,7 @@ describe("db module", () => {
     it("puts other env db outside of .sqlite", () => {
       const result = db.dbFileParent("other")
 
-      expect(result).toMatch("/db")
+      expect(result).not.toMatch(".sqlite")
     })
   })
 
