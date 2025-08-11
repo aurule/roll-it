@@ -2,13 +2,13 @@ const { makeDB } = require("./index")
 
 const { UserBans } = require("./bans")
 
-let db
+describe("UserBans sql accessor", () => {
+  let db
 
-beforeEach(() => {
-  db = makeDB()
-})
+  beforeEach(() => {
+    db = makeDB()
+  })
 
-describe("UserBans", () => {
   describe("create", () => {
     it("creates a record", () => {
       const bans = new UserBans("testuser", db)

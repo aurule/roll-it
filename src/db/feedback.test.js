@@ -2,14 +2,13 @@ const { makeDB } = require("./index")
 
 const { Feedback } = require("./feedback")
 
-let db
-
-beforeEach(() => {
-  db = makeDB()
-})
-
-describe("Feedback", () => {
+describe("Feedback db class", () => {
   let feedback
+  let db
+
+  beforeEach(() => {
+    db = makeDB()
+  })
 
   beforeEach(() => {
     feedback = new Feedback(db)

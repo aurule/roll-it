@@ -28,7 +28,7 @@ const { pretty } = require("../command-pretty")
 function test_secret_option(command, interaction_options, after_interaction) {
   var interaction
 
-  return describe(`${pretty(command)} execute`, () => {
+  return describe(`${pretty(command)} secret option`, () => {
     beforeEach(() => {
       interaction = new Interaction()
       interaction.command_options = { ...interaction_options }

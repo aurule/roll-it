@@ -21,7 +21,6 @@ describe("teamwork cancel button", () => {
   describe("execute", () => {
     let interaction
     let teamwork_db
-    let teamwork_test
 
     beforeEach(() => {
       interaction = new Interaction()
@@ -37,8 +36,6 @@ describe("teamwork cancel button", () => {
         channelId: "test_channel",
         timeout: 1000,
       }).lastInsertRowid
-
-      teamwork_test = teamwork_db.detail(teamwork_test_id)
 
       teamwork_db.addMessage({
         message_uid: interaction.message.id,

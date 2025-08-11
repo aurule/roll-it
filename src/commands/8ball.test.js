@@ -1,71 +1,66 @@
 const eightball_command = require("./8ball")
 
-const { Interaction } = require("../../testing/interaction")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 
-var interaction
+describe("/8ball command", () => {
+  describe("schema", () => {
+    describe("question", () => {
+      const question_schema = eightball_command.schema.extract("question")
 
-beforeEach(() => {
-  interaction = new Interaction()
-})
+      it("is required", () => {
+        const result = question_schema.validate()
 
-describe("schema", () => {
-  describe("question", () => {
-    const question_schema = eightball_command.schema.extract("question")
+        expect(result.error).toBeTruthy()
+      })
 
-    it("is required", () => {
-      const result = question_schema.validate()
+      it("caps at 1500 characters", () => {
+        const result = question_schema.validate("x".repeat(1501))
 
-      expect(result.error).toBeTruthy()
+        expect(result.error).toBeTruthy()
+      })
+
+      it("allows good strings", () => {
+        const result = question_schema.validate("x".repeat(100))
+
+        expect(result.error).toBeFalsy()
+      })
     })
 
-    it("caps at 1500 characters", () => {
-      const result = question_schema.validate("x".repeat(1501))
+    describe("doit", () => {
+      const doit_schema = eightball_command.schema.extract("doit")
 
-      expect(result.error).toBeTruthy()
+      it("is optional", () => {
+        const result = doit_schema.validate()
+
+        expect(result.error).toBeFalsy()
+      })
+
+      it("is boolean", () => {
+        const result = doit_schema.validate("yes")
+
+        expect(result.error).toBeTruthy()
+      })
+
+      it("accepts boolean", () => {
+        const result = doit_schema.validate(true)
+
+        expect(result.error).toBeFalsy()
+      })
     })
+  })
 
-    it("allows good strings", () => {
-      const result = question_schema.validate("x".repeat(100))
+  describe("perform", () => {
+    it("displays the question", () => {
+      const question_text = "this is a test"
+      const options = {
+        question: question_text,
+      }
 
-      expect(result.error).toBeFalsy()
+      const result = eightball_command.perform(options)
+
+      expect(result).toMatch(question_text)
     })
   })
 
-  describe("doit", () => {
-    const doit_schema = eightball_command.schema.extract("doit")
-
-    it("is optional", () => {
-      const result = doit_schema.validate()
-
-      expect(result.error).toBeFalsy()
-    })
-
-    it("is boolean", () => {
-      const result = doit_schema.validate("yes")
-
-      expect(result.error).toBeTruthy()
-    })
-
-    it("accepts boolean", () => {
-      const result = doit_schema.validate(true)
-
-      expect(result.error).toBeFalsy()
-    })
-  })
+  test_secret_option(eightball_command)
 })
-
-describe("perform", () => {
-  it("displays the question", async () => {
-    const question_text = "this is a test"
-    const options = {
-      question: question_text,
-    }
-
-    const result = await eightball_command.perform(options)
-
-    expect(result).toMatch(question_text)
-  })
-})
-
-test_secret_option(eightball_command)

@@ -3,16 +3,15 @@ jest.mock("../util/message-builders")
 const swn_command = require("./swn")
 
 const { Interaction } = require("../../testing/interaction")
-const { schemaMessages } = require("../../testing/schema-messages")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 
-var interaction
+describe("/swn command", () => {
+  let interaction
 
-beforeEach(() => {
-  interaction = new Interaction()
-})
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
 
-describe("swn command", () => {
   describe("schema", () => {
     describe("pool", () => {
       const pool_schema = swn_command.schema.extract("pool")

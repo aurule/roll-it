@@ -6,7 +6,7 @@ const { ShadowrunPresenter } = require("../presenters/results/shadowrun-results-
 
 const shadowrun_command = require("./shadowrun")
 
-describe("shadowrun command", () => {
+describe("/shadowrun command", () => {
   describe("schema", () => {
     describe("edge", () => {
       const edge_schema = shadowrun_command.schema.extract("edge")

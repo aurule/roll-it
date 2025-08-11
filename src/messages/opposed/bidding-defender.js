@@ -7,6 +7,11 @@ const winning_message = require("./winning")
 const tying_message = require("./tying")
 const build = require("../../util/message-builders")
 
+/**
+ * Get the internal ID of the participant with the most bid traits
+ * @param  {Chop[]} chops Array of thrown chops
+ * @return {int|null}     Internal ID of the winning participant, or null if traits are equal
+ */
 function getLeaderId(chops) {
   if (chops[0].traits == chops[1].traits) {
     return null
@@ -17,6 +22,9 @@ function getLeaderId(chops) {
   return chops[1].participant_id
 }
 
+/**
+ * Message shown to gather the attacking participant's trait bid during a tied test
+ */
 module.exports = {
   state: "bidding-defender",
   data: (challenge_id) => {

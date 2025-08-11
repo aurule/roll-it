@@ -2,7 +2,7 @@ const { CommandInteraction } = require("../../testing/command-interaction")
 
 jest.mock("../services/api")
 
-describe("setup-roll-it command", () => {
+describe("/setup-roll-it command", () => {
   const api = require("../services/api")
   const setup_command = require("./setup-roll-it")
 

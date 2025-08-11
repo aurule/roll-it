@@ -1,6 +1,6 @@
 const { ShadowrunPresenter } = require("./shadowrun-results-presenter")
 
-describe("ShadowrunPresenter", () => {
+describe("shadowrun results presenter", () => {
   let options
   describe("presentResults", () => {
     describe("in until mode", () => {

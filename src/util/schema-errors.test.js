@@ -1,6 +1,6 @@
 const { schemaErrors } = require("./schema-errors")
 
-describe("schemaErrors", () => {
+describe("schema errors extractor", () => {
   describe("with errors", () => {
     it("extracts the error message", () => {
       const fake_validation = {

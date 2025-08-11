@@ -4,10 +4,11 @@ const { Interaction } = require("../../testing/interaction")
 
 const report_roll_command = require("./report-this-roll")
 
-require("dotenv").config({ quiet: true })
-const botId = process.env.CLIENT_ID
+describe("Report this roll command", () => {
+  beforeAll(() => {
+    require("dotenv").config({ quiet: true })
+  })
 
-describe("Report this roll", () => {
   describe("execute", () => {
     let interaction
     let past_interaction
@@ -19,7 +20,7 @@ describe("Report this roll", () => {
         interactionMetadata: {
           id: past_interaction.id,
         },
-        author: { id: botId },
+        author: { id: process.env.CLIENT_ID },
       }
     })
 

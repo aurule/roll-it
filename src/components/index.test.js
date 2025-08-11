@@ -4,7 +4,7 @@ describe("component dispatching", () => {
   describe("handle", () => {
     it("calls first handler that can accept the interaction", async () => {
       const handler1 = {
-        canHandle: (_interaction) => true,
+        canHandle: (_interaction) => false,
         handle: (_interaction) => "one",
       }
       const handler2 = {
@@ -12,7 +12,7 @@ describe("component dispatching", () => {
         handle: (_interaction) => "two",
       }
 
-      const result = await handle({}, [handler2, handler2])
+      const result = await handle({}, [handler1, handler2])
 
       expect(result).toEqual("two")
     })
@@ -27,7 +27,7 @@ describe("component dispatching", () => {
         handle: (_interaction) => "two",
       }
 
-      const result = await handle({}, [handler2, handler2])
+      const result = await handle({}, [handler1, handler2])
 
       expect(result).toEqual(false)
     })

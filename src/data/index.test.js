@@ -1,9 +1,11 @@
-const { load_dir, help_topics } = require("./index")
+const { load_dir } = require("./index")
 
-describe("load_dir", () => {
-  it("indexes by name", () => {
-    const result = load_dir("help")
+describe("data files", () => {
+  describe("load_dir", () => {
+    it("indexes by name", () => {
+      const result = load_dir("help")
 
-    expect(result.get("about")).toBeTruthy()
+      expect(result.get("about")).toBeTruthy()
+    })
   })
 })

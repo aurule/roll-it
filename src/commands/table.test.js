@@ -5,7 +5,7 @@ const { Interaction } = require("../../testing/interaction")
 const { Attachment } = require("../../testing/attachment")
 const table_command = require("./table")
 
-describe("table command", () => {
+describe("/table command", () => {
   describe("execute", () => {
     it("calls roll subcommand", async () => {
       const interaction = new Interaction()
@@ -67,7 +67,7 @@ describe("table command", () => {
       await table_command.execute(interaction)
 
       expect(interaction.replyContent).toMatch("test")
-      await prompt.componentEvents.timeout()
+      prompt.componentEvents.timeout()
     })
   })
 })

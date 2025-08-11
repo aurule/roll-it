@@ -3,7 +3,6 @@ jest.mock("../util/message-builders")
 const drh_command = require("./drh")
 
 const { CommandInteraction } = require("../../testing/command-interaction")
-const { schemaMessages } = require("../../testing/schema-messages")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 
 describe("/drh command", () => {

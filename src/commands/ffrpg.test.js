@@ -2,12 +2,11 @@ jest.mock("../util/message-builders")
 
 const ffrpg_command = require("./ffrpg")
 
-const { Interaction } = require("../../testing/interaction")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 const { FfrpgPresenter } = require("../presenters/results/ffrpg-results-presenter")
 const { CommandInteraction } = require("../../testing/command-interaction")
 
-describe("ffrpg command", () => {
+describe("/ffrpg command", () => {
   describe("schema", () => {
     describe("base", () => {
       const base_schema = ffrpg_command.schema.extract("base")

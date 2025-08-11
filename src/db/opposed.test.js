@@ -5,16 +5,12 @@ const { Opposed } = require("./opposed")
 const { Challenge } = require("./opposed/challenge")
 const { Participant } = require("./opposed/participant")
 
-let db
-
-beforeEach(() => {
-  db = makeDB()
-})
-
 describe("Opposed DB", () => {
   let opposed
+  let db
 
   beforeEach(() => {
+    db = makeDB()
     opposed = new Opposed(db)
   })
 

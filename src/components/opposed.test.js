@@ -106,7 +106,7 @@ describe("opposed component handler", () => {
         opposed_db.addFutureTest({
           challenge_id: challenge.id,
           locale: "en-US",
-          leader_id: challenge.attacker_id,
+          leader_id: challenge.attacker.id,
         })
       })
 

@@ -4,74 +4,76 @@ const { Collection } = require("discord.js")
 const { Interaction } = require("../../testing/interaction")
 const helpers = require("./subcommands")
 
-const test_command = {
-  name: "test-command",
-  description: "A fake command for testing",
-  data: () =>
-    new SlashCommandBuilder()
-      .setName("test-command")
-      .setDescription("A fake command for testing")
-      .addStringOption((option) =>
-        option.setName("title").setDescription("Title description").setRequired(true),
-      )
-      .addStringOption((option) =>
-        option.setName("subtitle").setDescription("Subtitle description"),
-      ),
-  execute(_interaction) {
-    return "did the thing"
-  },
-  help: () => "test help output",
-}
+describe("subcommand dispatcher", () => {
+  describe("subcommands", () => {
+    describe("loadSubcommands", () => {
+      it("stores subcommands by name", () => {
+        const result = helpers.loadSubcommands("help")
 
-describe("subcommands", () => {
-  describe("loadSubcommands", () => {
-    it("stores subcommands by name", () => {
-      const result = helpers.loadSubcommands("help")
+        expect(result.has("topic")).toBeTruthy()
+      })
 
-      expect(result.has("topic")).toBeTruthy()
-    })
+      it("loads each file in the target dir", () => {
+        const result = helpers.loadSubcommands("help")
 
-    it("loads each file in the target dir", () => {
-      const result = helpers.loadSubcommands("help")
-
-      expect(result.hasAll("command", "topic")).toBeTruthy()
-    })
-  })
-
-  describe("dispatch", () => {
-    let interaction
-
-    beforeEach(() => {
-      interaction = new Interaction()
-    })
-
-    describe("with invalid subcommand function name", () => {
-      it("throws an error", () => {
-        expect(() => {
-          interaction.command_options.subcommand_name = "test-command"
-          const subcommands = new Collection([["test-command", test_command]])
-
-          helpers.dispatch(interaction, subcommands, "asdf")
-        }).toThrow("invalid function")
+        expect(result.hasAll("command", "topic")).toBeTruthy()
       })
     })
 
-    it("calls the named subcommand", () => {
-      interaction.command_options.subcommand_name = "test-command"
-      const subcommands = new Collection([["test-command", test_command]])
+    describe("dispatch", () => {
+      let interaction
+      let test_command
 
-      const result = helpers.dispatch(interaction, subcommands)
+      beforeEach(() => {
+        interaction = new Interaction()
+        test_command = {
+          name: "test-command",
+          description: "A fake command for testing",
+          data: () =>
+            new SlashCommandBuilder()
+              .setName("test-command")
+              .setDescription("A fake command for testing")
+              .addStringOption((option) =>
+                option.setName("title").setDescription("Title description").setRequired(true),
+              )
+              .addStringOption((option) =>
+                option.setName("subtitle").setDescription("Subtitle description"),
+              ),
+          execute(_interaction) {
+            return "did the thing"
+          },
+          help: () => "test help output",
+        }
+      })
 
-      expect(result).toEqual("did the thing")
-    })
+      describe("with invalid subcommand function name", () => {
+        it("throws an error", () => {
+          expect(() => {
+            interaction.command_options.subcommand_name = "test-command"
+            const subcommands = new Collection([["test-command", test_command]])
 
-    it("shows an error for bad subcommand", async () => {
-      interaction.command_options.subcommand_name = "nothin"
-      const subcommands = new Collection()
+            helpers.dispatch(interaction, subcommands, "asdf")
+          }).toThrow("invalid function")
+        })
+      })
 
-      const result = await helpers.dispatch(interaction, subcommands)
+      it("calls the named subcommand", () => {
+        interaction.command_options.subcommand_name = "test-command"
+        const subcommands = new Collection([["test-command", test_command]])
 
-      expect(result.content).toMatch("went wrong")
+        const result = helpers.dispatch(interaction, subcommands)
+
+        expect(result).toEqual("did the thing")
+      })
+
+      it("shows an error for bad subcommand", async () => {
+        interaction.command_options.subcommand_name = "nothin"
+        const subcommands = new Collection()
+
+        const result = await helpers.dispatch(interaction, subcommands)
+
+        expect(result.content).toMatch("went wrong")
+      })
     })
   })
 })

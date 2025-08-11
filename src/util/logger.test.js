@@ -1,16 +1,16 @@
 const { pickStream } = require("./logger")
 
-var old_env
-
-beforeAll(() => {
-  old_env = process.env
-})
-
-afterAll(() => {
-  process.env = old_env
-})
-
 describe("logger", () => {
+  let old_env
+
+  beforeAll(() => {
+    old_env = process.env
+  })
+
+  afterAll(() => {
+    process.env = old_env
+  })
+
   beforeEach(() => {
     jest.resetModules()
     process.env = { ...old_env }

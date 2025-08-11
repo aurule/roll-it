@@ -7,6 +7,9 @@ const continue_button = require("../../components/opposed/continue-button")
 const build = require("../../util/message-builders")
 const { Participant } = require("../../db/opposed/participant")
 
+/**
+ * Message shown to allow cancelling an ability retest
+ */
 module.exports = {
   state: "cancelling",
   data: (challenge_id) => {

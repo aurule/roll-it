@@ -5,41 +5,43 @@ const d4_command = require("./d4")
 const { Interaction } = require("../../testing/interaction")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 
-var interaction
+describe("/d4 command", () => {
+  let interaction
 
-beforeEach(() => {
-  interaction = new Interaction()
-})
-
-describe("perform", () => {
-  it("displays the description if present", () => {
-    const options = {
-      description: "this is a test",
-    }
-
-    const result = d4_command.perform(options)
-
-    expect(result).toMatch("this is a test")
-  })
-})
-
-describe("execute", () => {
-  describe("with one roll", () => {
-    test_secret_option(d4_command, { rolls: 1 })
+  beforeEach(() => {
+    interaction = new Interaction()
   })
 
-  describe("with multiple rolls", () => {
-    beforeEach(() => {
-      interaction.command_options.rolls = 2
+  describe("perform", () => {
+    it("displays the description if present", () => {
+      const options = {
+        description: "this is a test",
+      }
+
+      const result = d4_command.perform(options)
+
+      expect(result).toMatch("this is a test")
+    })
+  })
+
+  describe("execute", () => {
+    describe("with one roll", () => {
+      test_secret_option(d4_command, { rolls: 1 })
     })
 
-    it("displays the description if present", () => {
-      const description_text = "this is a test"
-      interaction.command_options.description = description_text
+    describe("with multiple rolls", () => {
+      beforeEach(() => {
+        interaction.command_options.rolls = 2
+      })
 
-      d4_command.execute(interaction)
+      it("displays the description if present", () => {
+        const description_text = "this is a test"
+        interaction.command_options.description = description_text
 
-      expect(interaction.replyContent).toMatch(description_text)
+        d4_command.execute(interaction)
+
+        expect(interaction.replyContent).toMatch(description_text)
+      })
     })
   })
 })

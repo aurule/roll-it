@@ -4,7 +4,7 @@ const topic_help_command = require("./topic")
 
 const { Interaction } = require("../../../testing/interaction")
 
-describe("/help feedback", () => {
+describe("/help topic", () => {
   describe("execute", () => {
     describe("with a valid topic name", () => {
       let interaction

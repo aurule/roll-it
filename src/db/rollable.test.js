@@ -1,13 +1,13 @@
 const { GuildRollables } = require("./rollable")
 const { makeDB } = require("./index")
 
-let db
-
-beforeEach(() => {
-  db = makeDB()
-})
-
 describe("GuildRollables", () => {
+  let db
+
+  beforeEach(() => {
+    db = makeDB()
+  })
+
   describe("create", () => {
     it("creates a new table", () => {
       const rollables = new GuildRollables("test-create", db)

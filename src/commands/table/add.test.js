@@ -3,131 +3,133 @@ const { Interaction } = require("../../../testing/interaction")
 const { Attachment } = require("../../../testing/attachment")
 const attachment_lines = require("../../util/attachment-lines")
 
-describe("execute", () => {
-  beforeAll(() => {
-    fetchMock = jest
-      .spyOn(attachment_lines, "fetchLines")
-      .mockImplementation((attachment) => attachment.contents.split(/\n/))
+describe("/table add", () => {
+  describe("execute", () => {
+    beforeAll(() => {
+      fetchMock = jest
+        .spyOn(attachment_lines, "fetchLines")
+        .mockImplementation((attachment) => attachment.contents.split(/\n/))
 
-    table_add_command = require("./add")
-  })
-
-  afterAll(() => {
-    fetchMock.mockRestore()
-  })
-
-  var fetchMock
-  var interaction
-  var rollables
-  var table_add_command
-
-  beforeEach(() => {
-    interaction = new Interaction()
-    interaction.command_options.subcommand_name = "add"
-    rollables = new GuildRollables(interaction.guildId)
-  })
-
-  it("warns on name collision", async () => {
-    rollables.create("test", "a test", ["first"])
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-
-    await table_add_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("pick a different name")
-  })
-
-  it("warns on bad attachment type", async () => {
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-    interaction.command_options.file = new Attachment({
-      contentType: "image/png",
-      contents: "",
+      table_add_command = require("./add")
     })
 
-    await table_add_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("does not look like a plain text file")
-  })
-
-  it("warns on large file", async () => {
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-    interaction.command_options.file = new Attachment({
-      contentType: "text/plain",
-      contents: "first\nsecond",
-      size: 25_000_000,
+    afterAll(() => {
+      fetchMock.mockRestore()
     })
 
-    await table_add_command.execute(interaction)
+    var fetchMock
+    var interaction
+    var rollables
+    var table_add_command
 
-    expect(interaction.replyContent).toMatch("too large")
-  })
-
-  it("warns on short contents", async () => {
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-    interaction.command_options.file = new Attachment({
-      contentType: "text/plain",
-      contents: "first",
+    beforeEach(() => {
+      interaction = new Interaction()
+      interaction.command_options.subcommand_name = "add"
+      rollables = new GuildRollables(interaction.guildId)
     })
 
-    await table_add_command.execute(interaction)
+    it("warns on name collision", async () => {
+      rollables.create("test", "a test", ["first"])
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
 
-    expect(interaction.replyContent).toMatch("not have enough lines")
-  })
+      await table_add_command.execute(interaction)
 
-  it("warns on long entry", async () => {
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-    interaction.command_options.file = new Attachment({
-      contentType: "text/plain",
-      contents: "first\n" + "x".repeat(2000),
+      expect(interaction.replyContent).toMatch("pick a different name")
     })
 
-    await table_add_command.execute(interaction)
+    it("warns on bad attachment type", async () => {
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
+      interaction.command_options.file = new Attachment({
+        contentType: "image/png",
+        contents: "",
+      })
 
-    expect(interaction.replyContent).toMatch("too long")
-  })
+      await table_add_command.execute(interaction)
 
-  it("adds a table for the interaction's guild", async () => {
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-    interaction.command_options.file = new Attachment({
-      contentType: "text/plain",
-      contents: "first\nsecond\nthird",
+      expect(interaction.replyContent).toMatch("does not look like a plain text file")
     })
 
-    await table_add_command.execute(interaction)
+    it("warns on large file", async () => {
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
+      interaction.command_options.file = new Attachment({
+        contentType: "text/plain",
+        contents: "first\nsecond",
+        size: 25_000_000,
+      })
 
-    const table = rollables.detail(undefined, "test")
-    expect(table).toBeTruthy()
-  })
+      await table_add_command.execute(interaction)
 
-  it("announces the new table", async () => {
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-    interaction.command_options.file = new Attachment({
-      contentType: "text/plain",
-      contents: "first\nsecond\nthird",
+      expect(interaction.replyContent).toMatch("too large")
     })
 
-    await table_add_command.execute(interaction)
+    it("warns on short contents", async () => {
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
+      interaction.command_options.file = new Attachment({
+        contentType: "text/plain",
+        contents: "first",
+      })
 
-    expect(interaction.replyContent).toMatch("created the table")
-  })
+      await table_add_command.execute(interaction)
 
-  it("announcement is ephemeral if quiet", async () => {
-    interaction.command_options.name = "test"
-    interaction.command_options.description = "a test"
-    interaction.command_options.file = new Attachment({
-      contentType: "text/plain",
-      contents: "first\nsecond\nthird",
+      expect(interaction.replyContent).toMatch("not have enough lines")
     })
-    interaction.command_options.quiet = true
 
-    await table_add_command.execute(interaction)
+    it("warns on long entry", async () => {
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
+      interaction.command_options.file = new Attachment({
+        contentType: "text/plain",
+        contents: "first\n" + "x".repeat(2000),
+      })
 
-    expect(interaction.replies[0].ephemeral).toBeTruthy()
+      await table_add_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("too long")
+    })
+
+    it("adds a table for the interaction's guild", async () => {
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
+      interaction.command_options.file = new Attachment({
+        contentType: "text/plain",
+        contents: "first\nsecond\nthird",
+      })
+
+      await table_add_command.execute(interaction)
+
+      const table = rollables.detail(undefined, "test")
+      expect(table).toBeTruthy()
+    })
+
+    it("announces the new table", async () => {
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
+      interaction.command_options.file = new Attachment({
+        contentType: "text/plain",
+        contents: "first\nsecond\nthird",
+      })
+
+      await table_add_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("created the table")
+    })
+
+    it("announcement is ephemeral if quiet", async () => {
+      interaction.command_options.name = "test"
+      interaction.command_options.description = "a test"
+      interaction.command_options.file = new Attachment({
+        contentType: "text/plain",
+        contents: "first\nsecond\nthird",
+      })
+      interaction.command_options.quiet = true
+
+      await table_add_command.execute(interaction)
+
+      expect(interaction.replies[0].ephemeral).toBeTruthy()
+    })
   })
 })

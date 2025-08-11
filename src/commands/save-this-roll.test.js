@@ -6,14 +6,14 @@ const interactionCache = require("../services/interaction-cache")
 
 const save_roll_command = require("./save-this-roll")
 
-require("dotenv").config({ quiet: true })
-const botId = process.env.CLIENT_ID
+describe("Save this roll command", () => {
+  beforeAll(() => {
+    require("dotenv").config({ quiet: true })
+  })
 
-describe("Save this roll", () => {
   describe("execute", () => {
     let interaction
     let past_interaction
-    let saved_rolls
     beforeEach(() => {
       interaction = new Interaction()
       past_interaction = new Interaction(interaction.guildId)
@@ -22,7 +22,7 @@ describe("Save this roll", () => {
         interactionMetadata: {
           id: past_interaction.id,
         },
-        author: { id: botId },
+        author: { id: process.env.CLIENT_ID },
       }
       saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
     })

@@ -1,6 +1,6 @@
 const { NwodPresenter } = require("./nwod-results-presenter")
 
-describe("NwodPresenter", () => {
+describe("nwod results presenter", () => {
   describe("presentResults", () => {
     describe("in 'until' mode", () => {
       it("shows the description, if present", () => {

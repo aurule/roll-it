@@ -1,6 +1,6 @@
 const { Participant } = require("./participant")
 
-describe("Participant class", () => {
+describe("db Participant class", () => {
   describe("constructor", () => {
     it("converts `advantages` from json to array", () => {
       const advantages = ["test"]

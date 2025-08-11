@@ -5,6 +5,9 @@ const retest_picker = require("../../components/opposed/retest-picker")
 const retest_button = require("../../components/opposed/retest-button")
 const build = require("../../util/message-builders")
 
+/**
+ * Status message shown when there is a winner from the latest test
+ */
 module.exports = {
   state: "winning",
   data: (challenge_id) => {

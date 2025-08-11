@@ -1,21 +1,23 @@
 const Completers = require("./command-completers")
 
-describe("all", () => {
-  it("searches command names by lowercase", () => {
-    const result = Completers.all("WOD")
+describe("command name completers", () => {
+  describe("all", () => {
+    it("searches command names by lowercase", () => {
+      const result = Completers.all("WOD")
 
-    expect(result.length).toEqual(1)
-  })
+      expect(result.length).toEqual(1)
+    })
 
-  it("sends command name as value", () => {
-    const result = Completers.all("CHOP")
+    it("sends command name as value", () => {
+      const result = Completers.all("CHOP")
 
-    expect(result[0].value).toEqual("chop")
-  })
+      expect(result[0].value).toEqual("chop")
+    })
 
-  it("sends up to 25 options", () => {
-    const result = Completers.all("")
+    it("sends up to 25 options", () => {
+      const result = Completers.all("")
 
-    expect(result.length).toEqual(25)
+      expect(result.length).toEqual(25)
+    })
   })
 })

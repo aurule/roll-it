@@ -6,7 +6,7 @@ const { Interaction } = require("../../testing/interaction")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 const { NwodPresenter } = require("../presenters/results/nwod-results-presenter")
 
-describe("nwod command", () => {
+describe("/nwod command", () => {
   describe("schema", () => {
     describe("explode", () => {
       const explode_schema = nwod_command.schema.extract("explode")

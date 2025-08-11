@@ -1,6 +1,6 @@
 const { Challenge } = require("./challenge")
 
-describe("Challenge class", () => {
+describe("db Challenge class", () => {
   describe("constructor", () => {
     it("converts conditions to an array", () => {
       const conditions = ["test"]

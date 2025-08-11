@@ -5,7 +5,7 @@ const { Interaction } = require("../../testing/interaction")
 
 const wod_command = require("./wod20")
 
-describe("wod20 command", () => {
+describe("/wod20 command", () => {
   describe("schema", () => {
     describe("difficulty", () => {
       const difficulty_schema = wod_command.schema.extract("difficulty")

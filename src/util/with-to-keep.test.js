@@ -1,6 +1,6 @@
 const { with_to_keep } = require("./with-to-keep")
 
-describe("with_to_keep", () => {
+describe("with_to_keep converter", () => {
   it("translates `advantage` to `highest`", () => {
     const result = with_to_keep("advantage")
 

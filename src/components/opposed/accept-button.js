@@ -4,6 +4,9 @@ const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const accepted_message = require("../../messages/opposed/accepted")
 
+/**
+ * Button to accept a tied outcome
+ */
 module.exports = {
   name: "opposed_accept",
   data: (locale) => {
@@ -17,10 +20,11 @@ module.exports = {
   async execute(interaction) {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
+    const test = opposed_db.getLatestTestWithParticipants(challenge.id)
     const participants = opposed_db.getParticipants(challenge.id)
     const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
 
-    interaction.authorize(test.trailer.user_uid)
+    interaction.authorize(...participants)
 
     const chops = opposed_db.getChopsForTest(test.id)
     const user_chop = chops.find((c) => c.participant_id === current_participant.id)
@@ -28,8 +32,7 @@ module.exports = {
     await interaction.deferUpdate()
     opposed_db.setChopTieAccepted(user_chop.id, true)
     if (!user_chop.tie_accepted) {
-      const is_attacker = participants.get("attacker").user_uid === interaction.user.id
-      const emoji = is_attacker ? "🗡️" : "🛡️"
+      const emoji = test.attacker.user_uid === interaction.user.id ? "🗡️" : "🛡️"
       interaction.message.react(emoji)
     }
 

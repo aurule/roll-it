@@ -1,5 +1,3 @@
-const path = require("path")
-
 const db = require("./index")
 
 describe("db module", () => {

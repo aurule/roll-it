@@ -1,6 +1,6 @@
 const { CurvPresenter } = require("./curv-results-presenter")
 
-describe("CurvPresenter", () => {
+describe("curv results presenter", () => {
   describe("mode", () => {
     it("returns 'many' with multiple rolls", () => {
       const presenter = new CurvPresenter({

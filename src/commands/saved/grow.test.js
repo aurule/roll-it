@@ -5,94 +5,96 @@ const { Interaction } = require("../../../testing/interaction")
 
 const saved_grow_command = require("./grow")
 
-describe("execute", () => {
-  var interaction
-  var saved_rolls
+describe("/saved grow", () => {
+  describe("execute", () => {
+    var interaction
+    var saved_rolls
 
-  beforeEach(() => {
-    interaction = new Interaction()
-    saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
-  })
-
-  it("warns on unknown roll", async () => {
-    interaction.command_options.name = "nope"
-
-    await saved_grow_command.execute(interaction)
-
-    expect(interaction.replyContent).toMatch("does not exist")
-  })
-
-  it("warns on invalid", async () => {
-    saved_rolls.create({
-      name: "test",
-      description: "test",
-      command: "roll",
-      options: {
-        pool: 0,
-        sides: 6,
-      },
-      invalid: true,
+    beforeEach(() => {
+      interaction = new Interaction()
+      saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
     })
-    interaction.command_options.name = "test"
 
-    await saved_grow_command.execute(interaction)
+    it("warns on unknown roll", async () => {
+      interaction.command_options.name = "nope"
 
-    expect(interaction.replyContent).toMatch("not valid")
-  })
+      await saved_grow_command.execute(interaction)
 
-  it("warns on zero adjustment", async () => {
-    saved_rolls.create({
-      name: "test",
-      description: "test",
-      command: "roll",
-      options: {
-        pool: 1,
-        sides: 6,
-      },
+      expect(interaction.replyContent).toMatch("does not exist")
     })
-    interaction.command_options.name = "test"
 
-    await saved_grow_command.execute(interaction)
+    it("warns on invalid", async () => {
+      saved_rolls.create({
+        name: "test",
+        description: "test",
+        command: "roll",
+        options: {
+          pool: 0,
+          sides: 6,
+        },
+        invalid: true,
+      })
+      interaction.command_options.name = "test"
 
-    expect(interaction.replyContent).toMatch("won't change")
-  })
+      await saved_grow_command.execute(interaction)
 
-  it("warns if the changed roll is invalid", async () => {
-    saved_rolls.create({
-      name: "test",
-      description: "test",
-      command: "roll",
-      options: {
-        pool: 1,
-        sides: 6,
-      },
+      expect(interaction.replyContent).toMatch("not valid")
     })
-    interaction.command_options.name = "test"
-    interaction.command_options.adjustment = -1
-    interaction.command_options.change = "pool"
 
-    await saved_grow_command.execute(interaction)
+    it("warns on zero adjustment", async () => {
+      saved_rolls.create({
+        name: "test",
+        description: "test",
+        command: "roll",
+        options: {
+          pool: 1,
+          sides: 6,
+        },
+      })
+      interaction.command_options.name = "test"
 
-    expect(interaction.replyContent).toMatch("be invalid")
-  })
+      await saved_grow_command.execute(interaction)
 
-  it("updates the roll", async () => {
-    saved_rolls.create({
-      name: "test",
-      description: "test",
-      command: "roll",
-      options: {
-        pool: 1,
-        sides: 6,
-      },
+      expect(interaction.replyContent).toMatch("won't change")
     })
-    interaction.command_options.name = "test"
-    interaction.command_options.adjustment = 3
-    interaction.command_options.change = "modifier"
 
-    await saved_grow_command.execute(interaction)
+    it("warns if the changed roll is invalid", async () => {
+      saved_rolls.create({
+        name: "test",
+        description: "test",
+        command: "roll",
+        options: {
+          pool: 1,
+          sides: 6,
+        },
+      })
+      interaction.command_options.name = "test"
+      interaction.command_options.adjustment = -1
+      interaction.command_options.change = "pool"
 
-    const details = saved_rolls.detail(undefined, "test")
-    expect(details.options.modifier).toEqual(3)
+      await saved_grow_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("be invalid")
+    })
+
+    it("updates the roll", async () => {
+      saved_rolls.create({
+        name: "test",
+        description: "test",
+        command: "roll",
+        options: {
+          pool: 1,
+          sides: 6,
+        },
+      })
+      interaction.command_options.name = "test"
+      interaction.command_options.adjustment = 3
+      interaction.command_options.change = "modifier"
+
+      await saved_grow_command.execute(interaction)
+
+      const details = saved_rolls.detail(undefined, "test")
+      expect(details.options.modifier).toEqual(3)
+    })
   })
 })

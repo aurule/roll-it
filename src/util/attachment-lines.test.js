@@ -1,49 +1,36 @@
 const { fetchLines } = require("./attachment-lines")
 
-let fetchMock
+describe("attached file line getters", () => {
+  let dummy_attachment
 
-beforeEach(() => {
-  fetchMock = jest.spyOn(global, "fetch")
-})
-
-afterEach(() => {
-  fetchMock.mockRestore()
-})
-
-const dummy_attachment = { url: "" }
-
-it("splits on \\n", async () => {
-  fetchMock.mockImplementation((url) => {
-    return Promise.resolve({
-      text: () => "first\nsecond",
+  beforeEach(() => {
+    dummy_attachment = { url: "" }
+    jest.spyOn(global, "fetch").mockImplementation((_url) => {
+      return Promise.resolve({
+        text: () => "first\nsecond",
+      })
     })
   })
 
-  const result = await fetchLines(dummy_attachment)
-
-  expect(result).toEqual(["first", "second"])
-})
-
-it("splits on \\r\\n", async () => {
-  fetchMock.mockImplementation((url) => {
-    return Promise.resolve({
-      text: () => "first\r\nsecond",
-    })
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
-  const result = await fetchLines(dummy_attachment)
+  it("splits on \\n", async () => {
+    const result = await fetchLines(dummy_attachment)
 
-  expect(result).toEqual(["first", "second"])
-})
-
-it("ignores trailing newline", async () => {
-  fetchMock.mockImplementation((url) => {
-    return Promise.resolve({
-      text: () => "first\nsecond\n",
-    })
+    expect(result).toEqual(["first", "second"])
   })
 
-  const result = await fetchLines(dummy_attachment)
+  it("splits on \\r\\n", async () => {
+    const result = await fetchLines(dummy_attachment)
 
-  expect(result).toEqual(["first", "second"])
+    expect(result).toEqual(["first", "second"])
+  })
+
+  it("ignores trailing newline", async () => {
+    const result = await fetchLines(dummy_attachment)
+
+    expect(result).toEqual(["first", "second"])
+  })
 })

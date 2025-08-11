@@ -1,25 +1,27 @@
 const { indeterminate } = require("./indeterminate")
 
-it("uses a for consonants", () => {
-  const result = indeterminate("seat")
+describe("indeterminate formatters", () => {
+  it("uses a for consonants", () => {
+    const result = indeterminate("seat")
 
-  expect(result).toEqual("a seat")
-})
+    expect(result).toEqual("a seat")
+  })
 
-it("uses an for vowels", () => {
-  const result = indeterminate("apple")
+  it("uses an for vowels", () => {
+    const result = indeterminate("apple")
 
-  expect(result).toEqual("an apple")
-})
+    expect(result).toEqual("an apple")
+  })
 
-it("handles upper case", () => {
-  const result = indeterminate("Sedan")
+  it("handles upper case", () => {
+    const result = indeterminate("Sedan")
 
-  expect(result).toEqual("a Sedan")
-})
+    expect(result).toEqual("a Sedan")
+  })
 
-it("ignores empty word", () => {
-  const result = indeterminate()
+  it("ignores empty word", () => {
+    const result = indeterminate()
 
-  expect(result).toBeUndefined()
+    expect(result).toBeUndefined()
+  })
 })

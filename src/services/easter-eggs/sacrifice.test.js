@@ -1,27 +1,29 @@
 const sacrifice = require("./sacrifice")
 
-describe("hasTrigger", () => {
-  it("returns true when one trigger appears", () => {
-    const message = "a sacrifice"
+describe("sacrifice easter egg", () => {
+  describe("hasTrigger", () => {
+    it("returns true when one trigger appears", () => {
+      const message = "a sacrifice"
 
-    const result = sacrifice.hasTrigger(message)
+      const result = sacrifice.hasTrigger(message)
 
-    expect(result).toEqual(true)
-  })
+      expect(result).toEqual(true)
+    })
 
-  it("returns true when multiple triggers appears", () => {
-    const message = "a sacrifice for sacrificing"
+    it("returns true when multiple triggers appears", () => {
+      const message = "a sacrifice for sacrificing"
 
-    const result = sacrifice.hasTrigger(message)
+      const result = sacrifice.hasTrigger(message)
 
-    expect(result).toEqual(true)
-  })
+      expect(result).toEqual(true)
+    })
 
-  it("returns false with no triggers", () => {
-    const message = "something else"
+    it("returns false with no triggers", () => {
+      const message = "something else"
 
-    const result = sacrifice.hasTrigger(message)
+      const result = sacrifice.hasTrigger(message)
 
-    expect(result).toEqual(false)
+      expect(result).toEqual(false)
+    })
   })
 })

@@ -3,16 +3,18 @@ const { stringSelectMenuOptions } = require("../../testing/discord-schemas")
 const { systems } = require("../data")
 const { transform } = require("./system-select-transformer")
 
-it("creates an array of select options", () => {
-  const data = transform(systems, "en-US")
+describe("string select options transformer", () => {
+  it("creates an array of select options", () => {
+    const data = transform(systems, "en-US")
 
-  expect(data).toMatchSchema(stringSelectMenuOptions)
-})
+    expect(data).toMatchSchema(stringSelectMenuOptions)
+  })
 
-it("sets default property based on deployed arg", () => {
-  const deployed = ["dnd5e"]
+  it("sets default property based on deployed arg", () => {
+    const deployed = ["dnd5e"]
 
-  const data = transform(systems, "en-US", deployed)
+    const data = transform(systems, "en-US", deployed)
 
-  expect(data[0].default).toBeTruthy()
+    expect(data[0].default).toBeTruthy()
+  })
 })

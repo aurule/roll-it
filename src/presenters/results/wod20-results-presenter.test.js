@@ -1,6 +1,6 @@
 const { WodPresenter } = require("./wod20-results-presenter")
 
-describe("WodPresenter", () => {
+describe("wod results presenter", () => {
   describe("presentResults", () => {
     describe("in until mode", () => {
       const default_opts = {

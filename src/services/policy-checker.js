@@ -15,11 +15,11 @@ module.exports = {
    *
    * @param  {Object|Array<Object>} policies    Policy object(s) with an async allow() method
    * @param  {Interaction}          interaction Discord interaction object
-   * @return {PolicyResult}                     True if all policies allow the interaction, false otherwise.
+   * @return {Promise<PolicyResult>}            True if all policies allow the interaction, false otherwise.
    *                                            Second member holds all failed policy error messages.
    */
   async check(policies, interaction) {
-    if (!policies) return new PolicyResult()
+    if (!policies) return Promise.resolve(new PolicyResult())
 
     return Promise.all(
       forceArray(policies).map((policy) =>

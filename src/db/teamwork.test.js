@@ -2,16 +2,12 @@ const { makeDB } = require("./index")
 
 const { Teamwork, MessageType } = require("./teamwork")
 
-let db
-
-beforeEach(() => {
-  db = makeDB()
-})
-
 describe("Teamwork DB", () => {
   let teamwork
+  let db
 
   beforeEach(() => {
+    db = makeDB()
     teamwork = new Teamwork(db)
   })
 

@@ -5,6 +5,9 @@ const retest_picker = require("../../components/opposed/retest-picker")
 const retest_button = require("../../components/opposed/retest-button")
 const build = require("../../util/message-builders")
 
+/**
+ * Status message shown when a result is tied
+ */
 module.exports = {
   state: "tying",
   data: (challenge_id) => {

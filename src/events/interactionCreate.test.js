@@ -4,15 +4,14 @@ const { Interaction } = require("../../testing/interaction")
 
 const InteractionCreateEvent = require("./interactionCreate")
 
-var interaction
-
-beforeEach(() => {
-  interaction = new Interaction()
-})
-
 describe("interactionCreate handler", () => {
+  let interaction
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
+  
   describe("execute", () => {
-    var handleSpy
+    let handleSpy
 
     describe("when in the wrong environment", () => {
       const OLD_ENV = process.env

@@ -1,6 +1,6 @@
 const { DrhPool } = require("./drh-pool")
 
-describe("DrhPool", () => {
+describe("DrhPool rolled dice class", () => {
   it("saves the name", () => {
     const pool = new DrhPool("test", [[2, 3, 4]])
 

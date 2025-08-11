@@ -2,8 +2,8 @@ const commands = require("../../commands")
 
 const { systems } = require("../index")
 
-describe("systems", () => {
-  describe.each(systems.map((value, key) => [key, value]))("%s", (name, system) => {
+describe("systems data files", () => {
+  describe.each(systems.map((value, key) => [key, value]))("%s", (_name, system) => {
     it("has a name", () => {
       expect(system.name).toBeTruthy()
     })

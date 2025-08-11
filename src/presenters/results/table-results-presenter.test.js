@@ -1,42 +1,48 @@
 const { present } = require("./table-results-presenter")
 
-const opts = {
-  userFlake: "testflake",
-  rolls: 1,
-  tableName: "test table",
-  results: ["yeehaw"],
-}
+describe("table results presenter", () => {
+  let opts
 
-it("shows the user", () => {
-  const result = present(opts)
+  beforeEach(() => {
+    opts = {
+      userFlake: "testflake",
+      rolls: 1,
+      tableName: "test table",
+      results: ["yeehaw"],
+    }
+  })
 
-  expect(result).toMatch(opts.userFlake)
-})
+  it("shows the user", () => {
+    const result = present(opts)
 
-it("shows the table name", () => {
-  const result = present(opts)
+    expect(result).toMatch(opts.userFlake)
+  })
 
-  expect(result).toMatch(opts.tableName)
-})
+  it("shows the table name", () => {
+    const result = present(opts)
 
-it("shows roll description if included", () => {
-  const description = "some kinda table"
+    expect(result).toMatch(opts.tableName)
+  })
 
-  const result = present({ ...opts, description })
+  it("shows roll description if included", () => {
+    const description = "some kinda table"
 
-  expect(result).toMatch(description)
-})
+    const result = present({ ...opts, description })
 
-it("single shows the result text", () => {
-  const result = present(opts)
+    expect(result).toMatch(description)
+  })
 
-  expect(result).toMatch(opts.results[0])
-})
+  it("single shows the result text", () => {
+    const result = present(opts)
 
-it("multi shows all result texts", () => {
-  const results = ["first result", "second result", "third result"]
+    expect(result).toMatch(opts.results[0])
+  })
 
-  const result = present({ ...opts, results })
+  it("multi shows all result texts", () => {
+    const results = ["first result", "second result", "third result"]
 
-  results.map((r) => expect(result).toMatch(r))
+    const result = present({ ...opts, results })
+
+    results.map((r) => expect(result).toMatch(r))
+  })
 })

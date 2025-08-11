@@ -3,7 +3,7 @@ const { Collection } = require("discord.js")
 const { DrhPool } = require("../../util/rolls/drh-pool")
 const { DrhPresenter, DrhRollPresenter, DrhTeamworkPresenter } = require("./drh-results-presenter")
 
-describe("DrhPresenter", () => {
+describe("drh results presenter", () => {
   describe("presentResults", () => {
     describe("with one roll", () => {
       it("includes description if present", () => {

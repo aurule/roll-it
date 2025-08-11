@@ -4,7 +4,7 @@ const { Participant } = require("./participant")
 
 const { OpTest } = require("./optest")
 
-describe("OpTest", () => {
+describe("db OpTest class", () => {
   let opposed_db
 
   beforeEach(() => {

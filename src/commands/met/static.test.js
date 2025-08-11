@@ -3,77 +3,79 @@ const { test_secret_option } = require("../../../testing/shared/execute-secret")
 
 const met_static_command = require("./static")
 
-describe("perform", () => {
-  it("rolls a single result", () => {
-    const result = met_static_command.perform({})
+describe("/met static", () => {
+  describe("perform", () => {
+    it("rolls a single result", () => {
+      const result = met_static_command.perform({})
 
-    expect(result).toMatch("rolled")
-  })
-
-  it("rolls multiple results", () => {
-    const result = met_static_command.perform({
-      rolls: 2,
+      expect(result).toMatch("rolled")
     })
 
-    expect(result).toMatch("2 times")
-  })
+    it("rolls multiple results", () => {
+      const result = met_static_command.perform({
+        rolls: 2,
+      })
 
-  it("shows description if present", () => {
-    const result = met_static_command.perform({
-      description: "a test",
+      expect(result).toMatch("2 times")
     })
 
-    expect(result).toMatch("a test")
-  })
-})
+    it("shows description if present", () => {
+      const result = met_static_command.perform({
+        description: "a test",
+      })
 
-describe("execute", () => {
-  var interaction
-
-  beforeEach(() => {
-    interaction = new Interaction()
-    interaction.command_options.subcommand_name = "static"
+      expect(result).toMatch("a test")
+    })
   })
 
-  test_secret_option(met_static_command)
-})
+  describe("execute", () => {
+    var interaction
 
-describe("judge", () => {
-  it("returns neutral message with no opponent", () => {
-    const result = met_static_command.judge([""], "en-US")
+    beforeEach(() => {
+      interaction = new Interaction()
+      interaction.command_options.subcommand_name = "static"
+    })
 
-    expect(result).toMatch("noted")
+    test_secret_option(met_static_command)
   })
 
-  it("returns great message with more than half wins", () => {
-    const compared = ["win", "win", "lose"]
+  describe("judge", () => {
+    it("returns neutral message with no opponent", () => {
+      const result = met_static_command.judge([""], "en-US")
 
-    const result = met_static_command.judge(compared, "en-US")
+      expect(result).toMatch("noted")
+    })
 
-    expect(result).toMatch("pleases")
-  })
+    it("returns great message with more than half wins", () => {
+      const compared = ["win", "win", "lose"]
 
-  it("returns good message with more than half ties", () => {
-    const compared = ["tie", "tie", "lose"]
+      const result = met_static_command.judge(compared, "en-US")
 
-    const result = met_static_command.judge(compared, "en-US")
+      expect(result).toMatch("pleases")
+    })
 
-    expect(result).toMatch("accepted")
-  })
+    it("returns good message with more than half ties", () => {
+      const compared = ["tie", "tie", "lose"]
 
-  it("returns awful message with more than half loses", () => {
-    const compared = ["lose", "lose", "lose"]
+      const result = met_static_command.judge(compared, "en-US")
 
-    const result = met_static_command.judge(compared, "en-US")
+      expect(result).toMatch("accepted")
+    })
 
-    expect(result).toMatch("angers")
-  })
+    it("returns awful message with more than half loses", () => {
+      const compared = ["lose", "lose", "lose"]
 
-  it("returns neutral message with no dominant result", () => {
-    const compared = ["win", "tie", "lose"]
+      const result = met_static_command.judge(compared, "en-US")
 
-    const result = met_static_command.judge(compared, "en-US")
+      expect(result).toMatch("angers")
+    })
 
-    expect(result).toMatch("noted")
+    it("returns neutral message with no dominant result", () => {
+      const compared = ["win", "tie", "lose"]
+
+      const result = met_static_command.judge(compared, "en-US")
+
+      expect(result).toMatch("noted")
+    })
   })
 })

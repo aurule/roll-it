@@ -1,6 +1,6 @@
 const { FfrpgPresenter } = require("./ffrpg-results-presenter")
 
-describe("FfrpgPresenter", () => {
+describe("ffrpg results presenter", () => {
   describe("presentResults", () => {
     it("includes description if present", () => {
       const presenter = new FfrpgPresenter({

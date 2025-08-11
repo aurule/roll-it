@@ -1,6 +1,6 @@
 const hummingbird = require("./hummingbird")
 
-describe("hummingbird", () => {
+describe("hummingbird easter egg", () => {
   describe("hasTrigger", () => {
     it("returns true when one trigger appears", () => {
       const message = "perception"

@@ -5,6 +5,9 @@ const bidding_defender_message = require("./bidding-defender")
 const build = require("../../util/message-builders")
 const { extractNumber } = require("../../util/extract-number")
 
+/**
+ * Message shown to gather the attacking participant's trait bid during a tied test
+ */
 module.exports = {
   state: "bidding-attacker",
   data: (challenge_id) => {

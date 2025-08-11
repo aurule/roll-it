@@ -2,13 +2,13 @@ const { messageLink } = require("./message-link")
 
 const { Message } = require("../../../testing/message")
 
-var message
-
-beforeEach(() => {
-  message = new Message("test")
-})
-
 describe("messageLink", () => {
+  let message
+
+  beforeEach(() => {
+    message = new Message("test")
+  })
+
   it("makes guild message link", () => {
     const result = messageLink(message)
 

@@ -1,6 +1,12 @@
 const { makeUpdateFields, UserSavedRolls, GlobalSavedRolls } = require("./saved_rolls")
 const { makeDB } = require("./index")
 
+/**
+ * Create a record for testing a saved roll
+ * @param  {UserSavedRolls} saved_rolls Saved rolls accessor class
+ * @param  {object}         data        Data fields for the record
+ * @return {DBResult}                   Result of the insertion. Has a `lastInsertRowid` field.
+ */
 function fakeSavedRoll(saved_rolls, data) {
   return saved_rolls.create({
     name: "test1",
@@ -14,13 +20,13 @@ function fakeSavedRoll(saved_rolls, data) {
   })
 }
 
-let db
-
-beforeEach(() => {
-  db = makeDB()
-})
-
 describe("saved rolls db", () => {
+  let db
+
+  beforeEach(() => {
+    db = makeDB()
+  })
+
   describe("makeUpdateFields", () => {
     it("generates fields", () => {
       const data = {

@@ -1,48 +1,50 @@
 const { envAllowsGuild } = require("./env-allows-guild")
 
-describe("envAllowsGuild", () => {
-  const OLD_ENV = process.env
+describe("allowed guild helper", () => {
+  describe("envAllowsGuild", () => {
+    const OLD_ENV = process.env
 
-  beforeEach(() => {
-    process.env = { ...OLD_ENV }
-  })
-
-  afterAll(() => {
-    process.env = OLD_ENV
-  })
-
-  describe("in development mode", () => {
     beforeEach(() => {
-      process.env.NODE_ENV = "development"
+      process.env = { ...OLD_ENV }
     })
 
-    it("true for dev guilds", () => {
-      process.env.DEV_GUILDS = "[12345]"
-      const guildId = "12345"
-
-      expect(envAllowsGuild(guildId)).toBeTruthy()
+    afterAll(() => {
+      process.env = OLD_ENV
     })
 
-    it("false for all other guilds", () => {
-      process.env.DEV_GUILDS = "[12345]"
-      const guildId = "09876"
+    describe("in development mode", () => {
+      beforeEach(() => {
+        process.env.NODE_ENV = "development"
+      })
 
-      expect(envAllowsGuild(guildId)).toBeFalsy()
+      it("true for dev guilds", () => {
+        process.env.DEV_GUILDS = "[12345]"
+        const guildId = "12345"
+
+        expect(envAllowsGuild(guildId)).toBeTruthy()
+      })
+
+      it("false for all other guilds", () => {
+        process.env.DEV_GUILDS = "[12345]"
+        const guildId = "09876"
+
+        expect(envAllowsGuild(guildId)).toBeFalsy()
+      })
     })
-  })
-  describe("in non-development mode", () => {
-    it("false for dev guilds", () => {
-      process.env.DEV_GUILDS = "[12345]"
-      const guildId = "12345"
+    describe("in non-development mode", () => {
+      it("false for dev guilds", () => {
+        process.env.DEV_GUILDS = "[12345]"
+        const guildId = "12345"
 
-      expect(envAllowsGuild(guildId)).toBeFalsy()
-    })
+        expect(envAllowsGuild(guildId)).toBeFalsy()
+      })
 
-    it("true for all other guilds", () => {
-      process.env.DEV_GUILDS = "[12345]"
-      const guildId = "09876"
+      it("true for all other guilds", () => {
+        process.env.DEV_GUILDS = "[12345]"
+        const guildId = "09876"
 
-      expect(envAllowsGuild(guildId)).toBeTruthy()
+        expect(envAllowsGuild(guildId)).toBeTruthy()
+      })
     })
   })
 })

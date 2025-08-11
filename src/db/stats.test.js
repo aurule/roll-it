@@ -1,20 +1,16 @@
 const { Stats } = require("./stats")
 const { makeDB } = require("./index")
 
-let db
-let getCommand
-let getTiming
-
-beforeEach(() => {
-  db = makeDB()
-  getCommand = db.prepare("SELECT * FROM stats.commands WHERE id = ?")
-  getTiming = db.prepare("SELECT * FROM stats.timing WHERE id = ?")
-})
-
-describe("Stats", () => {
+describe("Stats db class", () => {
   let stats
+  let db
+  let getCommand
+  let getTiming
 
   beforeEach(() => {
+    db = makeDB()
+    getCommand = db.prepare("SELECT * FROM stats.commands WHERE id = ?")
+    getTiming = db.prepare("SELECT * FROM stats.timing WHERE id = ?")
     stats = new Stats(db)
   })
 

@@ -4,6 +4,9 @@ const throw_picker = require("../../components/opposed/throw-picker")
 const go_button = require("../../components/opposed/go-button")
 const build = require("../../util/message-builders")
 
+/**
+ * Message to gather throw requests from both participants
+ */
 module.exports = {
   state: "throwing",
   data: (challenge_id) => {

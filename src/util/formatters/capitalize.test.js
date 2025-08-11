@@ -1,6 +1,6 @@
 const { capitalize } = require("./capitalize")
 
-describe("capitalize", () => {
+describe("capitalize formatter", () => {
   it("changes first character", () => {
     const result = capitalize("test")
 

@@ -1,4 +1,3 @@
-const help_command = require("../commands/help")
 const eightball_command = require("../commands/8ball")
 const saved_command = require("../commands/saved")
 const setup_command = require("../commands/setup-roll-it")
@@ -6,73 +5,75 @@ const save_this_roll_command = require("../commands/save-this-roll")
 
 const { present } = require("./command-help-presenter")
 
-describe("present", () => {
-  it("names the command", () => {
-    const result = present(eightball_command, "en-US")
-
-    expect(result).toMatch("`/8ball`")
-  })
-
-  it("gets translated help text", () => {
-    const result = present(eightball_command, "en-US")
-
-    expect(result).toMatch("asks a question")
-  })
-
-  describe("with options", () => {
-    it("names the options", () => {
+describe("command help presenter", () => {
+  describe("present", () => {
+    it("names the command", () => {
       const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("`question`")
+      expect(result).toMatch("`/8ball`")
     })
 
-    it("describes the options", () => {
+    it("gets translated help text", () => {
       const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("The question")
+      expect(result).toMatch("asks a question")
     })
 
-    it("marks required options", () => {
-      const result = present(eightball_command, "en-US")
+    describe("with options", () => {
+      it("names the options", () => {
+        const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("`question` (required)")
-    })
-  })
+        expect(result).toMatch("`question`")
+      })
 
-  describe("with subcommands", () => {
-    it("uses correct label", () => {
-      const result = present(saved_command, "en-US")
+      it("describes the options", () => {
+        const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("Subcommands:")
-    })
+        expect(result).toMatch("The question")
+      })
 
-    it("shows the subcommands", () => {
-      const result = present(saved_command, "en-US")
+      it("marks required options", () => {
+        const result = present(eightball_command, "en-US")
 
-      expect(result).toMatch("grow")
-      expect(result).toMatch("list")
-    })
-  })
-
-  describe("with no options or subcommands", () => {
-    it("has no args section", () => {
-      const result = present(setup_command, "en-US")
-
-      expect(result).not.toMatch("Args:")
+        expect(result).toMatch("`question` (required)")
+      })
     })
 
-    it("has no subcommands section", () => {
-      const result = present(setup_command, "en-US")
+    describe("with subcommands", () => {
+      it("uses correct label", () => {
+        const result = present(saved_command, "en-US")
 
-      expect(result).not.toMatch("Subcommands:")
+        expect(result).toMatch("Subcommands:")
+      })
+
+      it("shows the subcommands", () => {
+        const result = present(saved_command, "en-US")
+
+        expect(result).toMatch("grow")
+        expect(result).toMatch("list")
+      })
     })
-  })
 
-  describe("with a context command", () => {
-    it("has no args section", () => {
-      const result = present(save_this_roll_command, "en-US")
+    describe("with no options or subcommands", () => {
+      it("has no args section", () => {
+        const result = present(setup_command, "en-US")
 
-      expect(result).not.toMatch("Args:")
+        expect(result).not.toMatch("Args:")
+      })
+
+      it("has no subcommands section", () => {
+        const result = present(setup_command, "en-US")
+
+        expect(result).not.toMatch("Subcommands:")
+      })
+    })
+
+    describe("with a context command", () => {
+      it("has no args section", () => {
+        const result = present(save_this_roll_command, "en-US")
+
+        expect(result).not.toMatch("Args:")
+      })
     })
   })
 })

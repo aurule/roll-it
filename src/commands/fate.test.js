@@ -3,8 +3,8 @@ const fate_command = require("./fate")
 const { Interaction } = require("../../testing/interaction")
 const { test_secret_option } = require("../../testing/shared/execute-secret")
 
-describe("fate command", () => {
-  var interaction
+describe("/fate command", () => {
+  let interaction
 
   beforeEach(() => {
     interaction = new Interaction()
