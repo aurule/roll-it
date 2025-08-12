@@ -49,4 +49,24 @@ describe("opposed tying summary message", () => {
       expect(result).toHaveComponent("opposed_retest")
     })
   })
+
+  describe("data", () => {
+    it("shows the headline", () => {
+      const result = tying.inert(challenge.id)
+
+      expect(result.content).toMatch("challenge is tied")
+    })
+
+    it("shows the summary", () => {
+      const result = tying.data(challenge.id)
+
+      expect(result.content).toMatch("test summary")
+    })
+
+    it("has no components", () => {
+      const result = tying.inert(challenge.id)
+
+      expect(result.components).toEqual([{ components: [] }])
+    })
+  })
 })

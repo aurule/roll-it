@@ -42,4 +42,25 @@ module.exports = {
     ]
     return build.message(components, { withResponse: true })
   },
+  inert: (challenge_id) => {
+    const opposed_db = new Opposed()
+    const challenge = opposed_db.getChallenge(challenge_id)
+    const test = opposed_db.getLatestTestWithParticipants(challenge_id)
+    const history = opposed_db.getChallengeHistory(challenge_id)
+
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+
+    const components = [
+      build.text(
+        t("tying.headline", {
+          breakdown: test.breakdown,
+        }),
+      ),
+      build.separator(),
+      build.text(challenge.summary),
+      build.text(t("shared.history.header")),
+      build.text(history.join("\n")),
+    ]
+    return build.message(components, { withResponse: true })
+  },
 }
