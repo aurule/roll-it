@@ -3,7 +3,6 @@
  */
 
 const {
-  MessageFlags,
   ButtonInteraction,
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
