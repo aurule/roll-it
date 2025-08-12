@@ -1034,7 +1034,7 @@ class Opposed extends CachedDb {
     return {
       ...raw_out,
       ready: !!raw_out.ready,
-      accepted: !!raw_out.accepted,
+      tie_accepted: !!raw_out.tie_accepted,
     }
   }
 
@@ -1126,19 +1126,19 @@ class Opposed extends CachedDb {
     })
   }
 
-  setChopTieAccepted(chop_id, accepted) {
+  setChopTieAccepted(chop_id, tie_accepted) {
     const update = this.prepared(
       "setChopTieAccepted",
       oneLine`
       UPDATE interactive.opposed_test_chops
-      SET tie_accepted = @accepted
+      SET tie_accepted = @tie_accepted
       WHERE id = @id
     `,
     )
 
     return update.run({
       id: chop_id,
-      accepted: +!!accepted,
+      tie_accepted: +!!tie_accepted,
     })
   }
 }
