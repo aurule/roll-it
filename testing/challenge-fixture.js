@@ -2,20 +2,60 @@ const { Opposed } = require("../src/db/opposed")
 const { Challenge } = require("../src/db/opposed/challenge")
 const { Participant } = require("../src/db/opposed/participant")
 
+/**
+ * Class for creating and manipulating an opposed challenge record during tests
+ *
+ * This class and its related classes are designed to streamline test setup.
+ */
 class ChallengeFixture {
   /**
    * Database object
-   * @type Opposed
+   * @type db
    */
   db
 
+  /**
+   * Database ID of the associated record
+   * @type int
+   */
   id
+
+  /**
+   * Fake discord ID of the attacking participant
+   * @type String
+   */
   attacker_uid = "atk"
+
+  /**
+   * Attacker fixture
+   * @type ParticipantFixture | null
+   */
   attacker
+
+  /**
+   * Fake discord ID of the defending participant
+   * @type String
+   */
   defender_uid = "def"
+
+  /**
+   * Defender fixture
+   * @type ParticipantFixture | null
+   */
   defender
+
+  /**
+   * Test fixture objects
+   * @type TestFixture[]
+   */
   tests = []
 
+  /**
+   * Create a new ChallengeFixture
+   * @param  {string}           state  Initial state of the challenge. Defaults to AdvantagesAttacker.
+   * @param  {db}               db_obj Base database object to use
+   * @return {ChallengeFixture}        New challenge fixture
+   */
   constructor(state = Challenge.States.AdvantagesAttacker, db_obj) {
     this.db = new Opposed(db_obj)
 
@@ -33,34 +73,66 @@ class ChallengeFixture {
     }).lastInsertRowid
   }
 
+  /**
+   * Destroy this record and its children
+   *
+   * Best to call in an afterEach block to keep memory bloat down.
+   *
+   * @return {Info} Query info object
+   */
   cleanup() {
     return this.db.destroy(this.id)
   }
 
+  /**
+   * The associated record
+   * @type Challenge
+   */
   get record() {
     return this.db.getChallenge(this.id)
   }
 
+  /**
+   * Update the summary text
+   * @param {string} summary New summary text
+   * @return {ChallengeFixture} This fixture
+   */
   setSummary(summary) {
     this.db.setChallengeSummary(this.id, summary)
     return this
   }
 
+  /**
+   * Mark the challenge as expired
+   * @return {ChallengeFixture} This fixture
+   */
   expire() {
     this.db.setChallengeExpired(this.id)
     return this
   }
 
+  /**
+   * Add an attacking participant record
+   * @return {ParticipantFixture} Attacker participant fixture
+   */
   addAttacker() {
     this.attacker = new ParticipantFixture(this, this.attacker_uid, Participant.Roles.Attacker)
     return this.attacker
   }
 
+  /**
+   * Add an defending participant record
+   * @return {ParticipantFixture} Defender participant fixture
+   */
   addDefender() {
     this.defender = new ParticipantFixture(this, this.defender_uid, Participant.Roles.Defender)
     return this.attacker
   }
 
+  /**
+   * Add both participant records
+   * @return {ChallengeFixture} This fixture
+   */
   withParticipants() {
     this.addAttacker()
     this.addDefender()
@@ -68,6 +140,11 @@ class ChallengeFixture {
     return this
   }
 
+  /**
+   * Add a message record that can be used to look up our challenge
+   * @param  {string}           message_uid Discord ID of the message
+   * @return {ChallengeFixture}             This fixture
+   */
   attachMessage(message_uid) {
     this.db.addMessage({
       message_uid,
@@ -76,12 +153,31 @@ class ChallengeFixture {
     return this
   }
 
+  /**
+   * Add a test to the challenge
+   * @param {Object}       options Options to pass to the TestFixture
+   * @return {TestFixture}         New test fixture object
+   */
   addTest(options = {}) {
     const test = new TestFixture(this, options)
     this.tests.push(test)
     return test
   }
 
+  /**
+   * Add an attacker-led retest
+   *
+   * The test added has the following already set:
+   * - attacker is the retester
+   * - defender is the canceller
+   * - retest reason is the given arg
+   * - retested flag true
+   *
+   * Notably, no leader is set.
+   *
+   * @param  {string}      reason Reason for the retest
+   * @return {TestFixture}        New test fixture
+   */
   attackerRetest(reason) {
     return this.addTest({
       retester_id: this.attacker.id,
@@ -91,6 +187,20 @@ class ChallengeFixture {
     })
   }
 
+  /**
+   * Add a defender-led retest
+   *
+   * The test added has the following already set:
+   * - defender is the retester
+   * - attacker is the canceller
+   * - retest reason is the given arg
+   * - retested flag true
+   *
+   * Notably, no leader is set.
+   *
+   * @param  {string}      reason Reason for the retest
+   * @return {TestFixture}        New test fixture
+   */
   defenderRetest(reason) {
     return this.addTest({
       retester_id: this.defender.id,
@@ -100,6 +210,15 @@ class ChallengeFixture {
     })
   }
 
+  /**
+   * Add an attacker-led winning test
+   *
+   * The test added has the following already set:
+   * - attacker is the leader
+   * - text breakdown is a static string
+   *
+   * @return {TestFixture} New test fixture
+   */
   addAttackerWin() {
     return this.addTest({
       leader_id: this.attacker.id,
@@ -107,6 +226,15 @@ class ChallengeFixture {
     })
   }
 
+  /**
+   * Add a defender-led winning test
+   *
+   * The test added has the following already set:
+   * - defender is the leader
+   * - text breakdown is a static string
+   *
+   * @return {TestFixture} New test fixture
+   */
   addDefenderWin() {
     return this.addTest({
       leader_id: this.defender.id,
@@ -114,6 +242,15 @@ class ChallengeFixture {
     })
   }
 
+  /**
+   * Add a tied test
+   *
+   * The test added has the following already set:
+   * - breakdown is a static string
+   * - leader is specifically undefined
+   *
+   * @return {TestFixture} New test fixture
+   */
   addTie() {
     return this.addTest({
       breakdown: "paper vs paper",
@@ -121,6 +258,9 @@ class ChallengeFixture {
   }
 }
 
+/**
+ * Class for creating and manipulating a challenge participant record during tests
+ */
 class ParticipantFixture {
   /**
    * Database object
@@ -128,8 +268,22 @@ class ParticipantFixture {
    */
   db
 
+  /**
+   * Internal ID of the fixture's associated record
+   * @type int
+   */
   id
+
+  /**
+   * Challenge fixture this participant belongs to
+   * @type ChallengeFixture
+   */
   challenge
+
+  /**
+   * Fake Discord ID of the participating user
+   * @type string
+   */
   uid
 
   constructor(challenge, uid, role) {
@@ -156,6 +310,9 @@ class ParticipantFixture {
   }
 }
 
+/**
+ * Class for creating and manipulating a single test record during tests
+ */
 class TestFixture {
   /**
    * Database object
@@ -163,9 +320,28 @@ class TestFixture {
    */
   db
 
+  /**
+   * Internal ID of the fixture's associated record
+   * @type int
+   */
   id
+
+  /**
+   * Challenge fixture this test belongs to
+   * @type ChallengeFixture
+   */
   challenge
+
+  /**
+   * Chop fixture for the attacking user
+   * @type ChopFixture
+   */
   attacker_chop
+
+  /**
+   * Chop fixture for the defending user
+   * @type ChopFixture
+   */
   defender_chop
 
   constructor(challenge, options) {
@@ -203,6 +379,9 @@ class TestFixture {
   }
 }
 
+/**
+ * Class for creating and manipulating a single chop record during tests
+ */
 class ChopFixture {
   /**
    * Database object
@@ -210,8 +389,25 @@ class ChopFixture {
    */
   db
 
+  /**
+   * Internal ID of the fixture's associated record
+   * @type int
+   */
   id
+
+  /**
+   * Test fixture this chop belongs to
+   * @type TestFixture
+   */
   test
+
+  /**
+   * The given symbol request
+   *
+   * This is the plain request, not the resolved symbol.
+   *
+   * @type string
+   */
   request
 
   constructor(request, test, participant_id) {
