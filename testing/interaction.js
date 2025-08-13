@@ -117,6 +117,12 @@ class Interaction {
     return this.channel.id
   }
 
+  async edit(msg) {
+    const message_opts = this.normalizeMessage(msg)
+    this.message.addReply(message_opts)
+    return this.message
+  }
+
   async reply(msg) {
     if (this.deferred) return Promise.reject("cannot reply: interaction is in deferred state")
     if (this.replied) return Promise.reject("cannot reply: interaction is already in replied state")
@@ -153,7 +159,7 @@ class Interaction {
 
   async update(msg) {
     if (this.deferred) return Promise.reject("cannot update: interaction has been deferred")
-    if (this.deferred || this.replied)
+    if (this.replied)
       return Promise.reject("cannot update: interaction has already been replied")
     const message_opts = this.normalizeMessage(msg)
     this.message.addReply(message_opts)
