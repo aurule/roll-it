@@ -24,6 +24,10 @@ class PatchMeEnsure {
       code: 10062,
     })
   }
+
+  die(args) {
+    return Promise.reject("nah")
+  }
 }
 
 describe("ensure helper", () => {
@@ -64,6 +68,14 @@ describe("ensure helper", () => {
         const result = await fake.ensure("explode", "test message")
 
         expect(result.payload).toMatch("test message")
+      })
+    })
+
+    describe("on other errors", () => {
+      it("throws the error", async () => {
+        const fake = new PatchMeEnsure()
+
+        await expect(fake.ensure("die", "test message")).rejects.toMatch("nah")
       })
     })
   })

@@ -68,7 +68,7 @@ module.exports = {
      * @return {Promise<Message | InteractionCallbackResponse} Promise resolving to a Message or an InteractionCallbackResponse
      */
     const ensure = async function (funktion, args, context = {}) {
-      return this[funktion](args).catch((err) => {
+      return this[funktion](args).catch(async (err) => {
         if (err.code === 10062) {
           logger.warn(
             {
@@ -91,6 +91,8 @@ module.exports = {
               `Unable to send detached message for "${funktion}".`,
             ),
           )
+        } else {
+          return Promise.reject(err)
         }
       })
     }
