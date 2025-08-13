@@ -13,6 +13,7 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     const t_args = {
+      withResponse: true,
       summary: challenge.summary,
     }
     return build.textMessage(t("accepted", t_args), { withResponse: true })
