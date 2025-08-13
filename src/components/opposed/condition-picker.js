@@ -3,6 +3,9 @@ const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { valuesOrDefault } = require("../../util/values-or-default")
 
+/**
+ * Selector to pick challenge conditions
+ */
 module.exports = {
   name: "opposed_condition_select",
   data: (locale) => {
