@@ -3,6 +3,9 @@ const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { valuesOrDefault } = require("../../util/values-or-default")
 
+/**
+ * Select control for selecting a participant's advantages
+ */
 module.exports = {
   name: "opposed_advantage_select",
   data: (locale, participant) => {
