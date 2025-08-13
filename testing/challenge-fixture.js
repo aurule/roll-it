@@ -102,6 +102,11 @@ class ChallengeFixture {
     return this
   }
 
+  setConditions(conditions) {
+    this.db.setChallengeConditions(this.id, conditions)
+    return this
+  }
+
   /**
    * Mark the challenge as expired
    * @return {ChallengeFixture} This fixture
