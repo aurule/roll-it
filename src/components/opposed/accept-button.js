@@ -24,10 +24,11 @@ module.exports = {
     const participants = opposed_db.getParticipants(challenge.id)
     const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
 
-    interaction.authorize(...participants)
+    interaction.authorize(...participants.map(p => p.user_uid))
 
     const chops = opposed_db.getChopsForTest(test.id)
     const user_chop = chops.find((c) => c.participant_id === current_participant.id)
+    const other_chop = chops.find((c) => c.participant_id !== current_participant.id)
 
     await interaction.deferUpdate()
     opposed_db.setChopTieAccepted(user_chop.id, true)
@@ -35,8 +36,9 @@ module.exports = {
       const emoji = test.attacker.user_uid === interaction.user.id ? "🗡️" : "🛡️"
       interaction.message.react(emoji)
     }
+    user_chop.tie_accepted = true
 
-    if (chops.every((c) => c.tie_accepted)) {
+    if (user_chop.tie_accepted && other_chop.tie_accepted) {
       const tying_message = require("../../messages/opposed/tying")
       await interaction
         .ensure("edit", tying_message.inert(challenge.id), {
@@ -52,7 +54,7 @@ module.exports = {
 
       opposed_db.setChallengeState(challenge.id, Challenge.States.Accepted)
       return interaction
-        .ensure("reply", accepted_message.data(challenge.id), {
+        .ensure("followUp", accepted_message.data(challenge.id), {
           user_uid: interaction.user.id,
           component: "opposed_accept",
         })
