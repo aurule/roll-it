@@ -2,6 +2,9 @@ const { StringSelectMenuBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 
+/**
+ * Select control for picking the retest cancel reason
+ */
 module.exports = {
   name: "opposed_cancel_select",
   data: (challenge) => {
