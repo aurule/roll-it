@@ -80,7 +80,7 @@ describe("chop request selector", () => {
       interaction = new Interaction()
       challenge = new ChallengeFixture(Challenge.States.Throwing).withParticipants()
       the_test = challenge.addTest().attachMessage(interaction.message.id)
-      interaction.user.id = challenge.attacker.id
+      interaction.user.id = challenge.attacker.uid
 
       const selector = throwPicker.data("en-US", challenge.attacker.record)
       interaction.customId = selector.data.custom_id

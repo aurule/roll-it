@@ -26,7 +26,7 @@ module.exports = {
     const participant_id = parseInt(interaction.customId.match(/_(\d+)/)[1])
     const allowed_participant = opposed_db.getParticipant(participant_id)
 
-    interaction.authorize(allowed_participant.id)
+    interaction.authorize(allowed_participant.user_uid)
 
     opposed_db.addChopRequest({
       request: interaction.values[0],
