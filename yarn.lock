@@ -391,18 +391,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/biome@npm:2.1.4"
+"@biomejs/biome@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/biome@npm:2.2.0"
   dependencies:
-    "@biomejs/cli-darwin-arm64": "npm:2.1.4"
-    "@biomejs/cli-darwin-x64": "npm:2.1.4"
-    "@biomejs/cli-linux-arm64": "npm:2.1.4"
-    "@biomejs/cli-linux-arm64-musl": "npm:2.1.4"
-    "@biomejs/cli-linux-x64": "npm:2.1.4"
-    "@biomejs/cli-linux-x64-musl": "npm:2.1.4"
-    "@biomejs/cli-win32-arm64": "npm:2.1.4"
-    "@biomejs/cli-win32-x64": "npm:2.1.4"
+    "@biomejs/cli-darwin-arm64": "npm:2.2.0"
+    "@biomejs/cli-darwin-x64": "npm:2.2.0"
+    "@biomejs/cli-linux-arm64": "npm:2.2.0"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.2.0"
+    "@biomejs/cli-linux-x64": "npm:2.2.0"
+    "@biomejs/cli-linux-x64-musl": "npm:2.2.0"
+    "@biomejs/cli-win32-arm64": "npm:2.2.0"
+    "@biomejs/cli-win32-x64": "npm:2.2.0"
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -422,62 +422,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/4e25e80cf2f1ec23a84426fab415f1cf994b09a5f1481a1ea5c4a3d247e70a8d064357c3c4e91a00b7003a5cd254872a370d1df538c42d67d8d8a61b15f2df14
+  checksum: 10c0/092ee79cad7f253427499aa193374e4c1fe5935be916d426f96fd1b8864b9c95f623d447c096894a4f864a15618c965f71863987c7afdcf77e5cdb79ec28fecd
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-darwin-arm64@npm:2.1.4"
+"@biomejs/cli-darwin-arm64@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.2.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-darwin-x64@npm:2.1.4"
+"@biomejs/cli-darwin-x64@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-darwin-x64@npm:2.2.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.1.4"
+"@biomejs/cli-linux-arm64-musl@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.2.0"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-linux-arm64@npm:2.1.4"
+"@biomejs/cli-linux-arm64@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-linux-arm64@npm:2.2.0"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-linux-x64-musl@npm:2.1.4"
+"@biomejs/cli-linux-x64-musl@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.2.0"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-linux-x64@npm:2.1.4"
+"@biomejs/cli-linux-x64@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-linux-x64@npm:2.2.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-win32-arm64@npm:2.1.4"
+"@biomejs/cli-win32-arm64@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-win32-arm64@npm:2.2.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@biomejs/cli-win32-x64@npm:2.1.4"
+"@biomejs/cli-win32-x64@npm:2.2.0":
+  version: 2.2.0
+  resolution: "@biomejs/cli-win32-x64@npm:2.2.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -2475,9 +2475,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^25.3.4":
-  version: 25.3.4
-  resolution: "i18next@npm:25.3.4"
+"i18next@npm:^25.3.5":
+  version: 25.3.5
+  resolution: "i18next@npm:25.3.5"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
   peerDependencies:
@@ -2485,7 +2485,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/874ea315e36c186a804d490250330ab5e76409b41387393cf141e41fa38769e3b73c841703103501889f031944075487b6ac89d3c57c2f22384e6ba10b440b28
+  checksum: 10c0/b1d1bb7f66636a4f060d1a36870a060e54ecd37af9fa9682a619236c28f54154c812dc03e2c9c750314bfd3667de6b7e886001097a2770adace55567801b72d3
   languageName: node
   linkType: hard
 
@@ -3841,9 +3841,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^9.8.0":
-  version: 9.8.0
-  resolution: "pino@npm:9.8.0"
+"pino@npm:^9.9.0":
+  version: 9.9.0
+  resolution: "pino@npm:9.9.0"
   dependencies:
     atomic-sleep: "npm:^1.0.0"
     fast-redact: "npm:^3.1.1"
@@ -3858,7 +3858,7 @@ __metadata:
     thread-stream: "npm:^3.0.0"
   bin:
     pino: bin.js
-  checksum: 10c0/a6de40d8c777520a0f2bdd1727512db2dba51d0d8098500ec8326f1f95412e4e704ee4301287ccbbafbf7a7ab07999d5659333a7079d1b70341d0d69e4d40b29
+  checksum: 10c0/e2b05d4b1cf73447648ec98d247fd0f1f8020a819ebc2c97fab7fa8b9efe2d1a82ebf674ed2489bb7a1d3a75350c044c776f124e9c29c004bfb133b9e2ac0871
   languageName: node
   linkType: hard
 
@@ -4092,7 +4092,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "roll-it@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:2.1.4"
+    "@biomejs/biome": "npm:2.2.0"
     "@discordjs/collection": "npm:^2.1.1"
     better-sqlite3: "npm:^12.2.0"
     cli-progress: "npm:^3.12.0"
@@ -4100,14 +4100,14 @@ __metadata:
     dev-null: "npm:^0.1.1"
     discord.js: "npm:^14.21.0"
     dotenv: "npm:^17.2.1"
-    i18next: "npm:^25.3.4"
+    i18next: "npm:^25.3.5"
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.0.5"
     joi: "npm:^18.0.0"
     keyv: "npm:^5.5.0"
     mathjs: "npm:^14.6.0"
     nodemon: "npm:^3.1.10"
-    pino: "npm:^9.8.0"
+    pino: "npm:^9.9.0"
     pino-papertrail: "npm:^2.1.0"
     pino-pretty: "npm:^13.1.1"
     prettier: "npm:^3.6.2"
