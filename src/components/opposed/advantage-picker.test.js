@@ -21,14 +21,10 @@ describe("participant advantage selector", () => {
       expect(selector.data.placeholder).toMatch("Select your advantages")
     })
 
-    it.concurrent.each([
-      ["bomb"],
-      ["ties"],
-      ["cancels"],
-    ])("includes the %s option", (advantage) => {
+    it.concurrent.each([["bomb"], ["ties"], ["cancels"]])("includes the %s option", (advantage) => {
       const selector = advantagePicker.data("en-US", { id: "atk" })
 
-      const option_names = selector.options.map(o => o.data.value)
+      const option_names = selector.options.map((o) => o.data.value)
       expect(option_names).toContain(advantage)
     })
 

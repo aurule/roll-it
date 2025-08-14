@@ -31,7 +31,9 @@ describe("command name presenter", () => {
       })
 
       it("with unformatted true, strips md formatting", () => {
-        const result = CommandNamePresenter.present(eightball_command, "en-US", { unformatted: true })
+        const result = CommandNamePresenter.present(eightball_command, "en-US", {
+          unformatted: true,
+        })
 
         expect(result).toEqual("/8ball")
       })

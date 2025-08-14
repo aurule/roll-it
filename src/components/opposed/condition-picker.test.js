@@ -14,13 +14,10 @@ describe("challenge condition selector", () => {
       expect(selector.data.placeholder).toMatch("Select the challenge conditions")
     })
 
-    it.concurrent.each([
-      ["carrier"],
-      ["altering"],
-    ])("includes the %s option", (condition) => {
+    it.concurrent.each([["carrier"], ["altering"]])("includes the %s option", (condition) => {
       const selector = conditionPicker.data("en-US")
 
-      const option_names = selector.options.map(o => o.data.value)
+      const option_names = selector.options.map((o) => o.data.value)
       expect(option_names).toContain(condition)
     })
 
@@ -44,7 +41,9 @@ describe("challenge condition selector", () => {
 
     beforeEach(() => {
       interaction = new Interaction()
-      challenge = new ChallengeFixture(Challenge.States.AttackerAdvantages).attachMessage(interaction.message.id)
+      challenge = new ChallengeFixture(Challenge.States.AttackerAdvantages).attachMessage(
+        interaction.message.id,
+      )
       participant = challenge.addAttacker()
       interaction.user.id = participant.uid
 

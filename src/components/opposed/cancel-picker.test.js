@@ -23,13 +23,10 @@ describe("opposed test cancel reason picker", () => {
       expect(selector.data.placeholder).toMatch("How are you cancelling")
     })
 
-    it.each([
-      ["ability"],
-      ["other"],
-    ])("includes the %s option", (advantage) => {
+    it.each([["ability"], ["other"]])("includes the %s option", (advantage) => {
       const selector = cancelPicker.data(challenge.record)
 
-      const option_names = selector.options.map(o => o.data.value)
+      const option_names = selector.options.map((o) => o.data.value)
       expect(option_names).toContain(advantage)
     })
 

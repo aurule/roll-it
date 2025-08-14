@@ -24,7 +24,7 @@ module.exports = {
     const participants = opposed_db.getParticipants(challenge.id)
     const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
 
-    interaction.authorize(...participants.map(p => p.user_uid))
+    interaction.authorize(...participants.map((p) => p.user_uid))
 
     const chops = opposed_db.getChopsForTest(test.id)
     const user_chop = chops.find((c) => c.participant_id === current_participant.id)

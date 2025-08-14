@@ -22,7 +22,9 @@ describe("opposed tie accept button", () => {
 
     beforeEach(() => {
       interaction = new Interaction()
-      challenge = new ChallengeFixture(Challenge.States.Tying).withParticipants().attachMessage(interaction.message.id)
+      challenge = new ChallengeFixture(Challenge.States.Tying)
+        .withParticipants()
+        .attachMessage(interaction.message.id)
       tied_test = challenge.addTie()
       tied_test.attackerChop("rock")
       tied_test.defenderChop("rock")

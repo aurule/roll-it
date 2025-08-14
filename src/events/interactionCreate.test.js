@@ -9,7 +9,7 @@ describe("interactionCreate handler", () => {
   beforeEach(() => {
     interaction = new Interaction()
   })
-  
+
   describe("execute", () => {
     let handleSpy
 

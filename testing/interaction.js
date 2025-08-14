@@ -159,8 +159,7 @@ class Interaction {
 
   async update(msg) {
     if (this.deferred) return Promise.reject("cannot update: interaction has been deferred")
-    if (this.replied)
-      return Promise.reject("cannot update: interaction has already been replied")
+    if (this.replied) return Promise.reject("cannot update: interaction has already been replied")
     const message_opts = this.normalizeMessage(msg)
     this.message.addReply(message_opts)
     this.replied = true
