@@ -26,12 +26,10 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    interaction.deferUpdate()
-
     const current_participant = participants.find((p) => p.user_uid === interaction.user.id)
 
     const reason = interaction.values[0]
-    if (reason in ["named", "ability"] && current_participant.ability_used) {
+    if (["named", "ability"].includes(reason) && current_participant.ability_used) {
       return interaction.ensure("whisper", t("shared.retest.invalid"), {
         component: "opposed_retest_select",
         user: current_participant,
@@ -46,5 +44,7 @@ module.exports = {
       reason,
       canceller_id: other_participant.id,
     })
+
+    return interaction.deferUpdate()
   },
 }

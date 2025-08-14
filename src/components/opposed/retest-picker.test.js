@@ -21,7 +21,8 @@ describe("opposed retest reason picker", () => {
       expect(selector.data.placeholder).toMatch("How are you retesting")
     })
 
-    it.each(Object.entries(OpTest.RetestReasons).map(e => [e[1]]))("includes the %s option", (advantage) => {
+    it.concurrent.each(Object.entries(OpTest.RetestReasons).map(e => [e[1]]))("includes the %s option", (advantage) => {
+      const challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
       const selector = retestPicker.data(challenge.record)
 
       const option_names = selector.options.map((o) => o.data.value)
@@ -68,10 +69,46 @@ describe("opposed retest reason picker", () => {
       })
     })
 
-    it("saves retest creason", async () => {
+    describe("with ability", () => {
+      describe("when ability is valid", () => {
+        it("saves retest creason", async () => {
+          await retestPicker.execute(interaction)
+
+          expect(old_test.record.retest_reason).toEqual(OpTest.RetestReasons.Ability)
+        })
+      })
+
+      describe("when ability is already used", () => {
+        it("replies with an error message", async () => {
+          challenge.defender.abilityUsed()
+
+          await retestPicker.execute(interaction)
+
+          expect(interaction.replyContent).toMatch("already used an ability")
+        })
+      })
+    })
+
+    describe("with non-ability reason", () => {
+      it("saves retest creason", async () => {
+          interaction.values = ["item"]
+
+          await retestPicker.execute(interaction)
+
+          expect(old_test.record.retest_reason).toEqual(OpTest.RetestReasons.Item)
+        })
+    })
+
+    it("saves current user as retester", async () => {
       await retestPicker.execute(interaction)
 
-      expect(old_test.record.retest_reason).toEqual(OpTest.RetestReasons.Ability)
+      expect(old_test.record.retester_id).toEqual(challenge.defender.id)
+    })
+
+    it("saves other participant as canceller", async () => {
+      await retestPicker.execute(interaction)
+
+      expect(old_test.record.canceller_id).toEqual(challenge.attacker.id)
     })
   })
 })
