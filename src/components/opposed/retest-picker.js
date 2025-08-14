@@ -2,6 +2,9 @@ const { StringSelectMenuBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 
+/**
+ * Select control to pick the retest reason
+ */
 module.exports = {
   name: "opposed_retest_select",
   data: (challenge) => {
@@ -19,7 +22,7 @@ module.exports = {
     const test = opposed_db.getLatestTest(challenge.id)
     const participants = opposed_db.getParticipants(challenge.id)
 
-    interaction.authorize(participants.map((p) => p.user_uid))
+    interaction.authorize(...participants.map((p) => p.user_uid))
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
