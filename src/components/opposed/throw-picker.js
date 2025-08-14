@@ -2,6 +2,9 @@ const { StringSelectMenuBuilder } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 
+/**
+ * Select control to pick a participant's symbols request during a test
+ */
 module.exports = {
   name: "throw_symbol_picker",
   data: (locale, participant) => {
@@ -23,7 +26,7 @@ module.exports = {
     const participant_id = parseInt(interaction.customId.match(/_(\d+)/)[1])
     const allowed_participant = opposed_db.getParticipant(participant_id)
 
-    interaction.authorize(allowed_participant.user_uid)
+    interaction.authorize(allowed_participant.id)
 
     opposed_db.addChopRequest({
       request: interaction.values[0],
