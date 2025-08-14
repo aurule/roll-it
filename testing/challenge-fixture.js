@@ -313,6 +313,11 @@ class ParticipantFixture {
     this.db.setParticipantAdvantages(this.id, advantages)
     return this
   }
+
+  abilityUsed() {
+    this.db.setParticipantAbilityUsed(this.id, true)
+    return this
+  }
 }
 
 /**
