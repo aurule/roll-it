@@ -32,7 +32,7 @@ describe("met roller", () => {
       })
     })
 
-    describe.each([
+    it.concurrent.each([
       ["rock", "paper", "lose"],
       ["rock", "scissors", "win"],
       ["rock", "bomb", "lose"],
@@ -45,12 +45,10 @@ describe("met roller", () => {
       ["bomb", "rock", "win"],
       ["bomb", "paper", "win"],
       ["bomb", "scissors", "lose"],
-    ])("%s", (first, second, outcome) => {
-      it(`${first} vs ${second} will ${outcome}`, () => {
-        const result = compare(first, second)
+    ])("%s vs %s will %s", (first, second, outcome) => {
+      const result = compare(first, second)
 
-        expect(result).toEqual(outcome)
-      })
+      expect(result).toEqual(outcome)
     })
   })
 

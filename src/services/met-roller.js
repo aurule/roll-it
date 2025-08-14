@@ -1,9 +1,16 @@
 const { randomInt } = require("mathjs")
 
-const rps = ["rock", "paper", "scissors"]
-const rbs = ["rock", "bomb", "scissors"]
+const rps = Object.freeze(["rock", "paper", "scissors"])
+const rbs = Object.freeze(["rock", "bomb", "scissors"])
 
-const request_keywords = ["rock", "paper", "scissors", "bomb", "rand", "rand-bomb", "none"]
+const request_keywords = Object.freeze(["rock", "paper", "scissors", "bomb", "rand", "rand-bomb", "none"])
+
+const winners = Object.freeze(new Map([
+  ["rock", ["scissors"]],
+  ["paper", ["rock"]],
+  ["bomb", ["rock", "paper"]],
+  ["scissors", ["paper", "bomb"]],
+]))
 
 /**
  * Roll a d3 for MET
@@ -22,9 +29,8 @@ function rand() {
  * @return {str[]}         Array of MET results
  */
 function roll(bomb = false, rolls = 1) {
-  let fn = () => rps.at(rand())
-  if (bomb) fn = () => rbs.at(rand())
-  return Array.from({ length: rolls }, fn)
+  const symbol_set = bomb ? rbs : rps
+  return Array.from({ length: rolls }, () => symbol_set.at(rand()))
 }
 
 /**
@@ -43,20 +49,7 @@ function compare(first, second) {
   if (first == second) return "tie"
   if (second === "none") return ""
 
-  switch (first) {
-    case "rock":
-      if (second == "scissors") return "win"
-      return "lose"
-    case "paper":
-      if (second == "rock") return "win"
-      return "lose"
-    case "bomb":
-      if (second == "scissors") return "lose"
-      return "win"
-    case "scissors":
-      if (second == "paper" || second == "bomb") return "win"
-      return "lose"
-  }
+  return winners.get(first).includes(second) ? "win" : "lose"
 }
 
 /**
