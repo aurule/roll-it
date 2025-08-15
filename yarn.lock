@@ -2475,9 +2475,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^25.3.5":
-  version: 25.3.5
-  resolution: "i18next@npm:25.3.5"
+"i18next@npm:^25.3.6":
+  version: 25.3.6
+  resolution: "i18next@npm:25.3.6"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
   peerDependencies:
@@ -2485,7 +2485,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/b1d1bb7f66636a4f060d1a36870a060e54ecd37af9fa9682a619236c28f54154c812dc03e2c9c750314bfd3667de6b7e886001097a2770adace55567801b72d3
+  checksum: 10c0/97d3f35ecab0158d70435b5dcbdfd2845a42092e132bdb8d239b2dfedaa2f61f91955b962e85ff01cc349489ab88a1e0621b9db4c071ecff175ae7c6403b059f
   languageName: node
   linkType: hard
 
@@ -4100,7 +4100,7 @@ __metadata:
     dev-null: "npm:^0.1.1"
     discord.js: "npm:^14.21.0"
     dotenv: "npm:^17.2.1"
-    i18next: "npm:^25.3.5"
+    i18next: "npm:^25.3.6"
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.0.5"
     joi: "npm:^18.0.0"
