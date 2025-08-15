@@ -9,6 +9,7 @@ const accepted_message = require("../../messages/opposed/accepted")
  */
 module.exports = {
   name: "opposed_accept",
+  valid_states: ["tying"],
   data: (locale) => {
     const t = i18n.getFixedT(locale, "interactive", "opposed.tying.accept")
     return new ButtonBuilder()

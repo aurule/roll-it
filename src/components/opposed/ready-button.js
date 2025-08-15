@@ -21,6 +21,7 @@ function tieWinnerId(attacker, defender) {
 
 module.exports = {
   name: "opposed_ready",
+  valid_states: ["advantages-attacker", "advantages-defender"],
   data: (locale, participant) =>
     new ButtonBuilder()
       .setCustomId(`opposed_ready_${participant.id}`)

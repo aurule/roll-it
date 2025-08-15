@@ -7,6 +7,7 @@ const { Opposed } = require("../../db/opposed")
  */
 module.exports = {
   name: "opposed_cancel_select",
+  valid_states: ["cancelling"],
   data: (challenge) => {
     const t = i18n.getFixedT(
       challenge.locale,

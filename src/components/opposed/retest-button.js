@@ -14,6 +14,7 @@ function canCancel(test) {
 
 module.exports = {
   name: "opposed_retest",
+  valid_states: ["winning", "tying"],
   data: (locale) => {
     const t = i18n.getFixedT(locale, "interactive", "opposed.shared.retest.button")
     return new ButtonBuilder()

@@ -119,6 +119,7 @@ async function resolveChops({ interaction, chops, participants, test }) {
 
 module.exports = {
   name: "go_button",
+  valid_states: ["throwing"],
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("go_button")
@@ -148,7 +149,7 @@ module.exports = {
 
     await interaction.deferUpdate()
 
-    const ready_result = opposed_db.setChopReady(user_chop.id, true)
+    opposed_db.setChopReady(user_chop.id, true)
     if (!user_chop.ready) {
       const is_attacker = participants.get("attacker").user_uid === interaction.user.id
       const emoji = is_attacker ? "🗡️" : "🛡️"

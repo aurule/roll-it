@@ -6,6 +6,7 @@ const withdrawn_message = require("../../messages/opposed/withdrawn")
 
 module.exports = {
   name: "opposed_withdraw_challenge",
+  valid_states: ["advantages-attacker"],
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("opposed_withdraw_challenge")

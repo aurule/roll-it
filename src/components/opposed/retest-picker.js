@@ -7,6 +7,7 @@ const { Opposed } = require("../../db/opposed")
  */
 module.exports = {
   name: "opposed_retest_select",
+  valid_states: ["winning", "tying"],
   data: (challenge) => {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared.retest.picker")
     return new StringSelectMenuBuilder()

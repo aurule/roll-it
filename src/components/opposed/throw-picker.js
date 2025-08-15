@@ -7,6 +7,7 @@ const { Opposed } = require("../../db/opposed")
  */
 module.exports = {
   name: "throw_symbol_picker",
+  valid_states: ["throwing"],
   data: (locale, participant) => {
     const t = i18n.getFixedT(locale, "interactive", "opposed.throws.components.symbols")
     const t_args = {

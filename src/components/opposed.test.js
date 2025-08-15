@@ -1,5 +1,7 @@
 jest.mock("../util/message-builders")
 
+const Joi = require("joi")
+
 const { Interaction } = require("../../testing/interaction")
 const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")
@@ -8,6 +10,21 @@ const { UnauthorizedError } = require("../errors/unauthorized-error")
 const { ChallengeFixture } = require("../../testing/challenge-fixture")
 
 const opposed_handler = require("./opposed")
+
+const opposed_component_schema = Joi.object({
+  name: Joi.string().required(),
+  valid_states: Joi.array().required().min(1).items(Joi.string().valid(...Object.values(Challenge.States))),
+  data: Joi.function().required(),
+  execute: Joi.function().required().arity(1),
+}).unknown()
+
+describe("opposed component correctness", () => {
+  it.concurrent.each(
+    Array.from(opposed_handler.components.entries()),
+  )("`%s` component matches the schema", (_name, component) => {
+    expect(component).toMatchSchema(opposed_component_schema)
+  })
+})
 
 describe("opposed component handler", () => {
   describe("santize_id", () => {
@@ -100,8 +117,9 @@ describe("opposed component handler", () => {
         interaction.customId = "opposed_cancel"
 
         opposed_db = new Opposed()
-        challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
-        challenge.addTest().attachMessage(interaction.message.id)
+        challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
+        challenge.defenderRetest("ability").cancel("ability").attachMessage(interaction.message.id)
+        interaction.user.id = challenge.attacker.uid
 
         opposed_db.addFutureTest({
           challenge_id: challenge.id,
@@ -110,7 +128,26 @@ describe("opposed component handler", () => {
         })
       })
 
-      it("replies that the challenge is over", async () => {
+      it("replies that the message is outdated", async () => {
+        await opposed_handler.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("message is outdated")
+      })
+    })
+
+    describe("with a challenge in the wrong state", () => {
+      let challenge
+
+      beforeEach(() => {
+        interaction = new Interaction()
+        interaction.customId = "opposed_cancel"
+
+        challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
+        challenge.defenderRetest("ability").cancel("ability").attachMessage(interaction.message.id)
+        interaction.user.id = challenge.attacker.uid
+      })
+
+      it("replies that the message is outdated", async () => {
         await opposed_handler.handle(interaction)
 
         expect(interaction.replyContent).toMatch("message is outdated")
@@ -124,7 +161,7 @@ describe("opposed component handler", () => {
         interaction = new Interaction()
         interaction.customId = "opposed_cancel"
 
-        challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
+        challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
         challenge.addTest().attachMessage(interaction.message.id)
 
         execute_spy = jest.spyOn(cancel_button, "execute")

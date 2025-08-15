@@ -6,6 +6,7 @@ const relented_message = require("../../messages/opposed/relented")
 
 module.exports = {
   name: "opposed_relent",
+  valid_states: ["advantages-defender"],
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("opposed_relent")

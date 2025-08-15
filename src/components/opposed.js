@@ -74,47 +74,31 @@ module.exports = {
     const message_id = interaction.message.id
     const component_name = interaction.customId
 
-    // component's message is not recorded
-    if (!opposed_db.hasMessage(message_id)) {
+    const component = components.get(sanitize_id(component_name))
+    const challenge = opposed_db.findChallengeByMessage(message_id)
+
+    // fail unless challenge exists, is current, and is not finalized
+    if (challenge === undefined || challenge.expired || challenge.finished) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
       return interaction.ensure("whisper", t("concluded"), {
         user: interaction.user.id,
         component: interaction.customId,
-        detail: `Could not whisper about missing opposed challenge from ${component_name}`,
+        challenge,
+        detail: `Could not whisper about invalid challenge from ${component_name}`,
       })
     }
 
-    // message belongs to a finished challenge
-    if (opposed_db.challengeFromMessageIsFinalized(message_id)) {
-      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-      return interaction.ensure("whisper", t("concluded"), {
-        user: interaction.user.id,
-        component: interaction.customId,
-        detail: `Could not whisper about concluded opposed challenge from ${component_name}`,
-      })
-    }
-
-    // message belongs to an open challenge past its expiration
-    if (opposed_db.challengeFromMessageIsExpired(message_id)) {
-      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-      return interaction.ensure("whisper", t("concluded"), {
-        user: interaction.user.id,
-        component: interaction.customId,
-        detail: `Could not whisper about expired opposed challenge from ${component_name}`,
-      })
-    }
-
-    // message belongs to a test other than the most recent one
-    if (!opposed_db.messageIsForLatestTest(message_id)) {
+    // fail unless component is valid for current state, or message is for an old test
+    if (!(component.valid_states.includes(challenge.state) && opposed_db.messageIsForLatestTest(message_id))) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
       return interaction.ensure("whisper", t("outdated"), {
         user: interaction.user.id,
         component: interaction.customId,
-        detail: `Could not whisper about outdated message from ${component_name}`,
+        challenge,
+        detail: `Could not whisper about incorrect state from ${component_name}`,
       })
     }
 
-    const component = components.get(sanitize_id(component_name))
     try {
       return component.execute(interaction)
     } catch (err) {

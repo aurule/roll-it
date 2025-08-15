@@ -6,6 +6,7 @@ const throwing_message = require("../../messages/opposed/throwing")
 
 module.exports = {
   name: "opposed_continue",
+  valid_states: ["cancelling"],
   data: (locale) => {
     const t = i18n.getFixedT(locale, "interactive", "opposed.cancelling.components.continue")
     return new ButtonBuilder()

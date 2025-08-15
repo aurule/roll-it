@@ -378,6 +378,11 @@ class TestFixture {
     return this
   }
 
+  cancel(reason) {
+    this.db.setTestCancelledWith(this.id, reason)
+    return this
+  }
+
   attackerChop(request) {
     this.attacker_chop = new ChopFixture(request, this, this.challenge.attacker.id)
     return this.attacker_chop

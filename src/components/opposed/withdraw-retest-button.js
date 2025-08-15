@@ -5,6 +5,7 @@ const { Challenge } = require("../../db/opposed/challenge")
 
 module.exports = {
   name: "opposed_withdraw_retest",
+  valid_states: ["cancelling"],
   data: (locale) => {
     return new ButtonBuilder()
       .setCustomId("opposed_withdraw_retest")

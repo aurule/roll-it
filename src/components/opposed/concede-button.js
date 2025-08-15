@@ -6,6 +6,7 @@ const conceded_message = require("../../messages/opposed/conceded")
 
 module.exports = {
   name: "opposed_concede",
+  valid_states: ["winning"],
   data: (locale) => {
     const t = i18n.getFixedT(locale, "interactive", "opposed.winning.concede")
     return new ButtonBuilder()

@@ -8,6 +8,7 @@ const { valuesOrDefault } = require("../../util/values-or-default")
  */
 module.exports = {
   name: "opposed_advantage_select",
+  valid_states: ["advantages-attacker", "advantages-defender"],
   data: (locale, participant) => {
     const t = i18n.getFixedT(locale, "interactive", "opposed.shared.advantages-picker")
     return new StringSelectMenuBuilder()

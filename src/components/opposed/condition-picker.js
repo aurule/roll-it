@@ -8,6 +8,7 @@ const { valuesOrDefault } = require("../../util/values-or-default")
  */
 module.exports = {
   name: "opposed_condition_select",
+  valid_states: ["advantages-attacker"],
   data: (locale) => {
     const t = i18n.getFixedT(
       locale,
