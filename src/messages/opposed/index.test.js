@@ -7,10 +7,10 @@ const message_schema = Joi.object({
   state: Joi.string()
     .required()
     .valid(...Object.values(Challenge.States)),
-  data: Joi.function().required(),
-  inert: Joi.function().optional(),
-  afterRetry: Joi.function().optional(),
-  handleReply: Joi.function().optional(),
+  data: Joi.function().arity(1).required(),
+  inert: Joi.function().arity(1).optional(),
+  afterRetry: Joi.function().arity(1).optional(),
+  handleReply: Joi.function().arity(1).optional(),
 })
 
 describe("opposed messages", () => {
