@@ -4,13 +4,18 @@ const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const relented_message = require("../../messages/opposed/relented")
 
+/**
+ * Button to allow the attacker to immediately win the challenge
+ *
+ * Shown on the defender's advantages message.
+ */
 module.exports = {
   name: "opposed_relent",
   valid_states: ["advantages-defender"],
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("opposed_relent")
-      .setLabel(i18n.t("opposed.prompt.components.relent", { ns: "interactive", lng: locale }))
+      .setLabel(i18n.t("opposed.advantages-defender.components.relent", { ns: "interactive", lng: locale }))
       .setStyle(ButtonStyle.Secondary),
   async execute(interaction) {
     const opposed_db = new Opposed()
