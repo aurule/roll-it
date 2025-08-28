@@ -1,24 +1,30 @@
-const { ButtonBuilder, ButtonStyle, TextDisplayBuilder } = require("discord.js")
-const { editMessage } = require("../../services/api")
+const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
-const { logger } = require("../../util/logger")
 const throwing_message = require("../../messages/opposed/throwing")
 
+/**
+ * Determine which participant wins on a tied result
+ *
+ * @param  {Participant} attacker Attacking participant
+ * @param  {Participant} defender Defending participant
+ * @return {int|null}             ID of the participant who wins ties, or null if neither does.
+ */
 function tieWinnerId(attacker, defender) {
   const attacker_ties = attacker.advantages.includes("ties")
   const defender_ties = defender.advantages.includes("ties")
-  if (attacker_ties) {
-    if (!defender_ties) {
-      return attacker.id
-    }
-  } else if (defender_ties) {
-    return defender.id
-  }
-  return null
+
+  if (attacker_ties == defender_ties) return null
+  if (attacker_ties) return attacker.id
+  return defender.id
 }
 
+/**
+ * Button to finalize a user's advantages
+ *
+ * For the attacker, this also finalizes the challenge conditions.
+ */
 module.exports = {
   name: "opposed_ready",
   valid_states: ["advantages-attacker", "advantages-defender"],
@@ -41,9 +47,9 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
     if (allowed_participant.id === attacker.id) {
-      const advantages_attacker = require("../../message/opposed/advantages_attacker")
+      const advantages_attacker = require("../../messages/opposed/advantages-attacker")
       await interaction
-        .ensure("editReply", advantages_attacker.inert(challenge.id), {
+        .ensure("edit", advantages_attacker.inert(challenge.id), {
           challenge,
           user_uid: interaction.user.id,
           component: "opposed_ready",
@@ -56,9 +62,9 @@ module.exports = {
 
       opposed_db.setChallengeState(challenge.id, Challenge.States.AdvantagesDefender)
 
-      const advantages_defender = require("../../message/opposed/advantages_defender")
+      const advantages_defender = require("../../messages/opposed/advantages-defender")
       return interaction
-        .ensure("followUp", advantages_defender.data(challenge.id), {
+        .ensure("reply", advantages_defender.data(challenge.id), {
           challenge,
           user_uid: interaction.user.id,
           component: "opposed_ready",
@@ -68,24 +74,11 @@ module.exports = {
           const message_uid = reply_result.id
 
           opposed_db.addMessage({
-            challenge_id: test.challenge_id,
+            challenge_id: challenge.id,
             message_uid,
           })
         })
     }
-
-    const advantages_defender = require("../../message/opposed/advantages_defender")
-    await interaction
-      .ensure("editReply", advantages_defender.inert(challenge.id), {
-        test,
-        user_uid: interaction.user.id,
-        component: "opposed_ready",
-        detail: "Failed to edit defender advantages prompt to show result",
-      })
-      .catch(() => {
-        // suppress all other errors so we can try to send something else
-        return
-      })
 
     const summary_args = {
       attacker: attacker.mention,
@@ -109,19 +102,18 @@ module.exports = {
       locale: challenge.locale,
     }).lastInsertRowid
 
-    await editMessage(challenge.channel_uid, interaction.message.id, {
-      components: [new TextDisplayBuilder({ content: challenge_summary })],
-      allowedMentions: { parse: [] },
-    }).catch((error) =>
-      logger.error(
-        {
-          err: error,
-          challenge,
-          channel: interaction.channelId,
-        },
-        "Could not edit initial opposed prompt",
-      ),
-    )
+    const advantages_defender = require("../../messages/opposed/advantages-defender")
+    await interaction
+      .ensure("edit", advantages_defender.inert(challenge.id), {
+        test,
+        user_uid: interaction.user.id,
+        component: "opposed_ready",
+        detail: "Failed to edit defender advantages prompt to show result",
+      })
+      .catch(() => {
+        // suppress all other errors so we can try to send something else
+        return
+      })
 
     return interaction
       .ensure("reply", throwing_message.data(challenge.id), {
@@ -140,4 +132,5 @@ module.exports = {
         })
       })
   },
+  tieWinnerId,
 }
