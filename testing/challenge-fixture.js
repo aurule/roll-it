@@ -392,6 +392,16 @@ class TestFixture {
     return this
   }
 
+  retestReason(reason) {
+    this.db.setTestRetestReason(this.id, reason)
+    return this
+  }
+
+  setLeader(participant) {
+    this.db.setTestLeader(this.id, participant.id)
+    return this
+  }
+
   cancel(reason) {
     this.db.setTestCancelledWith(this.id, reason)
     return this
