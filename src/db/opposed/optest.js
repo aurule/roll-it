@@ -127,6 +127,12 @@ class OpTest {
   })
 
   /**
+   * Set of retest keywords that mean an ability was used
+   * @type {Set<string>}
+   */
+  static AbilityReasons = Object.freeze(new Set(["named", "ability"]))
+
+  /**
    * Create a new OpTest
    *
    * @param  {object}  options

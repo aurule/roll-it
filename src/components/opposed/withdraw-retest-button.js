@@ -2,6 +2,7 @@ const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
+const { OpTest } = require("../../db/opposed/optest")
 
 module.exports = {
   name: "opposed_withdraw_retest",
@@ -19,8 +20,8 @@ module.exports = {
     interaction.authorize(test.retester.user_uid)
 
     opposed_db.setTestRetested(test.id, false)
-    if (AbilityReasons.has(test.retest_reason)) {
-      opposed_db.setParticipantAbilityUsed(test.retester_id)
+    if (OpTest.AbilityReasons.has(test.retest_reason)) {
+      opposed_db.setParticipantAbilityUsed(test.retester_id, false)
     }
 
     const cancelling_message = require("../../messages/opposed/cancelling")
