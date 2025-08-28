@@ -62,6 +62,12 @@ describe("opposed cancelling a retest message", () => {
       expect(result.content).toMatch("retesting with an ability")
     })
 
+    it("shows the withdrawn notice", () => {
+      const result = cancelling.inert(challenge.id)
+
+      expect(result.content).toMatch("withdrew their retest")
+    })
+
     it("has no components", () => {
       const result = cancelling.inert(challenge.id)
 

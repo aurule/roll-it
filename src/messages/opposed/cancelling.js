@@ -50,12 +50,15 @@ module.exports = {
     const test = opposed_db.getLatestTestWithParticipants(challenge_id)
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
 
-    const reason = test.retest_reason
-    return build.textMessage(
-      t(`headline.${reason}`, {
+    const body = [
+      t(`headline.${test.retest_reason}`, {
         retester: test.retester.mention,
         ability: challenge.retest_ability,
       }),
+      t("withdrawn"),
+    ].join(" ")
+
+    return build.textMessage(body,
       { withResponse: true },
     )
   },

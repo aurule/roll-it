@@ -413,6 +413,8 @@ opposed:
         {{retester}} is retesting with a forced retest.
       other: >-
         {{retester}} is retesting with something unusual.
+    withdrawn: >-
+      They withdrew their retest.
     withdraw: >-
       If this was an accident, you can withdraw the retest.
     cancel: >-
