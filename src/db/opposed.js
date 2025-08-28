@@ -896,6 +896,22 @@ class Opposed extends CachedDb {
     })
   }
 
+  setTestRetestReason(test_id, reason) {
+    const update = this.prepared(
+      "setTestRetestReason",
+      oneLine`
+      UPDATE interactive.opposed_tests
+      SET retest_reason = @reason
+      WHERE id = @id
+    `,
+    )
+
+    return update.run({
+      id: test_id,
+      reason,
+    })
+  }
+
   setTestCancelled(test_id) {
     const update = this.prepared(
       "setTestCancelled",
