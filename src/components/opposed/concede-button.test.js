@@ -34,16 +34,14 @@ describe("opposed test concede button", () => {
     })
 
     describe("authorization", () => {
-      describe("authorization", () => {
-        it("allows attacking user", async () => {
-          await expect(concedeButton.execute(interaction)).resolves.not.toThrow()
-        })
+      it("allows attacking user", async () => {
+        await expect(concedeButton.execute(interaction)).resolves.not.toThrow()
+      })
 
-        it("disallows all others", async () => {
-          interaction.user.id = "other"
+      it("disallows all others", async () => {
+        interaction.user.id = "other"
 
-          await expect(concedeButton.execute(interaction)).rejects.toThrow()
-        })
+        await expect(concedeButton.execute(interaction)).rejects.toThrow()
       })
     })
 
