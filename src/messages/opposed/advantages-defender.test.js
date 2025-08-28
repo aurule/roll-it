@@ -41,13 +41,13 @@ describe("opposed defender advantages message", () => {
     })
 
     it("shows the conditions", () => {
-      const result = advantages_defender.inert(challenge.id)
+      const result = advantages_defender.data(challenge.id)
 
       expect(result.content).toMatch("a normal attack")
     })
 
     it("shows the attacker's advantages", () => {
-      const result = advantages_defender.inert(challenge.id)
+      const result = advantages_defender.data(challenge.id)
 
       expect(result.content).toMatch("<@atk> has no special advantages")
     })
@@ -72,46 +72,14 @@ describe("opposed defender advantages message", () => {
   })
 
   describe("inert", () => {
-    it("shows the generic summary", () => {
+    beforeEach(() => {
+      challenge.setSummary("<@atk> is attacking <@def>")
+    })
+
+    it("shows the summary", () => {
       const result = advantages_defender.inert(challenge.id)
 
       expect(result.content).toMatch("<@atk> is attacking <@def>")
-    })
-
-    it("shows the description if present", () => {
-      const result = advantages_defender.inert(challenge.id)
-
-      expect(result.content).toMatch("fake challenge")
-    })
-
-    it("shows the attribute", () => {
-      const result = advantages_defender.inert(challenge.id)
-
-      expect(result.content).toMatch("Mental")
-    })
-
-    it("shows the named retest", () => {
-      const result = advantages_defender.inert(challenge.id)
-
-      expect(result.content).toMatch("occult")
-    })
-
-    it("shows the conditions", () => {
-      const result = advantages_defender.inert(challenge.id)
-
-      expect(result.content).toMatch("a normal attack")
-    })
-
-    it("shows the attacker's advantages", () => {
-      const result = advantages_defender.inert(challenge.id)
-
-      expect(result.content).toMatch("<@atk> has no special advantages")
-    })
-
-    it("shows the defender's advantages", () => {
-      const result = advantages_defender.inert(challenge.id)
-
-      expect(result.content).toMatch("<@def> has no special advantages")
     })
 
     it("has no components", () => {
