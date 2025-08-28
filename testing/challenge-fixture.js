@@ -305,10 +305,20 @@ class ParticipantFixture {
     }).lastInsertRowid
   }
 
+  /**
+   * The associated record
+   * @type Participant
+   */
   get record() {
     return this.db.getParticipant(this.id)
   }
 
+  /**
+   * Set the advantages for this participant
+   *
+   * @param  {string[]}    advantages Array of advantage keywords.
+   * @return {Participant}            This participant object
+   */
   setAdvantages(advantages) {
     this.db.setParticipantAdvantages(this.id, advantages)
     return this
@@ -365,6 +375,10 @@ class TestFixture {
     }).lastInsertRowid
   }
 
+  /**
+   * The associated record
+   * @type OpTest
+   */
   get record() {
     return this.db.getTest(this.id)
   }
@@ -437,6 +451,10 @@ class ChopFixture {
     }).lastInsertRowid
   }
 
+  /**
+   * The associated record
+   * @type Chop
+   */
   get record() {
     return this.db.getChop(this.id)
   }
