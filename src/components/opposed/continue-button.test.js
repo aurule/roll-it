@@ -53,10 +53,23 @@ describe("continue retest button", () => {
       expect(interaction.replyContent).toMatch("is retesting with an item")
     })
 
-    it.todo("adds a new test")
+    it("adds a new test", async () => {
+      await continueButton.execute(interaction)
 
-    it.todo("sets state to Throwing")
+      const total_tests = challenge.db.testCount(challenge.id)
+      expect(total_tests).toEqual(2)
+    })
 
-    it.todo("replies with throwing message")
+    it("sets state to Throwing", async () => {
+      await continueButton.execute(interaction)
+
+      expect(challenge.record.state).toEqual(Challenge.States.Throwing)
+    })
+
+    it("replies with throwing message", async () => {
+      await continueButton.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("choose what you will throw")
+    })
   })
 })

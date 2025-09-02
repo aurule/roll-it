@@ -36,7 +36,7 @@ module.exports = {
       challenge_id: test.challenge_id,
       locale: test.locale,
     }).lastInsertRowid
-    opposed_db.setChallengeState(Challenge.States.Throwing)
+    opposed_db.setChallengeState(test.challenge_id, Challenge.States.Throwing)
 
     return interaction
       .ensure("reply", throwing_message.data(test.challenge_id), {

@@ -792,6 +792,25 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Get a total number of test records for a challenge
+   * @param  {int} challenge_id Internal ID of the challenge to reference
+   * @return {int}              Number of test records associated with the given challenge
+   */
+  testCount(challenge_id) {
+    const select = this.prepared(
+      "testCount",
+      oneLine`
+      SELECT count(1)
+      FROM   interactive.opposed_tests
+      WHERE  challenge_id = ?
+    `,
+      true,
+    )
+
+    return select.get(challenge_id)
+  }
+
   getTest(test_id) {
     const select = this.prepared(
       "getTest",
