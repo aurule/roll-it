@@ -1,12 +1,12 @@
-const ready = require("./ready")
+const ready = require("./client-ready")
 
 const { logger } = require("../util/logger")
 jest.mock("discord.js")
 
 describe("Ready event handler", () => {
   describe("properties", () => {
-    it("attaches to the event name 'ready'", () => {
-      expect(ready.name).toBe("ready")
+    it("attaches to the event name 'clientReady'", () => {
+      expect(ready.name).toBe("clientReady")
     })
 
     it("runs once", () => {
