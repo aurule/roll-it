@@ -35,7 +35,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.22.1"],\
-          ["dotenv", "npm:17.2.1"],\
+          ["dotenv", "npm:17.2.2"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.4.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.1.3"],\
@@ -43,7 +43,7 @@ const RAW_RUNTIME_STATE =
           ["keyv", "npm:5.5.0"],\
           ["mathjs", "npm:14.6.0"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:9.9.0"],\
+          ["pino", "npm:9.9.1"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.1"],\
           ["prettier", "npm:3.6.2"],\
@@ -2822,10 +2822,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["dotenv", [\
-      ["npm:17.2.1", {\
-        "packageLocation": "./.yarn/cache/dotenv-npm-17.2.1-33fbb0afbc-918dd2f9d8.zip/node_modules/dotenv/",\
+      ["npm:17.2.2", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-17.2.2-f2cdf74d0a-be66513504.zip/node_modules/dotenv/",\
         "packageDependencies": [\
-          ["dotenv", "npm:17.2.1"]\
+          ["dotenv", "npm:17.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4907,13 +4907,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.9.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.9.0-eb29f31862-e2b05d4b1c.zip/node_modules/pino/",\
+      ["npm:9.9.1", {\
+        "packageLocation": "./.yarn/cache/pino-npm-9.9.1-7e43212738-71fe3369ea.zip/node_modules/pino/",\
         "packageDependencies": [\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino", "npm:9.9.0"],\
+          ["pino", "npm:9.9.1"],\
           ["pino-abstract-transport", "npm:2.0.0"],\
           ["pino-std-serializers", "npm:7.0.0"],\
           ["process-warning", "npm:5.0.0"],\
@@ -5252,7 +5252,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.22.1"],\
-          ["dotenv", "npm:17.2.1"],\
+          ["dotenv", "npm:17.2.2"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.4.2"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.1.3"],\
@@ -5260,7 +5260,7 @@ const RAW_RUNTIME_STATE =
           ["keyv", "npm:5.5.0"],\
           ["mathjs", "npm:14.6.0"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:9.9.0"],\
+          ["pino", "npm:9.9.1"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.1"],\
           ["prettier", "npm:3.6.2"],\

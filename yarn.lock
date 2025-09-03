@@ -1989,10 +1989,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^17.2.1":
-  version: 17.2.1
-  resolution: "dotenv@npm:17.2.1"
-  checksum: 10c0/918dd2f9d8b8f86b0afabad9534793d51de3718c437f9e7b6525628cf68c1d4ae768cc37a5afff38c066f58a8ecf549f4ac6cd5617485bd328e826112cc2650a
+"dotenv@npm:^17.2.2":
+  version: 17.2.2
+  resolution: "dotenv@npm:17.2.2"
+  checksum: 10c0/be66513504590aff6eccb14167625aed9bd42ce80547f4fe5d195860211971a7060949b57108dfaeaf90658f79e40edccd3f233f0a978bff507b5b1565ae162b
   languageName: node
   linkType: hard
 
@@ -3841,9 +3841,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^9.9.0":
-  version: 9.9.0
-  resolution: "pino@npm:9.9.0"
+"pino@npm:^9.9.1":
+  version: 9.9.1
+  resolution: "pino@npm:9.9.1"
   dependencies:
     atomic-sleep: "npm:^1.0.0"
     fast-redact: "npm:^3.1.1"
@@ -3858,7 +3858,7 @@ __metadata:
     thread-stream: "npm:^3.0.0"
   bin:
     pino: bin.js
-  checksum: 10c0/e2b05d4b1cf73447648ec98d247fd0f1f8020a819ebc2c97fab7fa8b9efe2d1a82ebf674ed2489bb7a1d3a75350c044c776f124e9c29c004bfb133b9e2ac0871
+  checksum: 10c0/71fe3369ea80d66db847b715fc04a1a26df904a75fde861adcd549fdfca6b41365387b882e802c5663a6b4e9aeec7269e9956d66803ec2e191a35e0f15536014
   languageName: node
   linkType: hard
 
@@ -4099,7 +4099,7 @@ __metadata:
     common-tags: "npm:^1.8.2"
     dev-null: "npm:^0.1.1"
     discord.js: "npm:^14.22.1"
-    dotenv: "npm:^17.2.1"
+    dotenv: "npm:^17.2.2"
     i18next: "npm:^25.4.2"
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.1.3"
@@ -4107,7 +4107,7 @@ __metadata:
     keyv: "npm:^5.5.0"
     mathjs: "npm:^14.6.0"
     nodemon: "npm:^3.1.10"
-    pino: "npm:^9.9.0"
+    pino: "npm:^9.9.1"
     pino-papertrail: "npm:^2.1.0"
     pino-pretty: "npm:^13.1.1"
     prettier: "npm:^3.6.2"
