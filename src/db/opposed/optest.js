@@ -84,6 +84,13 @@ class OpTest {
   leader_id = null
 
   /**
+   * Database timestamp for when the record was created
+   *
+   * @type {string}
+   */
+  created_at
+
+  /**
    * Database handler
    * @type {Opposed}
    */
@@ -164,6 +171,7 @@ class OpTest {
     history = null,
     breakdown = null,
     leader_id = null,
+    created_at = null,
     opposed_db,
   } = {}) {
     this.id = id
@@ -178,6 +186,7 @@ class OpTest {
     this.history = history
     this.breakdown = breakdown
     this.leader_id = leader_id
+    this.created_at = created_at
 
     this.opposed_db = opposed_db
 

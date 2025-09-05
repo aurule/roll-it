@@ -615,8 +615,9 @@ class Opposed extends CachedDb {
 
   /**
    * Update the advantages for a participant
-   * @param {int} participant_id  Internal ID of the participant record to update
-   * @param {string[]} advantages Array of advantage keywords to store
+   * @param  {int} participant_id  Internal ID of the participant record to update
+   * @param  {string[]} advantages Array of advantage keywords to store
+   * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
    */
   setParticipantAdvantages(participant_id, advantages) {
     const update = this.prepared(
@@ -636,8 +637,9 @@ class Opposed extends CachedDb {
 
   /**
    * Update the ability_used flag for a participant record
-   * @param {int}     participant_id Internal ID of the participant record
-   * @param {boolean} used           Value of the flag. Defaults to true.
+   * @param  {int}     participant_id Internal ID of the participant record
+   * @param  {boolean} used           Value of the flag. Defaults to true.
+   * @return {Info}    Query info object with `changes` and `lastInsertRowid` properties
    */
   setParticipantAbilityUsed(participant_id, used = true) {
     if (!participant_id) return false
@@ -659,8 +661,9 @@ class Opposed extends CachedDb {
 
   /**
    * Update the tie_winner flag for a participant record
-   * @param {in}      participant_id Internal ID of the participant record
-   * @param {boolean} winner         Value of the flag. Defaults to true.
+   * @param  {in}      participant_id Internal ID of the participant record
+   * @param  {boolean} winner         Value of the flag. Defaults to true.
+   * @return {Info}    Query info object with `changes` and `lastInsertRowid` properties
    */
   setTieWinner(participant_id, winner = true) {
     if (!participant_id) return false
@@ -704,6 +707,23 @@ class Opposed extends CachedDb {
     return new Participant(raw_out)
   }
 
+  /**
+   * Add a test record
+   *
+   * @param  {object} options
+   * @param  {int}    options.challenge_id   Internal ID of the associated challenge record
+   * @param  {string} options.locale         Locale identifier
+   * @param  {int}    options.retester_id    Internal ID of the retesting participant
+   * @param  {string} options.retest_reason  What was used to retest the result
+   * @param  {bool}   options.retested       Whether the test's result has been retested
+   * @param  {int}    options.canceller_id   Internal ID of the retesting participant
+   * @param  {string} options.cancelled_with What was used to cancel the retest
+   * @param  {bool}   options.cancelled      Whether the test's result was retested with an ability, then cancelled with an ability
+   * @param  {string} options.history        Test history string to store
+   * @param  {string} options.breakdown      Test breakdown string to store
+   * @param  {int}    options.leader_id      Internal ID of the leading participant
+   * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
+   */
   addTest({
     challenge_id,
     locale,
@@ -763,6 +783,19 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Add a test record in the future
+   *
+   * Only for testing
+   *
+   * @param  {object} options
+   * @param  {int}    options.challenge_id Internal ID of the associated challenge record
+   * @param  {string} options.locale       Locale identifier
+   * @param  {int}    options.leader_id    Internal ID of the leading participant
+   * @param  {string} options.history      Test history string to store
+   * @param  {int}    options.gap          Number of seconds to add to the current time
+   * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
+   */
   addFutureTest({ challenge_id, locale, leader_id = null, history = null, gap = 1 } = {}) {
     const insert = this.prepared(
       "addFutureTest",
