@@ -15,7 +15,7 @@ module.exports = {
   data: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
-    const test = opposed_db.getLatestTestWithParticipants(challenge_id)
+    const test = opposed_db.getLatestTest(challenge_id)
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
 
@@ -47,7 +47,7 @@ module.exports = {
   inert: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
-    const test = opposed_db.getLatestTestWithParticipants(challenge_id)
+    const test = opposed_db.getLatestTest(challenge_id)
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
 
     // if state is throwing, return headline

@@ -1,3 +1,4 @@
+const { simpleflake } = require("simpleflakes")
 const { Collection } = require("discord.js")
 const { makeDB } = require("./index")
 
@@ -1183,87 +1184,139 @@ describe("Opposed DB", () => {
     })
   })
 
-  describe("getLatestTestWithParticipants", () => {
+  describe("testCount", () => {
     let challenge_id
-    let attacker_id
-    let defender_id
-    let test_id
-    let participant_ids
-    const attacker_uid = "atk"
-    const defender_uid = "def"
 
     beforeEach(() => {
-      let result = opposed.addChallenge({
+      challenge_id = opposed.addChallenge({
         locale: "en-US",
         description: "testing challenge",
-        attacker_uid,
+        attacker_uid: "atk",
         attribute: "mental",
         retest_ability: "occult",
         state: Challenge.States.AdvantagesAttacker,
         channel_uid: "testchan",
         timeout: 1000,
-      })
-      challenge_id = result.lastInsertRowid
+      }).lastInsertRowid
 
-      result = opposed.addParticipant({
-        challenge_id,
-        user_uid: attacker_uid,
-        mention: `<@${attacker_uid}>`,
-        role: Participant.Roles.Attacker,
-        advantages: ["hi", "there"],
-      })
-      attacker_id = result.lastInsertRowid
-      result = opposed.addParticipant({
-        challenge_id,
-        user_uid: "def",
-        mention: `<@${defender_uid}>`,
-        role: Participant.Roles.Defender,
-        advantages: ["oh", "no"],
-      })
-      defender_id = result.lastInsertRowid
-      participant_ids = new Collection([
-        ["attacker", attacker_id],
-        ["defender", defender_id],
-      ])
-
-      result = opposed.addTest({
+      opposed.addTest({
         challenge_id,
         locale: "en-US",
-        attacker_ready: true,
-        defender_ready: true,
-        leader_id: attacker_id,
-        retester_id: defender_id,
-        canceller_id: attacker_id,
       })
-      test_id = result.lastInsertRowid
+    })
+
+    it("returns number of associated tests", () => {
+      const result = opposed.testCount(challenge_id)
+
+      expect(result).toEqual(1)
+    })
+  })
+
+  describe("getTest", () => {
+    let challenge_id
+    let test_id
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
+    })
+
+    it("gets the test record", () => {
+      const result = opposed.getTest(test_id)
+
+      expect(result.challenge_id).toEqual(challenge_id)
+    })
+  })
+
+  describe("findTestByMessage", () => {
+    let test_id
+    let message_uid
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
+
+      message_uid = simpleflake()
+      opposed.addMessage({
+        message_uid,
+        challenge_id,
+        test_id,
+      })
+    })
+
+    describe("with unknown message", () => {
+      it("returns null test", () => {
+        const result = opposed.findTestByMessage("asdf")
+
+        expect(result.id).toBeUndefined()
+      })
+    })
+
+    it("gets the test for that message", () => {
+      const result = opposed.findTestByMessage(message_uid)
+
+      expect(result.id).toEqual(test_id)
+    })
+  })
+
+  describe("getLatestTest", () => {
+    let challenge_id
+    let test_id
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
     })
 
     it("gets the most recent test record", () => {
       opposed.addTest({
         challenge_id,
         locale: "en-US",
-        attacker_ready: true,
-        defender_ready: true,
-        leader_id: attacker_id,
         created_at: "2025-06-01T13:00:00-04:00",
       })
 
-      const test_record = opposed.getLatestTestWithParticipants(challenge_id)
+      const test_record = opposed.getLatestTest(challenge_id)
 
       expect(test_record.id).toEqual(test_id)
-    })
-
-    it.each([
-      ["leader", "attacker"],
-      ["trailer", "defender"],
-      ["retester", "defender"],
-      ["canceller", "attacker"],
-    ])("includes the %s record", (child_name, role) => {
-      const child_id = participant_ids.get(role)
-
-      const test_record = opposed.getLatestTestWithParticipants(challenge_id)
-
-      expect(test_record[child_name].id).toEqual(child_id)
     })
   })
 })

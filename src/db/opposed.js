@@ -844,6 +844,11 @@ class Opposed extends CachedDb {
     return select.get(challenge_id)
   }
 
+  /**
+   * Get the record for the given test
+   * @param  {int}    test_id Internal ID of the test to fetch
+   * @return {OpTest}         Test object
+   */
   getTest(test_id) {
     const select = this.prepared(
       "getTest",
@@ -862,7 +867,7 @@ class Opposed extends CachedDb {
    * Get the individual RPS test associated with a Discord message ID
    *
    * @param  {Snowflake} message_uid Discord ID of the message
-   * @return {OpTest}                Test object
+   * @return {OpTest}                OpTest object
    */
   findTestByMessage(message_uid) {
     const select = this.prepared(
@@ -881,6 +886,11 @@ class Opposed extends CachedDb {
     return new OpTest({ ...result, opposed_db: this })
   }
 
+  /**
+   * Get the most recently created test for a challenge
+   * @param  {int}    challenge_id Internal ID of the challenge to reference
+   * @return {OpTest}              OpTest object
+   */
   getLatestTest(challenge_id) {
     const test_select = this.prepared(
       "getLatestTest",
@@ -895,25 +905,6 @@ class Opposed extends CachedDb {
     const result = test_select.get(challenge_id)
 
     return new OpTest({ ...result, opposed_db: this })
-  }
-
-  getLatestTestWithParticipants(challenge_id) {
-    const test_select = this.prepared(
-      "getLatestTestWithParticipants",
-      oneLine`
-      SELECT   *
-      FROM     interactive.opposed_tests
-      WHERE    challenge_id = ?
-      ORDER BY created_at DESC
-      LIMIT    1
-    `,
-    )
-    const result = test_select.get(challenge_id)
-
-    const test = new OpTest({ ...result, opposed_db: this })
-    test.populateParticipants()
-
-    return test
   }
 
   setTestRetested(test_id, retested = true) {

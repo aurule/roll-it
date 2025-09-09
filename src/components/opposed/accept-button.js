@@ -21,7 +21,7 @@ module.exports = {
   async execute(interaction) {
     const opposed_db = new Opposed()
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
-    const test = opposed_db.getLatestTestWithParticipants(challenge.id)
+    const test = opposed_db.getLatestTest(challenge.id)
     const participants = opposed_db.getParticipants(challenge.id)
     const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
 

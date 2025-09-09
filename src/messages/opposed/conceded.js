@@ -10,7 +10,7 @@ module.exports = {
   data: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
-    const test = opposed_db.getLatestTestWithParticipants(challenge_id)
+    const test = opposed_db.getLatestTest(challenge_id)
     const history = opposed_db.getChallengeHistory(challenge_id).join("\n")
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")

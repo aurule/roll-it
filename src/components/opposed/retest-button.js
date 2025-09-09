@@ -32,7 +32,7 @@ module.exports = {
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
-    const test = opposed_db.getLatestTestWithParticipants(challenge.id)
+    const test = opposed_db.getLatestTest(challenge.id)
 
     if (!test.retest_reason) {
       return interaction.ensure("whisper", t("winning.retest.missing"), {
