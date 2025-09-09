@@ -1451,4 +1451,193 @@ describe("Opposed DB", () => {
       expect(record.cancelled_with).toMatch("something")
     })
   })
+
+  describe("setTestLeader", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    let test_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        leader_id: defender_id,
+      }).lastInsertRowid
+    })
+
+    it("updates the ID of the leading participant", () => {
+      opposed.setTestLeader(test_id, attacker_id)
+
+      const record = opposed.getTest(test_id)
+      expect(record.leader_id).toEqual(attacker_id)
+    })
+  })
+
+  describe("setTestBreakdown", () => {
+    let test_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
+    })
+
+    it("sets retest reason", () => {
+      opposed.setTestBreakdown(test_id, "something")
+
+      const record = opposed.getTest(test_id)
+      expect(record.breakdown).toMatch("something")
+    })
+  })
+
+  describe("setTestHistory", () => {
+    let test_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
+    })
+
+    it("sets retest reason", () => {
+      opposed.setTestHistory(test_id, "something")
+
+      const record = opposed.getTest(test_id)
+      expect(record.history).toMatch("something")
+    })
+  })
+
+  describe("setRetest", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    let test_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        leader_id: defender_id,
+      }).lastInsertRowid
+    })
+
+    it("sets the retester id", () => {
+      opposed.setRetest({
+        test_id,
+        retester_id: attacker_id,
+        reason: "ability",
+        canceller_id: defender_id,
+      })
+
+      const record = opposed.getTest(test_id)
+      expect(record.retester_id).toEqual(attacker_id)
+    })
+
+    it("sets the canceller id", () => {
+      opposed.setRetest({
+        test_id,
+        retester_id: attacker_id,
+        reason: "ability",
+        canceller_id: defender_id,
+      })
+
+      const record = opposed.getTest(test_id)
+      expect(record.canceller_id).toEqual(defender_id)
+    })
+
+    it("sets the retest reason", () => {
+      opposed.setRetest({
+        test_id,
+        retester_id: attacker_id,
+        reason: "ability",
+        canceller_id: defender_id,
+      })
+
+      const record = opposed.getTest(test_id)
+      expect(record.retest_reason).toMatch("ability")
+    })
+  })
 })

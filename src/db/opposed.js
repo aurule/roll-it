@@ -1001,6 +1001,13 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Set the ID of the participant currently winning the given test
+   *
+   * @param  {int}  test_id   Internal ID of the test to update
+   * @param  {int}  leader_id Internal ID of the participant to set as leader
+   * @return {Info}           DB info object
+   */
   setTestLeader(test_id, leader_id) {
     const update = this.prepared(
       "setTestLeader",
@@ -1017,6 +1024,12 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Set the chop breakdown of the given test
+   * @param  {int}    test_id   Internal ID of the test to update
+   * @param  {string} breakdown Generated description of the chops
+   * @return {Info}           DB info object
+   */
   setTestBreakdown(test_id, breakdown) {
     const update = this.prepared(
       "setTestBreakdown",
@@ -1033,6 +1046,12 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Set the history string of the test
+   * @param  {int}    test_id Internal ID of the test to update
+   * @param  {string} history Generated description of the test history
+   * @return {Info}           DB info object
+   */
   setTestHistory(test_id, history) {
     const update = this.prepared(
       "setTestHistory",
@@ -1049,6 +1068,22 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Set retest-related test properties
+   *
+   * This is a shorcut to set the retester, retest reason, and canceller all at once.
+   *
+   * Reason should be from OpTest.RetestReasons.
+   *
+   * @see OpTest.RetestReasons
+   *
+   * @param  {object} options
+   * @param  {int}    options.test_id      Internal ID of the test to change
+   * @param  {int}    options.retester_id  Internal ID of the retesting participant
+   * @param  {string} options.reason       Retest reason code
+   * @param  {int}    options.canceller_id Internal ID of the cancelling participant
+   * @return {Info}                        DB info object
+   */
   setRetest({ test_id, retester_id, reason, canceller_id }) {
     const update = this.prepared(
       "setRetest",
@@ -1065,22 +1100,6 @@ class Opposed extends CachedDb {
       reason,
       canceller_id,
     })
-  }
-
-  getTestTies(test_id) {
-    const select = this.prepared(
-      "getTestTies",
-      oneLine`
-        SELECT ties
-        FROM   interactive.opposed_challenges AS c
-               JOIN interactive.opposed_tests AS T
-                 ON t.id = c.challenge_id
-        WHERE t.id = ?
-      `,
-      true,
-    )
-
-    return select.get(test_id)
   }
 
   addChopRequest({ request, test_id, participant_id }) {
