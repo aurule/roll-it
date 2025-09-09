@@ -1319,4 +1319,136 @@ describe("Opposed DB", () => {
       expect(test_record.id).toEqual(test_id)
     })
   })
+
+  describe("setTestRetested", () => {
+    let retest_id
+    let test_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
+
+      retest_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        retested: true,
+      }).lastInsertRowid
+    })
+
+    it("sets retested flag as requested", () => {
+      opposed.setTestRetested(retest_id, false)
+
+      const record = opposed.getTest(retest_id)
+      expect(record.retested).toBe(false)
+    })
+
+    it("sets retested true by default", () => {
+      opposed.setTestRetested(test_id)
+
+      const record = opposed.getTest(test_id)
+      expect(record.retested).toBe(true)
+    })
+  })
+
+  describe("setTestRetestReason", () => {
+    let test_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
+    })
+
+    it("sets retest reason", () => {
+      opposed.setTestRetestReason(test_id, "something")
+
+      const record = opposed.getTest(test_id)
+      expect(record.retest_reason).toMatch("something")
+    })
+  })
+
+  describe("setTestCancelled", () => {
+    let retest_id
+    let test_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        cancelled: false,
+      }).lastInsertRowid
+    })
+
+    it("sets cancelled true", () => {
+      opposed.setTestCancelled(test_id)
+
+      const record = opposed.getTest(test_id)
+      expect(record.cancelled).toBe(true)
+    })
+  })
+
+  describe("setTestCancelledWith", () => {
+    let test_id
+
+    beforeEach(() => {
+      const challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid: "atk",
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+      }).lastInsertRowid
+    })
+
+    it("sets retest reason", () => {
+      opposed.setTestCancelledWith(test_id, "something")
+
+      const record = opposed.getTest(test_id)
+      expect(record.cancelled_with).toMatch("something")
+    })
+  })
 })

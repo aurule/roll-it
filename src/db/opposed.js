@@ -907,6 +907,12 @@ class Opposed extends CachedDb {
     return new OpTest({ ...result, opposed_db: this })
   }
 
+  /**
+   * Set the retested flag
+   * @param  {int}     test_id  Internal ID of the test to change
+   * @param  {Boolean} retested New value for the retested flag
+   * @return {Info}             DB info object
+   */
   setTestRetested(test_id, retested = true) {
     const update = this.prepared(
       "setTestRetested",
@@ -923,22 +929,17 @@ class Opposed extends CachedDb {
     })
   }
 
-  setTestCancelledWith(test_id, reason) {
-    const update = this.prepared(
-      "setTestCancelledWith",
-      oneLine`
-      UPDATE interactive.opposed_tests
-      SET cancelled_with = @cancelled_with
-      WHERE id = @id
-    `,
-    )
-
-    return update.run({
-      id: test_id,
-      cancelled_with: reason,
-    })
-  }
-
+  /**
+   * Set the retest reason code
+   *
+   * Reason should be from OpTest.RetestReasons.
+   *
+   * @see OpTest.RetestReasons
+   *
+   * @param  {int}    test_id Internal ID of the test to update
+   * @param  {string} reason  Reason code
+   * @return {Info}           DB info object
+   */
   setTestRetestReason(test_id, reason) {
     const update = this.prepared(
       "setTestRetestReason",
@@ -955,6 +956,11 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Set the cancelled flag to true
+   * @param  {int}  test_id Internal ID of the test to change
+   * @return {Info}         DB info object
+   */
   setTestCancelled(test_id) {
     const update = this.prepared(
       "setTestCancelled",
@@ -966,6 +972,33 @@ class Opposed extends CachedDb {
     )
 
     return update.run(test_id)
+  }
+
+  /**
+   * Set the cancel reason code
+   *
+   * Reason should be from OpTest.CancelReasons
+   *
+   * @see OpTest.CancelReasons
+   *
+   * @param  {int}    test_id Internal ID of the test to update
+   * @param  {string} reason  Reason code
+   * @return {Info}           DB info object
+   */
+  setTestCancelledWith(test_id, reason) {
+    const update = this.prepared(
+      "setTestCancelledWith",
+      oneLine`
+      UPDATE interactive.opposed_tests
+      SET cancelled_with = @cancelled_with
+      WHERE id = @id
+    `,
+    )
+
+    return update.run({
+      id: test_id,
+      cancelled_with: reason,
+    })
   }
 
   setTestLeader(test_id, leader_id) {
