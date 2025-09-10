@@ -1168,6 +1168,11 @@ class Opposed extends CachedDb {
     }
   }
 
+  /**
+   * Get the chops associated with a given test
+   * @param  {int}      test_id Internal ID of the test
+   * @return {object[]}         Array of chop record objects
+   */
   getChopsForTest(test_id) {
     const select = this.prepared(
       "getChopsForTest",
