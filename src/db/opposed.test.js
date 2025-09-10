@@ -1926,4 +1926,241 @@ describe("Opposed DB", () => {
       expect(record.ready).toBe(true)
     })
   })
+
+  describe("didParticipantChop", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    let test_id
+    let chop_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        leader_id: defender_id,
+      }).lastInsertRowid
+
+      chop_id = opposed.addChopRequest({
+        request: "rock",
+        test_id,
+        participant_id: attacker_id,
+      }).lastInsertRowid
+    })
+
+    it("returns true when participant has a chop for the test", () => {
+      const result = opposed.didParticipantChop(attacker_id, test_id)
+
+      expect(result).toBe(true)
+    })
+
+    it("returns false when participant has no chop for the test", () => {
+      const result = opposed.didParticipantChop(defender_id, test_id)
+
+      expect(result).toBe(false)
+    })
+  })
+
+  describe("setChopResult", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    let test_id
+    let chop_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        leader_id: defender_id,
+      }).lastInsertRowid
+
+      chop_id = opposed.addChopRequest({
+        request: "rock",
+        test_id,
+        participant_id: attacker_id,
+      }).lastInsertRowid
+    })
+
+    it("sets chop request result", () => {
+      opposed.setChopResult(chop_id, "rock")
+
+      const record = opposed.getChop(chop_id)
+      expect(record.result).toMatch("rock")
+    })
+  })
+
+  describe("setChopTraits", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    let test_id
+    let chop_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        leader_id: defender_id,
+      }).lastInsertRowid
+
+      chop_id = opposed.addChopRequest({
+        request: "rock",
+        test_id,
+        participant_id: attacker_id,
+      }).lastInsertRowid
+    })
+
+    it("sets chop traits", () => {
+      opposed.setChopTraits(chop_id, 15)
+
+      const record = opposed.getChop(chop_id)
+      expect(record.traits).toEqual(15)
+    })
+  })
+
+  describe("setChopTieAccepted", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    let test_id
+    let chop_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        leader_id: defender_id,
+      }).lastInsertRowid
+
+      chop_id = opposed.addChopRequest({
+        request: "rock",
+        test_id,
+        participant_id: attacker_id,
+      }).lastInsertRowid
+    })
+
+    it("sets tie_accepted to given value", () => {
+      opposed.setChopTieAccepted(chop_id, true)
+
+      const record = opposed.getChop(chop_id)
+      expect(record.tie_accepted).toBe(true)
+    })
+  })
 })
