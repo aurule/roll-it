@@ -89,7 +89,7 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "challengeCount",
       oneLine`
-      SELECT count(1)
+      SELECT COUNT(1)
       FROM   interactive.opposed_challenges
     `,
       true,
@@ -544,7 +544,7 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "participantCount",
       oneLine`
-        SELECT count(1)
+        SELECT COUNT(1)
         FROM interactive.opposed_participants
         WHERE challenge_id = ?
       `,
@@ -835,7 +835,7 @@ class Opposed extends CachedDb {
     const select = this.prepared(
       "testCount",
       oneLine`
-      SELECT count(1)
+      SELECT COUNT(1)
       FROM   interactive.opposed_tests
       WHERE  challenge_id = ?
     `,
@@ -1103,6 +1103,19 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Add a new chop record for a test
+   *
+   * The new chop is added with a throw request, but no result. The request must be from met-roller.request_keywords.
+   *
+   * @see services/met-roller.request_keywords
+   *
+   * @param  {object} options
+   * @param  {string} options.request        Request keyword
+   * @param  {[type]} options.test_id        Internal ID of the test this chop is for
+   * @param  {[type]} options.participant_id Internal ID of the participant making this request
+   * @return {Info}                          DB info object
+   */
   addChopRequest({ request, test_id, participant_id }) {
     const upsert = this.prepared(
       "addChopRequest",
@@ -1130,6 +1143,11 @@ class Opposed extends CachedDb {
     })
   }
 
+  /**
+   * Get the record for a given chop
+   * @param  {int}    chop_id Internal ID of the chop to get
+   * @return {object}         Chop data
+   */
   getChop(chop_id) {
     const select = this.prepared(
       "getChop",
