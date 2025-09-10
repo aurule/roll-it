@@ -1861,4 +1861,69 @@ describe("Opposed DB", () => {
       expect(records[0].tie_accepted).toBe(false)
     })
   })
+
+  describe("setChopReady", () => {
+    let challenge_id
+    let attacker_id
+    let defender_id
+    let test_id
+    let chop_id
+    const attacker_uid = "atk"
+    const defender_uid = "def"
+
+    beforeEach(() => {
+      challenge_id = opposed.addChallenge({
+        locale: "en-US",
+        description: "testing challenge",
+        attacker_uid,
+        attribute: "mental",
+        retest_ability: "occult",
+        state: Challenge.States.AdvantagesAttacker,
+        channel_uid: "testchan",
+        timeout: 1000,
+      }).lastInsertRowid
+
+      attacker_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: attacker_uid,
+        mention: `<@${attacker_uid}>`,
+        role: Participant.Roles.Attacker,
+        advantages: ["hi", "there"],
+      }).lastInsertRowid
+
+      defender_id = opposed.addParticipant({
+        challenge_id,
+        user_uid: "def",
+        mention: `<@${defender_uid}>`,
+        role: Participant.Roles.Defender,
+        advantages: ["oh", "no"],
+      }).lastInsertRowid
+
+      test_id = opposed.addTest({
+        challenge_id,
+        locale: "en-US",
+        leader_id: defender_id,
+      }).lastInsertRowid
+
+      chop_id = opposed.addChopRequest({
+        request: "rock",
+        test_id,
+        participant_id: attacker_id,
+      }).lastInsertRowid
+    })
+
+    it("sets ready to given value", () => {
+      opposed.setChopReady(chop_id, true)
+
+      const record = opposed.getChop(chop_id)
+      expect(record.ready).toBe(true)
+    })
+
+    it("sets ready true by default", () => {
+      opposed.setChopReady(chop_id)
+
+      const record = opposed.getChop(chop_id)
+      expect(record.ready).toBe(true)
+    })
+  })
 })

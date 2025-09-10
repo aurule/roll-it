@@ -1195,7 +1195,13 @@ class Opposed extends CachedDb {
     return raw_out
   }
 
-  setChopReady(chop_id, ready) {
+  /**
+   * Set the ready flag of a chop
+   * @param  {int}     chop_id Internal ID of the chop record to update
+   * @param  {Boolean} ready   New flag value. Defaults to true.
+   * @return {Info}            DB info object
+   */
+  setChopReady(chop_id, ready = true) {
     const update = this.prepared(
       "setChopReady",
       oneLine`
