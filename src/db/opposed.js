@@ -62,7 +62,7 @@ class Opposed extends CachedDb {
         @summary,
         @state,
         @channel_uid,
-        datetime('now', @timeout || ' seconds')
+        DATETIME('now', @timeout || ' seconds')
       )
     `,
     )
@@ -125,7 +125,8 @@ class Opposed extends CachedDb {
       oneLine`
       SELECT   *,
                JSON_EXTRACT(conditions, '$') AS conditions,
-               TIME('now') > TIME(expires_at) AS expired
+               DATETIME('now') > DATETIME(expires_at) AS expired,
+               DATETIME(expires_at) AS temp
       FROM     interactive.opposed_challenges
       WHERE    id = ?
     `,
@@ -149,7 +150,7 @@ class Opposed extends CachedDb {
       oneLine`
       SELECT   *,
                JSON_EXTRACT(conditions, '$') AS conditions,
-               TIME('now') > TIME(expires_at) AS expired
+               DATETIME('now') > DATETIME(expires_at) AS expired
       FROM     interactive.opposed_challenges
       WHERE    id = ?
     `,
@@ -196,7 +197,7 @@ class Opposed extends CachedDb {
       "setChallengeExpired",
       oneLine`
       UPDATE interactive.opposed_challenges
-      SET    expires_at = datetime('now', '-1000 seconds')
+      SET    expires_at = DATETIME('now', '-1000 seconds')
       WHERE  id = ?
     `,
     )
@@ -257,7 +258,7 @@ class Opposed extends CachedDb {
       oneLine`
       SELECT c.*,
              JSON_EXTRACT(c.conditions, '$') AS conditions,
-             TIME('now') > TIME(c.expires_at) AS expired
+             DATETIME('now') > DATETIME(c.expires_at) AS expired
       FROM   interactive.opposed_challenges AS c
              JOIN interactive.opposed_messages AS m
                ON c.id = m.challenge_id
@@ -308,7 +309,7 @@ class Opposed extends CachedDb {
                JOIN interactive.opposed_messages AS m
                  ON c.id = m.challenge_id
         WHERE  m.message_uid = ?
-          AND  TIME('now') >= TIME(c.expires_at)
+          AND  DATETIME('now') >= DATETIME(c.expires_at)
       `,
       true,
     )
@@ -327,7 +328,7 @@ class Opposed extends CachedDb {
       oneLine`
       SELECT c.*,
              JSON_EXTRACT(c.conditions, '$') AS conditions,
-             TIME('now') > TIME(c.expires_at) AS expired
+             DATETIME('now') > DATETIME(c.expires_at) AS expired
       FROM   interactive.opposed_challenges AS c
              JOIN interactive.opposed_tests AS t
                ON c.id = t.challenge_id
@@ -811,7 +812,7 @@ class Opposed extends CachedDb {
         @locale,
         @leader_id,
         @history,
-        datetime('now', @gap || ' seconds')
+        DATETIME('now', @gap || ' seconds')
       )
     `,
     )
