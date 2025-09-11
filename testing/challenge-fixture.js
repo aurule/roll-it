@@ -392,6 +392,11 @@ class TestFixture {
     return this.db.getTest(this.id)
   }
 
+  /**
+   * Add a message record that can be used to look up our test
+   * @param  {string}      message_uid Discord ID of the message
+   * @return {TestFixture}             This fixture
+   */
   attachMessage(message_uid) {
     this.db.addMessage({
       message_uid,
@@ -401,26 +406,51 @@ class TestFixture {
     return this
   }
 
+  /**
+   * Set the retest reason for this test
+   * @param  {string}      reason Retest reason
+   * @return {TestFixture}        This fixture
+   */
   retestReason(reason) {
     this.db.setTestRetestReason(this.id, reason)
     return this
   }
 
+  /**
+   * Set the leading participant for this test
+   * @param  {ParticipantFixture} participant Participant to set as the leader
+   * @return {TestFixture}        This fixture
+   */
   setLeader(participant) {
     this.db.setTestLeader(this.id, participant.id)
     return this
   }
 
+  /**
+   * Set the cancel reason for this test
+   * @param  {string}      reason Cancel reason
+   * @return {TestFixture}        This fixture
+   */
   cancelWith(reason) {
     this.db.setTestCancelledWith(this.id, reason)
     return this
   }
 
+  /**
+   * Create a chop request on this test for the attacking participant
+   * @param  {string}      request Request string for the chop
+   * @return {ChopFixture}         New chop fixture
+   */
   attackerChop(request) {
     this.attacker_chop = new ChopFixture(request, this, this.challenge.attacker.id)
     return this.attacker_chop
   }
 
+  /**
+   * Create a chop request on this test for the defending participant
+   * @param  {string}      request Request string for the chop
+   * @return {ChopFixture}         New chop fixture
+   */
   defenderChop(request) {
     this.defender_chop = new ChopFixture(request, this, this.challenge.defender.id)
     return this.defender_chop
@@ -478,22 +508,43 @@ class ChopFixture {
     return this.db.getChop(this.id)
   }
 
+  /**
+   * Set the traits for this chop
+   * @param  {int}         traits Number of traits
+   * @return {ChopFixture}        This fixture
+   */
   setTraits(traits) {
     this.db.setChopTraits(this.id, traits)
     return this
   }
 
+  /**
+   * Set this chop's ready flag to true
+   * @return {ChopFixture} This fixture
+   */
   ready() {
     this.db.setChopReady(this.id, true)
     return this
   }
 
+  /**
+   * Resolve the request to a real chop
+   *
+   * The result can be set by supplying forced_result, or rolled normally using the met-roller.
+   *
+   * @param  {string?}     forced_result Desired result. Optional. Rolled normally if not supplied.
+   * @return {ChopFixture}               This fixture
+   */
   resolve(forced_result) {
     const result = forced_result ?? this.request
     this.db.setChopResult(this.id, result)
     return this
   }
 
+  /**
+   * Set this chop's tie_accepted flag to true
+   * @return {ChopFixture} This fixture
+   */
   accept() {
     this.db.setChopTieAccepted(this.id, true)
     return this
