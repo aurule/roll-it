@@ -21,13 +21,13 @@
     "i18next": "^25.5.2",
     "i18next-fs-backend": "^2.6.0",
     "joi": "^18.0.1",
-    "keyv": "^5.5.0",
+    "keyv": "^5.5.1",
     "mathjs": "^14.7.0",
-    "pino": "^9.9.4",
+    "pino": "^9.9.5",
     "pino-papertrail": "^2.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.3",
+    "@biomejs/biome": "2.2.4",
     "cli-progress": "^3.12.0",
     "dev-null": "^0.1.1",
     "dotenv": "^17.2.2",
