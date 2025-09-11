@@ -1,6 +1,11 @@
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 
+/**
+ * Generate a history string for a test record
+ * @param  {OpTest} test Test object to read
+ * @return {string}      Generated history string for the test
+ */
 function makeHistory(test) {
   const t = i18n.getFixedT(test.locale, "interactive", "opposed.shared.history")
 
