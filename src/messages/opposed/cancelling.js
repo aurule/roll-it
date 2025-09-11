@@ -50,8 +50,9 @@ module.exports = {
     const test = opposed_db.getLatestTest(challenge_id)
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
 
-    // if state is throwing, return headline
-    // if state is otherwise, add withdrawn
+    // on continue action, show headline alone opposed.cancelling.headline
+    // on withdraw action, show headline and withdrawn line opposed.cancellling.withdrawn
+    // on cancel action, show headline and cancelled line opposed.shared.history.cancelled
 
     const body = [
       t(`headline.${test.retest_reason}`, {
