@@ -5,6 +5,9 @@ const { Challenge } = require("../../db/opposed/challenge")
 const { makeHistory } = require("../../services/opposed/history")
 const { OpTest } = require("../../db/opposed/optest")
 
+/**
+ * Button shown when a retest can be cancelled
+ */
 module.exports = {
   name: "opposed_cancel",
   valid_states: ["cancelling"],
