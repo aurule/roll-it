@@ -8,7 +8,7 @@ const message_schema = Joi.object({
     .required()
     .valid(...Object.values(Challenge.States)),
   data: Joi.function().arity(1).required(),
-  inert: Joi.function().arity(1).optional(),
+  inert: Joi.function().optional(),
   afterRetry: Joi.function().arity(1).optional(),
   handleReply: Joi.function().arity(1).optional(),
 })

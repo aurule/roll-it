@@ -62,15 +62,15 @@ describe("opposed cancelling a retest message", () => {
       expect(result.content).toMatch("retesting with an ability")
     })
 
-    describe("with a withdrawn retest", () => {
-      beforeEach(() => {
-        // set challenge state to Winning
-      })
+    describe("actions", () => {
+      it.each([
+        ["withdraw", "withdrew their retest"],
+        ["cancel", "cancelled"],
+        ["continue", "retesting with"]
+      ])("%s action shows appropriate content", (action, content) => {
+        const result = cancelling.inert(challenge.id, action)
 
-      it("shows the withdrawn notice", () => {
-        const result = cancelling.inert(challenge.id)
-
-        expect(result.content).toMatch("withdrew their retest")
+        expect(result.content).toMatch(content)
       })
     })
 

@@ -90,10 +90,10 @@ describe("opposed retest cancel button", () => {
       expect(challenge.defender.record.ability_used).toBe(false)
     })
 
-    it.skip("edits to show inert cancelling message", async () => {
+    it("edits to show inert cancelling message", async () => {
       await cancelButton.execute(interaction)
 
-      expect(interaction.replyContent).toMatch("<@def> cancelled with an ability")
+      expect(interaction.replyContent).toMatch("<@def> cancelled with")
     })
 
     it("with previously winning test, shows the winning message", async () => {

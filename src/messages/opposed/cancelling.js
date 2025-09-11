@@ -44,23 +44,38 @@ module.exports = {
 
     return build.message(components, { withResponse: true })
   },
-  inert: (challenge_id) => {
+  inert: (challenge_id, action = "continue") => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
     const test = opposed_db.getLatestTest(challenge_id)
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
 
-    // on continue action, show headline alone opposed.cancelling.headline
-    // on withdraw action, show headline and withdrawn line opposed.cancellling.withdrawn
-    // on cancel action, show headline and cancelled line opposed.shared.history.cancelled
+    lines = [t(`headline.${test.retest_reason}`, {
+      retester: test.retester.mention,
+      ability: challenge.retest_ability,
+    })]
 
-    const body = [
-      t(`headline.${test.retest_reason}`, {
-        retester: test.retester.mention,
-        ability: challenge.retest_ability,
-      }),
-      t("withdrawn"),
-    ].join(" ")
+    switch(action) {
+      case "continue":
+        break;
+      case "withdraw":
+        lines.push(t("withdrawn"))
+        break;
+      case "cancel":
+        lines.push(
+          i18n.t("opposed.shared.history.cancelled", {
+            ns: "interactive",
+            lng: challenge.locale,
+            canceller: test.canceller.mention,
+            reason: test.cancelled_with
+          })
+        )
+        break;
+      default:
+        throw new Error(`Unsupported action "${action}"`)
+    }
+
+    const body = lines.join(" ")
 
     return build.textMessage(body, { withResponse: true })
   },

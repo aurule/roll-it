@@ -26,7 +26,7 @@ module.exports = {
 
     const cancelling_message = require("../../messages/opposed/cancelling")
     await interaction
-      .ensure("edit", cancelling_message.inert(test.challenge_id), {
+      .ensure("edit", cancelling_message.inert(test.challenge_id, "withdraw"), {
         component: "opposed_withdraw_retest",
         test: test,
         detail: "failed to update retest cancelling message to remove controls",
