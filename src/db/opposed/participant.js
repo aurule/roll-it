@@ -30,7 +30,7 @@ class Participant {
    * Whether this participant wins tied chops for this challenge
    *
    * This flag is calculated by comparing the presence of the "ties" advantage on both participants.
-   * 
+   *
    * @type {boolean}
    */
   tie_winner

@@ -9,13 +9,13 @@ const readyButton = require("./ready-button")
 describe("opposed participant ready button", () => {
   describe("data", () => {
     it("includes participant id in customId", () => {
-      const button = readyButton.data("en-US", {id: 5})
+      const button = readyButton.data("en-US", { id: 5 })
 
       expect(button.data.custom_id).toMatch("5")
     })
 
     it("has appropriate label", () => {
-      const button = readyButton.data("en-US", {id: 5})
+      const button = readyButton.data("en-US", { id: 5 })
 
       expect(button.data.label).toMatch("Ready")
     })

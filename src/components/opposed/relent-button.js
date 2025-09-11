@@ -15,7 +15,9 @@ module.exports = {
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("opposed_relent")
-      .setLabel(i18n.t("opposed.advantages-defender.components.relent", { ns: "interactive", lng: locale }))
+      .setLabel(
+        i18n.t("opposed.advantages-defender.components.relent", { ns: "interactive", lng: locale }),
+      )
       .setStyle(ButtonStyle.Secondary),
   async execute(interaction) {
     const opposed_db = new Opposed()

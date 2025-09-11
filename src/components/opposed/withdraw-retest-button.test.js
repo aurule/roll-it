@@ -30,7 +30,9 @@ describe("withdraw opposed retest button", () => {
     beforeEach(() => {
       interaction = new Interaction()
       challenge = new ChallengeFixture().withParticipants()
-      retest = challenge.attackerRetest(OpTest.RetestReasons.Item).attachMessage(interaction.message.id)
+      retest = challenge
+        .attackerRetest(OpTest.RetestReasons.Item)
+        .attachMessage(interaction.message.id)
       challenge.attacker.abilityUsed()
       interaction.user.id = challenge.attacker.uid
       interaction.customId = "opposed_withdraw_retest"

@@ -3,14 +3,24 @@ const { randomInt } = require("mathjs")
 const rps = Object.freeze(["rock", "paper", "scissors"])
 const rbs = Object.freeze(["rock", "bomb", "scissors"])
 
-const request_keywords = Object.freeze(["rock", "paper", "scissors", "bomb", "rand", "rand-bomb", "none"])
+const request_keywords = Object.freeze([
+  "rock",
+  "paper",
+  "scissors",
+  "bomb",
+  "rand",
+  "rand-bomb",
+  "none",
+])
 
-const winners = Object.freeze(new Map([
-  ["rock", ["scissors"]],
-  ["paper", ["rock"]],
-  ["bomb", ["rock", "paper"]],
-  ["scissors", ["paper", "bomb"]],
-]))
+const winners = Object.freeze(
+  new Map([
+    ["rock", ["scissors"]],
+    ["paper", ["rock"]],
+    ["bomb", ["rock", "paper"]],
+    ["scissors", ["paper", "bomb"]],
+  ]),
+)
 
 /**
  * Roll a d3 for MET

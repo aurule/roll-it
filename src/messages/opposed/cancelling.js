@@ -62,8 +62,6 @@ module.exports = {
       t("withdrawn"),
     ].join(" ")
 
-    return build.textMessage(body,
-      { withResponse: true },
-    )
+    return build.textMessage(body, { withResponse: true })
   },
 }

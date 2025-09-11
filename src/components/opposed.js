@@ -89,7 +89,12 @@ module.exports = {
     }
 
     // fail unless component is valid for current state, or message is for an old test
-    if (!(component.valid_states.includes(challenge.state) && opposed_db.messageIsForLatestTest(message_id))) {
+    if (
+      !(
+        component.valid_states.includes(challenge.state) &&
+        opposed_db.messageIsForLatestTest(message_id)
+      )
+    ) {
       const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
       return interaction.ensure("whisper", t("outdated"), {
         user: interaction.user.id,

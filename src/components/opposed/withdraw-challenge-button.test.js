@@ -21,9 +21,9 @@ describe("opposed withdraw challenge button", () => {
 
     beforeEach(() => {
       interaction = new Interaction()
-      challenge = new ChallengeFixture(Challenge.States.AttackerAdvantages).withParticipants().attachMessage(
-        interaction.message.id,
-      )
+      challenge = new ChallengeFixture(Challenge.States.AttackerAdvantages)
+        .withParticipants()
+        .attachMessage(interaction.message.id)
       interaction.user.id = challenge.attacker.uid
       interaction.customId = "opposed_withdraw_challenge"
     })

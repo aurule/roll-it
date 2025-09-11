@@ -22,17 +22,15 @@ describe("chop request selector", () => {
     })
 
     describe("when participant has bomb advantage", () => {
-      it.concurrent.each([
-        ["rock"],
-        ["scissors"],
-        ["bomb"],
-        ["rand-bomb"],
-      ])("includes the %s option", (opt) => {
-        const selector = throwPicker.data("en-US", { id: "atk", advantages: ["bomb"] })
+      it.concurrent.each([["rock"], ["scissors"], ["bomb"], ["rand-bomb"]])(
+        "includes the %s option",
+        (opt) => {
+          const selector = throwPicker.data("en-US", { id: "atk", advantages: ["bomb"] })
 
-        const option_names = selector.options.map((o) => o.data.value)
-        expect(option_names).toContain(opt)
-      })
+          const option_names = selector.options.map((o) => o.data.value)
+          expect(option_names).toContain(opt)
+        },
+      )
 
       it.concurrent.each([["paper"], ["rand"]])("does not include the %s option", (opt) => {
         const selector = throwPicker.data("en-US", { id: "atk", advantages: ["bomb"] })
@@ -43,17 +41,15 @@ describe("chop request selector", () => {
     })
 
     describe("when participant does not have bomb advantage", () => {
-      it.concurrent.each([
-        ["rock"],
-        ["scissors"],
-        ["paper"],
-        ["rand"],
-      ])("includes the %s option", (opt) => {
-        const selector = throwPicker.data("en-US", { id: "atk", advantages: [] })
+      it.concurrent.each([["rock"], ["scissors"], ["paper"], ["rand"]])(
+        "includes the %s option",
+        (opt) => {
+          const selector = throwPicker.data("en-US", { id: "atk", advantages: [] })
 
-        const option_names = selector.options.map((o) => o.data.value)
-        expect(option_names).toContain(opt)
-      })
+          const option_names = selector.options.map((o) => o.data.value)
+          expect(option_names).toContain(opt)
+        },
+      )
 
       it.concurrent.each([["bomb"], ["rand-bomb"]])("does not include the %s option", (opt) => {
         const selector = throwPicker.data("en-US", { id: "atk", advantages: [] })

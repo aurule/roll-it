@@ -55,12 +55,9 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
 
-    return build.textMessage(
-      challenge.summary,
-      {
-        withResponse: true,
-        allowedMentions: { parse: [] },
-      },
-    )
+    return build.textMessage(challenge.summary, {
+      withResponse: true,
+      allowedMentions: { parse: [] },
+    })
   },
 }

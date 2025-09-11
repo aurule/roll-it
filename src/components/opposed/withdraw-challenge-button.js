@@ -15,7 +15,12 @@ module.exports = {
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("opposed_withdraw_challenge")
-      .setLabel(i18n.t("opposed.advantages-attacker.components.withdraw", { ns: "interactive", lng: locale }))
+      .setLabel(
+        i18n.t("opposed.advantages-attacker.components.withdraw", {
+          ns: "interactive",
+          lng: locale,
+        }),
+      )
       .setStyle(ButtonStyle.Secondary),
   async execute(interaction) {
     const opposed_db = new Opposed()

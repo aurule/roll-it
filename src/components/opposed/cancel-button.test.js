@@ -22,9 +22,9 @@ describe("opposed retest cancel button", () => {
 
     beforeEach(() => {
       interaction = new Interaction()
-      challenge = new ChallengeFixture(Challenge.States.Cancelling)
-        .withParticipants()
-      retest = challenge.attackerRetest("ability")
+      challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
+      retest = challenge
+        .attackerRetest("ability")
         .attachMessage(interaction.message.id)
         .cancelWith("ability")
       retest.attackerChop("rock")

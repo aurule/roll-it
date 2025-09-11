@@ -13,17 +13,21 @@ const opposed_handler = require("./opposed")
 
 const opposed_component_schema = Joi.object({
   name: Joi.string().required(),
-  valid_states: Joi.array().required().min(1).items(Joi.string().valid(...Object.values(Challenge.States))),
+  valid_states: Joi.array()
+    .required()
+    .min(1)
+    .items(Joi.string().valid(...Object.values(Challenge.States))),
   data: Joi.function().required(),
   execute: Joi.function().required().arity(1),
 }).unknown()
 
 describe("opposed component correctness", () => {
-  it.concurrent.each(
-    Array.from(opposed_handler.components.entries()),
-  )("`%s` component matches the schema", (_name, component) => {
-    expect(component).toMatchSchema(opposed_component_schema)
-  })
+  it.concurrent.each(Array.from(opposed_handler.components.entries()))(
+    "`%s` component matches the schema",
+    (_name, component) => {
+      expect(component).toMatchSchema(opposed_component_schema)
+    },
+  )
 })
 
 describe("opposed component handler", () => {
@@ -118,7 +122,10 @@ describe("opposed component handler", () => {
 
         opposed_db = new Opposed()
         challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
-        challenge.defenderRetest("ability").cancelWith("ability").attachMessage(interaction.message.id)
+        challenge
+          .defenderRetest("ability")
+          .cancelWith("ability")
+          .attachMessage(interaction.message.id)
         interaction.user.id = challenge.attacker.uid
 
         opposed_db.addFutureTest({
@@ -143,7 +150,10 @@ describe("opposed component handler", () => {
         interaction.customId = "opposed_cancel"
 
         challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
-        challenge.defenderRetest("ability").cancelWith("ability").attachMessage(interaction.message.id)
+        challenge
+          .defenderRetest("ability")
+          .cancelWith("ability")
+          .attachMessage(interaction.message.id)
         interaction.user.id = challenge.attacker.uid
       })
 
