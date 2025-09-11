@@ -118,7 +118,7 @@ describe("opposed component handler", () => {
 
         opposed_db = new Opposed()
         challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
-        challenge.defenderRetest("ability").cancel("ability").attachMessage(interaction.message.id)
+        challenge.defenderRetest("ability").cancelWith("ability").attachMessage(interaction.message.id)
         interaction.user.id = challenge.attacker.uid
 
         opposed_db.addFutureTest({
@@ -143,7 +143,7 @@ describe("opposed component handler", () => {
         interaction.customId = "opposed_cancel"
 
         challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
-        challenge.defenderRetest("ability").cancel("ability").attachMessage(interaction.message.id)
+        challenge.defenderRetest("ability").cancelWith("ability").attachMessage(interaction.message.id)
         interaction.user.id = challenge.attacker.uid
       })
 

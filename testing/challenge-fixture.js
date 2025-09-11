@@ -364,6 +364,15 @@ class TestFixture {
    */
   defender_chop
 
+  /**
+   * Create a new TestFixture
+   *
+   * @see src/db/opposed.addTest
+   *
+   * @param  {ChallengeFixture} challenge Parent challenge
+   * @param  {object} options   Options to pass to the addTest method
+   * @return {TestFixture}      New TestFixture object
+   */
   constructor(challenge, options) {
     this.challenge = challenge
     this.db = challenge.db
@@ -402,7 +411,7 @@ class TestFixture {
     return this
   }
 
-  cancel(reason) {
+  cancelWith(reason) {
     this.db.setTestCancelledWith(this.id, reason)
     return this
   }
