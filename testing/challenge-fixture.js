@@ -324,8 +324,21 @@ class ParticipantFixture {
     return this
   }
 
+  /**
+   * Set the ability_used flag to `true` for this participant
+   * @return {Participant} This participant object
+   */
   abilityUsed() {
     this.db.setParticipantAbilityUsed(this.id, true)
+    return this
+  }
+
+  /**
+   * Set the tie_winner flag to `true` for this participant
+   * @return {Participant} This participant object
+   */
+  winsTies() {
+    this.db.setTieWinner(this.id, true)
     return this
   }
 }
