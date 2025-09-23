@@ -687,7 +687,7 @@ class Opposed extends CachedDb {
   /**
    * Get the participant who wins ties for a challenge
    * @param  {int}         challenge_id Internal challenge ID
-   * @return {Participant}              Winning participant record, or null
+   * @return {Participant|null}         Winning participant record, or null
    */
   getTieWinner(challenge_id) {
     const select = this.prepared(
