@@ -30,7 +30,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@biomejs/biome", "npm:2.2.4"],\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["better-sqlite3", "npm:12.2.0"],\
+          ["better-sqlite3", "npm:12.4.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
@@ -40,16 +40,16 @@ const RAW_RUNTIME_STATE =
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.1.3"],\
           ["joi", "npm:18.0.1"],\
-          ["keyv", "npm:5.5.1"],\
+          ["keyv", "npm:5.5.2"],\
           ["mathjs", "npm:14.7.0"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:9.9.5"],\
+          ["pino", "npm:9.11.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.1"],\
           ["prettier", "npm:3.6.2"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
-          ["simpleflakes", "npm:3.1.0"]\
+          ["simpleflakes", "npm:4.0.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -2284,10 +2284,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["better-sqlite3", [\
-      ["npm:12.2.0", {\
-        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-12.2.0-f99288306c/node_modules/better-sqlite3/",\
+      ["npm:12.4.1", {\
+        "packageLocation": "./.yarn/unplugged/better-sqlite3-npm-12.4.1-e86050b506/node_modules/better-sqlite3/",\
         "packageDependencies": [\
-          ["better-sqlite3", "npm:12.2.0"],\
+          ["better-sqlite3", "npm:12.4.1"],\
           ["bindings", "npm:1.5.0"],\
           ["node-gyp", "npm:10.1.0"],\
           ["prebuild-install", "npm:7.1.2"]\
@@ -4285,11 +4285,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["keyv", [\
-      ["npm:5.5.1", {\
-        "packageLocation": "./.yarn/cache/keyv-npm-5.5.1-13407f7442-cbfaa4345d.zip/node_modules/keyv/",\
+      ["npm:5.5.2", {\
+        "packageLocation": "./.yarn/cache/keyv-npm-5.5.2-a610cfd167-b0a224210e.zip/node_modules/keyv/",\
         "packageDependencies": [\
           ["@keyv/serialize", "npm:1.1.1"],\
-          ["keyv", "npm:5.5.1"]\
+          ["keyv", "npm:5.5.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4898,13 +4898,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:9.9.5", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.9.5-64cd5a510a-2b43de21fa.zip/node_modules/pino/",\
+      ["npm:9.11.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-9.11.0-24fc7c7ec6-ba908f95b6.zip/node_modules/pino/",\
         "packageDependencies": [\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino", "npm:9.9.5"],\
+          ["pino", "npm:9.11.0"],\
           ["pino-abstract-transport", "npm:2.0.0"],\
           ["pino-std-serializers", "npm:7.0.0"],\
           ["process-warning", "npm:5.0.0"],\
@@ -5238,7 +5238,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@biomejs/biome", "npm:2.2.4"],\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["better-sqlite3", "npm:12.2.0"],\
+          ["better-sqlite3", "npm:12.4.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
@@ -5248,16 +5248,16 @@ const RAW_RUNTIME_STATE =
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.1.3"],\
           ["joi", "npm:18.0.1"],\
-          ["keyv", "npm:5.5.1"],\
+          ["keyv", "npm:5.5.2"],\
           ["mathjs", "npm:14.7.0"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:9.9.5"],\
+          ["pino", "npm:9.11.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.1"],\
           ["prettier", "npm:3.6.2"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
-          ["simpleflakes", "npm:3.1.0"]\
+          ["simpleflakes", "npm:4.0.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5390,10 +5390,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["simpleflakes", [\
-      ["npm:3.1.0", {\
-        "packageLocation": "./.yarn/cache/simpleflakes-npm-3.1.0-f0a7987df9-d4be5b00a8.zip/node_modules/simpleflakes/",\
+      ["npm:4.0.0", {\
+        "packageLocation": "./.yarn/cache/simpleflakes-npm-4.0.0-ed5de63414-faf2b5bd2d.zip/node_modules/simpleflakes/",\
         "packageDependencies": [\
-          ["simpleflakes", "npm:3.1.0"]\
+          ["simpleflakes", "npm:4.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11440,7 +11440,8 @@ class ZipFS extends BasePortableFakeFS {
         const entries = Array.from(directoryListing, (name) => {
           return Object.assign(this.statImpl(`lstat`, ppath.join(p, name)), {
             name,
-            path: PortablePath.dot
+            path: PortablePath.dot,
+            parentPath: PortablePath.dot
           });
         });
         for (const entry of entries) {
@@ -11451,7 +11452,8 @@ class ZipFS extends BasePortableFakeFS {
           for (const child of subListing) {
             entries.push(Object.assign(this.statImpl(`lstat`, ppath.join(p, subPath, child)), {
               name: child,
-              path: subPath
+              path: subPath,
+              parentPath: subPath
             }));
           }
         }
@@ -11472,7 +11474,8 @@ class ZipFS extends BasePortableFakeFS {
       return Array.from(directoryListing, (name) => {
         return Object.assign(this.statImpl(`lstat`, ppath.join(p, name)), {
           name,
-          path: void 0
+          path: void 0,
+          parentPath: void 0
         });
       });
     } else {

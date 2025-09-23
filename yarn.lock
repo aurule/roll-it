@@ -1551,14 +1551,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"better-sqlite3@npm:^12.2.0":
-  version: 12.2.0
-  resolution: "better-sqlite3@npm:12.2.0"
+"better-sqlite3@npm:^12.4.1":
+  version: 12.4.1
+  resolution: "better-sqlite3@npm:12.4.1"
   dependencies:
     bindings: "npm:^1.5.0"
     node-gyp: "npm:latest"
     prebuild-install: "npm:^7.1.1"
-  checksum: 10c0/842247e9bbb775f366ac91f604117112c312497e643bac21648d8b69f479763de0ac049b14b609d6d5ecaee50debcc09a854f682d3dc099a1d933fea92ce68d0
+  checksum: 10c0/88773a75d996b4171e5690a38459b05dc814a792701b224bd9909ee084dc0b4c64aaffbdbcf4bbbc6d4e247faf19e91b2a56cf4175d746d3bd9ff14764eb05aa
   languageName: node
   linkType: hard
 
@@ -3229,12 +3229,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keyv@npm:^5.5.1":
-  version: 5.5.1
-  resolution: "keyv@npm:5.5.1"
+"keyv@npm:^5.5.2":
+  version: 5.5.2
+  resolution: "keyv@npm:5.5.2"
   dependencies:
     "@keyv/serialize": "npm:^1.1.1"
-  checksum: 10c0/cbfaa4345dd285c99547417e7d5aabf06205f368e78b6e1b6d6eb04182b6b9aac373ae4b7da0ea78cafd1062643be2a364d47eb41881516871aa43930cc08ce7
+  checksum: 10c0/b0a224210e8bbc4a5913535aa7cc8552809dc81ad67311cc78a2ccfe5485b82b23b8e28ea3a1202e8352c18dd2a0b12b49cda5bb933958d2dcf88042db54c9d0
   languageName: node
   linkType: hard
 
@@ -3834,9 +3834,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^9.9.5":
-  version: 9.9.5
-  resolution: "pino@npm:9.9.5"
+"pino@npm:^9.11.0":
+  version: 9.11.0
+  resolution: "pino@npm:9.11.0"
   dependencies:
     atomic-sleep: "npm:^1.0.0"
     fast-redact: "npm:^3.1.1"
@@ -3851,7 +3851,7 @@ __metadata:
     thread-stream: "npm:^3.0.0"
   bin:
     pino: bin.js
-  checksum: 10c0/2b43de21fac267ef4b7267e14b4dbf207509f16cb81755c3bf54d325c45028a88457a369b7e2118fe534cbf2b313f28cf29cc0caa54dce60ea66c8b6084c8b6c
+  checksum: 10c0/ba908f95b61fa2c2d6c432e1f39a4394cc0dbf356c4f8837bd9c07538d749699b78204a5557e6050870f2988c25c3f0b6a88693d4bd185ebeef57d75a3b25e38
   languageName: node
   linkType: hard
 
@@ -4087,7 +4087,7 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:2.2.4"
     "@discordjs/collection": "npm:^2.1.1"
-    better-sqlite3: "npm:^12.2.0"
+    better-sqlite3: "npm:^12.4.1"
     cli-progress: "npm:^3.12.0"
     common-tags: "npm:^1.8.2"
     dev-null: "npm:^0.1.1"
@@ -4097,15 +4097,15 @@ __metadata:
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.1.3"
     joi: "npm:^18.0.1"
-    keyv: "npm:^5.5.1"
+    keyv: "npm:^5.5.2"
     mathjs: "npm:^14.7.0"
     nodemon: "npm:^3.1.10"
-    pino: "npm:^9.9.5"
+    pino: "npm:^9.11.0"
     pino-papertrail: "npm:^2.1.0"
     pino-pretty: "npm:^13.1.1"
     prettier: "npm:^3.6.2"
     prompts: "npm:^2.4.2"
-    simpleflakes: "npm:^3.1.0"
+    simpleflakes: "npm:^4.0.0"
   languageName: unknown
   linkType: soft
 
@@ -4219,10 +4219,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simpleflakes@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "simpleflakes@npm:3.1.0"
-  checksum: 10c0/d4be5b00a8301b0065199847edbecffc160231f24d7e0799587a5347944c6ac451c7750d24d7320e562078c5ea64e35d90e024645a20d9eb317163e252e9a1ae
+"simpleflakes@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "simpleflakes@npm:4.0.0"
+  checksum: 10c0/faf2b5bd2dea7627f352f25d8c70af34b0ef47c0d5825ce56346ac26240af562fa18ec4d1fb5318ab85de144e29cfec46a08613f06a129d11d91b983035d3910
   languageName: node
   linkType: hard
 
