@@ -7,6 +7,7 @@ const { makeBreakdown } = require("../../services/opposed/breakdown")
 const { makeHistory } = require("../../services/opposed/history")
 const winning_message = require("../../messages/opposed/winning")
 const bidding_atk_message = require("../../messages/opposed/bidding-attacker")
+const { textMessage } = require("../../util/message-builders")
 
 const BEATS = new Map([
   ["rock", ["scissors"]],
@@ -15,6 +16,13 @@ const BEATS = new Map([
   ["scissors", ["paper", "bomb"]],
 ])
 
+/**
+ * Determine the leading participant
+ * @param  {Chop[]}           chops        Array of two chop records
+ * @param  {Participant[]}    participants Array of participant records
+ * @param  {int}              challenge_id Internal ID of the related challenge
+ * @return {Participant|null}              Winning participant record, or null
+ */
 function chooseLeader(chops, participants, challenge_id) {
   if (chops[0].result === chops[1].result) {
     const opposed_db = new Opposed()
@@ -29,7 +37,20 @@ function chooseLeader(chops, participants, challenge_id) {
   }
 }
 
+/**
+ * Resolve the chops and handle their aftermath
+ *
+ * With a winner, the challenge is updated with new leader, breakdown, history. With a tie, the bidding phase begins.
+ *
+ * @param  {object} options
+ * @param  {Interaction} options.interaction    Discord Interaction objecct
+ * @param  {Chop[]} options.chops               Array of chops for the test
+ * @param  {Participant[]} options.participants Array of participants in the test
+ * @param  {OpTest} options.test                Test record
+ * @return {Reply}                              Interaction reply result
+ */
 async function resolveChops({ interaction, chops, participants, test }) {
+
   const opposed_db = new Opposed()
   const t = i18n.getFixedT(test.locale, "interactive", "opposed")
 
@@ -49,16 +70,8 @@ async function resolveChops({ interaction, chops, participants, test }) {
   }
   await interaction
     .ensure(
-      "editReply",
-      {
-        flags: MessageFlags.IsComponentsV2,
-        allowedMentions: { parse: [] },
-        components: [
-          new TextDisplayBuilder({
-            content: t("throws.result", result_args),
-          }),
-        ],
-      },
+      "edit",
+      textMessage(t("throws.result", result_args), { allowedMentions: { parse: [] } }),
       {
         test,
         user_uid: interaction.user.id,
@@ -81,7 +94,7 @@ async function resolveChops({ interaction, chops, participants, test }) {
     opposed_db.setChallengeState(test.challenge_id, Challenge.States.Winning)
 
     return interaction
-      .ensure("followUp", winning_message.data(test.challenge_id), {
+      .ensure("reply", winning_message.data(test.challenge_id), {
         test,
         user_uid: interaction.user.id,
         component: "go_button",
@@ -99,7 +112,7 @@ async function resolveChops({ interaction, chops, participants, test }) {
   } else {
     opposed_db.setChallengeState(test.challenge_id, Challenge.States.BiddingAttacker)
     return interaction
-      .ensure("followUp", bidding_atk_message.data(test.challenge_id), {
+      .ensure("reply", bidding_atk_message.data(test.challenge_id), {
         test,
         user_uid: interaction.user.id,
         component: "go_button",
@@ -132,7 +145,7 @@ module.exports = {
     const participants = opposed_db.getParticipants(test.challenge_id)
     const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
 
-    interaction.authorize(participants.map((p) => p.user_uid))
+    interaction.authorize(...participants.map((p) => p.user_uid))
 
     const t = i18n.getFixedT(test.locale, "interactive", "opposed")
 
@@ -146,8 +159,6 @@ module.exports = {
         detail: "Whispering about premature go click",
       })
     }
-
-    await interaction.deferUpdate()
 
     opposed_db.setChopReady(user_chop.id, true)
     if (!user_chop.ready) {
