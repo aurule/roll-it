@@ -130,6 +130,9 @@ async function resolveChops({ interaction, chops, participants, test }) {
   }
 }
 
+/**
+ * Button to commit to throwing a given chop
+ */
 module.exports = {
   name: "go_button",
   valid_states: ["throwing"],
