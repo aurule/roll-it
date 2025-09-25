@@ -325,11 +325,13 @@ class ParticipantFixture {
   }
 
   /**
-   * Set the ability_used flag to `true` for this participant
+   * Set the ability_used flag for this participant. Defaults to true.
+   *
+   * @param  {boolean}     used Value of the flag
    * @return {Participant} This participant object
    */
-  abilityUsed() {
-    this.db.setParticipantAbilityUsed(this.id, true)
+  abilityUsed(used = true) {
+    this.db.setParticipantAbilityUsed(this.id, used)
     return this
   }
 
