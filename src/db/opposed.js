@@ -931,6 +931,28 @@ class Opposed extends CachedDb {
   }
 
   /**
+   * Set the retested flag
+   * @param  {int}     test_id  Internal ID of the test to change
+   * @param  {Boolean} retested New value for the retested flag
+   * @return {Info}             DB info object
+   */
+  setTestRetester(test_id, retester_id) {
+    const update = this.prepared(
+      "setTestRetester",
+      oneLine`
+      UPDATE interactive.opposed_tests
+      SET retester_id = @retester_id
+      WHERE id = @id
+    `,
+    )
+
+    return update.run({
+      id: test_id,
+      retester_id,
+    })
+  }
+
+  /**
    * Set the retest reason code
    *
    * Reason should be from OpTest.RetestReasons.
