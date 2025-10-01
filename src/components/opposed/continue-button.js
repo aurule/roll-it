@@ -4,6 +4,9 @@ const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const throwing_message = require("../../messages/opposed/throwing")
 
+/**
+ * Button to continue a retest when participant has the option to cancel
+ */
 module.exports = {
   name: "opposed_continue",
   valid_states: ["cancelling"],

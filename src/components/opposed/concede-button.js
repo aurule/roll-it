@@ -4,6 +4,9 @@ const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const conceded_message = require("../../messages/opposed/conceded")
 
+/**
+ * Button to concede to the winning participant
+ */
 module.exports = {
   name: "opposed_concede",
   valid_states: ["winning"],

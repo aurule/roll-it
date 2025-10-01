@@ -4,6 +4,9 @@ const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const { OpTest } = require("../../db/opposed/optest")
 
+/**
+ * Button to walk back a retest while the other participant has the option to cancel it
+ */
 module.exports = {
   name: "opposed_withdraw_retest",
   valid_states: ["cancelling"],
