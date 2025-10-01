@@ -11,12 +11,12 @@ module.exports = {
   parent: parent_name,
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addStringOption(commonOpts.description)
       .addLocalizedUserOption("opponent", (option) => option.setRequired(true))
       .addLocalizedStringOption("attribute", (option) =>
         option.setLocalizedChoices("mental", "social", "physical").setRequired(true),
       )
-      .addLocalizedStringOption("retest", (option) => option.setRequired(true)),
+      .addLocalizedStringOption("retest", (option) => option.setRequired(true))
+      .addStringOption(commonOpts.description),
   async execute(interaction) {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id
