@@ -71,7 +71,7 @@ module.exports = {
           detail: "Failed to send defender advantages prompt",
         })
         .then((reply_result) => {
-          const message_uid = reply_result.id
+          const message_uid = reply_result.resource.message.id
 
           opposed_db.addMessage({
             challenge_id: challenge.id,
