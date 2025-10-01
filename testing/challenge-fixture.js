@@ -107,6 +107,11 @@ class ChallengeFixture {
     return this
   }
 
+  setState(state) {
+    this.db.setChallengeState(this.id, state)
+    return this
+  }
+
   /**
    * Mark the challenge as expired
    * @return {ChallengeFixture} This fixture
@@ -428,6 +433,11 @@ class TestFixture {
    */
   retestReason(reason) {
     this.db.setTestRetestReason(this.id, reason)
+    return this
+  }
+
+  retester(participant) {
+    this.db.setTestRetester(this.id, participant.id)
     return this
   }
 
