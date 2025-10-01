@@ -57,15 +57,15 @@ function prompt_components(deployable, systems, selected_commands, locale) {
     )
   const command_row = new ActionRowBuilder().addComponents(command_picker)
 
-  const go_button = new ButtonBuilder()
-    .setCustomId("go_button")
+  const set_button = new ButtonBuilder()
+    .setCustomId("set_button")
     .setLabel(t("buttons.submit"))
     .setStyle(ButtonStyle.Primary)
   const cancel_button = new ButtonBuilder()
     .setCustomId("cancel_button")
     .setLabel(t("buttons.cancel"))
     .setStyle(ButtonStyle.Secondary)
-  const buttons_row = new ActionRowBuilder().addComponents(go_button, cancel_button)
+  const buttons_row = new ActionRowBuilder().addComponents(set_button, cancel_button)
 
   return [system_row, command_row, buttons_row]
 }
@@ -110,7 +110,7 @@ module.exports = {
             content: t("response.cancelled"),
             components: [],
           })
-        case "go_button":
+        case "set_button":
           collector.stop()
           if (!selection.size) {
             await comp_interaction.deferUpdate()
