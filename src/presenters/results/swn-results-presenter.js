@@ -1,4 +1,4 @@
-const { bold, strikethrough, Collection } = require("discord.js")
+const { strikethrough } = require("discord.js")
 const { operator } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
