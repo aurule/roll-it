@@ -52,20 +52,11 @@ Start an interactive challenge against another user.
 
 * `opponent` is the user you wish to challenge
 * `attribute` is the attribute used to determine total traits. One of Mental, Social, or Physical.
-* `retest` is the name of the default ability that can be used to retest a chop during this challenge
-* `throw` is the symbol you want to use in the initial chop. Can be one of rock, paper, bomb, scissors, random R/P/S, or random R/B/S. In order to use a bomb symbol, you must also set the `bomb` to `True`.
-    image of the throw selector options
-* `bomb` is whether you are able to throw the bomb symbol
-* `ties` is whether you have an ability that lets you automatically win a tied chop
-* `cancels` is whether you have an ability that lets you retest a chop without using an ability. Things like Orisha's Fortune, etc.
-* `carrier` is whether this challenge is a carrier attack which will afflict your opponent with a different power.
-* `altering` is whether this challenge is an altering attack which will change your opponent's form.
-* `use-retests` is whether retests are allowed at all
 
 Example:
 
 ```invocation
-/met opposed opponent:@RicePilaf attribute:Physical retest:brawl throw:scissors bomb:true ties:true
+/met opposed opponent:@RicePilaf attribute:Physical
 ```
 
 One of the major conveniences of `/met opposed` is that it summarizes the results of each roll in the challenge at every step, making it easy to keep track of how things are going. However, it uses lots of buttons and drop-downs to do so. Since Discord sometimes does not send button clicks and selections to Roll It, this command can break more easily than most. One of the best ways to work around that problem is to minimize how long Roll It has to wait between interactions. Being in voice chat with the other participant can help keep retests moving, or simply being attentive during the challenge.
