@@ -2,16 +2,25 @@ const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
+const { Participant } = require("../../db/opposed/participant")
 
 const AbilityReasons = new Set(["named", "ability"])
 
+/**
+ * Determine whether the test's canceller is able to cancel
+ * @param  {OpTest}  test The test being retested
+ * @return {boolean}      True if the canceller can cancel, false if not
+ */
 function canCancel(test) {
   return (
-    test.canceller.advantages.includes("cancels") ||
+    test.canceller.advantages.includes(Participant.Advantages.Cancels) ||
     (AbilityReasons.has(test.retest_reason) && !test.canceller.ability_used)
   )
 }
 
+/**
+ * Button to retest a resolved test
+ */
 module.exports = {
   name: "opposed_retest",
   valid_states: ["winning", "tying"],
@@ -28,7 +37,7 @@ module.exports = {
     const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
     const participants = opposed_db.getParticipants(challenge.id)
 
-    interaction.authorize(participants.map((p) => p.user_uid))
+    interaction.authorize(...participants.map((p) => p.user_uid))
 
     const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
 
@@ -84,8 +93,8 @@ module.exports = {
       }
       next_message = require("../../messages/opposed/cancelling")
     } else {
-      opposed_db.setChallengeState(challenge.id, Challenge.States.Retesting)
-      next_message = require("../../messages/opposed/retesting")
+      opposed_db.setChallengeState(challenge.id, Challenge.States.Throwing)
+      next_message = require("../../messages/opposed/throwing")
     }
 
     return interaction
@@ -105,4 +114,5 @@ module.exports = {
         })
       })
   },
+  canCancel,
 }
