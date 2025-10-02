@@ -43,7 +43,7 @@ describe("opposed defender advantages message", () => {
     it("shows the conditions", () => {
       const result = advantages_defender.data(challenge.id)
 
-      expect(result.content).toMatch("a normal attack")
+      expect(result.content).toMatch("not a special attack")
     })
 
     it("shows the attacker's advantages", () => {

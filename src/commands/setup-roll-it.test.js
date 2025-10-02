@@ -112,13 +112,13 @@ describe("/setup-roll-it command", () => {
       describe("go", () => {
         describe("with empty selection", () => {
           it("shows the empty response", async () => {
-            await prompt.click("go_button")
+            await prompt.click("set_button")
 
             expect(prompt.content).toMatch("Removing server commands")
           })
 
           it("clears server commands", async () => {
-            await prompt.click("go_button")
+            await prompt.click("set_button")
 
             expect(api.setGuildCommands).toHaveBeenCalledWith(expect.anything(), [])
           })
@@ -141,7 +141,7 @@ describe("/setup-roll-it command", () => {
           it("does not change server commands", async () => {
             await prompt.select("command_picker", selection)
 
-            await prompt.click("go_button")
+            await prompt.click("set_button")
 
             expect(api.setGuildCommands).not.toHaveBeenCalled()
           })
@@ -149,7 +149,7 @@ describe("/setup-roll-it command", () => {
           it("shows the matching selection response", async () => {
             await prompt.select("command_picker", selection)
 
-            await prompt.click("go_button")
+            await prompt.click("set_button")
 
             expect(prompt.content).toMatch("Leaving server commands unchanged")
           })
@@ -159,7 +159,7 @@ describe("/setup-roll-it command", () => {
           it("shows the success response", async () => {
             await prompt.select("command_picker", ["d20"])
 
-            await prompt.click("go_button")
+            await prompt.click("set_button")
 
             expect(prompt.content).toMatch("Updated server commands")
             expect(prompt.content).toMatch("d20")
@@ -168,7 +168,7 @@ describe("/setup-roll-it command", () => {
           it("sets server commands", async () => {
             await prompt.select("command_picker", ["d20"])
 
-            await prompt.click("go_button")
+            await prompt.click("set_button")
 
             expect(api.setGuildCommands).toHaveBeenCalledWith(expect.anything(), ["d20"])
           })
