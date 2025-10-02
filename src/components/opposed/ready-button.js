@@ -71,7 +71,7 @@ module.exports = {
           detail: "Failed to send defender advantages prompt",
         })
         .then((reply_result) => {
-          const message_uid = reply_result.resource.message.id
+          const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
 
           opposed_db.addMessage({
             challenge_id: challenge.id,
@@ -105,7 +105,7 @@ module.exports = {
     const advantages_defender = require("../../messages/opposed/advantages-defender")
     await interaction
       .ensure("edit", advantages_defender.inert(challenge.id), {
-        test,
+        test_id,
         user_uid: interaction.user.id,
         component: "opposed_ready",
         detail: "Failed to edit defender advantages prompt to show result",
