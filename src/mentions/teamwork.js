@@ -129,7 +129,7 @@ module.exports = {
       )
       .then((reply_result) => {
         // expect an InteractionCallbackResponse, but deal with a Message too
-        const message_uid = reply_result.resource.message.id ?? reply_result.id
+        const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
 
         teamwork_db.addMessage({
           teamwork_id: test.id,

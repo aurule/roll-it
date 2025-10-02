@@ -68,7 +68,7 @@ module.exports = {
         detail: `failed to send ${next_message.state} prompt`,
       })
       .then((reply_result) => {
-        const message_uid = reply_result.resource.message.id ?? reply_result.id
+        const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
 
         opposed_db.addMessage({
           challenge_id: test.challenge_id,

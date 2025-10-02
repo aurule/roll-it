@@ -82,7 +82,7 @@ module.exports = {
 
         teamwork_db.addMessage({
           teamwork_id: test_id,
-          message_uid: reply_interaction.resource.message.id,
+          message_uid: reply_interaction?.resource?.message?.id,
           type: MessageType.Prompt,
         })
       })

@@ -71,7 +71,7 @@ module.exports = {
         setTimeout(module.exports.opposedTimeout, MAX_DURATION * 1_000, challenge_id)
 
         // expect an InteractionCallbackResponse, but deal with a Message too
-        const message_uid = reply_result.resource.message.id ?? reply_result.id
+        const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
 
         opposed_db.addMessage({
           challenge_id,

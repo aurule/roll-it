@@ -49,7 +49,7 @@ module.exports = {
           detail: `failed to retry message for state "${challenge.state}"`,
         })
         .then((reply_interaction) => {
-          const message_uid = reply_interaction.resource.message.id ?? reply_interaction.id
+          const message_uid = reply_interaction?.resource?.message?.id ?? reply_interaction.id
 
           const message_props = {
             challenge_id: challenge.id,
