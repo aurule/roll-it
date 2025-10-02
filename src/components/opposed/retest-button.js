@@ -88,34 +88,54 @@ module.exports = {
       opposed_db.setParticipantAbilityUsed(test.retester_id)
     }
 
-    let next_message
     if (canCancel(test)) {
       opposed_db.setChallengeState(challenge.id, Challenge.States.Cancelling)
       if (!test.canceller.advantages.includes("cancels")) {
         opposed_db.setTestCancelledWith(test.id, "ability")
       }
-      next_message = require("../../messages/opposed/cancelling")
+      const next_message = require("../../messages/opposed/cancelling")
+      return interaction
+        .ensure("reply", next_message.data(challenge.id), {
+          component: "opposed_retest",
+          test: test,
+          challenge: challenge,
+          detail: `failed to send ${next_message.state} prompt`,
+        })
+        .then((reply_result) => {
+          const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
+
+          opposed_db.addMessage({
+            challenge_id: challenge.id,
+            message_uid,
+            test_id: test.id,
+          })
+        })
     } else {
       opposed_db.setChallengeState(challenge.id, Challenge.States.Throwing)
-      next_message = require("../../messages/opposed/throwing")
+
+      const next_message = require("../../messages/opposed/throwing")
+      const next_test_id = opposed_db.addTest({
+        challenge_id: test.challenge_id,
+        locale: test.locale,
+      }).lastInsertRowid
+      return interaction
+        .ensure("reply", next_message.data(challenge.id), {
+          component: "opposed_retest",
+          test: test,
+          challenge: challenge,
+          detail: `failed to send ${next_message.state} prompt`,
+        })
+        .then((reply_result) => {
+          const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
+
+          opposed_db.addMessage({
+            challenge_id: challenge.id,
+            message_uid,
+            test_id: next_test_id,
+          })
+        })
     }
 
-    return interaction
-      .ensure("reply", next_message.data(challenge.id), {
-        component: "opposed_retest",
-        test: test,
-        challenge: challenge,
-        detail: `failed to send ${next_message.state} prompt`,
-      })
-      .then((reply_result) => {
-        const message_uid = reply_result.resource.message.id ?? reply_result.id
-
-        opposed_db.addMessage({
-          challenge_id: challenge.id,
-          message_uid,
-          test_id: test.id,
-        })
-      })
   },
   canCancel,
 }
