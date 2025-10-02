@@ -56,6 +56,12 @@ describe("withdraw opposed retest button", () => {
       expect(retest.record.retested).toBe(false)
     })
 
+    it("generates new test history", async () => {
+      await withdrawRetestButton.execute(interaction)
+
+      expect(retest.record.history).not.toMatch("retested")
+    })
+
     describe("when restest was done with an ability", () => {
       beforeEach(() => {
         retest.retestReason("ability")

@@ -113,6 +113,12 @@ describe("retest result button", () => {
       expect(rps_test.record.retested).toBe(true)
     })
 
+    it("generates new test history", async () => {
+      await retestButton.execute(interaction)
+
+      expect(rps_test.record.history).toMatch("<@def> retested")
+    })
+
     it("when reason is ability, marks retester's ability_used flag true", async () => {
       rps_test.retestReason(OpTest.RetestReasons.Ability)
 

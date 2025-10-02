@@ -3,6 +3,7 @@ const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const { OpTest } = require("../../db/opposed/optest")
+const { makeHistory } = require("../../services/opposed/history")
 
 /**
  * Button to walk back a retest while the other participant has the option to cancel it
@@ -23,6 +24,8 @@ module.exports = {
     interaction.authorize(test.retester.user_uid)
 
     opposed_db.setTestRetested(test.id, false)
+    test.retested = false
+    opposed_db.setTestHistory(test.id, makeHistory(test))
     if (OpTest.AbilityReasons.has(test.retest_reason)) {
       opposed_db.setParticipantAbilityUsed(test.retester_id, false)
     }

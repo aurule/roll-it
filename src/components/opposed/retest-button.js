@@ -3,6 +3,7 @@ const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
 const { Participant } = require("../../db/opposed/participant")
+const { makeHistory } = require("../../services/opposed/history")
 
 const AbilityReasons = new Set(["named", "ability"])
 
@@ -81,6 +82,8 @@ module.exports = {
       })
 
     opposed_db.setTestRetested(test.id)
+    test.retested = true
+    opposed_db.setTestHistory(test.id, makeHistory(test))
     if (AbilityReasons.has(test.retest_reason)) {
       opposed_db.setParticipantAbilityUsed(test.retester_id)
     }
