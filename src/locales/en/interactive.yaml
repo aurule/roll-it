@@ -107,7 +107,7 @@ opposed:
       physical: a Physical
       social: a Social
     conditions:
-      normal: a normal
+      normal: not a special attack
       carrier: a Carrier
       altering: an Altering
     advantages-picker:
