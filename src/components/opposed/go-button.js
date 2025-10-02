@@ -1,4 +1,4 @@
-const { ButtonBuilder, ButtonStyle, MessageFlags, TextDisplayBuilder } = require("discord.js")
+const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Opposed } = require("../../db/opposed")
 const { Challenge } = require("../../db/opposed/challenge")
@@ -50,7 +50,6 @@ function chooseLeader(chops, participants, challenge_id) {
  * @return {Reply}                              Interaction reply result
  */
 async function resolveChops({ interaction, chops, participants, test }) {
-
   const opposed_db = new Opposed()
   const t = i18n.getFixedT(test.locale, "interactive", "opposed")
 
@@ -94,7 +93,7 @@ async function resolveChops({ interaction, chops, participants, test }) {
     opposed_db.setChallengeState(test.challenge_id, Challenge.States.Winning)
 
     return interaction
-      .ensure("reply", winning_message.data(test.challenge_id), {
+      .ensure("followUp", winning_message.data(test.challenge_id), {
         test,
         user_uid: interaction.user.id,
         component: "go_button",
@@ -112,14 +111,14 @@ async function resolveChops({ interaction, chops, participants, test }) {
   } else {
     opposed_db.setChallengeState(test.challenge_id, Challenge.States.BiddingAttacker)
     return interaction
-      .ensure("reply", bidding_atk_message.data(test.challenge_id), {
+      .ensure("followUp", bidding_atk_message.data(test.challenge_id), {
         test,
         user_uid: interaction.user.id,
         component: "go_button",
         detail: "Failed to send 'bidding_attacker' prompt",
       })
       .then((reply_result) => {
-        const message_uid = reply_result.id
+        const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
 
         opposed_db.addMessage({
           challenge_id: test.challenge_id,
@@ -163,6 +162,7 @@ module.exports = {
       })
     }
 
+    interaction.deferReply()
     opposed_db.setChopReady(user_chop.id, true)
     if (!user_chop.ready) {
       const is_attacker = participants.get("attacker").user_uid === interaction.user.id

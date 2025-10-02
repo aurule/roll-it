@@ -66,6 +66,7 @@ describe("go throw button", () => {
 
     beforeEach(() => {
       interaction = new Interaction()
+      interaction.deferReply()
       challenge = new ChallengeFixture(Challenge.States.Throwing).withParticipants()
       rps_test = challenge.addTest()
       participants = [challenge.attacker.record, challenge.defender.record]
