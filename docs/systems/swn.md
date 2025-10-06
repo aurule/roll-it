@@ -12,6 +12,7 @@ Roll two or more six-sided dice and add their results.
 
 * `modifier` is the number to add to the dice's sum
 * `pool` is the number of dice to roll. Only the highest two will be kept.
+* `reroll-1s` is whether to re-roll any 1s from the initial dice pool
 
 <!-- panels:start -->
 <!-- panels:title -->

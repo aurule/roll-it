@@ -1,7 +1,7 @@
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
+const { roll } = require("../services/swn-roller")
 const { present } = require("../presenters/results/swn-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
@@ -20,6 +20,7 @@ module.exports = {
       .addLocalizedIntegerOption("modifier")
       .addLocalizedIntegerOption("pool", (option) => option.setMinValue(2))
       .addIntegerOption(commonOpts.rolls)
+      .addLocalizedBooleanOption("reroll-1s")
       .addBooleanOption(commonOpts.secret),
   savable: true,
   changeable: ["modifier", "pool"],
@@ -67,8 +68,8 @@ module.exports = {
         return sacrifice.awful(locale)
     }
   },
-  perform({ pool = 2, rolls = 1, modifier = 0, description, locale = "en-US" } = {}) {
-    const raw_results = roll(pool, 6, rolls)
+  perform({ pool = 2, rolls = 1, modifier = 0, reroll = false, description, locale = "en-US" } = {}) {
+    const raw_results = roll(pool, rolls, reroll)
     const pick_results = pickDice(raw_results, 2, "highest")
     const summed_results = pickedSum(raw_results, pick_results)
 
@@ -93,6 +94,7 @@ module.exports = {
     const modifier = interaction.options.getInteger("modifier") ?? 0
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const pool = interaction.options.getInteger("pool") ?? 2
+    const reroll = interaction.options.getBoolean("reroll-1s") ?? false
     const roll_description = interaction.options.getString("description") ?? ""
     const secret = interaction.options.getBoolean("secret") ?? false
 
@@ -100,6 +102,7 @@ module.exports = {
       pool,
       rolls,
       modifier,
+      reroll,
       description: roll_description,
       locale: interaction.locale,
     })

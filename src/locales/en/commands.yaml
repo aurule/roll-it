@@ -1534,6 +1534,9 @@ swn:
       Occasionally, a character is able to roll 3 or more dice and keep the highest two. This is fully
       supported by using the {{opts.pool}} option. When more than two dice are rolled using {{cmd}},
       only the highest two are kept.
+    - >
+      Equally rarely, a character is able to re-roll any 1s that appear for their skill dice. For this, set
+      the {{opts.reroll-1s}} option to `true`.
   help: |-
     $t(swn.help-lines, { "joinArrays": "\n" })
   options:
@@ -1543,6 +1546,9 @@ swn:
     pool:
       name: pool
       description: Number of dice to roll. Default 2.
+    reroll-1s:
+      name: reroll-1s
+      description: Whether to re-roll each 1 in the starting pool
   response_desc_one: |-
     {{userMention}} rolled **{{total}}** for "{{description}}" ({{detail}})
   response_desc_other: |-
