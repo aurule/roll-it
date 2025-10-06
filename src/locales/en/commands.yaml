@@ -509,10 +509,10 @@ ffrpg:
       description: Avoidance skill
     crit:
       name: crit
-      description: Threshold for a critical success. Defaults to 10.
+      description: Threshold for a critical success (default 10)
     botch:
       name: botch
-      description: Threshold for a botch. Defaults to 95.
+      description: Threshold for a botch (default 95)
     flat:
       name: flat
       description: Whether this is a Flat roll with no modifiers
@@ -1545,10 +1545,10 @@ swn:
       description: A number to add to the die's result
     pool:
       name: pool
-      description: Number of dice to roll. Default 2.
+      description: Number of dice to roll (default 2)
     reroll-1s:
       name: reroll-1s
-      description: Whether to re-roll each 1 in the starting pool
+      description: Whether to re-roll each 1 in the starting pool (default false)
   response_desc_one: |-
     {{userMention}} rolled **{{total}}** for "{{description}}" ({{detail}})
   response_desc_other: |-
