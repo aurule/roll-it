@@ -25,7 +25,6 @@ module.exports = {
    * The top-level array contains a number of arrays equal to `rolls`. Each member array has a length equal to
    * `pool`. Each integer within those inner arrays will fall between 1 and `sides`, inclusive.
    *
-   *
    * @param  {int} pool     Size of the array
    * @param  {Int} sides    Max value of each die
    * @param  {Int} explode  Number which adds a die to the pool when rolled
