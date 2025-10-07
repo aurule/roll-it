@@ -446,8 +446,8 @@ opposed:
   unauthorized_mention: >-
     Only {{participants, list(type: 'disjunction')}} can reply to this message.
   conceded: |-
-      ## {{leader}} wins!
-      {{trailer}} conceded to {{leader}}.
+    ## {{leader}} wins!
+    {{trailer}} conceded to {{leader}}.
   accepted: |-
     The challenge ended in a tie.
     {{summary}}
