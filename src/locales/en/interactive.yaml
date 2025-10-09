@@ -197,8 +197,9 @@ opposed:
       button:
         text: Retest
         emoji: 🔄
-      invalid: >-
+      invalid: |-
         You have already used an ability for this challenge. Please retest with something else.
+        $t(opposed.shared.retry)
     history:
       header: >-
         Test history:
@@ -250,10 +251,14 @@ opposed:
         $t(opposed.shared.breakdown.{{leader_result}}) *vs* $t(opposed.shared.breakdown.{{trailer_result}}),
         {{leader}} bid {{leader_traits}} *vs* {{trailer}}'s {{trailer_traits}}
     withdraw: Withdraw
-    done: >-
+    done: |-
       The challenge from {{attacker}} against {{defender}} has ended.
-    done_description: >-
+      $t(opposed.shared.retry)
+    done_description: |-
       The challenge from {{attacker}} against {{defender}} for "{{description}}" has ended.
+      $t(opposed.shared.retry)
+    retry: >-
+      -# If this message seems out of place, reply with the word `retry` and Roll It will send a new prompt.
   advantages-attacker:
     summary: >-
       {{attacker}}, you are attacking {{defender}} with {{attribute}} challenge. The named retest is {{retest}}.
@@ -350,8 +355,9 @@ opposed:
           - value: rand-bomb
             label: Random Rock-Bomb-Scissors
             emoji: 🔀
-    done: >-
+    done: |-
       This test already resolved. {{history}}
+      $t(opposed.shared.retry)
     premature: >-
       You have to pick a symbol to throw.
     result_leader: >-
@@ -439,8 +445,12 @@ opposed:
       continue:
         text: Continue
     missing: You must choose how you're cancelling before you can cancel the retest.
-  concluded: That challenge has concluded.
-  outdated: That message is outdated. Try using a control on a more recent message.
+  concluded: |-
+    That challenge has concluded.
+    $t(opposed.shared.retry)
+  outdated: |-
+    That message is outdated. Try using a control on a more recent message.
+    $t(opposed.shared.retry)
   unauthorized: >-
     Only {{participants, list(type: 'disjunction')}} can use this control.
   unauthorized_mention: >-
