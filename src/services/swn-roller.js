@@ -23,13 +23,10 @@ module.exports = {
    */
   roll(pool, rolls = 1, reroll = false) {
     return Array.from({ length: rolls }, () => {
-        const results = Array.from({ length: pool }, rand)
-        if (reroll) {
-          const total = results.reduce((acc, curr) => acc + (curr === 1), 0)
-          const rerolls = Array.from({ length: total }, rand)
-          results.push(...rerolls)
-        }
-        return results
+        const first_results = Array.from({ length: pool }, rand)
+        if (!reroll) return first_results
+        
+        return first_results.flatMap((result) => result === 1 ? [result, rand()] : result)
       },
     )
   },
