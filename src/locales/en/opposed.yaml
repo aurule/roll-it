@@ -1,0 +1,206 @@
+---
+advantages:
+  bomb: bomb
+  ties: ties
+  cancels: cancels
+  none: no declared advantages
+chops:
+  rock-rock: ":rock: rock *vs* {{opponent.mention}}'s :rock: rock"
+  rock-scissors: ":rock: rock *vs* {{opponent.mention}}'s :scissors: scissors"
+  paper-rock: ":scroll: paper *vs* {{opponent.mention}}'s :rock: rock"
+  paper-paper: ":scroll: paper *vs* {{opponent.mention}}'s :scroll: paper"
+  scissors-paper: ":scissors: scissors *vs* {{opponent.mention}}'s :scroll: paper"
+  scissors-scissors: ":scissors: scissors *vs* {{opponent.mention}}'s :scissors: scissors"
+  scissors-bomb: ":scissors: scissors *vs* {{opponent.mention}}'s :firecracker: bomb"
+  bomb-rock: ":firecracker: bomb *vs* {{opponent.mention}}'s :rock: rock"
+  bomb-paper: ":firecracker: bomb *vs* {{opponent.mention}}'s :scroll: paper"
+  bomb-bomb: ":firecracker: bomb *vs* {{opponent.mention}}'s :firecracker: bomb"
+throws:
+  rock: ⛰️ Rock
+  paper: 📜 Paper
+  scissors: ✂️ Scissors
+  bomb: 🧨 Bomb
+  rand: 🔀⛰️📜✂️ Random Rock-Paper-Scissors
+  rand-bomb: 🔀⛰️🧨✂️ Random Rock-Bomb-Scissors
+  none: 🚫 None
+test:
+  response:
+    tied:
+      equal: tied ({{chops}})
+      broken: |-
+        {{leader.mention}} leads ({{chops}}, {{leader.mention}} has ties)
+    outright: |-
+        {{leader.mention}} leads ({{chops}})
+retest:
+  response:
+    tied:
+      equal: tied ({{chops}}, after {{retester.mention}})
+      broken: |-
+        {{leader.mention}} leads ({{chops}}, after {{retester.mention}} retested with {{reason}}, {{leader.mention}} has ties)
+    outright: |-
+        {{leader.mention}} leads ({{chops}}, after {{retester.mention}} retested with {{reason}})
+    cancelled:
+      tied:
+        equal:
+          automatic: tied ({{retester.mention}} retested with {{reason}}, cancelled for {{cancel}})
+          manual: tied ({{retester.mention}} retested with {{reason}}, {{canceller.mention}} cancelled with {{cancel}})
+        broken:
+          automatic: >-
+            {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, cancelled for {{cancel}},
+            {{leader.mention}} has ties)
+          manual: >-
+            {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, {{canceller.mention}}
+            cancelled with {{cancel}}, {{leader.mention}} has ties)
+      outright:
+        automatic: |-
+          {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, cancelled for {{cancel}})
+        manual: |-
+          {{leader.mention}} leads ({{retester.mention}} retested with {{reason}}, {{canceller.mention}} cancelled with {{cancel}})
+state:
+  initial:
+    buttons:
+      bomb: I have Bomb
+      ties: I have Ties
+      cancels: I can cancel w/o abilities
+      throw: Throw!
+      relent: Relent
+      cancel: Cancel Test
+    picker: Respond with…
+    validation:
+      response: You must select a response before you can throw.
+    prompt:
+      body_description: >-
+        {{attacker.mention}} is challenging you, {{defender.mention}} with a {{attribute}} test for
+        "{{description}}". They have {{advantages, list}}. If you have
+        {{allowed_advantages, list(type: 'disjunction')}}, you must declare them now.
+      body: >-
+        {{attacker.mention}} is challenging you, {{defender.mention}} with a {{attribute}} test. They have
+        {{advantages, list}}. If you have {{allowed_advantages, list(type: 'disjunction')}}, you must
+        declare them now.
+      conditions:
+        both: This is a carrier and altering attack.
+        carrier: This is a carrier attack.
+        altering: This is an altering attack.
+      timeliness: If you don't respond {{timeout}}, the challenge will end and {{attacker.mention}} will likely succeed.
+      noRetest: This test is being made without interactive retests. Retest options will not be shown.
+    summary:
+      body_description: >-
+        {{attacker.mention}} is challenging {{defender.mention}} with a {{attribute}} test for
+        "{{description}}". {{attacker.mention}} has {{attacker_advantages, list}}. {{defender.mention}} has
+        {{defender_advantages, list}}.
+      body: >-
+        {{attacker.mention}} is challenging {{defender.mention}} with a {{attribute}} test.
+        {{attacker.mention}} has {{attacker_advantages, list}}. {{defender.mention}} has
+        {{defender_advantages, list}}.
+      special: This is {{conditions, list}} attack.
+    response:
+      relent: >-
+        {{defender.mention}} relented to the opposed test from {{attacker.mention}}.
+      cancel: >-
+        {{attacker.mention}} cancelled their opposed test against {{defender.mention}}.
+      timeout: >-
+        {{defender.mention}} did not respond to the opposed test from {{attacker.mention}}.
+  status:
+    picker: Retest with…
+    buttons:
+      retest: Retest
+      concede: Concede
+    validation:
+      reason: You have to pick what to retest with before you can retest.
+    prompt:
+      timer: Without a retest, the challenge will end {{timeout}}.
+    summary:
+      retest: The named retest is {{retest_ability}}.
+    retests:
+      # the properties of these option objects are used in specific ways
+      # the label is what's displayed in the retest reason picker
+      # the value is what's displayed in the retest's text (like "Person retested with an item").
+      #   See retest.response entries for how it's used in context.
+      # the description (optional) is displayed in the retest reason picker underneath the label
+      - label: "{{ability}}"
+        description: Named retest
+        value: "{{ability}}"
+      - label: other ability
+        description: An ability other than the named retest
+        value: another ability
+      - label: item
+        value: an item
+      - label: merit
+        value: a merit
+      - label: overbid
+        value: overbid
+      - label: background
+        value: a background
+      - label: willpower
+        value: willpower
+      - label: automatic
+        value: automatic
+      - label: pve
+        value: pve
+      - label: other
+        description: Something else not listed here
+        value: other
+  cancel:
+    picker: Cancel with…
+    buttons:
+      continue: Do Retest
+      cancel: Cancel Retest
+      withdraw: Withdraw Retest
+    validation:
+      reason: You have to pick what to cancel with before you can cancel.
+    options:
+      # the properties of these option objects are used in specific ways
+      # the label is displayed by the cancel reason picker
+      # the value is displayed in the retest's text (like "Person cancelled with a power")
+      #   See retest.response.cancelled for how it's used in context
+      # the description (optional) is displayed by the cancel reason picker underneath the label
+      - label: "ability"
+        value: "an ability"
+      - label: "power"
+        value: "a power"
+      - label: "other"
+        description: "Something else not listed here"
+        value: "other"
+    prompt: >-
+      {{retester.mention}} is retesting against you, {{other.mention}} with {{reason}}. Are you able to cancel
+      their retest? If you don't cancel {{timeout}}, the retest will proceed.
+    special: You can cancel without using an ability, so you will see this prompt for every retest from {{retester.mention}}.
+    response:
+      cancelled: >-
+        {{canceller.mention}} cancelled with {{cancelled_with}}
+      timeout: >-
+        {{other.mention}} ran out of time to cancel the retest by {{retester.mention}}
+      waived: >-
+        {{canceller.mention}} did not cancel the retest by {{retester.mention}}
+  retest:
+    picker: Choose what to throw
+    buttons:
+      throw: Ready!
+      withdraw: Withdraw Retest
+    validation:
+      throw: You have to choose what to throw before you can throw it.
+    prompt: |-
+      {{retester.mention}} is retesting against {{other.mention}} with {{reason}}. {{retester.mention}} has {{retester_advantages, list}}. {{other.mention}} has {{other_advantages, list}}.
+      You both have to make your throw {{timeout}} or the retest will be cancelled for time.
+    response:
+      withdraw: >-
+        {{retester.mention}} withdrew their retest.
+      timeout: >-
+        {{retester.mention}}'s retest timed out.
+  done:
+    attacker:
+      win_description: >-
+        {{attacker.mention}} **won** their {{link}} against {{defender.mention}} for "{{description}}".
+      win: >-
+        {{attacker.mention}} **won** their {{link}} against {{defender.mention}}.
+      tie_description: >-
+        {{attacker.mention}} **tied** their {{link}} against {{defender.mention}} for "{{description}}".
+      tie: >-
+        {{attacker.mention}} **tied** their {{link}} against {{defender.mention}}.
+    defender:
+      win_description: >-
+        {{defender.mention}} **won** the {{link}} from {{attacker.mention}} for "{{description}}".
+      win: >-
+        {{defender.mention}} **won** the {{link}} from {{attacker.mention}}.
+    linkText: opposed test
+    timeout: Time ran out to retest the result.

@@ -13,7 +13,7 @@ i18next.use(fs_backend).init({
   defaultLng: "en-US",
   supportedLngs: ["en-US", "en"],
   initAsync: false,
-  ns: ["translation", "commands", "help", "modals", "interactive"],
+  ns: ["translation", "commands", "opposed", "help", "modals", "interactive"],
   backend: {
     loadPath: join(__dirname, "./{{lng}}/{{ns}}.yaml"),
     addPath: join(__dirname, "./{{lng}}/{{ns}}.missing.yaml"),
