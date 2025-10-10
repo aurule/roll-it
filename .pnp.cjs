@@ -35,6 +35,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.22.1"],\
+          ["docsify", "npm:4.13.1"],\
           ["dotenv", "npm:17.2.3"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.5.3"],\
           ["i18next-cli", "npm:1.10.3"],\
@@ -3421,6 +3422,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["docsify", [\
+      ["npm:4.13.1", {\
+        "packageLocation": "./.yarn/unplugged/docsify-npm-4.13.1-dd4b4bb18e/node_modules/docsify/",\
+        "packageDependencies": [\
+          ["docsify", "npm:4.13.1"],\
+          ["marked", "npm:1.2.9"],\
+          ["medium-zoom", "npm:1.1.0"],\
+          ["opencollective-postinstall", "npm:2.0.3"],\
+          ["prismjs", "npm:1.30.0"],\
+          ["strip-indent", "npm:3.0.0"],\
+          ["tinydate", "npm:1.3.0"],\
+          ["tweezer.js", "npm:1.5.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["dotenv", [\
       ["npm:17.2.3", {\
         "packageLocation": "./.yarn/cache/dotenv-npm-17.2.3-2f9ab93ea1-c884403209.zip/node_modules/dotenv/",\
@@ -5228,6 +5245,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["marked", [\
+      ["npm:1.2.9", {\
+        "packageLocation": "./.yarn/cache/marked-npm-1.2.9-9b5520df0e-463813869d.zip/node_modules/marked/",\
+        "packageDependencies": [\
+          ["marked", "npm:1.2.9"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["mathjs", [\
       ["npm:14.8.2", {\
         "packageLocation": "./.yarn/cache/mathjs-npm-14.8.2-f49676d9ad-863d4db0f4.zip/node_modules/mathjs/",\
@@ -5242,6 +5268,15 @@ const RAW_RUNTIME_STATE =
           ["seedrandom", "npm:3.0.5"],\
           ["tiny-emitter", "npm:2.1.0"],\
           ["typed-function", "npm:4.2.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["medium-zoom", [\
+      ["npm:1.1.0", {\
+        "packageLocation": "./.yarn/cache/medium-zoom-npm-1.1.0-edbd0e7ca5-7d1f05e8ea.zip/node_modules/medium-zoom/",\
+        "packageDependencies": [\
+          ["medium-zoom", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5289,6 +5324,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/mimic-response-npm-3.1.0-a4a24b4e96-0d6f07ce6e.zip/node_modules/mimic-response/",\
         "packageDependencies": [\
           ["mimic-response", "npm:3.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["min-indent", [\
+      ["npm:1.0.1", {\
+        "packageLocation": "./.yarn/cache/min-indent-npm-1.0.1-77031f50e1-7e207bd5c2.zip/node_modules/min-indent/",\
+        "packageDependencies": [\
+          ["min-indent", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5629,6 +5673,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["opencollective-postinstall", [\
+      ["npm:2.0.3", {\
+        "packageLocation": "./.yarn/cache/opencollective-postinstall-npm-2.0.3-954643c36b-8a0104a218.zip/node_modules/opencollective-postinstall/",\
+        "packageDependencies": [\
+          ["opencollective-postinstall", "npm:2.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["ora", [\
       ["npm:9.0.0", {\
         "packageLocation": "./.yarn/cache/ora-npm-9.0.0-06844f6c4c-1ec886a9a4.zip/node_modules/ora/",\
@@ -5962,6 +6015,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["prismjs", [\
+      ["npm:1.30.0", {\
+        "packageLocation": "./.yarn/cache/prismjs-npm-1.30.0-c3c5ff824c-f56205bfd5.zip/node_modules/prismjs/",\
+        "packageDependencies": [\
+          ["prismjs", "npm:1.30.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["proc-log", [\
       ["npm:3.0.0", {\
         "packageLocation": "./.yarn/cache/proc-log-npm-3.0.0-a8c21c2f0f-f66430e4ff.zip/node_modules/proc-log/",\
@@ -6178,6 +6240,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.22.1"],\
+          ["docsify", "npm:4.13.1"],\
           ["dotenv", "npm:17.2.3"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.5.3"],\
           ["i18next-cli", "npm:1.10.3"],\
@@ -6617,6 +6680,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["strip-indent", [\
+      ["npm:3.0.0", {\
+        "packageLocation": "./.yarn/cache/strip-indent-npm-3.0.0-519e75a28d-ae0deaf41c.zip/node_modules/strip-indent/",\
+        "packageDependencies": [\
+          ["min-indent", "npm:1.0.1"],\
+          ["strip-indent", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["strip-json-comments", [\
       ["npm:2.0.1", {\
         "packageLocation": "./.yarn/cache/strip-json-comments-npm-2.0.1-e7883b2d04-b509231cbd.zip/node_modules/strip-json-comments/",\
@@ -6769,6 +6842,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["tinydate", [\
+      ["npm:1.3.0", {\
+        "packageLocation": "./.yarn/cache/tinydate-npm-1.3.0-73c251f97d-06e3f273f3.zip/node_modules/tinydate/",\
+        "packageDependencies": [\
+          ["tinydate", "npm:1.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["tmpl", [\
       ["npm:1.0.5", {\
         "packageLocation": "./.yarn/cache/tmpl-npm-1.0.5-d399ba37e2-f935537799.zip/node_modules/tmpl/",\
@@ -6821,6 +6903,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["safe-buffer", "npm:5.2.1"],\
           ["tunnel-agent", "npm:0.6.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["tweezer.js", [\
+      ["npm:1.5.0", {\
+        "packageLocation": "./.yarn/cache/tweezer.js-npm-1.5.0-e123207858-3ae9627fd8.zip/node_modules/tweezer.js/",\
+        "packageDependencies": [\
+          ["tweezer.js", "npm:1.5.0"]\
         ],\
         "linkType": "HARD"\
       }]\
