@@ -39,3 +39,9 @@ ul.indented-lines {
     background: green url("../_images/code-icon.svg") center / 0.875em no-repeat;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .markdown-section .example {
+    background-color: hsl(125, 18%, 19%);
+  }
+}
