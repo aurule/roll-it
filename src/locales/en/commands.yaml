@@ -605,7 +605,8 @@ formula:
       name: formula
       description: The formula of dice to roll and operations to apply
   response:
-    disabled: "Error: Function {{fnName}} is disabled"
+    disabled: "Error: The function `{{fnName}}` is disabled"
+    error: "Math error: {{err.message}}"
     pool:
       bare: "{{sum}} from {{pool}} [{{raw}}]"
       labeled: "{{sum}} {{label}} from {{pool}} [{{raw}}]"

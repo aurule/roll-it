@@ -97,11 +97,11 @@ module.exports = {
    * }
    *
    * @param  {object} options
-   * @param  {string}    options.formula     Text of the original formula, before any dice were rolled
-   * @param  {string}    options.description Text describing the roll
+   * @param  {string} options.formula     Text of the original formula, before any dice were rolled
+   * @param  {string} options.description Text describing the roll
    * @param  {obj[]}  options.results     Array of roll result objects. Must have a single element. See above for format.
    * @param  {i18n.t} options.t           Translation function
-   * @return {string}                        String of the presented roll result
+   * @return {string}                     String of the presented roll result
    */
   presentOne({ formula, description, results, t }) {
     const { rolledFormula } = results[0]
@@ -113,7 +113,7 @@ module.exports = {
       if (err instanceof FormulaDisabledError) {
         return t("response.disabled", err)
       } else {
-        throw err
+        return t("response.error", { err })
       }
     }
 
@@ -169,7 +169,7 @@ module.exports = {
             if (err instanceof FormulaDisabledError) {
               return t("response.disabled", err)
             } else {
-              throw err
+              return t("response.error", { err })
             }
           }
 
