@@ -10,7 +10,7 @@ If you have multiple people assisting with a roll, they roll their own pools fir
 
 !> If you're using 5e, the teamwork option isn't useful to you, since teamwork in that system raises the max successes instead of adding dice.
 
-For some extended tests, what really matters is how many rolls it takes to get to a total number of successes. The `until` option lets you set that threshold, and cap the maximum tries with the `rolls` option.
+For some extended tests, what really matters is how many rolls it takes to get to a total number of successes. The `until` option lets you set that threshold, and you can cap the maximum tries with the `rolls` option.
 
 ## `/shadowrun`
 
