@@ -74,7 +74,9 @@ module.exports = {
     const summed_results = pickedSum(raw_results, pick_results)
 
     const presented_result = present({
+      pool,
       rolls,
+      reroll,
       modifier,
       description,
       raw: raw_results,

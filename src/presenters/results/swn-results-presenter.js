@@ -34,7 +34,10 @@ module.exports = {
   /**
    * Present one or more results from the d20 command
    *
+   * @param  {object}       options
+   * @param  {int}          options.pool         Number of dice in the pool
    * @param  {Int}          options.rolls        Total number of rolls to show
+   * @param  {bool}         options.reroll       Whether 1s were re-rolled
    * @param  {str}          options.locale       Name of the locale to use when fetching strings
    * @param  {Int}          opptions.modifier    Number to add to the roll's summed result
    * @param  {String}       opptions.description Text describing the roll
@@ -43,7 +46,7 @@ module.exports = {
    * @param  {int[]}        opptions.summed      Array of ints, summing the rolled dice
    * @return {String}                            String describing the roll results
    */
-  present: ({ rolls, locale = "en-US", modifier = 0, description, raw, picked, summed } = {}) => {
+  present: ({ pool = 2, rolls = 1, reroll = false, locale = "en-US", modifier = 0, description, raw, picked, summed } = {}) => {
     const t = i18n.getFixedT(locale, "commands", "swn")
 
     const t_args = {
