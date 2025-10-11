@@ -74,8 +74,8 @@ This one rolls a single 20-sided die.
 
 ## `/d100`
 
-This rolls a single 100-sided die.
+This rolls a single 100-sided die, also called a percentile die.
 
-?> Percentiles are often called for when rolling on a table. Have a look at the [Rollable Tables](/features/tables) feature if that's something you need to do often.
+?> d100 rolls are often called for when rolling on a table. Have a look at the [Rollable Tables](/features/tables) feature if that's something you need to do often.
 
 * `modifier` an optional number to add to the result of the die
