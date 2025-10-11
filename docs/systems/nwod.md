@@ -14,7 +14,9 @@ The number where you re-roll changes often, so you can set it with the `explode`
 
 *Very* rarely, you can have the rote benefit to a roll. Set it with the `rote` option. When active, you get to re-roll every die in your **initial** dice pool that does not roll a success.
 
-When you have a no dice (a `pool` of zero), you need to use a very different set of rules. This "chance" die only succeeds on a natural 10, which you *can* re-roll, and causes a Dramatic Failure on a natural 1. Where it gets really weird is how it behaves with the rote benefit. This is explained (unclearly, imo) on page 135 of the New World of Darkness 1e core rulebook, but I'll summarize it here. When you have a chance die on a rote roll, you can re-roll it if the initial die rolls a 2 or higher. If it shows a 1 on that initial roll, you get a Dramatic Failure and *cannot* re-roll. On a natural 10, you re-roll *twice:* once for the rote benefit and once for the natural 10.
+When you have no dice (a `pool` of zero), you instead roll a single special "chance" die. Roll It handles this just fine.
+
+?> A chance die uses a very different set of rules than normal. It only succeeds on a natural 10 (which you *can* re-roll) and it causes a Dramatic Failure on a natural 1. Where it gets really weird is how it behaves with the rote benefit. This is explained (unclearly, imo) on page 135 of the *New World of Darkness 1e* core rulebook, but I'll summarize it here. When you have a chance die on a rote roll, you can re-roll a failed result of 2-9. If that result is a 1, you get a Dramatic Failure and *cannot* re-roll. On a natural 10, you re-roll *twice:* once for the rote benefit, and once for the natural 10. Roll It takes care of this logic for you.
 
 <!-- panels:start -->
 <!-- panels:title -->
