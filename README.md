@@ -113,7 +113,7 @@ Roll-It currently uses Node 22.
 The documentation is powered by [docsify](https://docsify.js.org/). To see them locally, you can use either the docsify cli, or python.
 
 ```sh
-docsify serve docs
+yarn docs
 ```
 
 or
