@@ -33,7 +33,13 @@ The `/roll` command lets you roll one or more dice of the same type. The dice wi
 
 ## `/formula`
 
-The `/formula` command lets you supply a complex series of dice pools, modifiers, and mathematical expressions to evaluate. To specify dice, use the format `1d6` where `1` is the number of dice and `6` is the sides. You can also label a pool by putting a word or two in quotes right after the pool, like `2d8"magic"`. Roll It will parse and roll these dice *before* every other operation.
+The `/formula` command lets you supply a complex series of dice pools, modifiers, and mathematical expressions to evaluate. To specify dice, use the format `1d6` where `1` is the number of dice and `6` is the sides.
+
+!> The number and sides of dice *must* be plain numbers. They cannot be created from math expressions. This is because dice pools are rolled before any math is evaluated.
+
+You can also label a pool by putting a word or two in quotes right after the pool, like `2d8"magic"`. Roll It will parse and roll these dice *before* every other operation.
+
+?> Roll It can only label dice pools. You cannot add labels to math expressions nor to plain numbers.
 
 The math is handled by the excellent [math.js](https://mathjs.org) library. Read up on its [syntax guide](https://mathjs.org/docs/expressions/syntax.html) and [supported functions](https://mathjs.org/docs/reference/functions.html) if there's something really wild you want to try.
 
