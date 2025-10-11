@@ -33,6 +33,8 @@ For some extended tests, what really matters is how many rolls it takes to get t
 
 Whenever you're making more `rolls` than 1, or using the `until` option, the default assumption is that your entire dice pool should be rolled multiple times. This is perfect for repeated tasks on multiple days, or groups of NPCs all rolling the same thing at once. It's not so good when a single character is re-trying the same check over and over, like the roll to open a lock or stabilize a dying man. In these cases, the re-try rules say you should lower your pool by one for each attempt after the first. The `decreasing` option lets you do just that.
 
+?> In most cases when using `until` alongside `decreasing`, you want to stop trying when you get to a small enough dice pool. Either 1-2 dice, or a chance die. Set `rolls` to the size of your pool or just under it, and you'll stop after that many attempts.
+
 If you have multiple people assisting with a roll, they roll their own pools first and each success gives you a bonus die. The `teamwork` option makes it easy to gather those bonuses into a final pool, including requesting specific people to help.
 
 ## `/nwod`
