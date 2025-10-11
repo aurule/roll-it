@@ -57,7 +57,7 @@ describe("formula results presenter", () => {
 
       const result = roll_formula_presenter.presentOne(options)
 
-      expect(result).toMatch("evaluate is disabled")
+      expect(result).toMatch("`evaluate` is disabled")
     })
   })
 
@@ -129,7 +129,7 @@ describe("formula results presenter", () => {
 
       const result = roll_formula_presenter.presentMany(options)
 
-      expect(result).toMatch("evaluate is disabled")
+      expect(result).toMatch("`evaluate` is disabled")
     })
   })
 
