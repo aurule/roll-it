@@ -28,7 +28,7 @@
 
 - [Versions](/versions "Version History | Roll It Docs")
 
-- [Support Roll It ![ko-fi logo](../_images/KofiCoffee_112.png ':class=emoji')](https://ko-fi.com/paige2501)
+- [Support Roll It ![ko-fi logo](_images/KofiCoffee_112.png ':class=emoji')](https://ko-fi.com/paige2501)
 
 - Legal
 

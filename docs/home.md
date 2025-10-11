@@ -17,7 +17,7 @@ I made it because I wanted to run tabletop games over Discord, and there weren't
 
 It's easy to use Roll It!
 
-1. Add the bot to your server: [![discord](../_images/discord.svg ':class=emoji') Install Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136&permissions=2147747840&integration_type=0&scope=bot+applications.commands)
+1. Add the bot to your server: [![discord](_images/discord.svg ':class=emoji') Install Roll It](https://discord.com/oauth2/authorize?client_id=1037522511509848136&permissions=2147747840&integration_type=0&scope=bot+applications.commands)
 2. Run the command `/setup-roll-it` and pick which dice systems you want to have on your server
 3. Roll some dice!
 
@@ -31,7 +31,7 @@ If you have any feedback to send about Roll It, you can use `/help feedback` to 
 
 # Support
 
-Like Roll It? Want to help continue its development? You can [support me on Ko-fi ![ko-fi logo](../_images/KofiCoffee_112.png ':class=emoji')](https://ko-fi.com/paige2501) ! If you're feeling especially generous, a monthly subscription goes a *long* way toward paying for hosting costs.
+Like Roll It? Want to help continue its development? You can [support me on Ko-fi ![ko-fi logo](_images/KofiCoffee_112.png ':class=emoji')](https://ko-fi.com/paige2501) ! If you're feeling especially generous, a monthly subscription goes a *long* way toward paying for hosting costs.
 
 # Privacy
 
