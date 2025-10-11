@@ -2,7 +2,7 @@
 
 Roll It lets you upload and roll results on your own random tables using the `/table` family of commands.
 
-?> The `/table` commands can only be used by server managers and those they allow through Discord's permissions.
+?> Like other commands, the `/table` commands can be used by anyone on the server by default. If you need to prevent accidental table changes, use the Server Settings to restrict `/table add` and `/table manage` to a trusted server role.
 
 In general, you'll use `/table add` to create one or more tables, then `/table roll` to get a random entry from one of them.
 
