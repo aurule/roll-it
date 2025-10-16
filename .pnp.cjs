@@ -55,7 +55,6 @@ const RAW_RUNTIME_STATE =
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["simpleflakes", "npm:4.0.0"],\
-          ["strip-indent", "npm:4.1.0"],\
           ["y18n", "npm:5.0.8"]\
         ],\
         "linkType": "SOFT"\
