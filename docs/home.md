@@ -1,3 +1,48 @@
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org/",
+    "@type": "SoftwareApplication",
+    "applicationCategory": "EntertainmentApplication",
+    "applicationSubCategory": "Discord Bot",
+    "operatingSystem": ["Windows", "MacOS", "iOS", "Android"],
+    "installURL": "https://discord.com/oauth2/authorize?client_id=1037522511509848136&permissions=2147747840&integration_type=0&scope=bot+applications.commands",
+    "releaseNotes": "https://aurule.github.io/roll-it/#/versions",
+    "abstract": "Roll It is a Discord bot for rolling dice.",
+    "copyrightYear": 2021,
+    "isAccessibleForFree": true,
+    "offers": {
+        "@type": "offer",
+        "price": 0,
+        "priceCurrency": "USD"
+    },
+    "keywords": "discord, dice, bot, roll, rpg, ttrpg",
+    "license": "https://aurule.github.io/roll-it/#/license",
+    "name": "Roll It",
+    "image": "https://aurule.github.io/roll-it/_media/icon.svg",
+    "url": "https://aurule.github.io/roll-it/#/",
+    "author": {
+        "@type": "Person",
+        "affiliation": "Level Nest Software",
+        "familyName": "Andrews",
+        "givenName": "Paige",
+        "pronouns": "she/her",
+        "skills": "JavaScript, Website Design, SEO, Software Engineering",
+        "description": "Creator and maintainer of Roll It",
+        "name": "Paige Andrews"
+    },
+    "copyrightHolder": {
+        "@type": "Person",
+        "affiliation": "Level Nest Software",
+        "familyName": "Andrews",
+        "givenName": "Paige",
+        "pronouns": "she/her",
+        "skills": "JavaScript, Website Design, SEO, Software Engineering",
+        "description": "Creator and maintainer of Roll It",
+        "name": "Paige Andrews"
+    }
+}
+</script>
+
 # Welcome to Roll It!
 
 Roll It is a Discord bot for rolling dice.
