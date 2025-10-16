@@ -68,5 +68,11 @@ describe("command name presenter", () => {
 
       expect(result.some((r) => r.includes("saved list"))).toBeTruthy()
     })
+
+    it("shows context commands", () => {
+      const result = CommandNamePresenter.list(commands.sorted.get("en-US"))
+
+      expect(result.some((r) => r.includes("Report this roll"))).toBeTruthy()
+    })
   })
 })

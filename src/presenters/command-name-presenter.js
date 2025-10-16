@@ -55,7 +55,7 @@ function present(command, locale, options = {}) {
 function list(all_commands, locale) {
   const t = i18n.getFixedT(locale)
   return all_commands.map((cmd) => {
-    const command_id = cmd.id ?? cmd.name
+    const command_id = cmd.i18nId ?? cmd.name
     let description
     if (cmd.parent) {
       description = t(`commands:${cmd.parent}.${command_id}.description`)
