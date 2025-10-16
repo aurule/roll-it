@@ -28,7 +28,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.2.5"],\
+          ["@biomejs/biome", "npm:2.2.6"],\
           ["@discordjs/collection", "npm:2.1.1"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["better-sqlite3", "npm:12.4.1"],\
@@ -39,7 +39,7 @@ const RAW_RUNTIME_STATE =
           ["docsify-cli", "npm:4.4.4"],\
           ["dotenv", "npm:17.2.3"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.6.0"],\
-          ["i18next-cli", "npm:1.10.4"],\
+          ["i18next-cli", "npm:1.11.4"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.2.0"],\
           ["joi", "npm:18.0.1"],\
@@ -896,90 +896,90 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@biomejs/biome", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/cache/@biomejs-biome-npm-2.2.5-e88af0ef5c-d9baff2b9d.zip/node_modules/@biomejs/biome/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/cache/@biomejs-biome-npm-2.2.6-4a3013dea6-1b99279f41.zip/node_modules/@biomejs/biome/",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.2.5"],\
-          ["@biomejs/cli-darwin-arm64", "npm:2.2.5"],\
-          ["@biomejs/cli-darwin-x64", "npm:2.2.5"],\
-          ["@biomejs/cli-linux-arm64", "npm:2.2.5"],\
-          ["@biomejs/cli-linux-arm64-musl", "npm:2.2.5"],\
-          ["@biomejs/cli-linux-x64", "npm:2.2.5"],\
-          ["@biomejs/cli-linux-x64-musl", "npm:2.2.5"],\
-          ["@biomejs/cli-win32-arm64", "npm:2.2.5"],\
-          ["@biomejs/cli-win32-x64", "npm:2.2.5"]\
+          ["@biomejs/biome", "npm:2.2.6"],\
+          ["@biomejs/cli-darwin-arm64", "npm:2.2.6"],\
+          ["@biomejs/cli-darwin-x64", "npm:2.2.6"],\
+          ["@biomejs/cli-linux-arm64", "npm:2.2.6"],\
+          ["@biomejs/cli-linux-arm64-musl", "npm:2.2.6"],\
+          ["@biomejs/cli-linux-x64", "npm:2.2.6"],\
+          ["@biomejs/cli-linux-x64-musl", "npm:2.2.6"],\
+          ["@biomejs/cli-win32-arm64", "npm:2.2.6"],\
+          ["@biomejs/cli-win32-x64", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-darwin-arm64", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-arm64-npm-2.2.5-8aecd9606a/node_modules/@biomejs/cli-darwin-arm64/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-arm64-npm-2.2.6-92b36efac7/node_modules/@biomejs/cli-darwin-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-darwin-arm64", "npm:2.2.5"]\
+          ["@biomejs/cli-darwin-arm64", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-darwin-x64", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-x64-npm-2.2.5-d9c822da8d/node_modules/@biomejs/cli-darwin-x64/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-x64-npm-2.2.6-6e7a023d11/node_modules/@biomejs/cli-darwin-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-darwin-x64", "npm:2.2.5"]\
+          ["@biomejs/cli-darwin-x64", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-arm64", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-npm-2.2.5-08102e1adb/node_modules/@biomejs/cli-linux-arm64/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-npm-2.2.6-0c862f8e74/node_modules/@biomejs/cli-linux-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-arm64", "npm:2.2.5"]\
+          ["@biomejs/cli-linux-arm64", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-arm64-musl", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-musl-npm-2.2.5-c65a298f65/node_modules/@biomejs/cli-linux-arm64-musl/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-musl-npm-2.2.6-5b62c68834/node_modules/@biomejs/cli-linux-arm64-musl/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-arm64-musl", "npm:2.2.5"]\
+          ["@biomejs/cli-linux-arm64-musl", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-x64", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-npm-2.2.5-e27c6fb0de/node_modules/@biomejs/cli-linux-x64/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-npm-2.2.6-4a33e6061b/node_modules/@biomejs/cli-linux-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-x64", "npm:2.2.5"]\
+          ["@biomejs/cli-linux-x64", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-x64-musl", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-musl-npm-2.2.5-e6f8b8ac77/node_modules/@biomejs/cli-linux-x64-musl/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-musl-npm-2.2.6-5bbd15a094/node_modules/@biomejs/cli-linux-x64-musl/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-x64-musl", "npm:2.2.5"]\
+          ["@biomejs/cli-linux-x64-musl", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-win32-arm64", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-arm64-npm-2.2.5-52ecb3818b/node_modules/@biomejs/cli-win32-arm64/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-arm64-npm-2.2.6-95fffd4c1d/node_modules/@biomejs/cli-win32-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-win32-arm64", "npm:2.2.5"]\
+          ["@biomejs/cli-win32-arm64", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-win32-x64", [\
-      ["npm:2.2.5", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-x64-npm-2.2.5-04471b2571/node_modules/@biomejs/cli-win32-x64/",\
+      ["npm:2.2.6", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-x64-npm-2.2.6-08e8b1424b/node_modules/@biomejs/cli-win32-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-win32-x64", "npm:2.2.5"]\
+          ["@biomejs/cli-win32-x64", "npm:2.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1175,14 +1175,14 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.4", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-checkbox-virtual-fea256dc74/0/cache/@inquirer-checkbox-npm-4.2.4-f19222051f-c28c320bc8.zip/node_modules/@inquirer/checkbox/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.4", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-checkbox-virtual-c254160072/0/cache/@inquirer-checkbox-npm-4.2.4-f19222051f-c28c320bc8.zip/node_modules/@inquirer/checkbox/",\
         "packageDependencies": [\
           ["@inquirer/ansi", "npm:1.0.0"],\
-          ["@inquirer/checkbox", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.4"],\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
+          ["@inquirer/checkbox", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.4"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
           ["@inquirer/figures", "npm:1.0.13"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null],\
           ["yoctocolors-cjs", "npm:2.1.3"]\
         ],\
@@ -1200,12 +1200,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:5.1.18", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-confirm-virtual-1967b6ac99/0/cache/@inquirer-confirm-npm-5.1.18-97c8fefac3-e29b80ff44.zip/node_modules/@inquirer/confirm/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:5.1.18", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-confirm-virtual-2a7bc15745/0/cache/@inquirer-confirm-npm-5.1.18-97c8fefac3-e29b80ff44.zip/node_modules/@inquirer/confirm/",\
         "packageDependencies": [\
-          ["@inquirer/confirm", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:5.1.18"],\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/confirm", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:5.1.18"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null]\
         ],\
         "packagePeers": [\
@@ -1222,13 +1222,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-core-virtual-74e3226561/0/cache/@inquirer-core-npm-10.2.2-e4a81985b7-5475e343f7.zip/node_modules/@inquirer/core/",\
+      ["virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-core-virtual-511c5c72aa/0/cache/@inquirer-core-npm-10.2.2-e4a81985b7-5475e343f7.zip/node_modules/@inquirer/core/",\
         "packageDependencies": [\
           ["@inquirer/ansi", "npm:1.0.0"],\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
           ["@inquirer/figures", "npm:1.0.13"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null],\
           ["cli-width", "npm:4.1.0"],\
           ["mute-stream", "npm:2.0.0"],\
@@ -1250,13 +1250,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.20", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-editor-virtual-ad0cab114f/0/cache/@inquirer-editor-npm-4.2.20-b200001cb6-64ea3bd321.zip/node_modules/@inquirer/editor/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.20", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-editor-virtual-b7dcc482ba/0/cache/@inquirer-editor-npm-4.2.20-b200001cb6-64ea3bd321.zip/node_modules/@inquirer/editor/",\
         "packageDependencies": [\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/editor", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.20"],\
-          ["@inquirer/external-editor", "virtual:ad0cab114f42b7857cb8bbb70406717efb03e4a180d124c6a22e1385f7185f5962176316932480287c35b0f72b2e2cd90525dba4dd9c9f43d76a77d5e0028de7#npm:1.0.2"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/editor", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.20"],\
+          ["@inquirer/external-editor", "virtual:b7dcc482bad9c36cee2a5017d8a7ea849424778c1000b1953fd405f77d34cae4f5674bfd79127c0c535c1fb9a479893949217c304d4bb6dbddf4865e2e59818f#npm:1.0.2"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null]\
         ],\
         "packagePeers": [\
@@ -1273,12 +1273,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.0.20", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-expand-virtual-0e2e471987/0/cache/@inquirer-expand-npm-4.0.20-668ef1518f-82f5334e80.zip/node_modules/@inquirer/expand/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.0.20", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-expand-virtual-0e0c2b4249/0/cache/@inquirer-expand-npm-4.0.20-668ef1518f-82f5334e80.zip/node_modules/@inquirer/expand/",\
         "packageDependencies": [\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/expand", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.0.20"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/expand", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.0.20"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null],\
           ["yoctocolors-cjs", "npm:2.1.3"]\
         ],\
@@ -1296,10 +1296,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:ad0cab114f42b7857cb8bbb70406717efb03e4a180d124c6a22e1385f7185f5962176316932480287c35b0f72b2e2cd90525dba4dd9c9f43d76a77d5e0028de7#npm:1.0.2", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-external-editor-virtual-1e05a11418/0/cache/@inquirer-external-editor-npm-1.0.2-389c6568ea-414a3a2a97.zip/node_modules/@inquirer/external-editor/",\
+      ["virtual:b7dcc482bad9c36cee2a5017d8a7ea849424778c1000b1953fd405f77d34cae4f5674bfd79127c0c535c1fb9a479893949217c304d4bb6dbddf4865e2e59818f#npm:1.0.2", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-external-editor-virtual-fd46420450/0/cache/@inquirer-external-editor-npm-1.0.2-389c6568ea-414a3a2a97.zip/node_modules/@inquirer/external-editor/",\
         "packageDependencies": [\
-          ["@inquirer/external-editor", "virtual:ad0cab114f42b7857cb8bbb70406717efb03e4a180d124c6a22e1385f7185f5962176316932480287c35b0f72b2e2cd90525dba4dd9c9f43d76a77d5e0028de7#npm:1.0.2"],\
+          ["@inquirer/external-editor", "virtual:b7dcc482bad9c36cee2a5017d8a7ea849424778c1000b1953fd405f77d34cae4f5674bfd79127c0c535c1fb9a479893949217c304d4bb6dbddf4865e2e59818f#npm:1.0.2"],\
           ["@types/node", null],\
           ["chardet", "npm:2.1.0"],\
           ["iconv-lite", "npm:0.7.0"]\
@@ -1327,12 +1327,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.4", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-input-virtual-0862345c09/0/cache/@inquirer-input-npm-4.2.4-b1fb0915c5-e903086170.zip/node_modules/@inquirer/input/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.4", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-input-virtual-b43f945935/0/cache/@inquirer-input-npm-4.2.4-b1fb0915c5-e903086170.zip/node_modules/@inquirer/input/",\
         "packageDependencies": [\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/input", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.4"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/input", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.4"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null]\
         ],\
         "packagePeers": [\
@@ -1349,12 +1349,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:3.0.20", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-number-virtual-83d8817c12/0/cache/@inquirer-number-npm-3.0.20-b3ea78d137-0a36414ba5.zip/node_modules/@inquirer/number/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:3.0.20", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-number-virtual-0692aee87e/0/cache/@inquirer-number-npm-3.0.20-b3ea78d137-0a36414ba5.zip/node_modules/@inquirer/number/",\
         "packageDependencies": [\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/number", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:3.0.20"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/number", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:3.0.20"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null]\
         ],\
         "packagePeers": [\
@@ -1371,13 +1371,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.0.20", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-password-virtual-1d3c9398ec/0/cache/@inquirer-password-npm-4.0.20-523f3a66b1-a3eecd59cd.zip/node_modules/@inquirer/password/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.0.20", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-password-virtual-ee1dfe06f8/0/cache/@inquirer-password-npm-4.0.20-523f3a66b1-a3eecd59cd.zip/node_modules/@inquirer/password/",\
         "packageDependencies": [\
           ["@inquirer/ansi", "npm:1.0.0"],\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/password", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.0.20"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/password", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.0.20"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null]\
         ],\
         "packagePeers": [\
@@ -1394,20 +1394,20 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:7.8.6", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-prompts-virtual-0b47a00c55/0/cache/@inquirer-prompts-npm-7.8.6-68e77d2128-f8efd5784a.zip/node_modules/@inquirer/prompts/",\
+      ["virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:7.8.6", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-prompts-virtual-61b3a14a9f/0/cache/@inquirer-prompts-npm-7.8.6-68e77d2128-f8efd5784a.zip/node_modules/@inquirer/prompts/",\
         "packageDependencies": [\
-          ["@inquirer/checkbox", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.4"],\
-          ["@inquirer/confirm", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:5.1.18"],\
-          ["@inquirer/editor", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.20"],\
-          ["@inquirer/expand", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.0.20"],\
-          ["@inquirer/input", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.2.4"],\
-          ["@inquirer/number", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:3.0.20"],\
-          ["@inquirer/password", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.0.20"],\
-          ["@inquirer/prompts", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:7.8.6"],\
-          ["@inquirer/rawlist", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.1.8"],\
-          ["@inquirer/search", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:3.1.3"],\
-          ["@inquirer/select", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.3.4"],\
+          ["@inquirer/checkbox", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.4"],\
+          ["@inquirer/confirm", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:5.1.18"],\
+          ["@inquirer/editor", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.20"],\
+          ["@inquirer/expand", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.0.20"],\
+          ["@inquirer/input", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.2.4"],\
+          ["@inquirer/number", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:3.0.20"],\
+          ["@inquirer/password", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.0.20"],\
+          ["@inquirer/prompts", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:7.8.6"],\
+          ["@inquirer/rawlist", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.1.8"],\
+          ["@inquirer/search", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:3.1.3"],\
+          ["@inquirer/select", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.3.4"],\
           ["@types/node", null]\
         ],\
         "packagePeers": [\
@@ -1424,12 +1424,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.1.8", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-rawlist-virtual-e015ac9e7d/0/cache/@inquirer-rawlist-npm-4.1.8-31e4f0e86a-1631a1b7ed.zip/node_modules/@inquirer/rawlist/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.1.8", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-rawlist-virtual-c88040979e/0/cache/@inquirer-rawlist-npm-4.1.8-31e4f0e86a-1631a1b7ed.zip/node_modules/@inquirer/rawlist/",\
         "packageDependencies": [\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/rawlist", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.1.8"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/rawlist", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.1.8"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null],\
           ["yoctocolors-cjs", "npm:2.1.3"]\
         ],\
@@ -1447,13 +1447,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:3.1.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-search-virtual-65e5af68d1/0/cache/@inquirer-search-npm-3.1.3-ad792107c6-f2ea48153e.zip/node_modules/@inquirer/search/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:3.1.3", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-search-virtual-99c7da39da/0/cache/@inquirer-search-npm-3.1.3-ad792107c6-f2ea48153e.zip/node_modules/@inquirer/search/",\
         "packageDependencies": [\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
           ["@inquirer/figures", "npm:1.0.13"],\
-          ["@inquirer/search", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:3.1.3"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/search", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:3.1.3"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null],\
           ["yoctocolors-cjs", "npm:2.1.3"]\
         ],\
@@ -1471,14 +1471,14 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.3.4", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-select-virtual-b14e3a33d7/0/cache/@inquirer-select-npm-4.3.4-1284126b8f-01547a3a92.zip/node_modules/@inquirer/select/",\
+      ["virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.3.4", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-select-virtual-711aa121b6/0/cache/@inquirer-select-npm-4.3.4-1284126b8f-01547a3a92.zip/node_modules/@inquirer/select/",\
         "packageDependencies": [\
           ["@inquirer/ansi", "npm:1.0.0"],\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
           ["@inquirer/figures", "npm:1.0.13"],\
-          ["@inquirer/select", "virtual:0b47a00c55a1c8ab70179d81b52874652f652b3366a8977d735fbcf49ca1e2c68b7512f2a7683db129a2cc8cdd1d46ee6d93445e2e16145c3c8a37fe124f2ffa#npm:4.3.4"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/select", "virtual:61b3a14a9f3ceac70d4dda014e66f4f8debcbd2c2fbeffab9f217de99f8377d6539c3c7b12fb700d36969a65b321b46bae3fd7d990767f958b088628eff6cc74#npm:4.3.4"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null],\
           ["yoctocolors-cjs", "npm:2.1.3"]\
         ],\
@@ -1496,10 +1496,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-type-virtual-b84ac9f29c/0/cache/@inquirer-type-npm-3.0.8-f66413b972-1171bffb9e.zip/node_modules/@inquirer/type/",\
+      ["virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8", {\
+        "packageLocation": "./.yarn/__virtual__/@inquirer-type-virtual-1014861484/0/cache/@inquirer-type-npm-3.0.8-f66413b972-1171bffb9e.zip/node_modules/@inquirer/type/",\
         "packageDependencies": [\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null]\
         ],\
         "packagePeers": [\
@@ -2085,16 +2085,16 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@swc/core", [\
       ["npm:1.13.19", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-virtual-2fdbf82b48/node_modules/@swc/core/",\
+        "packageLocation": "./.yarn/unplugged/@swc-core-virtual-7dfd7803ba/node_modules/@swc/core/",\
         "packageDependencies": [\
           ["@swc/core", "npm:1.13.19"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:3ae14fb8d339e407563b0a6c4cfd6442e11123d59011406d1e4a8a8aeb45ad5e8e000deafb925a6c345fc57c13aee505804b94ea7ceebf6fe7b29e8a25d2b474#npm:1.13.19", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-virtual-2fdbf82b48/node_modules/@swc/core/",\
+      ["virtual:bbbe370578891bef2b8d5661f42ca23f147da5e19d077abee7de7eb353a185bed7a90dd49105e7c1d6b05ae123af80b4a387a0bba66a609b03ab4618ffbdb4b5#npm:1.13.19", {\
+        "packageLocation": "./.yarn/unplugged/@swc-core-virtual-7dfd7803ba/node_modules/@swc/core/",\
         "packageDependencies": [\
-          ["@swc/core", "virtual:3ae14fb8d339e407563b0a6c4cfd6442e11123d59011406d1e4a8a8aeb45ad5e8e000deafb925a6c345fc57c13aee505804b94ea7ceebf6fe7b29e8a25d2b474#npm:1.13.19"],\
+          ["@swc/core", "virtual:bbbe370578891bef2b8d5661f42ca23f147da5e19d077abee7de7eb353a185bed7a90dd49105e7c1d6b05ae123af80b4a387a0bba66a609b03ab4618ffbdb4b5#npm:1.13.19"],\
           ["@swc/core-darwin-arm64", "npm:1.13.19"],\
           ["@swc/core-darwin-x64", "npm:1.13.19"],\
           ["@swc/core-linux-arm-gnueabihf", "npm:1.13.19"],\
@@ -4669,18 +4669,18 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["i18next-cli", [\
-      ["npm:1.10.4", {\
-        "packageLocation": "./.yarn/cache/i18next-cli-npm-1.10.4-3ae14fb8d3-e7246a72a4.zip/node_modules/i18next-cli/",\
+      ["npm:1.11.4", {\
+        "packageLocation": "./.yarn/cache/i18next-cli-npm-1.11.4-bbbe370578-0bb3180ad9.zip/node_modules/i18next-cli/",\
         "packageDependencies": [\
-          ["@swc/core", "virtual:3ae14fb8d339e407563b0a6c4cfd6442e11123d59011406d1e4a8a8aeb45ad5e8e000deafb925a6c345fc57c13aee505804b94ea7ceebf6fe7b29e8a25d2b474#npm:1.13.19"],\
+          ["@swc/core", "virtual:bbbe370578891bef2b8d5661f42ca23f147da5e19d077abee7de7eb353a185bed7a90dd49105e7c1d6b05ae123af80b4a387a0bba66a609b03ab4618ffbdb4b5#npm:1.13.19"],\
           ["chalk", "npm:5.6.2"],\
           ["chokidar", "npm:4.0.3"],\
           ["commander", "npm:14.0.1"],\
           ["execa", "npm:9.6.0"],\
           ["glob", "npm:11.0.3"],\
-          ["i18next-cli", "npm:1.10.4"],\
+          ["i18next-cli", "npm:1.11.4"],\
           ["i18next-resources-for-ts", "npm:1.7.4"],\
-          ["inquirer", "virtual:3ae14fb8d339e407563b0a6c4cfd6442e11123d59011406d1e4a8a8aeb45ad5e8e000deafb925a6c345fc57c13aee505804b94ea7ceebf6fe7b29e8a25d2b474#npm:12.9.6"],\
+          ["inquirer", "virtual:bbbe370578891bef2b8d5661f42ca23f147da5e19d077abee7de7eb353a185bed7a90dd49105e7c1d6b05ae123af80b4a387a0bba66a609b03ab4618ffbdb4b5#npm:12.9.6"],\
           ["jiti", "npm:2.6.1"],\
           ["jsonc-parser", "npm:3.3.1"],\
           ["ora", "npm:9.0.0"],\
@@ -4827,15 +4827,15 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:3ae14fb8d339e407563b0a6c4cfd6442e11123d59011406d1e4a8a8aeb45ad5e8e000deafb925a6c345fc57c13aee505804b94ea7ceebf6fe7b29e8a25d2b474#npm:12.9.6", {\
-        "packageLocation": "./.yarn/__virtual__/inquirer-virtual-a8967f5a4f/0/cache/inquirer-npm-12.9.6-cd432fc7ce-068d9acbfa.zip/node_modules/inquirer/",\
+      ["virtual:bbbe370578891bef2b8d5661f42ca23f147da5e19d077abee7de7eb353a185bed7a90dd49105e7c1d6b05ae123af80b4a387a0bba66a609b03ab4618ffbdb4b5#npm:12.9.6", {\
+        "packageLocation": "./.yarn/__virtual__/inquirer-virtual-3beac87a70/0/cache/inquirer-npm-12.9.6-cd432fc7ce-068d9acbfa.zip/node_modules/inquirer/",\
         "packageDependencies": [\
           ["@inquirer/ansi", "npm:1.0.0"],\
-          ["@inquirer/core", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:10.2.2"],\
-          ["@inquirer/prompts", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:7.8.6"],\
-          ["@inquirer/type", "virtual:a8967f5a4fc8316fc668ae5ab7e237054880a3a48ff1ad3fc0307ec58a2504ab926ee4714df6bd1b139db93702a9cc2d979dddef1d1a138321adefb81f8f18a9#npm:3.0.8"],\
+          ["@inquirer/core", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:10.2.2"],\
+          ["@inquirer/prompts", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:7.8.6"],\
+          ["@inquirer/type", "virtual:3beac87a7022a3a13c6ad2e9bfc39a334761c77cef7b8dafefac5c5f81c863c216a5c0301c04d58d4a87d62083a1743a94331acdbe1fdf793a99b9f62eb93da1#npm:3.0.8"],\
           ["@types/node", null],\
-          ["inquirer", "virtual:3ae14fb8d339e407563b0a6c4cfd6442e11123d59011406d1e4a8a8aeb45ad5e8e000deafb925a6c345fc57c13aee505804b94ea7ceebf6fe7b29e8a25d2b474#npm:12.9.6"],\
+          ["inquirer", "virtual:bbbe370578891bef2b8d5661f42ca23f147da5e19d077abee7de7eb353a185bed7a90dd49105e7c1d6b05ae123af80b4a387a0bba66a609b03ab4618ffbdb4b5#npm:12.9.6"],\
           ["mute-stream", "npm:2.0.0"],\
           ["run-async", "npm:4.0.6"],\
           ["rxjs", "npm:7.8.2"]\
@@ -7257,7 +7257,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.2.5"],\
+          ["@biomejs/biome", "npm:2.2.6"],\
           ["@discordjs/collection", "npm:2.1.1"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["better-sqlite3", "npm:12.4.1"],\
@@ -7268,7 +7268,7 @@ const RAW_RUNTIME_STATE =
           ["docsify-cli", "npm:4.4.4"],\
           ["dotenv", "npm:17.2.3"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.6.0"],\
-          ["i18next-cli", "npm:1.10.4"],\
+          ["i18next-cli", "npm:1.11.4"],\
           ["i18next-fs-backend", "npm:2.6.0"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.2.0"],\
           ["joi", "npm:18.0.1"],\
@@ -7284,7 +7284,6 @@ const RAW_RUNTIME_STATE =
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["simpleflakes", "npm:4.0.0"],\
-          ["strip-indent", "npm:4.1.0"],\
           ["y18n", "npm:5.0.8"]\
         ],\
         "linkType": "SOFT"\
@@ -7802,13 +7801,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["min-indent", "npm:1.0.1"],\
           ["strip-indent", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.1.0", {\
-        "packageLocation": "./.yarn/cache/strip-indent-npm-4.1.0-a078a4a467-ea8193b60a.zip/node_modules/strip-indent/",\
-        "packageDependencies": [\
-          ["strip-indent", "npm:4.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
