@@ -1562,6 +1562,8 @@ swn:
     {{results}}
   result: |-
     **{{total}}** ({{detail}})
+  reroll: |-
+    , re-roll 1s
 table:
   name: table
   description: Add, manage, and roll on random tables

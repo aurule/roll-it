@@ -1,3 +1,5 @@
+const { i18n } = require("../../locales")
+
 const swnPresenter = require("./swn-results-presenter")
 
 describe("swn results presenter", () => {
@@ -51,16 +53,24 @@ describe("swn results presenter", () => {
   describe("detail", () => {
     describe("with two dice", () => {
       const detailArgs = {
+        pool: 2,
+        reroll: false,
         result: [5, 2],
         indexes: [0, 1],
-        summed: 7,
         modifier: 0,
+        t: i18n.getFixedT("en-US", "commands", "swn"),
       }
 
       it("shows the dice", () => {
         const result = swnPresenter.detail(detailArgs)
 
         expect(result).toMatch("[5, 2]")
+      })
+
+      it("shows the pool", () => {
+        const result = swnPresenter.detail(detailArgs)
+
+        expect(result).toMatch("2d6")
       })
 
       describe("with a non-zero modifier", () => {
@@ -75,20 +85,41 @@ describe("swn results presenter", () => {
           expect(result).toMatch("+ 3")
         })
       })
+
+      describe("with reroll-1s", () => {
+        const rerollArgs = {
+          ...detailArgs,
+          reroll: true,
+        }
+
+        it("shows the reroll flag", () => {
+          const result = swnPresenter.detail(rerollArgs)
+
+          expect(result).toMatch("re-roll")
+        })
+      })
     })
 
     describe("with more dice", () => {
       const detailArgs = {
+        pool: 3,
+        reroll: false,
         result: [5, 2, 4],
         indexes: [0, 2],
-        summed: 9,
         modifier: 0,
+        t: i18n.getFixedT("en-US", "commands", "swn"),
       }
 
       it("shows the dice", () => {
         const result = swnPresenter.detail(detailArgs)
 
         expect(result).toMatch("[5, ~~2~~, 4]")
+      })
+
+      it("shows the pool", () => {
+        const result = swnPresenter.detail(detailArgs)
+
+        expect(result).toMatch("3d6")
       })
 
       describe("with a non-zero modifier", () => {
@@ -101,6 +132,19 @@ describe("swn results presenter", () => {
           const result = swnPresenter.detail(modArgs)
 
           expect(result).toMatch("+ 3")
+        })
+      })
+
+      describe("with reroll-1s", () => {
+        const rerollArgs = {
+          ...detailArgs,
+          reroll: true,
+        }
+
+        it("shows the reroll flag", () => {
+          const result = swnPresenter.detail(rerollArgs)
+
+          expect(result).toMatch("re-roll")
         })
       })
     })
