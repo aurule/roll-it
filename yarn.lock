@@ -5861,6 +5861,7 @@ __metadata:
     prismjs: "npm:^1.30.0"
     prompts: "npm:^2.4.2"
     simpleflakes: "npm:^4.0.0"
+    strip-indent: "npm:^4.1.1"
     y18n: "npm:^5.0.8"
   languageName: unknown
   linkType: soft
@@ -6317,6 +6318,13 @@ __metadata:
   dependencies:
     min-indent: "npm:^1.0.0"
   checksum: 10c0/ae0deaf41c8d1001c5d4fbe16cb553865c1863da4fae036683b474fa926af9fc121e155cb3fc57a68262b2ae7d5b8420aa752c97a6428c315d00efe2a3875679
+  languageName: node
+  linkType: hard
+
+"strip-indent@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "strip-indent@npm:4.1.1"
+  checksum: 10c0/5b23dd5934be0ef6b6fe1b802887f83e56ad9dcd9f6c3896a637da2c6c3a6da3fdf3e51354a98e6cccb6f1c41863e7b9b9deaa348639dfd35f71f3549edb4dff
   languageName: node
   linkType: hard
 

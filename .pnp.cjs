@@ -55,6 +55,7 @@ const RAW_RUNTIME_STATE =
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["simpleflakes", "npm:4.0.0"],\
+          ["strip-indent", "npm:4.1.1"],\
           ["y18n", "npm:5.0.8"]\
         ],\
         "linkType": "SOFT"\
@@ -7284,6 +7285,7 @@ const RAW_RUNTIME_STATE =
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["simpleflakes", "npm:4.0.0"],\
+          ["strip-indent", "npm:4.1.1"],\
           ["y18n", "npm:5.0.8"]\
         ],\
         "linkType": "SOFT"\
@@ -7801,6 +7803,13 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["min-indent", "npm:1.0.1"],\
           ["strip-indent", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:4.1.1", {\
+        "packageLocation": "./.yarn/cache/strip-indent-npm-4.1.1-e5fb519bd9-5b23dd5934.zip/node_modules/strip-indent/",\
+        "packageDependencies": [\
+          ["strip-indent", "npm:4.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
