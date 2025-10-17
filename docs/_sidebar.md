@@ -27,6 +27,8 @@
     + [Magic 8 Ball](/fun/8ball "Magic 8 Ball | Roll It Docs")
 
 - [FAQ](/faq "FAQ | Roll It Docs")
+- 
+- [Troubleshooting](/troubleshooting "Troubleshooting | Roll It Docs")
 
 - [Versions](/versions "Version History | Roll It Docs")
 
