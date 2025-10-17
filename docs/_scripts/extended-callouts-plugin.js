@@ -5,8 +5,8 @@
 ;(function () {
   var extendedCallouts = function (hook, vm) {
     hook.afterEach((content) => {
-      const RE = /<p>(#)&gt;(.*?)<\/p>/g
-      return content.replace(RE, (match, denominator, body, pos, fulltext) => {
+      const RE = /<p>([#])&gt;(.*?)<\/p>/g
+      return content.replace(RE, (match, denominator, body, _pos, _fulltext) => {
         switch (denominator) {
           case "#":
             return `<p class="tip example">${body}</p>`
