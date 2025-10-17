@@ -1,10 +1,12 @@
 # FAQ
 
-**How do I use a command?**
+Answers to some common questions. If you have a question, one way to get hold of me is the `/help feedback` command! I see the notes it sends, even if I don't usually respond.
+
+## How do I use a command?
 
 Roll-It's commands are (mostly) Discord slash commands. For details and instructions, take a look at Discord's own [Slash Commands FAQ](https://support-apps.discord.com/hc/en-us/articles/26501837786775-Slash-Commands-FAQ).
 
-**My favorite system isn't supported!**
+## My favorite system isn't supported!
 
 Sorry about that! There are a ton of game systems out there, and I've only implemented a few of them. If there's one you like to use that doesn't have commands, there are a few things you can try.
 
@@ -12,19 +14,19 @@ Sorry about that! There are a ton of game systems out there, and I've only imple
 2. Send some feedback asking for the system. The `/help feedback` command saves your comments so I can read them later. I can't make any promises, but if a system gets enough support, I'll see about adding it!
 3. Search for another bot. While I'm very proud of Roll It, it'd be silly to think it's the only dice rolling bot out there. If it doesn't suit your needs, search on Google or [Discord's App Directory](https://discord.com/discovery/applications) for one that's made for the game system you use.
 
-**Can I use Roll It to make random encounters?**
+## Can I use Roll It to make random encounters?
 
 Yes! You can upload a random encounters table into Roll It's [Random Tables](/features/tables), then roll a result on the fly. It's probably good to use a `secret` roll or private channel, though, to keep up the suspense.
 
-**I think my result is wrong.**
+## I think my result is wrong.
 
 Well that shouldn't be happening! Double-check that all the command arguments are correct for what you meant to roll. If they are, and the result is definitely wrong, use the *Report this roll...* context command and describe the problem in as much detail as you can.
 
-**Why can I see results from someone I've blocked?**
+## Why can I see results from someone I've blocked?
 
 This is because blocking someone on Discord does not stop them from using server commands. If someone is using Roll It to harass you, they're a jerk, and you should bring it up with your server's admin.
 
-**Is there a list of _all_ the commands?**
+## Is there a list of _all_ the commands?
 
 Yes, yes there is.
 
