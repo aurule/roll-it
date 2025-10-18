@@ -6,6 +6,7 @@ const {
   ButtonInteraction,
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
+  Message
 } = require("discord.js")
 
 const { UnauthorizedError } = require("../errors/unauthorized-error")
@@ -15,7 +16,7 @@ module.exports = {
    * Create the authorize method
    */
   patch(target_klass) {
-    let klasses = [ButtonInteraction, UserSelectMenuInteraction, StringSelectMenuInteraction]
+    let klasses = [ButtonInteraction, UserSelectMenuInteraction, StringSelectMenuInteraction, Message]
     if (target_klass) {
       klasses = [target_klass]
     }
@@ -28,7 +29,8 @@ module.exports = {
      * @param  {...Snowflake} allowed_uids Array of allowed user snowflakes
      */
     const authorize = function (...allowed_uids) {
-      if (allowed_uids.findIndex((v) => v === this.user.id) < 0) {
+      const user = this.user || this.author
+      if (allowed_uids.findIndex((v) => v === user.id) < 0) {
         throw new UnauthorizedError(this, allowed_uids)
       }
     }

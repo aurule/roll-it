@@ -20,6 +20,20 @@ class PatchMeAuthorize {
   }
 }
 
+class PatchMeAuthorizeMessage {
+  author
+
+  constructor(author_id) {
+    this.author = {
+      id: author_id,
+    }
+  }
+
+  reply(args) {
+    return args
+  }
+}
+
 describe("authorize helper", () => {
   describe("patch", () => {
     it.concurrent.each([
@@ -36,6 +50,7 @@ describe("authorize helper", () => {
   describe("authorize", () => {
     beforeAll(() => {
       authorize.patch(PatchMeAuthorize)
+      authorize.patch(PatchMeAuthorizeMessage)
     })
 
     describe("with an allowed user", () => {
@@ -49,6 +64,22 @@ describe("authorize helper", () => {
     describe("with a non-allowed user", () => {
       it("throws an error", () => {
         const fake = new PatchMeAuthorize("test user")
+
+        expect(() => fake.authorize("only me")).toThrow("not allowed")
+      })
+    })
+
+    describe("with an allowed author", () => {
+      it("is a noop", () => {
+        const fake = new PatchMeAuthorizeMessage("test author")
+
+        expect(() => fake.authorize("test author", "also me")).not.toThrow()
+      })
+    })
+
+    describe("with a non-allowed author", () => {
+      it("throws an error", () => {
+        const fake = new PatchMeAuthorizeMessage("test author")
 
         expect(() => fake.authorize("only me")).toThrow("not allowed")
       })

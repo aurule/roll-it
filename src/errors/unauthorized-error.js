@@ -12,7 +12,8 @@ class UnauthorizedError extends Error {
    * @return {UnauthorizedError}        New UnauthorizedError object
    */
   constructor(interaction, allowed_uids) {
-    super(`User ${interaction.user.id} is not allowed`)
+    const user_id = interaction.user?.id || interaction.author.id
+    super(`User ${user_id} is not allowed`)
     this.interaction = interaction
     this.allowed_uids = allowed_uids
   }
