@@ -107,7 +107,7 @@ opposed:
       physical: a Physical
       social: a Social
     conditions:
-      normal: not a special attack
+      normal: not a special
       carrier: a Carrier
       altering: an Altering
     advantages-picker:
@@ -296,19 +296,27 @@ opposed:
       {{conditions, list}} attack. The named retest is {{retest}}. {{attacker}} has {{advantages, list}}.
   advantages-defender:
     summary: >-
-      {{attacker}} is attacking you, {{defender}}, with {{attribute}} challenge. This is {{conditions, list}}
-      attack. The named retest is {{retest}}. {{attacker}} has {{advantages, list}}.
-    summary_description: >-
-      {{attacker}} is attacking you, {{defender}}, with {{attribute}} challenge for "{{description}}". This is
+      {{defender}}, you are being attacked by {{attacker}} with {{attribute}} challenge. This is
       {{conditions, list}} attack. The named retest is {{retest}}. {{attacker}} has {{advantages, list}}.
+    summary_description: >-
+      {{defender}}, you are being attacked by {{attacker}} with {{attribute}} challenge for "{{description}}".
+      This is {{conditions, list}} attack. The named retest is {{retest}}. {{attacker}} has
+      {{advantages, list}}.
     relent: |-
       If you want to allow {{attacker}} to succeed, you can relent to their challenge.
     advantages: >-
       Otherwise, select your own advantages:
     ready: >-
-      When you're ready to throw chops, click the Ready button. Once chops begin, you cannot change your declared advantages.
+      When you're ready to throw chops, click the Ready button. Once chops begin, you cannot change your
+      declared advantages.
     components:
       relent: Relent
+    inert: >-
+      {{defender}} is defending against {{attribute}} challenge from {{attacker}}. {{defender}} has
+      {{advantages, list}}.
+    inert_description: >-
+      {{defender}} is defending against {{attribute}} challenge for "{{description}}" from {{attacker}}.
+      {{defender}} has {{advantages, list}}.
   withdrawn: >-
     {{attacker}} withdrew their challenge against {{defender}}.
   withdrawn_description: >-
@@ -364,6 +372,8 @@ opposed:
       {{leader}} leads ({{breakdown}})
     result_tied: >-
       Tied ({{breakdown}})
+    inert: >-
+      {{attacker}} threw {{attacker_chop}}. {{defender}} threw {{defender_chop}}.
   bidding:
     prompt: >-
       {{participant}}, you are currently tied. Reply to this message with the number of traits you want to bid

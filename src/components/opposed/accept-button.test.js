@@ -76,7 +76,7 @@ describe("opposed tie accept button", () => {
 
         await acceptButton.execute(interaction)
 
-        expect(interaction.replyContent).toMatch("challenge is tied")
+        expect(interaction.replyContent).toMatch("ended in a tie")
       })
 
       it("sets challenge state to Accepted", async () => {

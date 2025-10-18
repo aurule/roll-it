@@ -48,13 +48,8 @@ module.exports = {
 
     if (allowed_participant.id === attacker.id) {
       const advantages_attacker = require("../../messages/opposed/advantages-attacker")
-      await interaction
-        .ensure("edit", advantages_attacker.inert(challenge.id), {
-          challenge,
-          user_uid: interaction.user.id,
-          component: "opposed_ready",
-          detail: "Failed to edit attacker advantages prompt to show result",
-        })
+      await interaction.message
+        .edit(advantages_attacker.inert(challenge.id))
         .catch(() => {
           // suppress all other errors so we can try to send something else
           return
@@ -103,13 +98,8 @@ module.exports = {
     }).lastInsertRowid
 
     const advantages_defender = require("../../messages/opposed/advantages-defender")
-    await interaction
-      .ensure("edit", advantages_defender.inert(challenge.id), {
-        test_id,
-        user_uid: interaction.user.id,
-        component: "opposed_ready",
-        detail: "Failed to edit defender advantages prompt to show result",
-      })
+    await interaction.message
+      .edit(advantages_defender.inert(challenge.id))
       .catch(() => {
         // suppress all other errors so we can try to send something else
         return

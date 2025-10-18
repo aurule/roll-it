@@ -41,13 +41,8 @@ module.exports = {
 
     if (user_chop.tie_accepted && other_chop.tie_accepted) {
       const tying_message = require("../../messages/opposed/tying")
-      await interaction
-        .ensure("edit", tying_message.inert(challenge.id), {
-          component: "opposed_retest",
-          test: test,
-          challenge: challenge,
-          detail: "failed to update tying message to remove controls",
-        })
+      await interaction.message
+        .edit(tying_message.inert(challenge.id))
         .catch(() => {
           // suppress all errors so we can send other messages
           return

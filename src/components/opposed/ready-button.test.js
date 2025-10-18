@@ -63,7 +63,7 @@ describe("opposed participant ready button", () => {
       it("shows advantages_defender message", async () => {
         await readyButton.execute(interaction)
 
-        expect(interaction.replyContent).toMatch("<@atk> is attacking you")
+        expect(interaction.replyContent).toMatch("<@def>, you are being attacked")
       })
     })
 
@@ -114,7 +114,7 @@ describe("opposed participant ready button", () => {
       it("edits to show advantages_defender inert", async () => {
         await readyButton.execute(interaction)
 
-        expect(interaction.replyContent).toMatch(challenge.record.summary)
+        expect(interaction.replyContent).toMatch("<@def> is defending")
       })
 
       it("replies with throwing prompt", async () => {

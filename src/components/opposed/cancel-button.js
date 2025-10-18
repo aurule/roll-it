@@ -41,12 +41,8 @@ module.exports = {
     }
 
     const cancelling_message = require("../../messages/opposed/cancelling")
-    await interaction
-      .ensure("edit", cancelling_message.inert(test.challenge_id, "cancel"), {
-        component: "opposed_cancel",
-        test: test,
-        detail: "failed to update cancelling message to remove controls",
-      })
+    await interaction.message
+      .edit(cancelling_message.inert(test.challenge_id, "cancel"))
       .catch((_error) => {
         // suppress all errors so we can send other messages
         return

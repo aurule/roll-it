@@ -26,13 +26,8 @@ module.exports = {
     interaction.authorize(test.trailer.user_uid)
 
     const winning_message = require("../../messages/opposed/winning")
-    await interaction
-      .ensure("edit", winning_message.inert(challenge.id), {
-        component: "opposed_retest",
-        test: test,
-        challenge: challenge,
-        detail: "failed to update winning message to remove controls",
-      })
+    await interaction.message
+      .edit(winning_message.inert(challenge.id))
       .catch(() => {
         // suppress all errors so we can send other messages
         return

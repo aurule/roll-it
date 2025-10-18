@@ -7,6 +7,7 @@ const { makeBreakdown } = require("../../services/opposed/breakdown")
 const { makeHistory } = require("../../services/opposed/history")
 const winning_message = require("../../messages/opposed/winning")
 const bidding_atk_message = require("../../messages/opposed/bidding-attacker")
+const throwing_message = require("../../messages/opposed/throwing")
 const { textMessage } = require("../../util/message-builders")
 
 const BEATS = new Map([
@@ -162,16 +163,27 @@ module.exports = {
       })
     }
 
-    interaction.deferReply()
+    await interaction.deferUpdate()
     opposed_db.setChopReady(user_chop.id, true)
     if (!user_chop.ready) {
       const is_attacker = participants.get("attacker").user_uid === interaction.user.id
       const emoji = is_attacker ? "🗡️" : "🛡️"
-      interaction.message.react(emoji)
+      await interaction.message
+        .react(emoji)
+        .catch(() => {
+          // suppress all errors so we can send other messages
+          return
+        })
     }
 
     chops = opposed_db.getChopsForTest(test.id)
     if (chops.length > 1 && chops.every((c) => c.ready)) {
+      await interaction.message
+        .delete()
+        .catch(() => {
+          // suppress all errors so we can send other messages
+          return
+        })
       return resolveChops({ interaction, chops, participants, test })
     }
   },

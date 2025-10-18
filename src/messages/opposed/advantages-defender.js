@@ -54,10 +54,29 @@ module.exports = {
   inert: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
+    const participants = opposed_db.getParticipants(challenge_id)
+    const attacker = participants.get("attacker")
+    const defender = participants.get("defender")
 
-    return build.textMessage(challenge.summary, {
-      withResponse: true,
-      allowedMentions: { parse: [] },
-    })
+    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.advantages-defender")
+    const shared_t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
+
+
+    return build.textMessage(
+      t("inert", {
+        attacker: attacker.mention,
+        defender: defender.mention,
+        description: challenge.description,
+        context: challenge.description ? "description" : undefined,
+        attribute: shared_t(`attributes.${challenge.attribute}`),
+        conditions: challenge.conditions.map((c) => shared_t(`conditions.${c}`)),
+        retest: challenge.retest_ability,
+        advantages: defender.advantages.map((c) => shared_t(`advantages.${c}`)),
+      }),
+      {
+        withResponse: true,
+        allowedMentions: { parse: [] },
+      },
+    )
   },
 }

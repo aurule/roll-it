@@ -49,25 +49,25 @@ module.exports = {
       allowedMentions: { users: [challenge.defender.user_uid] },
     })
   },
-  handleReply(interaction) {
+  handleReply(msg_interaction) {
     const opposed_db = new Opposed()
-    const test = opposed_db.findTestByMessage(interaction.reference.messageId)
+    const test = opposed_db.findTestByMessage(msg_interaction.reference.messageId)
 
-    const t = i18n.getFixedT(interaction.guild.locale ?? "en-US", "interactive", "opposed")
+    const t = i18n.getFixedT(msg_interaction.guild.locale ?? "en-US", "interactive", "opposed")
 
-    interaction.authorize(test.defender.user_uid)
+    msg_interaction.authorize(test.defender.user_uid)
 
-    const traits_content = interaction.content
+    const traits_content = msg_interaction.content
     const clumped = traits_content.replace(/\s/, "")
     const match = clumped.match(/\d+/)
     if (match === null) {
-      return interaction.whisper(t("bidding.missing")).catch((error) =>
+      return msg_interaction.whisper(t("bidding.missing")).catch((error) =>
         logger.error(
           {
             err: error,
             test,
-            reply_to: interaction.reference.messageId,
-            message: interaction.id,
+            reply_to: msg_interaction.reference.messageId,
+            message: msg_interaction.id,
             content: traits_content,
           },
           "Could not whisper about missing number",
@@ -77,13 +77,13 @@ module.exports = {
 
     const num = parseInt(match[0])
     if (num === NaN) {
-      return interaction.whisper(t("bidding.invalid")).catch((error) =>
+      return msg_interaction.whisper(t("bidding.invalid")).catch((error) =>
         logger.error(
           {
             err: error,
             test,
-            reply_to: interaction.reference.messageId,
-            message: interaction.id,
+            reply_to: msg_interaction.reference.messageId,
+            message: msg_interaction.id,
             content: traits_content,
           },
           "Could not whisper about invalid number",
@@ -117,10 +117,10 @@ module.exports = {
       opposed_db.setTestLeader(test.id, leader.id)
       opposed_db.setChallengeState(test.challenge_id, Challenge.States.Winning)
 
-      return interaction
+      return msg_interaction
         .ensure("reply", winning_message.data(test.challenge_id), {
           test,
-          user_uid: interaction.user.id,
+          user_uid: msg_interaction.author.id,
           component: "go_button",
           detail: "Failed to send 'winning' prompt",
         })
@@ -136,10 +136,10 @@ module.exports = {
     } else {
       opposed_db.setChallengeState(test.challenge_id, Challenge.States.Tying)
 
-      return interaction
+      return msg_interaction
         .ensure("reply", tying_message.data(test.challenge_id), {
           test,
-          user_uid: interaction.user.id,
+          user_uid: msg_interaction.author.id,
           component: "go_button",
           detail: "Failed to send 'tying' prompt",
         })

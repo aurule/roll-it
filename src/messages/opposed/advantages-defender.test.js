@@ -19,7 +19,7 @@ describe("opposed defender advantages message", () => {
     it("shows the initial summary", () => {
       const result = advantages_defender.data(challenge.id)
 
-      expect(result.content).toMatch("<@atk> is attacking you")
+      expect(result.content).toMatch("<@def>, you are being attacked")
     })
 
     it("includes the description if given", () => {
@@ -72,14 +72,10 @@ describe("opposed defender advantages message", () => {
   })
 
   describe("inert", () => {
-    beforeEach(() => {
-      challenge.setSummary("<@atk> is attacking <@def>")
-    })
-
     it("shows the summary", () => {
       const result = advantages_defender.inert(challenge.id)
 
-      expect(result.content).toMatch("<@atk> is attacking <@def>")
+      expect(result.content).toMatch("<@def> is defending")
     })
 
     it("has no components", () => {

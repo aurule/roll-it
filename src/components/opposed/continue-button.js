@@ -24,12 +24,8 @@ module.exports = {
     interaction.authorize(test.canceller.user_uid)
 
     const cancelling_message = require("../../messages/opposed/cancelling")
-    await interaction
-      .ensure("edit", cancelling_message.inert(test.challenge_id), {
-        component: "opposed_continue",
-        test: test,
-        detail: "failed to update cancelling message to remove controls",
-      })
+    await interaction.message
+      .edit(cancelling_message.inert(test.challenge_id))
       .catch(() => {
         // suppress all errors so we can send other messages
         return
