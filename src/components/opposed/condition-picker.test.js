@@ -11,7 +11,7 @@ describe("challenge condition selector", () => {
     it("has a descriptive placeholder", () => {
       const selector = conditionPicker.data("en-US")
 
-      expect(selector.data.placeholder).toMatch("Select the challenge conditions")
+      expect(selector.data.placeholder).toMatch("Not carrier or altering")
     })
 
     it.concurrent.each([["carrier"], ["altering"]])("includes the %s option", (condition) => {

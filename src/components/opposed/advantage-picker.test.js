@@ -18,7 +18,7 @@ describe("participant advantage selector", () => {
     it("has a descriptive placeholder", () => {
       const selector = advantagePicker.data("en-US", { id: "atk" })
 
-      expect(selector.data.placeholder).toMatch("Select your advantages")
+      expect(selector.data.placeholder).toMatch("No bomb, ties, nor cancels")
     })
 
     it.concurrent.each([["bomb"], ["ties"], ["cancels"]])("includes the %s option", (advantage) => {

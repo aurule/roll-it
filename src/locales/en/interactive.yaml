@@ -111,7 +111,7 @@ opposed:
       carrier: a Carrier
       altering: an Altering
     advantages-picker:
-      placeholder: Select your advantages
+      placeholder: No bomb, ties, nor cancels
       options:
         # the value fields must not be changed
         - value: bomb
@@ -277,7 +277,7 @@ opposed:
     components:
       withdraw: Withdraw
       conditions:
-        placeholder: Select the challenge conditions
+        placeholder: Not carrier or altering
         options:
           # the value fields must not be changed
           - value: carrier
