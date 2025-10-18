@@ -258,7 +258,7 @@ opposed:
       The challenge from {{attacker}} against {{defender}} for "{{description}}" has ended.
       $t(opposed.shared.retry)
     retry: >-
-      -# If this message seems out of place, reply with the word `retry` and Roll It will send a new prompt.
+      -# If this message seems out of place, reply with the word `$t(opposed.retry)` and Roll It will send a new prompt.
   advantages-attacker:
     summary: >-
       {{attacker}}, you are attacking {{defender}} with {{attribute}} challenge. The named retest is {{retest}}.
