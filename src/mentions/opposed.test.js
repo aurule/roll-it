@@ -103,5 +103,16 @@ describe("opposed reply handler", () => {
         expect(bidding_test.attacker_chop.record.traits).toEqual(17)
       })
     })
+
+    describe("with no mention handler", () => {
+      it("shows a generic message", async () => {
+        challenge.attachMessage(interaction.message.id)
+        interaction.content = "17 mental+occult"
+
+        await opposed.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("did not understand")
+      })
+    })
   })
 })

@@ -471,6 +471,9 @@ opposed:
   accepted: |-
     The challenge ended in a tie.
     {{summary}}
+  unknown: |-
+    I did not understand what you typed, probably because I am not a chat bot.
+    $t(opposed.shared.retry)
   expired:
     empty: >-
       The challenge from {{attacker}} against {{defender}} ran out of time and was automatically withdrawn.
