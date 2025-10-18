@@ -23,7 +23,7 @@
     "joi": "^18.0.1",
     "keyv": "^5.5.3",
     "mathjs": "^15.0.0",
-    "pino": "^10.0.0",
+    "pino": "^10.1.0",
     "pino-papertrail": "^2.1.0"
   },
   "devDependencies": {

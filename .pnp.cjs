@@ -47,7 +47,7 @@ const RAW_RUNTIME_STATE =
           ["marked", "npm:16.4.1"],\
           ["mathjs", "npm:15.0.0"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:10.0.0"],\
+          ["pino", "npm:10.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.2"],\
           ["prettier", "npm:3.6.2"],\
@@ -1968,6 +1968,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@npmcli/fs", "npm:3.1.1"],\
           ["semver", "npm:7.7.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@pinojs/redact", [\
+      ["npm:0.4.0", {\
+        "packageLocation": "./.yarn/cache/@pinojs-redact-npm-0.4.0-445417bca6-4b311ba17e.zip/node_modules/@pinojs/redact/",\
+        "packageDependencies": [\
+          ["@pinojs/redact", "npm:0.4.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6807,19 +6816,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
-      ["npm:10.0.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-10.0.0-39fff26f8f-f95fcc5152.zip/node_modules/pino/",\
+      ["npm:10.1.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-10.1.0-3dcf993335-49c1dd80d5.zip/node_modules/pino/",\
         "packageDependencies": [\
+          ["@pinojs/redact", "npm:0.4.0"],\
           ["atomic-sleep", "npm:1.0.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino", "npm:10.0.0"],\
+          ["pino", "npm:10.1.0"],\
           ["pino-abstract-transport", "npm:2.0.0"],\
           ["pino-std-serializers", "npm:7.0.0"],\
           ["process-warning", "npm:5.0.0"],\
           ["quick-format-unescaped", "npm:4.0.4"],\
           ["real-require", "npm:0.2.0"],\
           ["safe-stable-stringify", "npm:2.4.3"],\
-          ["slow-redact", "npm:0.3.0"],\
           ["sonic-boom", "npm:4.0.1"],\
           ["thread-stream", "npm:3.0.1"]\
         ],\
@@ -7277,7 +7286,7 @@ const RAW_RUNTIME_STATE =
           ["marked", "npm:16.4.1"],\
           ["mathjs", "npm:15.0.0"],\
           ["nodemon", "npm:3.1.10"],\
-          ["pino", "npm:10.0.0"],\
+          ["pino", "npm:10.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.2"],\
           ["prettier", "npm:3.6.2"],\
@@ -7523,15 +7532,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/slash-npm-3.0.0-b87de2279a-e18488c6a4.zip/node_modules/slash/",\
         "packageDependencies": [\
           ["slash", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["slow-redact", [\
-      ["npm:0.3.0", {\
-        "packageLocation": "./.yarn/cache/slow-redact-npm-0.3.0-d3e132569d-bb2f77830f.zip/node_modules/slow-redact/",\
-        "packageDependencies": [\
-          ["slow-redact", "npm:0.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
