@@ -68,6 +68,7 @@ class Message {
   }
 
   async edit(opts) {
+    this.replies.push(opts)
     Object.assign(this, opts)
     this.editEvents.emit("edited", opts)
     return this
