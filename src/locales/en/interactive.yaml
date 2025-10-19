@@ -350,7 +350,7 @@ opposed:
             emoji: ✂️
           - value: rand
             label: Random Rock-Paper-Scissors
-            emoji: 🔀
+            emoji: <:shuffle:1429547015712538764>
         options_bomb:
           - value: rock
             label: Rock
@@ -363,7 +363,7 @@ opposed:
             emoji: ✂️
           - value: rand-bomb
             label: Random Rock-Bomb-Scissors
-            emoji: 🔀
+            emoji: <:rbs:1429547028123222076>
     done: |-
       This test already resolved. {{history}}
       $t(opposed.shared.retry)
