@@ -403,7 +403,7 @@ opposed:
       {{attacker}} and {{defender}}: If you both decide to accept the tie, the challenge will end with no winner.
     accept:
       text: Accept
-      emoji: 🉑
+      emoji: 🤝
   cancelling:
     headline:
       named: >-
