@@ -45,12 +45,6 @@ describe("opposed test concede button", () => {
       })
     })
 
-    it("edits message to winning inert", async () => {
-      await concedeButton.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("<@def> is currently winning")
-    })
-
     it("sets state to conceded", async () => {
       await concedeButton.execute(interaction)
 

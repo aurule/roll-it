@@ -25,9 +25,7 @@ module.exports = {
 
     interaction.authorize(test.trailer.user_uid)
 
-    const winning_message = require("../../messages/opposed/winning")
-    await interaction.message
-      .edit(winning_message.inert(challenge.id))
+    await interaction.message.delete()
       .catch(() => {
         // suppress all errors so we can send other messages
         return

@@ -71,14 +71,6 @@ describe("opposed tie accept button", () => {
         tied_test.attacker_chop.accept()
       })
 
-      it("edits to show inert tying message", async () => {
-        interaction.user.id = challenge.defender_uid
-
-        await acceptButton.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("ended in a tie")
-      })
-
       it("sets challenge state to Accepted", async () => {
         interaction.user.id = challenge.defender_uid
 

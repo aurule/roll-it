@@ -41,8 +41,7 @@ module.exports = {
 
     if (user_chop.tie_accepted && other_chop.tie_accepted) {
       const tying_message = require("../../messages/opposed/tying")
-      await interaction.message
-        .edit(tying_message.inert(challenge.id))
+      await interaction.message.delete()
         .catch(() => {
           // suppress all errors so we can send other messages
           return
