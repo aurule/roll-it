@@ -120,6 +120,7 @@ opposed:
           description: Lets you throw Bomb in place of Paper
         - value: ties
           label: I have ties
+          emoji: ⏫
           description: You automatically win on a tied result
         - value: cancels
           label: I have cancels
@@ -129,7 +130,7 @@ opposed:
       bomb: >-
         🧨 bomb
       ties: >-
-        ≠ ties
+        ⏫ ties
       cancels: >-
         🚫 cancels
       none: no special advantages
