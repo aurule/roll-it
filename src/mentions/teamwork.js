@@ -34,8 +34,7 @@ module.exports = {
     const test = teamwork_db.findTestByMessage(interaction.reference.messageId)
 
     if (test === undefined) {
-      const t = i18n.getFixedT(interaction.locale, "interactive", "teamwork")
-      return interaction.whisper(t("concluded")).catch((error) =>
+      return interaction.whisper(i18n.t("concluded", { ns: "teamwork", lng: interaction.locale })).catch((error) =>
         logger.warn(
           {
             err: error,
@@ -47,7 +46,7 @@ module.exports = {
       )
     }
 
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
+    const t = i18n.getFixedT(test.locale, "teamwork")
 
     if (test.expired) {
       await teamworkTimeout(test.id)

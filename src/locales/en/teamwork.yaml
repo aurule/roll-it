@@ -1,0 +1,100 @@
+---
+prompt:
+  initial: |-
+    {{leader}} started a teamwork test!
+
+    $t(teamwork.prompt.instructions)
+
+    $t(teamwork.prompt.timeout)
+  initial_description: |-
+    {{leader}} started a teamwork test for "{{description}}"
+
+    $t(teamwork.prompt.instructions)
+
+    $t(teamwork.prompt.timeout)
+  instructions: >-
+    To add dice to their pool, reply to this message with the number of dice you're adding. If you make a
+    mistake and need to change your contribution, just reply again. {{leader}} can do the same to change
+    their starting pool.
+  timeout: If the final result is not rolled {{timeout}}, the test will be cancelled automatically.
+  components:
+    cancel: Cancel Test
+    request: Request help from these users
+    roll: Roll Final Result
+  done: The teamwork test led by {{leader}} has ended.
+  done_description: The teamwork test led by {{leader}} for "{{description}}" has ended.
+  link: >-
+    -# If you're ready to roll the final result, click the button on the [initial prompt]({{prompt_link}}).
+help_requested:
+  message_added: >-
+    {{leader}} requested help from {{helpers, list}}. $t(teamwork.help_requested.instructions)
+  message_removed: >-
+    {{leader}} has requested help. $t(teamwork.help_requested.instructions)
+  unchanged: >-
+    Helpers did not change.
+  instructions: To add to their test, reply to a message like this one with the number of dice you're adding.
+help_given:
+  missing: I couldn't find a number in that message.
+  invalid: I don't know how you did it, but I know that's not a number.
+  success_helper: |-
+    {{helper}} added $t(teamwork.dice, { "count": {{count}} })!
+
+    $t(teamwork.help_given.instructions)
+    $t(teamwork.prompt.link)
+  success_leader: |-
+    {{helper}} updated their pool.
+
+    $t(teamwork.help_given.instructions)
+    $t(teamwork.prompt.link)
+  instructions: >-
+    To add to the test, reply to a message like this one with the number of dice you're adding. If you made
+    a mistake and need to change your contribution, just reply again.
+dice_one: 1 die
+dice_other: >-
+  {{count}} dice
+rolled: |-
+  {{presented}}
+  -# This is the result of a teamwork test.
+embeds:
+  summary:
+    title: Teamwork Contributions
+    body: >-
+      Here's who contributed to the test led by {{leader}}:
+    body_description: >-
+      Here's who contributed to the test led by {{leader}} for "{{description}}":
+    fields:
+      leader:
+        title: Leader
+        body: >-
+          {{leader}} with $t(teamwork.dice, { "count": {{count}} })
+      helper-name:
+        title: Helper
+      helper-bonus:
+        title: Bonus
+  change:
+    title: Helpers So Far
+    body: >-
+      Users who have added dice to the test led by {{leader}}:
+    body_description: >-
+      Users who have added dice to the test led by {{leader}} for "{{description}}":
+    fields:
+      helper-name:
+        title: Helper
+      helper-bonus:
+        title: Bonus
+    helper_normal: >-
+      ➕ {{mention}}
+    helper_present: >-
+      ✅ {{mention}}
+    helper_missing: >-
+      ❌ {{mention}}
+cancelled: >-
+  {{leader}} cancelled their teamwork test.
+cancelled_description: >-
+  {{leader}} cancelled their teamwork test for "{{description}}".
+timeout: The teamwork test led by {{leader}} ran out of time and has been cancelled.
+timeout_description: The teamwork test led by {{leader}} for "{{description}}" ran out of time and has been cancelled.
+concluded: That teamwork test has concluded.
+invalid: That test has invalid options and cannot be rolled.
+unauthorized: Only the test leader {{leader}} can use this control.
+unavailable: That teamwork test is no longer available.
