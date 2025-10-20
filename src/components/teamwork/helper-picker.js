@@ -10,7 +10,7 @@ module.exports = {
   name: "teamwork_request",
   data: (locale) =>
     new UserSelectMenuBuilder({
-      placeholder: i18n.t("teamwork.prompt.components.request", { ns: "interactive", lng: locale }),
+      placeholder: i18n.t("prompt.components.request", { ns: "teamwork", lng: locale }),
     })
       .setCustomId("teamwork_request")
       .setMinValues(0)
@@ -21,7 +21,7 @@ module.exports = {
 
     interaction.authorize(test.leader)
 
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
+    const t = i18n.getFixedT(test.locale, "teamwork")
 
     const original = teamwork_db.getRequestedHelpers(test.id).map((h) => h.user_uid)
     const current = interaction.values

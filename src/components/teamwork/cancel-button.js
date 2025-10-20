@@ -8,7 +8,7 @@ module.exports = {
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("teamwork_cancel")
-      .setLabel(i18n.t("teamwork.prompt.components.cancel", { ns: "interactive", lng: locale }))
+      .setLabel(i18n.t("prompt.components.cancel", { ns: "teamwork", lng: locale }))
       .setStyle(ButtonStyle.Danger),
   async execute(interaction) {
     const teamwork_db = new Teamwork()
@@ -16,7 +16,7 @@ module.exports = {
 
     interaction.authorize(teamwork_test.leader)
 
-    const t = i18n.getFixedT(teamwork_test.locale, "interactive", "teamwork")
+    const t = i18n.getFixedT(teamwork_test.locale, "teamwork")
 
     const { cleanup } = require("../../interactive/teamwork")
     cleanup(teamwork_test.id)

@@ -10,7 +10,7 @@ module.exports = {
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("teamwork_roll")
-      .setLabel(i18n.t("teamwork.prompt.components.roll", { ns: "interactive", lng: locale }))
+      .setLabel(i18n.t("prompt.components.roll", { ns: "teamwork", lng: locale }))
       .setStyle(ButtonStyle.Success),
   async execute(interaction) {
     const teamwork_db = new Teamwork()
@@ -19,7 +19,7 @@ module.exports = {
     interaction.authorize(test.leader)
 
     const TeamworkManager = require("../../interactive/teamwork")
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
+    const t = i18n.getFixedT(test.locale, "teamwork")
 
     const final_pool = teamwork_db.getFinalSum(test.id)
 

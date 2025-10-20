@@ -56,8 +56,6 @@ module.exports = {
 
     teamwork_db.addHelper({ teamwork_id: test_id, userId: leader_id, dice: pool })
 
-    const t = i18n.getFixedT(locale, "interactive", "teamwork")
-
     const buttons_row = new ActionRowBuilder().addComponents(
       cancel_button.data(locale),
       roll_button.data(locale),
@@ -68,7 +66,9 @@ module.exports = {
     const expiry = new Date(Date.now() + MAX_DURATION)
     return interaction
       .reply({
-        content: t("prompt.initial", {
+        content: i18n.t("prompt.initial", {
+          ns: "teamwork",
+          lng: locale,
           leader: userMention(leader_id),
           description: description,
           context: description ? "description" : undefined,
@@ -124,14 +124,14 @@ module.exports = {
 
     module.exports.cleanup(teamwork_id)
 
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
-
     const t_args = {
+      ns: "teamwork",
+      lng: test.locale,
       leader: userMention(test.leader),
       description: test.description,
       context: test.description ? "description" : undefined,
     }
-    return sendMessage(test.channel_uid, { content: t("timeout", t_args) }).catch((error) =>
+    return sendMessage(test.channel_uid, { content: i18n.t("timeout", t_args) }).catch((error) =>
       logger.error(
         {
           err: error,
@@ -157,14 +157,15 @@ module.exports = {
 
     teamwork_db.destroy(teamwork_id)
 
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork")
     const t_args = {
+      ns: "teamwork",
+      lng: test.locale,
       leader: userMention(test.leader),
       description: test.description,
       context: test.description ? "description" : undefined,
     }
     return editMessage(test.channel_uid, prompt_uid, {
-      content: t("prompt.done", t_args),
+      content: i18n.t("prompt.done", t_args),
       components: [],
       allowedMentions: { parse: [] },
     }).catch((error) =>

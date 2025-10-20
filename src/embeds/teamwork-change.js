@@ -15,7 +15,7 @@ module.exports = {
   name: "teamwork_change",
   data: (test) => {
     const teamwork_db = new Teamwork()
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork.embeds.change")
+    const t = i18n.getFixedT(test.locale, "teamwork", "embeds.change")
 
     const embed = new EmbedBuilder().setColor(0x03b199).setTitle(t("title"))
 

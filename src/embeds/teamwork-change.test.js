@@ -8,7 +8,7 @@ describe("teamwork change embed", () => {
     let helper
 
     beforeEach(() => {
-      t = i18n.getFixedT("en-US", "interactive", "teamwork.embeds.change")
+      t = i18n.getFixedT("en-US", "teamwork", "embeds.change")
     })
 
     describe("with a non-requested helper", () => {

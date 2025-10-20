@@ -7,7 +7,7 @@ module.exports = {
   name: "teamwork_summary",
   data: (test) => {
     const teamwork_db = new Teamwork()
-    const t = i18n.getFixedT(test.locale, "interactive", "teamwork.embeds.summary")
+    const t = i18n.getFixedT(test.locale, "teamwork", "embeds.summary")
 
     const embed = new EmbedBuilder().setColor(0x03b199).setTitle(t("title"))
 
