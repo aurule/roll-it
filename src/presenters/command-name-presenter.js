@@ -1,5 +1,3 @@
-const { inlineCode, italic } = require("discord.js")
-
 const { i18n } = require("../locales")
 
 /**
