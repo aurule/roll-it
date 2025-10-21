@@ -840,9 +840,20 @@ met:
       throw:
         name: throw
         description: The symbol you want to use. Default is random.
+        choices:
+          rock: ⛰️ Rock
+          paper: 📜 Paper
+          scissors: ✂️ Scissors
+          bomb: 🧨 Bomb
+          rand: 🔀 Random Rock-Paper-Scissors
+          rand-bomb: 🔀💥 Random Rock-Bomb-Scissors
       vs:
         name: vs
         description: Symbols your virtual opponent can use against you. Default is R/P/S.
+        choices:
+          rand: 🔀 Random Rock-Paper-Scissors
+          rand-bomb: 🔀💥 Random Rock-Bomb-Scissors
+          none: 🚫 None
     response:
       outcome:
         win: win

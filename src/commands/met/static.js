@@ -1,6 +1,5 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
-const { throwChoices, vsChoices } = require("../../util/met-throw-options")
 const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/results/met-static-results-presenter")
 const { injectMention } = require("../../util/formatters")
@@ -16,8 +15,8 @@ module.exports = {
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addStringOption(commonOpts.description)
-      .addLocalizedStringOption("throw", (option) => option.setChoices(...throwChoices))
-      .addLocalizedStringOption("vs", (option) => option.setChoices(...vsChoices))
+      .addLocalizedStringOption("throw", (option) => option.setLocalizedChoices("rock", "paper", "bomb", "scissors", "rand", "rand-bomb"))
+      .addLocalizedStringOption("vs", (option) => option.setLocalizedChoices("rand", "rand-bomb", "none"))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   judge(compared, locale) {
