@@ -12,7 +12,7 @@ module.exports = {
   name: "opposed_cancel",
   valid_states: ["cancelling"],
   data: (locale) => {
-    const t = i18n.getFixedT(locale, "interactive", "opposed.cancelling.components.cancel")
+    const t = i18n.getFixedT(locale, "opposed", "cancelling.components.cancel")
     return new ButtonBuilder()
       .setCustomId("opposed_cancel")
       .setLabel(t("text"))
@@ -25,8 +25,7 @@ module.exports = {
     interaction.authorize(test.canceller.user_uid)
 
     if (!test.cancelled_with) {
-      const t = i18n.getFixedT(test.locale, "interactive", "opposed.cancelling")
-      return interaction.ensure("whisper", t("missing"), {
+      return interaction.ensure("whisper", i18n.t("cancelling.missing", { lng: test.locale, ns: "opposed" }), {
         component: "opposed_cancel",
         test: test,
         detail: "failed to whisper about missing cancel reason ",

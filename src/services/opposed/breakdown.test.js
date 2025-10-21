@@ -10,7 +10,7 @@ describe("opposed result breakdown creator", () => {
     let t
 
     beforeAll(() => {
-      t = i18n.getFixedT("en-US", "interactive", "opposed")
+      t = i18n.getFixedT("en-US", "opposed")
     })
 
     beforeEach(() => {

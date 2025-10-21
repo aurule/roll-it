@@ -11,7 +11,7 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
     const participants = opposed_db.getParticipants(challenge_id)
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(challenge.locale, "opposed")
 
     const t_args = {
       attacker: participants.get("attacker").mention,

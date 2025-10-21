@@ -16,7 +16,7 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.throws")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "throws")
 
     const components = [
       build.text(t("request", { participant: attacker.mention })),

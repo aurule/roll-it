@@ -34,7 +34,7 @@ module.exports = {
     const chops = opposed_db.getChopsForTest(test.id)
     const attacker_chop = chops.find((c) => c.participant_id === challenge.attacker.id)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.bidding")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "bidding")
     const components = [
       build.text(t("prompt", { participant: challenge.defender.mention })),
       build.text(
@@ -53,7 +53,7 @@ module.exports = {
     const opposed_db = new Opposed()
     const test = opposed_db.findTestByMessage(msg_interaction.reference.messageId)
 
-    const t = i18n.getFixedT(msg_interaction.guild.locale ?? "en-US", "interactive", "opposed")
+    const t = i18n.getFixedT(msg_interaction.guild.locale ?? "en-US", "opposed")
 
     msg_interaction.authorize(test.defender.user_uid)
 

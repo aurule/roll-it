@@ -20,8 +20,8 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.advantages-defender")
-    const shared_t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "advantages-defender")
+    const shared_t = i18n.getFixedT(challenge.locale, "opposed", "shared")
 
     const components = [
       build.text(
@@ -58,8 +58,8 @@ module.exports = {
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.advantages-defender")
-    const shared_t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "advantages-defender")
+    const shared_t = i18n.getFixedT(challenge.locale, "opposed", "shared")
 
 
     return build.textMessage(

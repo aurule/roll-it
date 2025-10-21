@@ -13,7 +13,7 @@ module.exports = {
     const test = opposed_db.getLatestTest(challenge_id)
     const history = opposed_db.getChallengeHistory(challenge_id).join("\n")
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(challenge.locale, "opposed")
 
     const components = [
       build.text(

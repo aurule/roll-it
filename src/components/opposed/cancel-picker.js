@@ -11,8 +11,8 @@ module.exports = {
   data: (challenge) => {
     const t = i18n.getFixedT(
       challenge.locale,
-      "interactive",
-      "opposed.cancelling.components.picker",
+      "opposed",
+      "cancelling.components.picker",
     )
     return new StringSelectMenuBuilder()
       .setCustomId("opposed_cancel_select")

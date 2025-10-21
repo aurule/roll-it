@@ -10,7 +10,7 @@ module.exports = {
   data: (challenge_id) => {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(challenge.locale, "opposed")
 
     const t_args = {
       withResponse: true,

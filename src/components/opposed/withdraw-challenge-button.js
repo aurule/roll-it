@@ -16,8 +16,8 @@ module.exports = {
     new ButtonBuilder()
       .setCustomId("opposed_withdraw_challenge")
       .setLabel(
-        i18n.t("opposed.advantages-attacker.components.withdraw", {
-          ns: "interactive",
+        i18n.t("advantages-attacker.components.withdraw", {
+          ns: "opposed",
           lng: locale,
         }),
       )

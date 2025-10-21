@@ -11,7 +11,7 @@ module.exports = {
   name: "opposed_continue",
   valid_states: ["cancelling"],
   data: (locale) => {
-    const t = i18n.getFixedT(locale, "interactive", "opposed.cancelling.components.continue")
+    const t = i18n.getFixedT(locale, "opposed", "cancelling.components.continue")
     return new ButtonBuilder()
       .setCustomId("opposed_continue")
       .setLabel(t("text"))

@@ -15,7 +15,7 @@ module.exports = {
     const challenge = opposed_db.getChallenge(challenge_id)
     const participants = opposed_db.getParticipants(challenge_id)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.bidding")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "bidding")
     return build.textMessage(t("prompt", { participant: participants.get("attacker").mention }), {
       withResponse: true,
     })
@@ -24,13 +24,13 @@ module.exports = {
     const opposed_db = new Opposed()
     const test = opposed_db.findTestByMessage(interaction.reference.messageId)
 
-    const t = i18n.getFixedT(interaction.guild.locale ?? "en-US", "interactive", "opposed")
+    const t = i18n.getFixedT(interaction.guild.locale ?? "en-US", "opposed", "bidding")
 
     interaction.authorize(test.attacker.user_uid)
 
     const matched_number = extractNumber(interaction.content)
     if (matched_number === undefined) {
-      return interaction.whisper(t("bidding.missing")).catch((error) =>
+      return interaction.whisper(t("missing")).catch((error) =>
         logger.error(
           {
             err: error,
@@ -44,7 +44,7 @@ module.exports = {
     }
 
     if (matched_number === NaN) {
-      return interaction.whisper(t("bidding.invalid")).catch((error) =>
+      return interaction.whisper(t("invalid")).catch((error) =>
         logger.error(
           {
             err: error,

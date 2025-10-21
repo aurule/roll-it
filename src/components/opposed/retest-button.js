@@ -26,7 +26,7 @@ module.exports = {
   name: "opposed_retest",
   valid_states: ["winning", "tying"],
   data: (locale) => {
-    const t = i18n.getFixedT(locale, "interactive", "opposed.shared.retest.button")
+    const t = i18n.getFixedT(locale, "opposed", "shared.retest.button")
     return new ButtonBuilder()
       .setCustomId("opposed_retest")
       .setLabel(t("text"))
@@ -40,7 +40,7 @@ module.exports = {
 
     interaction.authorize(...participants.map((p) => p.user_uid))
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(challenge.locale, "opposed")
 
     const test = opposed_db.getLatestTest(challenge.id)
 

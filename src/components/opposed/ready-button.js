@@ -31,7 +31,7 @@ module.exports = {
   data: (locale, participant) =>
     new ButtonBuilder()
       .setCustomId(`opposed_ready_${participant.id}`)
-      .setLabel(i18n.t("opposed.shared.ready", { ns: "interactive", lng: locale }))
+      .setLabel(i18n.t("shared.ready", { ns: "opposed", lng: locale }))
       .setStyle(ButtonStyle.Success),
   async execute(interaction) {
     const opposed_db = new Opposed()
@@ -44,7 +44,7 @@ module.exports = {
 
     interaction.authorize(allowed_participant.user_uid)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(challenge.locale, "opposed")
 
     if (allowed_participant.id === attacker.id) {
       const advantages_attacker = require("../../messages/opposed/advantages-attacker")

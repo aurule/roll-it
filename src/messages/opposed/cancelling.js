@@ -17,7 +17,7 @@ module.exports = {
     const challenge = opposed_db.getChallenge(challenge_id)
     const test = opposed_db.getLatestTest(challenge_id)
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling")
 
     const reason = test.retest_reason
 
@@ -48,7 +48,7 @@ module.exports = {
     const opposed_db = new Opposed()
     const challenge = opposed_db.getChallenge(challenge_id)
     const test = opposed_db.getLatestTest(challenge_id)
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.cancelling")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling")
 
     lines = [t(`headline.${test.retest_reason}`, {
       retester: test.retester.mention,
@@ -63,8 +63,8 @@ module.exports = {
         break;
       case "cancel":
         lines.push(
-          i18n.t("opposed.shared.history.cancelled", {
-            ns: "interactive",
+          i18n.t("shared.history.cancelled", {
+            ns: "opposed",
             lng: challenge.locale,
             canceller: test.canceller.mention,
             reason: test.cancelled_with

@@ -9,7 +9,7 @@ module.exports = {
   name: "opposed_retest_select",
   valid_states: ["winning", "tying"],
   data: (challenge) => {
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed.shared.retest.picker")
+    const t = i18n.getFixedT(challenge.locale, "opposed", "shared.retest.picker")
     return new StringSelectMenuBuilder()
       .setCustomId("opposed_retest_select")
       .setPlaceholder(t("placeholder"))
@@ -25,7 +25,7 @@ module.exports = {
 
     interaction.authorize(...participants.map((p) => p.user_uid))
 
-    const t = i18n.getFixedT(challenge.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(challenge.locale, "opposed")
 
     const current_participant = participants.find((p) => p.user_uid === interaction.user.id)
 

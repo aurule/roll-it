@@ -79,8 +79,7 @@ module.exports = {
 
     // fail unless challenge exists, is current, and is not finalized
     if (challenge === undefined || challenge.expired || challenge.finished) {
-      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-      return interaction.ensure("whisper", t("concluded"), {
+      return interaction.ensure("whisper", i18n.t("concluded", { lng: interaction.locale, ns: "opposed" }), {
         user: interaction.user.id,
         component: interaction.customId,
         challenge,
@@ -95,8 +94,7 @@ module.exports = {
         opposed_db.messageIsForLatestTest(message_id)
       )
     ) {
-      const t = i18n.getFixedT(interaction.locale, "interactive", "opposed")
-      return interaction.ensure("whisper", t("outdated"), {
+      return interaction.ensure("whisper", i18n.t("outdated", { lng: interaction.locale, ns: "opposed" }), {
         user: interaction.user.id,
         component: interaction.customId,
         challenge,
@@ -115,8 +113,8 @@ module.exports = {
         })
         return interaction
           .whisper(
-            i18n.t("opposed.unauthorized", {
-              ns: "interactive",
+            i18n.t("unauthorized", {
+              ns: "opposed",
               lng: interaction.locale,
               participants: err.allowed_uids.map(userMention),
             }),

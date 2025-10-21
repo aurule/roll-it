@@ -14,7 +14,7 @@ module.exports = {
   data: (locale) => {
     return new ButtonBuilder()
       .setCustomId("opposed_withdraw_retest")
-      .setLabel(i18n.t("opposed.shared.withdraw", { ns: "interactive", lng: locale }))
+      .setLabel(i18n.t("shared.withdraw", { ns: "opposed", lng: locale }))
       .setStyle(ButtonStyle.Secondary)
   },
   async execute(interaction) {

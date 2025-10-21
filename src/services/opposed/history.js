@@ -7,7 +7,7 @@ const { Opposed } = require("../../db/opposed")
  * @return {string}      Generated history string for the test
  */
 function makeHistory(test) {
-  const t = i18n.getFixedT(test.locale, "interactive", "opposed.shared.history")
+  const t = i18n.getFixedT(test.locale, "opposed", "shared.history")
 
   const opposed_db = new Opposed()
   const outcome_args = {

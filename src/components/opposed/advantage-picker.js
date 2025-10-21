@@ -10,7 +10,7 @@ module.exports = {
   name: "opposed_advantage_select",
   valid_states: ["advantages-attacker", "advantages-defender"],
   data: (locale, participant) => {
-    const t = i18n.getFixedT(locale, "interactive", "opposed.shared.advantages-picker")
+    const t = i18n.getFixedT(locale, "opposed", "shared.advantages-picker")
     return new StringSelectMenuBuilder()
       .setCustomId(`opposed_advantage_select_${participant.id}`)
       .setPlaceholder(t("placeholder"))

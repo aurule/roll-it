@@ -16,7 +16,7 @@ module.exports = {
     new ButtonBuilder()
       .setCustomId("opposed_relent")
       .setLabel(
-        i18n.t("opposed.advantages-defender.components.relent", { ns: "interactive", lng: locale }),
+        i18n.t("advantages-defender.components.relent", { ns: "opposed", lng: locale }),
       )
       .setStyle(ButtonStyle.Secondary),
   async execute(interaction) {

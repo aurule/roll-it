@@ -89,8 +89,8 @@ module.exports = {
         })
         return interaction
           .whisper(
-            i18n.t("opposed.unauthorized", {
-              ns: "interactive",
+            i18n.t("unauthorized", {
+              ns: "opposed",
               lng: interaction.locale,
               participants: err.allowed_uids.map(userMention),
             }),

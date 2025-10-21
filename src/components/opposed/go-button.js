@@ -52,7 +52,7 @@ function chooseLeader(chops, participants, challenge_id) {
  */
 async function resolveChops({ interaction, chops, participants, test }) {
   const opposed_db = new Opposed()
-  const t = i18n.getFixedT(test.locale, "interactive", "opposed")
+  const t = i18n.getFixedT(test.locale, "opposed")
 
   for (const chop of chops) {
     const result = handleRequest(chop.request, 1)
@@ -139,7 +139,7 @@ module.exports = {
   data: (locale) =>
     new ButtonBuilder()
       .setCustomId("go_button")
-      .setLabel(i18n.t("opposed.throws.components.go", { ns: "interactive", lng: locale }))
+      .setLabel(i18n.t("throws.components.go", { ns: "opposed", lng: locale }))
       .setEmoji("1303828291492515932")
       .setStyle(ButtonStyle.Success),
   async execute(interaction) {
@@ -150,7 +150,7 @@ module.exports = {
 
     interaction.authorize(...participants.map((p) => p.user_uid))
 
-    const t = i18n.getFixedT(test.locale, "interactive", "opposed")
+    const t = i18n.getFixedT(test.locale, "opposed")
 
     let chops = opposed_db.getChopsForTest(test.id)
     const user_chop = chops.find((c) => c.participant_id === current_participant.id)

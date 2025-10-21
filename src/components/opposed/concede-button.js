@@ -11,7 +11,7 @@ module.exports = {
   name: "opposed_concede",
   valid_states: ["winning"],
   data: (locale) => {
-    const t = i18n.getFixedT(locale, "interactive", "opposed.winning.concede")
+    const t = i18n.getFixedT(locale, "opposed", "winning.concede")
     return new ButtonBuilder()
       .setCustomId("opposed_concede")
       .setLabel(t("text"))

@@ -7,7 +7,7 @@ const { UnauthorizedError } = require("../errors/unauthorized-error")
 const { textMessage } = require("../util/message-builders")
 
 const RETRY_KEYWORDS = available_locales.map((locale) =>
-  i18n.t("opposed.retry", { lng: locale, ns: "interactive" }),
+  i18n.t("retry", { lng: locale, ns: "opposed" }),
 )
 
 module.exports = {
@@ -77,8 +77,8 @@ module.exports = {
           })
           return interaction.ensure(
             "whisper",
-            i18n.t("opposed.unauthorized", {
-              ns: "interactive",
+            i18n.t("unauthorized", {
+              ns: "opposed",
               lng: interaction.locale,
               context: "mention",
               participants: err.allowed_uids.map(userMention),
@@ -99,8 +99,8 @@ module.exports = {
     }
 
     return interaction.whisper(
-      i18n.t("opposed.unknown", {
-        ns: "interactive",
+      i18n.t("unknown", {
+        ns: "opposed",
         lng: interaction.locale,
       }),
     )
