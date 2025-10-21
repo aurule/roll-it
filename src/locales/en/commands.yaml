@@ -1135,7 +1135,7 @@ roll:
       {{results}}
     result: "**{{total}}** ({{detail}})"
 save-this-roll:
-  name: Save this roll
+  name: Save this roll...
   description: Save a roll you've made so you can reuse it later
   help-lines:
     - >
