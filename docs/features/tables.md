@@ -29,3 +29,4 @@ Here are some example tables that work with Roll It. They're ready to use immedi
 
 * [Deck of Many Things (D&D 3.5e)](../samples/deck-of-many-things-35e.txt ':ignore')
 * [Wand of Wonder (D&D 5e)](../samples/wand-of-wonder-5e.txt ':ignore')
+* [Wild Magic Surge (D&D 5e)](../samples/wild-magic-surge-5e.txt ':ignore')
