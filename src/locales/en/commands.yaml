@@ -960,7 +960,7 @@ nwod:
     - >
       The {{opts.teamwork}} option starts a special teamwork roll that lets other people add dice to your
       pool by responding to a prompt. This is not compatible with the {{opts.rolls}}, {{opts.until}}, or
-      {{opts.secret}} options.
+      {{opts.secret}} options. $t(shared.teamwork)
     - >-
       Although {{cmd}} is happy to roll a chance die, you have to have a {{opts.pool}} of at least 1
       in order to save the roll.
@@ -1430,7 +1430,8 @@ shadowrun:
     - >
       The {{opts.teamwork}} option starts a special teamwork roll that lets other people add dice to your
       pool by responding to a prompt. This is not compatible with the {{opts.rolls}}, {{opts.until}}, or
-      {{opts.secret}} options. Only useful for 4e and 6e, since other editions use different teamwork mechanics.
+      {{opts.secret}} options. Only useful for 4e and 6e, since other editions use different teamwork
+      mechanics. $t(shared.teamwork)
   help: |-
     $t(shadowrun.help-lines, { "joinArrays": "\n" })
   options:
@@ -1507,6 +1508,9 @@ shadowrun:
       regular: "**{{tally}}**"
       glitch: "**{{tally}}** with a **glitch**"
       crit-glitch: a **critical glitch**
+shared:
+  teamwork: >-
+    See the [Guide to Teamwork Tests](<https://aurule.github.io/roll-it/#/features/teamwork) to read more.
 singleton:
   # Response strings shared by all commands which roll a single die. Each command must have its own name,
   # description, and help attributes, as this block is only for shared responses.
@@ -1750,7 +1754,7 @@ wod20:
     - >
       The {{opts.teamwork}} option starts a special teamwork roll that lets other people add dice to
       your pool by responding to a prompt. This is not compatible with the {{opts.rolls}},
-      {{opts.until}}, or {{opts.secret}} options.
+      {{opts.until}}, or {{opts.secret}} options. $t(shared.teamwork)
   help: |-
     $t(wod20.help-lines, { "joinArrays": "\n" })
   options:
