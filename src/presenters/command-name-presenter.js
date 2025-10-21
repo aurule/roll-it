@@ -46,6 +46,8 @@ function present(command, locale, options = {}) {
 /**
  * Make a text list of all commands
  *
+ * This list is intended to be formatted using the discord.js `ul` function.
+ *
  * @param  {Collection}       all_commands Collection of Command objects, ideally sorted
  * @param  {str}              locale       Locale name for the command string
  * @return {Array<str|str[]>}              List of markdown-formatted command names, including subcommands
@@ -54,12 +56,7 @@ function list(all_commands, locale) {
   const t = i18n.getFixedT(locale, "commands")
   return all_commands.map((cmd) => {
     const command_id = cmd.i18nId ?? cmd.name
-    let description
-    if (cmd.parent) {
-      description = t(`${cmd.parent}.${command_id}.description`)
-    } else {
-      description = t(`${command_id}.description`)
-    }
+    const description = cmd.parent ? t(`${cmd.parent}.${command_id}.description`) : t(`${command_id}.description`)
     return `${present(cmd, locale)} - ${description}`
   })
 }
