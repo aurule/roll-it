@@ -31,10 +31,8 @@ This is because blocking someone on Discord does not stop them from using server
 Yes, yes there is.
 
 * `/8ball` - Get an answer from the Magic 8 Ball
-* `/table add` - Upload a new rollable table
 * `/chop` - Make a rock-paper-scissors roll
 * `/coin` - Flip a coin
-* `/help command` - Get help about a command
 * `/curv` - Roll 3d6 for D&D 5e
 * `/d4` - Roll some four-sided dice
 * `/d6` - Roll some six-sided dice
@@ -45,32 +43,34 @@ Yes, yes there is.
 * `/d100` - Roll some percentile (100-sided) dice
 * `/drh` - Roll pools of d6s for Don't Rest Your Head
 * `/fate` - Make a FATE roll of four fudge dice
-* `/help feedback` - Send feedback to Roll It's creator
 * `/ffrpg` - Roll a percentile vs CoS for Final Fantasy
 * `/formula` - Roll a combination of dice and complex modifiers
-* `/saved grow` - Make a small change to a saved roll
 * `/help` - Get help with Roll It and its commands
+    - `/help command` - Get help about a command
+    - `/help feedback` - Send feedback to Roll It's creator
+    - `/help topic` - Get help about a topic
 * `/kob` - Roll an exploding die for Kids On Bikes
-* `/saved list` - List the rolls you've saved on this server
-* `/table list` - List the tables on this server
-* `/saved manage` - Change or remove a saved roll
-* `/table manage` - Explain or remove a table
 * `/met` - Roll rock-paper-scissors for MET, or start an opposed test
+    - `/met opposed` - Start an interactive, opposed MET rock-paper-scissors test
+    - `/met static` - Make a MET rock-paper-scissors roll
 * `/nwod` - Roll a pool of d10s using rules for New World of Darkness
-* `/met opposed` - Start an interactive, opposed MET rock-paper-scissors test
 * `/pba` - Roll and sum two six-sided dice
 * _Report this roll..._ - Send feedback about a roll result
 * `/roll` - Roll a set of plain dice
-* `/saved roll` - Use one of your saved rolls
-* `/table roll` - Roll a random entry from a table
-* _Save this roll_ - Save a roll you've made so you can reuse it later
+* _Save this roll..._ - Save a roll you've made so you can reuse it later
 * `/saved` - Save your most common rolls and re-use them
+    - `/saved grow` - Make a small change to a saved roll
+    - `/saved list` - List the rolls you've saved on this server
+    - `/saved manage` - Change or remove a saved roll
+    - `/saved roll` - Use one of your saved rolls
 * `/setup-roll-it` - Set up Roll It with the commands you need
 * `/shadowrun` - Roll a pool of d6s for Shadowrun
-* `/met static` - Make a MET rock-paper-scissors roll
 * `/swn` - Roll and sum two six-sided dice using rules for Stars Without Number
 * `/table` - Add, manage, and roll on random tables
-* `/help topic` - Get help about a topic
+    - `/table add` - Upload a new rollable table
+    - `/table list` - List the tables on this server
+    - `/table manage` - Explain or remove a table
+    - `/table roll` - Roll a random entry from a table
 * `/wod20` - Roll a pool of d10s using rules for World of Darkness 20th Anniversary
 
-*Last updated for v1.12.0 on Oct. 16, 2025*
+*Last updated for v1.12.0 on Oct. 21, 2025*
