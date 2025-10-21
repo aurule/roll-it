@@ -51,14 +51,14 @@ function present(command, locale, options = {}) {
  * @return {Array<str|str[]>}              List of markdown-formatted command names, including subcommands
  */
 function list(all_commands, locale) {
-  const t = i18n.getFixedT(locale)
+  const t = i18n.getFixedT(locale, "commands")
   return all_commands.map((cmd) => {
     const command_id = cmd.i18nId ?? cmd.name
     let description
     if (cmd.parent) {
-      description = t(`commands:${cmd.parent}.${command_id}.description`)
+      description = t(`${cmd.parent}.${command_id}.description`)
     } else {
-      description = t(`commands:${command_id}.description`)
+      description = t(`${command_id}.description`)
     }
     return `${present(cmd, locale)} - ${description}`
   })
