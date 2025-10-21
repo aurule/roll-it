@@ -11,7 +11,7 @@ describe("command name presenter", () => {
       it("uses the name directly", () => {
         const result = CommandNamePresenter.present(save_this_roll_command, "en-US")
 
-        expect(result).toEqual(`*Save this roll*`)
+        expect(result).toEqual(`*Save this roll...*`)
       })
 
       it("with unformatted true, strips md formatting", () => {
@@ -19,7 +19,7 @@ describe("command name presenter", () => {
           unformatted: true,
         })
 
-        expect(result).toEqual(`Save this roll`)
+        expect(result).toEqual(`Save this roll...`)
       })
     })
 
