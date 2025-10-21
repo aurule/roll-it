@@ -23,6 +23,12 @@ Table files must be formatted in a simple, but specific way in order to be used 
 
 ?> A trailing newline on the last line of the file will be ignored instead of adding a blank entry.
 
+### Tips & Tricks
+
+* Despite being a plain text file, Discord will correctly format any markdown within each line. This means that you can freely use [inline text formatting](https://support.discord.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline#h_01GY0DAWJX3CS91G9F1PPJAVBX), spoilers, and website links in table entries.
+* Some published tables duplicate their entries in order to match a commonly-used die size (like 50 entries appearing twice so you can roll a d100). If each entry appears the same number of times, just write it once in the table file.
+* On a technical note, the table files support full UTF-8 encoding. This means that you can use tables written in most languages, or add decorative c̸͋ṟ̴͝a̵̘͌z̵̹̅y text.
+
 ## Sample Table Files
 
 Here are some example tables that work with Roll It. They're ready to use immediately, or as the basis for your own table files.
