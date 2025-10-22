@@ -1,5 +1,3 @@
-const { heading } = require("discord.js")
-
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const topics = require("../../data").help_topics
