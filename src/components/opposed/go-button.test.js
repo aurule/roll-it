@@ -101,7 +101,9 @@ describe("go throw button", () => {
           test: rps_test.record,
         })
 
-        expect(interaction.replyContent).toMatch("<@def> leads (:scroll: paper *vs* <@atk>'s :rock: rock)")
+        expect(interaction.replyContent).toMatch(
+          "<@def> leads (:scroll: paper *vs* <@atk>'s :rock: rock)",
+        )
       })
 
       it("saves test leader", async () => {

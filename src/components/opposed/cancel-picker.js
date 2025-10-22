@@ -9,11 +9,7 @@ module.exports = {
   name: "opposed_cancel_select",
   valid_states: ["cancelling"],
   data: (challenge) => {
-    const t = i18n.getFixedT(
-      challenge.locale,
-      "opposed",
-      "cancelling.components.picker",
-    )
+    const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling.components.picker")
     return new StringSelectMenuBuilder()
       .setCustomId("opposed_cancel_select")
       .setPlaceholder(t("placeholder"))

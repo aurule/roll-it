@@ -25,11 +25,10 @@ module.exports = {
 
     interaction.authorize(test.trailer.user_uid)
 
-    await interaction.message.delete()
-      .catch(() => {
-        // suppress all errors so we can send other messages
-        return
-      })
+    await interaction.message.delete().catch(() => {
+      // suppress all errors so we can send other messages
+      return
+    })
 
     opposed_db.setChallengeState(challenge.id, Challenge.States.Conceded)
     return interaction

@@ -34,16 +34,18 @@ module.exports = {
     const test = teamwork_db.findTestByMessage(interaction.reference.messageId)
 
     if (test === undefined) {
-      return interaction.whisper(i18n.t("concluded", { ns: "teamwork", lng: interaction.locale })).catch((error) =>
-        logger.warn(
-          {
-            err: error,
-            reply_to: interaction.reference.messageId,
-            message: interaction.id,
-          },
-          "Could not whisper about unknown test",
-        ),
-      )
+      return interaction
+        .whisper(i18n.t("concluded", { ns: "teamwork", lng: interaction.locale }))
+        .catch((error) =>
+          logger.warn(
+            {
+              err: error,
+              reply_to: interaction.reference.messageId,
+              message: interaction.id,
+            },
+            "Could not whisper about unknown test",
+          ),
+        )
     }
 
     const t = i18n.getFixedT(test.locale, "teamwork")

@@ -38,8 +38,8 @@ commands:
       command's optional arguments in a list, like it did for the command names. Press `Tab`
       or select the argument name to begin filling it in.
     - >
-      Server managers can set which roll commands are available. See the help for the `/setup-roll-it` command
-      to learn more.
+      Server managers can set which Roll It commands are available. See the help for the `/setup-roll-it`
+      command to learn more.
     - >-
       Here are all of the commands that Roll It knows:
     - >-

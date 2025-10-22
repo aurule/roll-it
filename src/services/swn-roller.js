@@ -23,11 +23,10 @@ module.exports = {
    */
   roll(pool, rolls = 1, reroll = false) {
     return Array.from({ length: rolls }, () => {
-        const first_results = Array.from({ length: pool }, rand)
-        if (!reroll) return first_results
-        
-        return first_results.flatMap((result) => result === 1 ? [result, rand()] : result)
-      },
-    )
+      const first_results = Array.from({ length: pool }, rand)
+      if (!reroll) return first_results
+
+      return first_results.flatMap((result) => (result === 1 ? [result, rand()] : result))
+    })
   },
 }

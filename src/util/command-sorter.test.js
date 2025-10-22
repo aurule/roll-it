@@ -52,7 +52,7 @@ describe("command sorter", () => {
 
     describe("with top-level command", () => {
       it("returns the translated name", () => {
-        const result = normalize({name: "swn"}, t)
+        const result = normalize({ name: "swn" }, t)
 
         expect(result).toMatch("swn")
       })

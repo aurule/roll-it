@@ -66,7 +66,7 @@ describe("opposed cancelling a retest message", () => {
       it.each([
         ["withdraw", "withdrew their retest"],
         ["cancel", "cancelled"],
-        ["continue", "retesting with"]
+        ["continue", "retesting with"],
       ])("%s action shows appropriate content", (action, content) => {
         const result = cancelling.inert(challenge.id, action)
 

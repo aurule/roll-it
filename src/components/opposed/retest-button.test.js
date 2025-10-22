@@ -31,18 +31,21 @@ describe("retest result button", () => {
       ["item", true, false, false],
       ["item", false, true, true],
       ["item", true, true, true],
-    ])("reason with %s\tability_used %p\tcancels %p \treturns %p", (reason, ability_used, cancels, expected) => {
-      const challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
-      const retest = challenge.attackerRetest(reason)
-      challenge.defender.abilityUsed(ability_used)
-      if (cancels) {
-        challenge.defender.setAdvantages(["cancels"])
-      }
+    ])(
+      "reason with %s\tability_used %p\tcancels %p \treturns %p",
+      (reason, ability_used, cancels, expected) => {
+        const challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
+        const retest = challenge.attackerRetest(reason)
+        challenge.defender.abilityUsed(ability_used)
+        if (cancels) {
+          challenge.defender.setAdvantages(["cancels"])
+        }
 
-      const result = retestButton.canCancel(retest.record)
+        const result = retestButton.canCancel(retest.record)
 
-      expect(result).toBe(expected)
-    })
+        expect(result).toBe(expected)
+      },
+    )
   })
 
   describe("execute", () => {
@@ -52,7 +55,9 @@ describe("retest result button", () => {
 
     beforeEach(() => {
       interaction = new Interaction()
-      challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants().attachMessage(interaction.message.id)
+      challenge = new ChallengeFixture(Challenge.States.Winning)
+        .withParticipants()
+        .attachMessage(interaction.message.id)
       rps_test = challenge.defenderRetest(OpTest.RetestReasons.Power).setLeader(challenge.attacker)
       interaction.user.id = challenge.defender_uid
     })

@@ -6,7 +6,7 @@ const {
   ButtonInteraction,
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
-  Message
+  Message,
 } = require("discord.js")
 
 const { UnauthorizedError } = require("../errors/unauthorized-error")
@@ -16,7 +16,12 @@ module.exports = {
    * Create the authorize method
    */
   patch(target_klass) {
-    let klasses = [ButtonInteraction, UserSelectMenuInteraction, StringSelectMenuInteraction, Message]
+    let klasses = [
+      ButtonInteraction,
+      UserSelectMenuInteraction,
+      StringSelectMenuInteraction,
+      Message,
+    ]
     if (target_klass) {
       klasses = [target_klass]
     }

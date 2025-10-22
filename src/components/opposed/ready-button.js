@@ -48,12 +48,10 @@ module.exports = {
 
     if (allowed_participant.id === attacker.id) {
       const advantages_attacker = require("../../messages/opposed/advantages-attacker")
-      await interaction.message
-        .edit(advantages_attacker.inert(challenge.id))
-        .catch(() => {
-          // suppress all other errors so we can try to send something else
-          return
-        })
+      await interaction.message.edit(advantages_attacker.inert(challenge.id)).catch(() => {
+        // suppress all other errors so we can try to send something else
+        return
+      })
 
       opposed_db.setChallengeState(challenge.id, Challenge.States.AdvantagesDefender)
 
@@ -98,12 +96,10 @@ module.exports = {
     }).lastInsertRowid
 
     const advantages_defender = require("../../messages/opposed/advantages-defender")
-    await interaction.message
-      .edit(advantages_defender.inert(challenge.id))
-      .catch(() => {
-        // suppress all other errors so we can try to send something else
-        return
-      })
+    await interaction.message.edit(advantages_defender.inert(challenge.id)).catch(() => {
+      // suppress all other errors so we can try to send something else
+      return
+    })
 
     return interaction
       .ensure("reply", throwing_message.data(challenge.id), {

@@ -79,12 +79,16 @@ module.exports = {
 
     // fail unless challenge exists, is current, and is not finalized
     if (challenge === undefined || challenge.expired || challenge.finished) {
-      return interaction.ensure("whisper", i18n.t("concluded", { lng: interaction.locale, ns: "opposed" }), {
-        user: interaction.user.id,
-        component: interaction.customId,
-        challenge,
-        detail: `Could not whisper about invalid challenge from ${component_name}`,
-      })
+      return interaction.ensure(
+        "whisper",
+        i18n.t("concluded", { lng: interaction.locale, ns: "opposed" }),
+        {
+          user: interaction.user.id,
+          component: interaction.customId,
+          challenge,
+          detail: `Could not whisper about invalid challenge from ${component_name}`,
+        },
+      )
     }
 
     // fail unless component is valid for current state, or message is for an old test
@@ -94,12 +98,16 @@ module.exports = {
         opposed_db.messageIsForLatestTest(message_id)
       )
     ) {
-      return interaction.ensure("whisper", i18n.t("outdated", { lng: interaction.locale, ns: "opposed" }), {
-        user: interaction.user.id,
-        component: interaction.customId,
-        challenge,
-        detail: `Could not whisper about incorrect state from ${component_name}`,
-      })
+      return interaction.ensure(
+        "whisper",
+        i18n.t("outdated", { lng: interaction.locale, ns: "opposed" }),
+        {
+          user: interaction.user.id,
+          component: interaction.customId,
+          challenge,
+          detail: `Could not whisper about incorrect state from ${component_name}`,
+        },
+      )
     }
 
     try {

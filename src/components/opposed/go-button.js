@@ -168,22 +168,18 @@ module.exports = {
     if (!user_chop.ready) {
       const is_attacker = participants.get("attacker").user_uid === interaction.user.id
       const emoji = is_attacker ? "🗡️" : "🛡️"
-      await interaction.message
-        .react(emoji)
-        .catch(() => {
-          // suppress all errors so we can send other messages
-          return
-        })
+      await interaction.message.react(emoji).catch(() => {
+        // suppress all errors so we can send other messages
+        return
+      })
     }
 
     chops = opposed_db.getChopsForTest(test.id)
     if (chops.length > 1 && chops.every((c) => c.ready)) {
-      await interaction.message
-        .delete()
-        .catch(() => {
-          // suppress all errors so we can send other messages
-          return
-        })
+      await interaction.message.delete().catch(() => {
+        // suppress all errors so we can send other messages
+        return
+      })
       return resolveChops({ interaction, chops, participants, test })
     }
   },

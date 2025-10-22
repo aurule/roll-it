@@ -50,27 +50,29 @@ module.exports = {
     const test = opposed_db.getLatestTest(challenge_id)
     const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling")
 
-    lines = [t(`headline.${test.retest_reason}`, {
-      retester: test.retester.mention,
-      ability: challenge.retest_ability,
-    })]
+    lines = [
+      t(`headline.${test.retest_reason}`, {
+        retester: test.retester.mention,
+        ability: challenge.retest_ability,
+      }),
+    ]
 
-    switch(action) {
+    switch (action) {
       case "continue":
-        break;
+        break
       case "withdraw":
         lines.push(t("withdrawn"))
-        break;
+        break
       case "cancel":
         lines.push(
           i18n.t("shared.history.cancelled", {
             ns: "opposed",
             lng: challenge.locale,
             canceller: test.canceller.mention,
-            reason: test.cancelled_with
-          })
+            reason: test.cancelled_with,
+          }),
         )
-        break;
+        break
       default:
         throw new Error(`Unsupported action "${action}"`)
     }

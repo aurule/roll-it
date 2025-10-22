@@ -68,7 +68,14 @@ module.exports = {
         return sacrifice.awful(locale)
     }
   },
-  perform({ pool = 2, rolls = 1, modifier = 0, reroll = false, description, locale = "en-US" } = {}) {
+  perform({
+    pool = 2,
+    rolls = 1,
+    modifier = 0,
+    reroll = false,
+    description,
+    locale = "en-US",
+  } = {}) {
     const raw_results = roll(pool, rolls, reroll)
     const pick_results = pickDice(raw_results, 2, "highest")
     const summed_results = pickedSum(raw_results, pick_results)

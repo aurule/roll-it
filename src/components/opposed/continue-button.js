@@ -24,12 +24,10 @@ module.exports = {
     interaction.authorize(test.canceller.user_uid)
 
     const cancelling_message = require("../../messages/opposed/cancelling")
-    await interaction.message
-      .edit(cancelling_message.inert(test.challenge_id))
-      .catch(() => {
-        // suppress all errors so we can send other messages
-        return
-      })
+    await interaction.message.edit(cancelling_message.inert(test.challenge_id)).catch(() => {
+      // suppress all errors so we can send other messages
+      return
+    })
 
     const next_test_id = opposed_db.addTest({
       challenge_id: test.challenge_id,

@@ -25,11 +25,15 @@ module.exports = {
     interaction.authorize(test.canceller.user_uid)
 
     if (!test.cancelled_with) {
-      return interaction.ensure("whisper", i18n.t("cancelling.missing", { lng: test.locale, ns: "opposed" }), {
-        component: "opposed_cancel",
-        test: test,
-        detail: "failed to whisper about missing cancel reason ",
-      })
+      return interaction.ensure(
+        "whisper",
+        i18n.t("cancelling.missing", { lng: test.locale, ns: "opposed" }),
+        {
+          component: "opposed_cancel",
+          test: test,
+          detail: "failed to whisper about missing cancel reason ",
+        },
+      )
     }
 
     opposed_db.setTestCancelled(test.id)

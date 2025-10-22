@@ -61,7 +61,6 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "opposed", "advantages-defender")
     const shared_t = i18n.getFixedT(challenge.locale, "opposed", "shared")
 
-
     return build.textMessage(
       t("inert", {
         attacker: attacker.mention,

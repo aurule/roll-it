@@ -10,11 +10,7 @@ module.exports = {
   name: "opposed_condition_select",
   valid_states: ["advantages-attacker"],
   data: (locale) => {
-    const t = i18n.getFixedT(
-      locale,
-      "opposed",
-      "advantages-attacker.components.conditions",
-    )
+    const t = i18n.getFixedT(locale, "opposed", "advantages-attacker.components.conditions")
     return new StringSelectMenuBuilder()
       .setCustomId("opposed_condition_select")
       .setPlaceholder(t("placeholder"))

@@ -15,8 +15,12 @@ module.exports = {
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addStringOption(commonOpts.description)
-      .addLocalizedStringOption("throw", (option) => option.setLocalizedChoices("rock", "paper", "bomb", "scissors", "rand", "rand-bomb"))
-      .addLocalizedStringOption("vs", (option) => option.setLocalizedChoices("rand", "rand-bomb", "none"))
+      .addLocalizedStringOption("throw", (option) =>
+        option.setLocalizedChoices("rock", "paper", "bomb", "scissors", "rand", "rand-bomb"),
+      )
+      .addLocalizedStringOption("vs", (option) =>
+        option.setLocalizedChoices("rand", "rand-bomb", "none"),
+      )
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   judge(compared, locale) {

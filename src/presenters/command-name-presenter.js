@@ -56,7 +56,9 @@ function list(all_commands, locale) {
   const t = i18n.getFixedT(locale, "commands")
   return all_commands.map((cmd) => {
     const command_id = cmd.i18nId ?? cmd.name
-    const description = cmd.parent ? t(`${cmd.parent}.${command_id}.description`) : t(`${command_id}.description`)
+    const description = cmd.parent
+      ? t(`${cmd.parent}.${command_id}.description`)
+      : t(`${command_id}.description`)
     return `${present(cmd, locale)} - ${description}`
   })
 }

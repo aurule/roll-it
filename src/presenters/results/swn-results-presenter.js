@@ -52,7 +52,17 @@ module.exports = {
    * @param  {int[]}        options.summed       Array of ints, summing the rolled dice
    * @return {String}                            String describing the roll results
    */
-  present: ({ pool = 2, rolls = 1, reroll = false, locale = "en-US", modifier = 0, description, raw, picked, summed } = {}) => {
+  present: ({
+    pool = 2,
+    rolls = 1,
+    reroll = false,
+    locale = "en-US",
+    modifier = 0,
+    description,
+    raw,
+    picked,
+    summed,
+  } = {}) => {
     const t = i18n.getFixedT(locale, "commands", "swn")
 
     const t_args = {

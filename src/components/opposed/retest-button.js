@@ -69,12 +69,10 @@ module.exports = {
       message = require("../../messages/opposed/tying")
     }
 
-    await interaction.message
-      .edit(message.inert(challenge.id))
-      .catch(() => {
-        // suppress all errors so we can send other messages
-        return
-      })
+    await interaction.message.edit(message.inert(challenge.id)).catch(() => {
+      // suppress all errors so we can send other messages
+      return
+    })
 
     opposed_db.setTestRetested(test.id)
     test.retested = true
@@ -130,7 +128,6 @@ module.exports = {
           })
         })
     }
-
   },
   canCancel,
 }
