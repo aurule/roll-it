@@ -12,11 +12,11 @@ When you need to use a complicated roll over and over again, Roll It can save th
 
 In order to save all this, Roll It uses a context command called *Save this roll*. When you run it on a roll result message, it will prompt you for the name and description for your new roll. Once it's saved, you can use it!
 
-_Save this roll_ is the first context command in Roll It, so it might need some explaining. A context command is a bot action that is not typed out, but is used through a menu within Discord. To get to that menu, you need to take different steps depending on whether you're using Discord on your phone or on a computer. With a phone, you long-press on a message to show the menu. On a computer, you right-click the message. Once that context menu shows up, you select the `Apps` item and a smaller menu opens up. That's where you can find _Save this roll_.
+_Save this roll..._ is the first context command in Roll It, so it might need some explaining. A context command is a bot action that is not typed out, but is used through a menu within Discord. To get to that menu, you need to take different steps depending on whether you're using Discord on your phone or on a computer. With a phone, you long-press on a message to show the menu. On a computer, you right-click the message. Once that context menu shows up, you select the `Apps` item and a smaller menu opens up. That's where you can find _Save this roll..._.
 
 ![Discord message context menu showing the Apps submenu highlighted, and the Save this roll option highlighted](../_images/examples/save-this-roll.png)
 
-#> For an example, let's say you used [`/roll pool:2 sides:6` invocation] and Roll It replied with `@you rolled 9 (2d6: [5,4])`. By long pressing or right clicking on `@you rolled 9 (2d6: [5,4])`, you select `Apps` and then _Save this roll_. Roll It reads the message and determines that you used the `/roll` command with a `pool` of 2 and `sides` of 6. It saves that, and shows a window asking you to give it a name and description. Once you do, you can use your roll!
+#> For an example, let's say you used [`/roll pool:2 sides:6` invocation] and Roll It replied with `@you rolled 9 (2d6: [5,4])`. By long pressing or right clicking on `@you rolled 9 (2d6: [5,4])`, you select `Apps` and then _Save this roll..._. Roll It reads the message and determines that you used the `/roll` command with a `pool` of 2 and `sides` of 6. It saves that, and shows a window asking you to give it a name and description. Once you do, you can use your roll!
 
 ![Discord showing a modal window where the name and description can be entered for a new saved roll](../_images/examples/save-this-roll-result.png)
 
