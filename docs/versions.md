@@ -2,6 +2,35 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.13.0 <small>Released Oct 25, 2025</small>
+
+This release features several new rollers and a completely overhauled interactive experience for `/met opposed`.
+
+### Added
+
+* New `/d12` roller
+* New `/d4` roller
+* The `/swn` roller can now re-roll 1s
+* Added `pool` to `/d10` and `/d100` rollers
+* Add links to the teamwork feature guide to `/nwod`, `/wod20` and `/shadowrun` command help
+
+### Changed
+
+* Complete rewrite of `/met opposed` to be more powerful and resilient
+    - As a result, `/met opposed` now has much simpler options
+* `/swn` results now always show the dice pool
+* Improved how messages are sent to work around spurious "Bot failed to respond" errors from Discord
+* Converted most messages to use Discord components v2
+
+### Fixed
+
+* Command listings in help topics are sorted properly
+* The list of commands now shows correct descriptions for context commands like _Report this roll_
+* You can now save `/d6` and `/d8` commands with a `pool` more than 1
+* Math and syntax errors in `/formula` now show the error description instead of crashing
+* Helpers can now reply to the very first help requested message
+* Teamwork mode allows helpers to add more than 9 dice
+
 ## v1.12.0 <small>Released May 9, 2025</small>
 
 This release completely overhauls the way teamwork tests are handled for `/nwod`, `/shadowrun`, and `/wod20`. It should be much more resilient against Discord's flakyness, as well as clearer and easier to use.
