@@ -65,7 +65,7 @@
     "dice"
   ],
   "engines": {
-    "node": "22"
+    "node": "24"
   },
   "packageManager": "yarn@4.10.3"
 }

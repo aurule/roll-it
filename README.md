@@ -88,7 +88,7 @@ If you want to make a PR, please make sure that the new code has 100% test cover
 * Node 18+
 * Yarn 4
 
-Roll-It currently uses Node 22.
+Roll-It currently uses Node 24.
 
 ## Dev Installation
 
