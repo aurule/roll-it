@@ -126,7 +126,7 @@ describe("teamwork component handler", () => {
       })
 
       it("lets the component handle the interaction", async () => {
-        execute_spy.mockImplementation(() => true)
+        execute_spy.mockImplementation(async () => true)
 
         await teamwork.handle(interaction)
 
@@ -134,7 +134,7 @@ describe("teamwork component handler", () => {
       })
 
       it("replies with an error message when user is unauthorized", async () => {
-        execute_spy.mockImplementation(() => {
+        execute_spy.mockImplementation(async () => {
           throw new UnauthorizedError(interaction, [interaction.user.id])
         })
 
