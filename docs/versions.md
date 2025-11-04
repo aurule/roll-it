@@ -2,6 +2,12 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.13.1 <small>Released Nov 4, 2025</small>
+
+### Fixed
+
+* Using an unauthorized component correctly shows a message instead of erroring out
+
 ## v1.13.0 <small>Released Oct 25, 2025</small>
 
 This release features several new rollers and a completely overhauled interactive experience for `/met opposed`.
