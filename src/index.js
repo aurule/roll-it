@@ -62,7 +62,7 @@ for (const file of eventFiles) {
     client.once(event.name, (...args) => event.execute(...args))
   } else {
     client.on(event.name, (...args) => {
-      const context = JSON.stringify(args[0].toJSON(), (key, value) => {
+      const context = JSON.stringify(event.logContext(...args), (_key, value) => {
         if (typeof value === "bigint") {
           return value.toString()
         }
@@ -79,6 +79,7 @@ for (const file of eventFiles) {
       try {
         return event.execute(...args)
       } finally {
+        if (!event.logMe) return
         timing_data.finished = performance.now()
         logger.debug(timing_data)
         metrics.logTiming(timing_data)

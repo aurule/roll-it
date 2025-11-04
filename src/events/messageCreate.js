@@ -5,6 +5,10 @@ const Mentions = require("../mentions")
 
 module.exports = {
   name: Events.MessageCreate,
+  logMe: false,
+  logContext(_args) {
+    return {}
+  },
   async execute(message) {
     if (!message.mentions.users.has(process.env.CLIENT_ID))
       return Promise.resolve("does not mention bot")

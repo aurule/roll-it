@@ -107,6 +107,41 @@ async function handleComponent(interaction) {
 
 module.exports = {
   name: Events.InteractionCreate,
+  logMe: true,
+  logContext(interaction) {
+    if (interaction.isCommand() || interaction.isChatInputCommand()) {
+      return {
+        commandName: interaction.commandName
+      }
+    }
+
+    if (interaction.isAutocomplete()) {
+      return {
+        commandName: interaction.commandName,
+        option: interaction.options.getFocused(true),
+      }
+    }
+
+    if (interaction.isModalSubmit()) {
+      return {
+        customId: interaction.customId,
+      }
+    }
+
+    if (
+      interaction.isButton() ||
+      interaction.isStringSelectMenu() ||
+      interaction.isUserSelectMenu() ||
+      interaction.isRoleSelectMenu() ||
+      interaction.isChannelSelectMenu() ||
+      interaction.isMentionableSelectMenu()
+    ) {
+      return {
+        componentType: interaction.componentType,
+        customId: interaction.customId,
+      }
+    }
+  },
   handleCommand,
   handleAutocomplete,
   handleModal,
