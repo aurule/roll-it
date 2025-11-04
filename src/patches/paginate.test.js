@@ -111,7 +111,7 @@ describe("pagination helper", () => {
       }
     })
 
-    it("splits at the separator", () => {
+    it("splits at word boundaries", () => {
       const message =
         "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!"
       const length = 100
@@ -122,6 +122,34 @@ describe("pagination helper", () => {
         "I am surprisingly long, actually. I know, it's a real surprise, but truly I…\n-# (message 1/2)",
         "…have over 100 characters!\n-# (message 2/2)",
       ])
+    })
+
+    describe("can split on newline", () => {
+      it("splits the message", () => {
+        const message =
+          "I am surprisingly long, actually. I know, it's a real surprise,\nbut truly I have over 100 characters!"
+        const length = 100
+
+        const result = paginate.splitMessage(message, "\n", length)
+
+        expect(result).toEqual([
+          "I am surprisingly long, actually. I know, it's a real surprise,…\n-# (message 1/2)",
+          "…but truly I have over 100 characters!\n-# (message 2/2)",
+        ])
+      })
+
+      it("preserves formatting after the newline", () => {
+        const message =
+          "I am surprisingly long, actually. I know, it's a real surprise,\n\tbut truly I have over 100 characters!"
+        const length = 100
+
+        const result = paginate.splitMessage(message, "\n", length)
+
+        expect(result).toEqual([
+          "I am surprisingly long, actually. I know, it's a real surprise,…\n-# (message 1/2)",
+          "…\tbut truly I have over 100 characters!\n-# (message 2/2)",
+        ])
+      })
     })
   })
 
