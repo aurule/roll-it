@@ -7,12 +7,14 @@ const {
   ButtonStyle,
   ComponentType,
   MessageFlags,
+  TextDisplayBuilder,
 } = require("discord.js")
 
 const { logger } = require("../util/logger")
 const rollCache = require("../services/roll-cache")
 const { i18n } = require("../locales")
 const { UserSavedRolls } = require("../db/saved_rolls")
+const { presentInvocation } = require("../presenters/saved-roll-presenter")
 
 const VALID_MODES = ["create", "edit", "replace"]
 
@@ -23,7 +25,18 @@ const VALID_MODES = ["create", "edit", "replace"]
  */
 module.exports = {
   name: "saved-roll",
-  data(mode, locale, { name, description } = {}) {
+  /**
+   * Create this modal
+   * @param  {string}   mode                The modal's mode. One of "create", or "edit"
+   * @param  {string}   locale              Locale for translation
+   * @param  {object}   options             Additional options
+   * @param  {string}   options.name        Name of the roll
+   * @param  {string}   options.description Description of the roll
+   * @param  {object}   options.saved       Object containing the command name and options list
+   * @param  {string[]} options.changeable  Array of changeable options for the command
+   * @return {ModalBuilder}                 Modal builder object
+   */
+  data(mode, locale, { name, description, saved = {}, changeable = [] } = {}) {
     if (!VALID_MODES.includes(mode)) {
       throw new Error(`Unrecognized mode "${mode}" for saved roll modal`)
     }
@@ -44,7 +57,6 @@ module.exports = {
     if (name) {
       name_input.setValue(name)
     }
-    const name_row = new ActionRowBuilder().addComponents(name_input)
 
     const desc_input = new TextInputBuilder()
       .setCustomId("description")
@@ -56,9 +68,14 @@ module.exports = {
       .setMaxLength(1500)
     desc_input.data.value = undefined
     if (description) desc_input.setValue(description)
-    const desc_row = new ActionRowBuilder().addComponents(desc_input)
 
-    modal.addComponents(name_row, desc_row)
+    const info_text = new TextDisplayBuilder()
+      .setContent(t("info", {
+        invocation: presentInvocation(saved, locale),
+        changeable: changeable.map(c => `\`${c}\``),
+      }))
+
+    modal.addComponents(info_text, name_input, desc_input)
 
     return modal
   },

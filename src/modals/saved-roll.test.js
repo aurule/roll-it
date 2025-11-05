@@ -25,13 +25,25 @@ describe("saved roll modal", () => {
     it("presets name value if given", () => {
       const modal = SavedRollModal.data("create", "en-US", { name: "test" })
 
-      expect(modal.components[0].components[0].data.value).toEqual("test")
+      expect(modal.components[1].components[0].data.value).toEqual("test")
     })
 
     it("presets description value if given", () => {
       const modal = SavedRollModal.data("create", "en-US", { description: "test" })
 
-      expect(modal.components[1].components[0].data.value).toEqual("test")
+      expect(modal.components[2].components[0].data.value).toEqual("test")
+    })
+
+    it("shows the invocation", () => {
+      const modal = SavedRollModal.data("create", 'en-US', { saved: { command: "d20" } })
+
+      expect(modal.components[0].data.content).toMatch(`/d20`)
+    })
+
+    it("shows the changeable options", () => {
+      const modal = SavedRollModal.data("create", 'en-US', { changeable: ["modifier"] })
+
+      expect(modal.components[0].data.content).toMatch(`modifier`)
     })
   })
 

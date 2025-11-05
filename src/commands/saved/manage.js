@@ -63,9 +63,15 @@ module.exports = {
       switch (comp_interaction.customId) {
         case "edit":
           await rollCache.set(cmd_interaction, detail)
+
+          const savable_commands = require("../index").savable
+          const command = savable_commands.get(detail.command)
+
           const modal = SavedRollModal.data("edit", cmd_interaction.locale, {
             name: detail.name,
             description: detail.description,
+            saved: detail,
+            changeable: command.changeable,
           })
           await comp_interaction.showModal(modal)
           return comp_interaction.editReply(build.textMessage(t("state.edit.response")))

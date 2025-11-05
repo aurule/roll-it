@@ -2,6 +2,9 @@
 save-roll:
   create:
     title: Save a New Roll
+    info: |-
+      This roll will run `{{invocation}}`.
+      You can add a bonus to the {{changeable, list(type: 'disjunction')}} when you roll.
     inputs:
       name:
         label: Name
@@ -11,6 +14,9 @@ save-roll:
         placeholder: Add a few words about your roll
   edit:
     title: Edit a Saved Roll
+    info: |-
+      This roll runs `{{invocation}}`.
+      You can add a bonus to the {{changeable, list(type: 'disjunction')}} when you roll.
     inputs:
       name:
         label: Name
