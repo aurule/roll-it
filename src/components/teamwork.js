@@ -86,37 +86,35 @@ module.exports = {
     }
 
     const component = components.get(interaction.customId)
-    return component
-      .execute(interaction)
-      .catch((err) => {
-        if (err instanceof UnauthorizedError) {
-          logger.info({
-            user: interaction.user,
-            component: component.name,
-            detail: "unauthorized component interaction",
-          })
-          return interaction
-            .whisper(
-              i18n.t("unauthorized", {
-                ns: "opposed",
-                lng: interaction.locale,
-                participants: err.allowed_uids.map(userMention),
-              }),
-            )
-            .catch((err) => {
-              logger.error({
-                err,
-                user: interaction.user,
-                component: component.name,
-              })
+    return component.execute(interaction).catch((err) => {
+      if (err instanceof UnauthorizedError) {
+        logger.info({
+          user: interaction.user,
+          component: component.name,
+          detail: "unauthorized component interaction",
+        })
+        return interaction
+          .whisper(
+            i18n.t("unauthorized", {
+              ns: "opposed",
+              lng: interaction.locale,
+              participants: err.allowed_uids.map(userMention),
+            }),
+          )
+          .catch((err) => {
+            logger.error({
+              err,
+              user: interaction.user,
+              component: component.name,
             })
-        } else {
-          logger.error({
-            err,
-            user: interaction.user,
-            component: component.name,
           })
-        }
-      })
+      } else {
+        logger.error({
+          err,
+          user: interaction.user,
+          component: component.name,
+        })
+      }
+    })
   },
 }

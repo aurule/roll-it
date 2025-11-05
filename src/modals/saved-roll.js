@@ -69,11 +69,12 @@ module.exports = {
     desc_input.data.value = undefined
     if (description) desc_input.setValue(description)
 
-    const info_text = new TextDisplayBuilder()
-      .setContent(t("info", {
+    const info_text = new TextDisplayBuilder().setContent(
+      t("info", {
         invocation: presentInvocation(saved, locale),
-        changeable: changeable.map(c => `\`${c}\``),
-      }))
+        changeable: changeable.map((c) => `\`${c}\``),
+      }),
+    )
 
     modal.addComponents(info_text, name_input, desc_input)
 

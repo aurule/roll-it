@@ -111,7 +111,7 @@ module.exports = {
   logContext(interaction) {
     if (interaction.isCommand() || interaction.isChatInputCommand()) {
       return {
-        commandName: interaction.commandName
+        commandName: interaction.commandName,
       }
     }
 
