@@ -1,6 +1,9 @@
 jest.mock("../util/message-builders")
 
 const { Interaction } = require("../../testing/interaction")
+const { User } = require("../../testing/user")
+const { UserBans } = require("../db/bans")
+const { Feedback } = require("../db/feedback")
 
 const report_roll_command = require("./report-this-roll")
 
@@ -24,7 +27,31 @@ describe("Report this roll command", () => {
       }
     })
 
-    it("warns on bad author ID", async () => {
+    describe("with a banned user", () => {
+      let banned_user
+
+      beforeEach(() => {
+        banned_user = new User()
+        const bans = new UserBans(banned_user.id)
+        bans.create("testing")
+        interaction.user = banned_user
+      })
+
+      it("does not add feedback", () => {
+        report_roll_command.execute(interaction)
+
+        const feedbacks = new Feedback()
+        expect(feedbacks.count()).toEqual(0)
+      })
+
+      it("says the user is banned", () => {
+        report_roll_command.execute(interaction)
+
+        expect(interaction.replyContent).toMatch("not allowed")
+      })
+    })
+
+    it("shows error on bad author ID", async () => {
       interaction.targetMessage.author.id = "wasnt_me"
 
       await report_roll_command.execute(interaction)

@@ -1108,6 +1108,8 @@ report-this-roll:
     description about why you're reporting it, but that is optional.
   validation:
     foreign: That message was not sent by a Roll It command.
+  response:
+    banned: You are not allowed to use this command right now.
 roll:
   name: roll
   description: Roll a set of plain dice

@@ -1,6 +1,7 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js")
 
 const { Feedback } = require("../db/feedback")
+const { UserBans } = require("../db/bans")
 const interactionCache = require("../services/interaction-cache")
 const { i18n } = require("../locales")
 const { canonical, mapped } = require("../locales/helpers")
@@ -23,6 +24,11 @@ module.exports = {
       .setType(ApplicationCommandType.Message),
   async execute(interaction) {
     const t = i18n.getFixedT(interaction.locale, "commands", "report-this-roll")
+
+    const bans = new UserBans(interaction.user.id)
+    if (bans.is_banned()) {
+      return interaction.whisper(t("response.banned"))
+    }
 
     const message = interaction.targetMessage
     if (message.author.id != botId) {
