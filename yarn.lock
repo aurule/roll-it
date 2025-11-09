@@ -3556,9 +3556,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-cli@npm:^1.21.1":
-  version: 1.21.1
-  resolution: "i18next-cli@npm:1.21.1"
+"i18next-cli@npm:^1.23.0":
+  version: 1.23.0
+  resolution: "i18next-cli@npm:1.23.0"
   dependencies:
     "@swc/core": "npm:1.13.19"
     chalk: "npm:5.6.2"
@@ -3575,7 +3575,7 @@ __metadata:
     swc-walk: "npm:1.0.0"
   bin:
     i18next-cli: dist/esm/cli.js
-  checksum: 10c0/74b42b346126c093c1167eb38102fc9ab70d1a44b7f238dc22852ae1a829246897feb2734d023d543c1dcfe993966d677b34922c6c9aaa7c0f484d29408be671
+  checksum: 10c0/59380a8e544f08f1d0825406e8888d5f03981a13c299aaa0b5d1e264b23ffa4282f205d38fdc08213a6185e26537e090dd9d6aefa1697ed1dc2f13e9e7e57b9e
   languageName: node
   linkType: hard
 
@@ -3598,9 +3598,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^25.6.0":
-  version: 25.6.0
-  resolution: "i18next@npm:25.6.0"
+"i18next@npm:^25.6.1":
+  version: 25.6.1
+  resolution: "i18next@npm:25.6.1"
   dependencies:
     "@babel/runtime": "npm:^7.27.6"
   peerDependencies:
@@ -3608,7 +3608,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/35f7e4b8fa45fe2d6fd9fe267fde9101d7b502672f4fdf8439a7f0483a12c8a22a966e8f2b616480599057c804f553e594b9eb3c9ccb33fd4dfb57e5dee80636
+  checksum: 10c0/efae952348302305baa107895d5a1f0ede637aea632ef9e5ad9d59e992d39df0310feaeb34989d3ecf5f2ef89fa41e7d8efba9180004366e522954db19a9a046
   languageName: node
   linkType: hard
 
@@ -4739,12 +4739,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^16.4.1":
-  version: 16.4.1
-  resolution: "marked@npm:16.4.1"
+"marked@npm:^16.4.2":
+  version: 16.4.2
+  resolution: "marked@npm:16.4.2"
   bin:
     marked: bin/marked.js
-  checksum: 10c0/2b5bc04db3453e493ea78758f1fe5006d725ec90aab9bf991242b0820a069d9748e2ac26fb0e2603848a409649c77900e599f3f66d251d0f7e5f606576090a54
+  checksum: 10c0/fc6051142172454f2023f3d6b31cca92879ec8e1b96457086a54c70354c74b00e1b6543a76a1fad6d399366f52b90a848f6ffb8e1d65a5baff87f3ba9b8f1847
   languageName: node
   linkType: hard
 
@@ -5853,13 +5853,13 @@ __metadata:
     discord.js: "npm:^14.24.2"
     docsify-cli: "npm:^4.4.4"
     dotenv: "npm:^17.2.3"
-    i18next: "npm:^25.6.0"
-    i18next-cli: "npm:^1.21.1"
+    i18next: "npm:^25.6.1"
+    i18next-cli: "npm:^1.23.0"
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.2.0"
     joi: "npm:^18.0.1"
     keyv: "npm:^5.5.3"
-    marked: "npm:^16.4.1"
+    marked: "npm:^16.4.2"
     mathjs: "npm:^15.1.0"
     nodemon: "npm:^3.1.10"
     pino: "npm:^10.1.0"
