@@ -61,7 +61,7 @@ class Teamwork {
         @locale,
         @channel_uid,
         @description,
-        datetime('now', @timeout || ' seconds')
+        DATETIME('now', @timeout || ' seconds')
       )
     `)
 
@@ -88,7 +88,7 @@ class Teamwork {
     const select = this.db.prepare(oneLine`
       SELECT *,
              JSON_EXTRACT(options, '$') AS options,
-             TIME('now') > TIME(expires_at) AS expired
+             DATETIME('now') > DATETIME(expires_at) AS expired
       FROM interactive.teamwork_tests
       WHERE id = @id
     `)
@@ -129,7 +129,7 @@ class Teamwork {
    */
   isMessageExpired(message_id) {
     const select = this.db.prepare(oneLine`
-      SELECT TIME('now') > TIME(t.expires_at) AS expired
+      SELECT DATETIME('now') > DATETIME(t.expires_at) AS expired
       FROM   interactive.teamwork_tests AS t
              JOIN interactive.teamwork_messages AS m
                ON t.id = m.teamwork_id
@@ -217,7 +217,7 @@ class Teamwork {
     const select = this.db.prepare(oneLine`
       SELECT t.*,
              JSON_EXTRACT(t.options, '$') as options,
-             TIME('now') > TIME(t.expires_at) AS expired
+             DATETIME('now') > DATETIME(t.expires_at) AS expired
       FROM   interactive.teamwork_tests AS t
              JOIN interactive.teamwork_messages AS m
                ON t.id = m.teamwork_id
