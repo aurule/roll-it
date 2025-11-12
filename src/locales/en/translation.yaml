@@ -6,8 +6,8 @@ pagination:
   prefix_others: "…"
   suffix_others: |-
       …
-      #- (message {{page_num}}/{{page_count}})
-  suffix_last: "\n#- (message {{page_num}}/{{page_count}})"
+      -# (message {{page_num}}/{{page_count}})
+  suffix_last: "\n-# (message {{page_num}}/{{page_count}})"
 options:
   description:
     name: description

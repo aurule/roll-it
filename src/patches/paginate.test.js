@@ -53,15 +53,15 @@ describe("Paginator class", () => {
     })
 
     it("gives first page suffix", () => {
-      expect(paginator.suffix(1)).toEqual("…\n#- (message 1/4)")
+      expect(paginator.suffix(1)).toEqual("…\n-# (message 1/4)")
     })
 
     it("gives second page suffix", () => {
-      expect(paginator.suffix(2)).toEqual("…\n#- (message 2/4)")
+      expect(paginator.suffix(2)).toEqual("…\n-# (message 2/4)")
     })
 
     it("gives last page suffix", () => {
-      expect(paginator.suffix(4)).toEqual("\n#- (message 4/4)")
+      expect(paginator.suffix(4)).toEqual("\n-# (message 4/4)")
     })
   })
 
