@@ -72,7 +72,6 @@ module.exports = {
 
           return cmd_interaction.paginate({
             content: full_text,
-            split_on: "\n",
             secret: true,
           })
         case "remove":

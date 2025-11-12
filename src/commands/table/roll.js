@@ -46,7 +46,6 @@ module.exports = {
     })
     return interaction.paginate({
       content: full_text,
-      split_on: "\n\t",
       secret,
     })
   },

@@ -150,7 +150,6 @@ module.exports = {
     let full_text = injectMention(partial_message, interaction.user.id)
     return interaction.paginate({
       content: full_text,
-      split_on: "\n\t",
       secret,
     })
   },

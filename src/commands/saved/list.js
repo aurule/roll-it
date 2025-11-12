@@ -15,7 +15,6 @@ module.exports = {
     const full_text = presentList(saved_rolls.all(), interaction.locale)
     return interaction.paginate({
       content: full_text,
-      split_on: "\n",
       secret: true,
     })
   },

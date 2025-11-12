@@ -22,6 +22,206 @@ class PatchMePaginate {
   }
 }
 
+describe("Paginator class", () => {
+  describe("constructor", () => {
+    it("sets the page length for locale", () => {
+      const paginator = new paginate.Paginator("stuff")
+
+      expect(paginator.page_length).toBeLessThan(paginator.max_characters)
+    })
+  })
+
+  describe("prefix", () => {
+    it("gives first page prefix", () => {
+      const paginator = new paginate.Paginator("stuff")
+
+      expect(paginator.prefix(1)).toEqual("")
+    })
+
+    it("gives other page prefix", () => {
+      const paginator = new paginate.Paginator("stuff")
+
+      expect(paginator.prefix(2)).toEqual("…")
+    })
+  })
+
+  describe("suffix", () => {
+    let paginator
+
+    beforeEach(() => {
+      paginator = new paginate.Paginator("rocks and trees and trees and rocks", 30)
+    })
+
+    it("gives first page suffix", () => {
+      expect(paginator.suffix(1)).toEqual("…\n#- (message 1/4)")
+    })
+
+    it("gives second page suffix", () => {
+      expect(paginator.suffix(2)).toEqual("…\n#- (message 2/4)")
+    })
+
+    it("gives last page suffix", () => {
+      expect(paginator.suffix(4)).toEqual("\n#- (message 4/4)")
+    })
+  })
+
+  describe("newlines", () => {
+    it("returns all newline indexes", () => {
+      const paginator = new paginate.Paginator("rocks and trees\nand trees\nand rocks")
+
+      expect(paginator.newlines).toEqual([15, 25])
+    })
+  })
+
+  describe("invalid_ranges", () => {
+    it("returns an array of invalid range sets", () => {
+      const paginator = new paginate.Paginator("rocks and trees *and trees* and rocks")
+
+      expect(paginator.invalid_ranges).toEqual([[16, 27]])
+    })
+
+    it("handles multiple ranges", () => {
+      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+
+      expect(paginator.invalid_ranges).toEqual([[20, 31], [0, 9]])
+    })
+  })
+
+  describe("breakpoint_is_valid", () => {
+    it("returns true when breakpoint is outside of all invalid ranges", () => {
+      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+
+      const result = paginator.breakpoint_is_valid(12)
+
+      expect(result).toBe(true)
+    })
+
+    it("returns false when breakpoint is within an invalid range", () => {
+      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+
+      const result = paginator.breakpoint_is_valid(22)
+
+      expect(result).toBe(false)
+    })
+  })
+
+  describe("segments", () => {
+    it("finds word boundaries", () => {
+      const paginator = new paginate.Paginator("rocks and trees and trees and rocks")
+
+      const result = paginator.segments
+
+      expect(result).toContain(10)
+    })
+
+    it("omits boundaries within an invalid range", () => {
+      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+
+      const result = paginator.segments
+
+      expect(result).not.toContain(25)
+      expect(result).toContain(36)
+    })
+  })
+
+  describe("messages", () => {
+    let paginator
+    let original
+
+    describe("with a single page", () => {
+      beforeEach(() => {
+        original = "rocks and trees and trees and rocks"
+        paginator = new paginate.Paginator(original, 100)
+      })
+
+      it("returns an array with one message", () => {
+        const result = paginator.messages()
+
+        expect(result[0]).toEqual(original)
+      })
+    })
+
+    describe("with multiple pages", () => {
+      describe("when text has newlines within the margin", () => {
+        beforeEach(() => {
+          original = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Pellentesque lacinia magna in aliquam elementum.
+Donec quis justo et lectus rutrum accumsan.
+Vivamus at felis in massa feugiat accumsan.
+
+Curabitur placerat quam eu tortor pellentesque, vitae vestibulum libero placerat.
+Nunc nec quam at sapien dapibus consequat ac nec neque.
+Nullam ornare ipsum in velit pellentesque, ac iaculis magna laoreet.
+Nam convallis tellus venenatis, pharetra felis ac, gravida elit.
+Morbi tempus quam a justo dapibus pellentesque.
+
+Vivamus eu mi vitae lacus eleifend euismod ac eu ipsum.
+Mauris non dolor malesuada, semper magna non, sagittis dui.
+Aliquam auctor lorem eu nisi pulvinar, non pellentesque risus cursus.
+Suspendisse sed nibh ultricies, scelerisque dolor ullamcorper, maximus ligula.
+
+Proin gravida quam at risus eleifend, eu blandit nisi rutrum.
+Curabitur pharetra justo non dolor sagittis gravida.
+Etiam consectetur quam quis nunc dapibus blandit.
+Curabitur facilisis purus at venenatis imperdiet.
+
+Sed eget nisi non ante pellentesque pretium in vitae diam.
+Mauris pulvinar massa quis nulla condimentum luctus.
+Maecenas malesuada diam in arcu mattis, sed varius justo tristique.
+`
+        paginator = new paginate.Paginator(original, 500)
+        })
+
+        it("returns all pages", () => {
+          const result = paginator.messages()
+
+          expect(result.length).toBeGreaterThan(1)
+        })
+
+        it("breaks on newlines", () => {
+          const result = paginator.messages()
+
+          expect(result[1]).toMatch(/^…Morbi/)
+        })
+
+        it("removes that newline", () => {
+          const result = paginator.messages()
+
+          expect(result[1]).not.toMatch(/^…\n/)
+        })
+      })
+
+      describe("when text has no convenient newlines", () => {
+        beforeEach(() => {
+          original = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum pretium sollicitudin. Mauris in finibus lacus, eu faucibus ex. Vestibulum tempor odio enim, non ullamcorper nisi convallis id. Nam sodales varius accumsan. Cras vehicula elit tellus, id convallis libero imperdiet quis. Nulla viverra lacus eu tellus tempor interdum. Integer fermentum metus pharetra tortor aliquet pharetra. In at est mauris. Duis non rutrum diam, sed ornare nulla. Praesent fermentum nunc odio, id dignissim ligula malesuada in. Curabitur at leo venenatis, ultrices risus eu, fringilla elit. Etiam ac nisi leo.
+
+Etiam vehicula ante eget nulla pharetra, eget dignissim sem dictum. Proin finibus arcu lectus. Proin eget elit sed nunc blandit condimentum. Proin sollicitudin quam sed nulla sodales, in ullamcorper sapien porttitor. Suspendisse sit amet aliquet nibh, sed varius eros. Ut elementum orci massa, vitae egestas risus lacinia eu. Nunc cursus, ex *id malesuada fermentum*, leo arcu luctus metus, eu condimentum neque ante vitae sem. Proin eros nunc, vestibulum quis blandit eu, porttitor et justo. Aliquam non lacus dictum, laoreet odio et, dignissim turpis. Donec commodo maximus diam, tempus ultricies elit iaculis vitae. Praesent efficitur sollicitudin lectus, vel scelerisque tellus imperdiet vel. Duis dictum, nisl quis ullamcorper congue, purus diam rhoncus ipsum, ut pretium tellus odio sit amet tellus. In in velit neque. Nam lacinia feugiat facilisis.
+`
+          paginator = new paginate.Paginator(original, 500)
+        })
+
+        it("returns all pages", () => {
+          const result = paginator.messages()
+
+          expect(result.length).toBeGreaterThan(1)
+        })
+
+        it("breaks on words", () => {
+          const result = paginator.messages()
+
+          expect(result[1]).toMatch(/^…nunc/)
+        })
+
+        it("does not break within formatting", () => {
+          const result = paginator.messages()
+
+          expect(result[2]).toMatch(/^…ex/)
+        })
+      })
+    })
+  })
+})
+
 describe("pagination helper", () => {
   describe("patch", () => {
     it("targets the base command class by default", () => {
@@ -87,109 +287,6 @@ describe("pagination helper", () => {
         expect(fake.messages[0].flags).toHaveFlag(MessageFlags.Ephemeral)
         expect(fake.messages[1].flags).toHaveFlag(MessageFlags.Ephemeral)
       })
-    })
-  })
-
-  describe("splitMessage", () => {
-    it("returns a single message when it's short", () => {
-      const message = "I am surprisingly short"
-      const length = 100
-
-      const result = paginate.splitMessage(message, undefined, length)
-
-      expect(result.length).toEqual(1)
-    })
-
-    it("caps messages at length", () => {
-      const message = "I am surprisingly short"
-      const length = 100
-
-      const result = paginate.splitMessage(message, undefined, length)
-
-      for (const m of result) {
-        expect(m.length).toBeLessThanOrEqual(length)
-      }
-    })
-
-    it("splits at word boundaries", () => {
-      const message =
-        "I am surprisingly long, actually. I know, it's a real surprise, but truly I have over 100 characters!"
-      const length = 100
-
-      const result = paginate.splitMessage(message, " ", length)
-
-      expect(result).toEqual([
-        "I am surprisingly long, actually. I know, it's a real surprise, but truly I…\n-# (message 1/2)",
-        "…have over 100 characters!\n-# (message 2/2)",
-      ])
-    })
-
-    describe("can split on newline", () => {
-      it("splits the message", () => {
-        const message =
-          "I am surprisingly long, actually. I know, it's a real surprise,\nbut truly I have over 100 characters!"
-        const length = 100
-
-        const result = paginate.splitMessage(message, "\n", length)
-
-        expect(result).toEqual([
-          "I am surprisingly long, actually. I know, it's a real surprise,…\n-# (message 1/2)",
-          "…but truly I have over 100 characters!\n-# (message 2/2)",
-        ])
-      })
-
-      it("preserves formatting after the newline", () => {
-        const message =
-          "I am surprisingly long, actually. I know, it's a real surprise,\n\tbut truly I have over 100 characters!"
-        const length = 100
-
-        const result = paginate.splitMessage(message, "\n", length)
-
-        expect(result).toEqual([
-          "I am surprisingly long, actually. I know, it's a real surprise,…\n-# (message 1/2)",
-          "…\tbut truly I have over 100 characters!\n-# (message 2/2)",
-        ])
-      })
-    })
-  })
-
-  describe("prefixer", () => {
-    it("returns empty string for page 1", () => {
-      const result = paginate.prefixer(1)
-
-      expect(result).toEqual("")
-    })
-
-    it("returns ellipsis for page 2+", () => {
-      const result = paginate.prefixer(2)
-
-      expect(result).toEqual("…")
-    })
-  })
-
-  describe("suffixer", () => {
-    it("shows page number", () => {
-      const result = paginate.suffixer(2, 3)
-
-      expect(result).toMatch("2/")
-    })
-
-    it("shows max pages", () => {
-      const result = paginate.suffixer(2, 3)
-
-      expect(result).toMatch("/3")
-    })
-
-    it("includes ellipsis on non-final messages", () => {
-      const result = paginate.suffixer(2, 3)
-
-      expect(result).toMatch("…")
-    })
-
-    it("omits ellipsis on final message", () => {
-      const result = paginate.suffixer(3, 3)
-
-      expect(result).not.toMatch("…")
     })
   })
 })

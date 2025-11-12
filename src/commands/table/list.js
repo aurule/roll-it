@@ -18,7 +18,6 @@ module.exports = {
     const full_text = presentList(tables.all(), t)
     return interaction.paginate({
       content: full_text,
-      split_on: "\n",
       secret: true,
     })
   },

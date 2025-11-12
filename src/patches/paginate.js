@@ -2,73 +2,239 @@
  * This patch creates a helper method named "paginate" on all command interaction objects.
  */
 
-const { CommandInteraction, subtext } = require("discord.js")
-const { ceil } = require("mathjs")
+const { CommandInteraction } = require("discord.js")
 const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const build = require("../util/message-builders")
 const api = require("../services/api")
 
-/**
- * Default prefix generator
- *
- * @param  {int} page_num Current page number, indexed from 1
- * @return {str}          Prefix string
- */
-function prefixer(page_num) {
-  if (page_num === 1) return ""
+const inline_formatting_regexes = [
+  /\*[^\n]+\*/g,
+  /_[^\n]+_/g,
+  /\|\|[^\n]+\|\|/g,
+  /`[^\n]+`/g,
+  /\[[^\n]+\]/g,
+  /\([^\n]+\)/g,
+]
 
-  return "…"
-}
+class Paginator {
+  /**
+   * The original, full-length text to be paginated
+   *
+   * @type string
+   */
+  original_text
 
-/**
- * Default suffix generator
- *
- * @param  {int} page_num   Current page number, indexed from 1
- * @param  {int} page_count Maximum page number
- * @return {str}            Suffix string
- */
-function suffixer(page_num, page_count, locale = "en") {
-  const t = i18n.getFixedT(locale)
-  let continuation = ""
-  if (page_num < page_count) continuation = "…"
-  return `${continuation}\n${subtext(t("pagination.suffix", { page_num, page_count }))}`
-}
+  /**
+   * Maximum number of characters allowed in a single message
+   *
+   * @type number
+   */
+  max_characters
 
-/**
- * Split a string into one or more substrings with a given max length
- *
- * @param  {String}   message    The message to split
- * @param  {String}   separator  Separator character to use to split the string
- * @param  {Number}   max_length Maximum length of a single string
- * @return {String[]}            Array of strings
- */
-function splitMessage(message, separator = " ", max_length = 2000, locale = "en") {
-  if (message.length <= max_length) {
-    return [message]
+  /**
+   * Maximum distance from the calculated page length to break on a newline
+   *
+   * @type number
+   */
+  newline_margin
+
+  /**
+   * Locale code for translating prefix and suffix
+   *
+   * @type string
+   */
+  locale
+
+  /**
+   * Translation function
+   *
+   * @type i18n.t
+   */
+  t
+
+  /**
+   * Total number of pages after pagination
+   *
+   * @type number
+   */
+  total_pages
+
+  /**
+   * Number of characters from the text that can be included in each message
+   *
+   * Accounts for the locale-specific prefix and suffix, assuming 2-digit total pages.
+   *
+   * @type number
+   */
+  page_length
+
+  /**
+   * Array of newline indexes within `original_text`
+   *
+   * @type number[]
+   */
+  _newlines
+
+  /**
+   * Array of inline formatting ranges
+   *
+   * Each member is an array of (begin, end) indexes within `original_text`. These indexes describe a range of
+   * text subject to inline formatting. These ranges are invalid places to paginate, as doing so will break
+   * that inline formatting.
+   *
+   * @type Array<number[]>
+   */
+  _invalid_ranges
+
+  /**
+   * Array of word boundary indexes within `original_text`
+   *
+   * Unlike `_newlines`, `_segments` is locale-dependent.
+   *
+   * @type number[]
+   */
+  _segments
+
+
+  constructor(original, max_length = 2000, locale = "en-US") {
+    this.original_text = original
+    this.max_characters = max_length
+    this.newline_margin = Math.ceil(max_length / 10)
+
+    this.t = i18n.getFixedT(locale, "translation", "pagination")
+    this.locale = this.t("prefix", { context: "first", returnDetails: true }).usedLng
+
+    this.total_pages = 11 // temporary value for computing likely page length
+    this.page_length = max_length - this.suffix(10).length - this.prefix(2).length
+    this.total_pages = Math.ceil(this.original_text.length / this.page_length)
+    this.page_length
   }
 
-  const messages = []
-
-  let current_message = message
-
-  var breakpos
-  let pagenum = 1
-  const max_pages = ceil(current_message.length / max_length)
-  const page_length =
-    max_length - prefixer(max_pages).length - 3 - suffixer(max_pages, max_pages).length
-  while (current_message.length > page_length) {
-    breakpos = current_message.lastIndexOf(separator, page_length)
-    messages.push(
-      prefixer(pagenum) + current_message.slice(0, breakpos) + suffixer(pagenum, max_pages),
-    )
-    current_message = current_message.slice(breakpos + separator.length)
-    pagenum++
+  /**
+   * Get the prefix string for the given page
+   *
+   * @param  {number} page_num Page number, starting from 1
+   * @return {string}          Prefix string for the given page
+   */
+  prefix(page_num) {
+    const t_args = {
+      context: page_num === 1 ? "first" : "others",
+      page_num,
+    }
+    return this.t("prefix", t_args)
   }
-  messages.push(prefixer(pagenum) + current_message + suffixer(pagenum, max_pages))
 
-  return messages
+  /**
+   * Get the suffix string for the given page
+   *
+   * @param  {number} page_num Page number, starting from 1
+   * @return {string}          Suffix string for the given page
+   */
+  suffix(page_num) {
+    const t_args = {
+      context: page_num === this.total_pages ? "last" : "others",
+      page_num,
+      page_count: this.total_pages,
+    }
+    return this.t("suffix", t_args)
+  }
+
+  /**
+   * Array of indexes within `original_text` where a newline appears.
+   *
+   * @return {number[]} Array of newline indexes
+   */
+  get newlines() {
+    if (this._newlines === undefined)
+      this._newlines = [...this.original_text.matchAll(/\n/g)].map((m) => m["index"])
+
+    return this._newlines
+  }
+
+  /**
+   * Array of inline formatting ranges
+   *
+   * @return {Array<number[]>} Array of start/end indexes for inline formatting ranges
+   */
+  get invalid_ranges() {
+    if (this._invalid_ranges === undefined) {
+      this._invalid_ranges = inline_formatting_regexes.flatMap(
+        (re) => [...this.original_text.matchAll(re)].map(
+          (m) => [m["index"], m["index"] + m[0].length]))
+    }
+
+    return this._invalid_ranges
+  }
+
+  /**
+   * Determine whether a potential breakpoint is valid
+   *
+   * This checks that the breakpoint does not fall inside one of the inline formatting ranges.
+   *
+   * @param  {number}  index The breakpoint index to test
+   * @return {boolean}       True if the breakpoint falls outside of all inline formatting ranges. False if not.
+   */
+  breakpoint_is_valid(index) {
+    return !this.invalid_ranges.some((range) => range[0] <= index && range[1] >= index)
+  }
+
+  /**
+   * Array of word-start indexes that would allow page breaks
+   *
+   * The indexes here fall outside of all inline formatting ranges.
+   *
+   * @return {number[]} Array of word indexes
+   */
+  get segments() {
+    if (this._segments == undefined) {
+      const segmenter = new Intl.Segmenter(this.locale, { granularity: "word" })
+
+      this._segments = []
+      for (const segment of segmenter.segment(this.original_text)) {
+        if (segment.isWordLike && this.breakpoint_is_valid(segment.index))
+          this._segments.push(segment.index)
+      }
+    }
+
+    return this._segments
+  }
+
+  /**
+   * Generate messages by pagination
+   *
+   * @return {string[]} Array of paginated message strings
+   */
+  messages() {
+    if (this.total_pages === 1) return [this.original_text]
+
+    let messages = []
+    let page_num = 1
+    let page_start = 0
+    let page_end = this.page_length
+    let breakpoint
+    let clobber
+
+    while (page_num <= this.total_pages) {
+      breakpoint = this.newlines.findLast((nl) => nl >= page_end - this.newline_margin && nl <= page_end)
+      if (breakpoint === undefined) {
+        breakpoint = this.segments.findLast((seg) => seg <= page_end)
+        clobber = 0 // don't remove part of a word
+      } else {
+        clobber = 1 // do remove the newline character
+      }
+
+      let message_text = this.original_text.slice(page_start, breakpoint).trim()
+      messages.push(this.prefix(page_num) + message_text + this.suffix(page_num))
+      page_start = breakpoint + clobber
+      page_end = page_start + this.page_length
+      page_num++
+    }
+
+    return messages
+  }
 }
+
 
 /**
  * Send a message without referencing our channel ID
@@ -102,15 +268,15 @@ module.exports = {
      * This is a convenience api that's handy when your content might spill into multiple messages. If you
      * know it will fit in a single message, use rollReply instead.
      *
-     * @param  {object}      options
-     * @param  {str}         options.content    The potentially long string to send
-     * @param  {bool}        options.secret     Whether the messages should be ephemeral
-     * @param  {str}         options.split_on   String to use when separating the content
-     * @param  {int}         options.max_length Maximum length of a single message
-     * @return {Interaction}                    Interaction object
+     * @param  {object}      opts
+     * @param  {string}      opts.content    The potentially long string to send
+     * @param  {boolean}     opts.secret     Whether the messages should be ephemeral
+     * @param  {number}      opts.max_length Maximum length of a single message
+     * @return {Interaction}                 Interaction object
      */
-    klass.prototype.paginate = async function ({ content, secret = false, split_on, max_length }) {
-      const contents = splitMessage(content, split_on, max_length, this.locale)
+    klass.prototype.paginate = async function ({ content, secret = false, max_length }) {
+      const paginator = new Paginator(content, max_length, this.locale)
+      const contents = paginator.messages()
 
       /**
        * Mode for sending the paginated messages
@@ -170,9 +336,6 @@ module.exports = {
       return this
     }
   },
-
-  prefixer,
-  suffixer,
-  splitMessage,
+  Paginator,
   sendDetached,
 }
