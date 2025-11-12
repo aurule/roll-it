@@ -189,6 +189,12 @@ Maecenas malesuada diam in arcu mattis, sed varius justo tristique.
 
           expect(result[1]).not.toMatch(/^…\n/)
         })
+
+        it("avoids truncating the final message", () => {
+          const result = paginator.messages()
+
+          expect(result[2]).toMatch(/tristique\./)
+        })
       })
 
       describe("when text has no convenient newlines", () => {

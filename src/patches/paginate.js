@@ -216,6 +216,9 @@ class Paginator {
     let clobber
 
     while (page_num <= this.total_pages) {
+      if (page_num === this.total_pages) {
+        breakpoint = this.original_text.length
+      }
       breakpoint = this.newlines.findLast((nl) => nl >= page_end - this.newline_margin && nl <= page_end)
       if (breakpoint === undefined) {
         breakpoint = this.segments.findLast((seg) => seg <= page_end)
@@ -227,7 +230,7 @@ class Paginator {
       let message_text = this.original_text.slice(page_start, breakpoint).trim()
       messages.push(this.prefix(page_num) + message_text + this.suffix(page_num))
       page_start = breakpoint + clobber
-      page_end = page_start + this.page_length
+      page_end = Math.min(page_start + this.page_length, this.original_text.length)
       page_num++
     }
 
