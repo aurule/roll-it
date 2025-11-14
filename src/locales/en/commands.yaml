@@ -207,11 +207,8 @@ d20:
         advantage: Advantage
         disadvantage: Disadvantage
   response:
-    result:
-      explain: >-
-        **{{result}}** ({{explanation}})
-      simple: >-
-        **{{result}}**
+    result: >-
+      **{{result}}** ({{explanation}})
     withDescription:
       advantage_one: >-
         {{userMention}} rolled **{{result}}** for "{{description}}" with advantage ({{explanation}})
@@ -228,8 +225,6 @@ d20:
       simple_other: |-
         {{userMention}} rolled "{{description}}" {{count}} times:
         {{results}}
-      nomod: >-
-        {{userMention}} rolled **{{result}}** for "{{description}}"
     withoutDescription:
       advantage_one: >-
         {{userMention}} rolled **{{result}}** with advantage ({{explanation}})
@@ -246,8 +241,6 @@ d20:
       simple_other: |-
         {{userMention}} rolled {{count}} times:
         {{results}}
-      nomod: >-
-        {{userMention}} rolled **{{result}}**
 d4:
   name: d4
   description: Roll some four-sided dice
