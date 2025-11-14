@@ -30,7 +30,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@biomejs/biome", "npm:2.3.5"],\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["ansi-colors", "npm:4.1.3"],\
           ["better-sqlite3", "npm:12.4.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
@@ -44,19 +43,15 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.2.0"],\
           ["joi", "npm:18.0.1"],\
           ["keyv", "npm:5.5.4"],\
-          ["marked", "npm:16.4.2"],\
           ["mathjs", "npm:15.1.0"],\
           ["nodemon", "npm:3.1.11"],\
           ["pino", "npm:10.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.2"],\
           ["prettier", "npm:3.6.2"],\
-          ["prismjs", "npm:1.30.0"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
-          ["simpleflakes", "npm:4.0.0"],\
-          ["strip-indent", "npm:4.1.1"],\
-          ["y18n", "npm:5.0.8"]\
+          ["simpleflakes", "npm:4.0.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6034,13 +6029,6 @@ const RAW_RUNTIME_STATE =
           ["marked", "npm:1.2.9"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:16.4.2", {\
-        "packageLocation": "./.yarn/cache/marked-npm-16.4.2-80bdca5d9b-fc60511421.zip/node_modules/marked/",\
-        "packageDependencies": [\
-          ["marked", "npm:16.4.2"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["mathjs", [\
@@ -7270,7 +7258,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@biomejs/biome", "npm:2.3.5"],\
           ["@discordjs/collection", "npm:2.1.1"],\
-          ["ansi-colors", "npm:4.1.3"],\
           ["better-sqlite3", "npm:12.4.1"],\
           ["cli-progress", "npm:3.12.0"],\
           ["common-tags", "npm:1.8.2"],\
@@ -7284,19 +7271,15 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.2.0"],\
           ["joi", "npm:18.0.1"],\
           ["keyv", "npm:5.5.4"],\
-          ["marked", "npm:16.4.2"],\
           ["mathjs", "npm:15.1.0"],\
           ["nodemon", "npm:3.1.11"],\
           ["pino", "npm:10.1.0"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.2"],\
           ["prettier", "npm:3.6.2"],\
-          ["prismjs", "npm:1.30.0"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
-          ["simpleflakes", "npm:4.0.0"],\
-          ["strip-indent", "npm:4.1.1"],\
-          ["y18n", "npm:5.0.8"]\
+          ["simpleflakes", "npm:4.0.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7804,13 +7787,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["min-indent", "npm:1.0.1"],\
           ["strip-indent", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.1.1", {\
-        "packageLocation": "./.yarn/cache/strip-indent-npm-4.1.1-e5fb519bd9-5b23dd5934.zip/node_modules/strip-indent/",\
-        "packageDependencies": [\
-          ["strip-indent", "npm:4.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
