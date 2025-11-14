@@ -2,6 +2,19 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.13.2 <small>Released Nov 14, 2025</small>
+
+### Changed
+
+* The `/d20` command now always shows the die that was rolled
+* The *Report this roll...* command no longer works for banned users
+* The modal for _Save this roll..._ now shows the invocation and changeable options of the saved command
+
+### Fixed
+
+* Paginated messages no longer break inline formatting
+* Teamwork expiry no longer gets confused by timezones other than UTC
+
 ## v1.13.1 <small>Released Nov 4, 2025</small>
 
 ### Fixed
