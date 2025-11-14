@@ -96,7 +96,6 @@ class Paginator {
    */
   _segments
 
-
   constructor(original, max_length = 2000, locale = "en-US") {
     this.original_text = original
     this.max_characters = max_length
@@ -159,9 +158,9 @@ class Paginator {
    */
   get invalid_ranges() {
     if (this._invalid_ranges === undefined) {
-      this._invalid_ranges = inline_formatting_regexes.flatMap(
-        (re) => [...this.original_text.matchAll(re)].map(
-          (m) => [m["index"], m["index"] + m[0].length]))
+      this._invalid_ranges = inline_formatting_regexes.flatMap((re) =>
+        [...this.original_text.matchAll(re)].map((m) => [m["index"], m["index"] + m[0].length]),
+      )
     }
 
     return this._invalid_ranges
@@ -219,7 +218,9 @@ class Paginator {
       if (page_num === this.total_pages) {
         breakpoint = this.original_text.length
       }
-      breakpoint = this.newlines.findLast((nl) => nl >= page_end - this.newline_margin && nl <= page_end)
+      breakpoint = this.newlines.findLast(
+        (nl) => nl >= page_end - this.newline_margin && nl <= page_end,
+      )
       if (breakpoint === undefined) {
         breakpoint = this.segments.findLast((seg) => seg <= page_end)
         clobber = 0 // don't remove part of a word
@@ -237,7 +238,6 @@ class Paginator {
     return messages
   }
 }
-
 
 /**
  * Send a message without referencing our channel ID

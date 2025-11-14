@@ -83,7 +83,10 @@ describe("Paginator class", () => {
     it("handles multiple ranges", () => {
       const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
 
-      expect(paginator.invalid_ranges).toEqual([[20, 31], [0, 9]])
+      expect(paginator.invalid_ranges).toEqual([
+        [20, 31],
+        [0, 9],
+      ])
     })
   })
 
@@ -169,7 +172,7 @@ Sed eget nisi non ante pellentesque pretium in vitae diam.
 Mauris pulvinar massa quis nulla condimentum luctus.
 Maecenas malesuada diam in arcu mattis, sed varius justo tristique.
 `
-        paginator = new paginate.Paginator(original, 500)
+          paginator = new paginate.Paginator(original, 500)
         })
 
         it("returns all pages", () => {
