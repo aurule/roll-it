@@ -123,6 +123,8 @@ cd docs
 python3 -m http.server 3000
 ```
 
+Docsify-cli has problems with its dependencies (see [GH issue 191](https://github.com/docsifyjs/docsify-cli/issues/191)), so the `ansi-colors`, `semver`, and `y18n` packages are added to our own dev requirements as a fix.
+
 ## Versioning
 
 Roll It uses [semantic versioning](https://semver.org/). In addition to the standard version increment rules, the minor version may be bumped for new commands.
