@@ -1,6 +1,6 @@
 ![logo](_media/icon.svg ':size=300')
 
-# Roll It <small>1.13.1</small>
+# Roll It <small>1.13.2</small>
 
 > A powerful Discord bot for rolling dice.
 
