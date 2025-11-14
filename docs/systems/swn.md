@@ -4,7 +4,7 @@ Also *Worlds Without Number* and *Cities Without Number*.
 
 *Find the games at [Sine Nomine Publishing](https://sine-nomine-publishing.myshopify.com/)*
 
-Stars Without Number uses a combination of `/d20` for combat rolls and `/swn` for skills.
+Stars Without Number uses a combination of `/d20` for combat rolls and saves, and `/swn` for skills.
 
 ## `/swn`
 
