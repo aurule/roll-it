@@ -3556,9 +3556,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-cli@npm:^1.23.5":
-  version: 1.23.5
-  resolution: "i18next-cli@npm:1.23.5"
+"i18next-cli@npm:^1.24.8":
+  version: 1.24.8
+  resolution: "i18next-cli@npm:1.24.8"
   dependencies:
     "@swc/core": "npm:1.13.19"
     chalk: "npm:5.6.2"
@@ -3575,7 +3575,7 @@ __metadata:
     swc-walk: "npm:1.0.0"
   bin:
     i18next-cli: dist/esm/cli.js
-  checksum: 10c0/455ce6df9dc27703efa161240cc911c79ce953f9785b8387e180b0483aef4635f16096a9ea1805c5a8050c495b69e1476281f2b51681c5c270f88a69f6df75d2
+  checksum: 10c0/c6a80378359da2ade77ae1f4cc23b2efa7214d2c6dea30be72d02b86694deff863340b866e24c4b575b65612ffae240373cc6379605330cb1cfd91ea3838beca
   languageName: node
   linkType: hard
 
@@ -5854,7 +5854,7 @@ __metadata:
     docsify-cli: "npm:^4.4.4"
     dotenv: "npm:^17.2.3"
     i18next: "npm:^25.6.2"
-    i18next-cli: "npm:^1.23.5"
+    i18next-cli: "npm:^1.24.8"
     i18next-fs-backend: "npm:^2.6.0"
     jest: "npm:^30.2.0"
     joi: "npm:^18.0.1"
