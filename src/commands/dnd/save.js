@@ -10,6 +10,8 @@ module.exports = {
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addStringOption(commonOpts.description)
+      .addLocalizedIntegerOption("modifier")
+      .addLocalizedIntegerOption("dc")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   perform({} = {}) {

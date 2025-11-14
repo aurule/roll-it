@@ -277,25 +277,54 @@ dnd:
     description: Roll an attack
     help: TBD
     options:
-      {}
+      modifier:
+        name: modifier
+        description: Attack bonus to add to the die
+      crit:
+        name: crit
+        description: Minimum crit threat for the weapon. Defaults to 20.
+      ac:
+        name: ac
+        description: Armor class of the target
   full-attack:
     name: full-attack
     description: Roll a full attack sequence based on your BAB
     help: TBD
     options:
-      {}
+      modifier:
+        name: modifier
+        description: Maximum attack bonus for the weapon
+      swings:
+        name: swings
+        description: Total attacks to make, each at an additional -5 penalty.
+      crit:
+        name: crit
+        description: Minimum crit threat for the weapon. Defaults to 20.
+      ac:
+        name: ac
+        description: Armor class of the target
   save:
     name: save
     description: Roll a saving throw
     help: TBD
     options:
-      {}
+      modifier:
+        name: modifier
+        description: Save modifier to add to the rolled die
+      dc:
+        name: dc
+        description: Difficulty of the save
   skill:
     name: skill
     description: Roll a skill check
     help: TBD
     options:
-      {}
+      modifier:
+        name: modifier
+        description: Skill modifier to add to the rolled die
+      dc:
+        name: dc
+        description: Difficulty of the skill check
 drh:
   name: drh
   description: Roll pools of d6s for Don't Rest Your Head
