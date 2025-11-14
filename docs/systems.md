@@ -8,6 +8,7 @@ Here are the supported systems:
 
 * [Chronicles of Darkness](/systems/nwod) (2e and 1e, aka New World of Darkness) d10s with `/nwod`
 * [Don't Rest Your Head](/systems/drh) with `/drh`
+* [Dungeons & Dragons 35](/systems/dnd35) with `/dnd attack`, `/dnd save`, and `/dnd skill`
 * [Dungeons & Dragons 5e](/systems/dnd5e) with `/d20` or `/curv`
 * [FATE](/systems/fate) fudge dice with `/fate`
 * [Final Fantasy RPG](/systems/ffrpg) (3rd edition) percentiles for Final Fantasy with `/ffrpg`

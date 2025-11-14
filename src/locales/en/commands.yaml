@@ -268,6 +268,34 @@ d8:
     modifier:
       name: modifier
       description: Number to add to the result after adding up the rolled dice
+dnd:
+  name: dnd
+  description: Roll attacks, skills, and saves for D&D 3.5
+  help : TBD
+  attack:
+    name: attack
+    description: Roll an attack
+    help: TBD
+    options:
+      {}
+  full-attack:
+    name: full-attack
+    description: Roll a full attack sequence based on your BAB
+    help: TBD
+    options:
+      {}
+  save:
+    name: save
+    description: Roll a saving throw
+    help: TBD
+    options:
+      {}
+  skill:
+    name: skill
+    description: Roll a skill check
+    help: TBD
+    options:
+      {}
 drh:
   name: drh
   description: Roll pools of d6s for Don't Rest Your Head

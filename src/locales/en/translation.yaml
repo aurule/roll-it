@@ -35,8 +35,12 @@ systems:
   listing: |-
     **{{title}}**: {{commands, list}}. {{description}}
       {{extended}}
+  dnd35:
+    title: Dungeons & Dragons 3.5
+    description: Lots of d20s with fancy rules for 3.5e.
+    extended: Handles the nuances of auto-successes, crits, and multiple attacks.
   dnd5e:
-    title: Dungeons & Dragons
+    title: Dungeons & Dragons 5e
     description: Suitable for all versions, includes advantage for 5e
     extended: Try `/curv` if you want a bell curve in place of d20s.
   drh:

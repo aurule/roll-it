@@ -5,6 +5,7 @@
     + [Generic](/systems/generic "Generic Dice | Roll It Docs")
     + [Chronicles of Darkness 1e, 2e](/systems/nwod "CoD | Roll It Docs")
     + [Don't Rest Your Head](/systems/drh "Don't Rest Your Head | Roll It Docs")
+    + [Dungeons & Dragons 3.5](/systems/dnd35 "D&D 3.5 | Roll It Docs")
     + [Dungeons & Dragons 5e](/systems/dnd5e "D&D 5e | Roll It Docs")
     + [FATE](/systems/fate "FATE | Roll It Docs")
     + [Final Fantasy RPG](/systems/ffrpg "FFRPG | Roll It Docs")
