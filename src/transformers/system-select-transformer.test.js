@@ -15,6 +15,6 @@ describe("string select options transformer", () => {
 
     const data = transform(systems, "en-US", deployed)
 
-    expect(data[0].default).toBeTruthy()
+    expect(data[1].default).toBeTruthy()
   })
 })
