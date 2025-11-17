@@ -82,8 +82,87 @@ function presentSkill({ raw, modifier = 0, dc = 0, rolls = 1, description = "", 
   return t(`many.${key}`, t_args)
 }
 
+/**
+ * Get the translation key to use for a given save roll and result
+ *
+ * @param  {number} raw    Raw die roll
+ * @param  {number} result Calculated result after modifier
+ * @param  {number} dc     Target DC
+ * @return {string}        Translation key
+ */
+function saveKey(raw, result, dc) {
+  switch (true) {
+    case raw === 20:
+      return "autopass"
+    case raw === 1:
+      return "autofail"
+    case !dc:
+      return "num"
+    case result >= dc:
+      return "pass"
+    default:
+      return "fail"
+  }
+}
+
+/**
+ * Present the result of a save roll
+ *
+ * @param  {object}     opts
+ * @param  {number[][]} opts.raw         Array of raw die rolls
+ * @param  {number}     opts.modifier    Number to add to each roll
+ * @param  {number}     opts.dc          Target success threshold
+ * @param  {number}     opts.rolls       Total number of rolls made
+ * @param  {string}     opts.description Description for the roll
+ * @param  {string}     opts.locale      Locale code for the translation
+ * @return {string}                      Presented results
+ */
+function presentSave({ raw, modifier = 0, dc = 0, rolls = 1, description = "", locale } = {}) {
+  const t = i18n.getFixedT(locale, "commands", "dnd.save.result")
+
+  if (rolls === 1) {
+    const die = raw[0][0]
+    const result = die + modifier
+
+    const key_parts = ["single"]
+    if (dc) {
+      key_parts.push("dc")
+    } else {
+      key_parts.push("bare")
+    }
+
+    key_parts.push(saveKey(die, result, dc))
+    const t_args = {
+      result,
+      detail: detail(die, modifier),
+      dc: dc,
+      description,
+      context: description ? "desc" : undefined,
+    }
+    return t(key_parts.join("."), t_args)
+  }
+
+  const key = dc ? "dc" : "plain"
+  const t_args = {
+    rolls: raw.map((raw_roll) => {
+      const die = raw_roll[0]
+      const result = die + modifier
+      const details = detail(die, modifier)
+      const key = saveKey(die, result, dc)
+      return t(`many.${key}`, { result, detail: details })
+    }),
+    description,
+    dc,
+    count: rolls,
+    context: description ? "desc" : undefined,
+  }
+  return t(`many.${key}`, t_args)
+}
+
 module.exports = {
   detail,
   skillKey,
   presentSkill,
+  saveKey,
+  presentSave,
 }

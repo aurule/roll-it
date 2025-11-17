@@ -314,6 +314,61 @@ dnd:
       dc:
         name: dc
         description: Difficulty of the save
+    result:
+      single:
+        bare:
+          num: >-
+            {{userMention}} rolled **{{result}}** ({{detail}})
+          num_desc: >-
+            {{userMention}} rolled **{{result}}** for "{{description}}" ({{detail}})
+          autopass: >-
+            {{userMention}} **saved** with a natural 20 ({{detail}})
+          autopass_desc: >-
+            {{userMention}} **saved** for "{{description}}" with a natural 20 ({{detail}})
+          autofail: >-
+            {{userMention}} **failed** with a natural 1 ({{detail}})
+          autofail_desc: >-
+            {{userMention}} **failed** for "{{description}}" with a natural 1 ({{detail}})
+        dc:
+          pass: >-
+            {{userMention}} **saved** with {{result}} ({{detail}}) *vs* DC {{dc}}
+          pass_desc: >-
+            {{userMention}} **saved** for "{{description}}" with {{result}} ({{detail}}) *vs* DC {{dc}}
+          fail: >-
+            {{userMention}} **failed** with {{result}} ({{detail}}) *vs* DC {{dc}}
+          fail_desc: >-
+            {{userMention}} **failed** for "{{description}}" with {{result}} ({{detail}}) *vs* DC {{dc}}
+          autopass: >-
+            {{userMention}} **saved** with a natural 20 ({{detail}}) *vs* DC {{dc}}
+          autopass_desc: >-
+            {{userMention}} **saved** for "{{description}}" with a natural 20 ({{detail}}) *vs* DC {{dc}}
+          autofail: >-
+            {{userMention}} **failed** with a natural 1 ({{detail}}) *vs* DC {{dc}}
+          autofail_desc: >-
+            {{userMention}} **failed** for "{{description}}" with a natural 1 ({{detail}}) *vs* DC {{dc}}
+      many:
+        plain: |-
+          {{userMention}} rolled {{count}} times:
+          {{rolls, indented}}
+        plain_desc: |-
+          {{userMention}} rolled {{count}} times for "{{description}}":
+          {{rolls, indented}}
+        dc: |-
+          {{userMention}} rolled {{count}} times *vs* DC {{dc}}:
+          {{rolls, indented}}
+        dc_desc: |-
+          {{userMention}} rolled {{count}} times for "{{description}}" *vs* DC {{dc}}:
+          {{rolls, indented}}
+        num: >-
+          **{{result}}** ({{detail}})
+        pass: >-
+          **saved** with {{result}} ({{detail}})
+        fail: >-
+          **failed** with {{result}} ({{detail}})
+        autopass: >-
+          **saved** with a natural 20 ({{detail}})
+        autofail: >-
+          **failed** with a natural 1 ({{detail}})
   skill:
     name: skill
     description: Roll a skill check
