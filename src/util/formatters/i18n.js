@@ -1,5 +1,5 @@
 const { unorderedList } = require("discord.js")
-const { operator } = require("./signed")
+const { operator, signed } = require("./signed")
 
 /**
  * Formatter functions that work with i18next
@@ -126,4 +126,27 @@ module.exports = {
         return operator(v)
       })
       .join(""),
+
+  /**
+   * Format a number to show its positive or negative sign
+   *
+   * @example
+   * ```js
+   * signed(5)
+   * // returns
+   * // "+5"
+   * ```
+   *
+   *
+   * @example
+   * ```js
+   * signed(-3)
+   * // returns
+   * // "-3"
+   * ```
+   *
+   * @param  {number} value Value to transform
+   * @return {string}       String of the value with its sign
+   */
+  signed: (value) => signed(value)
 }

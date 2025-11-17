@@ -94,4 +94,18 @@ describe("i18n formatting helpers", () => {
       })
     })
   })
+
+  describe("signed", () => {
+    it("shows a plus for positive numbers", () => {
+      const result = formatters.signed(5)
+
+      expect(result).toEqual("+5")
+    })
+
+    it("shows a minus for negative numbers", () => {
+      const result = formatters.signed(-3)
+
+      expect(result).toEqual("-3")
+    })
+  })
 })
