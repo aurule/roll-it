@@ -27,9 +27,14 @@ function detail(result, modifier) {
  * @return {string}        One of "bare", "pass", or "fail"
  */
 function skillKey(result, dc) {
-  if (!dc) return "bare"
-  if (result >= dc) return "pass"
-  return "fail"
+  switch (true) {
+    case !dc:
+      return "bare"
+    case result >= dc:
+      return "pass"
+    default:
+      return "fail"
+  }
 }
 
 /**
