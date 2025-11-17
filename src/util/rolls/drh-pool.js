@@ -17,7 +17,7 @@ class DrhPool {
   /**
    * Raw roller results
    *
-   * @type {Array<int[]>}
+   * @type {number[][]}
    */
   raw
 
@@ -26,7 +26,7 @@ class DrhPool {
    *
    * This simply exposes the first entry of the raw results, since there is only ever one set of dice rolled.
    *
-   * @type {int[]}
+   * @type {number[]}
    */
   dice
 
@@ -35,14 +35,14 @@ class DrhPool {
    *
    * Derived from the length of dice.
    *
-   * @type {int}
+   * @type {number}
    */
   size
 
   /**
    * Number of successes per pool, as standard from the tally.successes function
    *
-   * @type {int[]}
+   * @type {number[]}
    */
   summed
 
@@ -51,16 +51,16 @@ class DrhPool {
    *
    * This simply exposes the first entry of the summed results, since there is only ever one set of dice.
    *
-   * @type {int}
+   * @type {number}
    */
   successes
 
   /**
    * Create a new DrhPool object
    *
-   * @param  {string}       name Name of the pool
-   * @param  {Array<int[]>} raw  Array of raw roll results
-   * @return {DrhPool}           New object
+   * @param  {string}     name Name of the pool
+   * @param  {number[][]} raw  Array of raw roll results
+   * @return {DrhPool}         New object
    */
   constructor(name, raw) {
     this.name = name
@@ -81,7 +81,7 @@ class DrhPool {
    * Create a new DrhPool using the given number of dice
    *
    * @param  {string} name       Name of the pool
-   * @param  {int}    dice       Number of dice for the pool
+   * @param  {number} dice       Number of dice for the pool
    * @return {DrhPool|undefined} New pool object, or undefined if no dice
    */
   static fromPool(name, dice) {
