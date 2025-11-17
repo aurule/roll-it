@@ -22,8 +22,8 @@ module.exports = {
    * // * third
    * ```
    *
-   * @param  {any[]} value Array to transform
-   * @return {str}         String of the markdown list
+   * @param  {any[]}  value Array to transform
+   * @return {string}       String of the markdown list
    */
   ul: (value) => unorderedList(value),
 
@@ -45,8 +45,8 @@ module.exports = {
    * // 3. third
    * ```
    *
-   * @param  {any[]} value Array to transform
-   * @return {str}         String of the markdown list
+   * @param  {any[]}  value Array to transform
+   * @return {string}       String of the markdown list
    */
   ol: (value) => value.map((val, idx) => `${idx + 1}. ${val}`).join("\n"),
 
@@ -65,8 +65,8 @@ module.exports = {
    * //     third
    * ```
    *
-   * @param  {any[]} value Array to transform
-   * @return {str}         String of the indented text
+   * @param  {any[]}  value Array to transform
+   * @return {string}       String of the indented text
    */
   indented: (value) => `\t${value.join("\n\t")}`,
 
@@ -81,16 +81,16 @@ module.exports = {
    * ```js
    * spaced(["first", "second", "third"])
    * // returns
-   * // first second third
+   * // "first second third"
    * ```
    *
    * @param  {any[]} value Array to transform
-   * @return {str}         String of the joined text
+   * @return {string}      String of the joined text
    */
   spaced: (value) => value.join(" "),
 
   /**
-   * Convert an array of numbers to an arethmetic string
+   * Convert an array of numbers to an arithmetic string
    *
    * Sign and value are separated by one space.
    *
@@ -98,25 +98,25 @@ module.exports = {
    * ```js
    * arithmetic([1])
    * // returns
-   * // 1
+   * // "1"
    * ```
    *
    * @example
    * ```js
    * arithmetic([-1])
    * // returns
-   * // -1
+   * // "-1"
    * ```
    *
    * @example
    * ```js
    * arithmetic([-1, 5])
    * // returns
-   * // -1 + 5
+   * // "-1 + 5"
    * ```
    *
-   * @param  {number} value Value to transform
-   * @return {str}          String of the value with its sign
+   * @param  {number[]} value Array to transform
+   * @return {string}         String of array items as a math expression
    */
   arithmetic: (value) =>
     value
