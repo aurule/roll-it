@@ -17,7 +17,7 @@ module.exports = {
       .addLocalizedIntegerOption("dc")
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  perform({modifier = 0, dc = 0, description = "", rolls = 1, locale = "en-US"} = {}) {
+  perform({ modifier = 0, dc = 0, description = "", rolls = 1, locale = "en-US" } = {}) {
     const raw_results = roll(1, 20, rolls)
     const presented_results = presentSkill({
       raw: raw_results,
@@ -51,5 +51,5 @@ module.exports = {
       content: full_text,
       secret,
     })
-  }
+  },
 }

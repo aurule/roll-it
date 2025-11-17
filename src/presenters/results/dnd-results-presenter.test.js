@@ -71,7 +71,7 @@ describe("D&D 3.5 results presenter", () => {
         it("shows the description if given", () => {
           const result = presenter.presentSkill({
             ...default_options,
-            description: "fiddle"
+            description: "fiddle",
           })
 
           expect(result).toMatch("fiddle")
@@ -103,7 +103,7 @@ describe("D&D 3.5 results presenter", () => {
         it("shows the description if given", () => {
           const result = presenter.presentSkill({
             ...default_options,
-            description: "fiddle"
+            description: "fiddle",
           })
 
           expect(result).toMatch("fiddle")
@@ -135,7 +135,7 @@ describe("D&D 3.5 results presenter", () => {
         it("shows the description if given", () => {
           const result = presenter.presentSkill({
             ...default_options,
-            description: "fiddle"
+            description: "fiddle",
           })
 
           expect(result).toMatch("fiddle")
@@ -165,7 +165,7 @@ describe("D&D 3.5 results presenter", () => {
         it("shows the description if given", () => {
           const result = presenter.presentSkill({
             ...default_options,
-            description: "fiddle"
+            description: "fiddle",
           })
 
           expect(result).toMatch("fiddle")
@@ -189,7 +189,7 @@ describe("D&D 3.5 results presenter", () => {
         it("shows the description if given", () => {
           const result = presenter.presentSkill({
             ...default_options,
-            description: "fiddle"
+            description: "fiddle",
           })
 
           expect(result).toMatch("fiddle")
@@ -215,7 +215,7 @@ describe("D&D 3.5 results presenter", () => {
         it("shows the modifier if given", () => {
           const result = presenter.presentSkill({
             ...default_options,
-            modifier: 3
+            modifier: 3,
           })
 
           expect(result).toMatch("+ 3")
