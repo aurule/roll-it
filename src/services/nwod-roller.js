@@ -3,7 +3,7 @@ const { randomInt } = require("mathjs")
 /**
  * Small helper to generate a random number from 1 to 10, inclusive
  *
- * @return {int} Random integer within [1...10]
+ * @return {number} Random integer within [1...10]
  */
 function rand() {
   return randomInt(10) + 1
@@ -15,10 +15,10 @@ function rand() {
  * Normally, rote re-rolls happen if `rote` is true and the `die` is less than the success `threshold`. When
  * `chance` is true, re-rolls happen if the `die` is greather than 1.
  *
- * @param  {int}  die       Die result to test
- * @param  {int}  threshold Number a die must meet or exceed to score a success
- * @param  {bool} chance    Whether this is a chance roll
- * @return {bool}           True if a rote re-roll should be made for the passed die
+ * @param  {number}  die       Die result to test
+ * @param  {number}  threshold Number a die must meet or exceed to score a success
+ * @param  {boolean} chance    Whether this is a chance roll
+ * @return {boolean}           True if a rote re-roll should be made for the passed die
  */
 function doRote(die, threshold, chance) {
   if (chance) return die != 1
@@ -32,12 +32,13 @@ class NwodRollOptions {
   /**
    * Make a new NwodRollOptions object
    *
-   * @param  {int}  obj.pool      Size of the array
-   * @param  {Int}  obj.explode   Number which adds a die to the pool when rolled
-   * @param  {bool} obj.rote      Whether to reroll failed dice from the initial pool
-   * @param  {Int}  obj.threshold Number a die must meet or exceed to add one success
-   * @param  {bool} obj.chance    Whether this is a special single-die chance roll
-   * @param  {Int}  obj.rolls     Number of times to repeat the roll
+   * @param {object}  opts
+   * @param {number}  opts.pool      Size of the array
+   * @param {number}  opts.explode   Number which adds a die to the pool when rolled
+   * @param {boolean} opts.rote      Whether to reroll failed dice from the initial pool
+   * @param {number}  opts.threshold Number a die must meet or exceed to add one success
+   * @param {boolean} opts.chance    Whether this is a special single-die chance roll
+   * @param {number}  opts.rolls     Number of times to repeat the roll
    */
   constructor({ pool, explode, rote, threshold, chance, rolls, decreasing }) {
     this.pool = pool
@@ -57,7 +58,7 @@ class NwodRollOptions {
    * This handles changing the arguments to account for chance dice if decreasing is true and the number of
    * iterations has exceeded the dice pool.
    *
-   * @return {Function} [description]
+   * @return {NwodRollOptions} Owning options object
    */
   next() {
     if (this.decreasing && this.next_index) {
@@ -80,7 +81,7 @@ class NwodRollOptions {
    *
    * Must return true when no valid data is available.
    *
-   * @return {bool} True if we've iterated through all the rolls, false if not.
+   * @return {boolean} True if we've iterated through all the rolls, false if not.
    */
   get done() {
     return this.next_index > this.rolls
@@ -91,7 +92,7 @@ class NwodRollOptions {
    *
    * This is a smaller object that just has the attributes which may change from roll to roll.
    *
-   * @return {obj} Object with pool, explode, chance, and threshold attributes.
+   * @return {object} Object with pool, explode, chance, and threshold attributes.
    */
   get value() {
     if (this.done) return this.next_index
@@ -143,7 +144,7 @@ class NwodRollOptions {
  * 3. Then, roll another die for every result greater or equal to `explode`
  *
  * @param  {NwodRollOptions} options Options object
- * @return {Array<int[]>}            Array of arrays of random numbers
+ * @return {number[][]}              Array of arrays of random numbers
  */
 function roll(options) {
   if (options.explode === 1) throw new RangeError("explode must be greater than 1")
