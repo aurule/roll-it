@@ -12,3 +12,4 @@ TBD
     - use /dnd attack to handle those manually
 * doesn't handle special cases like whirlwind attack or cleave
     - again, use /dnd attack for those
+* for no crit, use crit=0
