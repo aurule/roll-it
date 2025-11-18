@@ -173,10 +173,155 @@ function presentSave({
   return t(`many.${key}`, t_args)
 }
 
+/**
+ * Get a string describing the result of an attack die
+ *
+ * Natural 1 and natural 20 have special strings, while all other die values simply report the sum.
+ *
+ * @param  {number} die Raw die value
+ * @param  {number} sum Die value plus modifier
+ * @param  {i18n.t} t   Translation function
+ * @return {string}     String describing the attack die
+ */
+function describeDie(die, sum, t) {
+  switch (die) {
+    case 1:
+      return t("roll.1")
+    case 20:
+      return t("roll.20")
+    default:
+      return `${sum}`
+  }
+}
+
+/**
+ * Get a string describing an attack's crit range
+ *
+ * @param  {number} crit Crit threshold value
+ * @param  {i18n.t} t    Translation function
+ * @return {string}      String describing the crit range
+ */
+function describeCrit(crit, t) {
+  if (crit === 20) return t("crit.20")
+  if (crit) return t("crit.range", { crit })
+  return t("crit.none")
+}
+
+/**
+ * Resolve an attack against a specific AC
+ *
+ * @param  {DndAttack} attack Attack object
+ * @param  {number}    ac     Target AC to score a hit
+ * @return {string}           Classifier for the attack against the given AC
+ */
+function resolveAC(attack, ac) {
+  if (attack.hit === 1) return "miss"
+  if (attack.hit === 20) {
+    if (attack.confirm === 1) return "hit.threat.denied"
+    if (attack.confirm === 20) return "hit.threat.confirmed"
+    if (attack.confirm_total < ac) return "hit.threat.denied"
+    if (attack.confirm_total >= ac) return "hit.threat.confirmed"
+  }
+
+  if (attack.hit_total < ac) return "miss"
+  if (attack.hit >= attack.crit) {
+    if (attack.confirm === 1) return "hit.threat.denied"
+    if (attack.confirm === 20) return "hit.threat.confirmed"
+    if (attack.confirm_total < ac) return "hit.threat.denied"
+    if (attack.confirm_total >= ac) return "hit.threat.confirmed"
+  }
+  return "hit.plain"
+}
+
+/**
+ * Get the translation key for an attack against unknown AC
+ *
+ * @param  {DndAttack} attack Attack object
+ * @return {string}           Translation key to present the attack
+ */
+function resolveAmbiguous(attack) {
+  switch (attack.hit) {
+    case 1:
+      return "miss"
+    case 20:
+      switch (attack.confirm) {
+        case 1:
+          return "hit.threat.denied"
+        case 20:
+          return "hit.threat.confirmed"
+        default:
+          return "hit.threat.maybe"
+      }
+    default:
+      if (attack.hit >= attack.crit) {
+        switch (attack.confirm) {
+          case 1:
+            return "maybe.threat.denied"
+          case 20:
+            return "maybe.threat.confirmed"
+          default:
+            return "maybe.threat.maybe"
+        }
+      }
+      return "maybe.plain"
+  }
+}
+
+/**
+ * Present a set of D&D 3.5 attack rolls
+ *
+ * All attack rolls must use the same modifier and crit threshold, and will be compared against the AC if given.
+ *
+ * @param  {object}      opts
+ * @param  {DndAttack[]} opts.attacks     Array of attack objects
+ * @param  {number}      opts.modifier    Number to add to each rolled die
+ * @param  {number}      opts.crit        Crit threshold
+ * @param  {number}      opts.ac          AC to judge a hit and crit
+ * @param  {number}      opts.rolls       Number of attacks made
+ * @param  {string}      opts.description Description of the attack action
+ * @param  {string}      opts.locale      Locale code
+ * @return {string}                       Text for the attack rolls
+ */
+function presentAttack({
+  attacks,
+  modifier = 0,
+  crit = 20,
+  ac = 0,
+  rolls = 1,
+  description = "",
+  locale = "en-US",
+} = {}) {
+  const t = i18n.getFixedT(locale, "commands", "dnd.attack.result")
+
+  const key = ac ? "ac" : "bare"
+  const t_args = {
+    ac,
+    weapon: t("weapon", { modifier, crit: describeCrit(crit, t) }),
+    results: attacks.map((attack) => {
+      const atk_key = ac ? resolveAC(attack, ac) : resolveAmbiguous(attack)
+      return t(`outcome.${atk_key}`, {
+        hit: describeDie(attack.hit, attack.hit_total, t),
+        hit_detail: detail(attack.hit, attack.modifier),
+        confirm: describeDie(attack.confirm, attack.confirm_total, t),
+        c_detail: detail(attack.confirm, attack.modifier),
+      })
+    }),
+    description,
+    count: rolls,
+    context: description ? "desc" : undefined,
+  }
+  return t(`header.${key}`, t_args)
+}
+
 module.exports = {
   detail,
   skillKey,
   presentSkill,
   saveKey,
   presentSave,
+  describeDie,
+  describeCrit,
+  resolveAC,
+  resolveAmbiguous,
+  presentAttack,
 }

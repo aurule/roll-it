@@ -286,6 +286,70 @@ dnd:
       ac:
         name: ac
         description: Armor class of the target
+    result:
+      header:
+        bare_one: |-
+          {{userMention}} rolled an attack ({{weapon}})
+          {{results, ol}}
+        bare_desc_one: |-
+          {{userMention}} rolled an attack for "{{description}}" ({{weapon}})
+          {{results, ol}}
+        bare_other: |-
+          {{userMention}} rolled {{count}} attacks ({{weapon}})
+          {{results, ol}}
+        bare_desc_other: |-
+          {{userMention}} rolled {{count}} attacks for "{{description}}" ({{weapon}})
+          {{results, ol}}
+        ac_one: |-
+          {{userMention}} rolled an attack *vs* AC {{ac}} ({{weapon}})
+          {{results, ol}}
+        ac_desc_one: |-
+          {{userMention}} rolled an attack for "{{description}}" *vs* AC {{ac}} ({{weapon}})
+          {{results, ol}}
+        ac_other: |-
+          {{userMention}} rolled {{count}} attacks *vs* AC {{ac}} ({{weapon}})
+          {{results, ol}}
+        ac_desc_other: |-
+          {{userMention}} rolled {{count}} attacks for "{{description}}" *vs* AC {{ac}} ({{weapon}})
+          {{results, ol}}
+      weapon: hit {{modifier, signed}}, {{crit}}
+      crit:
+        20: crit 20
+        range: >-
+          crit {{crit}}-20
+        none: no crit
+      roll:
+        20: a natural 20
+        1: a natural 1
+      outcome:
+        miss: >-
+          **miss** with {{hit}} ({{hit_detail}})
+        hit:
+          plain: >-
+            **hit** with {{hit}} ({{hit_detail}})
+          threat:
+            confirmed: |-
+              **crit** with {{hit}} ({{hit_detail}})
+                - confirmed with {{confirm}} ({{c_detail}})
+            denied: |-
+              **hit** with {{hit}} ({{hit_detail}})
+                - failed to confirm with {{confirm}} ({{c_detail}})
+            maybe: |-
+              **hit or crit** ({{hit_detail}})
+                - rolled **{{confirm}}** to confirm ({{c_detail}})
+        maybe:
+          plain: >-
+            **{{hit}}** ({{hit_detail}})
+          threat:
+            confirmed: |-
+              **miss or crit** with {{hit}} ({{hit_detail}})
+                - confirmed possible crit with {{confirm}} ({{c_detail}})
+            denied: |-
+              **{{hit}}** ({{hit_detail}})
+                - failed to confirm possible crit with {{confirm}} ({{c_detail}})
+            maybe: |-
+              **{{hit}} or crit** ({{hit_detail}})
+                - rolled **{{confirm}}** to confirm possible crit ({{c_detail}})
   full-attack:
     name: full-attack
     description: Roll a full attack sequence based on your BAB
