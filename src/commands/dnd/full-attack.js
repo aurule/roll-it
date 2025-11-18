@@ -9,11 +9,11 @@ module.exports = {
   parent: parent_name,
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addLocalizedIntegerOption("swings", (option) => option.setRequired(true))
+      .addLocalizedIntegerOption("swings", (option) => option.setRequired(true).setMinValue(1))
       .addLocalizedIntegerOption("modifier", (option) => option.setRequired(true))
       .addStringOption(commonOpts.description)
-      .addLocalizedIntegerOption("crit")
-      .addLocalizedIntegerOption("ac")
+      .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(21))
+      .addLocalizedIntegerOption("ac", (option) => option.setMinValue(1))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   perform({} = {}) {
