@@ -148,5 +148,5 @@ module.exports = {
    * @param  {number} value Value to transform
    * @return {string}       String of the value with its sign
    */
-  signed: (value) => signed(value)
+  signed: (value) => signed(value),
 }

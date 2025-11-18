@@ -14,9 +14,7 @@ module.exports = {
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addStringOption(commonOpts.description)
       .addLocalizedIntegerOption("modifier")
-      .addLocalizedIntegerOption("dc", (option) =>
-        option.setMinValue(1),
-      )
+      .addLocalizedIntegerOption("dc", (option) => option.setMinValue(1))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
   perform({ modifier = 0, dc = 0, description = "", rolls = 1, locale = "en-US" } = {}) {

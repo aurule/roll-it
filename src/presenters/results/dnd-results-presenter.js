@@ -49,7 +49,14 @@ function skillKey(result, dc) {
  * @param  {string}     opts.locale      Locale code for the translation
  * @return {string}                      Presented results
  */
-function presentSkill({ raw, modifier = 0, dc = 0, rolls = 1, description = "", locale } = {}) {
+function presentSkill({
+  raw,
+  modifier = 0,
+  dc = 0,
+  rolls = 1,
+  description = "",
+  locale = "en-US",
+} = {}) {
   const t = i18n.getFixedT(locale, "commands", "dnd.skill.result")
 
   if (rolls === 1) {
@@ -117,7 +124,14 @@ function saveKey(raw, result, dc) {
  * @param  {string}     opts.locale      Locale code for the translation
  * @return {string}                      Presented results
  */
-function presentSave({ raw, modifier = 0, dc = 0, rolls = 1, description = "", locale } = {}) {
+function presentSave({
+  raw,
+  modifier = 0,
+  dc = 0,
+  rolls = 1,
+  description = "",
+  locale = "en-US",
+} = {}) {
   const t = i18n.getFixedT(locale, "commands", "dnd.save.result")
 
   if (rolls === 1) {
