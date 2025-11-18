@@ -8,7 +8,7 @@ describe("/dnd save", () => {
     it("rolls a single result", () => {
       const result = dnd_save_command.perform({})
 
-      expect(result).toMatch("rolled")
+      expect(result).toMatch("1d20")
     })
 
     it("rolls multiple results", () => {
