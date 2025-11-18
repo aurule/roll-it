@@ -330,16 +330,15 @@ describe("Opposed DB", () => {
         expect(result).toEqual(false)
       })
 
-      it.each(Array.from(Challenge.FinalStates).map((s) => [s]))(
-        "returns true for final state '%s'",
-        (state) => {
-          opposed.setChallengeState(challenge_id, state)
+      it.each(
+        Array.from(Challenge.FinalStates).map((s) => [s]),
+      )("returns true for final state '%s'", (state) => {
+        opposed.setChallengeState(challenge_id, state)
 
-          const result = opposed.challengeFromMessageIsFinalized(message_uid)
+        const result = opposed.challengeFromMessageIsFinalized(message_uid)
 
-          expect(result).toEqual(true)
-        },
-      )
+        expect(result).toEqual(true)
+      })
     })
 
     describe("challengeFromMessageIsExpired", () => {

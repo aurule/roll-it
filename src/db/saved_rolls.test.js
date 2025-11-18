@@ -80,17 +80,18 @@ describe("saved rolls db", () => {
       expect(result.values.invalid).toEqual(1)
     })
 
-    it.concurrent.each([["id"], ["guildFlake"], ["userFlake"]])(
-      "skips restricted attribute %s",
-      async (attr_name) => {
-        const data = {}
-        data[attr_name] = "test"
+    it.concurrent.each([
+      ["id"],
+      ["guildFlake"],
+      ["userFlake"],
+    ])("skips restricted attribute %s", async (attr_name) => {
+      const data = {}
+      data[attr_name] = "test"
 
-        const result = makeUpdateFields(data)
+      const result = makeUpdateFields(data)
 
-        expect(result.values).not.toHaveProperty(attr_name)
-      },
-    )
+      expect(result.values).not.toHaveProperty(attr_name)
+    })
 
     describe("safe option", () => {
       it("omits restricted fields when true", () => {

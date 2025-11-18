@@ -18,14 +18,7 @@ module.exports = {
       .addLocalizedIntegerOption("ac", (option) => option.setMinValue(1))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
-  perform({
-    modifier = 0,
-    crit = 20,
-    ac = 0,
-    description = "",
-    rolls = 1,
-    locale = "en-US",
-  } = {}) {
+  perform({ modifier = 0, crit = 20, ac = 0, description = "", rolls = 1, locale = "en-US" } = {}) {
     const attacks = Array.from({ length: rolls }, () => new DndAttack(modifier, crit))
 
     const presented_results = presentAttack({

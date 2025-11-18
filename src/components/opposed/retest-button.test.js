@@ -31,21 +31,18 @@ describe("retest result button", () => {
       ["item", true, false, false],
       ["item", false, true, true],
       ["item", true, true, true],
-    ])(
-      "reason with %s\tability_used %p\tcancels %p \treturns %p",
-      (reason, ability_used, cancels, expected) => {
-        const challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
-        const retest = challenge.attackerRetest(reason)
-        challenge.defender.abilityUsed(ability_used)
-        if (cancels) {
-          challenge.defender.setAdvantages(["cancels"])
-        }
+    ])("reason with %s\tability_used %p\tcancels %p \treturns %p", (reason, ability_used, cancels, expected) => {
+      const challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
+      const retest = challenge.attackerRetest(reason)
+      challenge.defender.abilityUsed(ability_used)
+      if (cancels) {
+        challenge.defender.setAdvantages(["cancels"])
+      }
 
-        const result = retestButton.canCancel(retest.record)
+      const result = retestButton.canCancel(retest.record)
 
-        expect(result).toBe(expected)
-      },
-    )
+      expect(result).toBe(expected)
+    })
   })
 
   describe("execute", () => {

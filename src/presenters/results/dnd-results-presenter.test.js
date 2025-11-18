@@ -719,8 +719,9 @@ describe("D&D 3.5 results presenter", () => {
     })
 
     describe("with crit 20", () => {
-      it.concurrent.each(Array.from({length: 18}, (_v, k) => [k+2]))
-      ("returns 'maybe.plain' for %i", (die) => {
+      it.concurrent.each(
+        Array.from({ length: 18 }, (_v, k) => [k + 2]),
+      )("returns 'maybe.plain' for %i", (die) => {
         const attack = new DndAttack(5, 20)
         attack.hit = die
 
@@ -803,7 +804,7 @@ describe("D&D 3.5 results presenter", () => {
     it("shows the description if present", () => {
       const result = presenter.presentAttack({
         ...default_options,
-        description: "a test"
+        description: "a test",
       })
 
       expect(result).toMatch("a test")
@@ -825,7 +826,7 @@ describe("D&D 3.5 results presenter", () => {
       const result = presenter.presentAttack({
         ...default_options,
         rolls: 2,
-        attacks: [new DndAttack(5, 20), new DndAttack(5, 20)]
+        attacks: [new DndAttack(5, 20), new DndAttack(5, 20)],
       })
 
       expect(result).toMatch("1. ")

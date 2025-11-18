@@ -22,12 +22,11 @@ const opposed_component_schema = Joi.object({
 }).unknown()
 
 describe("opposed component correctness", () => {
-  it.concurrent.each(Array.from(opposed_handler.components.entries()))(
-    "`%s` component matches the schema",
-    (_name, component) => {
-      expect(component).toMatchSchema(opposed_component_schema)
-    },
-  )
+  it.concurrent.each(
+    Array.from(opposed_handler.components.entries()),
+  )("`%s` component matches the schema", (_name, component) => {
+    expect(component).toMatchSchema(opposed_component_schema)
+  })
 })
 
 describe("opposed component handler", () => {
@@ -75,17 +74,16 @@ describe("opposed component handler", () => {
     })
 
     describe("with a challenge in a final state", () => {
-      it.concurrent.each([...Challenge.FinalStates])(
-        "%s: replies that the challenge is over",
-        async (state) => {
-          const interaction = new Interaction()
-          new ChallengeFixture(state).attachMessage(interaction.message.id)
+      it.concurrent.each([
+        ...Challenge.FinalStates,
+      ])("%s: replies that the challenge is over", async (state) => {
+        const interaction = new Interaction()
+        new ChallengeFixture(state).attachMessage(interaction.message.id)
 
-          await opposed_handler.handle(interaction)
+        await opposed_handler.handle(interaction)
 
-          expect(interaction.replyContent).toMatch("has concluded")
-        },
-      )
+        expect(interaction.replyContent).toMatch("has concluded")
+      })
     })
 
     describe("with a challenge in a non-final state, but past its timeout", () => {
