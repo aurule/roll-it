@@ -313,6 +313,59 @@ function presentAttack({
   return t(`header.${key}`, t_args)
 }
 
+/**
+ * Present a set of D&D 3.5 full attack sequences
+ *
+ * @param  {object}        opts
+ * @param  {number}        opts.swings      Swings in each attack sequence
+ * @param  {DndAttack[][]} opts.attacks     Array of attack sequences, each an array of attack objects
+ * @param  {number}        opts.modifier    Number to add to each rolled die
+ * @param  {number}        opts.crit        Crit threshold
+ * @param  {number}        opts.ac          AC to judge a hit and crit
+ * @param  {number}        opts.rolls       Number of full attack sequences
+ * @param  {string}        opts.description Description of the attack action
+ * @param  {string}        opts.locale      Locale code
+ * @return {string}                         Text for the attack rolls
+ */
+function presentFullAttack({
+  swings,
+  attacks,
+  modifier = 0,
+  crit = 20,
+  ac = 0,
+  rolls = 1,
+  description = "",
+  locale = "en-US",
+} = {}) {
+  const t = i18n.getFixedT(locale, "commands", "dnd.full-attack.result")
+  const t_atk = i18n.getFixedT(locale, "commands", "dnd.attack.result")
+
+  const key = ac ? "ac" : "bare"
+  const t_args = {
+    ac,
+    swings,
+    weapon: t_atk("weapon", { modifier, crit: describeCrit(crit, t_atk) }),
+    results: attacks.map((sequence, idx) =>
+      [
+        t("section", { idx: idx + 1, count: swings }),
+        ...sequence.map((attack, idx) => {
+          const atk_key = ac ? resolveAC(attack, ac) : resolveAmbiguous(attack)
+          return `\t${idx+1}. ` + t_atk(`outcome.${atk_key}`, {
+            hit: describeDie(attack.hit, attack.hit_total, t_atk),
+            hit_detail: detail(attack.hit, attack.modifier),
+            confirm: describeDie(attack.confirm, attack.confirm_total, t_atk),
+            c_detail: detail(attack.confirm, attack.modifier),
+          })
+        })
+      ].join("\n")
+    ).join("\n"),
+    description,
+    count: rolls,
+    context: description ? "desc" : undefined,
+  }
+  return t(`header.${key}`, t_args)
+}
+
 module.exports = {
   detail,
   skillKey,
@@ -324,4 +377,5 @@ module.exports = {
   resolveAC,
   resolveAmbiguous,
   presentAttack,
+  presentFullAttack,
 }

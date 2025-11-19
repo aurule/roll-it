@@ -367,6 +367,36 @@ dnd:
       ac:
         name: ac
         description: Armor class of the target
+    result:
+      header:
+        bare_one: |-
+          {{userMention}} rolled a full attack ({{weapon}})
+          {{results}}
+        bare_desc_one: |-
+          {{userMention}} rolled a full attack for "{{description}}" ({{weapon}})
+          {{results}}
+        bare_other: |-
+          {{userMention}} rolled {{count}} full attacks ({{weapon}})
+          {{results}}
+        bare_desc_other: |-
+          {{userMention}} rolled {{count}} full attacks for "{{description}}" ({{weapon}})
+          {{results}}
+        ac_one: |-
+          {{userMention}} rolled a full attack *vs* AC {{ac}} ({{weapon}})
+          {{results}}
+        ac_desc_one: |-
+          {{userMention}} rolled a full attack for "{{description}}" *vs* AC {{ac}} ({{weapon}})
+          {{results}}
+        ac_other: |-
+          {{userMention}} rolled {{count}} full attacks *vs* AC {{ac}} ({{weapon}})
+          {{results}}
+        ac_desc_other: |-
+          {{userMention}} rolled {{count}} full attacks for "{{description}}" *vs* AC {{ac}} ({{weapon}})
+          {{results}}
+      section_one: >-
+        {{idx}}. Full attack with {{count}} swing
+      section_other: >-
+        {{idx}}. Full attack with {{count}} swings
   save:
     name: save
     description: Roll a saving throw

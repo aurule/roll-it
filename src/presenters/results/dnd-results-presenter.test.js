@@ -833,4 +833,61 @@ describe("D&D 3.5 results presenter", () => {
       expect(result).toMatch("2. ")
     })
   })
+
+  describe("presentFullAttack", () => {
+    let default_options
+
+    beforeEach(() => {
+      default_options = {
+        swings: 2,
+        rolls: 1,
+        modifier: 5,
+        crit: 20,
+        attacks: [[new DndAttack(10, 20), new DndAttack(5, 20)], [new DndAttack(10, 20), new DndAttack(5, 20)]],
+      }
+    })
+
+    it("shows the swings", () => {
+      const result = presenter.presentFullAttack({
+        ...default_options,
+      })
+
+      expect(result).toMatch("2 swings")
+    })
+
+    it("shows the modifier when non-zero", () => {
+      const result = presenter.presentFullAttack({
+        ...default_options,
+      })
+
+      expect(result).toMatch("+ 5")
+    })
+
+    it("shows the modifier when zero", () => {
+      const result = presenter.presentFullAttack({
+        ...default_options,
+        modifier: 0,
+      })
+
+      expect(result).toMatch("hit 0")
+    })
+
+    it("shows the crit range", () => {
+      const result = presenter.presentFullAttack({
+        ...default_options,
+      })
+
+      expect(result).toMatch("crit 20")
+    })
+
+    it("shows the description if present", () => {
+      const result = presenter.presentFullAttack({
+        ...default_options,
+        description: "a test",
+      })
+
+      expect(result).toMatch("a test")
+    })
+
+  })
 })
