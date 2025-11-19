@@ -42,6 +42,11 @@ Yes, yes there is.
 * `/d20` - Roll a single 20-sided die
 * `/d100` - Roll some percentile (100-sided) dice
 * `/drh` - Roll pools of d6s for Don't Rest Your Head
+* `/dnd` - Roll attacks, skills, and saves for D&D 3.5
+    - `/dnd attack` - Roll an attack
+    - `/dnd full-attack` - Roll a full attack sequence based on your BAB
+    - `/dnd save` - Roll a saving throw
+    - `/dnd skill` - Roll a skill check
 * `/fate` - Make a FATE roll of four fudge dice
 * `/ffrpg` - Roll a percentile vs CoS for Final Fantasy
 * `/formula` - Roll a combination of dice and complex modifiers
@@ -73,4 +78,4 @@ Yes, yes there is.
     - `/table roll` - Roll a random entry from a table
 * `/wod20` - Roll a pool of d10s using rules for World of Darkness 20th Anniversary
 
-*Last updated for v1.12.0 on Oct. 21, 2025*
+*Last updated for v1.14.0 on Nov. 19, 2025*
