@@ -286,7 +286,7 @@ dnd:
       - >
         The {{opts.modifier}} sets the attack bonus to use. {{opts.crit}} is the minimum die value that can
         threaten a critical hit. Defaults to 20, though 19 is also common. When the die meets or beats
-        {{crit}}, {{cmd}} will automatically roll a second time to determine if the attack is a critical hit.
+        {{opts.crit}}, {{cmd}} will automatically roll a second time to determine if the attack is a critical hit.
       - >
         {{opts.ac}} is the target's armor class. This is optional. When present, it's compared against the
         attack's result to judge a hit, miss, or crit.
@@ -380,7 +380,7 @@ dnd:
         lowered by 5, to reflect the way BAB is calculated.
       - >
         {{opts.crit}} is the minimum die value that can threaten a critical hit. Defaults to 20, though 19 is
-        also common. When an attack die meets or beats {{crit}}, {{cmd}} will automatically roll a second time
+        also common. When an attack die meets or beats {{opts.crit}}, {{cmd}} will automatically roll a second time
         to determine if the attack is a critical hit.
       - >
         {{opts.ac}} is the target's armor class. This is optional. When present, it's compared against each
