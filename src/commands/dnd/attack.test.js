@@ -4,6 +4,23 @@ const { test_secret_option } = require("../../../testing/shared/execute-secret")
 const dnd_attack_command = require("./attack")
 
 describe("/dnd attack", () => {
+  describe("schema", () => {
+    describe("crit", () => {
+      it.todo("is optional")
+      it.todo("allows integers")
+      it.todo("disallows floats")
+      it.todo("has a min of 0")
+      it.todo("has a max of 20")
+    })
+
+    describe("ac", () => {
+      it.todo("is optional")
+      it.todo("allows integers")
+      it.todo("disallows floats")
+      it.todo("has a min of 1")
+    })
+  })
+
   describe("perform", () => {
     it("rolls a single result", () => {
       const result = dnd_attack_command.perform({})
