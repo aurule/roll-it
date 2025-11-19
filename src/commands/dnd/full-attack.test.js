@@ -3,7 +3,7 @@ const { test_secret_option } = require("../../../testing/shared/execute-secret")
 
 const dnd_full_attack_command = require("./full-attack")
 
-describe("/dnd save", () => {
+describe("/dnd full-attack", () => {
   describe("perform", () => {
     it("rolls a single result", () => {
       const result = dnd_full_attack_command.perform({})
