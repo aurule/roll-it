@@ -217,10 +217,12 @@ class Paginator {
     while (page_num <= this.total_pages) {
       if (page_num === this.total_pages) {
         breakpoint = this.original_text.length
+      } else {
+        breakpoint = this.newlines.findLast(
+          (nl) => nl >= page_end - this.newline_margin && nl <= page_end,
+        )
       }
-      breakpoint = this.newlines.findLast(
-        (nl) => nl >= page_end - this.newline_margin && nl <= page_end,
-      )
+
       if (breakpoint === undefined) {
         breakpoint = this.segments.findLast((seg) => seg <= page_end)
         clobber = 0 // don't remove part of a word

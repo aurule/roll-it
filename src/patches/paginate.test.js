@@ -170,8 +170,7 @@ Curabitur facilisis purus at venenatis imperdiet.
 
 Sed eget nisi non ante pellentesque pretium in vitae diam.
 Mauris pulvinar massa quis nulla condimentum luctus.
-Maecenas malesuada diam in arcu mattis, sed varius justo tristique.
-`
+Maecenas malesuada diam in arcu mattis, sed varius justo tristique.`
           paginator = new paginate.Paginator(original, 500)
         })
 
@@ -196,7 +195,7 @@ Maecenas malesuada diam in arcu mattis, sed varius justo tristique.
         it("avoids truncating the final message", () => {
           const result = paginator.messages()
 
-          expect(result[2]).toMatch(/tristique\./)
+          expect(result[2]).toMatch(/justo tristique\./)
         })
       })
 
