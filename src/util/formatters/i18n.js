@@ -28,10 +28,10 @@ module.exports = {
   ul: (value) => unorderedList(value),
 
   /**
-   * Turn an array into a markdown ordere list
+   * Turn an array into a markdown ordered list
    *
    * Unlike the `orderedList()` helper from discord.js, this method prefixes each line with the accurate item
-   * number. This allows the list to be rendered correctly when broken by a message boundary.
+   * number. This allows the list to be rendered correctly when paginated.
    *
    * Cannot handle nested arrays.
    *
