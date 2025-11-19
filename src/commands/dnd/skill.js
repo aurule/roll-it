@@ -1,8 +1,11 @@
+const Joi = require("joi")
+
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
 const { injectMention } = require("../../util/formatters")
 const { roll } = require("../../services/base-roller")
 const { presentSkill } = require("../../presenters/results/dnd-results-presenter")
+const commonSchemas = require("../../util/common-schemas")
 
 const command_name = "skill"
 const parent_name = "dnd"
@@ -17,6 +20,17 @@ module.exports = {
       .addLocalizedIntegerOption("dc", (option) => option.setMinValue(1))
       .addIntegerOption(commonOpts.rolls)
       .addBooleanOption(commonOpts.secret),
+  savable: true,
+  changeable: ["modifier", "dc"],
+  schema: Joi.object({
+    modifier: commonSchemas.modifier,
+    description: commonSchemas.description,
+    dc: Joi.number().optional().integer().min(1).messages({
+      "number.integer": "DC must be a whole number.",
+      "number.min": "DC must be 1 or more.",
+    }),
+    rolls: commonSchemas.rolls,
+  }),
   perform({ modifier = 0, dc = 0, description = "", rolls = 1, locale = "en-US" } = {}) {
     const raw_results = roll(1, 20, rolls)
     const presented_results = presentSkill({
