@@ -271,11 +271,27 @@ d8:
 dnd:
   name: dnd
   description: Roll attacks, skills, and saves for D&D 3.5
-  help : TBD
+  help: >-
+    The {{cmd}} commands streamline various actions for D&D 3.5. You can use {{sub.skill}} to roll skill
+    checks, {{sub.save}} to make saving throws, and {{sub.attack}} and {{sub.full-attack}} to make attack
+    rolls against enemies. In each case, the rules for automatic success and failure, and critical hits are
+    automatically accounted for by Roll It.
   attack:
     name: attack
     description: Roll an attack
-    help: TBD
+    help-lines:
+      - >
+        {{cmd}} makes an attack roll. A natural 1 is always a miss, and a natural 20 is always a hit -- and a
+        crit threat.
+      - >
+        The {{opts.modifier}} sets the attack bonus to use. {{opts.crit}} is the minimum die value that can
+        threaten a critical hit. Defaults to 20, though 19 is also common. When the die meets or beats
+        {{crit}}, {{cmd}} will automatically roll a second time to determine if the attack is a critical hit.
+      - >
+        {{opts.ac}} is the target's armor class. This is optional. When present, it's compared against the
+        attack's result to judge a hit, miss, or crit.
+    help: |-
+      $t(dnd.attack.help-lines, { "joinArrays": "\n" })
     options:
       modifier:
         name: modifier
@@ -353,7 +369,27 @@ dnd:
   full-attack:
     name: full-attack
     description: Roll a full attack sequence based on your BAB
-    help: TBD
+    help-lines:
+      - >
+        {{cmd}} rolls a full attack sequence.
+      - >
+        The sequence will always include {{opts.swings}} attacks. A natural 1 is always a miss, and a natural
+        20 is always a hit -- and a crit threat.
+      - >
+        The {{opts.modifier}} is the *maximum* attack bonus to roll. Each attack after the first has its bonus
+        lowered by 5, to reflect the way BAB is calculated.
+      - >
+        {{opts.crit}} is the minimum die value that can threaten a critical hit. Defaults to 20, though 19 is
+        also common. When an attack die meets or beats {{crit}}, {{cmd}} will automatically roll a second time
+        to determine if the attack is a critical hit.
+      - >
+        {{opts.ac}} is the target's armor class. This is optional. When present, it's compared against each
+        attack's result to judge a hit, miss, or crit.
+      - >
+        The {{opts.rolls}} arg repeats the entire full attack sequence multiple times. Useful for groups of
+        NPCs.
+    help: |-
+      $t(dnd.full-attack.help-lines, { "joinArrays": "\n" })
     options:
       modifier:
         name: modifier
@@ -400,14 +436,18 @@ dnd:
   save:
     name: save
     description: Roll a saving throw
-    help: TBD
+    help-lines:
+      - >
+        {{cmd}} rolls a saving throw. A natural 1 is always a failure, and a natural 20 is always a success.
+    help: |-
+      $t(dnd.save.help-lines, { "joinArrays": "\n" })
     options:
       modifier:
         name: modifier
         description: Save modifier to add to the rolled die
       dc:
         name: dc
-        description: Difficulty of the save
+        description: Difficulty class of the save
     result:
       single:
         bare:
@@ -466,7 +506,12 @@ dnd:
   skill:
     name: skill
     description: Roll a skill check
-    help: TBD
+    help-lines:
+      - >
+        {{cmd}} rolls a skill check. Unlike saves and attacks, a natural 1 or natural 20 have no special
+        meaning for skill checks.
+    help: |-
+      $t(dnd.skill.help-lines, { "joinArrays": "\n" })
     options:
       modifier:
         name: modifier
