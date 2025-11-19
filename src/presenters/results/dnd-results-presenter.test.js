@@ -843,7 +843,10 @@ describe("D&D 3.5 results presenter", () => {
         rolls: 1,
         modifier: 5,
         crit: 20,
-        attacks: [[new DndAttack(10, 20), new DndAttack(5, 20)], [new DndAttack(10, 20), new DndAttack(5, 20)]],
+        attacks: [
+          [new DndAttack(10, 20), new DndAttack(5, 20)],
+          [new DndAttack(10, 20), new DndAttack(5, 20)],
+        ],
       }
     })
 
@@ -888,6 +891,5 @@ describe("D&D 3.5 results presenter", () => {
 
       expect(result).toMatch("a test")
     })
-
   })
 })

@@ -345,20 +345,25 @@ function presentFullAttack({
     ac,
     swings,
     weapon: t_atk("weapon", { modifier, crit: describeCrit(crit, t_atk) }),
-    results: attacks.map((sequence, idx) =>
-      [
-        t("section", { idx: idx + 1, count: swings }),
-        ...sequence.map((attack, idx) => {
-          const atk_key = ac ? resolveAC(attack, ac) : resolveAmbiguous(attack)
-          return `\t${idx+1}. ` + t_atk(`outcome.${atk_key}`, {
-            hit: describeDie(attack.hit, attack.hit_total, t_atk),
-            hit_detail: detail(attack.hit, attack.modifier),
-            confirm: describeDie(attack.confirm, attack.confirm_total, t_atk),
-            c_detail: detail(attack.confirm, attack.modifier),
-          })
-        })
-      ].join("\n")
-    ).join("\n"),
+    results: attacks
+      .map((sequence, idx) =>
+        [
+          t("section", { idx: idx + 1, count: swings }),
+          ...sequence.map((attack, idx) => {
+            const atk_key = ac ? resolveAC(attack, ac) : resolveAmbiguous(attack)
+            return (
+              `\t${idx + 1}. ` +
+              t_atk(`outcome.${atk_key}`, {
+                hit: describeDie(attack.hit, attack.hit_total, t_atk),
+                hit_detail: detail(attack.hit, attack.modifier),
+                confirm: describeDie(attack.confirm, attack.confirm_total, t_atk),
+                c_detail: detail(attack.confirm, attack.modifier),
+              })
+            )
+          }),
+        ].join("\n"),
+      )
+      .join("\n"),
     description,
     count: rolls,
     context: description ? "desc" : undefined,

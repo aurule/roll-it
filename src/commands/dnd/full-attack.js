@@ -42,9 +42,17 @@ module.exports = {
     }),
     rolls: commonSchemas.rolls,
   }),
-  perform({ swings = 1, modifier = 0, crit = 20, ac = 0, description = "", rolls = 1, locale = "en-US" } = {}) {
+  perform({
+    swings = 1,
+    modifier = 0,
+    crit = 20,
+    ac = 0,
+    description = "",
+    rolls = 1,
+    locale = "en-US",
+  } = {}) {
     const attacks = Array.from({ length: rolls }, () => {
-      return Array.from({ length: swings }, (_v, idx) => new DndAttack(modifier - (5*idx), crit))
+      return Array.from({ length: swings }, (_v, idx) => new DndAttack(modifier - 5 * idx, crit))
     })
 
     const presented_results = presentFullAttack({
