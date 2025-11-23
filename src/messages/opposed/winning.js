@@ -19,6 +19,10 @@ module.exports = {
     const t = i18n.getFixedT(challenge.locale, "opposed")
 
     const components = [
+      build.text(challenge.summary),
+      build.text(t("shared.history.header")),
+      build.text(history),
+      build.separator(),
       build.text(
         t("winning.headline", {
           leader: test.leader.mention,
@@ -35,10 +39,6 @@ module.exports = {
       build.text(t("shared.retest.cta")),
       build.actions(retest_picker.data(challenge)),
       build.actions(retest_button.data(challenge.locale)),
-      build.separator(),
-      build.text(challenge.summary),
-      build.text(t("shared.history.header")),
-      build.text(history),
     ]
     return build.message(components, { withResponse: true })
   },
