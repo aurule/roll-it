@@ -2,6 +2,22 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v1.14.0 <small>Released Nov 23, 2025</small>
+
+### Added
+
+* New `/dnd` family of commands for D&D 3.5. Supports attacks, full attacks, saves, and skills.
+* Gained a worrying taste for blood.
+
+### Changed
+
+* Updated the list of commands for the D&D 5e system
+
+### Fixed
+
+* Fixed pagination removing the final line of some messages
+
+
 ## v1.13.2 <small>Released Nov 14, 2025</small>
 
 ### Changed
