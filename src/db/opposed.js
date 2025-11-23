@@ -711,18 +711,18 @@ class Opposed extends CachedDb {
   /**
    * Add a test record
    *
-   * @param  {object} options
-   * @param  {number} options.challenge_id   Internal ID of the associated challenge record
-   * @param  {string} options.locale         Locale identifier
-   * @param  {number} options.retester_id    Internal ID of the retesting participant
-   * @param  {string} options.retest_reason  What was used to retest the result
-   * @param  {bool}   options.retested       Whether the test's result has been retested
-   * @param  {number} options.canceller_id   Internal ID of the retesting participant
-   * @param  {string} options.cancelled_with What was used to cancel the retest
-   * @param  {bool}   options.cancelled      Whether the test's result was retested with an ability, then cancelled with an ability
-   * @param  {string} options.history        Test history string to store
-   * @param  {string} options.breakdown      Test breakdown string to store
-   * @param  {number} options.leader_id      Internal ID of the leading participant
+   * @param  {object}  options
+   * @param  {number}  options.challenge_id   Internal ID of the associated challenge record
+   * @param  {string}  options.locale         Locale identifier
+   * @param  {number}  options.retester_id    Internal ID of the retesting participant
+   * @param  {string}  options.retest_reason  What was used to retest the result
+   * @param  {boolean} options.retested       Whether the test's result has been retested
+   * @param  {number}  options.canceller_id   Internal ID of the retesting participant
+   * @param  {string}  options.cancelled_with What was used to cancel the retest
+   * @param  {boolean} options.cancelled      Whether the test's result was retested with an ability, then cancelled with an ability
+   * @param  {string}  options.history        Test history string to store
+   * @param  {string}  options.breakdown      Test breakdown string to store
+   * @param  {number}  options.leader_id      Internal ID of the leading participant
    * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
    */
   addTest({
@@ -789,29 +789,63 @@ class Opposed extends CachedDb {
    *
    * Only for testing
    *
-   * @param  {object} options
-   * @param  {number} options.challenge_id Internal ID of the associated challenge record
-   * @param  {string} options.locale       Locale identifier
-   * @param  {number} options.leader_id    Internal ID of the leading participant
-   * @param  {string} options.history      Test history string to store
-   * @param  {number} options.gap          Number of seconds to add to the current time
-   * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
+   * @param  {object}  options
+   * @param  {number}  options.challenge_id   Internal ID of the associated challenge record
+   * @param  {string}  options.locale         Locale identifier
+   * @param  {number}  options.retester_id    Internal ID of the retesting participant
+   * @param  {string}  options.retest_reason  What was used to retest the result
+   * @param  {boolean} options.retested       Whether the test's result has been retested
+   * @param  {number}  options.canceller_id   Internal ID of the retesting participant
+   * @param  {string}  options.cancelled_with What was used to cancel the retest
+   * @param  {boolean} options.cancelled      Whether the test's result was retested with an ability, then cancelled with an ability
+   * @param  {string}  options.history        Test history string to store
+   * @param  {string}  options.breakdown      Test breakdown string to store
+   * @param  {number}  options.leader_id      Internal ID of the leading participant
+   * @param  {number}  options.gap            Number of seconds to add to the current time
+   * @return {Info}    Query info object with `changes` and `lastInsertRowid` properties
    */
-  addFutureTest({ challenge_id, locale, leader_id = null, history = null, gap = 1 } = {}) {
+  addFutureTest({
+    challenge_id,
+    locale,
+    retester_id = null,
+    retest_reason = null,
+    retested = false,
+    canceller_id = null,
+    cancelled_with = null,
+    cancelled = false,
+    history = null,
+    breakdown = null,
+    leader_id = null,
+    gap = 1,
+  } = {}) {
     const insert = this.prepared(
-      "addFutureTest",
+      "addTest",
       oneLine`
       INSERT INTO opposed_tests (
         challenge_id,
         locale,
-        leader_id,
+        retester_id,
+        retest_reason,
+        retested,
+        canceller_id,
+        cancelled_with,
+        cancelled,
         history,
+        breakdown,
+        leader_id,
         created_at
       ) VALUES (
         @challenge_id,
         @locale,
-        @leader_id,
+        @retester_id,
+        @retest_reason,
+        @retested,
+        @canceller_id,
+        @cancelled_with,
+        @cancelled,
         @history,
+        @breakdown,
+        @leader_id,
         DATETIME('now', @gap || ' seconds')
       )
     `,
@@ -820,8 +854,15 @@ class Opposed extends CachedDb {
     return insert.run({
       challenge_id,
       locale,
-      leader_id,
+      retester_id,
+      retest_reason,
+      retested: +!!retested,
+      canceller_id,
+      cancelled_with,
+      cancelled: +!!cancelled,
       history,
+      breakdown,
+      leader_id,
       gap,
     })
   }
