@@ -112,13 +112,11 @@ describe("opposed component handler", () => {
 
     describe("with a valid challenge, but for a finished test record", () => {
       let challenge
-      let opposed_db
 
       beforeEach(() => {
         interaction = new Interaction()
         interaction.customId = "opposed_cancel"
 
-        opposed_db = new Opposed()
         challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
         challenge
           .defenderRetest("ability")
