@@ -15,10 +15,11 @@ const { i18n } = require("../locales")
  * // yields "`/chop`"
  * ```
  *
- * @param  {Command} command  The command object to present
- * @param  {str}     locale   Locale name for the command string
- * @param  {object}  options  Optional options object
- * @return {String}           Markdown-formatted string of the command's name
+ * @param  {Command} command              The command object to present
+ * @param  {str}     locale               Locale name for the command string
+ * @param  {object}  options              Optional options object
+ * @param  {boolean} options.unformatted  Omit all markdown formatting
+ * @return {String}                       Markdown-formatted string of the command's name
  */
 function present(command, locale, options = {}) {
   const t = i18n.getFixedT(locale)
