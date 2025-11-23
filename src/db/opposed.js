@@ -950,6 +950,27 @@ class Opposed extends CachedDb {
   }
 
   /**
+   * Get the second most recently created test for a challenge
+   * @param  {number} challenge_id Internal ID of the challenge to reference
+   * @return {OpTest}              OpTest object
+   */
+  getPenultimateTest(challenge_id) {
+    const test_select = this.prepared(
+      "getPenultimateTest",
+      oneLine`
+      SELECT   *
+      FROM     interactive.opposed_tests
+      WHERE    challenge_id = ?
+      ORDER BY created_at DESC
+      LIMIT    2
+    `,
+    )
+    const result = test_select.all(challenge_id)
+
+    return new OpTest({ ...result[1], opposed_db: this })
+  }
+
+  /**
    * Set the retested flag
    * @param  {number}  test_id  Internal ID of the test to change
    * @param  {Boolean} retested New value for the retested flag

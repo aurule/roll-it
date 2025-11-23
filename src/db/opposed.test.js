@@ -1125,6 +1125,41 @@ describe("Opposed DB", () => {
       })
     })
 
+    describe("getPenultimateTest", () => {
+      let penultimate_test_id
+
+      beforeEach(() => {
+        opposed.addTest({
+          challenge_id,
+          locale: "en-US",
+        }).lastInsertRowid
+      })
+
+      describe("with two or more test records", () => {
+        beforeEach(() => {
+          penultimate_test_id = opposed.addTest({
+            challenge_id,
+            locale: "en-US",
+            created_at: "2025-06-01T13:00:00-04:00",
+          }).lastInsertRowid
+        })
+
+        it("gets the second most recent test record", () => {
+          const test_record = opposed.getPenultimateTest(challenge_id)
+
+          expect(test_record.id).toEqual(penultimate_test_id)
+        })
+      })
+
+      describe("with one test record", () => {
+        it("returns a blank test", () => {
+          const test_record = opposed.getPenultimateTest(challenge_id)
+
+          expect(test_record.id).toBeUndefined()
+        })
+      })
+    })
+
     describe("setTestRetested", () => {
       let retest_id
       let test_id
