@@ -15,10 +15,23 @@ module.exports = {
     const participants = opposed_db.getParticipants(challenge_id)
     const attacker = participants.get("attacker")
     const defender = participants.get("defender")
+    const previous_test = opposed_db.getPenultimateTest(challenge_id)
 
     const t = i18n.getFixedT(challenge.locale, "opposed", "throws")
+    const hist_t = i18n.getFixedT(challenge.locale, "opposed", "shared.history")
+
+    let blurb
+    if (previous_test.retest_reason) {
+      blurb = hist_t(`retest.${previous_test.retest_reason}`, {
+        retester: previous_test.retester.mention,
+        ability: challenge.retest_ability,
+      })
+    } else {
+      blurb = t("first")
+    }
 
     const components = [
+      build.text(blurb),
       build.text(t("request", { participant: attacker.mention })),
       build.actions(throw_picker.data(challenge.locale, attacker)),
       build.text(t("disclaimer")),

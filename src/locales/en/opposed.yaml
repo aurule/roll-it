@@ -226,6 +226,8 @@ relented: >-
 relented_description: >-
   {{defender}} **relented** to the challenge from {{attacker}} for "{{description}}".
 throws:
+  first: >-
+    This is the first test of the challenge.
   request: >-
     {{participant}} choose what you will throw:
   disclaimer: >-

@@ -21,6 +21,28 @@ describe("opposed throwing prompt message", () => {
   })
 
   describe("data", () => {
+    describe("for the first test of a challenge", () => {
+      it("shows the initial test message", () => {
+        const result = throwing.data(challenge.id)
+
+        expect(result.content).toMatch("first test")
+      })
+    })
+
+    describe("for retests", () => {
+      beforeEach(() => {
+        throwing_test.retestReason("ability")
+        throwing_test.retester(challenge.attacker)
+        challenge.addTest({ gap: 5 })
+      })
+
+      it("shows the retest reason", () => {
+        const result = throwing.data(challenge.id)
+
+        expect(result.content).toMatch("a different ability")
+      })
+    })
+
     it("shows the throw request message", () => {
       const result = throwing.data(challenge.id)
 
