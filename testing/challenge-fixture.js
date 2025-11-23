@@ -390,14 +390,18 @@ class TestFixture {
    * @see src/db/opposed.addTest
    *
    * @param  {ChallengeFixture} challenge Parent challenge
-   * @param  {object} options   Options to pass to the addTest method
+   * @param  {object} options   Options to pass to the addFutureTest method
    * @return {TestFixture}      New TestFixture object
    */
   constructor(challenge, options) {
     this.challenge = challenge
     this.db = challenge.db
 
-    this.id = this.db.addTest({
+    if (options.gap === undefined) {
+      options.gap = 1
+    }
+
+    this.id = this.db.addFutureTest({
       ...options,
       challenge_id: this.challenge.id,
       locale: "en-US",
