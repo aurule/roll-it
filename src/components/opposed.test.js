@@ -125,12 +125,7 @@ describe("opposed component handler", () => {
           .cancelWith("ability")
           .attachMessage(interaction.message.id)
         interaction.user.id = challenge.attacker.uid
-
-        opposed_db.addFutureTest({
-          challenge_id: challenge.id,
-          locale: "en-US",
-          leader_id: challenge.attacker.id,
-        })
+        challenge.addTest({ gap: 2 }).setLeader(challenge.attacker)
       })
 
       it("replies that the message is outdated", async () => {
