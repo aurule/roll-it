@@ -155,3 +155,12 @@ easter-eggs:
       - If you want conversation, maybe check out [duck.ai](<https://duck.ai>). Or, y'know, talk to people.
       - Did you drink water today?
       - Did you eat food today?
+    messages_sacrifice:
+      # These do not need to be match across languages.
+      - The preparations are complete.
+      - All bleeding stops, eventually.
+      - I am summoned.
+      - You think to sway me with this paltry gift? Well, good news.
+      - You have my attention.
+      - A quiet, quick cut heralds the sound of dice.
+      - Roll quickly, before the blood cools!

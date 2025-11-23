@@ -1,6 +1,7 @@
 const { randomInt } = require("mathjs")
 
 const { i18n } = require("../locales")
+const sacrifice = require("../services/easter-eggs/sacrifice")
 
 /**
  * Fallback message mention handler
@@ -32,7 +33,13 @@ module.exports = {
       return message.react("<:rolliteye:1362168653348470975>")
     }
 
-    const messages = i18n.t("easter-eggs.mention.messages", { returnObjects: true })
+    const t = i18n.getFixedT(message.locale)
+
+    const t_args = {
+      returnObjects: true,
+      context: sacrifice.hasTrigger(message, message.locale) ? "sacrifice" : undefined
+    }
+    const messages = t("easter-eggs.mention.messages", t_args)
     const content = messages.at(randomInt(messages.length))
 
     return message.reply(content)
