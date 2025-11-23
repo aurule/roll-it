@@ -436,6 +436,11 @@ class TestFixture {
     return this
   }
 
+  /**
+   * Set the retesting user for this test
+   * @param  {ParticipantFixture} participant Participant record who is retesting
+   * @return {TestFixture}                    This fixture
+   */
   retester(participant) {
     this.db.setTestRetester(this.id, participant.id)
     return this
