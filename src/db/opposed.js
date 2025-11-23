@@ -23,7 +23,7 @@ class Opposed extends CachedDb {
    * @param  {string}   options.summary        Generated summary of the challenge
    * @param  {string}   options.state          State of the challenge
    * @param  {string}   options.channel_uid    Discord ID of the channel where the challenge was initiated
-   * @param  {int}      options.timeout        Number of seconds until the challenge expires
+   * @param  {number}   options.timeout        Number of seconds until the challenge expires
    * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
    */
   addChallenge({
@@ -83,7 +83,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get a total number of challenge records
-   * @return {int} Number of challenge records
+   * @return {number} Number of challenge records
    */
   challengeCount() {
     const select = this.prepared(
@@ -101,8 +101,8 @@ class Opposed extends CachedDb {
   /**
    * Remove an opposed challenge
    *
-   * @param  {int} id Internal ID of the challenge record
-   * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
+   * @param  {number} id Internal ID of the challenge record
+   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
   destroy(id) {
     const destroy = this.prepared(
@@ -116,8 +116,8 @@ class Opposed extends CachedDb {
 
   /**
    * Get the details of a challenge
-   * @param  {int} challenge_id Internal ID of the challenge record
-   * @return {Challenge}        Full challenge record
+   * @param  {number}    challenge_id Internal ID of the challenge record
+   * @return {Challenge}              Full challenge record
    */
   getChallenge(challenge_id) {
     const select = this.prepared(
@@ -141,8 +141,8 @@ class Opposed extends CachedDb {
 
   /**
    * Get a challenge record with associated participant records
-   * @param  {int} challenge_id Internal ID of the challenge record
-   * @return {Challenge}        Full challenge record with attacker and defender records
+   * @param  {number}    challenge_id Internal ID of the challenge record
+   * @return {Challenge}              Full challenge record with attacker and defender records
    */
   getChallengeWithParticipants(challenge_id) {
     const select = this.prepared(
@@ -173,7 +173,7 @@ class Opposed extends CachedDb {
   /**
    * Update the state of a challenge
    *
-   * @param {int}    challenge_id Internal ID of the challenge record
+   * @param {number} challenge_id Internal ID of the challenge record
    * @param {string} state        State string. Must be from `ChallengeStates`
    */
   setChallengeState(challenge_id, state) {
@@ -207,7 +207,7 @@ class Opposed extends CachedDb {
 
   /**
    * Update the summary of the challenge
-   * @param {int}    challenge_id Internal ID of the challenge record
+   * @param {number} challenge_id Internal ID of the challenge record
    * @param {string} summary      New summary string
    */
   setChallengeSummary(challenge_id, summary) {
@@ -228,7 +228,7 @@ class Opposed extends CachedDb {
 
   /**
    * Update the conditions of the challenge
-   * @param {int}      challenge_id Internal ID of the challenge record
+   * @param {number}   challenge_id Internal ID of the challenge record
    * @param {string[]} conditions   Array of new condition keywords
    */
   setChallengeConditions(challenge_id, conditions) {
@@ -319,7 +319,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the challenge record associated with a given test record
-   * @param  {int}       test_id Internal ID of the test record to look up
+   * @param  {number}    test_id Internal ID of the test record to look up
    * @return {Challenge}         Challenge record
    */
   findChallengeByTest(test_id) {
@@ -345,7 +345,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get all test history strings for a challenge
-   * @param  {int}      challenge_id Internal ID of the challenge to look up
+   * @param  {number}   challenge_id Internal ID of the challenge to look up
    * @return {string[]}              Array of history strings for all tests associated with that challenge
    */
   getChallengeHistory(challenge_id) {
@@ -368,7 +368,7 @@ class Opposed extends CachedDb {
    *
    * @param  {object}    options
    * @param  {Snowflake} options.message_uid  Discord ID of the message
-   * @param  {int}       options.challenge_id Internal ID of the associated challenge
+   * @param  {number}    options.challenge_id Internal ID of the associated challenge
    * @param  {int?}      options.test_id      Internal ID of the associated test
    * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
@@ -397,7 +397,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the message record for a given ID
-   * @param  {int}    message_id Internal ID of the message
+   * @param  {number} message_id Internal ID of the message
    * @return {object}            Message object or undefined if not found
    */
   getMessage(message_id) {
@@ -428,8 +428,8 @@ class Opposed extends CachedDb {
 
   /**
    * Get whether a message UID is stored
-   * @param  {Snowflake}  message_uid Discord message ID
-   * @return {Boolean}                True if the message is stored, false if not
+   * @param  {Snowflake} message_uid Discord message ID
+   * @return {Boolean}               True if the message is stored, false if not
    */
   hasMessage(message_uid) {
     const select = this.prepared(
@@ -482,15 +482,15 @@ class Opposed extends CachedDb {
   /**
    * Add a new participant record
    *
-   * @param {options}
-   * @param {Snowflake} options.user_uid     Discord ID of the participating user
-   * @param {string}    options.mention      Mention string for including in messages
-   * @param {string[]}  options.advantages   List of advantage keywords
-   * @param {boolean}   options.tie_winner   Whether this participant wins ties against its partner
-   * @param {boolean}   options.ability_used Whether this participant has used an ability on the current challenge
-   * @param {int}       options.role         Role identifier for attacker or defender
-   * @param {int}       options.challenge_id Internal ID of the challenge they're participating in
-   * @return {Info} Info object
+   * @param  {object}    options
+   * @param  {Snowflake} options.user_uid     Discord ID of the participating user
+   * @param  {string}    options.mention      Mention string for including in messages
+   * @param  {string[]}  options.advantages   List of advantage keywords
+   * @param  {boolean}   options.tie_winner   Whether this participant wins ties against its partner
+   * @param  {boolean}   options.ability_used Whether this participant has used an ability on the current challenge
+   * @param  {number}    options.role         Role identifier for attacker or defender
+   * @param  {number}    options.challenge_id Internal ID of the challenge they're participating in
+   * @return {Info}                           Info object
    */
   addParticipant({
     user_uid,
@@ -537,8 +537,8 @@ class Opposed extends CachedDb {
 
   /**
    * Get the total number of participants in a challenge
-   * @param  {int} challenge_id Internal ID of the challenge
-   * @return {int}              Number of related participant records
+   * @param  {number} challenge_id Internal ID of the challenge
+   * @return {number}              Number of related participant records
    */
   participantCount(challenge_id) {
     const select = this.prepared(
@@ -556,7 +556,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get a single participant record
-   * @param  {int}    participant_id Internal ID to look up
+   * @param  {number} participant_id Internal ID to look up
    * @return {object}                Participant object, or undefined if the ID is not found
    */
   getParticipant(participant_id) {
@@ -579,7 +579,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the participants for a challenge
-   * @param  {int}     challenge_id Internal ID of the challenge
+   * @param  {number}  challenge_id Internal ID of the challenge
    * @param  {boolean} index_by_id  Whether to index the results by participant role name, or by internal ID
    * @return {Collection<string | int, Participant>} Collection of participants
    */
@@ -616,8 +616,8 @@ class Opposed extends CachedDb {
 
   /**
    * Update the advantages for a participant
-   * @param  {int} participant_id  Internal ID of the participant record to update
-   * @param  {string[]} advantages Array of advantage keywords to store
+   * @param  {number}   participant_id  Internal ID of the participant record to update
+   * @param  {string[]} advantages      Array of advantage keywords to store
    * @return {Info}     Query info object with `changes` and `lastInsertRowid` properties
    */
   setParticipantAdvantages(participant_id, advantages) {
@@ -638,7 +638,7 @@ class Opposed extends CachedDb {
 
   /**
    * Update the ability_used flag for a participant record
-   * @param  {int}     participant_id Internal ID of the participant record
+   * @param  {number}  participant_id Internal ID of the participant record
    * @param  {boolean} used           Value of the flag. Defaults to true.
    * @return {Info}    Query info object with `changes` and `lastInsertRowid` properties
    */
@@ -686,7 +686,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the participant who wins ties for a challenge
-   * @param  {int}         challenge_id Internal challenge ID
+   * @param  {number}         challenge_id Internal challenge ID
    * @return {Participant|null}         Winning participant record, or null
    */
   getTieWinner(challenge_id) {
@@ -712,17 +712,17 @@ class Opposed extends CachedDb {
    * Add a test record
    *
    * @param  {object} options
-   * @param  {int}    options.challenge_id   Internal ID of the associated challenge record
+   * @param  {number} options.challenge_id   Internal ID of the associated challenge record
    * @param  {string} options.locale         Locale identifier
-   * @param  {int}    options.retester_id    Internal ID of the retesting participant
+   * @param  {number} options.retester_id    Internal ID of the retesting participant
    * @param  {string} options.retest_reason  What was used to retest the result
    * @param  {bool}   options.retested       Whether the test's result has been retested
-   * @param  {int}    options.canceller_id   Internal ID of the retesting participant
+   * @param  {number} options.canceller_id   Internal ID of the retesting participant
    * @param  {string} options.cancelled_with What was used to cancel the retest
    * @param  {bool}   options.cancelled      Whether the test's result was retested with an ability, then cancelled with an ability
    * @param  {string} options.history        Test history string to store
    * @param  {string} options.breakdown      Test breakdown string to store
-   * @param  {int}    options.leader_id      Internal ID of the leading participant
+   * @param  {number} options.leader_id      Internal ID of the leading participant
    * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
    */
   addTest({
@@ -790,11 +790,11 @@ class Opposed extends CachedDb {
    * Only for testing
    *
    * @param  {object} options
-   * @param  {int}    options.challenge_id Internal ID of the associated challenge record
+   * @param  {number} options.challenge_id Internal ID of the associated challenge record
    * @param  {string} options.locale       Locale identifier
-   * @param  {int}    options.leader_id    Internal ID of the leading participant
+   * @param  {number} options.leader_id    Internal ID of the leading participant
    * @param  {string} options.history      Test history string to store
-   * @param  {int}    options.gap          Number of seconds to add to the current time
+   * @param  {number} options.gap          Number of seconds to add to the current time
    * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
    */
   addFutureTest({ challenge_id, locale, leader_id = null, history = null, gap = 1 } = {}) {
@@ -828,8 +828,8 @@ class Opposed extends CachedDb {
 
   /**
    * Get a total number of test records for a challenge
-   * @param  {int} challenge_id Internal ID of the challenge to reference
-   * @return {int}              Number of test records associated with the given challenge
+   * @param  {number} challenge_id Internal ID of the challenge to reference
+   * @return {number}              Number of test records associated with the given challenge
    */
   testCount(challenge_id) {
     const select = this.prepared(
@@ -847,7 +847,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the record for the given test
-   * @param  {int}    test_id Internal ID of the test to fetch
+   * @param  {number} test_id Internal ID of the test to fetch
    * @return {OpTest}         Test object
    */
   getTest(test_id) {
@@ -889,7 +889,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the most recently created test for a challenge
-   * @param  {int}    challenge_id Internal ID of the challenge to reference
+   * @param  {number} challenge_id Internal ID of the challenge to reference
    * @return {OpTest}              OpTest object
    */
   getLatestTest(challenge_id) {
@@ -910,7 +910,7 @@ class Opposed extends CachedDb {
 
   /**
    * Set the retested flag
-   * @param  {int}     test_id  Internal ID of the test to change
+   * @param  {number}  test_id  Internal ID of the test to change
    * @param  {Boolean} retested New value for the retested flag
    * @return {Info}             DB info object
    */
@@ -932,7 +932,7 @@ class Opposed extends CachedDb {
 
   /**
    * Set the retested flag
-   * @param  {int}     test_id  Internal ID of the test to change
+   * @param  {number}  test_id  Internal ID of the test to change
    * @param  {Boolean} retested New value for the retested flag
    * @return {Info}             DB info object
    */
@@ -959,7 +959,7 @@ class Opposed extends CachedDb {
    *
    * @see OpTest.RetestReasons
    *
-   * @param  {int}    test_id Internal ID of the test to update
+   * @param  {number} test_id Internal ID of the test to update
    * @param  {string} reason  Reason code
    * @return {Info}           DB info object
    */
@@ -981,8 +981,8 @@ class Opposed extends CachedDb {
 
   /**
    * Set the cancelled flag to true
-   * @param  {int}  test_id Internal ID of the test to change
-   * @return {Info}         DB info object
+   * @param  {number} test_id Internal ID of the test to change
+   * @return {Info}           DB info object
    */
   setTestCancelled(test_id) {
     const update = this.prepared(
@@ -1004,7 +1004,7 @@ class Opposed extends CachedDb {
    *
    * @see OpTest.CancelReasons
    *
-   * @param  {int}    test_id Internal ID of the test to update
+   * @param  {number} test_id Internal ID of the test to update
    * @param  {string} reason  Reason code
    * @return {Info}           DB info object
    */
@@ -1027,9 +1027,9 @@ class Opposed extends CachedDb {
   /**
    * Set the ID of the participant currently winning the given test
    *
-   * @param  {int}  test_id   Internal ID of the test to update
-   * @param  {int}  leader_id Internal ID of the participant to set as leader
-   * @return {Info}           DB info object
+   * @param  {number} test_id   Internal ID of the test to update
+   * @param  {number} leader_id Internal ID of the participant to set as leader
+   * @return {Info}             DB info object
    */
   setTestLeader(test_id, leader_id) {
     const update = this.prepared(
@@ -1049,9 +1049,9 @@ class Opposed extends CachedDb {
 
   /**
    * Set the chop breakdown of the given test
-   * @param  {int}    test_id   Internal ID of the test to update
+   * @param  {number} test_id   Internal ID of the test to update
    * @param  {string} breakdown Generated description of the chops
-   * @return {Info}           DB info object
+   * @return {Info}             DB info object
    */
   setTestBreakdown(test_id, breakdown) {
     const update = this.prepared(
@@ -1071,7 +1071,7 @@ class Opposed extends CachedDb {
 
   /**
    * Set the history string of the test
-   * @param  {int}    test_id Internal ID of the test to update
+   * @param  {number} test_id Internal ID of the test to update
    * @param  {string} history Generated description of the test history
    * @return {Info}           DB info object
    */
@@ -1101,10 +1101,10 @@ class Opposed extends CachedDb {
    * @see OpTest.RetestReasons
    *
    * @param  {object} options
-   * @param  {int}    options.test_id      Internal ID of the test to change
-   * @param  {int}    options.retester_id  Internal ID of the retesting participant
+   * @param  {number} options.test_id      Internal ID of the test to change
+   * @param  {number} options.retester_id  Internal ID of the retesting participant
    * @param  {string} options.reason       Retest reason code
-   * @param  {int}    options.canceller_id Internal ID of the cancelling participant
+   * @param  {number} options.canceller_id Internal ID of the cancelling participant
    * @return {Info}                        DB info object
    */
   setRetest({ test_id, retester_id, reason, canceller_id }) {
@@ -1134,8 +1134,8 @@ class Opposed extends CachedDb {
    *
    * @param  {object} options
    * @param  {string} options.request        Request keyword
-   * @param  {[type]} options.test_id        Internal ID of the test this chop is for
-   * @param  {[type]} options.participant_id Internal ID of the participant making this request
+   * @param  {number} options.test_id        Internal ID of the test this chop is for
+   * @param  {number} options.participant_id Internal ID of the participant making this request
    * @return {Info}                          DB info object
    */
   addChopRequest({ request, test_id, participant_id }) {
@@ -1167,7 +1167,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the record for a given chop
-   * @param  {int}    chop_id Internal ID of the chop to get
+   * @param  {number} chop_id Internal ID of the chop to get
    * @return {object}         Chop data
    */
   getChop(chop_id) {
@@ -1192,7 +1192,7 @@ class Opposed extends CachedDb {
 
   /**
    * Get the chops associated with a given test
-   * @param  {int}      test_id Internal ID of the test
+   * @param  {number}   test_id Internal ID of the test
    * @return {object[]}         Array of chop record objects
    */
   getChopsForTest(test_id) {
@@ -1219,7 +1219,7 @@ class Opposed extends CachedDb {
 
   /**
    * Set the ready flag of a chop
-   * @param  {int}     chop_id Internal ID of the chop record to update
+   * @param  {number}  chop_id Internal ID of the chop record to update
    * @param  {Boolean} ready   New flag value. Defaults to true.
    * @return {Info}            DB info object
    */
@@ -1241,8 +1241,8 @@ class Opposed extends CachedDb {
 
   /**
    * Get whether a participant has added a chop to a test
-   * @param  {int}     participant_id Internal ID of the participant
-   * @param  {int}     test_id        Internal ID of the test
+   * @param  {number}  participant_id Internal ID of the participant
+   * @param  {number}  test_id        Internal ID of the test
    * @return {boolean}                True if the participant has a chop for the given test, false if not
    */
   didParticipantChop(participant_id, test_id) {
@@ -1270,7 +1270,7 @@ class Opposed extends CachedDb {
    *
    * `@see src/services/met-roller.handleRequest
    *
-   * @param  {int}    chop_id Internal ID of the chop record to update
+   * @param  {number} chop_id Internal ID of the chop record to update
    * @param  {string} result  Resolved request
    * @return {Info}           DB info object
    */
@@ -1295,9 +1295,9 @@ class Opposed extends CachedDb {
    *
    * Trait comparison is only used during ties.
    *
-   * @param  {int}  chop_id Internal ID of the chop record to update
-   * @param  {int}  traits  Number of traits for the chop
-   * @return {Info}         DB info object
+   * @param  {number} chop_id Internal ID of the chop record to update
+   * @param  {number} traits  Number of traits for the chop
+   * @return {Info}           DB info object
    */
   setChopTraits(chop_id, traits) {
     const update = this.prepared(
@@ -1317,7 +1317,7 @@ class Opposed extends CachedDb {
 
   /**
    * Set the tie_accepted flag of a chop
-   * @param  {int}     chop_id      Internal ID of the chop record to update
+   * @param  {number}  chop_id      Internal ID of the chop record to update
    * @param  {boolean} tie_accepted New flag value
    * @return {Info}                 DB info object
    */
