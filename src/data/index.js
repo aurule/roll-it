@@ -22,6 +22,7 @@ function load_dir(dirname) {
 const data_collections = {
   help_topics: load_dir("help"),
   systems: load_dir("systems"),
+  features: load_dir("features"),
 }
 
 module.exports = {

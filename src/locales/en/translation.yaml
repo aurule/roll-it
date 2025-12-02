@@ -97,6 +97,23 @@ systems:
     title: World of Darkness 20th Anniversary Edition
     description: Fancy d10s for all your gothic horror needs
     extended: Rolls and tallies, with support for specialties and an interactive teamwork mode.
+features:
+  8ball:
+    title: Magic 8 Ball
+    description: Ask a yes/no question, get an answer
+    extended: Just like the classic toy.
+  coinflip:
+    title: Coin Flip
+    description: Call heads or tails and see if you're right
+    extended: '"This is the best I can do."'
+  formulas:
+    title: Dice Formulas
+    description: Roll dice with math mixed in
+    extended: Good for complex damage rolls and tracking sets of dice.
+  table:
+    title: Random Tables
+    description: Add, manage, and roll on random tables
+    extended: Your one-stop shop for random encounters. And anything tabular.
 invocation:
   full_zero: "`/{{command_name}}`"
   full: "`/{{command_name}} {{opts, spaced}}`"
