@@ -33,9 +33,9 @@ class CachedDb {
    *
    * Query strings are turned into prepared Statement objects, which are then cached for reuse.
    *
-   * @param  {str}       key   Key to associate with the query
-   * @param  {str}       query Query string
-   * @param  {Boolean}   pluck Whether to 'pluck' a single value instead of returning a row.
+   * @param  {string}       key   Key to associate with the query
+   * @param  {string}       query Query string
+   * @param  {boolean}   pluck Whether to 'pluck' a single value instead of returning a row.
    * @return {Statement}       Prepared query Statement object
    */
   prepared(key, query, pluck = false) {
