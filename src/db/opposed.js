@@ -125,8 +125,7 @@ class Opposed extends CachedDb {
       oneLine`
       SELECT   *,
                JSON_EXTRACT(conditions, '$') AS conditions,
-               DATETIME('now') > DATETIME(expires_at) AS expired,
-               DATETIME(expires_at) AS temp
+               DATETIME('now') > DATETIME(expires_at) AS expired
       FROM     interactive.opposed_challenges
       WHERE    id = ?
     `,
