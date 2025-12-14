@@ -17,8 +17,10 @@ module.exports = {
     const globals = require("../../commands").global
 
     const t_args = {
-      ...install.old_deets,
-      globals,
+      systems: install.old_deets.systems.map(s => s.name),
+      features: install.old_deets.features.map(f => f.name),
+      commands: install.old_deets.commands.map(c => c.name),
+      globals: globals.map(g => g.name),
     }
     const components = [
       build.text(t("message", t_args)),
