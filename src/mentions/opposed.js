@@ -4,7 +4,6 @@ const { i18n, available_locales } = require("../locales")
 const { logger } = require("../util/logger")
 const message_contents = require("../messages/opposed")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
-const { textMessage } = require("../util/message-builders")
 
 const RETRY_KEYWORDS = available_locales.map((locale) =>
   i18n.t("retry", { lng: locale, ns: "opposed" }),
