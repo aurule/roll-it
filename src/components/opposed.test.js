@@ -3,7 +3,6 @@ jest.mock("../util/message-builders")
 const Joi = require("joi")
 
 const { Interaction } = require("../../testing/interaction")
-const { Opposed } = require("../db/opposed")
 const { Challenge } = require("../db/opposed/challenge")
 const cancel_button = require("./opposed/cancel-button")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
