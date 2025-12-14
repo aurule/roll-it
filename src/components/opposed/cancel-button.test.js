@@ -8,7 +8,7 @@ const cancelButton = require("./cancel-button")
 
 describe("opposed retest cancel button", () => {
   describe("data", () => {
-    it("has the accept tie label", () => {
+    it("has the cancel label", () => {
       const result = cancelButton.data("en-US")
 
       expect(result.data.label).toMatch("Cancel")
