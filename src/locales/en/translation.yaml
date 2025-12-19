@@ -110,7 +110,7 @@ features:
     title: Dice Formulas
     description: Roll dice with math mixed in
     extended: Good for complex damage rolls and tracking sets of dice.
-  table:
+  tables:
     title: Random Tables
     description: Add, manage, and roll on random tables
     extended: Your one-stop shop for random encounters. And anything tabular.
