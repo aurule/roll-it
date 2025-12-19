@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS interactive.installation_processes (
   guild_uid TEXT NOT NULL,
   user_uid TEXT NOT NULL,
   state TEXT NOT NULL,
-  old_deets blob NOT NULL,
-  new_deets blob NOT NULL,
+  old_deets BLOB NOT NULL,
+  new_deets BLOB NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   expires_at DATETIME,
   finished_at DATETIME

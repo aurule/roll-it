@@ -74,6 +74,11 @@ describe("Installation DB", () => {
         guild_uid: "guild",
         user_uid: "user",
         state: "start",
+        old_deets: {
+          commands: [],
+          systems: [],
+          features: [],
+        },
         timeout: 1000,
       }).lastInsertRowid
     })
@@ -88,6 +93,12 @@ describe("Installation DB", () => {
       const result = installation.getInstallation(installation_id)
 
       expect(result.guild_uid).toEqual("guild")
+    })
+
+    it("extracts the old details", () => {
+      const result = installation.getInstallation(installation_id)
+
+      expect(result.old_deets.commands).toEqual([])
     })
 
     describe("expired flag", () => {

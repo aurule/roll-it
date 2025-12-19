@@ -116,6 +116,8 @@ class Installation extends CachedDb {
     // this should probably be a specialty object
     return {
       ...raw_out,
+      old_deets: JSON.parse(raw_out.old_deets),
+      new_deets: JSON.parse(raw_out.new_deets),
       expired: !!raw_out.expired,
     }
   }
