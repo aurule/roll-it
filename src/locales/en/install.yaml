@@ -10,9 +10,9 @@ shared:
 starting:
   message: |-
     Here's what Roll It has installed on this server:
-    *Systems:* {{systems, list}}
-    *Features:* {{features, list}}
+    **Systems:** {{systems, list}}
+    **Features:** {{features, list}}
     Combined, these enable the following commands:
     {{commands, list}}
-    #- A few commands are always available: {{globals, list}}
+    -# A few commands are always available: {{globals, list}}
     What do you want to change?
