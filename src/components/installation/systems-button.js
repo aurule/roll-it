@@ -9,7 +9,7 @@ module.exports = {
     return new ButtonBuilder()
       .setCustomId("install_systems")
       .setLabel(t("text"))
-      .setStyle(ButtonStyle.Secondary)
+      .setStyle(ButtonStyle.Primary)
   },
   async execute(interaction) {
     //
