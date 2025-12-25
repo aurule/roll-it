@@ -1,7 +1,6 @@
 module.exports = {
   name: "nwod",
   commands: {
-    required: ["nwod"],
-    recommended: ["d10"],
+    required: ["nwod", "d10"],
   },
 }
