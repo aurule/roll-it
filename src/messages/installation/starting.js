@@ -15,14 +15,15 @@ module.exports = {
     const install_db = new Installation()
     const install = install_db.getInstallation(installation_id)
     const locale = install.locale
-    const commands = require("../../commands")
     const data_t = i18n.getFixedT(locale, "translation")
     const t = i18n.getFixedT(locale, "install", "starting")
+    const guild_commands = require("../../commands").sorted.guild.get(locale)
+    const global_commands = require("../../commands").sorted.global.get(locale)
 
-    const system_titles = install.old_deets.systems.map(k => data_t(`systems.${k}.title`))
-    const feature_titles = install.old_deets.features.map(k => data_t(`features.${k}.title`))
-    const command_names = commands.guild.filter(c => install.old_deets.commands.includes(c.name)).map(c => present(c, locale))
-    const global_names = commands.global.map(c => present(c, locale))
+    const system_titles = install.old_deets.systems.map(k => `_${data_t(`systems.${k.name}.title`)}_`)
+    const feature_titles = install.old_deets.features.map(k => data_t(`features.${k.name}.title`))
+    const command_names = guild_commands.filter(c => install.old_deets.commands.includes(c.name)).map(c => present(c, locale))
+    const global_names = global_commands.map(c => present(c, locale))
 
     const t_args = {
       systems: system_titles,
