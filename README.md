@@ -108,7 +108,7 @@ Roll-It currently uses Node 24.
 * `DEV_USERS`: a JSON array of discord user IDs (like `[ "user_snowflake" ]`) to use when seeding certain database tables.
 * `LOG_LEVEL`: the minimum level of log statements to display. Defaults to `"info"` in development and `"warning"` in test. Using `"debug"` will print all sql statements to the console, for example. See [Pino log levels](https://github.com/pinojs/pino/blob/main/docs/api.md#logger-level) for more detail.
 
-## Working on Docs
+## Working on the Docs
 
 The documentation is powered by [docsify](https://docsify.js.org/). To see them locally, you can use either the docsify cli, or python.
 
@@ -124,6 +124,10 @@ python3 -m http.server 3000
 ```
 
 Docsify-cli has problems with its dependencies (see [GH issue 191](https://github.com/docsifyjs/docsify-cli/issues/191)), so the `ansi-colors`, `semver`, and `y18n` packages are added to our own dev requirements as a fix. Similarly, Jest relies on `prettier` for error formatting, so it's in our dev dependencies even though we use Biome instead.
+
+## Localization
+
+Roll It uses the [i18next](https://www.i18next.com/) localization framework to present text in the user's chosen locale. When adding new locales, you must _always_ put the key `supported: yes` into the locale's `translation.yaml` file.
 
 ## Versioning
 
