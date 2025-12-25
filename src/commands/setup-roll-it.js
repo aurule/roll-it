@@ -7,6 +7,7 @@ const { Installation } = require("../db/installation")
 const starting = require("../messages/installation/starting")
 const systemHelpers = require("../services/system-helpers")
 const featureHelpers = require("../services/feature-helpers")
+const { i18n } = require("../locales")
 
 const command_name = "setup-roll-it"
 
@@ -23,9 +24,11 @@ module.exports = {
     const old_systems = systemHelpers.findByCommands(...old_commands)
     const old_features = featureHelpers.findByCommands(...old_commands)
 
+    const { usedLng } = i18n.t('supported', { lng: cmd_interaction.locale, returnDetails: true })
+
     const install_db = new Installation()
     const install_id = install_db.addInstallation({
-      locale: cmd_interaction.locale,
+      locale: usedLng,
       guild_uid: cmd_interaction.guildId,
       user_uid: cmd_interaction.user.id,
       state: "starting",
