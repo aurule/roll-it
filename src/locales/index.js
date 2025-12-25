@@ -32,7 +32,7 @@ for (const [key, fn] of Object.entries(own_formatters)) {
  * @see https://discord.com/developers/docs/reference#locales
  * @type {str[]}
  */
-const available_locales = ["en-US"]
+const available_locales = ["en", "en-US"]
 
 module.exports = {
   /**
