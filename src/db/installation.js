@@ -131,12 +131,41 @@ class Installation extends CachedDb {
       "finishInstallation",
       oneLine`
       UPDATE interactive.installation_processes
-      SET    (finished_at) = (DATETIME('now'))
+      SET    finished_at = DATETIME('now')
       WHERE  id = ?
       `
     )
 
     return update.run(id)
+  }
+
+  setInstallationExpired(id) {
+    const update = this.prepared(
+      "setInstallationExpired",
+      oneLine`
+      UPDATE interactive.installation_processes
+      SET    expires_at = DATETIME('now', '-1000 seconds')
+      WHERE  id = ?
+    `,
+    )
+
+    return update.run(id)
+  }
+
+  /**
+   * Remove an installation
+   *
+   * @param  {number} id Internal ID of the installation record
+   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
+   */
+  destroy(id) {
+    const destroy = this.prepared(
+      "destroy",
+      oneLine`
+      DELETE FROM interactive.installation_processes WHERE id = ?
+    `,
+    )
+    return destroy.run(id)
   }
 
   /**
@@ -194,13 +223,47 @@ class Installation extends CachedDb {
     const select = this.prepared(
       "getMessage",
       oneLine`
-      SELECT *
-      FROM   interactive.installation_messages
-      WHERE  id = ?
-    `,
+        SELECT *
+        FROM   interactive.installation_messages
+        WHERE  id = ?
+      `,
     )
 
     return select.get(message_id)
+  }
+
+  /**
+   * Get the installation record associated with a Discord message
+   * @param  {Snowflake} message_uid Discord message ID
+   * @return {object}    Installation object
+   */
+  findInstallationByMessage(message_uid) {
+    const select = this.prepared(
+      "findInstallationByMessage",
+      oneLine`
+      SELECT i.*,
+             JSON_EXTRACT(i.old_deets, '$') AS old_deets,
+             JSON_EXTRACT(i.new_deets, '$') AS new_deets,
+             DATETIME('now') > DATETIME(i.expires_at) AS expired
+      FROM   interactive.installation_processes AS i
+             JOIN interactive.installation_messages AS m
+               ON i.id = m.installation_id
+      WHERE  m.message_uid = ?
+    `,
+    )
+
+    const raw_out = select.get(message_uid)
+
+    if (raw_out === undefined) return undefined
+
+    // this should probably be a specialty object
+    return {
+      ...raw_out,
+      old_deets: JSON.parse(raw_out.old_deets),
+      new_deets: JSON.parse(raw_out.new_deets),
+      expired: !!raw_out.expired,
+      finished: !!raw_out.finished_at,
+    }
   }
 }
 

@@ -2,14 +2,14 @@ jest.mock("../util/message-builders")
 
 const Joi = require("joi")
 
+const { Interaction } = require("../../testing/interaction")
+const { InstallationFixture } = require("../../testing/installation-fixture")
+const cancel_button = require("./installation/cancel-button")
+const { UnauthorizedError } = require("../errors/unauthorized-error")
 const install_handler = require("./installation")
 
 const install_component_schema = Joi.object({
   name: Joi.string().required(),
-  valid_states: Joi.array()
-    .required()
-    .min(1),
-    // .items(Joi.string().valid(...Object.values(Challenge.States))),
   data: Joi.function().required(),
   execute: Joi.function().required().arity(1),
 }).unknown()
@@ -40,6 +40,96 @@ describe("installation component handler", () => {
   describe("handle", () => {
     let interaction
 
-    it.todo("TBD")
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
+    describe("with no installation record for the message", () => {
+      it("replies that the install is finished", async () => {
+        await install_handler.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("has finished")
+      })
+    })
+
+    describe("with an install that has expired", () => {
+      let install
+
+      beforeEach(() => {
+        interaction.customId = "install_cancel"
+
+        install = new InstallationFixture()
+          .expire()
+          .attachMessage(interaction.message.id)
+      })
+
+      afterEach(() => {
+        install.cleanup()
+      })
+
+      it("replies that the install is finished", async () => {
+        await install_handler.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("has finished")
+      })
+    })
+
+    describe("with an install that is finished", () => {
+      let install
+
+      beforeEach(() => {
+        interaction.customId = "install_cancel"
+
+        install = new InstallationFixture()
+          .finish()
+          .attachMessage(interaction.message.id)
+      })
+
+      afterEach(() => {
+        install.cleanup()
+      })
+
+      it("replies that the install is finished", async () => {
+        await install_handler.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("has finished")
+      })
+    })
+
+    describe("with an active install", () => {
+      let execute_spy
+      let install
+
+      beforeEach(() => {
+        interaction.customId = "install_cancel"
+
+        install = new InstallationFixture()
+          .attachMessage(interaction.message.id)
+
+        execute_spy = jest.spyOn(cancel_button, "execute")
+      })
+
+      afterEach(() => {
+        install.cleanup()
+      })
+
+      it("lets the component handle the interaction", async () => {
+        execute_spy.mockImplementation(async () => true)
+
+        await install_handler.handle(interaction)
+
+        expect(execute_spy).toHaveBeenCalled()
+      })
+
+      it("replies with an error when user is unauthorized", async () => {
+        execute_spy.mockImplementation(async () => {
+          throw new UnauthorizedError(interaction, [interaction.user.id])
+        })
+
+        await install_handler.handle(interaction)
+
+        expect(interaction.replyContent).toMatch("can use this control")
+      })
+    })
   })
 })

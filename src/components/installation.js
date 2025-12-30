@@ -53,9 +53,20 @@ module.exports = {
     const component_name = interaction.customId
 
     const component = components.get(component_name)
+    const installation  = install_db.findInstallationByMessage(message_id)
 
-    // TODO: fail unless installation exists, is current, and is not finished
-    // TODO: fail unless component is valid for current state
+    // fail unless installation exists, is current, and is not finished
+    if (installation === undefined || installation.expired || installation.finished) {
+      return interaction.ensure(
+        "whisper",
+        i18n.t("finished", { lng: interaction.locale, ns: "install" }),
+        {
+          user: interaction.user.id,
+          component: component_name,
+          installation,
+          detail: `Could not whisper about invalid install from ${component_name}`
+        })
+    }
 
     return component.execute(interaction).catch((err) => {
       if (err instanceof UnauthorizedError) {

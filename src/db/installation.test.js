@@ -237,5 +237,28 @@ describe("Installation DB", () => {
         expect(result).toBe(false)
       })
     })
+
+    describe("findInstallationByMessage", () => {
+      const message_uid = "yeehaw"
+
+      beforeEach(() => {
+        installation.addMessage({
+          message_uid,
+          installation_id,
+        })
+      })
+
+      it("returns undefined for bad message_uid", () => {
+        const result = installation.findInstallationByMessage("asdf")
+
+        expect(result).toBeUndefined()
+      })
+
+      it("gets the associated challenge record", () => {
+        const result = installation.findInstallationByMessage(message_uid)
+
+        expect(result.id).toEqual(installation_id)
+      })
+    })
   })
 })

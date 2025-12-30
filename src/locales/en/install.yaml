@@ -3,16 +3,22 @@ shared:
   components:
     cancel:
       text: Cancel
-    features:
-      text: Change Features
+    change:
+      text: Change Systems & Features
+starting: |-
+  Here's what Roll It has installed on this server:
+  **Systems:** {{systems, list}}
+  **Features:** {{features, list}}
+  Combined, these enable the following commands:
+  {{commands, list}}
+  -# These global commands are always available: {{globals, list}}
+  What do you want to change?
+finished: >-
+  That old setup request has finished. If you want to change what parts of Roll
+  It are available on this server, run `/setup-roll-it` again.
+modals:
+  change:
     systems:
-      text: Change Systems
-starting:
-  message: |-
-    Here's what Roll It has installed on this server:
-    **Systems:** {{systems, list}}
-    **Features:** {{features, list}}
-    Combined, these enable the following commands:
-    {{commands, list}}
-    -# A few commands are always available: {{globals, list}}
-    What do you want to change?
+      placeholder: Add game systems
+    features:
+      placeholder: Add other features
