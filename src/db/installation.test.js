@@ -116,6 +116,43 @@ describe("Installation DB", () => {
         expect(result.expired).toEqual(true)
       })
     })
+
+    describe("finished flag", () => {
+      it("is false when finished_at is null", () => {
+        const result = installation.getInstallation(installation_id)
+
+        expect(result.finished).toEqual(false)
+      })
+
+      it("is true when finished_at is set", () => {
+        installation.finishInstallation(installation_id)
+
+        const result = installation.getInstallation(installation_id)
+
+        expect(result.finished).toEqual(true)
+      })
+    })
+  })
+
+  describe("finishInstallation", () => {
+    it("sets the finished_at value", () => {
+      const installation_id = installation.addInstallation({
+        locale: "en-US",
+        guild_uid: "guild",
+        user_uid: "user",
+        old_deets: {
+          commands: [],
+          systems: [],
+          features: [],
+        },
+        timeout: 1000,
+      }).lastInsertRowid
+
+      installation.finishInstallation(installation_id)
+
+      const record = installation.getInstallation(installation_id)
+      expect(record.finished_at).toBeTruthy()
+    })
   })
 
   describe("message methods", () => {

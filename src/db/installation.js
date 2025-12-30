@@ -114,7 +114,29 @@ class Installation extends CachedDb {
       old_deets: JSON.parse(raw_out.old_deets),
       new_deets: JSON.parse(raw_out.new_deets),
       expired: !!raw_out.expired,
+      finished: !!raw_out.finished_at,
     }
+  }
+
+  /**
+   * Mark an installation as finished
+   *
+   * This just sets the finished_at timestamp.
+   *
+   * @param  {number} id Internal ID of the installation record
+   * @return {Info}      DB info object
+   */
+  finishInstallation(id) {
+    const update = this.prepared(
+      "finishInstallation",
+      oneLine`
+      UPDATE interactive.installation_processes
+      SET    (finished_at) = (DATETIME('now'))
+      WHERE  id = ?
+      `
+    )
+
+    return update.run(id)
   }
 
   /**
