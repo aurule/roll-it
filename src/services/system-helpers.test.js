@@ -9,7 +9,7 @@ describe("system helpers", () => {
         const result = systemHelpers.findByCommands(...command_names)
 
         const system_names = result.map(r => r.name)
-        expect(system_names).toContain("dnd35")
+        expect(system_names).toContain("dnd5e")
       })
 
       it("excludes if command is not in array", () => {
@@ -18,7 +18,7 @@ describe("system helpers", () => {
         const result = systemHelpers.findByCommands(...command_names)
 
         const system_names = result.map(r => r.name)
-        expect(system_names).not.toContain("dnd35")
+        expect(system_names).not.toContain("dnd5e")
       })
 
       it("excludes if only recommended is in array", () => {
@@ -27,7 +27,7 @@ describe("system helpers", () => {
         const result = systemHelpers.findByCommands(...command_names)
 
         const system_names = result.map(r => r.name)
-        expect(system_names).not.toContain("dnd35")
+        expect(system_names).not.toContain("dnd5e")
       })
 
       it("excludes if only optional is in array", () => {
@@ -36,7 +36,7 @@ describe("system helpers", () => {
         const result = systemHelpers.findByCommands(...command_names)
 
         const system_names = result.map(r => r.name)
-        expect(system_names).not.toContain("dnd35")
+        expect(system_names).not.toContain("dnd5e")
       })
     })
 
