@@ -48,16 +48,10 @@ describe("install starting message", () => {
       expect(result.content).toMatch("`/saved`")
     })
 
-    it("shows systems button", () => {
+    it("shows change button", () => {
       const result = starting.data(install_id)
 
-      expect(result).toHaveComponent("install_systems")
-    })
-
-    it("shows features button", () => {
-      const result = starting.data(install_id)
-
-      expect(result).toHaveComponent("install_features")
+      expect(result).toHaveComponent("install_change")
     })
 
     it("shows cancel button", () => {
