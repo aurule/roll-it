@@ -3,9 +3,6 @@ const Joi = require("joi")
 const messages = require("./index")
 
 const message_schema = Joi.object({
-  state: Joi.string()
-    .required(),
-    // .valid(...Object.values(Challenge.States)),
   data: Joi.function().arity(1).required(),
   inert: Joi.function().optional(),
   afterRetry: Joi.function().arity(1).optional(),
