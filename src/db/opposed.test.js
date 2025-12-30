@@ -521,7 +521,7 @@ describe("Opposed DB", () => {
         expect(record.challenge_id).toEqual(challenge_id)
       })
 
-      it("links to the challenge", () => {
+      it("links to the test", () => {
         const test_id = opposed.addTest({
           challenge_id,
           locale: "en-US",
@@ -558,6 +558,50 @@ describe("Opposed DB", () => {
         const result = opposed.getMessage(55)
 
         expect(result).toBeUndefined()
+      })
+    })
+
+    describe("getChallengeMessages", () => {
+      beforeEach(() => {
+        opposed.addMessage({
+          message_uid: "message 1",
+          challenge_id,
+        })
+        opposed.addMessage({
+          message_uid: "message 2",
+          challenge_id,
+        })
+
+        const other_challenge_id = opposed.addChallenge({
+          locale: "en-US",
+          description: "other challenge",
+          attacker_uid: "atk",
+          attribute: "mental",
+          retest_ability: "occult",
+          state: Challenge.States.AdvantagesAttacker,
+          channel_uid: "testchan",
+          timeout: 1000,
+        }).lastInsertRowid
+
+        opposed.addMessage({
+          message_uid: "message 3",
+          challenge_id: other_challenge_id,
+        })
+      })
+
+      it("gets all messages for the challenge", () => {
+        const result = opposed.getChallengeMessages(challenge_id)
+
+        const uids = result.map(m => m.message_uid)
+        expect(uids).toContain("message 1")
+        expect(uids).toContain("message 2")
+      })
+
+      it("omits messages for other challenges", () => {
+        const result = opposed.getChallengeMessages(challenge_id)
+
+        const uids = result.map(m => m.message_uid)
+        expect(uids).not.toContain("message 3")
       })
     })
 

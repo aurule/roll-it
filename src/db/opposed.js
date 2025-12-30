@@ -412,6 +412,11 @@ class Opposed extends CachedDb {
     return select.get(message_id)
   }
 
+  /**
+   * Get all message records for a given challenge
+   * @param  {number}   challenge_id Internal ID of the challenge
+   * @return {object[]}              Array of message objects
+   */
   getChallengeMessages(challenge_id) {
     const select = this.prepared(
       "getChallengeMessages",
