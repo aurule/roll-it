@@ -26,7 +26,7 @@ const VALID_MODES = ["create", "edit", "replace"]
 module.exports = {
   name: "saved-roll",
   /**
-   * Create this modal
+   * Create the modal data
    * @param  {string}   mode                The modal's mode. One of "create", or "edit"
    * @param  {string}   locale              Locale for translation
    * @param  {object}   options             Additional options

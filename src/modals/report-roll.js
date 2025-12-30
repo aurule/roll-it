@@ -11,11 +11,17 @@ const { Feedback } = require("../db/feedback")
  */
 module.exports = {
   name: "report-roll",
-  data(id, locale) {
+  /**
+   * Create the modal's data structure
+   * @param  {number} feedback_id Internal ID of the associated feedback record
+   * @param  {string} locale      Locale code
+   * @return {ModalBuilder}       Modal data object
+   */
+  data(feedback_id, locale) {
     const t = i18n.getFixedT(locale, "modals", `report-roll`)
 
     const modal = new ModalBuilder()
-      .setCustomId(`${module.exports.name}_${id}`)
+      .setCustomId(`${module.exports.name}_${feedback_id}`)
       .setTitle(t("title"))
 
     const notes_input = new TextInputBuilder()
