@@ -13,6 +13,8 @@ starting: |-
   {{commands, list}}
   -# These global commands are always available: {{globals, list}}
   What do you want to change?
+cancelled: >-
+  Cancelled. No changes were made to the server's installed commands.
 finished: >-
   That old setup request has finished. If you want to change what parts of Roll
   It are available on this server, run `/setup-roll-it` again.
