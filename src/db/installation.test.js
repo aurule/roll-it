@@ -123,4 +123,89 @@ describe("Installation DB", () => {
       })
     })
   })
+
+  describe("message methods", () => {
+    let installation_id
+
+    beforeEach(() => {
+      installation_id = installation.addInstallation({
+        locale: "en-US",
+        guild_uid: "guild",
+        user_uid: "user",
+        state: "start",
+        old_deets: {
+          commands: [],
+          systems: [],
+          features: [],
+        },
+        timeout: 1000,
+      }).lastInsertRowid
+    })
+
+    describe("addMessage", () => {
+      it("creates a new message record", () => {
+        installation.addMessage({
+          message_uid: "test message",
+          installation_id,
+        })
+
+        expect(installation.hasMessage("test message")).toBe(true)
+      })
+
+      it("links to the install", () => {
+        const message_id = installation.addMessage({
+          message_uid: "test message",
+          installation_id,
+        }).lastInsertRowid
+
+        const record = installation.getMessage(message_id)
+
+        expect(record.installation_id).toEqual(installation_id)
+      })
+    })
+
+    describe("getMessage", () => {
+      let message_id
+
+      beforeEach(() => {
+        message_id = installation.addMessage({
+          message_uid: "test message",
+          installation_id,
+        }).lastInsertRowid
+      })
+
+      it("gets the message for the id", () => {
+        const result = installation.getMessage(message_id)
+
+        expect(result.message_uid).toEqual("test message")
+      })
+
+      it("returns undefined for unknown ID", () => {
+        const result = installation.getMessage(55)
+
+        expect(result).toBeUndefined()
+      })
+    })
+
+    describe("hasMessage", () => {
+      beforeEach(() => {
+        installation.addMessage({
+          message_uid: "test message",
+          installation_id,
+        })
+      })
+
+      it("returns true if the uid exists", () => {
+        const result = installation.hasMessage("test message")
+
+        expect(result).toBe(true)
+      })
+
+      it("returns false if the uid does not exist", () => {
+        const result = installation.hasMessage("nope")
+
+        expect(result).toBe(false)
+      })
+    })
+  })
 })

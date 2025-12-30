@@ -121,6 +121,70 @@ class Installation extends CachedDb {
       expired: !!raw_out.expired,
     }
   }
+
+  /**
+   * Add a new message record
+   *
+   * @param  {object}    options
+   * @param  {Snowflake} options.message_uid     Discord ID of the message
+   * @param  {number}    options.installation_id Internal ID of the associated installation
+   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
+   */
+  addMessage({ message_uid, installation_id }) {
+    const insert = this.prepared(
+      "addMessage",
+      oneLine`
+      INSERT INTO interactive.installation_messages (
+        message_uid,
+        installation_id
+      ) VALUES (
+        @message_uid,
+        @installation_id
+      )
+    `,
+    )
+
+    return insert.run({
+      message_uid,
+      installation_id,
+    })
+  }
+
+  /**
+   * Get whether a message UID is stored
+   * @param  {Snowflake} message_uid Discord message ID
+   * @return {Boolean}               True if the message is stored, false if not
+   */
+  hasMessage(message_uid) {
+    const select = this.prepared(
+      "hasMessage",
+      oneLine`
+        SELECT 1 FROM interactive.installation_messages
+        WHERE message_uid = ?
+      `,
+      true,
+    )
+
+    return !!select.get(message_uid)
+  }
+
+  /**
+   * Get the message record for a given ID
+   * @param  {number} message_id Internal ID of the message
+   * @return {object}            Message object or undefined if not found
+   */
+  getMessage(message_id) {
+    const select = this.prepared(
+      "getMessage",
+      oneLine`
+      SELECT *
+      FROM   interactive.installation_messages
+      WHERE  id = ?
+    `,
+    )
+
+    return select.get(message_id)
+  }
 }
 
 module.exports = {
