@@ -31,9 +31,9 @@ describe("/setup-roll-it command", () => {
     })
 
     it("shows the starting message", async () => {
-      const result = await setup_command.execute(cmd_interaction)
+      await setup_command.execute(cmd_interaction)
 
-      expect(result.content).toMatch("installed on this server")
+      expect(cmd_interaction.replyContent).toMatch("installed on this server")
     })
   })
 })

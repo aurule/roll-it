@@ -20,15 +20,14 @@ module.exports = {
   },
   async execute(cmd_interaction) {
     const old_commands = await api.getGuildCommands(cmd_interaction.guildId).then(res => res.map(c => c.name))
-    const old_systems = systemHelpers.findByCommands(...old_commands)
-    const old_features = featureHelpers.findByCommands(...old_commands)
+    const old_systems = systemHelpers.findByCommands(...old_commands).map(s => s.name)
+    const old_features = featureHelpers.findByCommands(...old_commands).map(f => f.name)
 
     const install_db = new Installation()
-    const install_id = install_db.addInstallation({
+    const installation_id = install_db.addInstallation({
       locale: cmd_interaction.locale,
       guild_uid: cmd_interaction.guildId,
       user_uid: cmd_interaction.user.id,
-      state: "starting",
       old_deets: {
         commands: old_commands,
         systems: old_systems,
@@ -36,8 +35,21 @@ module.exports = {
       }
     }).lastInsertRowid
 
-    const message = starting.data(install_id)
-    return cmd_interaction.ensure("reply", message)
+    const message = starting.data(installation_id)
+    await cmd_interaction
+      .ensure("reply", message, {
+        installation_id,
+        detail: "failed to send install start prompt",
+      })
+      .then((reply_result) => {
+        // expect an InteractionCallbackResponse, but deal with a Message too
+        const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
+
+        install_db.addMessage({
+          installation_id,
+          message_uid,
+        })
+      })
   },
   help_data(opts) {
     const commands = require("./index")
