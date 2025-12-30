@@ -628,7 +628,7 @@ class Opposed extends CachedDb {
     const update = this.prepared(
       "setParticipantAdvantages",
       oneLine`
-      UPDATE opposed_participants
+      UPDATE interactive.opposed_participants
       SET advantages = JSONB(@advantages)
       WHERE id = @id
     `,
