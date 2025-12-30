@@ -9,7 +9,6 @@ class Installation extends CachedDb {
    * @param  {string}    options.locale    Locale code
    * @param  {Snowflake} options.guild_uid Discord guild ID
    * @param  {Snowflake} options.user_uid  Discord user ID
-   * @param  {string}    options.state     State of the installation
    * @param  {object}    options.old_deets Object of existing systems, features, and commands
    * @param  {object}    options.new_deets Object of to-set systems, features, and commands
    * @param  {number}    options.timeout   Number of seconds before the installation times out
@@ -19,7 +18,6 @@ class Installation extends CachedDb {
     locale,
     guild_uid,
     user_uid,
-    state,
     old_deets = {},
     new_deets = {},
     timeout,
@@ -31,7 +29,6 @@ class Installation extends CachedDb {
         locale,
         guild_uid,
         user_uid,
-        state,
         old_deets,
         new_deets,
         expires_at
@@ -39,7 +36,6 @@ class Installation extends CachedDb {
         @locale,
         @guild_uid,
         @user_uid,
-        @state,
         JSONB(@old_deets),
         JSONB(@new_deets),
         DATETIME('now', @timeout || ' seconds')
@@ -51,7 +47,6 @@ class Installation extends CachedDb {
       locale,
       guild_uid,
       user_uid,
-      state,
       old_deets: JSON.stringify(old_deets),
       new_deets: JSON.stringify(new_deets),
       timeout,

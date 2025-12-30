@@ -20,7 +20,6 @@ describe("Installation DB", () => {
         locale: "en-US",
         guild_uid: "guild",
         user_uid: "user",
-        state: "start",
         timeout: 1000,
       })
 
@@ -34,14 +33,12 @@ describe("Installation DB", () => {
         locale: "en-US",
         guild_uid: "guild",
         user_uid: "user",
-        state: "start",
         timeout: 1000,
       })
       installation.addInstallation({
         locale: "en-US",
         guild_uid: "guild",
         user_uid: "user",
-        state: "start",
         timeout: 1000,
       })
 
@@ -55,7 +52,6 @@ describe("Installation DB", () => {
         locale: "en-US",
         guild_uid: "guild",
         user_uid: "user",
-        state: "start",
         timeout: 1000,
       }).lastInsertRowid
 
@@ -73,7 +69,6 @@ describe("Installation DB", () => {
         locale: "en-US",
         guild_uid: "guild",
         user_uid: "user",
-        state: "start",
         old_deets: {
           commands: [],
           systems: [],
@@ -113,7 +108,6 @@ describe("Installation DB", () => {
           locale: "en-US",
           guild_uid: "guild",
           user_uid: "user",
-          state: "start",
           timeout: -1000,
         }).lastInsertRowid
 
@@ -132,7 +126,6 @@ describe("Installation DB", () => {
         locale: "en-US",
         guild_uid: "guild",
         user_uid: "user",
-        state: "start",
         old_deets: {
           commands: [],
           systems: [],
