@@ -3,6 +3,9 @@ const { i18n } = require("../../locales")
 const { Installation } = require("../../db/installation")
 const cancelled = require("../../messages/installation/cancelled")
 
+/**
+ * Button to cancel an install process
+ */
 module.exports = {
   name: "install_cancel",
   data: (locale) => {
