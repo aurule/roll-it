@@ -19,14 +19,25 @@ finished: >-
   That old setup request has finished. If you want to change what parts of Roll
   It are available on this server, run `/setup-roll-it` again.
 change-installed:
-  title: Change Installed Systems & Features
+  title: Pick Systems & Features
   prompt: >-
-    Choose which of Roll It's game systems and extra features you want to install to this
+    Choose which of Roll It's game systems and extra features you want to install on this
     server. The ones currently installed are already selected below.
   systems:
-    placeholder: Add game systems
+    label: Which game systems do you want to use?
+    description: Add as many as you like!
+    placeholder: D&D, or maybe MET?
   features:
-    placeholder: Add other features
+    label: What other features do you want available?
+    placeholder: Try formulas and tables!
   afterward: >-
     The commands needed for your selections will be shown after you click Submit.
     You'll have a chance to review them before any changes are made to the server.
+changes: |-
+  Here are the changes you've selected:
+  **Systems:** {{systems, list}}
+  **Features:** {{features, list}}
+  Combined, these will result in the following commands:
+  {{commands, list}}
+  -# These global commands are always available: {{globals, list}}
+  If that looks good, save it! Or you can make more changes.

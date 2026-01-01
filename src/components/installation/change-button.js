@@ -1,6 +1,11 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
+const { Installation } = require("../../db/installation")
+const changeInstalled = require("../../modals/change-installed")
 
+/**
+ * Button to make changes to installed commands
+ */
 module.exports = {
   name: "install_change",
   data: (locale) => {
@@ -11,6 +16,13 @@ module.exports = {
       .setStyle(ButtonStyle.Primary)
   },
   async execute(interaction) {
-    //
+    const install_db = new Installation()
+    const install = install_db.findInstallationByMessage(interaction.message.id)
+
+    interaction.authorize(install.user_uid)
+
+    const modal = changeInstalled.data(install)
+
+    return interaction.showModal(modal)
   }
 }
