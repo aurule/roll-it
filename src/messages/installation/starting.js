@@ -16,6 +16,7 @@ module.exports = {
     const locale = install.locale
     const data_t = i18n.getFixedT(locale, "translation")
     const t = i18n.getFixedT(locale, "install")
+    // these need to use a safe internal locale, or have good fallback logic
     const guild_commands = require("../../commands").sorted.guild.get(locale)
     const global_commands = require("../../commands").sorted.global.get(locale)
 
@@ -32,7 +33,7 @@ module.exports = {
     }
     const components = [
       build.text(t("starting", t_args)),
-      build.actions(change_button.data(locale), cancel_button.data(locale))
+      build.actions(cancel_button.data(locale), change_button.data(locale))
     ]
 
     return build.message(components, { withResponse: true })
