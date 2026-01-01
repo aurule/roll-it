@@ -19,7 +19,7 @@ const contents = fs
 
 contents.forEach((message_file) => {
   const message = require(path.join(messagesDir, message_file))
-  messages.set(message.state, message)
+  messages.set(message.name, message)
 })
 
 module.exports = messages

@@ -9,6 +9,7 @@ const { present } = require("../../presenters/command-name-presenter")
  * Message shown upon starting an install process
  */
 module.exports = {
+  name: "starting",
   data: (installation_id) => {
     const install_db = new Installation()
     const install = install_db.getInstallation(installation_id)

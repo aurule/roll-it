@@ -3,6 +3,7 @@ const Joi = require("joi")
 const messages = require("./index")
 
 const message_schema = Joi.object({
+  name: Joi.string().required(),
   data: Joi.function().arity(1).required(),
   inert: Joi.function().optional(),
   afterRetry: Joi.function().arity(1).optional(),
@@ -14,8 +15,8 @@ describe("installation messages", () => {
     expect(messages.size).toBeGreaterThan(0)
   })
 
-  it("indexes messages by state name", () => {
-    expect(messages.get("starting").state).toEqual("starting")
+  it("indexes messages by name", () => {
+    expect(messages.get("starting").name).toEqual("starting")
   })
 
   it("excludes the index file", () => {

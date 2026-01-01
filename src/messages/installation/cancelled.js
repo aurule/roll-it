@@ -6,6 +6,7 @@ const build = require("../../util/message-builders")
  * Message shown upon cancelling an install process
  */
 module.exports = {
+  name: "cancelled",
   data: (installation_id) => {
     const install_db = new Installation()
     const install = install_db.getInstallation(installation_id)

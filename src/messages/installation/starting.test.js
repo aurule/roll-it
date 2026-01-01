@@ -14,7 +14,6 @@ describe("install starting message", () => {
         locale: "en-US",
         guild_uid: "guild",
         user_uid: "user",
-        state: "start",
         old_deets: {
           systems: ["shadowrun", "nwod"],
           features: ["tables"],
