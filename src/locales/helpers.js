@@ -83,8 +83,24 @@ const shared = {
   },
 }
 
+/**
+ * Get a supported locale string
+ *
+ * When loading pregenerated lists like translated command names, it's
+ * important to use a locale that's actually supported. Since we can't
+ * rely on the fallback behavior of i18next in those circumstances, we
+ * have to use this kludge to ensure we don't return `undefined`.
+ *
+ * @param  {string} locale Locale code to check
+ * @return {string}        The locale code, or "en-US"
+ */
+function safe_locale(locale) {
+  return available_locales.includes(locale) ? locale : "en-US"
+}
+
 module.exports = {
   canonical,
   mapped,
   shared,
+  safe_locale,
 }

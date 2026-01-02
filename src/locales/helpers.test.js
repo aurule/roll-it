@@ -1,5 +1,5 @@
 const { available_locales } = require("./index")
-const { canonical, mapped } = require("./helpers")
+const { canonical, mapped, safe_locale } = require("./helpers")
 
 describe("locale helpers", () => {
   describe("canonical", () => {
@@ -53,6 +53,20 @@ describe("locale helpers", () => {
       const result = mapped("name", "8ball")
 
       expect(Object.keys(result).length).toEqual(available_locales.length)
+    })
+  })
+
+  describe("safe_locale", () => {
+    it("returns the locale unchanged if it's supported", () => {
+      const result = safe_locale("en-US")
+
+      expect(result).toEqual("en-US")
+    })
+
+    it("returns en-US if locale is not supported", () => {
+      const result = safe_locale("ro")
+
+      expect(result).toEqual("en-US")
     })
   })
 })
