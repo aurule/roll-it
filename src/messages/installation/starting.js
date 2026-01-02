@@ -4,6 +4,7 @@ const change_button = require("../../components/installation/change-button")
 const cancel_button = require("../../components/installation/cancel-button")
 const build = require("../../util/message-builders")
 const { present } = require("../../presenters/command-name-presenter")
+const { safe_locale } = require("../../locales/helpers")
 
 /**
  * Message shown upon starting an install process
@@ -16,9 +17,11 @@ module.exports = {
     const locale = install.locale
     const data_t = i18n.getFixedT(locale, "translation")
     const t = i18n.getFixedT(locale, "install")
-    // these need to use a safe internal locale, or have good fallback logic
-    const guild_commands = require("../../commands").sorted.guild.get(locale)
-    const global_commands = require("../../commands").sorted.global.get(locale)
+
+    const commands = require("../../commands")
+    const cmd_locale = safe_locale(locale)
+    const guild_commands = commands.sorted.guild.get(cmd_locale)
+    const global_commands = commands.sorted.global.get(cmd_locale)
 
     const system_titles = install.old_deets.systems.map(k => `_${data_t(`systems.${k}.title`)}_`)
     const feature_titles = install.old_deets.features.map(k => data_t(`features.${k}.title`))

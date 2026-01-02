@@ -14,9 +14,11 @@ module.exports = {
     const install_db = new Installation()
     const install = install_db.getInstallation(installation_id)
     const locale = install.locale
-    // these need to use a safe internal locale, or have good fallback logic
-    const guild_commands = require("../../commands").sorted.guild.get(locale)
-    const global_commands = require("../../commands").sorted.global.get(locale)
+
+    const commands = require("../../commands")
+    const cmd_locale = safe_locale(locale)
+    const guild_commands = commands.sorted.guild.get(cmd_locale)
+    const global_commands = commands.sorted.global.get(cmd_locale)
 
     const data_t = i18n.getFixedT(locale, "translation")
     const t = i18n.getFixedT(locale, "install")
