@@ -3,6 +3,6 @@ module.exports = {
   commands: {
     required: ["dnd", "formula"],
     recommended: ["d4", "d6", "d8", "d10", "d12", "d100"],
-    optional: ["curv", "table"],
+    optional: ["table"],
   },
 }
