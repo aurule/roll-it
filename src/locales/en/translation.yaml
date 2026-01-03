@@ -36,6 +36,10 @@ systems:
   listing: |-
     **{{title}}**: {{commands, list}}. {{description}}
       {{extended}}
+  curv:
+    title: D&D 5e on a Curve
+    description: High fantasy with a pool of 3d6 in place of d20s.
+    extended: With a bell curve in place of d20s, you get much more consistent results.
   dnd35:
     title: Dungeons & Dragons 3.5
     description: Lots of d20s with fancy rules for 3.5e.
@@ -43,7 +47,7 @@ systems:
   dnd5e:
     title: Dungeons & Dragons 5e
     description: Suitable for all versions, includes advantage for 5e
-    extended: Try `/curv` if you want a bell curve in place of d20s.
+    extended: Simple, powerful, and fun!
   drh:
     title: Don't Rest Your Head
     description: Multiple pools of d6s
