@@ -11,6 +11,16 @@ const { Installation } = require("../db/installation")
 const changes = require("../messages/installation/changes")
 
 /**
+ * Tiny helper to test if two sets are equal
+ * @param   {Set}     s1 First set
+ * @param   {Set}     s2 Second set
+ * @returns {boolean}    True if the two sets have matching elements, false if not.
+ */
+function setMatch(s1, s2) {
+  return s1.isSupersetOf(s2) && s1.difference(s2).size === 0
+}
+
+/**
  * Modal for changing a server's installed systems and features
  * @type {Object}
  */
@@ -81,16 +91,6 @@ module.exports = {
 
     const installation = install_db.getInstallation(installation_id)
 
-    /**
-     * Tiny helper to test if two sets are equal
-     * @param   {Set}     s1 First set
-     * @param   {Set}     s2 Second set
-     * @returns {boolean}    True if the two sets have matching elements, false if not.
-     */
-    function setMatch(s1, s2) {
-      return s1.isSupersetOf(s2) && s1.difference(s2).size === 0
-    }
-
     // Skip the changes message if there are no differences
     if (
       setMatch(new Set(installation.old_deets.systems), new Set(new_deets.systems)) &&
@@ -104,5 +104,6 @@ module.exports = {
     install_db.setNewDeets(installation_id, new_deets)
     modal_interaction.message.delete().catch(_e => {})
     return modal_interaction.reply(changes.data(installation_id))
-  }
+  },
+  setMatch,
 }

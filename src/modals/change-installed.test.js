@@ -80,4 +80,42 @@ describe("change installed modal", () => {
       })
     })
   })
+
+  describe("setMatch", () => {
+    it("true if both sets have identical elements", () => {
+      const set1 = new Set(["a", "b", "c"])
+      const set2 = new Set(["a", "b", "c"])
+
+      const result = changeInstalled.setMatch(set1, set2)
+
+      expect(result).toBe(true)
+    })
+
+    it("false if one set has more elements", () => {
+      const set1 = new Set(["a", "b", "c", "d"])
+      const set2 = new Set(["a", "b", "c"])
+
+      const result = changeInstalled.setMatch(set1, set2)
+
+      expect(result).toBe(false)
+    })
+
+    it("false if one set has different elements, but is the same length", () => {
+      const set1 = new Set(["a", "b", "c"])
+      const set2 = new Set(["a", "b", "d"])
+
+      const result = changeInstalled.setMatch(set1, set2)
+
+      expect(result).toBe(false)
+    })
+
+    it("true for empty sets", () => {
+      const set1 = new Set()
+      const set2 = new Set()
+
+      const result = changeInstalled.setMatch(set1, set2)
+
+      expect(result).toBe(true)
+    })
+  })
 })
