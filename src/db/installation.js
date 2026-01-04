@@ -169,6 +169,28 @@ class Installation extends CachedDb {
   }
 
   /**
+   * Set the new_deets field
+   *
+   * @param {number} id        Internal ID of the installation record
+   * @param {object} new_deets Object of newly chosen details
+   */
+  setNewDeets(id, new_deets) {
+    const update = this.prepared(
+      "setNewDeets",
+      oneLine`
+        UPDATE interactive.installation_processes
+        SET    new_deets = JSONB(@new_deets)
+        WHERE  id = @id
+      `
+    )
+
+    return update.run({
+      id,
+      new_deets: JSON.stringify(new_deets)
+    })
+  }
+
+  /**
    * Add a new message record
    *
    * @param  {object}    options

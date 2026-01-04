@@ -155,6 +155,37 @@ describe("Installation DB", () => {
     })
   })
 
+  describe("setNewDeets", () => {
+    let installation_id
+
+    beforeEach(() => {
+      installation_id = installation.addInstallation({
+        locale: "en-US",
+        guild_uid: "guild",
+        user_uid: "user",
+        old_deets: {
+          commands: [],
+          systems: [],
+          features: [],
+        },
+        timeout: 1000,
+      }).lastInsertRowid
+    })
+
+    it("sets the new_deets property", () => {
+      const data = {
+        commands: ["nwod"],
+        systems: ["nwod"],
+        features: ["tables"],
+      }
+
+      installation.setNewDeets(installation_id, data)
+
+      const record = installation.getInstallation(installation_id)
+      expect(record.new_deets).toMatchObject(data)
+    })
+  })
+
   describe("message methods", () => {
     let installation_id
 
