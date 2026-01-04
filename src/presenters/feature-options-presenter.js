@@ -1,6 +1,13 @@
 const { i18n } = require("../locales")
 
 module.exports = {
+  /**
+   * Generate Discord string select menu options for our features
+   *
+   * @param  {string}                   locale   Locale code for translation
+   * @param  {string[]}                 selected Array of pre-selected feature names
+   * @return {StringSelectMenuOption[]}          Array of string select menu option objects
+   */
   featureOptions(locale, selected = []) {
     const { features } = require("../data")
     const t = i18n.getFixedT(locale, "translation", "features")
