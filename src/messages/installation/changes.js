@@ -1,5 +1,6 @@
 const { Installation } = require("../../db/installation")
 const { i18n } = require("../../locales")
+const { safe_locale } = require("../../locales/helpers")
 const build = require("../../util/message-builders")
 const { present } = require("../../presenters/command-name-presenter")
 const cancelButton = require("../../components/installation/cancel-button")
