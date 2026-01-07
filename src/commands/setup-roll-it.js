@@ -20,9 +20,11 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(cmd_interaction) {
-    const old_commands = await api.getGuildCommands(cmd_interaction.guildId).then(res => res.map(c => c.name))
-    const old_systems = systemHelpers.findByCommands(...old_commands).map(s => s.name)
-    const old_features = featureHelpers.findByCommands(...old_commands).map(f => f.name)
+    const old_commands = await api
+      .getGuildCommands(cmd_interaction.guildId)
+      .then((res) => res.map((c) => c.name))
+    const old_systems = systemHelpers.findByCommands(...old_commands).map((s) => s.name)
+    const old_features = featureHelpers.findByCommands(...old_commands).map((f) => f.name)
 
     const install_db = new Installation()
     const installation_id = install_db.addInstallation({
@@ -33,7 +35,7 @@ module.exports = {
         commands: old_commands,
         systems: old_systems,
         features: old_features,
-      }
+      },
     }).lastInsertRowid
 
     const message = starting.data(installation_id)

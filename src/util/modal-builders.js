@@ -1,8 +1,4 @@
-const {
-  TextDisplayBuilder,
-  LabelBuilder,
-  ModalBuilder,
-} = require("discord.js")
+const { TextDisplayBuilder, LabelBuilder, ModalBuilder } = require("discord.js")
 
 /**
  * Module with helpers to more fluidly build modals, their components, and related json structures
@@ -60,5 +56,5 @@ module.exports = {
     if (description) label.setDescription(description)
 
     return label
-  }
+  },
 }

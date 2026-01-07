@@ -592,7 +592,7 @@ describe("Opposed DB", () => {
       it("gets all messages for the challenge", () => {
         const result = opposed.getChallengeMessages(challenge_id)
 
-        const uids = result.map(m => m.message_uid)
+        const uids = result.map((m) => m.message_uid)
         expect(uids).toContain("message 1")
         expect(uids).toContain("message 2")
       })
@@ -600,7 +600,7 @@ describe("Opposed DB", () => {
       it("omits messages for other challenges", () => {
         const result = opposed.getChallengeMessages(challenge_id)
 
-        const uids = result.map(m => m.message_uid)
+        const uids = result.map((m) => m.message_uid)
         expect(uids).not.toContain("message 3")
       })
     })

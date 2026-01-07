@@ -11,6 +11,6 @@ module.exports = {
     const name_set = new Set(command_names)
     const { features } = require("../data")
 
-    return features.filter(s => name_set.isSupersetOf(new Set(s.commands)))
-  }
+    return features.filter((s) => name_set.isSupersetOf(new Set(s.commands)))
+  },
 }

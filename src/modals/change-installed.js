@@ -1,6 +1,4 @@
-const {
-  StringSelectMenuBuilder
-} = require("discord.js")
+const { StringSelectMenuBuilder } = require("discord.js")
 
 const { i18n } = require("../locales")
 const { systemOptions } = require("../presenters/system-options-presenter")
@@ -53,7 +51,7 @@ module.exports = {
     })
 
     const prompt_args = {
-      context: installation.new_deets.commands ? "selected" : "installed"
+      context: installation.new_deets.commands ? "selected" : "installed",
     }
     const components = [
       build.text(t("prompt", prompt_args)),
@@ -107,11 +105,11 @@ module.exports = {
 
     // update and show changes
     install_db.setNewDeets(installation_id, new_deets)
-    modal_interaction.message.delete().catch(_e => {})
+    modal_interaction.message.delete().catch((_e) => {})
     return modal_interaction
       .ensure("reply", changes.data(installation_id), {
         installation_id,
-        detail: "Failed to send install changes message"
+        detail: "Failed to send install changes message",
       })
       .then((reply_result) => {
         // expect an InteractionCallbackResponse, but deal with a Message too

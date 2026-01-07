@@ -8,7 +8,7 @@ describe("feature helpers", () => {
 
         const result = featureHelpers.findByCommands(...command_names)
 
-        const feature_names = result.map(r => r.name)
+        const feature_names = result.map((r) => r.name)
         expect(feature_names).toContain("coinflip")
       })
 
@@ -17,7 +17,7 @@ describe("feature helpers", () => {
 
         const result = featureHelpers.findByCommands(...command_names)
 
-        const feature_names = result.map(r => r.name)
+        const feature_names = result.map((r) => r.name)
         expect(feature_names).not.toContain("coinflip")
       })
     })

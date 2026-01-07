@@ -1,5 +1,5 @@
-const { oneLine } = require("common-tags");
-const { CachedDb } = require("./cached-db");
+const { oneLine } = require("common-tags")
+const { CachedDb } = require("./cached-db")
 
 class Installation extends CachedDb {
   /**
@@ -14,14 +14,7 @@ class Installation extends CachedDb {
    * @param  {number}    options.timeout   Number of seconds before the installation times out
    * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
    */
-  addInstallation({
-    locale,
-    guild_uid,
-    user_uid,
-    old_deets = {},
-    new_deets = {},
-    timeout,
-  } = {}) {
+  addInstallation({ locale, guild_uid, user_uid, old_deets = {}, new_deets = {}, timeout } = {}) {
     const insert = this.prepared(
       "addInstallation",
       oneLine`
@@ -64,7 +57,8 @@ class Installation extends CachedDb {
         SELECT COUNT(1)
         FROM   interactive.installation_processes
       `,
-      true)
+      true,
+    )
 
     return select.get()
   }
@@ -102,7 +96,8 @@ class Installation extends CachedDb {
                DATETIME('now') > DATETIME(expires_at) AS expired
         FROM   interactive.installation_processes
         WHERE  id = ?
-      `)
+      `,
+    )
 
     const raw_out = select.get(id)
 
@@ -133,7 +128,7 @@ class Installation extends CachedDb {
       UPDATE interactive.installation_processes
       SET    finished_at = DATETIME('now')
       WHERE  id = ?
-      `
+      `,
     )
 
     return update.run(id)
@@ -181,12 +176,12 @@ class Installation extends CachedDb {
         UPDATE interactive.installation_processes
         SET    new_deets = JSONB(@new_deets)
         WHERE  id = @id
-      `
+      `,
     )
 
     return update.run({
       id,
-      new_deets: JSON.stringify(new_deets)
+      new_deets: JSON.stringify(new_deets),
     })
   }
 

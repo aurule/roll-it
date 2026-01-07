@@ -23,20 +23,14 @@ module.exports = {
 
     install_db.finishInstallation(install.id)
 
-    interaction.message
-      .delete()
-      .catch((_error) => {
-        // suppress all errors so we can send other messages
-        return
-      })
+    interaction.message.delete().catch((_error) => {
+      // suppress all errors so we can send other messages
+      return
+    })
 
-    interaction.ensure(
-      "reply",
-      cancelled.data(install.id),
-      {
-        install,
-        detail: "failed to send cancellation message",
-      }
-    )
-  }
+    interaction.ensure("reply", cancelled.data(install.id), {
+      install,
+      detail: "failed to send cancellation message",
+    })
+  },
 }

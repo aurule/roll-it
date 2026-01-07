@@ -14,7 +14,7 @@ module.exports = {
 
     const defaults = new Set(selected)
 
-    return systems.map(system => {
+    return systems.map((system) => {
       return {
         value: system.name,
         label: t(`${system.name}.title`),
@@ -22,5 +22,5 @@ module.exports = {
         default: defaults.has(system.name),
       }
     })
-  }
+  },
 }

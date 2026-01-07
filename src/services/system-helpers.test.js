@@ -8,7 +8,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).toContain("dnd5e")
       })
 
@@ -17,7 +17,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).not.toContain("dnd5e")
       })
 
@@ -26,7 +26,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).not.toContain("dnd5e")
       })
 
@@ -35,7 +35,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).not.toContain("dnd5e")
       })
     })
@@ -46,7 +46,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).toContain("ffrpg")
       })
 
@@ -55,7 +55,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).not.toContain("ffrpg")
       })
 
@@ -64,7 +64,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).not.toContain("ffrpg")
       })
 
@@ -73,7 +73,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).not.toContain("ffrpg")
       })
 
@@ -82,7 +82,7 @@ describe("system helpers", () => {
 
         const result = systemHelpers.findByCommands(...command_names)
 
-        const system_names = result.map(r => r.name)
+        const system_names = result.map((r) => r.name)
         expect(system_names).not.toContain("generic")
       })
     })

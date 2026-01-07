@@ -11,6 +11,6 @@ module.exports = {
     const name_set = new Set(command_names)
     const { systems } = require("../data")
 
-    return systems.filter(s => name_set.isSupersetOf(new Set(s.commands.required)))
-  }
+    return systems.filter((s) => name_set.isSupersetOf(new Set(s.commands.required)))
+  },
 }

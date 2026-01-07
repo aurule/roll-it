@@ -36,7 +36,7 @@ module.exports = {
 
         return interaction.ensure("reply", t("failed"), {
           installation_id: install.id,
-          detail: "Could not reply with installation error message" ,
+          detail: "Could not reply with installation error message",
         })
       })
       .then(async () => {
@@ -46,7 +46,9 @@ module.exports = {
         const cmd_locale = safe_locale(locale)
         const guild_commands = commands.sorted.guild.get(cmd_locale)
 
-        const command_names = guild_commands.filter(c => install.new_deets.commands.includes(c.name)).map(c => present(c, locale))
+        const command_names = guild_commands
+          .filter((c) => install.new_deets.commands.includes(c.name))
+          .map((c) => present(c, locale))
 
         const t_args = {
           commands: command_names,
@@ -58,5 +60,5 @@ module.exports = {
 
         install_db.finishInstallation(install.id)
       })
-  }
+  },
 }

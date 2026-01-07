@@ -29,7 +29,7 @@ function differ(olds, news, formatter = (item) => `${item}`) {
   let outs = []
   for (const item of all_set) {
     const formatted = formatter(item)
-    switch(true) {
+    switch (true) {
       case old_set.has(item) && new_set.has(item):
         outs.push(formatted)
         break
@@ -64,13 +64,13 @@ module.exports = {
     const system_titles = differ(
       install.old_deets.systems,
       install.new_deets.systems,
-      (s) => `*${data_t(`systems.${s}.title`)}*`
+      (s) => `*${data_t(`systems.${s}.title`)}*`,
     )
 
     const feature_titles = differ(
       install.old_deets.features,
       install.new_deets.features,
-      (f) => `${data_t(`features.${f}.title`)}`
+      (f) => `${data_t(`features.${f}.title`)}`,
     )
 
     const old_commands = new Set(install.old_deets.commands)
@@ -83,7 +83,7 @@ module.exports = {
     const relevant_commands = guild_commands.filter((cmd) => all_commands.has(cmd.name))
     for (const cmd of relevant_commands.values()) {
       const presented = present(cmd, locale)
-      switch(true) {
+      switch (true) {
         case old_commands.has(cmd.name) && new_commands.has(cmd.name):
           added_commands.push(presented)
           break
@@ -96,7 +96,7 @@ module.exports = {
       }
     }
 
-    const global_names = global_commands.map(c => present(c, locale))
+    const global_names = global_commands.map((c) => present(c, locale))
 
     const t_args = {
       systems: system_titles,
@@ -109,8 +109,8 @@ module.exports = {
       build.actions(
         cancelButton.data(locale),
         changeButton.data(locale).setStyle(ButtonStyle.Secondary),
-        saveButton.data(locale)
-      )
+        saveButton.data(locale),
+      ),
     ]
 
     return build.message(components, { withResponse: true })

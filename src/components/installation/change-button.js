@@ -24,5 +24,5 @@ module.exports = {
     const modal = changeInstalled.data(install)
 
     return interaction.showModal(modal)
-  }
+  },
 }

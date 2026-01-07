@@ -15,5 +15,5 @@ module.exports = {
     const t = i18n.getFixedT(locale, "install")
 
     return build.textMessage(t("cancelled"))
-  }
+  },
 }

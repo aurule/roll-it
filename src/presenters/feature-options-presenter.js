@@ -14,7 +14,7 @@ module.exports = {
 
     const defaults = new Set(selected)
 
-    return features.map(feature => {
+    return features.map((feature) => {
       return {
         value: feature.name,
         label: t(`${feature.name}.title`),
@@ -22,5 +22,5 @@ module.exports = {
         default: defaults.has(feature.name),
       }
     })
-  }
+  },
 }

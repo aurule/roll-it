@@ -37,7 +37,7 @@ module.exports = {
 
     const t_args = {
       returnObjects: true,
-      context: sacrifice.hasTrigger(message, message.locale) ? "sacrifice" : undefined
+      context: sacrifice.hasTrigger(message, message.locale) ? "sacrifice" : undefined,
     }
     const messages = t("easter-eggs.mention.messages", t_args)
     const content = messages.at(randomInt(messages.length))

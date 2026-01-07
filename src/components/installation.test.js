@@ -58,9 +58,7 @@ describe("installation component handler", () => {
       beforeEach(() => {
         interaction.customId = "install_cancel"
 
-        install = new InstallationFixture()
-          .expire()
-          .attachMessage(interaction.message.id)
+        install = new InstallationFixture().expire().attachMessage(interaction.message.id)
       })
 
       afterEach(() => {
@@ -80,9 +78,7 @@ describe("installation component handler", () => {
       beforeEach(() => {
         interaction.customId = "install_cancel"
 
-        install = new InstallationFixture()
-          .finish()
-          .attachMessage(interaction.message.id)
+        install = new InstallationFixture().finish().attachMessage(interaction.message.id)
       })
 
       afterEach(() => {
@@ -103,8 +99,7 @@ describe("installation component handler", () => {
       beforeEach(() => {
         interaction.customId = "install_cancel"
 
-        install = new InstallationFixture()
-          .attachMessage(interaction.message.id)
+        install = new InstallationFixture().attachMessage(interaction.message.id)
 
         execute_spy = jest.spyOn(cancel_button, "execute")
       })
