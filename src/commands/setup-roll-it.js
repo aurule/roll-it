@@ -8,6 +8,9 @@ const starting = require("../messages/installation/starting")
 const systemHelpers = require("../services/system-helpers")
 const featureHelpers = require("../services/feature-helpers")
 const { safe_locale } = require("../locales/helpers")
+const data = require("../data")
+const { i18n } = require("../locales")
+const { present } = require("../presenters/command-name-presenter")
 
 const command_name = "setup-roll-it"
 
@@ -56,13 +59,47 @@ module.exports = {
   },
   help_data(opts) {
     const commands = require("./index")
-
-    const cmd_locale = safe_locale(opts.locale)
+    const locale = opts.locale
+    const cmd_locale = safe_locale(locale)
     const guild_commands = commands.sorted.guild.get(cmd_locale)
     const global_commands = commands.sorted.global.get(cmd_locale)
+
+    const data_t = i18n.getFixedT(locale, "translation")
+    const cmd_t = i18n.getFixedT(locale, "commands", "setup-roll-it")
+
+    const systems = data.systems.map((sys) => {
+      const sys_commands = new Set(sys.commands.required)
+      if (sys.commands.recommended) {
+        for (const c of sys.commands.recommended) {
+          sys_commands.add(c)
+        }
+      }
+
+      const t_args = {
+        title: data_t(`systems.${sys.name}.title`),
+        commands: guild_commands
+          .filter((c) => sys_commands.has(c.name))
+          .map((c) => present(c, locale)),
+      }
+      return cmd_t("feature", t_args)
+    })
+
+    const features = data.features.map((feat) => {
+      const feat_commands = new Set(feat.commands)
+
+      const t_args = {
+        title: data_t(`features.${feat.name}.title`),
+        commands: guild_commands
+          .filter((c) => feat_commands.has(c.name))
+          .map((c) => present(c, locale)),
+      }
+      return cmd_t("feature", t_args)
+    })
+
     return {
-      deployables: CommandNamePresenter.list(guild_commands, opts.locale),
-      globals: CommandNamePresenter.list(global_commands, opts.locale),
+      globals: CommandNamePresenter.list(global_commands, locale),
+      systems,
+      features,
     }
   },
 }

@@ -1653,21 +1653,27 @@ setup-roll-it:
   description: Set up Roll It with the commands you need
   help-lines:
     - >
-      Since Roll It has so many rollers, it can be helpful to only make specific ones available on your
-      server. {{cmd}} lets you change which ones can be used. Use it when you first add Roll It, and any time
-      you want to add or remove commands.
+      Since Roll It has so many commands, it can be helpful to only make specific rollers available on your
+      server. {{cmd}} lets you change the installed commands by picking which game systems and features can
+      be used. Run it when you first add Roll It, and any time you want to add or remove commands.
     - >
       {{cmd}} can only be used by server managers and those they allow through Discord's permissions.
     - >-
-      A few global commands are always available on servers with Roll It:
+      Roll It supports these game systems:
     - >
+      {{systems, ul}}
+    - >-
+      And it has some additional features that aren't a part of a game system:
+    - >
+      {{features, ul}}
+    - >-
+      A few global commands are always available on servers with Roll It:
+    - >-
       {{globals, ul}}
-    - >-
-      These are the commands that can be added or removed:
-    - >-
-      {{deployables, ul}}
   help: |-
     $t(setup-roll-it.help-lines, { "joinArrays": "\n" })
+  feature: >-
+    **{{title}}** adds {{commands, list}}
 shadowrun:
   name: shadowrun
   description: Roll a pool of d6s for Shadowrun
