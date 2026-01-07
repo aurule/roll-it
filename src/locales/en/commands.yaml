@@ -1650,7 +1650,7 @@ saved:
       invalid: The saved options for this roll are no longer valid. You'll have to update them before you can use this saved roll.
 setup-roll-it:
   name: setup-roll-it
-  description: Set up Roll It with the commands you need
+  description: Set up Roll It with the game systems and features you need
   help-lines:
     - >
       Since Roll It has so many commands, it can be helpful to only make specific rollers available on your

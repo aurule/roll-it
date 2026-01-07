@@ -7,6 +7,7 @@
     + [Don't Rest Your Head](/systems/drh "Don't Rest Your Head | Roll It Docs")
     + [Dungeons & Dragons 3.5](/systems/dnd35 "D&D 3.5 | Roll It Docs")
     + [Dungeons & Dragons 5e](/systems/dnd5e "D&D 5e | Roll It Docs")
+    + [D&D on a Curve](/systems/curv "D&D Curv | Roll It Docs")
     + [FATE](/systems/fate "FATE | Roll It Docs")
     + [Final Fantasy RPG](/systems/ffrpg "FFRPG | Roll It Docs")
     + [Kids On Bikes](/systems/kob "Kids On Bikes | Roll It Docs")
