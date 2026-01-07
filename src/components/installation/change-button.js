@@ -1,7 +1,6 @@
 const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Installation } = require("../../db/installation")
-const changeInstalled = require("../../modals/change-installed")
 
 /**
  * Button to make changes to installed commands
@@ -21,6 +20,7 @@ module.exports = {
 
     interaction.authorize(install.user_uid)
 
+    const changeInstalled = require("../../modals/change-installed")
     const modal = changeInstalled.data(install)
 
     return interaction.showModal(modal)

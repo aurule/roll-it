@@ -5,6 +5,8 @@ shared:
       text: Cancel
     change:
       text: Change Systems & Features
+    save:
+      text: Install
 starting: |-
   Here's what Roll It has installed on this server:
   **Systems:** {{systems, list}}
@@ -18,11 +20,21 @@ cancelled: >-
 finished: >-
   That old setup request has finished. If you want to change what parts of Roll
   It are available on this server, run `/setup-roll-it` again.
+failed: >-
+  Could not update the Roll It commands for this server. I'm not sure how that
+  happened, but maybe trying again in a bit will help? Regardless, the failure
+  has been logged!
+saved: |-
+  Done! These Roll It commands are now installed on this server:
+  {{commands, list}}
 change-installed:
   title: Pick Systems & Features
-  prompt: >-
-    Choose which of Roll It's game systems and extra features you want to install on this
-    server. The ones currently installed are already selected below.
+  prompt_installed: >-
+    Choose which of Roll It's game systems and extra features you want to install
+    on this server. The ones currently installed are already selected below.
+  prompt_selected: >-
+    Choose which of Roll It's game systems and extra features you want to install
+    on this server. Your previous choices are already selected below.
   systems:
     label: Which game systems do you want to use?
     description: Add as many as you like!
@@ -35,9 +47,10 @@ change-installed:
     You'll have a chance to review them before any changes are made to the server.
 changes: |-
   Here are the changes you've selected:
+  -# Additions are __underlined__, and removals are ~~struck~~.
   **Systems:** {{systems, list}}
   **Features:** {{features, list}}
-  Combined, these will result in the following commands:
+  Combined, these will result in the following changes to commands:
   {{commands, list}}
   -# These global commands are always available: {{globals, list}}
   If that looks good, save it! Or you can make more changes.

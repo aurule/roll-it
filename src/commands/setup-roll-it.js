@@ -7,6 +7,7 @@ const { Installation } = require("../db/installation")
 const starting = require("../messages/installation/starting")
 const systemHelpers = require("../services/system-helpers")
 const featureHelpers = require("../services/feature-helpers")
+const { safe_locale } = require("../locales/helpers")
 
 const command_name = "setup-roll-it"
 
@@ -54,7 +55,7 @@ module.exports = {
   help_data(opts) {
     const commands = require("./index")
 
-    const cmd_locale = safe_locale(locale)
+    const cmd_locale = safe_locale(opts.locale)
     const guild_commands = commands.sorted.guild.get(cmd_locale)
     const global_commands = commands.sorted.global.get(cmd_locale)
     return {

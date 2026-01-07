@@ -8,7 +8,7 @@ const message_schema = Joi.object({
   inert: Joi.function().optional(),
   afterRetry: Joi.function().arity(1).optional(),
   handleReply: Joi.function().arity(1).optional(),
-})
+}).unknown()
 
 describe("installation messages", () => {
   it("loads message files", () => {
