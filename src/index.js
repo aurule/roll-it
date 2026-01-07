@@ -1,7 +1,6 @@
 require("dotenv").config({ quiet: true })
 
 const { logger } = require("./util/logger")
-const { metrics } = require("./db/stats")
 
 process.on("unhandledRejection", (error) => {
   logger.error(error, "Unhandled promise rejection")
