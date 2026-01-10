@@ -92,6 +92,10 @@ systems:
     title: Shadowrun
     description: Exploding pools of d6s
     extended: Suitable for 4e, 5e, and 6e. Handles glitches, the rule of six, and has an interactive teamwork mode.
+  sra:
+    title: Shadowrun Anarchy 2.0
+    description: Streamlined, modern Shadowrun
+    extended: Handles advantage, risk, and glitches as per the 2.0 rule set.
   swn:
     title: Stars Without Number
     description: Summed 2d6 for skills
