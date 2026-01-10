@@ -95,4 +95,30 @@ module.exports = {
     }
     return resultSets.map((set) => set.reduce(comparator, 0))
   },
+
+  /**
+   * Count successes against a threshold, with double value under a risk threshold
+   *
+   * Dice whose index falls below `risk` count for two successes if they meet or
+   * exceed the threshold.
+   *
+   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+   * @param  {number}     threshold  Number a die must meet or exceed to add one success
+   * @param  {number}     risk       Total dice whose successes count double
+   * @return {number[]}              Array of ints representing the success tallies of each resultSet
+   */
+  riskSuccesses(resultSets, threshold, risk = 0) {
+    return resultSets.map(
+      (roll) => roll.reduce(
+          (acc, val, idx) => {
+              if (val >= threshold) {
+                  if (idx < risk) return acc + 2
+                  return acc + 1
+              }
+              return acc
+          },
+          0
+      )
+    )
+  }
 }

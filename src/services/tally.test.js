@@ -215,4 +215,54 @@ describe("tally summation helpers", () => {
       })
     })
   })
+
+  describe("riskSuccesses", () => {
+    it("generates one number per array of the result set", () => {
+      const resultSets = [
+        [3, 2, 5, 4],
+        [1, 6, 2, 3],
+        [6, 2, 5, 4],
+      ]
+
+      const successSums = tallyService.riskSuccesses(resultSets, 5, 0)
+
+      expect(successSums.length).toEqual(3)
+    })
+
+    describe("with no risk", () => {
+      it("adds a success for each die > threshold", () => {
+        const resultSets = [[6]]
+
+        const successSums = tallyService.riskSuccesses(resultSets, 5, 0)
+
+        expect(successSums[0]).toEqual(1)
+      })
+
+      it("adds a success for each die == threshold", () => {
+        const resultSets = [[5, 5]]
+
+        const successSums = tallyService.riskSuccesses(resultSets, 5, 0)
+
+        expect(successSums[0]).toEqual(2)
+      })
+    })
+
+    describe("with risk", () => {
+      it("adds two successes for each die > threshold before the risk count", () => {
+        const resultSets = [[6, 6]]
+
+        const successSums = tallyService.riskSuccesses(resultSets, 5, 1)
+
+        expect(successSums[0]).toEqual(3)
+      })
+
+      it("adds two successes for each die == threshold before the risk count", () => {
+        const resultSets = [[5, 5]]
+
+        const successSums = tallyService.riskSuccesses(resultSets, 5, 1)
+
+        expect(successSums[0]).toEqual(3)
+      })
+    })
+  })
 })
