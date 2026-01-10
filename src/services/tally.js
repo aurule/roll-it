@@ -4,8 +4,8 @@ module.exports = {
   /**
    * Add up the dice of result sets
    *
-   * @param  {Array<int[]>} resultSets Nested array representing one or more sets of dice rolls
-   * @return {int[]}                   Array of sums for each result set
+   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+   * @return {number[]}              Array of sums for each result set
    */
   sum(resultSets) {
     return resultSets.map((set) => set.reduce((prev, curr) => prev + curr, 0))
@@ -14,9 +14,9 @@ module.exports = {
   /**
    * Add the selected dice of each result set
    *
-   * @param  {Array<int[]>} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {obj[]}        picked     Array of picked dice objects
-   * @return {int[]}                   Array of sums from each result set
+   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+   * @param  {object[]}   picked     Array of picked dice objects
+   * @return {number[]}              Array of sums from each result set
    */
   pickedSum(resultSets, picked) {
     const pickedSets = []
@@ -35,8 +35,8 @@ module.exports = {
    * - Any die that equals 2 is ignored
    * - Any die that equals 3 adds one to the total
    *
-   * @param  {Array<int[]>} resultSets Nested array representing one or more sets of dice rolls
-   * @return {int[]}                   Array of sums from each result set
+   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+   * @return {number[]               Array of sums from each result set
    */
   fudge(resultSets) {
     return resultSets.map((set) => set.reduce((prev, curr) => prev + curr - 2, 0))
@@ -52,10 +52,10 @@ module.exports = {
    * - If the final tally is negative, but one or more successes occurred, then the tally becomes zero
    * - If the final tally is negative, and no successes ocurred at all, then the negative tally stands
    *
-   * @param  {Array<int[]>} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {Int}          threshold  Number a die must meet or exceed to add one success
-   * @param  {Boolean}      double     Whether to add a second success when a die is 10
-   * @return {int[]}                   Array of ints representing the success tallies of each resultSet
+   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+   * @param  {number}     threshold  Number a die must meet or exceed to add one success
+   * @param  {boolean}    double     Whether to add a second success when a die is 10
+   * @return {number[]}              Array of ints representing the success tallies of each resultSet
    */
   wod20(resultSets, threshold, double = false) {
     return resultSets.map((set) => {
@@ -81,10 +81,10 @@ module.exports = {
    *
    * Whether inverted or not, the threshold value is always counted as a success.
    *
-   * @param  {Array<Int[]>} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {Int}          threshold  Number a die must meet or exceed to add one success
-   * @param  {bool}         inverted   Whether to count dice below the threshold
-   * @return {Int[]}                   Array of ints representing the success tallies of each resultSet
+   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+   * @param  {number}     threshold  Number a die must meet or exceed to add one success
+   * @param  {boolean}    inverted   Whether to count dice below the threshold
+   * @return {number[]}              Array of ints representing the success tallies of each resultSet
    */
   successes(resultSets, threshold, inverted = false) {
     let comparator
