@@ -25,6 +25,7 @@ module.exports = {
     const t = i18n.getFixedT(locale, "install")
 
     interaction.authorize(install.user_uid)
+    interaction.deferReply()
 
     api
       .setGuildCommands(install.guild_uid, install.new_deets.commands)
@@ -34,7 +35,7 @@ module.exports = {
           installation_id: install.id,
         })
 
-        return interaction.ensure("reply", t("failed"), {
+        return interaction.ensure("followUp", t("failed"), {
           installation_id: install.id,
           detail: "Could not reply with installation error message",
         })
@@ -53,7 +54,7 @@ module.exports = {
         const t_args = {
           commands: command_names,
         }
-        await interaction.ensure("reply", t("saved", t_args), {
+        await interaction.ensure("followUp", t("saved", t_args), {
           installation_id: install.id,
           detail: "Could not reply with installation success message",
         })
