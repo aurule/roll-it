@@ -39,7 +39,7 @@ describe("/shadowrun command", () => {
         ["low success", 2, [1, 2, 1, 4, 6, 5], "noted"],
         ["glitch", 2, [1, 1, 1, 1, 6, 5], "inadequate"],
         ["critical glitch", 0, [1, 1, 1, 1, 3, 4], "angers"],
-      ])("returns correct text for %s", async (label, successes, dice, text) => {
+      ])("returns correct text for %s", async (_label, successes, dice, text) => {
         const presenter = new ShadowrunPresenter({
           pool: 6,
           summed: [successes],
