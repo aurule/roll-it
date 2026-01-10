@@ -1,6 +1,5 @@
 const { strikethrough, bold } = require("discord.js")
 
-const { pluralize } = require("../../util/formatters")
 const { i18n } = require("../../locales")
 
 /**
@@ -11,16 +10,16 @@ const { i18n } = require("../../locales")
  */
 class ShadowrunPresenter {
   /**
-   * Create a new NwodPresenter object
+   * Create a new ShadowrunPresenter object
    *
-   * @param  {Int}          options.pool        Number of dice rolled
-   * @param  {Bool}         options.edge        Whether 6s were re-rolled
-   * @param  {Int}          options.rolls       Number of rolls made
-   * @param  {Int}          options.until       Target number of successes from multiple rolls
-   * @param  {String}       options.description Text describing the roll
-   * @param  {Array<int[]>} options.raw         Array of one array with ints representing raw dice rolls
-   * @param  {str}          options.locale      Name of the locale to use to look up stings
-   * @param  {int[]}        options.summed      Array of one int, summing the rolled dice
+   * @param  {number}     options.pool        Number of dice rolled
+   * @param  {boolean}    options.edge        Whether 6s were re-rolled
+   * @param  {number}     options.rolls       Number of rolls made
+   * @param  {number}     options.until       Target number of successes from multiple rolls
+   * @param  {string}     options.description Text describing the roll
+   * @param  {number[][]} options.raw         Array of one array with ints representing raw dice rolls
+   * @param  {string}     options.locale      Name of the locale to use to look up stings
+   * @param  {number[]}   options.summed      Array of one int, summing the rolled dice
    */
   constructor({
     pool,
@@ -45,7 +44,7 @@ class ShadowrunPresenter {
   /**
    * Present the results of our rolls
    *
-   * @return {str} A string describing the results of our roll(s)
+   * @return {string} A string describing the results of our roll(s)
    */
   presentResults() {
     const t_args = {
@@ -95,7 +94,7 @@ class ShadowrunPresenter {
   /**
    * Explain the dice pool
    *
-   * @return {str} String describing the number of dice in the pool and their roll-again, if present
+   * @return {string} String describing the number of dice in the pool and their roll-again, if present
    */
   explainPool() {
     let key = "response.pool.bare"
@@ -110,8 +109,8 @@ class ShadowrunPresenter {
    *
    * Successes are in bold, ones are struck
    *
-   * @param  {int} result_index Index of the roll to notate
-   * @return {str}              String with stylized die results
+   * @param  {number} result_index Index of the roll to notate
+   * @return {string}              String with stylized die results
    */
   notateDice(result_index) {
     return this.raw[result_index]
@@ -128,8 +127,8 @@ class ShadowrunPresenter {
    *
    * Shows the number of successes and glitch status
    *
-   * @param  {int} result_index Index of the roll result to explain
-   * @return {str}              String with successes and glitch status
+   * @param  {number} result_index Index of the roll result to explain
+   * @return {string}              String with successes and glitch status
    */
   explainTally(result_index) {
     const tally = this.summed[result_index]
@@ -149,8 +148,8 @@ class ShadowrunPresenter {
   /**
    * Get whether a pool has a glitch
    *
-   * @param  {int} result_index Index of the roll to test
-   * @return {bool}             True if the roll results are more than half 1s, false if not
+   * @param  {number} result_index Index of the roll to test
+   * @return {boolean}             True if the roll results are more than half 1s, false if not
    */
   glitch(result_index) {
     const half = Math.floor(this.pool / 2)
@@ -168,7 +167,7 @@ module.exports = {
    * manually creating and using a ShadowrunPresenter object.
    *
    * @param  {...options} options.rollOptions Roll options and results
-   * @return {String}                         String describing the roll results
+   * @return {string}                         String describing the roll results
    */
   present: ({ ...rollOptions }) => {
     const presenter = new ShadowrunPresenter(rollOptions)
