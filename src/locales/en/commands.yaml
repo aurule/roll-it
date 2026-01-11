@@ -1802,6 +1802,58 @@ sra:
     until:
       name: until
       description: Roll the entire dice pool multiple times until this many successes are accrued
+  response:
+    layout:
+      single: "{{userMention}} rolled {{outcome}} ({{pool}}: [{{detail}}])"
+      single_description: "{{userMention}} rolled {{outcome}} for {{description}} ({{pool}}: [{{detail}}])"
+      result: "{{outcome}} [{{detail}}]"
+      many: |-
+        {{userMention}} rolled {{count}} times with {{pool}}:
+        {{results, ul}}
+      many_description: |-
+        {{userMention}} rolled {{count}} times for {{description}} with {{pool}}:
+        {{results, ul}}
+      until:
+        plain: |-
+          {{userMention}} rolled {{pool}} until {{target}}:
+          {{results, ul}}
+          {{sum}} in {{rolls}}
+        plain_description: |-
+          {{userMention}} rolled {{pool}} until {{target}} for {{description}}:
+          {{results, ul}}
+          {{sum}} in {{rolls}}
+        max: |-
+          {{userMention}} rolled {{pool}} up to {{count}} times until {{target}}:
+          {{results, ul}}
+          {{sum}} in {{rolls}}
+        max_description: |-
+          {{userMention}} rolled {{pool}} up to {{count}} times until {{target}} for {{description}}:
+          {{results, ul}}
+          {{sum}} in {{rolls}}
+        rolls_one: 1 roll
+        rolls_other: "{{count}} rolls"
+        target_one: 1 success
+        target_other: "{{count}} successes"
+        sum_one: "*{{sum}} of 1* success"
+        sum_other: "*{{sum}} of {{count}}* successes"
+    outcome_one: "**1 success**"
+    outcome_glitch_one: "**1 success** and {{glitch}}"
+    outcome_other: "**{{count}} successes**"
+    outcome_glitch_other: "**{{count}} successes** and {{glitch}}"
+    glitch:
+      minor: a **minor glitch**
+      major: a **major glitch**
+      critical: a **critical glitch**
+    pool:
+      plain: "{{dice}}"
+      plain_advantage: "{{dice}} with advantage"
+      plain_disadvantage: "{{dice}} with disadvantage"
+      risking: "{{dice}} {{risk}}"
+      risking_advantage: "{{dice}} with advantage, {{risk}} "
+      risking_disadvantage: "{{dice}} with disadvantage, {{risk}}"
+      dice_one: 1 die
+      dice_other: "{{count}} dice"
+      risk: risking {{count}}
 singleton:
   # Response strings shared by all commands which roll a single die. Each command must have its own name,
   # description, and help attributes, as this block is only for shared responses.
