@@ -55,19 +55,62 @@ module.exports = {
     description: commonSchemas.description,
   }),
   judge(presenter) {
-    // probabilities change based on `threshold` and `risk`
-    // 5: pool / 3
-    // 4: pool / 2
-    // 6: pool / 6
-    // risk:
-    //   new expected is normal + (normal * risk/pool)
-    //   glitch level reduces sacrifice message
+    const buckets = [0, 0, 0, 0, 0]
+    let divisor = 3
 
-    // pool
-    // threshold
-    // risk
-    // successes
-    // glitch_count
+    switch (presenter.threshold) {
+      case 4:
+        divisor = 2
+        break
+      case 6:
+        divisor = 6
+        break
+    }
+    let expected = Math.round(presenter.pool / divisor)
+
+    if (presenter.risk) {
+      expected = expected + (expected * Math.round(presenter.risk / presenter.pool))
+    }
+
+    for (const [rollNum, result] of presenter.summed.entries()) {
+      let bucket_idx
+      switch (true) {
+        case result >= expected * 2:
+          bucket_idx = 0
+          break
+        case result > expected:
+          bucket_idx = 1
+          break
+        default:
+        case result === expected:
+          bucket_idx = 2
+          break
+        case result >= expected / 2:
+          bucket_idx = 3
+          break
+        case result < expected / 2:
+          bucket_idx = 4
+          break
+      }
+      const glitch = presenter.glitches[rollNum]
+      const final = Math.min(bucket_idx + glitch, 4)
+      buckets[final] += 1
+    }
+
+    const dominating = buckets.findIndex((b) => b >= presenter.summed.length / 2)
+    switch (dominating) {
+      case 0:
+        return sacrifice.great(presenter.locale)
+      case 1:
+        return sacrifice.good(presenter.locale)
+      case 2:
+      default:
+        return sacrifice.neutral(presenter.locale)
+      case 3:
+        return sacrifice.bad(presenter.locale)
+      case 4:
+        return sacrifice.awful(presenter.locale)
+    }
   },
   make_threshold,
   perform({ pool, risk, advantage, rolls = 1, until, description, locale = "en-US" } = {}) {
