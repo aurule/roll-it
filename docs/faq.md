@@ -70,6 +70,7 @@ Yes, yes there is.
     - `/saved roll` - Use one of your saved rolls
 * `/setup-roll-it` - Set up Roll It to support the game systems and features you need
 * `/shadowrun` - Roll a pool of d6s for Shadowrun
+* `/sra` - Roll a pool of d6s for Shadowrun Anarchy 2.0
 * `/swn` - Roll and sum two six-sided dice using rules for Stars Without Number
 * `/table` - Add, manage, and roll on random tables
     - `/table add` - Upload a new rollable table

@@ -40,6 +40,7 @@ Here are the commands that can be saved:
 * `/formula` - Roll a combination of dice and complex modifiers
 * `/roll` - Roll a set of plain dice
 * `/shadowrun` - Roll a pool of d6s for [Shadowrun](/systems/shadowrun)
+* `/sra` - Roll a pool of d6s for [Shadowrun Anarchy 2.0](/systems/sra)
 * `/swn` - Roll and sum two six-sided dice using rules for [Stars Without Number](/systems/swn)
 * `/wod20` - Roll a pool of d10s using rules for [World of Darkness 20th Anniversary](/systems/wod20)
 
