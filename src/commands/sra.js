@@ -112,7 +112,6 @@ module.exports = {
         return sacrifice.awful(presenter.locale)
     }
   },
-  make_threshold,
   perform({ pool, risk, advantage, rolls = 1, until, description, locale = "en-US" } = {}) {
     let raw_results
     let summed_results
