@@ -11,7 +11,7 @@ i18next.use(fs_backend).init({
   },
   lng: "en-US",
   defaultLng: "en-US",
-  supportedLngs: ["en-US", "en"],
+  supportedLngs: ["en-US", "en", "es-ES", "es"],
   initAsync: false,
   ns: ["translation", "commands", "opposed", "install", "help", "modals", "teamwork"],
   backend: {
@@ -32,7 +32,7 @@ for (const [key, fn] of Object.entries(own_formatters)) {
  * @see https://discord.com/developers/docs/reference#locales
  * @type {str[]}
  */
-const available_locales = ["en-US"]
+const available_locales = ["en-US", "es-ES"]
 
 module.exports = {
   /**

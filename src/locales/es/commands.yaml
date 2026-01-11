@@ -1,0 +1,16 @@
+---
+8ball:
+  name: bola8
+  description: Obtener una respuesta de la Bola Mágica 8
+  help: |-
+    {{cmd}} hace una pregunta a la Bola Mágica 8
+  options:
+    question:
+      name: pregunta
+      description: La pregunta que quieres hacer
+    doit:
+      name: hazlo
+      description: Hazlo
+  doit: Hazlo
+  response: |-
+    {{userMention}} hizo "{{question}}" :8ball: *{{result}}*
