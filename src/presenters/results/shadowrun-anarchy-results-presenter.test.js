@@ -103,13 +103,15 @@ describe("Shadowrun Anarchy presenter", () => {
       it("describes max rolls if given", () => {
         const presenter = new ShadowrunAnarchyPresenter({
           ...until_defaults,
+          rolls: 2,
         })
 
         const result = presenter.presentResults()
 
-        expect(result).toMatch("up to 1 time")
+        expect(result).toMatch("up to 2 times")
       })
     })
+
     describe("with multiple rolls", () => {
       const multi_defaults = {
         ...defaults,

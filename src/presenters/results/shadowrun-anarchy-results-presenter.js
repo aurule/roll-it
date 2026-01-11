@@ -60,7 +60,8 @@ class ShadowrunAnarchyPresenter {
 
     let layout
     if (this.until) {
-      layout = this.rolls ? "until.max" : "until.plain"
+      layout = this.rolls > 1 ? "until.max" : "until.plain"
+      t_args.max = this.rolls
       t_args.results = this.raw.map((_roll, idx) => {
         const o_args = {
           count: this.summed[idx],

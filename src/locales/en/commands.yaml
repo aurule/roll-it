@@ -1823,11 +1823,11 @@ sra:
           {{results, ul}}
           {{sum}} in {{rolls}}
         max: |-
-          {{userMention}} rolled {{pool}} up to {{count}} times until {{target}}:
+          {{userMention}} rolled {{pool}} up to {{max}} times until {{target}}:
           {{results, ul}}
           {{sum}} in {{rolls}}
         max_description: |-
-          {{userMention}} rolled {{pool}} up to {{count}} times until {{target}} for {{description}}:
+          {{userMention}} rolled {{pool}} up to {{max}} times until {{target}} for {{description}}:
           {{results, ul}}
           {{sum}} in {{rolls}}
         rolls_one: 1 roll
