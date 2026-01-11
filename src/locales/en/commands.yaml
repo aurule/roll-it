@@ -10,7 +10,7 @@
       description: The question you want to ask
     doit:
       name: doit
-      description: "Do it"
+      description: Do it
   faces:
     - null
     - It is certain
