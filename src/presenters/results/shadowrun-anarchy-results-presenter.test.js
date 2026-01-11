@@ -331,7 +331,7 @@ describe("Shadowrun Anarchy presenter", () => {
       expect(result).toMatch("**6!**")
     })
 
-    it("italicizes glitch die", () => {
+    it("strikes glitch die", () => {
       const presenter = new ShadowrunAnarchyPresenter({
         ...defaults,
         raw: [[6, 1, 2, 3, 4]],
@@ -340,7 +340,7 @@ describe("Shadowrun Anarchy presenter", () => {
 
       const result = presenter.detail(0)
 
-      expect(result).toMatch("*1*")
+      expect(result).toMatch("~~1~~")
     })
 
     it("includes normal die", () => {
@@ -376,7 +376,7 @@ describe("Shadowrun Anarchy presenter", () => {
 
       const result = presenter.detail(0)
 
-      expect(result).toMatch("__**6!**, *1*__")
+      expect(result).toMatch("__**6!**, ~~1~~__")
     })
 
     it("does not format non-risked 1s", () => {

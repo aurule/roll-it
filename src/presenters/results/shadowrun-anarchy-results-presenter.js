@@ -197,7 +197,7 @@ class ShadowrunAnarchyPresenter {
                     risked.push(`**${die}!**`)
                     break
                 case die === 1:
-                    risked.push(`*1*`)
+                    risked.push(`~~1~~`)
                     break
                 default:
                     risked.push(`${die}`)
