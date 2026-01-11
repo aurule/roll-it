@@ -5,9 +5,19 @@ const commonSchemas = require("../util/common-schemas")
 const commonOptions = require("../util/common-options")
 const { injectMention } = require("../util/formatters")
 const { i18n } = require("../locales")
+const sacrifice = require("../services/easter-eggs/sacrifice")
+const { roll } = require("../services/base-roller")
+const { rollUntil } = require("../services/until-roller")
+const { riskSuccesses } = require("../services/tally")
+const { ShadowrunAnarchyPresenter } = require("../presenters/results/shadowrun-anarchy-results-presenter")
 
 const command_name = "sra"
 
+/**
+ * Convert the `with` keyword into a success threshold
+ * @param  {string} keyword Keyword. One of "advantage", "disadvantage", or anything else.
+ * @return {number}         4 for "advantage", 6 for "disadvantage", and 5 for other.
+ */
 function make_threshold(keyword) {
   switch(keyword) {
     case "advantage":
@@ -59,15 +69,50 @@ module.exports = {
     // successes
     // glitch_count
   },
-  perform({ pool, risk, threshold, rolls = 1, until, description, locale = "en-US" } = {}) {
-    //
-    return "oh hai brah"
-  },
   make_threshold,
+  perform({ pool, risk, advantage, rolls = 1, until, description, locale = "en-US" } = {}) {
+    let raw_results
+    let summed_results
+
+    const threshold = make_threshold(advantage)
+
+    if (until) {
+      ;({ raw_results, summed_results } = rollUntil({
+        roll: () => roll(pool, 6),
+        tally: (currentResult) => riskSuccesses(currentResult, threshold, risk),
+        max: rolls === 1 ? 0 : rolls,
+        target: until,
+      }))
+    } else {
+      raw_results = roll(pool, 6, rolls)
+      summed_results = riskSuccesses(raw_results, threshold, risk)
+    }
+
+    const presenter = new ShadowrunAnarchyPresenter({
+      pool,
+      threshold,
+      risk,
+      rolls,
+      until,
+      description,
+      raw: raw_results,
+      summed: summed_results,
+      locale,
+    })
+
+    const result_lines = [presenter.presentResults()]
+
+    if (sacrifice.hasTrigger(description, locale)) {
+      const sacrifice_message = module.exports.judge(presenter)
+      result_lines.push(`-# ${sacrifice_message}`)
+    }
+
+    return result_lines.join("\n")
+  },
   async execute(interaction) {
     const pool = interaction.options.getInteger("pool")
     const risk = interaction.options.getInteger("risk") ?? 0
-    const threshold = make_threshold(interaction.options.getString("with"))
+    const advantage = interaction.options.getString("with") ?? ""
     const rolls = interaction.options.getInteger("rolls") ?? 1
     const until = interaction.options.getInteger("until") ?? 0
     const description = interaction.options.getString("description") ?? ""
@@ -85,7 +130,7 @@ module.exports = {
     const partial_message = module.exports.perform({
       pool,
       risk,
-      threshold,
+      advantage,
       rolls,
       until,
       description,

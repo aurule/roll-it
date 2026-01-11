@@ -14,51 +14,41 @@ describe("/sra command", () => {
       it("is optional", () => {
         const risk_value = undefined
 
-        const result = risk_schema.validate(risk_value, {
-          abortEarly: false,
-        })
+        const result = risk_schema.validate(risk_value)
 
-        expect(schemaMessages(result)).not.toMatch("rolls")
+        expect(result.error).toBeFalsy()
       })
 
       it("is an integer", () => {
         const risk_value = 1.5
 
-        const result = risk_schema.validate(risk_value, {
-          abortEarly: false,
-        })
+        const result = risk_schema.validate(risk_value)
 
-        expect(schemaMessages(result)).toMatch("whole number")
+        expect(result.error).toBeTruthy()
       })
 
       it("must be at least 1", () => {
         const risk_value = 0
 
-        const result = risk_schema.validate(risk_value, {
-          abortEarly: false,
-        })
+        const result = risk_schema.validate(risk_value)
 
-        expect(schemaMessages(result)).toMatch("between")
+        expect(result.error).toBeTruthy()
       })
 
       it("must be at most 1000", () => {
         const risk_value = 1001
 
-        const result = risk_schema.validate(risk_value, {
-          abortEarly: false,
-        })
+        const result = risk_schema.validate(risk_value)
 
-        expect(schemaMessages(result)).toMatch("between")
+        expect(result.error).toBeTruthy()
       })
 
       it.concurrent.each([[1], [15], [100]])("allows normal value %i", async (val) => {
         const risk_value = val
 
-        const result = risk_schema.validate(risk_value, {
-          abortEarly: false,
-        })
+        const result = risk_schema.validate(risk_value)
 
-        expect(schemaMessages(result)).toBeFalsy()
+        expect(result.error).toBeFalsy()
       })
     })
 
@@ -120,11 +110,58 @@ describe("/sra command", () => {
     it.todo("awful with a glitch remains awful")
   })
 
+  describe("make_threshold", () => {
+    it("with advantage, returns 4", () => {
+      const result = sra_command.make_threshold("advantage")
+
+      expect(result).toEqual(4)
+    })
+
+    it("with disadvantage, returns 6", () => {
+      const result = sra_command.make_threshold("disadvantage")
+
+      expect(result).toEqual(6)
+    })
+
+    it("with other keyword, returns 5", () => {
+      const result = sra_command.make_threshold("blah")
+
+      expect(result).toEqual(5)
+    })
+  })
+
   describe("perform", () => {
-    //
+    it("shows successes", () => {
+      const result = sra_command.perform({
+        pool: 2,
+      })
+
+      expect(result).toMatch("success")
+    })
   })
 
   describe("execute", () => {
-    // 
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
+    it("warns when risk is too large", async () => {
+      interaction.command_options.pool = 3
+      interaction.command_options.risk = 4
+
+      await sra_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("cannot risk more dice")
+    })
+
+    it("responds with the outcome", async () => {
+      interaction.command_options.pool = 3
+
+      await sra_command.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("**")
+    })
   })
 })
