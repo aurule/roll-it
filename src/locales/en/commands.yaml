@@ -1781,7 +1781,22 @@ shared:
 sra:
   name: sra
   description: Roll a pool of d6s for Shadowrun Anarchy 2.0
-  help-lines: undefined
+  help-lines:
+    - >-
+      The dice mechanics for {{cmd}} work like this:
+    - >-
+      * A die that rolls at or above the threshold (normally 5) adds a success.
+    - >-
+      * Adding Advantage using {{opts.with}} drops the threshold to 4. Disadvantage raises it to 6.
+    - >
+      * You can {{opts.risk}} any number of dice in your pool. Each of these dice that rolls above the threshold adds _two_ successes. But, each risked die that rolls a one adds a glitch.
+    - >
+      The {{opts.rolls}} option lets you roll the same pool and difficulty multiple times, like for NPCs.
+    - >
+      The {{opts.until}} option tells Roll It to continue rolling the same pool and difficulty until the
+      total successes meet or exceed the number given. In this mode, the {{opts.rolls}} option limits the
+      maximum number of attempted rolls.
+
   help: |-
     $t(sra.help-lines, { "joinArrays": "\n" })
   options:
