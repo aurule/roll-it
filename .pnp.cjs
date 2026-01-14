@@ -39,7 +39,6 @@ const RAW_RUNTIME_STATE =
           ["docsify-cli", "npm:5.0.0-rc.1"],\
           ["dotenv", "npm:17.2.3"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.7.4"],\
-          ["i18next-cli", "npm:1.34.1"],\
           ["i18next-fs-backend", "npm:2.6.1"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.2.0"],\
           ["joi", "npm:18.0.2"],\
@@ -983,25 +982,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@croct/json", [\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/cache/@croct-json-npm-2.1.0-af3d9498f0-8079e1fa28.zip/node_modules/@croct/json/",\
-        "packageDependencies": [\
-          ["@croct/json", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@croct/json5-parser", [\
-      ["npm:0.2.2", {\
-        "packageLocation": "./.yarn/cache/@croct-json5-parser-npm-0.2.2-5bdf6feee4-5d4bcc7675.zip/node_modules/@croct/json5-parser/",\
-        "packageDependencies": [\
-          ["@croct/json", "npm:2.1.0"],\
-          ["@croct/json5-parser", "npm:0.2.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@discordjs/builders", [\
       ["npm:1.13.0", {\
         "packageLocation": "./.yarn/cache/@discordjs-builders-npm-1.13.0-d62fd9643a-e035e2f38d.zip/node_modules/@discordjs/builders/",\
@@ -1173,369 +1153,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@hapi/hoek", "npm:11.0.7"],\
           ["@hapi/topo", "npm:6.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/ansi", [\
-      ["npm:2.0.2", {\
-        "packageLocation": "./.yarn/cache/@inquirer-ansi-npm-2.0.2-ebc14e5e6f-dd51378cbe.zip/node_modules/@inquirer/ansi/",\
-        "packageDependencies": [\
-          ["@inquirer/ansi", "npm:2.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/checkbox", [\
-      ["npm:5.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-checkbox-npm-5.0.3-30ce2a2eb3-39e2fa0c9d.zip/node_modules/@inquirer/checkbox/",\
-        "packageDependencies": [\
-          ["@inquirer/checkbox", "npm:5.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-checkbox-virtual-e94a227ae4/0/cache/@inquirer-checkbox-npm-5.0.3-30ce2a2eb3-39e2fa0c9d.zip/node_modules/@inquirer/checkbox/",\
-        "packageDependencies": [\
-          ["@inquirer/ansi", "npm:2.0.2"],\
-          ["@inquirer/checkbox", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/figures", "npm:2.0.2"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/confirm", [\
-      ["npm:6.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-confirm-npm-6.0.3-1798fdc80e-b563bba492.zip/node_modules/@inquirer/confirm/",\
-        "packageDependencies": [\
-          ["@inquirer/confirm", "npm:6.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:6.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-confirm-virtual-60cbfc027b/0/cache/@inquirer-confirm-npm-6.0.3-1798fdc80e-b563bba492.zip/node_modules/@inquirer/confirm/",\
-        "packageDependencies": [\
-          ["@inquirer/confirm", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:6.0.3"],\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/core", [\
-      ["npm:11.1.0", {\
-        "packageLocation": "./.yarn/cache/@inquirer-core-npm-11.1.0-47f458bae9-5bd50d751c.zip/node_modules/@inquirer/core/",\
-        "packageDependencies": [\
-          ["@inquirer/core", "npm:11.1.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-core-virtual-35d849e49f/0/cache/@inquirer-core-npm-11.1.0-47f458bae9-5bd50d751c.zip/node_modules/@inquirer/core/",\
-        "packageDependencies": [\
-          ["@inquirer/ansi", "npm:2.0.2"],\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/figures", "npm:2.0.2"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null],\
-          ["cli-width", "npm:4.1.0"],\
-          ["mute-stream", "npm:3.0.0"],\
-          ["signal-exit", "npm:4.1.0"],\
-          ["wrap-ansi", "npm:9.0.2"]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/editor", [\
-      ["npm:5.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-editor-npm-5.0.3-f380400bcb-392f6b4341.zip/node_modules/@inquirer/editor/",\
-        "packageDependencies": [\
-          ["@inquirer/editor", "npm:5.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-editor-virtual-940abb87dc/0/cache/@inquirer-editor-npm-5.0.3-f380400bcb-392f6b4341.zip/node_modules/@inquirer/editor/",\
-        "packageDependencies": [\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/editor", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/external-editor", "virtual:940abb87dc7c62e5954fe24bccc7395000ec858ceb9f5cf6f6ebcaa692584f585922043d4222efda020f7aac2433024aeb538cf59ad11883538f3c0d9147bb5a#npm:2.0.2"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/expand", [\
-      ["npm:5.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-expand-npm-5.0.3-35d8541c9f-97dc7cac0c.zip/node_modules/@inquirer/expand/",\
-        "packageDependencies": [\
-          ["@inquirer/expand", "npm:5.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-expand-virtual-64ee7d2901/0/cache/@inquirer-expand-npm-5.0.3-35d8541c9f-97dc7cac0c.zip/node_modules/@inquirer/expand/",\
-        "packageDependencies": [\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/expand", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/external-editor", [\
-      ["npm:2.0.2", {\
-        "packageLocation": "./.yarn/cache/@inquirer-external-editor-npm-2.0.2-66b1125b09-f1f0eea821.zip/node_modules/@inquirer/external-editor/",\
-        "packageDependencies": [\
-          ["@inquirer/external-editor", "npm:2.0.2"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:940abb87dc7c62e5954fe24bccc7395000ec858ceb9f5cf6f6ebcaa692584f585922043d4222efda020f7aac2433024aeb538cf59ad11883538f3c0d9147bb5a#npm:2.0.2", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-external-editor-virtual-5146cdbd95/0/cache/@inquirer-external-editor-npm-2.0.2-66b1125b09-f1f0eea821.zip/node_modules/@inquirer/external-editor/",\
-        "packageDependencies": [\
-          ["@inquirer/external-editor", "virtual:940abb87dc7c62e5954fe24bccc7395000ec858ceb9f5cf6f6ebcaa692584f585922043d4222efda020f7aac2433024aeb538cf59ad11883538f3c0d9147bb5a#npm:2.0.2"],\
-          ["@types/node", null],\
-          ["chardet", "npm:2.1.1"],\
-          ["iconv-lite", "npm:0.7.0"]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/figures", [\
-      ["npm:2.0.2", {\
-        "packageLocation": "./.yarn/cache/@inquirer-figures-npm-2.0.2-7961c7b6eb-12353dc765.zip/node_modules/@inquirer/figures/",\
-        "packageDependencies": [\
-          ["@inquirer/figures", "npm:2.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/input", [\
-      ["npm:5.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-input-npm-5.0.3-18e1c6ab34-24f0445f95.zip/node_modules/@inquirer/input/",\
-        "packageDependencies": [\
-          ["@inquirer/input", "npm:5.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-input-virtual-6ca211a68b/0/cache/@inquirer-input-npm-5.0.3-18e1c6ab34-24f0445f95.zip/node_modules/@inquirer/input/",\
-        "packageDependencies": [\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/input", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/number", [\
-      ["npm:4.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-number-npm-4.0.3-1f22636488-939f3ba543.zip/node_modules/@inquirer/number/",\
-        "packageDependencies": [\
-          ["@inquirer/number", "npm:4.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:4.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-number-virtual-0d71d89d33/0/cache/@inquirer-number-npm-4.0.3-1f22636488-939f3ba543.zip/node_modules/@inquirer/number/",\
-        "packageDependencies": [\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/number", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:4.0.3"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/password", [\
-      ["npm:5.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-password-npm-5.0.3-580c13c580-92102807ad.zip/node_modules/@inquirer/password/",\
-        "packageDependencies": [\
-          ["@inquirer/password", "npm:5.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-password-virtual-c7690045db/0/cache/@inquirer-password-npm-5.0.3-580c13c580-92102807ad.zip/node_modules/@inquirer/password/",\
-        "packageDependencies": [\
-          ["@inquirer/ansi", "npm:2.0.2"],\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/password", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/prompts", [\
-      ["npm:8.1.0", {\
-        "packageLocation": "./.yarn/cache/@inquirer-prompts-npm-8.1.0-8004b9fef1-37744d1756.zip/node_modules/@inquirer/prompts/",\
-        "packageDependencies": [\
-          ["@inquirer/prompts", "npm:8.1.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:8.1.0", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-prompts-virtual-2c02177084/0/cache/@inquirer-prompts-npm-8.1.0-8004b9fef1-37744d1756.zip/node_modules/@inquirer/prompts/",\
-        "packageDependencies": [\
-          ["@inquirer/checkbox", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/confirm", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:6.0.3"],\
-          ["@inquirer/editor", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/expand", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/input", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/number", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:4.0.3"],\
-          ["@inquirer/password", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/prompts", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:8.1.0"],\
-          ["@inquirer/rawlist", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.1.0"],\
-          ["@inquirer/search", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:4.0.3"],\
-          ["@inquirer/select", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/rawlist", [\
-      ["npm:5.1.0", {\
-        "packageLocation": "./.yarn/cache/@inquirer-rawlist-npm-5.1.0-63be67dc7a-e523374648.zip/node_modules/@inquirer/rawlist/",\
-        "packageDependencies": [\
-          ["@inquirer/rawlist", "npm:5.1.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.1.0", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-rawlist-virtual-572a4d23ca/0/cache/@inquirer-rawlist-npm-5.1.0-63be67dc7a-e523374648.zip/node_modules/@inquirer/rawlist/",\
-        "packageDependencies": [\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/rawlist", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.1.0"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/search", [\
-      ["npm:4.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-search-npm-4.0.3-29edcb39d6-22b4b680ef.zip/node_modules/@inquirer/search/",\
-        "packageDependencies": [\
-          ["@inquirer/search", "npm:4.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:4.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-search-virtual-d61fde7fcf/0/cache/@inquirer-search-npm-4.0.3-29edcb39d6-22b4b680ef.zip/node_modules/@inquirer/search/",\
-        "packageDependencies": [\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/figures", "npm:2.0.2"],\
-          ["@inquirer/search", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:4.0.3"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/select", [\
-      ["npm:5.0.3", {\
-        "packageLocation": "./.yarn/cache/@inquirer-select-npm-5.0.3-4838f3689d-cc2bd79ac0.zip/node_modules/@inquirer/select/",\
-        "packageDependencies": [\
-          ["@inquirer/select", "npm:5.0.3"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-select-virtual-d0afc23f60/0/cache/@inquirer-select-npm-5.0.3-4838f3689d-cc2bd79ac0.zip/node_modules/@inquirer/select/",\
-        "packageDependencies": [\
-          ["@inquirer/ansi", "npm:2.0.2"],\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/figures", "npm:2.0.2"],\
-          ["@inquirer/select", "virtual:2c02177084371e1928c77a9cc5132b29de3606169ceb7e79ddada3cd0c7e58a54cd9ea22b026ad29b09dc013f177454c578ae460cd3ac4a379adab9fa0189396#npm:5.0.3"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@inquirer/type", [\
-      ["npm:4.0.2", {\
-        "packageLocation": "./.yarn/cache/@inquirer-type-npm-4.0.2-c6f5ce970c-cebf454dbe.zip/node_modules/@inquirer/type/",\
-        "packageDependencies": [\
-          ["@inquirer/type", "npm:4.0.2"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2", {\
-        "packageLocation": "./.yarn/__virtual__/@inquirer-type-virtual-8fb111a8bd/0/cache/@inquirer-type-npm-4.0.2-c6f5ce970c-cebf454dbe.zip/node_modules/@inquirer/type/",\
-        "packageDependencies": [\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@isaacs/balanced-match", [\
-      ["npm:4.0.1", {\
-        "packageLocation": "./.yarn/cache/@isaacs-balanced-match-npm-4.0.1-8965afafe6-7da011805b.zip/node_modules/@isaacs/balanced-match/",\
-        "packageDependencies": [\
-          ["@isaacs/balanced-match", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@isaacs/brace-expansion", [\
-      ["npm:5.0.0", {\
-        "packageLocation": "./.yarn/cache/@isaacs-brace-expansion-npm-5.0.0-754d3cb3f5-b4d4812f4b.zip/node_modules/@isaacs/brace-expansion/",\
-        "packageDependencies": [\
-          ["@isaacs/balanced-match", "npm:4.0.1"],\
-          ["@isaacs/brace-expansion", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2040,29 +1657,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@sec-ant/readable-stream", [\
-      ["npm:0.4.1", {\
-        "packageLocation": "./.yarn/cache/@sec-ant-readable-stream-npm-0.4.1-12d52145e0-64e9e9cf16.zip/node_modules/@sec-ant/readable-stream/",\
-        "packageDependencies": [\
-          ["@sec-ant/readable-stream", "npm:0.4.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@sinclair/typebox", [\
       ["npm:0.34.35", {\
         "packageLocation": "./.yarn/cache/@sinclair-typebox-npm-0.34.35-4698edbad1-2e10a655ea.zip/node_modules/@sinclair/typebox/",\
         "packageDependencies": [\
           ["@sinclair/typebox", "npm:0.34.35"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@sindresorhus/merge-streams", [\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/@sindresorhus-merge-streams-npm-4.0.0-28e7c03ac1-482ee54362.zip/node_modules/@sindresorhus/merge-streams/",\
-        "packageDependencies": [\
-          ["@sindresorhus/merge-streams", "npm:4.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2092,149 +1691,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@standard-schema-spec-npm-1.0.0-e86c6647f1-a1ab9a8bdc.zip/node_modules/@standard-schema/spec/",\
         "packageDependencies": [\
           ["@standard-schema/spec", "npm:1.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-virtual-693d1ecdd5/node_modules/@swc/core/",\
-        "packageDependencies": [\
-          ["@swc/core", "npm:1.15.4"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:fdcf336dc4b48ba9c0a423cc2c76ddba621b5d9c32612f257a228ada58f5248e01599c1202a19c534efb502f0812a745be8e942eebab6a936cb9da6f52fd9574#npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-virtual-693d1ecdd5/node_modules/@swc/core/",\
-        "packageDependencies": [\
-          ["@swc/core", "virtual:fdcf336dc4b48ba9c0a423cc2c76ddba621b5d9c32612f257a228ada58f5248e01599c1202a19c534efb502f0812a745be8e942eebab6a936cb9da6f52fd9574#npm:1.15.4"],\
-          ["@swc/core-darwin-arm64", "npm:1.15.4"],\
-          ["@swc/core-darwin-x64", "npm:1.15.4"],\
-          ["@swc/core-linux-arm-gnueabihf", "npm:1.15.4"],\
-          ["@swc/core-linux-arm64-gnu", "npm:1.15.4"],\
-          ["@swc/core-linux-arm64-musl", "npm:1.15.4"],\
-          ["@swc/core-linux-x64-gnu", "npm:1.15.4"],\
-          ["@swc/core-linux-x64-musl", "npm:1.15.4"],\
-          ["@swc/core-win32-arm64-msvc", "npm:1.15.4"],\
-          ["@swc/core-win32-ia32-msvc", "npm:1.15.4"],\
-          ["@swc/core-win32-x64-msvc", "npm:1.15.4"],\
-          ["@swc/counter", "npm:0.1.3"],\
-          ["@swc/helpers", null],\
-          ["@swc/types", "npm:0.1.25"],\
-          ["@types/swc__helpers", null]\
-        ],\
-        "packagePeers": [\
-          "@swc/helpers",\
-          "@types/swc__helpers"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-darwin-arm64", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-darwin-arm64-npm-1.15.4-ed5a127b1d/node_modules/@swc/core-darwin-arm64/",\
-        "packageDependencies": [\
-          ["@swc/core-darwin-arm64", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-darwin-x64", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-darwin-x64-npm-1.15.4-bc53f4e4a1/node_modules/@swc/core-darwin-x64/",\
-        "packageDependencies": [\
-          ["@swc/core-darwin-x64", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-linux-arm-gnueabihf", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm-gnueabihf-npm-1.15.4-bb72fe7338/node_modules/@swc/core-linux-arm-gnueabihf/",\
-        "packageDependencies": [\
-          ["@swc/core-linux-arm-gnueabihf", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-linux-arm64-gnu", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm64-gnu-npm-1.15.4-e68797e170/node_modules/@swc/core-linux-arm64-gnu/",\
-        "packageDependencies": [\
-          ["@swc/core-linux-arm64-gnu", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-linux-arm64-musl", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm64-musl-npm-1.15.4-30f4dcbe70/node_modules/@swc/core-linux-arm64-musl/",\
-        "packageDependencies": [\
-          ["@swc/core-linux-arm64-musl", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-linux-x64-gnu", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-linux-x64-gnu-npm-1.15.4-af4d858750/node_modules/@swc/core-linux-x64-gnu/",\
-        "packageDependencies": [\
-          ["@swc/core-linux-x64-gnu", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-linux-x64-musl", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-linux-x64-musl-npm-1.15.4-713ed5fbf4/node_modules/@swc/core-linux-x64-musl/",\
-        "packageDependencies": [\
-          ["@swc/core-linux-x64-musl", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-win32-arm64-msvc", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-win32-arm64-msvc-npm-1.15.4-b9eab5ff3a/node_modules/@swc/core-win32-arm64-msvc/",\
-        "packageDependencies": [\
-          ["@swc/core-win32-arm64-msvc", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-win32-ia32-msvc", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-win32-ia32-msvc-npm-1.15.4-a201ab44af/node_modules/@swc/core-win32-ia32-msvc/",\
-        "packageDependencies": [\
-          ["@swc/core-win32-ia32-msvc", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/core-win32-x64-msvc", [\
-      ["npm:1.15.4", {\
-        "packageLocation": "./.yarn/unplugged/@swc-core-win32-x64-msvc-npm-1.15.4-81b43f5dd9/node_modules/@swc/core-win32-x64-msvc/",\
-        "packageDependencies": [\
-          ["@swc/core-win32-x64-msvc", "npm:1.15.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/counter", [\
-      ["npm:0.1.3", {\
-        "packageLocation": "./.yarn/cache/@swc-counter-npm-0.1.3-ce42b0e3f5-8424f60f6b.zip/node_modules/@swc/counter/",\
-        "packageDependencies": [\
-          ["@swc/counter", "npm:0.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@swc/types", [\
-      ["npm:0.1.25", {\
-        "packageLocation": "./.yarn/cache/@swc-types-npm-0.1.25-8a74ae00bc-847a5b20b1.zip/node_modules/@swc/types/",\
-        "packageDependencies": [\
-          ["@swc/counter", "npm:0.1.3"],\
-          ["@swc/types", "npm:0.1.25"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2566,25 +2022,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/abbrev-npm-2.0.0-0eb38a17e5-f742a5a107.zip/node_modules/abbrev/",\
         "packageDependencies": [\
           ["abbrev", "npm:2.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["acorn", [\
-      ["npm:8.15.0", {\
-        "packageLocation": "./.yarn/cache/acorn-npm-8.15.0-0764cf600e-dec73ff59b.zip/node_modules/acorn/",\
-        "packageDependencies": [\
-          ["acorn", "npm:8.15.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["acorn-walk", [\
-      ["npm:8.3.4", {\
-        "packageLocation": "./.yarn/cache/acorn-walk-npm-8.3.4-a75fa85ead-76537ac5fb.zip/node_modules/acorn-walk/",\
-        "packageDependencies": [\
-          ["acorn", "npm:8.15.0"],\
-          ["acorn-walk", "npm:8.3.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3090,13 +2527,6 @@ const RAW_RUNTIME_STATE =
           ["supports-color", "npm:7.2.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:5.6.2", {\
-        "packageLocation": "./.yarn/cache/chalk-npm-5.6.2-ecbd482482-99a4b0f0e7.zip/node_modules/chalk/",\
-        "packageDependencies": [\
-          ["chalk", "npm:5.6.2"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["char-regex", [\
@@ -3104,15 +2534,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/char-regex-npm-1.0.2-ecade5f97f-57a09a8637.zip/node_modules/char-regex/",\
         "packageDependencies": [\
           ["char-regex", "npm:1.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["chardet", [\
-      ["npm:2.1.1", {\
-        "packageLocation": "./.yarn/cache/chardet-npm-2.1.1-c833988a5d-d8391dd412.zip/node_modules/chardet/",\
-        "packageDependencies": [\
-          ["chardet", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3130,14 +2551,6 @@ const RAW_RUNTIME_STATE =
           ["is-glob", "npm:4.0.3"],\
           ["normalize-path", "npm:3.0.0"],\
           ["readdirp", "npm:3.6.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:5.0.0", {\
-        "packageLocation": "./.yarn/cache/chokidar-npm-5.0.0-2f70d31c86-42fc907cb2.zip/node_modules/chokidar/",\
-        "packageDependencies": [\
-          ["chokidar", "npm:5.0.0"],\
-          ["readdirp", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3185,40 +2598,12 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["cli-cursor", [\
-      ["npm:5.0.0", {\
-        "packageLocation": "./.yarn/cache/cli-cursor-npm-5.0.0-444bec1bef-7ec62f69b7.zip/node_modules/cli-cursor/",\
-        "packageDependencies": [\
-          ["cli-cursor", "npm:5.0.0"],\
-          ["restore-cursor", "npm:5.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["cli-progress", [\
       ["npm:3.12.0", {\
         "packageLocation": "./.yarn/cache/cli-progress-npm-3.12.0-d686625154-f464cb19eb.zip/node_modules/cli-progress/",\
         "packageDependencies": [\
           ["cli-progress", "npm:3.12.0"],\
           ["string-width", "npm:4.2.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["cli-spinners", [\
-      ["npm:3.3.0", {\
-        "packageLocation": "./.yarn/cache/cli-spinners-npm-3.3.0-41f3acd5e5-ce7278be32.zip/node_modules/cli-spinners/",\
-        "packageDependencies": [\
-          ["cli-spinners", "npm:3.3.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["cli-width", [\
-      ["npm:4.1.0", {\
-        "packageLocation": "./.yarn/cache/cli-width-npm-4.1.0-c08b53be83-1fbd564135.zip/node_modules/cli-width/",\
-        "packageDependencies": [\
-          ["cli-width", "npm:4.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3724,13 +3109,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["emoji-regex", [\
-      ["npm:10.6.0", {\
-        "packageLocation": "./.yarn/cache/emoji-regex-npm-10.6.0-c849a5dbe0-1e4aa097bb.zip/node_modules/emoji-regex/",\
-        "packageDependencies": [\
-          ["emoji-regex", "npm:10.6.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:8.0.0", {\
         "packageLocation": "./.yarn/cache/emoji-regex-npm-8.0.0-213764015c-b6053ad399.zip/node_modules/emoji-regex/",\
         "packageDependencies": [\
@@ -3898,25 +3276,6 @@ const RAW_RUNTIME_STATE =
           ["strip-final-newline", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:9.6.1", {\
-        "packageLocation": "./.yarn/cache/execa-npm-9.6.1-3063f33aba-636b365853.zip/node_modules/execa/",\
-        "packageDependencies": [\
-          ["@sindresorhus/merge-streams", "npm:4.0.0"],\
-          ["cross-spawn", "npm:7.0.6"],\
-          ["execa", "npm:9.6.1"],\
-          ["figures", "npm:6.1.0"],\
-          ["get-stream", "npm:9.0.1"],\
-          ["human-signals", "npm:8.0.1"],\
-          ["is-plain-obj", "npm:4.1.0"],\
-          ["is-stream", "npm:4.0.1"],\
-          ["npm-run-path", "npm:6.0.0"],\
-          ["pretty-ms", "npm:9.3.0"],\
-          ["signal-exit", "npm:4.1.0"],\
-          ["strip-final-newline", "npm:4.0.0"],\
-          ["yoctocolors", "npm:2.1.2"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["exit-x", [\
@@ -4022,16 +3381,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["commander", "npm:14.0.2"],\
           ["figlet", "npm:1.9.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["figures", [\
-      ["npm:6.1.0", {\
-        "packageLocation": "./.yarn/cache/figures-npm-6.1.0-af5576db56-9159df4264.zip/node_modules/figures/",\
-        "packageDependencies": [\
-          ["figures", "npm:6.1.0"],\
-          ["is-unicode-supported", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4187,15 +3536,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["get-east-asian-width", [\
-      ["npm:1.4.0", {\
-        "packageLocation": "./.yarn/cache/get-east-asian-width-npm-1.4.0-1e67c6ac3b-4e481d418e.zip/node_modules/get-east-asian-width/",\
-        "packageDependencies": [\
-          ["get-east-asian-width", "npm:1.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["get-package-type", [\
       ["npm:0.1.0", {\
         "packageLocation": "./.yarn/cache/get-package-type-npm-0.1.0-6c70cdc8ab-e34cdf447f.zip/node_modules/get-package-type/",\
@@ -4221,15 +3561,6 @@ const RAW_RUNTIME_STATE =
           ["get-stream", "npm:6.0.1"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:9.0.1", {\
-        "packageLocation": "./.yarn/cache/get-stream-npm-9.0.1-2e58b883c0-d70e73857f.zip/node_modules/get-stream/",\
-        "packageDependencies": [\
-          ["@sec-ant/readable-stream", "npm:0.4.1"],\
-          ["get-stream", "npm:9.0.1"],\
-          ["is-stream", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["github-from-package", [\
@@ -4251,16 +3582,6 @@ const RAW_RUNTIME_STATE =
           ["minimatch", "npm:9.0.4"],\
           ["minipass", "npm:7.1.2"],\
           ["path-scurry", "npm:1.11.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:13.0.0", {\
-        "packageLocation": "./.yarn/cache/glob-npm-13.0.0-8e50143ca8-8e2f5821f3.zip/node_modules/glob/",\
-        "packageDependencies": [\
-          ["glob", "npm:13.0.0"],\
-          ["minimatch", "npm:10.1.1"],\
-          ["minipass", "npm:7.1.2"],\
-          ["path-scurry", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -4359,16 +3680,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["html-parse-stringify", [\
-      ["npm:3.0.1", {\
-        "packageLocation": "./.yarn/cache/html-parse-stringify-npm-3.0.1-5762cd4b01-159292753d.zip/node_modules/html-parse-stringify/",\
-        "packageDependencies": [\
-          ["html-parse-stringify", "npm:3.0.1"],\
-          ["void-elements", "npm:3.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["http-cache-semantics", [\
       ["npm:4.2.0", {\
         "packageLocation": "./.yarn/cache/http-cache-semantics-npm-4.2.0-fadacfb3ad-45b66a945c.zip/node_modules/http-cache-semantics/",\
@@ -4421,13 +3732,6 @@ const RAW_RUNTIME_STATE =
           ["human-signals", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:8.0.1", {\
-        "packageLocation": "./.yarn/cache/human-signals-npm-8.0.1-7ef2814855-195ac60710.zip/node_modules/human-signals/",\
-        "packageDependencies": [\
-          ["human-signals", "npm:8.0.1"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["i18next", [\
@@ -4453,31 +3757,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["i18next-cli", [\
-      ["npm:1.34.1", {\
-        "packageLocation": "./.yarn/cache/i18next-cli-npm-1.34.1-0c53f34f0b-daa04d9e68.zip/node_modules/i18next-cli/",\
-        "packageDependencies": [\
-          ["@croct/json5-parser", "npm:0.2.2"],\
-          ["@swc/core", "virtual:fdcf336dc4b48ba9c0a423cc2c76ddba621b5d9c32612f257a228ada58f5248e01599c1202a19c534efb502f0812a745be8e942eebab6a936cb9da6f52fd9574#npm:1.15.4"],\
-          ["chalk", "npm:5.6.2"],\
-          ["chokidar", "npm:5.0.0"],\
-          ["commander", "npm:14.0.2"],\
-          ["execa", "npm:9.6.1"],\
-          ["glob", "npm:13.0.0"],\
-          ["i18next-cli", "npm:1.34.1"],\
-          ["i18next-resources-for-ts", "npm:2.0.0"],\
-          ["inquirer", "virtual:0c53f34f0b713e883221f928992d84f7d9f50cee8642d8c31cac57552d6bad9f23a5d0c93347b8edb8418a449f293edd02a3128cd5492707a631a4756062e7a1#npm:13.1.0"],\
-          ["jiti", "npm:2.6.1"],\
-          ["jsonc-parser", "npm:3.3.1"],\
-          ["minimatch", "npm:10.1.1"],\
-          ["ora", "npm:9.0.0"],\
-          ["react", "npm:19.2.3"],\
-          ["react-i18next", "virtual:0c53f34f0b713e883221f928992d84f7d9f50cee8642d8c31cac57552d6bad9f23a5d0c93347b8edb8418a449f293edd02a3128cd5492707a631a4756062e7a1#npm:16.5.1"],\
-          ["swc-walk", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["i18next-fs-backend", [\
       ["npm:2.6.1", {\
         "packageLocation": "./.yarn/cache/i18next-fs-backend-npm-2.6.1-ac110061fc-9751745d40.zip/node_modules/i18next-fs-backend/",\
@@ -4487,32 +3766,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["i18next-resources-for-ts", [\
-      ["npm:2.0.0", {\
-        "packageLocation": "./.yarn/cache/i18next-resources-for-ts-npm-2.0.0-fdcf336dc4-a492c9ca95.zip/node_modules/i18next-resources-for-ts/",\
-        "packageDependencies": [\
-          ["@babel/runtime", "npm:7.28.4"],\
-          ["@swc/core", "virtual:fdcf336dc4b48ba9c0a423cc2c76ddba621b5d9c32612f257a228ada58f5248e01599c1202a19c534efb502f0812a745be8e942eebab6a936cb9da6f52fd9574#npm:1.15.4"],\
-          ["chokidar", "npm:5.0.0"],\
-          ["i18next-resources-for-ts", "npm:2.0.0"],\
-          ["yaml", "npm:2.8.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["iconv-lite", [\
       ["npm:0.6.3", {\
         "packageLocation": "./.yarn/cache/iconv-lite-npm-0.6.3-24b8aae27e-98102bc66b.zip/node_modules/iconv-lite/",\
         "packageDependencies": [\
           ["iconv-lite", "npm:0.6.3"],\
-          ["safer-buffer", "npm:2.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:0.7.0", {\
-        "packageLocation": "./.yarn/cache/iconv-lite-npm-0.7.0-89105876e3-2382400469.zip/node_modules/iconv-lite/",\
-        "packageDependencies": [\
-          ["iconv-lite", "npm:0.7.0"],\
           ["safer-buffer", "npm:2.1.2"]\
         ],\
         "linkType": "HARD"\
@@ -4594,33 +3852,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["inquirer", [\
-      ["npm:13.1.0", {\
-        "packageLocation": "./.yarn/cache/inquirer-npm-13.1.0-2acdd1652a-d7fb0d4c47.zip/node_modules/inquirer/",\
-        "packageDependencies": [\
-          ["inquirer", "npm:13.1.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:0c53f34f0b713e883221f928992d84f7d9f50cee8642d8c31cac57552d6bad9f23a5d0c93347b8edb8418a449f293edd02a3128cd5492707a631a4756062e7a1#npm:13.1.0", {\
-        "packageLocation": "./.yarn/__virtual__/inquirer-virtual-c086c8e8a8/0/cache/inquirer-npm-13.1.0-2acdd1652a-d7fb0d4c47.zip/node_modules/inquirer/",\
-        "packageDependencies": [\
-          ["@inquirer/ansi", "npm:2.0.2"],\
-          ["@inquirer/core", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:11.1.0"],\
-          ["@inquirer/prompts", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:8.1.0"],\
-          ["@inquirer/type", "virtual:c086c8e8a839504a8209abc8d5282322834e660e5309600c8f3892c36556316a0924dbd97d6453190e5a6965c138b71dc1049b1fd30763bf6da15b523e15bd45#npm:4.0.2"],\
-          ["@types/node", null],\
-          ["inquirer", "virtual:0c53f34f0b713e883221f928992d84f7d9f50cee8642d8c31cac57552d6bad9f23a5d0c93347b8edb8418a449f293edd02a3128cd5492707a631a4756062e7a1#npm:13.1.0"],\
-          ["mute-stream", "npm:3.0.0"],\
-          ["run-async", "npm:4.0.6"],\
-          ["rxjs", "npm:7.8.2"]\
-        ],\
-        "packagePeers": [\
-          "@types/node"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["ip-address", [\
       ["npm:9.0.5", {\
         "packageLocation": "./.yarn/cache/ip-address-npm-9.0.5-9fa024d42a-331cd07faf.zip/node_modules/ip-address/",\
@@ -4688,15 +3919,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["is-interactive", [\
-      ["npm:2.0.0", {\
-        "packageLocation": "./.yarn/cache/is-interactive-npm-2.0.0-dcec8b26d7-801c8f6064.zip/node_modules/is-interactive/",\
-        "packageDependencies": [\
-          ["is-interactive", "npm:2.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["is-lambda", [\
       ["npm:1.0.1", {\
         "packageLocation": "./.yarn/cache/is-lambda-npm-1.0.1-7ab55bc8a8-85fee098ae.zip/node_modules/is-lambda/",\
@@ -4715,36 +3937,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["is-plain-obj", [\
-      ["npm:4.1.0", {\
-        "packageLocation": "./.yarn/cache/is-plain-obj-npm-4.1.0-a4f2a92b44-32130d651d.zip/node_modules/is-plain-obj/",\
-        "packageDependencies": [\
-          ["is-plain-obj", "npm:4.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["is-stream", [\
       ["npm:2.0.1", {\
         "packageLocation": "./.yarn/cache/is-stream-npm-2.0.1-c802db55e7-7c28424131.zip/node_modules/is-stream/",\
         "packageDependencies": [\
           ["is-stream", "npm:2.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.0.1", {\
-        "packageLocation": "./.yarn/cache/is-stream-npm-4.0.1-328fd196cc-2706c7f19b.zip/node_modules/is-stream/",\
-        "packageDependencies": [\
-          ["is-stream", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["is-unicode-supported", [\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/cache/is-unicode-supported-npm-2.1.0-70e6898c4a-a0f53e9a7c.zip/node_modules/is-unicode-supported/",\
-        "packageDependencies": [\
-          ["is-unicode-supported", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5385,15 +4582,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["jiti", [\
-      ["npm:2.6.1", {\
-        "packageLocation": "./.yarn/cache/jiti-npm-2.6.1-597ab7fb84-79b2e96a8e.zip/node_modules/jiti/",\
-        "packageDependencies": [\
-          ["jiti", "npm:2.6.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["joi", [\
       ["npm:18.0.2", {\
         "packageLocation": "./.yarn/cache/joi-npm-18.0.2-79a3fbcace-e395e07df0.zip/node_modules/joi/",\
@@ -5471,15 +4659,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/json5-npm-2.2.3-9962c55073-5a04eed948.zip/node_modules/json5/",\
         "packageDependencies": [\
           ["json5", "npm:2.2.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["jsonc-parser", [\
-      ["npm:3.3.1", {\
-        "packageLocation": "./.yarn/cache/jsonc-parser-npm-3.3.1-f57c3cdcf5-269c3ae0a0.zip/node_modules/jsonc-parser/",\
-        "packageDependencies": [\
-          ["jsonc-parser", "npm:3.3.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5581,29 +4760,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["log-symbols", [\
-      ["npm:7.0.1", {\
-        "packageLocation": "./.yarn/cache/log-symbols-npm-7.0.1-6922a93952-71d30f9a44.zip/node_modules/log-symbols/",\
-        "packageDependencies": [\
-          ["is-unicode-supported", "npm:2.1.0"],\
-          ["log-symbols", "npm:7.0.1"],\
-          ["yoctocolors", "npm:2.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lru-cache", [\
       ["npm:10.2.2", {\
         "packageLocation": "./.yarn/cache/lru-cache-npm-10.2.2-c54b721fc3-402d310943.zip/node_modules/lru-cache/",\
         "packageDependencies": [\
           ["lru-cache", "npm:10.2.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:11.2.2", {\
-        "packageLocation": "./.yarn/cache/lru-cache-npm-11.2.2-685f5506dc-72d7831bbe.zip/node_modules/lru-cache/",\
-        "packageDependencies": [\
-          ["lru-cache", "npm:11.2.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -5739,15 +4900,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["mimic-function", [\
-      ["npm:5.0.1", {\
-        "packageLocation": "./.yarn/cache/mimic-function-npm-5.0.1-5078456e31-f3d9464dd1.zip/node_modules/mimic-function/",\
-        "packageDependencies": [\
-          ["mimic-function", "npm:5.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["mimic-response", [\
       ["npm:3.1.0", {\
         "packageLocation": "./.yarn/cache/mimic-response-npm-3.1.0-a4a24b4e96-0d6f07ce6e.zip/node_modules/mimic-response/",\
@@ -5758,14 +4910,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["minimatch", [\
-      ["npm:10.1.1", {\
-        "packageLocation": "./.yarn/cache/minimatch-npm-10.1.1-453db4ee1a-c85d44821c.zip/node_modules/minimatch/",\
-        "packageDependencies": [\
-          ["@isaacs/brace-expansion", "npm:5.0.0"],\
-          ["minimatch", "npm:10.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.1.2", {\
         "packageLocation": "./.yarn/cache/minimatch-npm-3.1.2-9405269906-0262810a8f.zip/node_modules/minimatch/",\
         "packageDependencies": [\
@@ -5914,15 +5058,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["mute-stream", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/mute-stream-npm-3.0.0-b51769acce-12cdb36a10.zip/node_modules/mute-stream/",\
-        "packageDependencies": [\
-          ["mute-stream", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["napi-build-utils", [\
       ["npm:1.0.2", {\
         "packageLocation": "./.yarn/cache/napi-build-utils-npm-1.0.2-892e4bba56-37fd2cd0ff.zip/node_modules/napi-build-utils/",\
@@ -6061,15 +5196,6 @@ const RAW_RUNTIME_STATE =
           ["path-key", "npm:3.1.1"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:6.0.0", {\
-        "packageLocation": "./.yarn/cache/npm-run-path-npm-6.0.0-606e0c0261-b223c8a0dc.zip/node_modules/npm-run-path/",\
-        "packageDependencies": [\
-          ["npm-run-path", "npm:6.0.0"],\
-          ["path-key", "npm:4.0.0"],\
-          ["unicorn-magic", "npm:0.3.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["on-exit-leak-free", [\
@@ -6117,14 +5243,6 @@ const RAW_RUNTIME_STATE =
           ["onetime", "npm:5.1.2"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:7.0.0", {\
-        "packageLocation": "./.yarn/cache/onetime-npm-7.0.0-cfdd2a579d-5cb9179d74.zip/node_modules/onetime/",\
-        "packageDependencies": [\
-          ["mimic-function", "npm:5.0.1"],\
-          ["onetime", "npm:7.0.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["open", [\
@@ -6151,24 +5269,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/opts-npm-2.0.2-62d5ec5b16-c6056d5c95.zip/node_modules/opts/",\
         "packageDependencies": [\
           ["opts", "npm:2.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["ora", [\
-      ["npm:9.0.0", {\
-        "packageLocation": "./.yarn/cache/ora-npm-9.0.0-06844f6c4c-1ec886a9a4.zip/node_modules/ora/",\
-        "packageDependencies": [\
-          ["chalk", "npm:5.6.2"],\
-          ["cli-cursor", "npm:5.0.0"],\
-          ["cli-spinners", "npm:3.3.0"],\
-          ["is-interactive", "npm:2.0.0"],\
-          ["is-unicode-supported", "npm:2.1.0"],\
-          ["log-symbols", "npm:7.0.1"],\
-          ["ora", "npm:9.0.0"],\
-          ["stdin-discarder", "npm:0.2.2"],\
-          ["string-width", "npm:8.1.0"],\
-          ["strip-ansi", "npm:7.1.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6271,15 +5371,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["parse-ms", [\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/parse-ms-npm-4.0.0-2360c34597-a7900f4f1e.zip/node_modules/parse-ms/",\
-        "packageDependencies": [\
-          ["parse-ms", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["parseurl", [\
       ["npm:1.3.3", {\
         "packageLocation": "./.yarn/cache/parseurl-npm-1.3.3-1542397e00-90dd4760d6.zip/node_modules/parseurl/",\
@@ -6314,13 +5405,6 @@ const RAW_RUNTIME_STATE =
           ["path-key", "npm:3.1.1"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/path-key-npm-4.0.0-2bce99f089-794efeef32.zip/node_modules/path-key/",\
-        "packageDependencies": [\
-          ["path-key", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["path-scurry", [\
@@ -6330,15 +5414,6 @@ const RAW_RUNTIME_STATE =
           ["lru-cache", "npm:10.2.2"],\
           ["minipass", "npm:7.1.2"],\
           ["path-scurry", "npm:1.11.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:2.0.0", {\
-        "packageLocation": "./.yarn/cache/path-scurry-npm-2.0.0-5a556e8161-3da4adedaa.zip/node_modules/path-scurry/",\
-        "packageDependencies": [\
-          ["lru-cache", "npm:11.2.2"],\
-          ["minipass", "npm:7.1.2"],\
-          ["path-scurry", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6516,16 +5591,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["pretty-ms", [\
-      ["npm:9.3.0", {\
-        "packageLocation": "./.yarn/cache/pretty-ms-npm-9.3.0-20e12028f9-555ea39a1d.zip/node_modules/pretty-ms/",\
-        "packageDependencies": [\
-          ["parse-ms", "npm:4.0.0"],\
-          ["pretty-ms", "npm:9.3.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["prismjs", [\
       ["npm:1.30.0", {\
         "packageLocation": "./.yarn/cache/prismjs-npm-1.30.0-c3c5ff824c-f56205bfd5.zip/node_modules/prismjs/",\
@@ -6654,56 +5719,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["react", [\
-      ["npm:19.2.3", {\
-        "packageLocation": "./.yarn/cache/react-npm-19.2.3-0ecd9e5a6e-094220b3ba.zip/node_modules/react/",\
-        "packageDependencies": [\
-          ["react", "npm:19.2.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["react-i18next", [\
-      ["npm:16.5.1", {\
-        "packageLocation": "./.yarn/cache/react-i18next-npm-16.5.1-3e0cf29ae4-9d5480ad8b.zip/node_modules/react-i18next/",\
-        "packageDependencies": [\
-          ["react-i18next", "npm:16.5.1"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:0c53f34f0b713e883221f928992d84f7d9f50cee8642d8c31cac57552d6bad9f23a5d0c93347b8edb8418a449f293edd02a3128cd5492707a631a4756062e7a1#npm:16.5.1", {\
-        "packageLocation": "./.yarn/__virtual__/react-i18next-virtual-d8a2a87c59/0/cache/react-i18next-npm-16.5.1-3e0cf29ae4-9d5480ad8b.zip/node_modules/react-i18next/",\
-        "packageDependencies": [\
-          ["@babel/runtime", "npm:7.28.4"],\
-          ["@types/i18next", null],\
-          ["@types/react", null],\
-          ["@types/react-dom", null],\
-          ["@types/react-native", null],\
-          ["@types/typescript", null],\
-          ["html-parse-stringify", "npm:3.0.1"],\
-          ["i18next", null],\
-          ["react", "npm:19.2.3"],\
-          ["react-dom", null],\
-          ["react-i18next", "virtual:0c53f34f0b713e883221f928992d84f7d9f50cee8642d8c31cac57552d6bad9f23a5d0c93347b8edb8418a449f293edd02a3128cd5492707a631a4756062e7a1#npm:16.5.1"],\
-          ["react-native", null],\
-          ["typescript", null],\
-          ["use-sync-external-store", "virtual:d8a2a87c597fd626135d75882fd8469085913bb8425f6019ff5172e3d00e96b595c494a531581c6983addd3bff1cfc5349dd316f89b3ab9559a31335b6600341#npm:1.6.0"]\
-        ],\
-        "packagePeers": [\
-          "@types/i18next",\
-          "@types/react-dom",\
-          "@types/react-native",\
-          "@types/react",\
-          "@types/typescript",\
-          "i18next",\
-          "react-dom",\
-          "react-native",\
-          "react",\
-          "typescript"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["react-is", [\
       ["npm:18.3.1", {\
         "packageLocation": "./.yarn/cache/react-is-npm-18.3.1-370a81e1e9-f2f1e60010.zip/node_modules/react-is/",\
@@ -6731,13 +5746,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["picomatch", "npm:2.3.1"],\
           ["readdirp", "npm:3.6.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:5.0.0", {\
-        "packageLocation": "./.yarn/cache/readdirp-npm-5.0.0-82b01a282e-faf1ec57cf.zip/node_modules/readdirp/",\
-        "packageDependencies": [\
-          ["readdirp", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6788,17 +5796,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["restore-cursor", [\
-      ["npm:5.1.0", {\
-        "packageLocation": "./.yarn/cache/restore-cursor-npm-5.1.0-b8fd1128bf-c2ba89131e.zip/node_modules/restore-cursor/",\
-        "packageDependencies": [\
-          ["onetime", "npm:7.0.0"],\
-          ["restore-cursor", "npm:5.1.0"],\
-          ["signal-exit", "npm:4.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["retry", [\
       ["npm:0.12.0", {\
         "packageLocation": "./.yarn/cache/retry-npm-0.12.0-72ac7fb4cc-59933e8501.zip/node_modules/retry/",\
@@ -6823,7 +5820,6 @@ const RAW_RUNTIME_STATE =
           ["docsify-cli", "npm:5.0.0-rc.1"],\
           ["dotenv", "npm:17.2.3"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.7.4"],\
-          ["i18next-cli", "npm:1.34.1"],\
           ["i18next-fs-backend", "npm:2.6.1"],\
           ["jest", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:30.2.0"],\
           ["joi", "npm:18.0.2"],\
@@ -6841,25 +5837,6 @@ const RAW_RUNTIME_STATE =
           ["y18n", "npm:5.0.8"]\
         ],\
         "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["run-async", [\
-      ["npm:4.0.6", {\
-        "packageLocation": "./.yarn/cache/run-async-npm-4.0.6-82a3c9e547-3e512c689d.zip/node_modules/run-async/",\
-        "packageDependencies": [\
-          ["run-async", "npm:4.0.6"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["rxjs", [\
-      ["npm:7.8.2", {\
-        "packageLocation": "./.yarn/cache/rxjs-npm-7.8.2-80ecda9013-1fcd33d206.zip/node_modules/rxjs/",\
-        "packageDependencies": [\
-          ["rxjs", "npm:7.8.2"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["safe-buffer", [\
@@ -7200,15 +6177,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["stdin-discarder", [\
-      ["npm:0.2.2", {\
-        "packageLocation": "./.yarn/cache/stdin-discarder-npm-0.2.2-6afaccfb3e-c78375e82e.zip/node_modules/stdin-discarder/",\
-        "packageDependencies": [\
-          ["stdin-discarder", "npm:0.2.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["stream-buffers", [\
       ["npm:3.0.2", {\
         "packageLocation": "./.yarn/cache/stream-buffers-npm-3.0.2-81e4221c31-5f12f5a3af.zip/node_modules/stream-buffers/",\
@@ -7255,25 +6223,6 @@ const RAW_RUNTIME_STATE =
           ["eastasianwidth", "npm:0.2.0"],\
           ["emoji-regex", "npm:9.2.2"],\
           ["string-width", "npm:5.1.2"],\
-          ["strip-ansi", "npm:7.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:7.2.0", {\
-        "packageLocation": "./.yarn/cache/string-width-npm-7.2.0-93572222c9-eb0430dd43.zip/node_modules/string-width/",\
-        "packageDependencies": [\
-          ["emoji-regex", "npm:10.6.0"],\
-          ["get-east-asian-width", "npm:1.4.0"],\
-          ["string-width", "npm:7.2.0"],\
-          ["strip-ansi", "npm:7.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:8.1.0", {\
-        "packageLocation": "./.yarn/cache/string-width-npm-8.1.0-f6ceae4e0d-749b5d0dab.zip/node_modules/string-width/",\
-        "packageDependencies": [\
-          ["get-east-asian-width", "npm:1.4.0"],\
-          ["string-width", "npm:8.1.0"],\
           ["strip-ansi", "npm:7.1.2"]\
         ],\
         "linkType": "HARD"\
@@ -7331,13 +6280,6 @@ const RAW_RUNTIME_STATE =
           ["strip-final-newline", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/strip-final-newline-npm-4.0.0-4dfc6b8843-b0cf2b62d5.zip/node_modules/strip-final-newline/",\
-        "packageDependencies": [\
-          ["strip-final-newline", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["strip-json-comments", [\
@@ -7392,16 +6334,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["has-flag", "npm:4.0.0"],\
           ["supports-color", "npm:8.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["swc-walk", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/swc-walk-npm-1.0.1-815025729c-fff129de3a.zip/node_modules/swc-walk/",\
-        "packageDependencies": [\
-          ["acorn-walk", "npm:8.3.4"],\
-          ["swc-walk", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -7627,15 +6559,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["unicorn-magic", [\
-      ["npm:0.3.0", {\
-        "packageLocation": "./.yarn/cache/unicorn-magic-npm-0.3.0-4d15f393a4-0a32a997d6.zip/node_modules/unicorn-magic/",\
-        "packageDependencies": [\
-          ["unicorn-magic", "npm:0.3.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["unique-filename", [\
       ["npm:3.0.0", {\
         "packageLocation": "./.yarn/cache/unique-filename-npm-3.0.0-77d68e0a45-6363e40b2f.zip/node_modules/unique-filename/",\
@@ -7727,28 +6650,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["use-sync-external-store", [\
-      ["npm:1.6.0", {\
-        "packageLocation": "./.yarn/cache/use-sync-external-store-npm-1.6.0-2db2af616d-35e1179f87.zip/node_modules/use-sync-external-store/",\
-        "packageDependencies": [\
-          ["use-sync-external-store", "npm:1.6.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:d8a2a87c597fd626135d75882fd8469085913bb8425f6019ff5172e3d00e96b595c494a531581c6983addd3bff1cfc5349dd316f89b3ab9559a31335b6600341#npm:1.6.0", {\
-        "packageLocation": "./.yarn/__virtual__/use-sync-external-store-virtual-9bca18df36/0/cache/use-sync-external-store-npm-1.6.0-2db2af616d-35e1179f87.zip/node_modules/use-sync-external-store/",\
-        "packageDependencies": [\
-          ["@types/react", null],\
-          ["react", "npm:19.2.3"],\
-          ["use-sync-external-store", "virtual:d8a2a87c597fd626135d75882fd8469085913bb8425f6019ff5172e3d00e96b595c494a531581c6983addd3bff1cfc5349dd316f89b3ab9559a31335b6600341#npm:1.6.0"]\
-        ],\
-        "packagePeers": [\
-          "@types/react",\
-          "react"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["util-deprecate", [\
       ["npm:1.0.2", {\
         "packageLocation": "./.yarn/cache/util-deprecate-npm-1.0.2-e3fe1a219c-41a5bdd214.zip/node_modules/util-deprecate/",\
@@ -7775,15 +6676,6 @@ const RAW_RUNTIME_STATE =
           ["@types/istanbul-lib-coverage", "npm:2.0.6"],\
           ["convert-source-map", "npm:2.0.0"],\
           ["v8-to-istanbul", "npm:9.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["void-elements", [\
-      ["npm:3.1.0", {\
-        "packageLocation": "./.yarn/cache/void-elements-npm-3.1.0-4f43780839-0b8686f9f9.zip/node_modules/void-elements/",\
-        "packageDependencies": [\
-          ["void-elements", "npm:3.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -7853,16 +6745,6 @@ const RAW_RUNTIME_STATE =
           ["string-width", "npm:5.1.2"],\
           ["strip-ansi", "npm:7.1.2"],\
           ["wrap-ansi", "npm:8.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:9.0.2", {\
-        "packageLocation": "./.yarn/cache/wrap-ansi-npm-9.0.2-b66ec4013c-3305839b9a.zip/node_modules/wrap-ansi/",\
-        "packageDependencies": [\
-          ["ansi-styles", "npm:6.2.3"],\
-          ["string-width", "npm:7.2.0"],\
-          ["strip-ansi", "npm:7.1.2"],\
-          ["wrap-ansi", "npm:9.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -7969,15 +6851,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["yaml", [\
-      ["npm:2.8.2", {\
-        "packageLocation": "./.yarn/cache/yaml-npm-2.8.2-6cbf7c73c4-703e4dc1e3.zip/node_modules/yaml/",\
-        "packageDependencies": [\
-          ["yaml", "npm:2.8.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["yargonaut", [\
       ["npm:1.1.4", {\
         "packageLocation": "./.yarn/cache/yargonaut-npm-1.1.4-b6e76a38bc-3d9ece5579.zip/node_modules/yargonaut/",\
@@ -8047,15 +6920,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/yocto-queue-npm-0.1.0-c6c9a7db29-dceb44c285.zip/node_modules/yocto-queue/",\
         "packageDependencies": [\
           ["yocto-queue", "npm:0.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["yoctocolors", [\
-      ["npm:2.1.2", {\
-        "packageLocation": "./.yarn/cache/yoctocolors-npm-2.1.2-ba5f016605-b220f30f53.zip/node_modules/yoctocolors/",\
-        "packageDependencies": [\
-          ["yoctocolors", "npm:2.1.2"]\
         ],\
         "linkType": "HARD"\
       }]\
