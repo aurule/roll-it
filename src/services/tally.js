@@ -108,17 +108,14 @@ module.exports = {
    * @return {number[]}              Array of ints representing the success tallies of each resultSet
    */
   riskSuccesses(resultSets, threshold, risk = 0) {
-    return resultSets.map(
-      (roll) => roll.reduce(
-          (acc, val, idx) => {
-              if (val >= threshold) {
-                  if (idx < risk) return acc + 2
-                  return acc + 1
-              }
-              return acc
-          },
-          0
-      )
+    return resultSets.map((roll) =>
+      roll.reduce((acc, val, idx) => {
+        if (val >= threshold) {
+          if (idx < risk) return acc + 2
+          return acc + 1
+        }
+        return acc
+      }, 0),
     )
-  }
+  },
 }

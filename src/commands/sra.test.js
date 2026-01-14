@@ -76,6 +76,7 @@ describe("/sra command", () => {
   })
 
   describe("judge", () => {
+    // biome-ignore format: visual table for readability
     it.concurrent.each([
       ["angers", 5, 12, 0,  1, 0],
       ["inad",   5, 12, 0,  3, 0],

@@ -9,7 +9,9 @@ const sacrifice = require("../services/easter-eggs/sacrifice")
 const { roll } = require("../services/base-roller")
 const { rollUntil } = require("../services/until-roller")
 const { riskSuccesses } = require("../services/tally")
-const { ShadowrunAnarchyPresenter } = require("../presenters/results/shadowrun-anarchy-results-presenter")
+const {
+  ShadowrunAnarchyPresenter,
+} = require("../presenters/results/shadowrun-anarchy-results-presenter")
 
 const command_name = "sra"
 
@@ -19,7 +21,7 @@ const command_name = "sra"
  * @return {number}         4 for "advantage", 6 for "disadvantage", and 5 for other.
  */
 function make_threshold(keyword) {
-  switch(keyword) {
+  switch (keyword) {
     case "advantage":
       return 4
     case "disadvantage":
@@ -69,7 +71,7 @@ module.exports = {
     let expected = Math.round(presenter.pool / divisor)
 
     if (presenter.risk) {
-      expected = expected + (expected * Math.round(presenter.risk / presenter.pool))
+      expected = expected + expected * Math.round(presenter.risk / presenter.pool)
     }
 
     for (const [rollNum, result] of presenter.summed.entries()) {
@@ -162,10 +164,10 @@ module.exports = {
 
     const t = i18n.getFixedT(interaction.locale, "commands", "sra")
     const userFlake = interaction.user.id
-   
+
     if (risk > pool) {
       return interaction.ensure("whisper", t("options.risk.validation.collision"), {
-        detail: "Could not whisper about invalid risk"
+        detail: "Could not whisper about invalid risk",
       })
     }
 
@@ -182,5 +184,5 @@ module.exports = {
       content: full_text,
       secret,
     })
-  }
+  },
 }

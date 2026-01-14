@@ -129,7 +129,7 @@ class ShadowrunAnarchyPresenter {
    * @return {string?} One of "advantage" or "disadvantage", or undefined
    */
   get advantage() {
-    switch(this.threshold) {
+    switch (this.threshold) {
       case 4:
         return "advantage"
       case 6:
@@ -145,7 +145,9 @@ class ShadowrunAnarchyPresenter {
    */
   get glitches() {
     if (this._glitches === undefined) {
-      this._glitches = this.raw.map((roll) => roll.slice(0, this.risk).filter((r) => r === 1).length)
+      this._glitches = this.raw.map(
+        (roll) => roll.slice(0, this.risk).filter((r) => r === 1).length,
+      )
     }
 
     return this._glitches
@@ -160,7 +162,7 @@ class ShadowrunAnarchyPresenter {
    * @return {string}        Translated glitch string
    */
   glitchString(glitch) {
-    switch(glitch) {
+    switch (glitch) {
       case 0:
         return ""
       case 1:
@@ -191,33 +193,33 @@ class ShadowrunAnarchyPresenter {
     const regular = []
 
     for (const [idx, die] of this.raw[roll_idx].entries()) {
-        if (idx < this.risk) {
-            switch(true) {
-                case die >= this.threshold:
-                    risked.push(`**${die}!**`)
-                    break
-                case die === 1:
-                    risked.push(`~~1~~`)
-                    break
-                default:
-                    risked.push(`${die}`)
-                    break
-            }
-            continue
+      if (idx < this.risk) {
+        switch (true) {
+          case die >= this.threshold:
+            risked.push(`**${die}!**`)
+            break
+          case die === 1:
+            risked.push(`~~1~~`)
+            break
+          default:
+            risked.push(`${die}`)
+            break
         }
-        if (die >= this.threshold) {
-            regular.push(`**${die}**`)
-        } else {
-            regular.push(`${die}`)
-        }
+        continue
+      }
+      if (die >= this.threshold) {
+        regular.push(`**${die}**`)
+      } else {
+        regular.push(`${die}`)
+      }
     }
     switch (true) {
-        case !this.risk:
-            return regular.join(", ")
-        case this.risk === this.pool:
-            return `__${risked.join(", ")}__`
-        default:
-            return `__${risked.join(", ")}__, ${regular.join(", ")}`
+      case !this.risk:
+        return regular.join(", ")
+      case this.risk === this.pool:
+        return `__${risked.join(", ")}__`
+      default:
+        return `__${risked.join(", ")}__, ${regular.join(", ")}`
     }
   }
 }

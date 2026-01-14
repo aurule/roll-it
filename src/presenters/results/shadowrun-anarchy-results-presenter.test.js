@@ -115,7 +115,10 @@ describe("Shadowrun Anarchy presenter", () => {
     describe("with multiple rolls", () => {
       const multi_defaults = {
         ...defaults,
-        raw: [[2, 4, 6], [1, 6, 5]],
+        raw: [
+          [2, 4, 6],
+          [1, 6, 5],
+        ],
         summed: [1, 2],
         rolls: 2,
         pool: 3,
@@ -161,7 +164,7 @@ describe("Shadowrun Anarchy presenter", () => {
       it("includes the description if present", () => {
         const presenter = new ShadowrunAnarchyPresenter({
           ...multi_defaults,
-          description: "desc"
+          description: "desc",
         })
 
         const result = presenter.presentResults()
