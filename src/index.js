@@ -1,6 +1,8 @@
 require("dotenv").config({ quiet: true })
 
+const process = require('node:process');
 const { logger } = require("./util/logger")
+const { posthog } = require("./services/metrics")
 
 process.on("unhandledRejection", (error) => {
   logger.error(error, "Unhandled promise rejection")
@@ -51,3 +53,8 @@ events.register(client)
 
 // Login to Discord with your client's token
 client.login(process.env.BOT_TOKEN)
+
+// Gracefully shut down the posthog handler
+process.on("beforeExit", async (_code) => {
+  await posthog.shutdown()
+})

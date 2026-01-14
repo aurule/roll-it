@@ -107,6 +107,10 @@ Roll-It currently uses Node 24.
 * `DEV_GUILDS`: a JSON array of discord server IDs that should respond to the bot when you run it locally (like `[ "guild_snowflake" ]`). It's important that these servers are private, or at least don't mind you spamming bot messages and breaking things.
 * `DEV_USERS`: a JSON array of discord user IDs (like `[ "user_snowflake" ]`) to use when seeding certain database tables.
 * `LOG_LEVEL`: the minimum level of log statements to display. Defaults to `"info"` in development and `"warning"` in test. Using `"debug"` will print all sql statements to the console, for example. See [Pino log levels](https://github.com/pinojs/pino/blob/main/docs/api.md#logger-level) for more detail.
+* `PH_KEY`: the PostHog project API key
+* `OTEL_EXPORTER_OTLP_LOGS_PROTOCOL`: remote log endpoint type
+* `OTEL_EXPORTER_OTLP_LOGS_ENDPOINT`: remote log endpoint url
+* `OTEL_RESOURCE_ATTRIBUTES`: log exporter info, basically just service name and service version
 
 ## Working on the Docs
 

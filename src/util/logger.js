@@ -1,4 +1,4 @@
-const Pino = require("pino")
+const pino = require("pino")
 
 require("dotenv").config({ quiet: true })
 
@@ -16,17 +16,15 @@ function pickStream(env_name = process.env.NODE_ENV) {
     return devnull()
   }
   if (env_name == "production") {
-    const papertrail = require("pino-papertrail")
-    return papertrail.createWriteStream(
-      {
-        host: "logs5.papertrailapp.com",
-        port: 15191,
-        echo: false,
-      },
-      "qyf-bot",
-    )
+    // makes use of these envvars:
+    // OTEL_EXPORTER_OTLP_LOGS_PROTOCOL
+    // OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
+    // OTEL_RESOURCE_ATTRIBUTES
+    return pino.transport({
+      target: "pino-opentelemetry-transport"
+    })
     // NOTE: Leaving the file config here for ease of reference
-    // return Pino.transport({
+    // return pino.transport({
     //   target: "pino/file",
     //   options: {
     //     destination: "/home/qyf/qyf-bot/logs/qyf-bot.log",
@@ -45,7 +43,7 @@ const default_levels = {
 }
 
 module.exports = {
-  logger: Pino(
+  logger: pino(
     {
       level: default_levels[process.env.NODE_ENV],
     },
