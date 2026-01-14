@@ -15,6 +15,7 @@ const rollCache = require("../services/roll-cache")
 const { i18n } = require("../locales")
 const { UserSavedRolls } = require("../db/saved_rolls")
 const { presentInvocation } = require("../presenters/saved-roll-presenter")
+const { sendError } = require("../services/metrics")
 
 const VALID_MODES = ["create", "edit", "replace"]
 
@@ -116,6 +117,7 @@ module.exports = {
       return modal_interaction.whisper(t("response.success", { name }))
     } catch (err) {
       if (!user_rolls.taken(name)) {
+        sendError(err, { cached_roll })
         logger.error({ err, cached_roll }, `failed to update saved roll`)
         return modal_interaction.whisper(t("response.error"))
       }

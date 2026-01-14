@@ -7,6 +7,7 @@ const interactionCache = require("../services/interaction-cache")
 const { i18n } = require("../locales")
 const { envAllowsGuild } = require("../util/env-allows-guild")
 const components = require("../components")
+const { sendError, sendEvent } = require("../services/metrics")
 
 /**
  * Handle command interactions
@@ -159,7 +160,13 @@ module.exports = {
 
     // handle command invocations
     if (interaction.isCommand() || interaction.isChatInputCommand()) {
+      sendEvent("command used", interaction.user.id, { name: interaction.user.username })
       return module.exports.handleCommand(interaction).catch((err) => {
+        sendError(err, {
+          guildId: interaction.guildId,
+          command: interaction.commandName,
+          options: interaction.options.data,
+        })
         logger.error(
           {
             origin: "command",
@@ -182,6 +189,11 @@ module.exports = {
     // handle autocomplete requests
     if (interaction.isAutocomplete()) {
       return module.exports.handleAutocomplete(interaction).catch((err) => {
+        sendError(err, {
+          guildId: interaction.guildId,
+          command: interaction.commandName,
+          option: interaction.options.getFocused(true),
+        })
         logger.error(
           {
             origin: "autocomplete",
@@ -199,6 +211,11 @@ module.exports = {
     // handle modal submissions
     if (interaction.isModalSubmit()) {
       return module.exports.handleModal(interaction).catch((err) => {
+        sendError(err, {
+          guild: interaction.guildId,
+          modal: interaction.customId,
+          fields: interaction.fields,
+        })
         logger.error(
           {
             origin: "modal",
@@ -222,6 +239,9 @@ module.exports = {
       interaction.isMentionableSelectMenu()
     ) {
       return module.exports.handleComponent(interaction).catch((err) => {
+        sendError(err, {
+          guild: interaction.guildId,
+        })
         logger.error(
           {
             origin: "component",

@@ -7,6 +7,7 @@ const { i18n } = require("../locales")
 const { logger } = require("../util/logger")
 const build = require("../util/message-builders")
 const api = require("../services/api")
+const { sendError } = require("../services/metrics")
 
 const inline_formatting_regexes = [
   /\*[^\n]+\*/g,
@@ -249,6 +250,10 @@ class Paginator {
  */
 async function sendDetached(channel_id, message) {
   return api.sendMessage(channel_id, message).catch((err) => {
+    sendError(err, {
+      channel: channel_id,
+      args: message,
+    })
     logger.error(
       {
         err,

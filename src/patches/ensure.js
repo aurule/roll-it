@@ -3,6 +3,7 @@
  */
 
 const api = require("../services/api")
+const { sendError } = require("../services/metrics")
 const { logger } = require("../util/logger")
 
 const {
@@ -79,7 +80,13 @@ module.exports = {
             },
             `Got "Unknown interaction" error for "${funktion}". Sending as detached message.`,
           )
-          return api.sendMessage(this.channel.id, args).catch((err) =>
+          return api.sendMessage(this.channel.id, args).catch((err) => {
+            sendError(err, {
+              ...context,
+              fn: funktion,
+              args,
+              channel: this.channel,
+            })
             logger.error(
               {
                 ...context,
@@ -89,8 +96,8 @@ module.exports = {
                 channel: this.channel,
               },
               `Unable to send detached message for "${funktion}".`,
-            ),
-          )
+            )
+          })
         } else {
           return Promise.reject(err)
         }

@@ -5,6 +5,7 @@ const api = require("../../services/api")
 const { logger } = require("../../util/logger")
 const { present } = require("../../presenters/command-name-presenter")
 const { safe_locale } = require("../../locales/helpers")
+const { sendError } = require("../../services/metrics")
 
 /**
  * Button to save changes to installed commands
@@ -30,6 +31,9 @@ module.exports = {
     api
       .setGuildCommands(install.guild_uid, install.new_deets.commands)
       .catch((err) => {
+        sendError(err, {
+          installation: install,
+        })
         logger.error({
           err,
           installation_id: install.id,

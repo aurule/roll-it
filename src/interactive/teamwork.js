@@ -169,7 +169,7 @@ module.exports = {
       components: [],
       allowedMentions: { parse: [] },
     }).catch((error) =>
-      logger.warning(
+      logger.warn(
         {
           err: error,
           channel: test.channel_uid,

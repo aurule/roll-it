@@ -3,6 +3,7 @@ const { ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } = req
 const { logger } = require("../util/logger")
 const { i18n } = require("../locales")
 const { Feedback } = require("../db/feedback")
+const { sendError } = require("../services/metrics")
 
 /**
  * Modal for adding feedback details after reporting a roll
@@ -65,6 +66,11 @@ module.exports = {
     try {
       feedback.addNotes(data)
     } catch (err) {
+      sendError(err, {
+        user: modal_interaction.user,
+        guild: modal_interaction.guildId,
+        inputs: modal_interaction.fields.fields,
+      })
       logger.error(
         {
           err,

@@ -21,7 +21,7 @@ function pickStream(env_name = process.env.NODE_ENV) {
     // OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
     // OTEL_RESOURCE_ATTRIBUTES
     return pino.transport({
-      target: "pino-opentelemetry-transport"
+      target: "pino-opentelemetry-transport",
     })
     // NOTE: Leaving the file config here for ease of reference
     // return pino.transport({

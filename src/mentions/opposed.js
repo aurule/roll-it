@@ -4,6 +4,7 @@ const { i18n, available_locales } = require("../locales")
 const { logger } = require("../util/logger")
 const message_contents = require("../messages/opposed")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
+const { sendError } = require("../services/metrics")
 
 const RETRY_KEYWORDS = available_locales.map((locale) =>
   i18n.t("retry", { lng: locale, ns: "opposed" }),
@@ -88,6 +89,10 @@ module.exports = {
             },
           )
         } else {
+          sendError(err, {
+            user: interaction.user,
+            challenge,
+          })
           logger.error({
             err,
             user: interaction.user,

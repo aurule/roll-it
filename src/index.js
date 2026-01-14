@@ -1,10 +1,11 @@
 require("dotenv").config({ quiet: true })
 
-const process = require('node:process');
+const process = require("node:process")
 const { logger } = require("./util/logger")
-const { posthog } = require("./services/metrics")
+const { posthog, sendError } = require("./services/metrics")
 
 process.on("unhandledRejection", (error) => {
+  sendError(error, { origin: "Unhandled promise rejection" })
   logger.error(error, "Unhandled promise rejection")
 })
 

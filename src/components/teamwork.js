@@ -8,6 +8,7 @@ const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")
 const { i18n } = require("../locales")
 const { UnauthorizedError } = require("../errors/unauthorized-error")
+const { sendError } = require("../services/metrics")
 
 const componentsDir = path.join(__dirname, "teamwork")
 
@@ -102,13 +103,17 @@ module.exports = {
             }),
           )
           .catch((err) => {
-            logger.error({
+            logger.warn({
               err,
               user: interaction.user,
               component: component.name,
             })
           })
       } else {
+        sendError(err, {
+          user: interaction.user,
+          component: component_name,
+        })
         logger.error({
           err,
           user: interaction.user,
