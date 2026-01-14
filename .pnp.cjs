@@ -48,6 +48,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:10.1.1"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.3"],\
+          ["posthog-node", "npm:5.20.0"],\
           ["prettier", "npm:3.7.4"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
@@ -1624,6 +1625,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@pkgr-core-npm-0.2.7-212066027b-951f5ebf2f.zip/node_modules/@pkgr/core/",\
         "packageDependencies": [\
           ["@pkgr/core", "npm:0.2.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@posthog/core", [\
+      ["npm:1.9.1", {\
+        "packageLocation": "./.yarn/cache/@posthog-core-npm-1.9.1-996a0dd1ae-fc46bd4369.zip/node_modules/@posthog/core/",\
+        "packageDependencies": [\
+          ["@posthog/core", "npm:1.9.1"],\
+          ["cross-spawn", "npm:7.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5540,6 +5551,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["posthog-node", [\
+      ["npm:5.20.0", {\
+        "packageLocation": "./.yarn/cache/posthog-node-npm-5.20.0-b7edb8a9af-07451d0ce9.zip/node_modules/posthog-node/",\
+        "packageDependencies": [\
+          ["@posthog/core", "npm:1.9.1"],\
+          ["posthog-node", "npm:5.20.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["prebuild-install", [\
       ["npm:7.1.2", {\
         "packageLocation": "./.yarn/cache/prebuild-install-npm-7.1.2-5beaea7f37-e64868ba9e.zip/node_modules/prebuild-install/",\
@@ -5829,6 +5850,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:10.1.1"],\
           ["pino-papertrail", "npm:2.1.0"],\
           ["pino-pretty", "npm:13.1.3"],\
+          ["posthog-node", "npm:5.20.0"],\
           ["prettier", "npm:3.7.4"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
