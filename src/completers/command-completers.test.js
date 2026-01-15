@@ -1,21 +1,21 @@
-const Completers = require("./command-completers")
+import { all } from "./command-completers.js"
 
 describe("command name completers", () => {
   describe("all", () => {
     it("searches command names by lowercase", () => {
-      const result = Completers.all("WOD")
+      const result = all("WOD")
 
       expect(result.length).toEqual(1)
     })
 
     it("sends command name as value", () => {
-      const result = Completers.all("CHOP")
+      const result = all("CHOP")
 
       expect(result[0].value).toEqual("chop")
     })
 
     it("sends up to 25 options", () => {
-      const result = Completers.all("")
+      const result = all("")
 
       expect(result.length).toEqual(25)
     })

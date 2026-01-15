@@ -28,7 +28,7 @@ export function saved_roll(partialText, saved_rolls) {
     })
 
   return matches
-},
+}
 
 /**
  * Get the options for changeable roll attributes

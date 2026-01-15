@@ -1,4 +1,4 @@
-const Completers = require("./table-completers")
+import { table } from "./table-completers.js"
 
 describe("table name completers", () => {
   describe("table", () => {
@@ -8,7 +8,7 @@ describe("table name completers", () => {
         { name: "FIDO", id: 2 },
       ]
 
-      const result = Completers.table("fi", tables)
+      const result = table("fi", tables)
 
       const ids = result.map((r) => r.value)
       expect(ids).toContain("1")
@@ -18,7 +18,7 @@ describe("table name completers", () => {
     it("caps returned names at 100 characters", () => {
       const tables = [{ name: "a".repeat(101), id: 1 }]
 
-      const result = Completers.table("a", tables)
+      const result = table("a", tables)
 
       expect(result[0].name.length).toEqual(100)
     })
@@ -26,7 +26,7 @@ describe("table name completers", () => {
     it("sends the id as the value", () => {
       const tables = [{ name: "very well", id: 5 }]
 
-      const result = Completers.table("v", tables)
+      const result = table("v", tables)
 
       expect(result[0].value).toEqual("5")
     })
@@ -37,7 +37,7 @@ describe("table name completers", () => {
         id: idx,
       }))
 
-      const result = Completers.table("", tables)
+      const result = table("", tables)
 
       expect(result.length).toEqual(25)
     })
