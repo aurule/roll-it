@@ -8,10 +8,6 @@
  * @param  {snowflake} guildId  Discord guild ID
  * @return {bool}               True if we should handle the guild, false if not
  */
-function envAllowsGuild(guildId) {
+export function envAllowsGuild(guildId) {
   return !(process.env.NODE_ENV !== "development") == process.env.DEV_GUILDS.includes(guildId)
-}
-
-module.exports = {
-  envAllowsGuild,
 }

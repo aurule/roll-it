@@ -4,57 +4,57 @@
  * These are invoked by that command's `autcomplete` function. Their code lives
  * here for easier testing.
  */
-module.exports = {
-  /**
-   * Completer for looking up existing saved rolls
-   *
-   * @param  {str}   partialText The user's typed text
-   * @param  {obj[]} saved_rolls Array of saved_roll info objects, as returned by UserSavedRolls.all()
-   * @return {obj[]}             Array of choice objects
-   */
-  saved_roll(partialText, saved_rolls) {
-    const search = partialText.normalize().toLowerCase()
 
-    const matches = saved_rolls
-      .filter((t) => t.name.normalize().toLowerCase().startsWith(search))
-      .slice(0, 25)
-      .map((t) => {
-        return {
-          name: t.name.substring(0, 100),
-          value: t.id.toString(),
-        }
-      })
+import { commands } from "../commands/index.js"
 
-    return matches
-  },
+/**
+ * Completer for looking up existing saved rolls
+ *
+ * @param  {str}   partialText The user's typed text
+ * @param  {obj[]} saved_rolls Array of saved_roll info objects, as returned by UserSavedRolls.all()
+ * @return {obj[]}             Array of choice objects
+ */
+export function saved_roll(partialText, saved_rolls) {
+  const search = partialText.normalize().toLowerCase()
 
-  /**
-   * Get the options for changeable roll attributes
-   *
-   * @param  {str}     partialText         The user's typed text
-   * @param  {obj[]}   saved_rolls         Array of saved_roll info objects, as returned by UserSavedRolls.all()
-   * @param  {options} interaction_options Object of options. Used to get the right command.
-   * @return {obj[]}                       Array of choice objects
-   */
-  changeable_choices(partialText, saved_rolls, interaction_options) {
-    const search = partialText.normalize().toLowerCase()
+  const matches = saved_rolls
+    .filter((t) => t.name.normalize().toLowerCase().startsWith(search))
+    .slice(0, 25)
+    .map((t) => {
+      return {
+        name: t.name.substring(0, 100),
+        value: t.id.toString(),
+      }
+    })
 
-    const name = interaction_options.getString("name")
-    const saved_roll = saved_rolls.find((r) => r.id == name || r.name == name)
+  return matches
+},
 
-    const commands = require("../commands")
-    const command = commands.get(saved_roll.command)
-    if (!command) return []
+/**
+ * Get the options for changeable roll attributes
+ *
+ * @param  {str}     partialText         The user's typed text
+ * @param  {obj[]}   saved_rolls         Array of saved_roll info objects, as returned by UserSavedRolls.all()
+ * @param  {options} interaction_options Object of options. Used to get the right command.
+ * @return {obj[]}                       Array of choice objects
+ */
+export function changeable_choices(partialText, saved_rolls, interaction_options) {
+  const search = partialText.normalize().toLowerCase()
 
-    const matches = command.changeable
-      .filter((c) => c.startsWith(search))
-      .map((c) => {
-        return {
-          name: c,
-          value: c,
-        }
-      })
+  const name = interaction_options.getString("name")
+  const saved_roll = saved_rolls.find((r) => r.id == name || r.name == name)
 
-    return matches
-  },
+  const command = commands.get(saved_roll.command)
+  if (!command) return []
+
+  const matches = command.changeable
+    .filter((c) => c.startsWith(search))
+    .map((c) => {
+      return {
+        name: c,
+        value: c,
+      }
+    })
+
+  return matches
 }

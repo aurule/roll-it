@@ -1,9 +1,15 @@
-const { join } = require("node:path")
-const i18next = require("i18next")
-const fs_backend = require("i18next-fs-backend")
+import { join } from "node:path"
+import i18next from "i18next"
+import fs_backend from "i18next-fs-backend"
 
-const own_formatters = require("../util/formatters/i18n")
+import * as own_formatters from "../util/formatters/i18n.js"
 
+const __dirname = import.meta.dirname;
+
+/**
+ * Initialized i18next module
+ * @type {i18next}
+ */
 i18next.use(fs_backend).init({
   debug: false,
   fallbackLng: {
@@ -32,13 +38,5 @@ for (const [key, fn] of Object.entries(own_formatters)) {
  * @see https://discord.com/developers/docs/reference#locales
  * @type {str[]}
  */
-const available_locales = ["en-US", "es-ES"]
-
-module.exports = {
-  /**
-   * Initialized i18next module
-   * @type {i18next}
-   */
-  i18n: i18next,
-  available_locales,
-}
+export const available_locales = ["en-US", "es-ES"]
+export const i18n = i18next

@@ -2,110 +2,107 @@
  * This patch creates a helper method named "ensure" on all interaction objects.
  */
 
-const api = require("../services/api")
-const { sendError } = require("../services/metrics")
-const { logger } = require("../util/logger")
+import { sendMessage } from "../services/api.js"
+import { sendError } from "../services/metrics.js"
+import { logger } from "../util/logger.js"
 
-const {
-  MessageFlags,
+import {
   CommandInteraction,
   ModalSubmitInteraction,
   ButtonInteraction,
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
   Message,
-} = require("discord.js")
+} from "discord.js"
 
-module.exports = {
+/**
+ * Create the ensure method
+ */
+export function patch(target_klass) {
+  let klasses = [
+    CommandInteraction,
+    ModalSubmitInteraction,
+    ButtonInteraction,
+    UserSelectMenuInteraction,
+    StringSelectMenuInteraction,
+    Message,
+  ]
+  if (target_klass) {
+    klasses = [target_klass]
+  }
+
   /**
-   * Create the ensure method
+   * Try to ensure that a particular message will be sent
+   *
+   * This catches the most common errors thrown by discord which prevent a message from being sent. Then,
+   * it tries to send the message by itself to the interaction's channel. If that fails, an error will be
+   * logged and the message effectively cannot be sent.
+   *
+   * All other errors will not be retried, as they may be made worse by trying to send a new message.
+   *
+   * Since standalone messages do not support the Ephemeral flag, be cautious when using this helper for
+   * anything that is supposed to remain secret or private. If the original reply fails, the message will
+   * be sent publically in the channel.
+   *
+   * This wrapper only makes sense for a few base methods:
+   * - `editReply`
+   * - `followUp`
+   * - `reply`
+   *
+   * Of these, `editReply` and `followUp` both return (via a Promise) a `Message` object. The `reply` method
+   * returns an `InteractionCallbackResponse` instead, which exposes the message within its `resource.message`
+   * member. In case of a 10062 error, the create-message api endpoint is called, which returns a `Message`
+   * object.
+   *
+   * All this means that if you need to make use of the return value from a `reply` call, you have to check
+   * whether it's a `Message` or an `InteractionCallbackResponse`.
+   *
+   * @see https://discord.js.org/docs/packages/discord.js/14.19.3/Message:Class
+   * @see https://discord.js.org/docs/packages/discord.js/14.19.3/InteractionCallbackResponse:Class
+   * @see https://discord.com/developers/docs/resources/message#edit-message
+   *
+   * @param  {string} funktion The name of the interaction function to call
+   * @param  {obj}    args     Object of arguments for the function
+   * @param  {obj}    context  Object of additional data to include in any warning or error logs
+   * @return {Promise<Message | InteractionCallbackResponse} Promise resolving to a Message or an InteractionCallbackResponse
    */
-  patch(target_klass) {
-    let klasses = [
-      CommandInteraction,
-      ModalSubmitInteraction,
-      ButtonInteraction,
-      UserSelectMenuInteraction,
-      StringSelectMenuInteraction,
-      Message,
-    ]
-    if (target_klass) {
-      klasses = [target_klass]
-    }
-
-    /**
-     * Try to ensure that a particular message will be sent
-     *
-     * This catches the most common errors thrown by discord which prevent a message from being sent. Then,
-     * it tries to send the message by itself to the interaction's channel. If that fails, an error will be
-     * logged and the message effectively cannot be sent.
-     *
-     * All other errors will not be retried, as they may be made worse by trying to send a new message.
-     *
-     * Since standalone messages do not support the Ephemeral flag, be cautious when using this helper for
-     * anything that is supposed to remain secret or private. If the original reply fails, the message will
-     * be sent publically in the channel.
-     *
-     * This wrapper only makes sense for a few base methods:
-     * - `editReply`
-     * - `followUp`
-     * - `reply`
-     *
-     * Of these, `editReply` and `followUp` both return (via a Promise) a `Message` object. The `reply` method
-     * returns an `InteractionCallbackResponse` instead, which exposes the message within its `resource.message`
-     * member. In case of a 10062 error, the create-message api endpoint is called, which returns a `Message`
-     * object.
-     *
-     * All this means that if you need to make use of the return value from a `reply` call, you have to check
-     * whether it's a `Message` or an `InteractionCallbackResponse`.
-     *
-     * @see https://discord.js.org/docs/packages/discord.js/14.19.3/Message:Class
-     * @see https://discord.js.org/docs/packages/discord.js/14.19.3/InteractionCallbackResponse:Class
-     * @see https://discord.com/developers/docs/resources/message#edit-message
-     *
-     * @param  {string} funktion The name of the interaction function to call
-     * @param  {obj}    args     Object of arguments for the function
-     * @param  {obj}    context  Object of additional data to include in any warning or error logs
-     * @return {Promise<Message | InteractionCallbackResponse} Promise resolving to a Message or an InteractionCallbackResponse
-     */
-    const ensure = async function (funktion, args, context = {}) {
-      return this[funktion](args).catch(async (err) => {
-        if (err.code === 10062) {
-          logger.warn(
+  const ensure = async function (funktion, args, context = {}) {
+    return this[funktion](args).catch(async (err) => {
+      if (err.code === 10062) {
+        logger.warn(
+          {
+            ...context,
+            err,
+            fn: funktion,
+            args,
+          },
+          `Got "Unknown interaction" error for "${funktion}". Sending as detached message.`,
+        )
+        return sendMessage(this.channel.id, args).catch((err) => {
+          sendError(err, {
+            ...context,
+            fn: funktion,
+            args,
+            channel: this.channel,
+          })
+          logger.error(
             {
               ...context,
               err,
               fn: funktion,
               args,
-            },
-            `Got "Unknown interaction" error for "${funktion}". Sending as detached message.`,
-          )
-          return api.sendMessage(this.channel.id, args).catch((err) => {
-            sendError(err, {
-              ...context,
-              fn: funktion,
-              args,
               channel: this.channel,
-            })
-            logger.error(
-              {
-                ...context,
-                err,
-                fn: funktion,
-                args,
-                channel: this.channel,
-              },
-              `Unable to send detached message for "${funktion}".`,
-            )
-          })
-        } else {
-          return Promise.reject(err)
-        }
-      })
-    }
+            },
+            `Unable to send detached message for "${funktion}".`,
+          )
+        })
+      } else {
+        return Promise.reject(err)
+      }
+    })
+  }
 
-    for (const klass of klasses) {
-      klass.prototype.ensure = ensure
-    }
-  },
+  for (const klass of klasses) {
+    klass.prototype.ensure = ensure
+  }
 }

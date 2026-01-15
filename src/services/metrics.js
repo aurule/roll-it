@@ -1,5 +1,13 @@
-const { PostHog } = require("posthog-node")
+import { PostHog } from "posthog-node"
 
+/**
+ * Create the remote metrics client
+ *
+ * Outside of a production environment, this returns an object full of no-ops
+ * so we don't spam ourselves.
+ *
+ * @return {PostHog} PostHog client instance
+ */
 function metricsClient() {
   if (process.env.NODE_ENV === "production") {
     return new PostHog(process.env.PH_KEY, {
@@ -7,14 +15,22 @@ function metricsClient() {
       enableExceptionAutocapture: true,
     })
   }
-  return {}
+
+  return {
+    shutdown() {},
+    capture() {},
+    captureException() {},
+  }
 }
 
-const client = metricsClient()
+export const client = metricsClient()
 
-function sendEvent(event, userId, custom_properties = {}) {
-  // no-op unless we're in production to avoid spam during testing
-  if (process.env.NODE_ENV !== "production") return
+// Gracefully shut down the posthog handler
+process.on("beforeExit", async (_code) => {
+  await client.shutdown()
+})
+
+export function sendEvent(event, userId, custom_properties = {}) {
   return client.capture({
     distinctId: userId.toString(),
     event,
@@ -24,14 +40,6 @@ function sendEvent(event, userId, custom_properties = {}) {
   })
 }
 
-function sendError(err, custom_properties = {}) {
-  // no-op unless we're in production to avoid spam during testing
-  if (process.env.NODE_ENV !== "production") return
+export function sendError(err, custom_properties = {}) {
   return client.captureException(err, custom_properties)
-}
-
-module.exports = {
-  posthog: client,
-  sendError,
-  sendEvent,
 }

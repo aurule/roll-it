@@ -2,35 +2,33 @@
  * This patch creates a small helper method named "rollReply" on all command interaction objects.
  */
 
-const { CommandInteraction } = require("discord.js")
-const build = require("../util/message-builders")
+import { CommandInteraction } from "discord.js"
+import * as build from "../util/message-builders.js"
 
-module.exports = {
+/**
+ * Create the rollReply method
+ */
+export function patch(klass) {
+  if (!klass) klass = CommandInteraction
+
   /**
-   * Create the rollReply method
+   * Reply with a possibly ephemeral message
+   *
+   * This is a convenience api that's handy when you know your content will fit within one message. If it
+   * might spill into more messages, use paginate instead.
+   *
+   * This helper wraps the reply in `ensure` to hopefully send the message contents even if Discord screws
+   * up the interaction handling.
+   *
+   * @see ensure
+   *
+   * @param  {str}     content   The message contents to send
+   * @param  {bool}    secret Whether the message is ephemeral or not
+   * @return {Promise}           Interaction response promise
    */
-  patch(klass) {
-    if (!klass) klass = CommandInteraction
+  klass.prototype.rollReply = function (content, secret = false) {
+    const message = build.textMessage(content, { secret })
 
-    /**
-     * Reply with a possibly ephemeral message
-     *
-     * This is a convenience api that's handy when you know your content will fit within one message. If it
-     * might spill into more messages, use paginate instead.
-     *
-     * This helper wraps the reply in `ensure` to hopefully send the message contents even if Discord screws
-     * up the interaction handling.
-     *
-     * @see ensure
-     *
-     * @param  {str}     content   The message contents to send
-     * @param  {bool}    secret Whether the message is ephemeral or not
-     * @return {Promise}           Interaction response promise
-     */
-    klass.prototype.rollReply = function (content, secret = false) {
-      const message = build.textMessage(content, { secret })
-
-      return this.ensure("reply", message)
-    }
-  },
+    return this.ensure("reply", message)
+  }
 }

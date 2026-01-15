@@ -1,6 +1,4 @@
-const { inlineCode } = require("discord.js")
-
-const { i18n } = require("../locales")
+import { i18n } from "../locales/index.js"
 
 /**
  * Present the details of a single saved roll
@@ -9,7 +7,7 @@ const { i18n } = require("../locales")
  * @param  {str} locale     Name of the current locale
  * @return {str}            String describing all attributes of the saved roll
  */
-function present(saved_roll, locale) {
+export function present(saved_roll, locale) {
   const t = i18n.getFixedT(locale, "commands", "saved")
 
   const name = saved_roll.name ?? t("entry.details.missing.name")
@@ -58,7 +56,7 @@ function present(saved_roll, locale) {
  * @param  {str}   locale Name of the current locale
  * @return {str}          String with the saved roll list
  */
-function presentList(saved_rolls, locale) {
+export function presentList(saved_rolls, locale) {
   const t = i18n.getFixedT(locale, "commands", "saved")
 
   if (!saved_rolls.length) {
@@ -111,7 +109,7 @@ function presentList(saved_rolls, locale) {
  * @param  {str} locale     Name of the current locale
  * @return {str}            Invocation string
  */
-function presentInvocation(saved_roll, locale) {
+export function presentInvocation(saved_roll, locale) {
   const base_name = saved_roll.command ?? ""
   const base_options = saved_roll.options ?? {}
 
@@ -133,10 +131,4 @@ function presentInvocation(saved_roll, locale) {
     opts,
     context: opts.length ? "" : "zero",
   })
-}
-
-module.exports = {
-  present,
-  presentList,
-  presentInvocation,
 }

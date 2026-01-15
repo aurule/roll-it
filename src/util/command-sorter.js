@@ -1,5 +1,5 @@
-const { Collection } = require("discord.js")
-const { i18n } = require("../locales")
+import { Collection } from "discord.js"
+import { i18n } from "../locales/index.js"
 
 /**
  * Split a name into chunks of numbers and non-numbers
@@ -7,7 +7,7 @@ const { i18n } = require("../locales")
  * @param  {string}   name The string to split
  * @return {string[]}      Array of string components
  */
-function splitter(name) {
+export function splitter(name) {
   const re = /(\d+)/
   return name.split(re).filter((n) => n.length > 0)
 }
@@ -21,7 +21,7 @@ function splitter(name) {
  * @param  {i18n.t}  t   Translation function, scoped to the "commands" namespace
  * @return {string}      Normalized command name for sorting
  */
-function normalize(cmd, t) {
+export function normalize(cmd, t) {
   const t_id = cmd.i18nId ?? cmd.name
   if (cmd.parent === undefined) return t(`${t_id}.name`)
 
@@ -39,7 +39,7 @@ function normalize(cmd, t) {
  * @param  {Command} cmd Command object
  * @return {string}      Full command id
  */
-function cache_id(cmd) {
+export function cache_id(cmd) {
   const base_id = cmd.i18nId ?? cmd.name
   if (cmd.parent === undefined) return base_id
 
@@ -52,7 +52,7 @@ function cache_id(cmd) {
  * @param  {string}   locale Locale code for the sorting
  * @return {function}        Compare function suitable for use in sorting arrays
  */
-function comparator(locale) {
+export function comparator(locale) {
   const collator = new Intl.Collator(locale, { numeric: true })
   const name_cache = new Collection()
   const parts_cache = new Collection()
@@ -86,11 +86,4 @@ function comparator(locale) {
       idx += 1
     }
   }
-}
-
-module.exports = {
-  comparator,
-  splitter,
-  normalize,
-  cache_id,
 }

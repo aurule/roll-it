@@ -1,4 +1,4 @@
-const { i18n } = require("../locales")
+import { i18n } from "../locales/index.js"
 
 /**
  * Return a formatted version of the command's name
@@ -21,7 +21,7 @@ const { i18n } = require("../locales")
  * @param  {boolean} options.unformatted  Omit all markdown formatting
  * @return {String}                       Markdown-formatted string of the command's name
  */
-function present(command, locale, options = {}) {
+export function present(command, locale, options = {}) {
   const t = i18n.getFixedT(locale)
   const command_id = command.i18nId ?? command.name
   const t_args = {}
@@ -53,7 +53,7 @@ function present(command, locale, options = {}) {
  * @param  {str}              locale       Locale name for the command string
  * @return {Array<str|str[]>}              List of markdown-formatted command names, including subcommands
  */
-function list(all_commands, locale) {
+export function list(all_commands, locale) {
   const t = i18n.getFixedT(locale, "commands")
   return all_commands.map((cmd) => {
     const command_id = cmd.i18nId ?? cmd.name
@@ -62,9 +62,4 @@ function list(all_commands, locale) {
       : t(`${command_id}.description`)
     return `${present(cmd, locale)} - ${description}`
   })
-}
-
-module.exports = {
-  present,
-  list,
 }

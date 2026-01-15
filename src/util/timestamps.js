@@ -1,9 +1,5 @@
-const { TimestampStyles, time } = require("discord.js")
+import { TimestampStyles, time } from "discord.js"
 
-function relativeTimestamp(utc_date) {
+export function relativeTimestamp(utc_date) {
   return time(utc_date, TimestampStyles.RelativeTime)
-}
-
-module.exports = {
-  relativeTimestamp,
 }

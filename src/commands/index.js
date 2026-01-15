@@ -1,11 +1,14 @@
-const fs = require("fs")
-const path = require("path")
-const { Collection } = require("@discordjs/collection")
-const { available_locales } = require("../locales")
-const { comparator } = require("../util/command-sorter")
+import * as fs from "node:fs"
+import * as path from "node:path"
 
-const { jsNoTests } = require("../util/filters")
+import { Collection } from "@discordjs/collection"
+import { available_locales } from "../locales/index.js"
+import { comparator } from "../util/command-sorter.js"
 
+import { jsNoTests } from "../util/filters.js"
+
+const __dirname = import.meta.dirname;
+const __filename = import.meta.filename;
 const basename = path.basename(__filename)
 const commandsDir = __dirname
 
@@ -16,7 +19,7 @@ const commandsDir = __dirname
  *
  * @type {Collection}
  */
-const commands = new Collection()
+export const commands = new Collection()
 
 commands.global = new Collection()
 commands.guild = new Collection()
@@ -38,8 +41,8 @@ const contents = fs
   .filter((file) => {
     return file !== basename
   })
-contents.forEach((command_file) => {
-  const command = require(path.join(commandsDir, command_file))
+contents.forEach(async (command_file) => {
+  const command = await import(path.join(commandsDir, command_file))
   commands.set(command.name, command)
   commands.all_choices.push({
     name: command.name,
@@ -75,5 +78,3 @@ for (const locale of available_locales) {
   commands.sorted.savable.set(locale, commands.savable.toSorted(comparator(locale)))
   commands.sorted.teamworkable.set(locale, commands.teamworkable.toSorted(comparator(locale)))
 }
-
-module.exports = commands

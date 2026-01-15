@@ -2,47 +2,45 @@
  * This patch creates a small helper method named "whisper" on all interaction objects.
  */
 
-const {
+import {
   CommandInteraction,
   ModalSubmitInteraction,
   ButtonInteraction,
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
   Message,
-} = require("discord.js")
+} from "discord.js"
 
-const build = require("../util/message-builders")
+import * as build from "../util/message-builders.js"
 
-module.exports = {
+/**
+ * Create the whisper method
+ */
+export function patch(target_klass) {
+  let klasses = [
+    CommandInteraction,
+    ModalSubmitInteraction,
+    ButtonInteraction,
+    UserSelectMenuInteraction,
+    StringSelectMenuInteraction,
+    Message,
+  ]
+  if (target_klass) {
+    klasses = [target_klass]
+  }
+
   /**
-   * Create the whisper method
+   * Reply with an ephemeral message
+   *
+   * @param  {str}     content The message contents to send
+   * @return {Promise}         Interaction response promise
    */
-  patch(target_klass) {
-    let klasses = [
-      CommandInteraction,
-      ModalSubmitInteraction,
-      ButtonInteraction,
-      UserSelectMenuInteraction,
-      StringSelectMenuInteraction,
-      Message,
-    ]
-    if (target_klass) {
-      klasses = [target_klass]
-    }
+  const whisper = function (content) {
+    const message = build.textMessage(content, { secret: true })
+    return this.reply(message)
+  }
 
-    /**
-     * Reply with an ephemeral message
-     *
-     * @param  {str}     content The message contents to send
-     * @return {Promise}         Interaction response promise
-     */
-    const whisper = function (content) {
-      const message = build.textMessage(content, { secret: true })
-      return this.reply(message)
-    }
-
-    for (const klass of klasses) {
-      klass.prototype.whisper = whisper
-    }
-  },
+  for (const klass of klasses) {
+    klass.prototype.whisper = whisper
+  }
 }

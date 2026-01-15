@@ -3,7 +3,7 @@
  *
  * Unlike most errors, this expects to receive an array of messages.
  */
-class RollParseError extends Error {
+export class RollParseError extends Error {
   constructor(...messages) {
     super()
     this.messages = messages
@@ -17,8 +17,4 @@ class RollParseError extends Error {
   get message() {
     return this.messages.join("\n")
   }
-}
-
-module.exports = {
-  RollParseError,
 }

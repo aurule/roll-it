@@ -11,7 +11,7 @@ const { i18n, available_locales } = require("./index")
  * @param  {str} option_name  Optional. Name of the option this string is for.
  * @return {str}              Canonical string for the named key
  */
-function canonical(partial, command_name, option_name) {
+export function canonical(partial, command_name, option_name) {
   const key_parts = [`commands:${command_name}`]
   if (option_name) {
     key_parts.push("options")
@@ -36,7 +36,7 @@ function canonical(partial, command_name, option_name) {
  * @param  {str} option_name  Optional. Name of the option the strings are for.
  * @return {obj}              Object whose keys are discord locale names, and values are that locale's string
  */
-function mapped(partial, command_name, option_name) {
+export function mapped(partial, command_name, option_name) {
   const key_parts = [`commands:${command_name}`]
   if (option_name) {
     key_parts.push("options")
@@ -53,7 +53,7 @@ function mapped(partial, command_name, option_name) {
   return localizations
 }
 
-const shared = {
+export const shared = {
   /**
    * Get the canonical version of the key for a shared option
    *
@@ -94,13 +94,6 @@ const shared = {
  * @param  {string} locale Locale code to check
  * @return {string}        The locale code, or "en-US"
  */
-function safe_locale(locale) {
+export function safe_locale(locale) {
   return available_locales.includes(locale) ? locale : "en-US"
-}
-
-module.exports = {
-  canonical,
-  mapped,
-  shared,
-  safe_locale,
 }

@@ -2,12 +2,12 @@
  * This patch creates a helper method named "paginate" on all command interaction objects.
  */
 
-const { CommandInteraction } = require("discord.js")
-const { i18n } = require("../locales")
-const { logger } = require("../util/logger")
-const build = require("../util/message-builders")
-const api = require("../services/api")
-const { sendError } = require("../services/metrics")
+import { CommandInteraction } from "discord.js"
+import { i18n } from "../locales/index.js"
+import { logger } from "../util/logger.js"
+import * as build from "../util/message-builders.js"
+import { sendMessage } from "../services/api.js"
+import { sendError } from "../services/metrics.js"
 
 const inline_formatting_regexes = [
   /\*[^\n]+\*/g,
@@ -18,7 +18,7 @@ const inline_formatting_regexes = [
   /\([^\n]+\)/g,
 ]
 
-class Paginator {
+export class Paginator {
   /**
    * The original, full-length text to be paginated
    *
@@ -248,8 +248,8 @@ class Paginator {
  * @param  {object}    message    Object of message data
  * @return {Promise}              Promise resolving once the API call is made
  */
-async function sendDetached(channel_id, message) {
-  return api.sendMessage(channel_id, message).catch((err) => {
+export async function sendDetached(channel_id, message) {
+  return sendMessage(channel_id, message).catch((err) => {
     sendError(err, {
       channel: channel_id,
       args: message,
@@ -265,87 +265,83 @@ async function sendDetached(channel_id, message) {
   })
 }
 
-module.exports = {
+/**
+ * Create the paginate method
+ */
+export function patch(klass) {
+  if (!klass) klass = CommandInteraction
+
   /**
-   * Create the paginate method
+   * Split a long message if needed and send in multiple replies
+   *
+   * This is a convenience api that's handy when your content might spill into multiple messages. If you
+   * know it will fit in a single message, use rollReply instead.
+   *
+   * @param  {object}      opts
+   * @param  {string}      opts.content    The potentially long string to send
+   * @param  {boolean}     opts.secret     Whether the messages should be ephemeral
+   * @param  {number}      opts.max_length Maximum length of a single message
+   * @return {Interaction}                 Interaction object
    */
-  patch(klass) {
-    if (!klass) klass = CommandInteraction
+  klass.prototype.paginate = async function ({ content, secret = false, max_length }) {
+    const paginator = new Paginator(content, max_length, this.locale)
+    const contents = paginator.messages()
 
     /**
-     * Split a long message if needed and send in multiple replies
+     * Mode for sending the paginated messages
      *
-     * This is a convenience api that's handy when your content might spill into multiple messages. If you
-     * know it will fit in a single message, use rollReply instead.
+     * Defaults to "reply", with expected transition to "followup" after the first message is sent. In the
+     * case of an "unknown interaction" error from discord, changes to "detached" to send messages without
+     * referencing our interaction.
      *
-     * @param  {object}      opts
-     * @param  {string}      opts.content    The potentially long string to send
-     * @param  {boolean}     opts.secret     Whether the messages should be ephemeral
-     * @param  {number}      opts.max_length Maximum length of a single message
-     * @return {Interaction}                 Interaction object
+     * @type {"reply" | "followup" | "detached"}
      */
-    klass.prototype.paginate = async function ({ content, secret = false, max_length }) {
-      const paginator = new Paginator(content, max_length, this.locale)
-      const contents = paginator.messages()
+    let mode = "reply"
 
-      /**
-       * Mode for sending the paginated messages
-       *
-       * Defaults to "reply", with expected transition to "followup" after the first message is sent. In the
-       * case of an "unknown interaction" error from discord, changes to "detached" to send messages without
-       * referencing our interaction.
-       *
-       * @type {"reply" | "followup" | "detached"}
-       */
-      let mode = "reply"
+    for (let idx = 0; idx < contents.length; idx++) {
+      const reply_args = build.textMessage(contents[idx], { secret })
 
-      for (let idx = 0; idx < contents.length; idx++) {
-        const reply_args = build.textMessage(contents[idx], { secret })
-
-        switch (mode) {
-          case "reply":
-            await this.reply(reply_args).catch((err) => {
-              if (err.code === 10062) {
-                logger.warn(
-                  {
-                    err,
-                    fn: "reply",
-                    args: reply_args,
-                  },
-                  'Got "Unknown interaction" for "reply". Re-sending this and followups as detached messages.',
-                )
-                mode = "detached"
-                sendDetached(this.channel.id, reply_args)
-              }
-            })
-            break
-          case "followup":
-            await this.followUp(reply_args).catch((err) => {
-              if (err.code === 10062) {
-                logger.warn(
-                  {
-                    err,
-                    fn: "followUp",
-                    args: reply_args,
-                  },
-                  'Got "Unknown interaction" for "followUp". Re-sending this and other followups as detached messages.',
-                )
-                mode = "detached"
-                sendDetached(this.channel.id, reply_args)
-              }
-            })
-            break
-          case "detached":
-            await sendDetached(this.channel.id, reply_args)
-            break
-        }
-
-        if (mode == "reply" && this.replied) mode = "followup"
+      switch (mode) {
+        case "reply":
+          await this.reply(reply_args).catch((err) => {
+            if (err.code === 10062) {
+              logger.warn(
+                {
+                  err,
+                  fn: "reply",
+                  args: reply_args,
+                },
+                'Got "Unknown interaction" for "reply". Re-sending this and followups as detached messages.',
+              )
+              mode = "detached"
+              sendDetached(this.channel.id, reply_args)
+            }
+          })
+          break
+        case "followup":
+          await this.followUp(reply_args).catch((err) => {
+            if (err.code === 10062) {
+              logger.warn(
+                {
+                  err,
+                  fn: "followUp",
+                  args: reply_args,
+                },
+                'Got "Unknown interaction" for "followUp". Re-sending this and other followups as detached messages.',
+              )
+              mode = "detached"
+              sendDetached(this.channel.id, reply_args)
+            }
+          })
+          break
+        case "detached":
+          await sendDetached(this.channel.id, reply_args)
+          break
       }
 
-      return this
+      if (mode == "reply" && this.replied) mode = "followup"
     }
-  },
-  Paginator,
-  sendDetached,
+
+    return this
+  }
 }

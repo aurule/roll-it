@@ -11,7 +11,7 @@
  * @param  {str} value The (dis)advantage string to convert
  * @return {str}       Converted string. One of "highest", "lowest", or "all".
  */
-function with_to_keep(value) {
+export function with_to_keep(value) {
   switch (value) {
     case "advantage":
       return "highest"
@@ -20,8 +20,4 @@ function with_to_keep(value) {
     default:
       return "all"
   }
-}
-
-module.exports = {
-  with_to_keep,
 }

@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, SlashCommandSubcommandBuilder } = require("discord.js")
+import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from "discord.js"
 
-const { canonical, mapped } = require("../locales/helpers")
+import { canonical, mapped } from "../locales/helpers.js"
 
 /**
  * Command builder which automatically populates common localization data
@@ -22,7 +22,7 @@ const { canonical, mapped } = require("../locales/helpers")
  *
  * @class
  */
-class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
+export class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
   constructor(command_name) {
     super()
 
@@ -203,7 +203,7 @@ class LocalizedSlashCommandBuilder extends SlashCommandBuilder {
  *
  * @class
  */
-class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
+export class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
   constructor(command_name, parent_name) {
     super()
 
@@ -362,9 +362,4 @@ class LocalizedSubcommandBuilder extends SlashCommandSubcommandBuilder {
   addLocalizedAttachmentOption(option_name, optionFn) {
     return this.addLocalizedOption(option_name, "attachment", optionFn)
   }
-}
-
-module.exports = {
-  LocalizedSlashCommandBuilder,
-  LocalizedSubcommandBuilder,
 }

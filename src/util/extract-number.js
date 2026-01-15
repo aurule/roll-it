@@ -4,12 +4,8 @@
  * @param  {string}  content String to parse
  * @return {number?}         Extracted number, or undefined if one is not found
  */
-function extractNumber(content) {
+export function extractNumber(content) {
   const match = content.replace(/\s/g, "").match(/-?\d+/)
   if (match === null) return undefined
   return parseInt(match[0])
-}
-
-module.exports = {
-  extractNumber,
 }

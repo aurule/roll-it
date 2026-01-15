@@ -2,80 +2,78 @@
  * Callbacks for common shared command options.
  */
 
-const { shared } = require("../locales/helpers")
+import { shared } from "../locales/helpers.js"
 
-module.exports = {
-  /**
-   * Description option
-   *
-   * @param  {SlashCommandStringOption} option Option to populate
-   * @return {SlashCommandStringOption}        Populated option
-   */
-  description(option) {
-    return option
-      .setName("description")
-      .setNameLocalizations(shared.mapped("name", option.name))
-      .setDescription(shared.canonical("description", option.name))
-      .setDescriptionLocalizations(shared.mapped("description", option.name))
-      .setMaxLength(1500)
-  },
+/**
+ * Description option
+ *
+ * @param  {SlashCommandStringOption} option Option to populate
+ * @return {SlashCommandStringOption}        Populated option
+ */
+export function description(option) {
+  return option
+    .setName("description")
+    .setNameLocalizations(shared.mapped("name", option.name))
+    .setDescription(shared.canonical("description", option.name))
+    .setDescriptionLocalizations(shared.mapped("description", option.name))
+    .setMaxLength(1500)
+}
 
-  /**
-   * Rolls option
-   *
-   * @param  {SlashCommandIntegerOption} option Option to populate
-   * @return {SlashCommandIntegerOption}        Populated option
-   */
-  rolls(option) {
-    return option
-      .setName("rolls")
-      .setNameLocalizations(shared.mapped("name", option.name))
-      .setDescription(shared.canonical("description", option.name))
-      .setDescriptionLocalizations(shared.mapped("description", option.name))
-      .setMinValue(1)
-      .setMaxValue(100)
-  },
+/**
+ * Rolls option
+ *
+ * @param  {SlashCommandIntegerOption} option Option to populate
+ * @return {SlashCommandIntegerOption}        Populated option
+ */
+export function rolls(option) {
+  return option
+    .setName("rolls")
+    .setNameLocalizations(shared.mapped("name", option.name))
+    .setDescription(shared.canonical("description", option.name))
+    .setDescriptionLocalizations(shared.mapped("description", option.name))
+    .setMinValue(1)
+    .setMaxValue(100)
+}
 
-  /**
-   * Secret option
-   *
-   * @param  {SlashCommandBooleanOption} option Option to populate
-   * @return {SlashCommandBooleanOption}        Populated option
-   */
-  secret(option) {
-    return option
-      .setName("secret")
-      .setNameLocalizations(shared.mapped("name", option.name))
-      .setDescription(shared.canonical("description", option.name))
-      .setDescriptionLocalizations(shared.mapped("description", option.name))
-  },
+/**
+ * Secret option
+ *
+ * @param  {SlashCommandBooleanOption} option Option to populate
+ * @return {SlashCommandBooleanOption}        Populated option
+ */
+export function secret(option) {
+  return option
+    .setName("secret")
+    .setNameLocalizations(shared.mapped("name", option.name))
+    .setDescription(shared.canonical("description", option.name))
+    .setDescriptionLocalizations(shared.mapped("description", option.name))
+}
 
-  /**
-   * Pool option
-   *
-   * @param  {SlashCommandIntegerOption} option Option to populate
-   * @return {SlashCommandIntegerOption}        Populated option
-   */
-  pool(option) {
-    return option
-      .setName("pool")
-      .setNameLocalizations(shared.mapped("name", option.name))
-      .setDescription(shared.canonical("description", option.name))
-      .setDescriptionLocalizations(shared.mapped("description", option.name))
-      .setMinValue(1)
-  },
+/**
+ * Pool option
+ *
+ * @param  {SlashCommandIntegerOption} option Option to populate
+ * @return {SlashCommandIntegerOption}        Populated option
+ */
+export function pool(option) {
+  return option
+    .setName("pool")
+    .setNameLocalizations(shared.mapped("name", option.name))
+    .setDescription(shared.canonical("description", option.name))
+    .setDescriptionLocalizations(shared.mapped("description", option.name))
+    .setMinValue(1)
+}
 
-  /**
-   * Teamwork option
-   *
-   * @param  {SlashCommandBooleanOption} option Option to populate
-   * @return {SlashCommandBooleanOption}        Populated option
-   */
-  teamwork(option) {
-    return option
-      .setName("teamwork")
-      .setNameLocalizations(shared.mapped("name", option.name))
-      .setDescription(shared.canonical("description", option.name))
-      .setDescriptionLocalizations(shared.mapped("description", option.name))
-  },
+/**
+ * Teamwork option
+ *
+ * @param  {SlashCommandBooleanOption} option Option to populate
+ * @return {SlashCommandBooleanOption}        Populated option
+ */
+export function teamwork(option) {
+  return option
+    .setName("teamwork")
+    .setNameLocalizations(shared.mapped("name", option.name))
+    .setDescription(shared.canonical("description", option.name))
+    .setDescriptionLocalizations(shared.mapped("description", option.name))
 }

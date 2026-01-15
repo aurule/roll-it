@@ -1,7 +1,7 @@
 /**
  * Error class to throw when a non-allowed user tries to interact with a component
  */
-class UnauthorizedError extends Error {
+export class UnauthorizedError extends Error {
   interaction
   allowed_uids
 
@@ -17,8 +17,4 @@ class UnauthorizedError extends Error {
     this.interaction = interaction
     this.allowed_uids = allowed_uids
   }
-}
-
-module.exports = {
-  UnauthorizedError,
 }

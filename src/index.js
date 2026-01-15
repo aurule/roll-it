@@ -1,32 +1,39 @@
-require("dotenv").config({ quiet: true })
+import 'dotenv/config'
 
-const process = require("node:process")
-const { logger } = require("./util/logger")
-const { posthog, sendError } = require("./services/metrics")
+import process from "node:process"
+import { logger } from "./util/logger.js"
+import { client as posthog, sendError } from "./services/metrics.js"
 
 process.on("unhandledRejection", (error) => {
   sendError(error, { origin: "Unhandled promise rejection" })
   logger.error(error, "Unhandled promise rejection")
 })
 
-require("./patches/whisper").patch()
-require("./patches/ensure").patch()
-require("./patches/paginate").patch()
-require("./patches/roll-reply").patch()
-require("./patches/authorize").patch()
+import { patch as patchWhisper } from "./patches/whisper.js"
+import { patch as patchEnsure } from "./patches/ensure.js"
+import { patch as patchPaginate } from "./patches/paginate.js"
+import { patch as patchRollReply } from "./patches/roll-reply.js"
+import { patch as patchAuthorize } from "./patches/authorize.js"
 
-const {
+patchWhisper()
+patchEnsure()
+patchPaginate()
+patchRollReply()
+patchAuthorize()
+
+import {
   Client,
   GatewayIntentBits,
   ActivityType,
   PresenceUpdateStatus,
   Partials,
-} = require("discord.js")
-const commands = require("./commands")
-const modals = require("./modals")
-const events = require("./events")
+} from "discord.js"
 
-const { version } = require("../package.json")
+import { commands } from "./commands/index.js"
+import { modals } from "./modals/index.js"
+import { events } from "./events/index.js"
+
+import package_data from "../package.json" with { type: "json" }
 
 // Create a new client instance
 const client = new Client({
@@ -35,7 +42,7 @@ const client = new Client({
   presence: {
     activities: [
       {
-        name: `Roll some dice! Or try /help | v${version}`,
+        name: `Roll some dice! Or try /help | v${package_data.version}`,
         type: ActivityType.Custom,
       },
     ],
@@ -54,8 +61,3 @@ events.register(client)
 
 // Login to Discord with your client's token
 client.login(process.env.BOT_TOKEN)
-
-// Gracefully shut down the posthog handler
-process.on("beforeExit", async (_code) => {
-  await posthog.shutdown()
-})

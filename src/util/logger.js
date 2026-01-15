@@ -1,19 +1,20 @@
-const pino = require("pino")
+import pino from "pino"
 
-require("dotenv").config({ quiet: true })
-
-function pickStream(env_name = process.env.NODE_ENV) {
+export function pickStream(env_name = process.env.NODE_ENV) {
   if (env_name == "development") {
-    const pretty = require("pino-pretty")
-    return pretty()
+    return pino.transport({
+      target: "pino-pretty"
+    })
   }
   if (env_name == "test") {
-    const devnull = require("dev-null")
-    return devnull()
+    return pino.transport({
+      target: "dev-null"
+    })
   }
   if (env_name == "ci") {
-    const devnull = require("dev-null")
-    return devnull()
+    return pino.transport({
+      target: "dev-null"
+    })
   }
   if (env_name == "production") {
     // makes use of these envvars:
@@ -42,12 +43,9 @@ const default_levels = {
   production: "warn",
 }
 
-module.exports = {
-  logger: pino(
-    {
-      level: default_levels[process.env.NODE_ENV],
-    },
-    pickStream(),
-  ),
-  pickStream,
-}
+export const logger = pino(
+  {
+    level: default_levels[process.env.NODE_ENV],
+  },
+  pickStream(),
+)
