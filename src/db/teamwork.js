@@ -1,10 +1,11 @@
-const { oneLine } = require("common-tags")
+import { oneLine } from "common-tags"
+import { db as defaultDb } from "./index.js"
 
 /**
  * Message type enum
  * @type {Object}
  */
-const MessageType = Object.freeze({
+export const MessageType = Object.freeze({
   Prompt: 1,
   Plain: 2,
 })
@@ -12,7 +13,7 @@ const MessageType = Object.freeze({
 /**
  * Class to manage teamwork state tracking
  */
-class Teamwork {
+export class Teamwork {
   /**
    * Database object
    * @type Database
@@ -25,7 +26,7 @@ class Teamwork {
    * @return {Teamwork}        New Teamwork object
    */
   constructor(db_obj) {
-    this.db = db_obj ?? require("./index").db
+    this.db = db_obj ?? defaultDb
   }
 
   /**
@@ -444,9 +445,4 @@ class Teamwork {
 
     return select.all(teamwork_id)
   }
-}
-
-module.exports = {
-  MessageType,
-  Teamwork,
 }

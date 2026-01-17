@@ -1,5 +1,5 @@
-const { i18n } = require("../../locales")
-const { operator } = require("../../util/formatters/signed")
+import { i18n } from "../../locales/index.js"
+import { operator } from "../../util/formatters/signed.js"
 
 const BONUS_ORDER = ["base", "intrinsic", "conditional", "avoid"]
 const DEFAULT_CRIT = 10
@@ -11,7 +11,7 @@ const DEFAULT_BOTCH = 95
  * The presenter is designed to handle a single roll or set of identical rolls. It must not be reused for
  * different inputs.
  */
-class FfrpgPresenter {
+export class FfrpgPresenter {
   raw
   base
   intrinsic
@@ -175,19 +175,17 @@ class FfrpgPresenter {
   }
 }
 
-module.exports = {
-  /**
-   * Present one or more results from the ffrpg command
-   *
-   * This is the main entry point for the nwod presenter. It's best to use this function instead of manually
-   * creating and using an FfrpgPresenter object.
-   *
-   * @param  {...options} options.rollOptions Roll options and results
-   * @return {String}                         String describing the roll results
-   */
-  present: ({ ...rollOptions }) => {
-    const presenter = new FfrpgPresenter(rollOptions)
-    return presenter.presentResults()
-  },
-  FfrpgPresenter,
+
+/**
+ * Present one or more results from the ffrpg command
+ *
+ * This is the main entry point for the nwod presenter. It's best to use this function instead of manually
+ * creating and using an FfrpgPresenter object.
+ *
+ * @param  {...options} options.rollOptions Roll options and results
+ * @return {String}                         String describing the roll results
+ */
+export function present({ ...rollOptions }) {
+  const presenter = new FfrpgPresenter(rollOptions)
+  return presenter.presentResults()
 }

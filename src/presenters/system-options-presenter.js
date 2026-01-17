@@ -1,5 +1,5 @@
 import { i18n } from "../locales/index.js"
-import { systems } from "../data/index.js"
+import { systems } from "../data/systems.js"
 
 /**
  * Generate Discord string select menu options for our systems

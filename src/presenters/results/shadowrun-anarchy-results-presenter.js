@@ -1,6 +1,4 @@
-const { strikethrough, bold } = require("discord.js")
-
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 /**
  * Class to more conveniently handle the complex presentation logic for a shadowrun anarchy roll
@@ -8,7 +6,7 @@ const { i18n } = require("../../locales")
  * The presenter is designed to handle a single roll or set of identical rolls. It must not be reused for
  * different rolls.
  */
-class ShadowrunAnarchyPresenter {
+export class ShadowrunAnarchyPresenter {
   _glitches = undefined
 
   /**
@@ -222,8 +220,4 @@ class ShadowrunAnarchyPresenter {
         return `__${risked.join(", ")}__, ${regular.join(", ")}`
     }
   }
-}
-
-module.exports = {
-  ShadowrunAnarchyPresenter,
 }

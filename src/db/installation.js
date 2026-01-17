@@ -1,7 +1,7 @@
-const { oneLine } = require("common-tags")
-const { CachedDb } = require("./cached-db")
+import { oneLine } from "common-tags"
+import { CachedDb } from "./cached-db.js"
 
-class Installation extends CachedDb {
+export class Installation extends CachedDb {
   /**
    * Create a new installation record
    *
@@ -282,8 +282,4 @@ class Installation extends CachedDb {
       finished: !!raw_out.finished_at,
     }
   }
-}
-
-module.exports = {
-  Installation,
 }

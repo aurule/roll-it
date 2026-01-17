@@ -6,8 +6,8 @@ const { sum } = require("../services/tally")
 const { present } = require("../presenters/results/formula-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters")
-const { operator } = require("../util/formatters")
+const { injectMention } = require("../util/formatters/inject-user.js")
+const { operator } = require("../util/formatters/signed.js")
 
 const command_name = "formula"
 

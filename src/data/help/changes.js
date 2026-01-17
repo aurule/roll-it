@@ -2,11 +2,11 @@
  * Provides data used to show the "changes" help topic
  */
 
-const fs = require("fs")
-const path = require("path")
+import fs from "node:fs"
+import path from "node:path"
 
-const { version } = require("../../../package.json")
-const { i18n } = require("../../locales")
+import package_data from "../package.json" with { type: "json" }
+import { i18n } from "../../locales/index.js"
 
 /**
  * Read the changelog file for a given version
@@ -18,7 +18,7 @@ const { i18n } = require("../../locales")
  * @param  {str} locale            Locale key for the missing changelog string
  * @return {Buffer|str}            Changelog text or missing changelog string
  */
-function getChangelog(changelog_version, locale) {
+export function getChangelog(changelog_version, locale) {
   try {
     return fs.readFileSync(path.join(__dirname, "../../../changelog", `${changelog_version}.md`))
   } catch {
@@ -26,13 +26,11 @@ function getChangelog(changelog_version, locale) {
   }
 }
 
-module.exports = {
-  name: "changes",
-  help_data(locale) {
-    return {
-      version,
-      changelog: getChangelog(version, locale),
-    }
-  },
-  getChangelog,
+export function data(locale) {
+  const version = package_data.version
+
+  return {
+    version,
+    changelog: getChangelog(version, locale)
+  }
 }

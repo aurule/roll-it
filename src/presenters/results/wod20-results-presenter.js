@@ -1,7 +1,7 @@
-const { bold, strikethrough, underline } = require("discord.js")
-const { i18n } = require("../../locales")
+import { bold, strikethrough, underline } from "discord.js"
+import { i18n } from "../../locales/index.js"
 
-class WodPresenter {
+export class WodPresenter {
   /**
    * Create a new WodPresenter object
    *
@@ -149,19 +149,16 @@ class WodPresenter {
   }
 }
 
-module.exports = {
-  /**
-   * Present one or more results from the wod20 command
-   *
-   * This is the main entry point for the wod20 presenter. It's best to use this function instead of
-   * manually creating and using a WodPresenter object.
-   *
-   * @param  {...options} options.rollOptions Roll options and results
-   * @return {String}                         String describing the roll results
-   */
-  present: ({ ...rollOptions }) => {
-    const presenter = new WodPresenter(rollOptions)
-    return presenter.presentResults()
-  },
-  WodPresenter,
+/**
+ * Present one or more results from the wod20 command
+ *
+ * This is the main entry point for the wod20 presenter. It's best to use this function instead of
+ * manually creating and using a WodPresenter object.
+ *
+ * @param  {...options} options.rollOptions Roll options and results
+ * @return {String}                         String describing the roll results
+ */
+export function present({ ...rollOptions }) {
+  const presenter = new WodPresenter(rollOptions)
+  return presenter.presentResults()
 }

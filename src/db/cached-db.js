@@ -1,9 +1,11 @@
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
+
+import { db as defaultDb } from "./index.js"
 
 /**
  * Database helper superclass to cache prepared statements
  */
-class CachedDb {
+export class CachedDb {
   /**
    * Database object
    * @type Database
@@ -25,7 +27,7 @@ class CachedDb {
    * @return {CachedDb}        New CachedDb object
    */
   constructor(db_obj) {
-    this.db = db_obj ?? require("./index").db
+    this.db = db_obj ?? defaultDb
   }
 
   /**
@@ -45,8 +47,4 @@ class CachedDb {
       return prepared
     })
   }
-}
-
-module.exports = {
-  CachedDb,
 }

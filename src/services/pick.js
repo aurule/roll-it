@@ -2,7 +2,7 @@
  * All strategy names that are supported
  * @type {Array}
  */
-const strategies = ["highest", "lowest", "all"]
+export const strategies = ["highest", "lowest", "all"]
 
 /**
  * Keep a number of array entries using the given strategy
@@ -12,7 +12,7 @@ const strategies = ["highest", "lowest", "all"]
  * @param  {str}      strategy Name of the strategy to use. Must appear in `strategies`.
  * @return {obj}               Object containing an indexes and results attribute.
  */
-function keepFromArray(source, keep, strategy) {
+export function keepFromArray(source, keep, strategy) {
   if (!strategies.includes(strategy)) {
     throw new TypeError(`unknown pick strategy "${strategy}"`)
   }
@@ -43,19 +43,14 @@ function keepFromArray(source, keep, strategy) {
   }
 }
 
-module.exports = {
-  strategies,
-  keepFromArray,
-
-  /**
-   * Shrink a result set by keeping a smaller number of dice
-   *
-   * @param  {Array<int[]>} raw_results Array of lists of die result numbers
-   * @param  {Number}       dice        Number of dice to keep in each result
-   * @param  {String}       strategy    Method to use to keep dice
-   * @return {Array<obj>}               Array of objects, each with an indexes and results attribute
-   */
-  pickDice(raw_results, dice = 1, strategy = "highest") {
-    return raw_results.map((raw) => keepFromArray(raw, dice, strategy))
-  },
+/**
+ * Shrink a result set by keeping a smaller number of dice
+ *
+ * @param  {Array<int[]>} raw_results Array of lists of die result numbers
+ * @param  {Number}       dice        Number of dice to keep in each result
+ * @param  {String}       strategy    Method to use to keep dice
+ * @return {Array<obj>}               Array of objects, each with an indexes and results attribute
+ */
+export function pickDice(raw_results, dice = 1, strategy = "highest") {
+  return raw_results.map((raw) => keepFromArray(raw, dice, strategy))
 }

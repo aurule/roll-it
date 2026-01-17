@@ -1,6 +1,6 @@
-const { strikethrough, bold } = require("discord.js")
+import { strikethrough, bold } from "discord.js"
 
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 /**
  * Class to more conveniently handle the complex presentation logic for a shadowrun roll
@@ -8,7 +8,7 @@ const { i18n } = require("../../locales")
  * The presenter is designed to handle a single roll or set of identical rolls. It must not be reused for
  * different rolls.
  */
-class ShadowrunPresenter {
+export class ShadowrunPresenter {
   /**
    * Create a new ShadowrunPresenter object
    *
@@ -159,19 +159,16 @@ class ShadowrunPresenter {
   }
 }
 
-module.exports = {
-  /**
-   * Present one or more results from the shadowrun command
-   *
-   * This is the main entry point for the shadowrun presenter. It's best to use this function instead of
-   * manually creating and using a ShadowrunPresenter object.
-   *
-   * @param  {...options} options.rollOptions Roll options and results
-   * @return {string}                         String describing the roll results
-   */
-  present: ({ ...rollOptions }) => {
-    const presenter = new ShadowrunPresenter(rollOptions)
-    return presenter.presentResults()
-  },
-  ShadowrunPresenter,
+/**
+ * Present one or more results from the shadowrun command
+ *
+ * This is the main entry point for the shadowrun presenter. It's best to use this function instead of
+ * manually creating and using a ShadowrunPresenter object.
+ *
+ * @param  {...options} options.rollOptions Roll options and results
+ * @return {string}                         String describing the roll results
+ */
+export function present({ ...rollOptions }) {
+  const presenter = new ShadowrunPresenter(rollOptions)
+  return presenter.presentResults()
 }

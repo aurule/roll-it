@@ -1,8 +1,7 @@
-const { bold, underline, italic, strikethrough, Collection } = require("discord.js")
-const { sum } = require("mathjs")
+import { bold, underline, Collection } from "discord.js"
+import { sum } from "mathjs"
 
-const { indeterminate } = require("../../util/formatters")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 /**
  * List of strength names in descending order
@@ -16,7 +15,7 @@ const strengthPrecedence = ["discipline", "madness", "exhaustion", "pain"]
 /**
  * Class to show the outcome of one or more drh tests
  */
-class DrhPresenter {
+export class DrhPresenter {
   /**
    * Array of results for each test
    *
@@ -136,7 +135,7 @@ class DrhPresenter {
 /**
  * Class to show the details of a single roll, with multiple pools
  */
-class DrhRollPresenter {
+export class DrhRollPresenter {
   /**
    * The pools of this roll
    *
@@ -406,7 +405,7 @@ class DrhRollPresenter {
 /**
  * Class to show the outcome of a helper roll
  */
-class DrhTeamworkPresenter {
+export class DrhTeamworkPresenter {
   /**
    * Array of results for each test
    *
@@ -504,23 +503,19 @@ class DrhTeamworkPresenter {
     return strength.dice.map((die) => (die < 4 ? bold(die) : `${die}`)).join(", ")
   }
 }
-module.exports = {
-  /**
-   * Present one or more results from the drh command
-   *
-   * @param  {obj}    options Roll options
-   * @return {String}         String describing the roll results
-   */
-  present: (options) => {
-    let presenter
-    if (options.helper) {
-      presenter = new DrhTeamworkPresenter(options)
-    } else {
-      presenter = new DrhPresenter(options)
-    }
-    return presenter.presentResults()
-  },
-  DrhPresenter,
-  DrhRollPresenter,
-  DrhTeamworkPresenter,
+
+/**
+ * Present one or more results from the drh command
+ *
+ * @param  {obj}    options Roll options
+ * @return {String}         String describing the roll results
+ */
+export function present(options) {
+  let presenter
+  if (options.helper) {
+    presenter = new DrhTeamworkPresenter(options)
+  } else {
+    presenter = new DrhPresenter(options)
+  }
+  return presenter.presentResults()
 }

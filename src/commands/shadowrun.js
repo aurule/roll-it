@@ -8,7 +8,7 @@ const { ShadowrunPresenter, present } = require("../presenters/results/shadowrun
 const { teamworkBegin } = require("../interactive/teamwork")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters")
+const { injectMention } = require("../util/formatters/inject-user.js")
 const { i18n } = require("../locales")
 const sacrifice = require("../services/easter-eggs/sacrifice")
 

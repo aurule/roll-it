@@ -8,7 +8,8 @@ const starting = require("../messages/installation/starting")
 const systemHelpers = require("../services/system-helpers")
 const featureHelpers = require("../services/feature-helpers")
 const { safe_locale } = require("../locales/helpers")
-const data = require("../data")
+import { features } from "../data/features.js"
+import { systems } from "../data/systems.js"
 const { i18n } = require("../locales")
 const { present } = require("../presenters/command-name-presenter")
 
@@ -67,7 +68,7 @@ module.exports = {
     const data_t = i18n.getFixedT(locale, "translation")
     const cmd_t = i18n.getFixedT(locale, "commands", "setup-roll-it")
 
-    const systems = data.systems.map((sys) => {
+    const systems_list = systems_list.map((sys) => {
       const sys_commands = new Set(sys.commands.required)
       if (sys.commands.recommended) {
         for (const c of sys.commands.recommended) {
@@ -84,7 +85,7 @@ module.exports = {
       return cmd_t("feature", t_args)
     })
 
-    const features = data.features.map((feat) => {
+    const features_list = features_list.map((feat) => {
       const feat_commands = new Set(feat.commands)
 
       const t_args = {
@@ -98,8 +99,8 @@ module.exports = {
 
     return {
       globals: CommandNamePresenter.list(global_commands, locale),
-      systems,
-      features,
+      systems: systems_list,
+      features: features_list,
     }
   },
 }

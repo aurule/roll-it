@@ -1,4 +1,5 @@
-const { oneLine } = require("common-tags")
+import { oneLine } from "common-tags"
+import { db as defaultDb } from "./index.js"
 
 /**
  * Class to handle the management of rollable tables in the database, scoped to a single guild
@@ -8,7 +9,7 @@ const { oneLine } = require("common-tags")
  * Due to the way tables are rolled, a table which has the same result for values 1-5 will need to duplicate
  * that result five times in its contents.
  */
-class GuildRollables {
+export class GuildRollables {
   /**
    * ID of the guild to use
    * @type str
@@ -23,7 +24,7 @@ class GuildRollables {
 
   constructor(guildId, db_obj) {
     this.guildId = guildId
-    this.db = db_obj ?? require("./index").db
+    this.db = db_obj ?? defaultDb
   }
 
   /**
@@ -289,8 +290,4 @@ class GuildRollables {
       guildFlake: this.guildId,
     })
   }
-}
-
-module.exports = {
-  GuildRollables,
 }

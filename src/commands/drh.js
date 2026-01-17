@@ -5,7 +5,7 @@ const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const { present } = require("../presenters/results/drh-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters")
+const { injectMention } = require("../util/formatters/inject-user.js")
 const { DrhPool } = require("../util/rolls/drh-pool")
 const { i18n } = require("../locales")
 

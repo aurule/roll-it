@@ -2,7 +2,7 @@ const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
 const { compare, handleRequest } = require("../../services/met-roller")
 const { present } = require("../../presenters/results/met-static-results-presenter")
-const { injectMention } = require("../../util/formatters")
+const { injectMention } = require("../../util/formatters/inject-user.js")
 const sacrifice = require("../../services/easter-eggs/sacrifice")
 const advice = require("../../services/easter-eggs/advice")
 

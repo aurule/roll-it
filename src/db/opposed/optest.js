@@ -1,4 +1,5 @@
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
+import { Participant } from "../opposed/participant.js"
 
 /**
  * Special class for handling opposed test records
@@ -7,7 +8,7 @@ const { Collection } = require("discord.js")
  *
  * This is the only class with the "Op" prefix, in order to distinguish it from parts of the testing package.
  */
-class OpTest {
+export class OpTest {
   /**
    * Database ID of our corresponding test record
    * @type {int}
@@ -200,7 +201,6 @@ class OpTest {
    * @return {Participant|undefined} The named participant record, or undefined if not found
    */
   populateParticipants(key) {
-    const { Participant } = require("../opposed/participant")
     const participants = this.opposed_db.getParticipants(this.challenge_id, true)
     this.records.set("leader", participants.get(this.leader_id))
     this.records.set(
@@ -275,8 +275,4 @@ class OpTest {
   get challenge() {
     return this.records.ensure("challenge", () => this.opposed_db.getChallenge(this.challenge_id))
   }
-}
-
-module.exports = {
-  OpTest,
 }

@@ -1,7 +1,7 @@
 /**
  * Class for representing participant records
  */
-class Participant {
+export class Participant {
   /**
    * Internal ID of the participant record
    * @type {int}
@@ -106,8 +106,4 @@ class Participant {
     this.role = role
     this.challenge_id = challenge_id
   }
-}
-
-module.exports = {
-  Participant,
 }

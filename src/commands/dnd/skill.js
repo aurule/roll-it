@@ -2,7 +2,7 @@ const Joi = require("joi")
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
-const { injectMention } = require("../../util/formatters")
+const { injectMention } = require("../../util/formatters/inject-user.js")
 const { roll } = require("../../services/base-roller")
 const { presentSkill } = require("../../presenters/results/dnd-results-presenter")
 const commonSchemas = require("../../util/common-schemas")

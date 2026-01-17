@@ -1,8 +1,8 @@
-const { strikethrough, bold } = require("discord.js")
-const { operator } = require("../../util/formatters")
-const { i18n } = require("../../locales")
+import { strikethrough } from "discord.js"
+import { operator } from "../../util/formatters/index.js"
+import { i18n } from "../../locales/index.js"
 
-class CurvPresenter {
+export class CurvPresenter {
   /**
    * Create a new CurvPresenter object
    *
@@ -137,19 +137,16 @@ class CurvPresenter {
   }
 }
 
-module.exports = {
-  /**
-   * Present one or more results from the curv command
-   *
-   * This is the main entry point for the curv presenter. It's best to use this function instead of
-   * manually creating and using a WodPresenter object.
-   *
-   * @param  {...options} options.rollOptions Roll options and results
-   * @return {String}                         String describing the roll results
-   */
-  present: ({ ...rollOptions }) => {
-    const presenter = new CurvPresenter(rollOptions)
-    return presenter.presentResults()
-  },
-  CurvPresenter,
+/**
+ * Present one or more results from the curv command
+ *
+ * This is the main entry point for the curv presenter. It's best to use this function instead of
+ * manually creating and using a WodPresenter object.
+ *
+ * @param  {...options} options.rollOptions Roll options and results
+ * @return {String}                         String describing the roll results
+ */
+export function present({ ...rollOptions }) {
+  const presenter = new CurvPresenter(rollOptions)
+  return presenter.presentResults()
 }

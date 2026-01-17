@@ -33,18 +33,6 @@ describe("db module", () => {
     })
   })
 
-  describe("statsDatabaseFile", () => {
-    it.concurrent.each([
-      ["development", "roll-it-stats.dev.db"],
-      ["production", "roll-it-stats.prod.db"],
-      ["other", ":memory:"],
-    ])("for %s env uses file %s", (env_name, file_name) => {
-      const result = db.statsDatabaseFile(env_name)
-
-      expect(result).toMatch(file_name)
-    })
-  })
-
   describe("interactiveDatabaseFile", () => {
     it.concurrent.each([
       ["development", "roll-it-interactive.dev.db"],

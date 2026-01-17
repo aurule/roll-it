@@ -1,4 +1,4 @@
-const { features } = require("../data")
+const { features } = require("../data/features.js")
 
 const { featureOptions } = require("./feature-options-presenter")
 

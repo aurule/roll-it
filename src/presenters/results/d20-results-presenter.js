@@ -1,6 +1,6 @@
-const { strikethrough } = require("discord.js")
-const { operator } = require("../../util/formatters")
-const { i18n } = require("../../locales")
+import { strikethrough } from "discord.js"
+import { operator } from "../../util/formatters/index.js"
+import { i18n } from "../../locales/index.js"
 
 /**
  * Create a string describing the results of a d20 roll
@@ -14,7 +14,7 @@ const { i18n } = require("../../locales")
  * @param  {i18n.t}     opts.t           Translation function
  * @return {string}                      String describing this roll
  */
-function presentOne({ modifier, description, raw, picked, keep, t }) {
+export function presentOne({ modifier, description, raw, picked, keep, t }) {
   const t_args = {
     result: rollResult(raw[0], picked[0].indexes, modifier),
     description,
@@ -57,7 +57,7 @@ function presentOne({ modifier, description, raw, picked, keep, t }) {
  * @param  {i18n.t}     opts.t            Translation function
  * @return {string}                       String describing this roll
  */
-function presentMany({ modifier, description, raw, picked, keep, t }) {
+export function presentMany({ modifier, description, raw, picked, keep, t }) {
   const results = raw.map((res, idx) => {
     const result = rollResult(res, picked[idx].indexes, modifier)
     const explanation = detail(res, picked[idx].indexes, modifier)
@@ -101,7 +101,7 @@ function presentMany({ modifier, description, raw, picked, keep, t }) {
  * @param  {number}   modifier Number to add to the roll
  * @return {number}            Final die result
  */
-function rollResult(result, indexes, modifier) {
+export function rollResult(result, indexes, modifier) {
   const die = result[indexes[0]]
   return die + modifier
 }
@@ -114,7 +114,7 @@ function rollResult(result, indexes, modifier) {
  * @param  {number}    modifier Number to add to the raw die
  * @return {string}             Description of the result and modifier
  */
-function detail(result, indexes, modifier) {
+export function detail(result, indexes, modifier) {
   const nums = result
     .map((res, idx) => {
       if (indexes.includes(idx)) {
@@ -133,30 +133,25 @@ function detail(result, indexes, modifier) {
   return selection
 }
 
-module.exports = {
-  /**
-   * Present one or more results from the d20 command
-   *
-   * @param  {object} options
-   * @param  {number} options.rolls       Total number of rolls to show
-   * @param  {object} options.rollOptions The rest of the options, passed to presentOne or presentMany
-   * @param  {str}    options.locale      Locale name
-   * @return {str}                        String describing the roll results
-   */
-  present: ({ rolls, locale, ...rollOptions }) => {
-    const t = i18n.getFixedT(locale, "commands", "d20")
-    const presenter_options = {
-      t,
-      ...rollOptions,
-    }
 
-    if (rolls == 1) {
-      return presentOne(presenter_options)
-    }
-    return presentMany(presenter_options)
-  },
-  presentOne,
-  presentMany,
-  detail,
-  rollResult,
+/**
+ * Present one or more results from the d20 command
+ *
+ * @param  {object} options
+ * @param  {number} options.rolls       Total number of rolls to show
+ * @param  {object} options.rollOptions The rest of the options, passed to presentOne or presentMany
+ * @param  {str}    options.locale      Locale name
+ * @return {str}                        String describing the roll results
+ */
+export function present({ rolls, locale, ...rollOptions }) {
+  const t = i18n.getFixedT(locale, "commands", "d20")
+  const presenter_options = {
+    t,
+    ...rollOptions,
+  }
+
+  if (rolls == 1) {
+    return presentOne(presenter_options)
+  }
+  return presentMany(presenter_options)
 }

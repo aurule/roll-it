@@ -1,9 +1,10 @@
-const { oneLine } = require("common-tags")
+import { oneLine } from "common-tags"
+import { db as defaultDb } from "./index.js"
 
 /**
  * Class for manipulating feedback database records
  */
-class Feedback {
+export class Feedback {
   /**
    * Database object
    * @type Database
@@ -11,7 +12,7 @@ class Feedback {
   db
 
   constructor(db_obj) {
-    this.db = db_obj ?? require("./index").db
+    this.db = db_obj ?? defaultDb
   }
 
   /**
@@ -144,8 +145,4 @@ class Feedback {
       canReply: !!raw.canReply,
     }))
   }
-}
-
-module.exports = {
-  Feedback,
 }

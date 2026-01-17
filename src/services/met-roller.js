@@ -1,9 +1,9 @@
-const { randomInt } = require("mathjs")
+import { randomInt } from "mathjs"
 
 const rps = Object.freeze(["rock", "paper", "scissors"])
 const rbs = Object.freeze(["rock", "bomb", "scissors"])
 
-const request_keywords = Object.freeze([
+export const request_keywords = Object.freeze([
   "rock",
   "paper",
   "scissors",
@@ -38,7 +38,7 @@ function rand() {
  * @param  {Number}  rolls Number of results to get
  * @return {str[]}         Array of MET results
  */
-function roll(bomb = false, rolls = 1) {
+export function roll(bomb = false, rolls = 1) {
   const symbol_set = bomb ? rbs : rps
   return Array.from({ length: rolls }, () => symbol_set.at(rand()))
 }
@@ -55,7 +55,7 @@ function roll(bomb = false, rolls = 1) {
  * @param  {str} second Second MET result
  * @return {str}        Outcome of the comparison
  */
-function compare(first, second) {
+export function compare(first, second) {
   if (first == second) return "tie"
   if (second === "none") return ""
 
@@ -71,7 +71,7 @@ function compare(first, second) {
  * @param  {int}   rolls   Number of results to create
  * @return {str[]}         Array of result strings.
  */
-function handleRequest(request, rolls) {
+export function handleRequest(request, rolls) {
   switch (request) {
     case "rand":
       return roll(false, rolls)
@@ -80,11 +80,4 @@ function handleRequest(request, rolls) {
     default:
       return Array.from({ length: rolls }, () => request)
   }
-}
-
-module.exports = {
-  roll,
-  compare,
-  handleRequest,
-  request_keywords,
 }

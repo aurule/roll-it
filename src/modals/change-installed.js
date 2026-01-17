@@ -2,7 +2,8 @@ const { StringSelectMenuBuilder } = require("discord.js")
 
 const { i18n } = require("../locales")
 const { systemOptions } = require("../presenters/system-options-presenter")
-const { systems, features } = require("../data")
+import { systems } from "../data/systems.js"
+import { features } from "../data/features.js"
 const build = require("../util/modal-builders")
 const { featureOptions } = require("../presenters/feature-options-presenter")
 const { Installation } = require("../db/installation")

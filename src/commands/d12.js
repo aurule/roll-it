@@ -6,7 +6,7 @@ const { sum } = require("../services/tally")
 const { present } = require("../presenters/results/roll-results-presenter")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters")
+const { injectMention } = require("../util/formatters/inject-user.js")
 
 const command_name = "d12"
 

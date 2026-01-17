@@ -1,6 +1,6 @@
 const { stringSelectMenuOptions } = require("../../testing/discord-schemas")
 
-const { systems } = require("../data")
+const { systems } = require("../data/systems.js")
 const { transform } = require("./system-select-transformer")
 
 describe("string select options transformer", () => {

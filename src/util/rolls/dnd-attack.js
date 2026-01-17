@@ -1,9 +1,9 @@
-const { roll } = require("../../services/base-roller")
+import { roll } from "../../services/base-roller.js"
 
 /**
  * Class to represent a single D&D 3.5 attack roll
  */
-class DndAttack {
+export class DndAttack {
   /**
    * Total modifier for the attack
    *
@@ -91,8 +91,4 @@ class DndAttack {
   get confirm_total() {
     return this.confirm ? this.confirm + this.modifier : 0
   }
-}
-
-module.exports = {
-  DndAttack,
 }

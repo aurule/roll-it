@@ -1,4 +1,4 @@
-const { messageLink, hideLinkEmbed } = require("discord.js")
+import { messageLink as baseMessageLink, hideLinkEmbed } from "discord.js"
 
 /**
  * Generate a link to a specific message
@@ -10,14 +10,10 @@ const { messageLink, hideLinkEmbed } = require("discord.js")
  * @param  {Boolean} embed   Whether to show an embedded preview
  * @return {str}             String with a correctly formatted link to the message
  */
-function smartMessageLink(message, embed = false) {
-  const raw_link = messageLink(message.channelId, message.id, message.guildId)
+export function messageLink(message, embed = false) {
+  const raw_link = baseMessageLink(message.channelId, message.id, message.guildId)
   if (embed) {
     return raw_link
   }
   return hideLinkEmbed(raw_link)
-}
-
-module.exports = {
-  messageLink: smartMessageLink,
 }

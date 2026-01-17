@@ -8,7 +8,7 @@
  * @param  {i18n.t}                  options.t            Localization function, scoped to the "opposed" namespace
  * @return {str}                                          String describing the outcome
  */
-function makeBreakdown({ leader, chops, participants, t }) {
+export function makeBreakdown({ leader, chops, participants, t }) {
   if (leader === null) {
     return t("shared.breakdown.tied", {
       result: chops[0].result,
@@ -38,8 +38,4 @@ function makeBreakdown({ leader, chops, participants, t }) {
     trailer_traits: trailer_chop.traits,
   }
   return t("shared.breakdown.winner", t_args)
-}
-
-module.exports = {
-  makeBreakdown,
 }

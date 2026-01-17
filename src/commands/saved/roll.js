@@ -1,10 +1,10 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
-const { operator } = require("../../util/formatters")
+const { operator } = require("../../util/formatters/signed.js")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const commonOpts = require("../../util/common-options")
 const present_command = require("../../presenters/command-name-presenter").present
-const { injectMention } = require("../../util/formatters")
+const { injectMention } = require("../../util/formatters/inject-user.js")
 const { i18n } = require("../../locales")
 const { saved_bonus_target } = require("../../util/saved-bonus-target")
 

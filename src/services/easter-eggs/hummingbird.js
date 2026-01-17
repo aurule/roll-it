@@ -1,5 +1,3 @@
-const { i18n } = require("../../locales")
-
 /**
  * Methods to handle the "hummingbird" easter egg
  *
@@ -18,43 +16,42 @@ const { i18n } = require("../../locales")
  *   return presentedOutcome
  * }
  * ```
- *
- * @type {Object}
  */
-module.exports = {
-  /**
-   * Get whether the description could allow a hummingbird
-   *
-   * @param  {str}  description Description string to check
-   * @param  {str}  locale      Locale code for looking up description triggers
-   * @return {bool}             True if the hummingbird is allowed, false if not
-   */
-  hasTrigger(description, locale) {
-    const triggers = i18n.t("easter-eggs.hummingbird.triggers", {
-      lng: locale,
-      returnObjects: true,
-    })
-    const regex = new RegExp(triggers.join("|"), "iv")
-    return regex.test(description)
-  },
 
-  /**
-   * Get whether the successes allow a hummingbird
-   *
-   * @param  {int}  successes Successes to test
-   * @return {bool}           True if the hummingbird is allowed, false if not
-   */
-  qualified(successes) {
-    return successes == 11
-  },
+import { i18n } from "../../locales/index.js"
 
-  /**
-   * Get the hummingbird message
-   *
-   * @param  {str} locale Locale code
-   * @return {str}        Message string
-   */
-  spotted(locale) {
-    return i18n.t("easter-eggs.hummingbird.spotted", { lng: locale })
-  },
+/**
+ * Get whether the description could allow a hummingbird
+ *
+ * @param  {str}  description Description string to check
+ * @param  {str}  locale      Locale code for looking up description triggers
+ * @return {bool}             True if the hummingbird is allowed, false if not
+ */
+export function hasTrigger(description, locale) {
+  const triggers = i18n.t("easter-eggs.hummingbird.triggers", {
+    lng: locale,
+    returnObjects: true,
+  })
+  const regex = new RegExp(triggers.join("|"), "iv")
+  return regex.test(description)
+}
+
+/**
+ * Get whether the successes allow a hummingbird
+ *
+ * @param  {int}  successes Successes to test
+ * @return {bool}           True if the hummingbird is allowed, false if not
+ */
+export function qualified(successes) {
+  return successes == 11
+}
+
+/**
+ * Get the hummingbird message
+ *
+ * @param  {str} locale Locale code
+ * @return {str}        Message string
+ */
+export function spotted(locale) {
+  return i18n.t("easter-eggs.hummingbird.spotted", { lng: locale })
 }

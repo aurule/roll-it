@@ -1,9 +1,10 @@
-const { oneLine } = require("common-tags")
+import { oneLine } from "common-tags"
+import { db as defaultDb } from "./index.js"
 
 /**
  * Class for manipulating bans database records
  */
-class UserBans {
+export class UserBans {
   /**
    * ID of the user to use
    * @type str
@@ -18,7 +19,7 @@ class UserBans {
 
   constructor(userId, db_obj) {
     this.userId = userId
-    this.db = db_obj ?? require("./index").db
+    this.db = db_obj ?? defaultDb
   }
 
   /**
@@ -119,8 +120,4 @@ class UserBans {
       userFlake: this.userId,
     })
   }
-}
-
-module.exports = {
-  UserBans,
 }

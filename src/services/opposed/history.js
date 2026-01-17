@@ -1,5 +1,5 @@
-const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+import { i18n } from "../../locales/index.js"
+import { Opposed } from "../../db/opposed.js"
 
 /**
  * Generate a history string for a test record
@@ -30,8 +30,4 @@ function makeHistory(test) {
     lines.push(t("cancelled", { canceller: test.canceller.mention, reason: test.cancelled_with }))
   }
   return lines.join("\n\t- ")
-}
-
-module.exports = {
-  makeHistory,
 }

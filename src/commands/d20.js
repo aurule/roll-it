@@ -6,7 +6,7 @@ const { present } = require("../presenters/results/d20-results-presenter")
 const { pickDice, strategies } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters")
+const { injectMention } = require("../util/formatters/inject-user.js")
 const sacrifice = require("../services/easter-eggs/sacrifice")
 const { with_to_keep } = require("../util/with-to-keep")
 

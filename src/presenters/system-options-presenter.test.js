@@ -1,4 +1,4 @@
-const { systems } = require("../data")
+const { systems } = require("../data/systems.js")
 
 const { systemOptions } = require("./system-options-presenter")
 

@@ -1,15 +1,15 @@
-const { Collection } = require("discord.js")
-const { oneLine } = require("common-tags")
+import { oneLine } from "common-tags"
+import { Collection } from "discord.js"
 
-const { CachedDb } = require("./cached-db")
-const { Challenge } = require("./opposed/challenge")
-const { Participant } = require("./opposed/participant")
-const { OpTest } = require("./opposed/optest")
+import { CachedDb } from "./cached-db.js"
+import { Challenge } from "./opposed/challenge.js"
+import { Participant } from "./opposed/participant.js"
+import { OpTest } from "./opposed/optest.js"
 
 /**
  * Class to manage met-opposed state tracking
  */
-class Opposed extends CachedDb {
+export class Opposed extends CachedDb {
   /**
    * Create a new opposed challenge record
    *
@@ -1402,8 +1402,4 @@ class Opposed extends CachedDb {
       tie_accepted: +!!tie_accepted,
     })
   }
-}
-
-module.exports = {
-  Opposed,
 }

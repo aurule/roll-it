@@ -1,7 +1,7 @@
-const { ButtonBuilder, ButtonStyle, userMention } = require("discord.js")
+const { ButtonBuilder, ButtonStyle } = require("discord.js")
 const { i18n } = require("../../locales")
 const { Teamwork } = require("../../db/teamwork")
-const { injectMention } = require("../../util/formatters")
+const { injectMention } = require("../../util/formatters/inject-user.js")
 const teamwork_summary = require("../../embeds/teamwork-summary")
 const { logger } = require("../../util/logger")
 

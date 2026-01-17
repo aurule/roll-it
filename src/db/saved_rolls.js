@@ -1,5 +1,6 @@
-const { oneLine } = require("common-tags")
-const Joi = require("joi")
+import { oneLine } from "common-tags"
+import { Joi } from "joi"
+import { db as defaultDb } from "./index.js"
 
 /**
  * Convert an object into vars suitable for use in UPDATE sql
@@ -14,7 +15,7 @@ const Joi = require("joi")
  * @param  {boolean} safe Whether to exclude restricted fields
  * @return {obj}          Object of fields, placeholders, and values to use in generating an UPDATE call
  */
-function makeUpdateFields(data, safe = true) {
+export function makeUpdateFields(data, safe = true) {
   const fields = []
   const placeholders = []
   const values = {}
@@ -58,7 +59,7 @@ function makeUpdateFields(data, safe = true) {
 /**
  * Class for manipulating saved_rolls database records tied to a guild and a user
  */
-class UserSavedRolls {
+export class UserSavedRolls {
   /**
    * ID of the guild to use
    * @type str
@@ -80,7 +81,7 @@ class UserSavedRolls {
   constructor(guildId, userId, db_obj) {
     this.guildId = guildId
     this.userId = userId
-    this.db = db_obj ?? require("./index").db
+    this.db = db_obj ?? defaultDb
   }
 
   /**
@@ -359,9 +360,9 @@ class UserSavedRolls {
  * Unlike UserSavedRolls, this class is NOT SAFE for general use. It is meant to be used by internal scripts
  * only and should never be used in user-facing code.
  */
-class GlobalSavedRolls {
+export class GlobalSavedRolls {
   constructor(db_obj) {
-    this.db = db_obj ?? require("./index").db
+    this.db = db_obj ?? defaultDb
   }
 
   /**
@@ -527,27 +528,21 @@ class GlobalSavedRolls {
   }
 }
 
-module.exports = {
-  makeUpdateFields,
-  UserSavedRolls,
-  GlobalSavedRolls,
-
-  /**
-   * Minimal schema to validate saved roll attributes
-   *
-   * This is not for validating database records. Instead, it is for validating incoming data from other code.
-   * That's why attributes like `id`` which are required by the database are optional in this schema.
-   *
-   * @type {Joi.object}
-   */
-  saved_roll_schema: Joi.object({
-    id: Joi.number().integer().optional(),
-    guildFlake: Joi.string().optional(),
-    userFlake: Joi.string().optional(),
-    name: Joi.string().required(),
-    description: Joi.string().required(),
-    command: Joi.string().required(),
-    options: Joi.object().required(),
-    invalid: Joi.boolean().optional(),
-  }),
-}
+/**
+ * Minimal schema to validate saved roll attributes
+ *
+ * This is not for validating database records. Instead, it is for validating incoming data from other code.
+ * That's why attributes like `id`` which are required by the database are optional in this schema.
+ *
+ * @type {Joi.object}
+ */
+export const saved_roll_schema = Joi.object({
+  id: Joi.number().integer().optional(),
+  guildFlake: Joi.string().optional(),
+  userFlake: Joi.string().optional(),
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  command: Joi.string().required(),
+  options: Joi.object().required(),
+  invalid: Joi.boolean().optional(),
+})

@@ -1,5 +1,5 @@
-const { i18n } = require("../../locales")
-const { operator } = require("../../util/formatters")
+const { i18n } = require("../../locales/index.js")
+const { operator } = require("../../util/formatters/index.js")
 
 /**
  * Generate the details of a roll
@@ -8,7 +8,7 @@ const { operator } = require("../../util/formatters")
  * @param  {number} modifier Number added to the tie
  * @return {string}          String describing the roll and modifier
  */
-function detail(result, modifier) {
+export function detail(result, modifier) {
   const rolled = `1d20: [${result}]`
   if (modifier) {
     return `${rolled}${operator(modifier)}`
@@ -26,7 +26,7 @@ function detail(result, modifier) {
  * @param  {number} dc     Target DC
  * @return {string}        One of "bare", "pass", or "fail"
  */
-function skillKey(result, dc) {
+export function skillKey(result, dc) {
   switch (true) {
     case !dc:
       return "bare"
@@ -49,7 +49,7 @@ function skillKey(result, dc) {
  * @param  {string}     opts.locale      Locale code for the translation
  * @return {string}                      Presented results
  */
-function presentSkill({
+export function presentSkill({
   raw,
   modifier = 0,
   dc = 0,
@@ -97,7 +97,7 @@ function presentSkill({
  * @param  {number} dc     Target DC
  * @return {string}        Translation key
  */
-function saveKey(raw, result, dc) {
+export function saveKey(raw, result, dc) {
   switch (true) {
     case raw === 20:
       return "autopass"
@@ -124,7 +124,7 @@ function saveKey(raw, result, dc) {
  * @param  {string}     opts.locale      Locale code for the translation
  * @return {string}                      Presented results
  */
-function presentSave({
+export function presentSave({
   raw,
   modifier = 0,
   dc = 0,
@@ -183,7 +183,7 @@ function presentSave({
  * @param  {i18n.t} t   Translation function
  * @return {string}     String describing the attack die
  */
-function describeDie(die, sum, t) {
+export function describeDie(die, sum, t) {
   switch (die) {
     case 1:
       return t("roll.1")
@@ -201,7 +201,7 @@ function describeDie(die, sum, t) {
  * @param  {i18n.t} t    Translation function
  * @return {string}      String describing the crit range
  */
-function describeCrit(crit, t) {
+export function describeCrit(crit, t) {
   if (crit === 20) return t("crit.20")
   if (crit) return t("crit.range", { crit })
   return t("crit.none")
@@ -214,7 +214,7 @@ function describeCrit(crit, t) {
  * @param  {number}    ac     Target AC to score a hit
  * @return {string}           Classifier for the attack against the given AC
  */
-function resolveAC(attack, ac) {
+export function resolveAC(attack, ac) {
   if (attack.hit === 1) return "miss"
   if (attack.hit === 20) {
     if (attack.confirm === 1) return "hit.threat.denied"
@@ -239,7 +239,7 @@ function resolveAC(attack, ac) {
  * @param  {DndAttack} attack Attack object
  * @return {string}           Translation key to present the attack
  */
-function resolveAmbiguous(attack) {
+export function resolveAmbiguous(attack) {
   switch (attack.hit) {
     case 1:
       return "miss"
@@ -282,7 +282,7 @@ function resolveAmbiguous(attack) {
  * @param  {string}      opts.locale      Locale code
  * @return {string}                       Text for the attack rolls
  */
-function presentAttack({
+export function presentAttack({
   attacks,
   modifier = 0,
   crit = 20,
@@ -327,7 +327,7 @@ function presentAttack({
  * @param  {string}        opts.locale      Locale code
  * @return {string}                         Text for the attack rolls
  */
-function presentFullAttack({
+export function presentFullAttack({
   swings,
   attacks,
   modifier = 0,
@@ -369,18 +369,4 @@ function presentFullAttack({
     context: description ? "desc" : undefined,
   }
   return t(`header.${key}`, t_args)
-}
-
-module.exports = {
-  detail,
-  skillKey,
-  presentSkill,
-  saveKey,
-  presentSave,
-  describeDie,
-  describeCrit,
-  resolveAC,
-  resolveAmbiguous,
-  presentAttack,
-  presentFullAttack,
 }

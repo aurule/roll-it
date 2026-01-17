@@ -1,4 +1,4 @@
-const { randomInt } = require("mathjs")
+import { randomInt } from "mathjs"
 
 /**
  * Small helper to generate a random number from 1 to 10, inclusive
@@ -20,7 +20,7 @@ function rand() {
  * @param  {boolean} chance    Whether this is a chance roll
  * @return {boolean}           True if a rote re-roll should be made for the passed die
  */
-function doRote(die, threshold, chance) {
+export function doRote(die, threshold, chance) {
   if (chance) return die != 1
   return die < threshold
 }
@@ -28,7 +28,7 @@ function doRote(die, threshold, chance) {
 /**
  * Store and manipulate the options for the nwod roll function
  */
-class NwodRollOptions {
+export class NwodRollOptions {
   /**
    * Make a new NwodRollOptions object
    *
@@ -146,7 +146,7 @@ class NwodRollOptions {
  * @param  {NwodRollOptions} options Options object
  * @return {number[][]}              Array of arrays of random numbers
  */
-function roll(options) {
+export function roll(options) {
   if (options.explode === 1) throw new RangeError("explode must be greater than 1")
 
   const output = Array.from(options, (roll_options) => {
@@ -187,10 +187,4 @@ function roll(options) {
   options.return()
 
   return output
-}
-
-module.exports = {
-  NwodRollOptions,
-  roll,
-  doRote,
 }

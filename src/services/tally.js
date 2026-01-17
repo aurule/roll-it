@@ -1,121 +1,117 @@
-"use strict"
+/**
+ * Add up the dice of result sets
+ *
+ * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+ * @return {number[]}              Array of sums for each result set
+ */
+export function sum(resultSets) {
+  return resultSets.map((set) => set.reduce((prev, curr) => prev + curr, 0))
+}
 
-module.exports = {
-  /**
-   * Add up the dice of result sets
-   *
-   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
-   * @return {number[]}              Array of sums for each result set
-   */
-  sum(resultSets) {
-    return resultSets.map((set) => set.reduce((prev, curr) => prev + curr, 0))
-  },
+/**
+ * Add the selected dice of each result set
+ *
+ * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+ * @param  {object[]}   picked     Array of picked dice objects
+ * @return {number[]}              Array of sums from each result set
+ */
+export function pickedSum(resultSets, picked) {
+  const pickedSets = []
+  for (let idx = 0; idx < resultSets.length; idx++) {
+    const set = resultSets[idx]
+    pickedSets.push(picked[idx].indexes.map((p) => set.at(p)))
+  }
+  return sum(pickedSets)
+}
 
-  /**
-   * Add the selected dice of each result set
-   *
-   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {object[]}   picked     Array of picked dice objects
-   * @return {number[]}              Array of sums from each result set
-   */
-  pickedSum(resultSets, picked) {
-    const pickedSets = []
-    for (let idx = 0; idx < resultSets.length; idx++) {
-      const set = resultSets[idx]
-      pickedSets.push(picked[idx].indexes.map((p) => set.at(p)))
-    }
-    return module.exports.sum(pickedSets)
-  },
+/**
+ * Add up d3 rolls as fudge dice
+ *
+ * Each int must be from 1 to 3. The rules are:
+ * - Any die that equals 1 subtracts one from the total
+ * - Any die that equals 2 is ignored
+ * - Any die that equals 3 adds one to the total
+ *
+ * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+ * @return {number[]               Array of sums from each result set
+ */
+export function fudge(resultSets) {
+  return resultSets.map((set) => set.reduce((prev, curr) => prev + curr - 2, 0))
+}
 
-  /**
-   * Add up d3 rolls as fudge dice
-   *
-   * Each int must be from 1 to 3. The rules are:
-   * - Any die that equals 1 subtracts one from the total
-   * - Any die that equals 2 is ignored
-   * - Any die that equals 3 adds one to the total
-   *
-   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
-   * @return {number[]               Array of sums from each result set
-   */
-  fudge(resultSets) {
-    return resultSets.map((set) => set.reduce((prev, curr) => prev + curr - 2, 0))
-  },
+/**
+ * Count successes using World of Darkness 20th Anniversary rules
+ *
+ * Each int must be from 1 to 10. The rules are:
+ * - Any die that meets or exceeds threshold adds one success
+ * - Any die that rolls a 1 subtracts one success
+ * - If `double` is true, then any die that equals a 10 adds an additional success
+ * - If the final tally is negative, but one or more successes occurred, then the tally becomes zero
+ * - If the final tally is negative, and no successes ocurred at all, then the negative tally stands
+ *
+ * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+ * @param  {number}     threshold  Number a die must meet or exceed to add one success
+ * @param  {boolean}    double     Whether to add a second success when a die is 10
+ * @return {number[]}              Array of ints representing the success tallies of each resultSet
+ */
+export function wod20(resultSets, threshold, double = false) {
+  return resultSets.map((set) => {
+    let anySuccesses = false
 
-  /**
-   * Count successes using World of Darkness 20th Anniversary rules
-   *
-   * Each int must be from 1 to 10. The rules are:
-   * - Any die that meets or exceeds threshold adds one success
-   * - Any die that rolls a 1 subtracts one success
-   * - If `double` is true, then any die that equals a 10 adds an additional success
-   * - If the final tally is negative, but one or more successes occurred, then the tally becomes zero
-   * - If the final tally is negative, and no successes ocurred at all, then the negative tally stands
-   *
-   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {number}     threshold  Number a die must meet or exceed to add one success
-   * @param  {boolean}    double     Whether to add a second success when a die is 10
-   * @return {number[]}              Array of ints representing the success tallies of each resultSet
-   */
-  wod20(resultSets, threshold, double = false) {
-    return resultSets.map((set) => {
-      let anySuccesses = false
-
-      const successes = set.reduce((prev, curr) => {
-        if (curr >= threshold) {
-          anySuccesses = true
-          return prev + 1 + (double && curr == 10)
-        }
-        return prev - (curr == 1)
-      }, 0)
-
-      if (anySuccesses) {
-        return Math.max(successes, 0)
+    const successes = set.reduce((prev, curr) => {
+      if (curr >= threshold) {
+        anySuccesses = true
+        return prev + 1 + (double && curr == 10)
       }
-      return successes
-    })
-  },
+      return prev - (curr == 1)
+    }, 0)
 
-  /**
-   * Count successes using simple threshold mechanic
-   *
-   * Whether inverted or not, the threshold value is always counted as a success.
-   *
-   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {number}     threshold  Number a die must meet or exceed to add one success
-   * @param  {boolean}    inverted   Whether to count dice below the threshold
-   * @return {number[]}              Array of ints representing the success tallies of each resultSet
-   */
-  successes(resultSets, threshold, inverted = false) {
-    let comparator
-    if (inverted) {
-      comparator = (prev, curr) => prev + (curr <= threshold)
-    } else {
-      comparator = (prev, curr) => prev + (curr >= threshold)
+    if (anySuccesses) {
+      return Math.max(successes, 0)
     }
-    return resultSets.map((set) => set.reduce(comparator, 0))
-  },
+    return successes
+  })
+}
 
-  /**
-   * Count successes against a threshold, with double value under a risk threshold
-   *
-   * Dice whose index falls below `risk` count for two successes if they meet or
-   * exceed the threshold.
-   *
-   * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
-   * @param  {number}     threshold  Number a die must meet or exceed to add one success
-   * @param  {number}     risk       Total dice whose successes count double
-   * @return {number[]}              Array of ints representing the success tallies of each resultSet
-   */
-  riskSuccesses(resultSets, threshold, risk = 0) {
-    return resultSets.map((roll) =>
-      roll.reduce((acc, val, idx) => {
-        if (val >= threshold) {
-          if (idx < risk) return acc + 2
-          return acc + 1
-        }
-        return acc
-      }, 0),
-    )
-  },
+/**
+ * Count successes using simple threshold mechanic
+ *
+ * Whether inverted or not, the threshold value is always counted as a success.
+ *
+ * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+ * @param  {number}     threshold  Number a die must meet or exceed to add one success
+ * @param  {boolean}    inverted   Whether to count dice below the threshold
+ * @return {number[]}              Array of ints representing the success tallies of each resultSet
+ */
+export function successes(resultSets, threshold, inverted = false) {
+  let comparator
+  if (inverted) {
+    comparator = (prev, curr) => prev + (curr <= threshold)
+  } else {
+    comparator = (prev, curr) => prev + (curr >= threshold)
+  }
+  return resultSets.map((set) => set.reduce(comparator, 0))
+}
+
+/**
+ * Count successes against a threshold, with double value under a risk threshold
+ *
+ * Dice whose index falls below `risk` count for two successes if they meet or
+ * exceed the threshold.
+ *
+ * @param  {number[][]} resultSets Nested array representing one or more sets of dice rolls
+ * @param  {number}     threshold  Number a die must meet or exceed to add one success
+ * @param  {number}     risk       Total dice whose successes count double
+ * @return {number[]}              Array of ints representing the success tallies of each resultSet
+ */
+export function riskSuccesses(resultSets, threshold, risk = 0) {
+  return resultSets.map((roll) =>
+    roll.reduce((acc, val, idx) => {
+      if (val >= threshold) {
+        if (idx < risk) return acc + 2
+        return acc + 1
+      }
+      return acc
+    }, 0),
+  )
 }

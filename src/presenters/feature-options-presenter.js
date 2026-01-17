@@ -1,5 +1,5 @@
 import { i18n } from "../locales/index.js"
-import { features } from "../data/index.js"
+import { features } from "../data/features.js"
 
 /**
  * Generate Discord string select menu options for our features

@@ -1,12 +1,12 @@
-const { successes } = require("../../services/tally")
-const { roll } = require("../../services/base-roller")
+import { successes } from "../../services/tally.js"
+import { roll } from "../../services/base-roller.js"
 
 /**
  * Class representing a single dice pool in a Don't Rest Your Head roll
  *
  * Each roll in that system has up to four distinct pools. This class represents a single pool.
  */
-class DrhPool {
+export class DrhPool {
   /**
    * Name of the pool
    *
@@ -91,8 +91,4 @@ class DrhPool {
 
     return new DrhPool(name, raw)
   }
-}
-
-module.exports = {
-  DrhPool,
 }

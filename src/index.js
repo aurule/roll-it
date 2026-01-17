@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 import process from "node:process"
 import { logger } from "./util/logger.js"
-import { client as posthog, sendError } from "./services/metrics.js"
+import { sendError } from "./services/metrics.js"
 
 process.on("unhandledRejection", (error) => {
   sendError(error, { origin: "Unhandled promise rejection" })
@@ -31,7 +31,7 @@ import {
 
 import { commands } from "./commands/index.js"
 import { modals } from "./modals/index.js"
-import { events } from "./events/index.js"
+import { register } from "./events/index.js"
 
 import package_data from "../package.json" with { type: "json" }
 
@@ -57,7 +57,7 @@ client.commands = commands
 client.modals = modals
 
 // Register event listeners
-events.register(client)
+register(client)
 
 // Login to Discord with your client's token
 client.login(process.env.BOT_TOKEN)

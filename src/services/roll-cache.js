@@ -1,11 +1,11 @@
-const { Keyv } = require("keyv")
+import { Keyv } from "keyv"
 
 /**
  * Cache class for storing data about rolls that are in progress of being saved
  *
  * This stores one set of command data per user within each guild. The data is used by the Saved Roll Modal.
  */
-class RollCache extends Keyv {
+export class RollCache extends Keyv {
   constructor() {
     // default TTL of 15 minutes
     super({ ttl: 900_000 })
@@ -60,4 +60,4 @@ class RollCache extends Keyv {
   }
 }
 
-module.exports = new RollCache()
+export default new RollCache()

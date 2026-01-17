@@ -1,5 +1,4 @@
-const { bold, italic } = require("discord.js")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 /**
  * Present the results of a single MET roll
@@ -13,7 +12,7 @@ const { i18n } = require("../../locales")
  * @param  {i18n.t} options.t             Translation function
  * @return {str}                          Fully presented roll
  */
-function presentOne({ vs_request, thrown, vs, compared, description, t }) {
+export function presentOne({ vs_request, thrown, vs, compared, description, t }) {
   const user_throw = thrown[0]
   const bot_throw = vs[0]
 
@@ -101,24 +100,20 @@ function presentMany({ vs_request, rolls, thrown, vs, compared, description, t }
   return t(key, t_args)
 }
 
-module.exports = {
-  presentOne,
-  presentMany,
-  /**
-   * Present a met static roll
-   *
-   * @param  {object}   options
-   * @param  {int}      options.rolls       Number of rolls made
-   * @param  {str}      options.locale      Locale for the final string
-   * @param  {obj}      options.rollOptions Options used in the roll
-   * @return {str}                          String showing the roll and its outcome
-   */
-  present({ rolls, locale, ...rollOptions }) {
-    const presenter_options = {
-      ...rollOptions,
-      t: i18n.getFixedT(locale, "commands", "met.static"),
-    }
-    if (rolls > 1) return presentMany({ rolls, ...presenter_options })
-    return presentOne(presenter_options)
-  },
+/**
+ * Present a met static roll
+ *
+ * @param  {object}   options
+ * @param  {int}      options.rolls       Number of rolls made
+ * @param  {str}      options.locale      Locale for the final string
+ * @param  {obj}      options.rollOptions Options used in the roll
+ * @return {str}                          String showing the roll and its outcome
+ */
+export function present({ rolls, locale, ...rollOptions }) {
+  const presenter_options = {
+    ...rollOptions,
+    t: i18n.getFixedT(locale, "commands", "met.static"),
+  }
+  if (rolls > 1) return presentMany({ rolls, ...presenter_options })
+  return presentOne(presenter_options)
 }

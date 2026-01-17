@@ -1,4 +1,4 @@
-const { i18n, available_locales } = require("./index")
+import { i18n, available_locales } from "./index.js"
 
 /**
  * Get the canonical version of the named string key for commands and normal options

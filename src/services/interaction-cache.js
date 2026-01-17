@@ -1,4 +1,4 @@
-const { Keyv } = require("keyv")
+import { Keyv } from "keyv"
 
 /**
  * Cache class for storing data from command interactions
@@ -7,7 +7,7 @@ const { Keyv } = require("keyv")
  * two days. This data is looked up by the `Save this command` context-menu command in order to know what to
  * save.
  */
-class InteractionCache extends Keyv {
+export class InteractionCache extends Keyv {
   constructor() {
     // default TTL of two days
     super({ ttl: 1.728e8 })
@@ -58,4 +58,4 @@ class InteractionCache extends Keyv {
   }
 }
 
-module.exports = new InteractionCache()
+export default new InteractionCache()

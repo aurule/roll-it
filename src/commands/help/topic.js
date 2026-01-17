@@ -1,6 +1,6 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
-const topics = require("../../data").help_topics
+const { helpTopics } = require("../../data/help-topics")
 const { i18n } = require("../../locales")
 
 const command_name = "topic"
@@ -19,7 +19,7 @@ module.exports = {
 
     const t = i18n.getFixedT(interaction.locale)
 
-    const topic = topics.get(topic_name)
+    const topic = helpTopics.get(topic_name)
     if (!topic)
       return interaction.whisper(
         t("commands:help.topic.options.topic.validation.unavailable", { topic_name }),

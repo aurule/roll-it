@@ -1,7 +1,7 @@
 /**
  * Class for representing challenge records
  */
-class Challenge {
+export class Challenge {
   /**
    * Internal ID of the associated challenge record
    * @type {int}
@@ -197,8 +197,4 @@ class Challenge {
     this.expired = !!expired
     this.finished = Challenge.FinalStates.has(this.state)
   }
-}
-
-module.exports = {
-  Challenge,
 }

@@ -1,7 +1,7 @@
 import * as fs from "node:fs"
 import * as path from "node:path"
 
-import { Collection } from "@discordjs/collection"
+import { Collection } from "discord.js"
 import { available_locales } from "../locales/index.js"
 import { comparator } from "../util/command-sorter.js"
 

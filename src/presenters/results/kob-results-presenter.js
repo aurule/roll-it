@@ -1,6 +1,6 @@
-const { bold } = require("discord.js")
-const { operator } = require("../../util/formatters")
-const { i18n } = require("../../locales")
+import { bold } from "discord.js"
+import { operator } from "../../util/formatters/index.js"
+import { i18n } from "../../locales/index.js"
 
 /**
  * Describe the results of a single roll
@@ -13,12 +13,12 @@ const { i18n } = require("../../locales")
  * @param  {i18n.t}       options.t           Translation function
  * @return {String}                           String describing the roll results
  */
-function presentOne({ sides, description, raw, summed, modifier = 0, t } = {}) {
+export function presentOne({ sides, description, raw, summed, modifier = 0, t } = {}) {
   const t_args = {
     count: 1,
     description,
     result: summed[0] + modifier,
-    detail: module.exports.detail({ sides, raw: raw[0], modifier }),
+    detail: detail({ sides, raw: raw[0], modifier }),
   }
 
   const key_parts = ["response"]
@@ -44,7 +44,7 @@ function presentOne({ sides, description, raw, summed, modifier = 0, t } = {}) {
  * @param  {i18n.t}       options.t           Translation function
  * @return {String}                           String describing the roll results
  */
-function presentMany({ sides, description, raw, summed, modifier = 0, t } = {}) {
+export function presentMany({ sides, description, raw, summed, modifier = 0, t } = {}) {
   const t_args = {
     count: raw.length,
     description,
@@ -54,7 +54,7 @@ function presentMany({ sides, description, raw, summed, modifier = 0, t } = {}) 
           "\t" +
           t("response.result", {
             result: summed[idx] + modifier,
-            detail: module.exports.detail({ sides, raw: result, modifier }),
+            detail: detail({ sides, raw: result, modifier }),
           }),
       )
       .join("\n"),
@@ -80,7 +80,7 @@ function presentMany({ sides, description, raw, summed, modifier = 0, t } = {}) 
  * @param  {Int}    options.modifier Number to add to the roll's summed result
  * @return {String}                  String detailing a single roll
  */
-function detail({ sides, raw, modifier }) {
+export function detail({ sides, raw, modifier }) {
   let detail = `d${sides}: [`
   detail += raw
     .map((die) => {
@@ -97,25 +97,20 @@ function detail({ sides, raw, modifier }) {
   return detail
 }
 
-module.exports = {
-  /**
-   * Present one or more results from the kob command
-   *
-   * @param  {Int}        options.rolls       Total number of rolls to show
-   * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
-   * @return {String}                         String describing the roll results
-   */
-  present: ({ rolls, locale, ...rollOptions }) => {
-    const presenter_options = {
-      ...rollOptions,
-      t: i18n.getFixedT(locale, "commands", "kob"),
-    }
-    if (rolls == 1) {
-      return presentOne(presenter_options)
-    }
-    return presentMany(presenter_options)
-  },
-  presentOne,
-  presentMany,
-  detail,
+/**
+ * Present one or more results from the kob command
+ *
+ * @param  {Int}        options.rolls       Total number of rolls to show
+ * @param  {...[Array]} options.rollOptions The rest of the options, passed to presentOne or presentMany
+ * @return {String}                         String describing the roll results
+ */
+export function present({ rolls, locale, ...rollOptions }) {
+  const presenter_options = {
+    ...rollOptions,
+    t: i18n.getFixedT(locale, "commands", "kob"),
+  }
+  if (rolls == 1) {
+    return presentOne(presenter_options)
+  }
+  return presentMany(presenter_options)
 }

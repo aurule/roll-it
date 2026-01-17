@@ -1,10 +1,10 @@
-const { FormulaDisabledError } = require("../../errors/formula-disabled-error")
-const { i18n } = require("../../locales")
+import { FormulaDisabledError } from "../../errors/formula-disabled-error.js"
+import { i18n } from "../../locales/index.js"
 
-const { create, all } = require("mathjs")
+import { create, all } from "mathjs"
 
 const math = create(all)
-const limitedEvaluate = math.evaluate
+export const limitedEvaluate = math.evaluate
 
 math.import(
   {
@@ -40,7 +40,7 @@ math.import(
  * @param  {string}       options.labels Array of roll labels
  * @return {string}                      String with the details of all the pools
  */
-function detail({ pools, raw, summed, labels, t }) {
+export function detail({ pools, raw, summed, labels, t }) {
   return pools
     .map((pool, index) => {
       const t_args = {
@@ -58,138 +58,134 @@ function detail({ pools, raw, summed, labels, t }) {
     .join("\n")
 }
 
-module.exports = {
-  /**
-   * Present the results of one or more formula results
-   *
-   * The `rolls` argument is required for this presenter.
-   *
-   * The string returned might be an error message if the formula uses one of the disabled functions above.
-   *
-   * @param  {object} options
-   * @param  {int}    options.rolls       Total number of rolls made
-   * @param  {string} options.locale      Locale string for the final output
-   * @param  {object} options.rollOptions Object with the roll results
-   * @return {string}                     String of presented roll results
-   */
-  present({ rolls, locale, ...rollOptions }) {
-    const t = i18n.getFixedT(locale, "commands", "formula")
-    const presenter_options = {
-      t,
-      ...rollOptions,
-    }
-    if (rolls == 1) {
-      return module.exports.presentOne(presenter_options)
-    }
-    return module.exports.presentMany(presenter_options)
-  },
+/**
+ * Present the results of one or more formula results
+ *
+ * The `rolls` argument is required for this presenter.
+ *
+ * The string returned might be an error message if the formula uses one of the disabled functions above.
+ *
+ * @param  {object} options
+ * @param  {int}    options.rolls       Total number of rolls made
+ * @param  {string} options.locale      Locale string for the final output
+ * @param  {object} options.rollOptions Object with the roll results
+ * @return {string}                     String of presented roll results
+ */
+export function present({ rolls, locale, ...rollOptions }) {
+  const t = i18n.getFixedT(locale, "commands", "formula")
+  const presenter_options = {
+    t,
+    ...rollOptions,
+  }
+  if (rolls == 1) {
+    return presentOne(presenter_options)
+  }
+  return presentMany(presenter_options)
+}
 
-  /**
-   * Present the result of a single formula roll
-   *
-   * Results is an array of objects which have the following structure:
-   * {
-   *   {string}       rolledFormula The formula with all dice specifiers replaced with their summed values
-   *   {str[]}        pools         Array of formula specifier strings
-   *   {Array<int[]>} raw           Array of dice results, one array for each pool and one int for each die in the pool
-   *   {int[]}        summed        Array of summed dice rolls, one int per pool
-   *   {string}       labels        Array of roll labels
-   * }
-   *
-   * @param  {object} options
-   * @param  {string} options.formula     Text of the original formula, before any dice were rolled
-   * @param  {string} options.description Text describing the roll
-   * @param  {obj[]}  options.results     Array of roll result objects. Must have a single element. See above for format.
-   * @param  {i18n.t} options.t           Translation function
-   * @return {string}                     String of the presented roll result
-   */
-  presentOne({ formula, description, results, t }) {
-    const { rolledFormula } = results[0]
+/**
+ * Present the result of a single formula roll
+ *
+ * Results is an array of objects which have the following structure:
+ * {
+ *   {string}       rolledFormula The formula with all dice specifiers replaced with their summed values
+ *   {str[]}        pools         Array of formula specifier strings
+ *   {Array<int[]>} raw           Array of dice results, one array for each pool and one int for each die in the pool
+ *   {int[]}        summed        Array of summed dice rolls, one int per pool
+ *   {string}       labels        Array of roll labels
+ * }
+ *
+ * @param  {object} options
+ * @param  {string} options.formula     Text of the original formula, before any dice were rolled
+ * @param  {string} options.description Text describing the roll
+ * @param  {obj[]}  options.results     Array of roll result objects. Must have a single element. See above for format.
+ * @param  {i18n.t} options.t           Translation function
+ * @return {string}                     String of the presented roll result
+ */
+export function presentOne({ formula, description, results, t }) {
+  const { rolledFormula } = results[0]
 
-    let finalSum
-    try {
-      finalSum = limitedEvaluate(rolledFormula)
-    } catch (err) {
-      if (err instanceof FormulaDisabledError) {
-        return t("response.disabled", err)
-      } else {
-        return t("response.error", { err })
-      }
-    }
-
-    const t_args = {
-      count: 1,
-      description,
-      formula,
-      final: finalSum,
-      pools: detail({ t, ...results[0] }),
-      total: t("response.total", { final: finalSum, rolled: rolledFormula }),
-    }
-    key_parts = ["response"]
-    if (description) {
-      key_parts.push("withDescription")
+  let finalSum
+  try {
+    finalSum = limitedEvaluate(rolledFormula)
+  } catch (err) {
+    if (err instanceof FormulaDisabledError) {
+      return t("response.disabled", err)
     } else {
-      key_parts.push("withoutDescription")
+      return t("response.error", { err })
     }
-    const key = key_parts.join(".")
-    return t(key, t_args)
-  },
+  }
 
-  /**
-   * Present the result of multiple formula rolls
-   *
-   * Results is an array of objects which have the following structure:
-   * {
-   *   {string}       rolledFormula The formula with all dice specifiers replaced with their summed values
-   *   {str[]}        pools         Array of formula specifier strings
-   *   {Array<int[]>} raw           Array of dice results, one array for each pool and one int for each die in the pool
-   *   {int[]}        summed        Array of summed dice rolls, one int per pool
-   *   {string}       labels        Array of roll labels
-   * }
-   *
-   * @param  {object} options
-   * @param  {str}    options.formula     Text of the original formula, before any dice were rolled
-   * @param  {str}    options.description Text describing the roll
-   * @param  {Obj[]}  options.results     Array of roll result objects. See above.
-   * @param  {i18n.t} options.t           Translation function
-   * @return {str}                        String of presented roll results
-   */
-  presentMany({ formula, description, results, t }) {
-    const t_args = {
-      count: results.length,
-      description,
-      formula,
-      details: results
-        .map((result, idx) => {
-          const { rolledFormula } = result
-          let finalSum
-          try {
-            finalSum = limitedEvaluate(rolledFormula)
-          } catch (err) {
-            if (err instanceof FormulaDisabledError) {
-              return t("response.disabled", err)
-            } else {
-              return t("response.error", { err })
-            }
+  const t_args = {
+    count: 1,
+    description,
+    formula,
+    final: finalSum,
+    pools: detail({ t, ...results[0] }),
+    total: t("response.total", { final: finalSum, rolled: rolledFormula }),
+  }
+  key_parts = ["response"]
+  if (description) {
+    key_parts.push("withDescription")
+  } else {
+    key_parts.push("withoutDescription")
+  }
+  const key = key_parts.join(".")
+  return t(key, t_args)
+}
+
+/**
+ * Present the result of multiple formula rolls
+ *
+ * Results is an array of objects which have the following structure:
+ * {
+ *   {string}       rolledFormula The formula with all dice specifiers replaced with their summed values
+ *   {str[]}        pools         Array of formula specifier strings
+ *   {Array<int[]>} raw           Array of dice results, one array for each pool and one int for each die in the pool
+ *   {int[]}        summed        Array of summed dice rolls, one int per pool
+ *   {string}       labels        Array of roll labels
+ * }
+ *
+ * @param  {object} options
+ * @param  {str}    options.formula     Text of the original formula, before any dice were rolled
+ * @param  {str}    options.description Text describing the roll
+ * @param  {Obj[]}  options.results     Array of roll result objects. See above.
+ * @param  {i18n.t} options.t           Translation function
+ * @return {str}                        String of presented roll results
+ */
+export function presentMany({ formula, description, results, t }) {
+  const t_args = {
+    count: results.length,
+    description,
+    formula,
+    details: results
+      .map((result, idx) => {
+        const { rolledFormula } = result
+        let finalSum
+        try {
+          finalSum = limitedEvaluate(rolledFormula)
+        } catch (err) {
+          if (err instanceof FormulaDisabledError) {
+            return t("response.disabled", err)
+          } else {
+            return t("response.error", { err })
           }
+        }
 
-          return t("response.detail", {
-            total: t("response.total", { final: finalSum, rolled: rolledFormula }),
-            pools: detail({ t, ...result }),
-          })
+        return t("response.detail", {
+          total: t("response.total", { final: finalSum, rolled: rolledFormula }),
+          pools: detail({ t, ...result }),
         })
-        .join("\n"),
-    }
+      })
+      .join("\n"),
+  }
 
-    key_parts = ["response"]
-    if (description) {
-      key_parts.push("withDescription")
-    } else {
-      key_parts.push("withoutDescription")
-    }
-    const key = key_parts.join(".")
-    return t(key, t_args)
-  },
-  detail,
-  limitedEvaluate,
+  key_parts = ["response"]
+  if (description) {
+    key_parts.push("withDescription")
+  } else {
+    key_parts.push("withoutDescription")
+  }
+  const key = key_parts.join(".")
+  return t(key, t_args)
 }

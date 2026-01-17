@@ -6,7 +6,7 @@ const { present } = require("../presenters/results/curv-results-presenter")
 const { keepFromArray, strategies } = require("../services/pick")
 const commonOpts = require("../util/common-options")
 const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters")
+const { injectMention } = require("../util/formatters/inject-user.js")
 const { with_to_keep } = require("../util/with-to-keep")
 
 const command_name = "curv"

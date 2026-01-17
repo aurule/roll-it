@@ -43,3 +43,7 @@ module.exports = {
     return false
   },
 }
+
+export async function handleComponentInteraction(interaction) {
+  // 
+}
