@@ -1,5 +1,5 @@
-const { Opposed } = require("../../db/opposed")
-const { i18n } = require("../../locales")
+import { Opposed } from "../../db/opposed.js"
+import { i18n } from "../../locales/index.js"
 const accept_button = require("../../components/opposed/accept-button")
 const retest_picker = require("../../components/opposed/retest-picker")
 const retest_button = require("../../components/opposed/retest-button")
@@ -37,7 +37,7 @@ module.exports = {
       ),
       build.actions(accept_button.data(challenge.locale)),
       build.text(t("shared.retest.cta")),
-      build.actions(retest_picker.data(challenge)),
+      build.actions(retest_picker.data(challenge.locale, challenge.retest_ability)),
       build.actions(retest_button.data(challenge.locale)),
     ]
     return build.message(components, { withResponse: true })

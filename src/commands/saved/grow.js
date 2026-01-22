@@ -2,7 +2,7 @@ const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const present_command = require("../../presenters/command-name-presenter").present
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 const { saved_bonus_target } = require("../../util/saved-bonus-target")
 
 const command_name = "grow"

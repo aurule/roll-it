@@ -1,5 +1,5 @@
-const { Opposed } = require("../../db/opposed")
-const { i18n } = require("../../locales")
+import { Opposed } from "../../db/opposed.js"
+import { i18n } from "../../locales/index.js"
 const build = require("../../util/message-builders")
 
 /**

@@ -1,6 +1,6 @@
 const fs = require("fs")
 const path = require("path")
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
 const { oneLine } = require("common-tags")
 const { jsNoTests, noDotFiles } = require("../util/filters")
 const { logger } = require("../util/logger")

@@ -1,5 +1,5 @@
-const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+import { i18n } from "../../locales/index.js"
+import { Opposed } from "../../db/opposed.js"
 const throw_picker = require("../../components/opposed/throw-picker")
 const go_button = require("../../components/opposed/go-button")
 const build = require("../../util/message-builders")

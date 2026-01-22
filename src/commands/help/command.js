@@ -2,7 +2,7 @@ const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const CommandHelpPresenter = require("../../presenters/command-help-presenter")
 const CommandNamePresenter = require("../../presenters/command-name-presenter")
 const Completers = require("../../completers/command-completers")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 const command_name = "command"
 const parent_name = "help"

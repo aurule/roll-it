@@ -1,8 +1,8 @@
-const { Opposed } = require("../../db/opposed")
-const { Challenge } = require("../../db/opposed/challenge")
+import { Opposed } from "../../db/opposed.js"
+import { Challenge } from "../../db/opposed/challenge.js"
 const { makeBreakdown } = require("../../services/opposed/breakdown")
 const { makeHistory } = require("../../services/opposed/history")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 const winning_message = require("./winning")
 const tying_message = require("./tying")
 const build = require("../../util/message-builders")

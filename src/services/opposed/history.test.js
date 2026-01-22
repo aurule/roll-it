@@ -1,5 +1,5 @@
 const { ChallengeFixture } = require("../../../testing/challenge-fixture")
-const { Challenge } = require("../../db/opposed/challenge")
+import { Challenge } from "../../db/opposed/challenge.js"
 const { OpTest } = require("../../db/opposed/optest")
 
 const { makeHistory } = require("./history")

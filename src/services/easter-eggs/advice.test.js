@@ -1,4 +1,4 @@
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 const advice = require("./advice")
 

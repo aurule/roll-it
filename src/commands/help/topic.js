@@ -1,7 +1,7 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const TopicNamePresenter = require("../../presenters/topic-name-presenter")
 const { helpTopics } = require("../../data/help-topics")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 const command_name = "topic"
 const parent_name = "help"

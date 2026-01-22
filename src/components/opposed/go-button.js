@@ -1,14 +1,14 @@
-const { ButtonBuilder, ButtonStyle } = require("discord.js")
-const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
-const { Challenge } = require("../../db/opposed/challenge")
-const { handleRequest } = require("../../services/met-roller")
-const { makeBreakdown } = require("../../services/opposed/breakdown")
-const { makeHistory } = require("../../services/opposed/history")
-const winning_message = require("../../messages/opposed/winning")
-const bidding_atk_message = require("../../messages/opposed/bidding-attacker")
-const throwing_message = require("../../messages/opposed/throwing")
-const { textMessage } = require("../../util/message-builders")
+import { ButtonBuilder, ButtonStyle } from "discord.js"
+import { i18n } from "../../locales/index.js"
+import { Opposed } from "../../db/opposed.js"
+import { Challenge } from "../../db/opposed/challenge.js"
+import { handleRequest } from "../../services/met-roller.js"
+import { makeBreakdown } from "../../services/opposed/breakdown.js"
+import { makeHistory } from "../../services/opposed/history.js"
+import winning_message from "../../messages/opposed/winning.js"
+import bidding_atk_message from "../../messages/opposed/bidding-attacker.js"
+import { textMessage } from "../../util/message-builders.js"
+import { OpposedComponent } from "../opposed-component.js"
 
 const BEATS = new Map([
   ["rock", ["scissors"]],
@@ -24,7 +24,7 @@ const BEATS = new Map([
  * @param  {int}              challenge_id Internal ID of the related challenge
  * @return {Participant|null}              Winning participant record, or null
  */
-function chooseLeader(chops, participants, challenge_id) {
+export function chooseLeader(chops, participants, challenge_id) {
   if (chops[0].result === chops[1].result) {
     const opposed_db = new Opposed()
     return opposed_db.getTieWinner(challenge_id)
@@ -50,7 +50,7 @@ function chooseLeader(chops, participants, challenge_id) {
  * @param  {OpTest} options.test                Test record
  * @return {Reply}                              Interaction reply result
  */
-async function resolveChops({ interaction, chops, participants, test }) {
+export async function resolveChops({ interaction, chops, participants, test }) {
   const opposed_db = new Opposed()
   const t = i18n.getFixedT(test.locale, "opposed")
 
@@ -133,56 +133,54 @@ async function resolveChops({ interaction, chops, participants, test }) {
 /**
  * Button to commit to throwing a given chop
  */
-module.exports = {
-  name: "go_button",
-  valid_states: ["throwing"],
-  data: (locale) =>
-    new ButtonBuilder()
-      .setCustomId("go_button")
-      .setLabel(i18n.t("throws.components.go", { ns: "opposed", lng: locale }))
-      .setEmoji("1303828291492515932")
-      .setStyle(ButtonStyle.Success),
-  async execute(interaction) {
-    const opposed_db = new Opposed()
-    const test = opposed_db.findTestByMessage(interaction.message.id)
-    const participants = opposed_db.getParticipants(test.challenge_id)
-    const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
+export default new OpposedComponent("go_button", data, execute, Challenge.States.Throwing)
 
-    interaction.authorize(...participants.map((p) => p.user_uid))
+export function data(locale) {
+  return new ButtonBuilder()
+    .setCustomId("go_button")
+    .setLabel(i18n.t("throws.components.go", { ns: "opposed", lng: locale }))
+    .setEmoji("1303828291492515932")
+    .setStyle(ButtonStyle.Success)
+}
 
-    const t = i18n.getFixedT(test.locale, "opposed")
+export async function execute(interaction) {
+  const opposed_db = new Opposed()
+  const test = opposed_db.findTestByMessage(interaction.message.id)
+  const participants = opposed_db.getParticipants(test.challenge_id)
+  const current_participant = participants.find((p) => p.user_uid == interaction.user.id)
 
-    let chops = opposed_db.getChopsForTest(test.id)
-    const user_chop = chops.find((c) => c.participant_id === current_participant.id)
-    if (user_chop === undefined) {
-      return interaction.ensure("whisper", t("throws.premature"), {
-        test,
-        user_uid: interaction.user.id,
-        component: "go_button",
-        detail: "Whispering about premature go click",
-      })
-    }
+  interaction.authorize(...participants.map((p) => p.user_uid))
 
-    await interaction.deferUpdate()
-    opposed_db.setChopReady(user_chop.id, true)
-    if (!user_chop.ready) {
-      const is_attacker = participants.get("attacker").user_uid === interaction.user.id
-      const emoji = is_attacker ? "🗡️" : "🛡️"
-      await interaction.message.react(emoji).catch(() => {
-        // suppress all errors so we can send other messages
-        return
-      })
-    }
+  const t = i18n.getFixedT(test.locale, "opposed")
 
-    chops = opposed_db.getChopsForTest(test.id)
-    if (chops.length > 1 && chops.every((c) => c.ready)) {
-      await interaction.message.delete().catch(() => {
-        // suppress all errors so we can send other messages
-        return
-      })
-      return resolveChops({ interaction, chops, participants, test })
-    }
-  },
-  chooseLeader,
-  resolveChops,
+  let chops = opposed_db.getChopsForTest(test.id)
+  const user_chop = chops.find((c) => c.participant_id === current_participant.id)
+  if (user_chop === undefined) {
+    return interaction.ensure("whisper", t("throws.premature"), {
+      test,
+      user_uid: interaction.user.id,
+      component: "go_button",
+      detail: "Whispering about premature go click",
+    })
+  }
+
+  await interaction.deferUpdate()
+  opposed_db.setChopReady(user_chop.id, true)
+  if (!user_chop.ready) {
+    const is_attacker = participants.get("attacker").user_uid === interaction.user.id
+    const emoji = is_attacker ? "🗡️" : "🛡️"
+    await interaction.message.react(emoji).catch(() => {
+      // suppress all errors so we can send other messages
+      return
+    })
+  }
+
+  chops = opposed_db.getChopsForTest(test.id)
+  if (chops.length > 1 && chops.every((c) => c.ready)) {
+    await interaction.message.delete().catch(() => {
+      // suppress all errors so we can send other messages
+      return
+    })
+    return resolveChops({ interaction, chops, participants, test })
+  }
 }

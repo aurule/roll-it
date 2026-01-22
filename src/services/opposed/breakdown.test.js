@@ -1,5 +1,5 @@
-const { Collection } = require("discord.js")
-const { i18n } = require("../../locales")
+import { Collection } from "discord.js"
+import { i18n } from "../../locales/index.js"
 
 const { makeBreakdown } = require("./breakdown")
 

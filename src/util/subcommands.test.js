@@ -1,6 +1,6 @@
 jest.mock("../util/message-builders")
 
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
 const { Interaction } = require("../../testing/interaction")
 const helpers = require("./subcommands")
 

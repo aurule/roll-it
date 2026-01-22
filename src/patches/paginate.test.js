@@ -2,7 +2,7 @@ jest.mock("../util/message-builders")
 
 const paginate = require("./paginate")
 
-const { CommandInteraction, MessageFlags } = require("discord.js")
+import { CommandInteraction, MessageFlags } from "discord.js"
 
 class PatchMePaginate {
   messages = []

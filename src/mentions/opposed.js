@@ -1,4 +1,4 @@
-const { userMention } = require("discord.js")
+import { userMention } from "discord.js"
 const { Opposed } = require("../db/opposed")
 const { i18n, available_locales } = require("../locales")
 const { logger } = require("../util/logger")

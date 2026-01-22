@@ -1,4 +1,4 @@
-const { StringSelectMenuBuilder } = require("discord.js")
+import { StringSelectMenuBuilder } from "discord.js"
 
 const { i18n } = require("../locales")
 const { systemOptions } = require("../presenters/system-options-presenter")

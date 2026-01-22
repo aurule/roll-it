@@ -1,6 +1,6 @@
-const { Opposed } = require("../../db/opposed")
-const { Challenge } = require("../../db/opposed/challenge")
-const { i18n } = require("../../locales")
+import { Opposed } from "../../db/opposed.js"
+import { Challenge } from "../../db/opposed/challenge.js"
+import { i18n } from "../../locales/index.js"
 const bidding_defender_message = require("./bidding-defender")
 const build = require("../../util/message-builders")
 const { extractNumber } = require("../../util/extract-number")

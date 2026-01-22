@@ -1,7 +1,7 @@
-const { Opposed } = require("../../db/opposed")
-const { i18n } = require("../../locales")
+import { Opposed } from "../../db/opposed.js"
+import { i18n } from "../../locales/index.js"
 const withdraw_button = require("../../components/opposed/withdraw-challenge-button")
-const condition_picker = require("../../components/opposed/condition-picker")
+import condition_picker from "../../components/opposed/condition-picker.js"
 const advantage_picker = require("../../components/opposed/advantage-picker")
 const ready_button = require("../../components/opposed/ready-button")
 const build = require("../../util/message-builders")

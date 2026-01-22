@@ -1,7 +1,7 @@
-const { EmbedBuilder, userMention } = require("discord.js")
-const { Teamwork } = require("../db/teamwork")
-const { i18n } = require("../locales")
-const { signed } = require("../util/formatters/signed")
+import { EmbedBuilder, userMention } from "discord.js"
+import { Teamwork } from "../db/teamwork.js"
+import { i18n } from "../locales/index.js"
+import { signed } from "../util/formatters/signed.js"
 
 /**
  * Embed to show changes in teamwork helpers

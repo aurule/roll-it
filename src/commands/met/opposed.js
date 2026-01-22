@@ -1,7 +1,7 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const commonOpts = require("../../util/common-options")
 const { opposedBegin } = require("../../interactive/opposed")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 const command_name = "opposed"
 const parent_name = "met"

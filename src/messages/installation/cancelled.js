@@ -1,5 +1,5 @@
 const { Installation } = require("../../db/installation")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 const build = require("../../util/message-builders")
 
 /**

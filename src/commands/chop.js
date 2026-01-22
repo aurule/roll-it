@@ -1,4 +1,4 @@
-const { subtext } = require("discord.js")
+import { subtext } from "discord.js"
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")

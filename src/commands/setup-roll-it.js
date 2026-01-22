@@ -1,4 +1,4 @@
-const { PermissionFlagsBits } = require("discord.js")
+import { PermissionFlagsBits } from "discord.js"
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const CommandNamePresenter = require("../presenters/command-name-presenter")

@@ -1,49 +1,20 @@
-const fs = require("fs")
-const path = require("path")
+import installationHandler from "./installation.js"
+import opposedHandler from "./opposed.js"
+import teamworkHandler from "./teamwork.js"
 
-const { jsNoTests, noDotFiles } = require("../util/filters")
-
-const basename = path.basename(__filename)
-const handlersDir = __dirname
+export const handlers = [installationHandler, opposedHandler, teamworkHandler]
 
 /**
- * Array of component handlers
+ * Handle a component interaction
  *
- * @type {Handler[]}
+ * @param  {Interaction}        interaction       Message component interaction
+ * @param  {ComponentHandler[]} handlers_override Array of component handler objects
+ * @return {Promise}                              Promise resolving to the outcome of the handler, usually a Message object
  */
-const handlers = []
-
-const contents = fs
-  .readdirSync(handlersDir)
-  .filter(jsNoTests)
-  .filter(noDotFiles)
-  .filter((file) => {
-    return file !== basename
-  })
-
-contents.forEach((mention_file) => {
-  const handler = require(path.join(handlersDir, mention_file))
-  handlers.push(handler)
-})
-
-module.exports = {
-  handlers,
-  /**
-   * Handle a component interaction
-   *
-   * @param  {Interaction} interaction Message component interaction
-   * @param  {Handler[]}   handlers    Array of component handler objects
-   * @return {Promise}                 Promise resolving to the outcome of the handler, usually a Message object
-   */
-  async handle(interaction, handlers_override) {
-    const our_handlers = handlers_override ?? handlers
-    for (const handler of our_handlers) {
-      if (handler.canHandle(interaction)) return handler.handle(interaction)
-    }
-    return false
-  },
-}
-
-export async function handleComponentInteraction(interaction) {
-  // 
+export async function handleComponentInteraction(interaction, handlers_override) {
+  const our_handlers = handlers_override ?? handlers
+  for (const handler of our_handlers) {
+    if (handler.canHandle(interaction)) return handler.handle(interaction)
+  }
+  return false
 }

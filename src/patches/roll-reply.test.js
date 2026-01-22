@@ -3,7 +3,7 @@ jest.mock("../util/message-builders")
 const ensure = require("./ensure")
 const rollReply = require("./roll-reply")
 
-const { CommandInteraction, MessageFlags } = require("discord.js")
+import { CommandInteraction, MessageFlags } from "discord.js"
 
 class PatchMeRollReply {
   async reply(args) {

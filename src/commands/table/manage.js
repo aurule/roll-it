@@ -9,7 +9,7 @@ const {
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const Completers = require("../../completers/table-completers")
 const { GuildRollables } = require("../../db/rollable")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 const command_name = "manage"
 const parent_name = "table"

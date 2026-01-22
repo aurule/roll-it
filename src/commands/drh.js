@@ -1,4 +1,4 @@
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
 const Joi = require("joi")
 
 const { LocalizedSlashCommandBuilder } = require("../util/localized-command")

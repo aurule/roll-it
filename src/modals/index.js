@@ -1,6 +1,6 @@
 const fs = require("fs")
 const path = require("path")
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
 
 const { jsNoTests, noDotFiles } = require("../util/filters")
 

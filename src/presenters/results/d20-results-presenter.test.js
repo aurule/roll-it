@@ -1,5 +1,5 @@
 const d20Presenter = require("./d20-results-presenter")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 describe("d20 results presenter", () => {
   describe("presentOne", () => {

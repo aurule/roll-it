@@ -1,4 +1,4 @@
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
 
 const { DrhPool } = require("../../util/rolls/drh-pool")
 const { DrhPresenter, DrhRollPresenter, DrhTeamworkPresenter } = require("./drh-results-presenter")

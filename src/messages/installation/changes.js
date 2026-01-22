@@ -1,6 +1,6 @@
-const { ButtonStyle } = require("discord.js")
+import { ButtonStyle } from "discord.js"
 const { Installation } = require("../../db/installation")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 const { safe_locale } = require("../../locales/helpers")
 const build = require("../../util/message-builders")
 const { present } = require("../../presenters/command-name-presenter")

@@ -1,5 +1,5 @@
 const kobPresenter = require("./kob-results-presenter")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 describe("kob results presenter", () => {
   describe("presentOne", () => {

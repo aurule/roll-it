@@ -1,4 +1,4 @@
-const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js")
+import { ContextMenuCommandBuilder, ApplicationCommandType } from "discord.js"
 
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const interactionCache = require("../services/interaction-cache")

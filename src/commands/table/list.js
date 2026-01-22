@@ -1,7 +1,7 @@
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { presentList } = require("../../presenters/table-list-presenter")
 const { GuildRollables } = require("../../db/rollable")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 const command_name = "list"
 const parent_name = "table"

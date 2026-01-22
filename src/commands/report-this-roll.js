@@ -1,4 +1,4 @@
-const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.js")
+import { ContextMenuCommandBuilder, ApplicationCommandType } from "discord.js"
 
 const { Feedback } = require("../db/feedback")
 const { UserBans } = require("../db/bans")

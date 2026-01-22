@@ -1,5 +1,5 @@
 const { presentOne, presentMany } = require("./met-static-results-presenter")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 describe("met static results presenter", () => {
   describe("presentOne", () => {

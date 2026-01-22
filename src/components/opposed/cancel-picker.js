@@ -1,30 +1,30 @@
-const { StringSelectMenuBuilder } = require("discord.js")
-const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
+import { StringSelectMenuBuilder } from "discord.js"
+import { i18n } from "../../locales/index.js"
+import { Opposed } from "../../db/opposed.js"
+import { OpposedComponent } from "../opposed-component.js"
 
 /**
  * Select control for picking the retest cancel reason
  */
-module.exports = {
-  name: "opposed_cancel_select",
-  valid_states: ["cancelling"],
-  data: (challenge) => {
-    const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling.components.picker")
-    return new StringSelectMenuBuilder()
-      .setCustomId("opposed_cancel_select")
-      .setPlaceholder(t("placeholder"))
-      .setOptions(t("options", { returnObjects: true }))
-      .setMinValues(1)
-      .setMaxValues(1)
-  },
-  async execute(interaction) {
-    const opposed_db = new Opposed()
-    const test = opposed_db.findTestByMessage(interaction.message.id)
+export default new OpposedComponent("opposed_cancel_select", data, execute, Challenge.States.Cancelling)
 
-    interaction.authorize(test.canceller.user_uid)
+export function data(challenge) {
+  const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling.components.picker")
+  return new StringSelectMenuBuilder()
+    .setCustomId("opposed_cancel_select")
+    .setPlaceholder(t("placeholder"))
+    .setOptions(t("options", { returnObjects: true }))
+    .setMinValues(1)
+    .setMaxValues(1)
+}
 
-    opposed_db.setTestCancelledWith(test.id, interaction.values[0])
+export async function execute(interaction) {
+  const opposed_db = new Opposed()
+  const test = opposed_db.findTestByMessage(interaction.message.id)
 
-    return interaction.deferUpdate()
-  },
+  interaction.authorize(test.canceller.user_uid)
+
+  opposed_db.setTestCancelledWith(test.id, interaction.values[0])
+
+  return interaction.deferUpdate()
 }

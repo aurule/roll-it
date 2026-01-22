@@ -1,11 +1,11 @@
-const { inlineCode, userMention, MessageFlags } = require("discord.js")
+import { inlineCode, userMention, MessageFlags } from "discord.js"
 const { oneLine } = require("common-tags")
 const Joi = require("joi")
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const { GuildRollables } = require("../../db/rollable")
 const { fetchLines } = require("../../util/attachment-lines")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 
 const MAX_UPLOAD_SIZE = 5_242_880
 const MAX_ENTRY_LENGTH = 1500

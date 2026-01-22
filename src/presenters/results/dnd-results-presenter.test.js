@@ -1,5 +1,5 @@
 const { DndAttack } = require("../../util/rolls/dnd-attack")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 const presenter = require("./dnd-results-presenter")
 
 describe("D&D 3.5 results presenter", () => {

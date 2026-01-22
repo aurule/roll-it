@@ -1,48 +1,49 @@
-const { ButtonBuilder, ButtonStyle } = require("discord.js")
-const { i18n } = require("../../locales")
-const { Opposed } = require("../../db/opposed")
-const { Challenge } = require("../../db/opposed/challenge")
-const withdrawn_message = require("../../messages/opposed/withdrawn")
+import { ButtonBuilder, ButtonStyle } from "discord.js"
+import { i18n } from "../../locales/index.js"
+import { Opposed } from "../../db/opposed.js"
+import { Challenge } from "../../db/opposed/challenge.js"
+import withdrawn_message from "../../messages/opposed/withdrawn.js"
+import { OpposedComponent } from "../opposed-component.js"
 
 /**
  * Button for the attacking user to cancel their challenge
  *
  * Shown on the initial attacker advantages and challenge conditions message.
  */
-module.exports = {
-  name: "opposed_withdraw_challenge",
-  valid_states: ["advantages-attacker"],
-  data: (locale) =>
-    new ButtonBuilder()
-      .setCustomId("opposed_withdraw_challenge")
-      .setLabel(
-        i18n.t("advantages-attacker.components.withdraw", {
-          ns: "opposed",
-          lng: locale,
-        }),
-      )
-      .setStyle(ButtonStyle.Secondary),
-  async execute(interaction) {
-    const opposed_db = new Opposed()
-    const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
+export default new OpposedComponent("opposed_withdraw_challenge", data, execute, Challenge.States.AdvantagesAttacker)
 
-    interaction.authorize(challenge.attacker_uid)
+export function data(locale) {
+  return new ButtonBuilder()
+    .setCustomId("opposed_withdraw_challenge")
+    .setLabel(
+      i18n.t("advantages-attacker.components.withdraw", {
+        ns: "opposed",
+        lng: locale,
+      }),
+    )
+    .setStyle(ButtonStyle.Secondary)
+}
 
-    opposed_db.setChallengeState(challenge.id, Challenge.States.Withdrawn)
-    return interaction
-      .ensure("reply", withdrawn_message.data(challenge.id), {
-        component: "opposed_withdraw_challenge",
+export async function execute(interaction) {
+  const opposed_db = new Opposed()
+  const challenge = opposed_db.findChallengeByMessage(interaction.message.id)
+
+  interaction.authorize(challenge.attacker_uid)
+
+  opposed_db.setChallengeState(challenge.id, Challenge.States.Withdrawn)
+  return interaction
+    .ensure("reply", withdrawn_message.data(challenge.id), {
+      component: "opposed_withdraw_challenge",
+      challenge_id: challenge.id,
+      detail: "Failed to reply with withdrawn message",
+    })
+    .then((reply_result) => {
+      // expect an InteractionCallbackResponse, but deal with a Message too
+      const message_uid = reply_result.resource?.message.id ?? reply_result.id
+
+      opposed_db.addMessage({
         challenge_id: challenge.id,
-        detail: "Failed to reply with withdrawn message",
+        message_uid,
       })
-      .then((reply_result) => {
-        // expect an InteractionCallbackResponse, but deal with a Message too
-        const message_uid = reply_result.resource?.message.id ?? reply_result.id
-
-        opposed_db.addMessage({
-          challenge_id: challenge.id,
-          message_uid,
-        })
-      })
-  },
+    })
 }

@@ -6,7 +6,7 @@ import { Opposed } from "../../db/opposed.js"
  * @param  {OpTest} test Test object to read
  * @return {string}      Generated history string for the test
  */
-function makeHistory(test) {
+export function makeHistory(test) {
   const t = i18n.getFixedT(test.locale, "opposed", "shared.history")
 
   const opposed_db = new Opposed()

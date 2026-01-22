@@ -1,10 +1,10 @@
-const { ButtonBuilder, ButtonStyle, ComponentType } = require("discord.js")
+import { ButtonBuilder, ButtonStyle, ComponentType } from "discord.js"
 
 const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
 const saved_roll_completers = require("../../completers/saved-roll-completers")
 const { UserSavedRolls } = require("../../db/saved_rolls")
 const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 const rollCache = require("../../services/roll-cache")
 const SavedRollModal = require("../../modals/saved-roll")
 const build = require("../../util/message-builders")

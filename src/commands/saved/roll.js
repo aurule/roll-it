@@ -5,7 +5,7 @@ const { UserSavedRolls } = require("../../db/saved_rolls")
 const commonOpts = require("../../util/common-options")
 const present_command = require("../../presenters/command-name-presenter").present
 const { injectMention } = require("../../util/formatters/inject-user.js")
-const { i18n } = require("../../locales")
+import { i18n } from "../../locales/index.js"
 const { saved_bonus_target } = require("../../util/saved-bonus-target")
 
 const command_name = "roll"

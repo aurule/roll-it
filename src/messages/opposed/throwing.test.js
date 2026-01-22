@@ -2,7 +2,7 @@ jest.mock("../../util/message-builders")
 
 const { ChallengeFixture } = require("../../../testing/challenge-fixture")
 const { Interaction } = require("../../../testing/interaction")
-const { Challenge } = require("../../db/opposed/challenge")
+import { Challenge } from "../../db/opposed/challenge.js"
 const throwing = require("./throwing")
 
 describe("opposed throwing prompt message", () => {

@@ -1,4 +1,4 @@
-const { userMention } = require("discord.js")
+import { userMention } from "discord.js"
 const { Teamwork, MessageType } = require("../db/teamwork")
 const { i18n } = require("../locales")
 const teamwork_change = require("../embeds/teamwork-change")
