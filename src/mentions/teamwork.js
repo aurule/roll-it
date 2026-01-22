@@ -1,7 +1,7 @@
 import { userMention } from "discord.js"
 const { Teamwork, MessageType } = require("../db/teamwork")
 const { i18n } = require("../locales")
-const teamwork_change = require("../embeds/teamwork-change")
+import { TeamworkChangeEmbed } from "../../embeds/teamwork-change.js"
 const { teamworkTimeout } = require("../interactive/teamwork")
 const { logger } = require("../util/logger")
 const { messageLink } = require("../util/formatters/message-link")
@@ -111,7 +111,7 @@ module.exports = {
       prompt_link,
     }
 
-    const embed = teamwork_change.data(test)
+    const embed = new TeamworkChangeEmbed(test).data()
     return interaction
       .ensure(
         "reply",

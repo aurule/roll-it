@@ -2,7 +2,7 @@ import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Teamwork } from "../../db/teamwork.js"
 import { injectMention } from "../../util/formatters/inject-user.js"
-import teamwork_summary from "../../embeds/teamwork-summary.js"
+import { TeamworkSummaryEmbed } from "../../embeds/teamwork-summary.js"
 import { logger } from "../../util/logger.js"
 import { commands } from "../../commands/index.js"
 import { TeamworkManager } from "../../interactive/teamwork.js"
@@ -52,7 +52,7 @@ export async function execute(interaction) {
   )
   const presented = injectMention(presented_raw, test.leader)
 
-  const embed = teamwork_summary.data(test)
+  const embed = new TeamworkSummaryEmbed(test).data()
 
   await TeamworkManager.cleanup(test.id)
 

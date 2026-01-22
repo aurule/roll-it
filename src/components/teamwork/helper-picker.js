@@ -1,7 +1,7 @@
 import { UserSelectMenuBuilder, userMention } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Teamwork, MessageType } from "../../db/teamwork.js"
-import teamwork_change from "../../embeds/teamwork-change.js"
+import { TeamworkChangeEmbed } from "../../embeds/teamwork-change.js"
 import { arrayEq } from "../../util/array-eq.js"
 import { logger } from "../../util/logger.js"
 import { messageLink } from "../../util/formatters/message-link.js"
@@ -62,7 +62,7 @@ export async function execute(interaction) {
     prompt_link,
   }
 
-  const embed = teamwork_change.data(test)
+  const embed = new TeamworkChangeEmbed(test).data()
 
   return interaction
     .ensure(
