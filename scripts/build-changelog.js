@@ -1,14 +1,14 @@
-const fs = require("fs")
-const path = require("path")
+import { promises as fs } from "node:fs"
+import path from "node:path"
 
-const changes = require("../changes")
-const { version } = require("../package.json")
+import changes from "../changes/index.js"
+import package_data from "../package.json" with { type: "json" }
 
 function buildSection(bucket) {
   return bucket.map((item) => `* ${item}`).join("\n")
 }
 ;(async () => {
-  const lines = [`# Changelog for Roll It v${version}`]
+  const lines = [`# Changelog for Roll It v${package_data.version}`]
 
   if (changes.added.length) {
     lines.push("")
@@ -40,9 +40,9 @@ function buildSection(bucket) {
 
   lines.push("") // end with a newline
 
-  fs.writeFileSync(path.join(__dirname, "../changelog", `${version}.md`), lines.join("\n"))
+  await fs.writeFile(path.join(__dirname, "../changelog", `${package_data.version}.md`), lines.join("\n"))
 
-  changes.files.forEach((file) => {
-    fs.rmSync(file)
-  })
+  for (const file of changes.files) {
+    fs.rm(file)
+  }
 })()

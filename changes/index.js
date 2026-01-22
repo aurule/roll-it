@@ -1,9 +1,7 @@
-"use strict"
+import fs from "node:fs"
+import path from "node:path"
 
-const fs = require("fs")
-const path = require("path")
-
-const { noTests, noDotFiles } = require("../src/util/filters.js")
+import { noTests, noDotFiles } from "../src/util/filters.js"
 
 const basename = path.basename(__filename)
 const buckets = {
@@ -26,4 +24,4 @@ fs.readdirSync(__dirname)
     buckets.files.push(file_path)
   })
 
-module.exports = buckets
+export default buckets

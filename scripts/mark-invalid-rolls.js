@@ -1,8 +1,8 @@
-const progress = require("cli-progress")
+import progress from "cli-progress"
 
-const { GlobalSavedRolls } = require("../src/db/saved_rolls")
-const commands = require("../src/commands")
-const { logger } = require("../src/util/logger")
+import { GlobalSavedRolls } from "../src/db/saved_rolls.js"
+import commands from "../src/commands/index.js"
+import { logger } from "../src/util/logger.js"
 
 logger.level = "warn"
 
