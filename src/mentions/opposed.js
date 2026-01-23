@@ -1,16 +1,35 @@
 import { userMention } from "discord.js"
-const { Opposed } = require("../db/opposed")
-const { i18n, available_locales } = require("../locales")
-const { logger } = require("../util/logger")
-const message_contents = require("../messages/opposed")
-const { UnauthorizedError } = require("../errors/unauthorized-error")
-const { sendError } = require("../services/metrics")
+import { MentionHandler } from "./mention-handler.js"
+import { Opposed } from "../db/opposed.js"
+import { i18n, available_locales } from "../locales/index.js"
+import { logger } from "../util/logger.js"
+import { messages } from "../messages/opposed/index.js"
+import { UnauthorizedError } from "../errors/unauthorized-error.js"
+import { sendError } from "../services/metrics.js"
 
-const RETRY_KEYWORDS = available_locales.map((locale) =>
+/**
+ * Basic list of retry trigger words across all locales
+ * @type string[]
+ */
+export const RETRY_KEYWORDS = available_locales.map((locale) =>
   i18n.t("retry", { lng: locale, ns: "opposed" }),
 )
 
-module.exports = {
+/**
+ * MET Opposed test message mention handler
+ */
+export class OpposedMentionHandler extends MentionHandler {
+  t
+  db
+  referenced_message_uuid
+
+  constructor(message) {
+    super(message)
+    this.t = i18n.getFixedT(message.locale, "opposed")
+    this.db = new Opposed()
+    this.referenced_message_uuid = message.reference.messageId
+  }
+
   /**
    * Get whether this handler accepts a certain message
    *
@@ -19,94 +38,90 @@ module.exports = {
    * @param  {Message} interaction Discord message object
    * @return {boolean}             True if the message can be handled, false if not
    */
-  canHandle(interaction) {
+  static canHandle(message) {
     const opposed_db = new Opposed()
-    return opposed_db.hasMessage(interaction.reference?.messageId)
-  },
+    return opposed_db.hasMessage(message.reference?.messageId)
+  }
 
   /**
    * Handle a message
    *
-   * This first handles the special "retry" logic to send the message for the challenge's current state. It
-   * will call an `afterReply` hook if present on the message.
+   * This first handles the special "retry" logic to re-send the message for the challenge's current state. It
+   * will call an `afterRetry` hook if present on the message.
    *
    * Otherwise, any message file with a `handleReply` function will have it called with the interaction.
-   *
-   * @param  {Message} interaction Discord message object
    */
-  async handle(interaction) {
-    const opposed_db = new Opposed()
-    const mention_message_uuid = interaction.reference.messageId
-    const challenge = opposed_db.findChallengeByMessage(mention_message_uuid)
+  async handle() {
+    const challenge = this.db.findChallengeByMessage(this.referenced_message_uuid)
+    const replyMessage = messages.get(challenge.state)
 
-    if (RETRY_KEYWORDS.includes(interaction.content)) {
-      const message_file = message_contents.get(challenge.state)
-      const message_data = message_file.data(challenge.id)
-      const afterRetry = message_file.afterRetry
-      return interaction
-        .ensure("reply", message_data, {
+    if (this.isRetry) {
+      return this.message.ensure("reply", replyMessage.data(challenge.id), {
+        challenge_id: challenge.id,
+        channel_id: this.message.channelId,
+        detail: `failed to retry message for state "${challenge.state}"`,
+      })
+      .then(reply_response => {
+        const message_uid = reply_response?.resource?.message?.id ?? reply_response.id
+
+        const message_props = {
           challenge_id: challenge.id,
-          channel_id: interaction.channelId,
-          detail: `failed to retry message for state "${challenge.state}"`,
-        })
-        .then((reply_interaction) => {
-          const message_uid = reply_interaction?.resource?.message?.id ?? reply_interaction.id
-
-          const message_props = {
-            challenge_id: challenge.id,
-            message_uid,
-            test_id: opposed_db.findTestByMessage(mention_message_uuid)?.id ?? null,
-          }
-          opposed_db.addMessage(message_props)
-          if (afterRetry !== undefined) {
-            afterRetry(reply_interaction)
-          }
-        })
+          message_uid,
+          test_id: this.db.findTestByMessage(this.mention_message_uuid)?.id ?? null,
+        }
+        this.db.addMessage(message_props)
+        if (replyMessage.afterRetry !== undefined) {
+          replyMessage.afterRetry(reply_response)
+        }
+      })
     }
 
-    const state_handler = message_contents.get(challenge.state).handleReply
-    if (state_handler !== undefined) {
+
+    if (replyMessage.handleReply !== undefined) {
       try {
-        return state_handler(interaction)
+        return replyMessage.handleReply(message)
       } catch (err) {
         if (err instanceof UnauthorizedError) {
           logger.info({
-            user: interaction.user,
+            user: message.user,
             challenge,
             detail: "unauthorized message reply interaction",
           })
-          return interaction.ensure(
+          return message.ensure(
             "whisper",
-            i18n.t("unauthorized", {
-              ns: "opposed",
-              lng: interaction.locale,
+            this.t("unauthorized", {
               context: "mention",
               participants: err.allowed_uids.map(userMention),
             }),
             {
-              user: interaction.user,
-              message: interaction.message,
+              user: message.user,
+              message: message.message,
             },
           )
         } else {
           sendError(err, {
-            user: interaction.user,
+            user: message.user,
             challenge,
           })
           logger.error({
             err,
-            user: interaction.user,
+            user: message.user,
             challenge,
           })
         }
       }
     }
 
-    return interaction.whisper(
-      i18n.t("unknown", {
-        ns: "opposed",
-        lng: interaction.locale,
-      }),
+    return this.whisper(
+      this.t("unknown"),
     )
-  },
+  }
+
+  /**
+   * Get whether to use the retry logic
+   * @return {boolean} True if we're re-sending, false if not
+   */
+  get isRetry() {
+    return RETRY_KEYWORDS.includes(this.message.content)
+  }
 }

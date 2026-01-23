@@ -1,80 +1,85 @@
 import { userMention } from "discord.js"
-const { Teamwork, MessageType } = require("../db/teamwork")
-const { i18n } = require("../locales")
+import { Teamwork, MessageType } from "../db/teamwork.js"
+import { i18n } from "../locales/index.js"
 import { TeamworkChangeEmbed } from "../../embeds/teamwork-change.js"
-const { teamworkTimeout } = require("../interactive/teamwork")
-const { logger } = require("../util/logger")
-const { messageLink } = require("../util/formatters/message-link")
-const { extractNumber } = require("../util/extract-number")
+import { teamworkTimeout } from "../interactive/teamwork.js"
+import { logger } from "../util/logger.js"
+import { messageLink } from "../util/formatters/message-link.js"
+import { extractNumber } from "../util/extract-number.js"
+import { MentionHandler } from "./mention-handler.js"
 
-module.exports = {
+export class TeamworkMentionHandler extends MentionHandler {
+  db
+  referenced_message_uuid
+  test
+
+  constructor(message) {
+    super(message)
+    this.db = new Teamwork()
+    this.referenced_message_uuid = message.reference.messageId
+    this.test = this.db.findTestByMessage(this.referenced_message_uuid)
+  }
+
   /**
    * Get whether this handler accepts a certain message
    *
    * To be handled, a message must appear in the teamwork messages database.
    *
-   * @param  {Message} interaction Discord message object
-   * @return {boolean}             True if the message can be handled, false if not
+   * @param  {Message} message Discord message object
+   * @return {boolean}         True if the message can be handled, false if not
    */
-  canHandle(interaction) {
+  static canHandle(message) {
     const teamwork_db = new Teamwork()
-    return teamwork_db.hasMessage(interaction.reference?.messageId)
-  },
+    return teamwork_db.hasMessage(message.reference?.messageId)
+  }
 
   /**
    * Handle a message
    *
    * This ensures that the message is tied to an active teamwork test, then adds or updates the message user's
    * helper record and shows a new summary of the test.
-   *
-   * @param  {Message} interaction Discord message object
    */
-  async handle(interaction) {
-    const teamwork_db = new Teamwork()
-    const test = teamwork_db.findTestByMessage(interaction.reference.messageId)
-
-    if (test === undefined) {
-      return interaction
-        .whisper(i18n.t("concluded", { ns: "teamwork", lng: interaction.locale }))
-        .catch((error) =>
-          logger.warn(
-            {
-              err: error,
-              reply_to: interaction.reference.messageId,
-              message: interaction.id,
-            },
-            "Could not whisper about unknown test",
-          ),
+  async handle() {
+    if (this.test === undefined) {
+      return this.whisper(i18n.t("concluded", { ns: "teamwork", lng: interaction.locale }))
+      .catch((error) => {
+        return logger.warn(
+          {
+            err: error,
+            reply_to: this.referenced_message_uuid,
+            message: this.message.id,
+          },
+          "Could not whisper about unknown test",
         )
+      })
     }
 
-    const t = i18n.getFixedT(test.locale, "teamwork")
+    const t = i18n.getFixedT(this.test.locale, "teamwork")
 
-    if (test.expired) {
-      await teamworkTimeout(test.id)
-      return interaction.whisper(t("concluded")).catch((error) =>
+    if (this.test.expired) {
+      await teamworkTimeout(this.test.id)
+      return this.whisper(t("concluded")).catch((error) =>
         logger.warn(
           {
             err: error,
-            test: test.id,
-            reply_to: interaction.reference.messageId,
-            message: interaction.id,
+            test: this.test.id,
+            reply_to: this.referenced_message_uuid,
+            message: this.message.id,
           },
           "Could not whisper about expired test",
         ),
       )
     }
 
-    const matched_number = extractNumber(interaction.content)
+    const matched_number = extractNumber(this.message.content)
     if (matched_number === undefined) {
-      return interaction.whisper(t("help_given.missing")).catch((error) =>
+      return this.whisper(t("help_given.missing")).catch((error) =>
         logger.error(
           {
             err: error,
-            test: test.id,
-            reply_to: interaction.reference.messageId,
-            message: interaction.id,
-            content: dice_content,
+            test: this.test.id,
+            reply_to: this.referenced_message_uuid,
+            message: this.message.id,
           },
           "Could not whisper about missing number",
         ),
@@ -82,37 +87,36 @@ module.exports = {
     }
 
     if (matched_number === NaN) {
-      return interaction.whisper(t("help_given.invalid")).catch((error) =>
+      return this.whisper(t("help_given.invalid")).catch((error) =>
         logger.error(
           {
             err: error,
-            test: test.id,
-            reply_to: interaction.reference.messageId,
-            message: interaction.id,
-            content: dice_content,
+            test: this.test.id,
+            reply_to: this.referenced_message_uuid,
+            message: this.message.id,
           },
           "Could not whisper about invalid number",
         ),
       )
     }
 
-    const author_id = interaction.author.id
-    teamwork_db.setDice(test.id, author_id, matched_number)
+    const author_id = this.message.author.id
+    this.db.setDice(this.test.id, author_id, matched_number)
 
     const prompt_link = messageLink({
-      id: teamwork_db.getPromptUid(test.id),
-      channelId: test.channel_uid,
-      guildId: interaction.guildId,
+      id: this.db.getPromptUid(this.test.id),
+      channelId: this.test.channel_uid,
+      guildId: this.message.guildId,
     })
     const t_args = {
       helper: userMention(author_id),
       count: matched_number,
-      context: author_id === test.leader ? "leader" : "helper",
+      context: author_id === this.test.leader ? "leader" : "helper",
       prompt_link,
     }
-
     const embed = new TeamworkChangeEmbed(test).data()
-    return interaction
+
+    return this.message
       .ensure(
         "reply",
         {
@@ -124,7 +128,7 @@ module.exports = {
           withResponse: true,
         },
         {
-          test: test.id,
+          test: this.test.id,
           detail: "Could not reply with added dice",
         },
       )
@@ -132,11 +136,11 @@ module.exports = {
         // expect an InteractionCallbackResponse, but deal with a Message too
         const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
 
-        teamwork_db.addMessage({
-          teamwork_id: test.id,
+        this.db.addMessage({
+          teamwork_id: this.test.id,
           message_uid: message_uid,
           type: MessageType.Plain,
         })
       })
-  },
+  }
 }
