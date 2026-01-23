@@ -1,9 +1,18 @@
 import { Events } from "discord.js"
 import { logger } from "../util/logger.js"
-import { mentionDispatch } from "../mentions/index.js"
+import { handle as mentionDispatch } from "../mentions/index.js"
 import { sendError } from "../services/metrics"
 
 import { handleInteractionCreated } from "./interactionCreate.js"
+
+export function handleMessageCreate(message) {
+  if (message.author.id === process.env.CLIENT_ID) return Promise.resolve("sent by bot")
+  if (!message.mentions.users.has(process.env.CLIENT_ID))
+    return Promise.resolve("does not mention bot")
+  if (!envAllowsGuild(message.guildId)) return Promise.resolve("wrong guild for env")
+
+  return mentionDispatch(message)
+}
 
 export function register(client) {
   client.once(Events.ClientReady, (client) => {
@@ -24,13 +33,7 @@ export function register(client) {
     logger.info({ id: guild.id, name: guild.name }, `Removed from guild`)
   })
 
-  client.on(Events.MessageCreate, (message) => {
-    if (!message.mentions.users.has(process.env.CLIENT_ID))
-      return Promise.resolve("does not mention bot")
-    if (!envAllowsGuild(message.guildId)) return Promise.resolve("wrong guild for env")
-
-    return mentionDispatch(message)
-  })
+  client.on(Events.MessageCreate, handleMessageCreate)
 
   client.on(Events.ShardError, (error) => {
     sendError(error, { origin: "websocket" })
