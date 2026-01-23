@@ -1,13 +1,14 @@
 import { StringSelectMenuBuilder } from "discord.js"
 
-const { i18n } = require("../locales")
-const { systemOptions } = require("../presenters/system-options-presenter")
+import { i18n } from "../locales/index.js"
+import { systemOptions } from "../presenters/system-options-presenter.js"
 import { systems } from "../data/systems.js"
 import { features } from "../data/features.js"
-const build = require("../util/modal-builders")
-const { featureOptions } = require("../presenters/feature-options-presenter")
-const { Installation } = require("../db/installation")
-const changes = require("../messages/installation/changes")
+import * as build from "../util/modal-builders.js"
+import { featureOptions } from "../presenters/feature-options-presenter.js"
+import { Installation } from "../db/installation.js"
+import changesMessage from "../messages/installation/changes.js"
+import { Modal } from "./modal.js"
 
 /**
  * Tiny helper to test if two sets are equal
@@ -15,22 +16,34 @@ const changes = require("../messages/installation/changes")
  * @param   {Set}     s2 Second set
  * @returns {boolean}    True if the two sets have matching elements, false if not.
  */
-function setMatch(s1, s2) {
+export function setMatch(s1, s2) {
   return s1.isSupersetOf(s2) && s1.difference(s2).size === 0
 }
 
 /**
  * Modal for changing a server's installed systems and features
- * @type {Object}
  */
-module.exports = {
-  name: "change-installed",
+export class ChangeInstalledModal extends Modal {
+  /**
+   * Database object
+   * @type Installation
+   */
+  db
+
+  /**
+   * Associated installation record
+   * @type object
+   */
+  installation
+
+  static name = "change-installed"
+
   /**
    * Create the modal's data
    * @param  {Installation} installation Installation record
    * @return {ModalBuilder}              Modal data object
    */
-  data(installation) {
+  static data(installation) {
     const t = i18n.getFixedT(installation.locale, "install", "change-installed")
 
     const source = installation.new_deets.commands ? installation.new_deets : installation.old_deets
@@ -61,14 +74,24 @@ module.exports = {
       build.text(t("afterward")),
     ]
 
-    return build.modal(`${module.exports.name}_${installation.id}`, t("title"), components)
-  },
-  async submit(modal_interaction, installation_id) {
-    const install_db = new Installation()
+    return build.modal(`${ChangeInstalledModal.name}_${installation.id}`, t("title"), components)
+  }
 
+  constructor(modal_interaction, installation_id) {
+    super(modal_interaction, installation_id)
+    this.db = new Installation()
+    this.installation = this.db.getInstallation(this.id)
+  }
+
+  /**
+   * Submit the modal
+   *
+   * @return {Promise} Submission promise, usually a Message
+   */
+  async submit() {
     const new_deets = {
-      systems: modal_interaction.fields.getStringSelectValues("systems") ?? [],
-      features: modal_interaction.fields.getStringSelectValues("features") ?? [],
+      systems: this.getStringSelectValues("systems"),
+      features: this.getStringSelectValues("features"),
     }
 
     const new_commands = new Set()
@@ -93,34 +116,31 @@ module.exports = {
 
     new_deets.commands = Array.from(new_commands)
 
-    const installation = install_db.getInstallation(installation_id)
-
     // Skip the changes message if there are no differences
     if (
-      setMatch(new Set(installation.old_deets.systems), new Set(new_deets.systems)) &&
-      setMatch(new Set(installation.old_deets.features), new Set(new_deets.features)) &&
-      setMatch(new Set(installation.old_deets.systems), new_commands)
+      setMatch(new Set(this.installation.old_deets.systems), new Set(new_deets.systems)) &&
+      setMatch(new Set(this.installation.old_deets.features), new Set(new_deets.features)) &&
+      setMatch(new Set(this.installation.old_deets.systems), new_commands)
     ) {
-      return modal_interaction.deferUpdate()
+      return this.deferUpdate()
     }
 
     // update and show changes
-    install_db.setNewDeets(installation_id, new_deets)
+    this.db.setNewDeets(this.id, new_deets)
     modal_interaction.message.delete().catch((_e) => {})
     return modal_interaction
-      .ensure("reply", changes.data(installation_id), {
-        installation_id,
+      .ensure("reply", changesMessage.data(this.id), {
+        installation_id: this.id,
         detail: "Failed to send install changes message",
       })
       .then((reply_result) => {
         // expect an InteractionCallbackResponse, but deal with a Message too
         const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
 
-        install_db.addMessage({
-          installation_id,
+        this.db.addMessage({
+          installation_id: this.id,
           message_uid,
         })
       })
-  },
-  setMatch,
+  }
 }

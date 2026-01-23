@@ -1,24 +1,22 @@
-const fs = require("fs")
-const path = require("path")
 import { Collection } from "discord.js"
+import { ChangeInstalledModal } from "./change-installed.js"
+import { ReportRollModal } from "./report-roll.js"
+import { SavedRollModal } from "./saved-roll.js"
 
-const { jsNoTests, noDotFiles } = require("../util/filters")
+/**
+ * Collection of Modal objects
+ * @type Collection<Modal>
+ */
+export const modals = new Collection()
 
-const basename = path.basename(__filename)
-const modalsDir = __dirname
+/**
+ * Register a modal class
+ * @param  {Modal} modalKlass Modal class to register
+ */
+function register(modalKlass) {
+  modals.set(modalKlass.name, modalKlass)
+}
 
-const modals = new Collection()
-
-const contents = fs
-  .readdirSync(modalsDir)
-  .filter(jsNoTests)
-  .filter(noDotFiles)
-  .filter((file) => {
-    return file !== basename
-  })
-contents.forEach((command_file) => {
-  const modal = require(path.join(modalsDir, command_file))
-  modals.set(modal.name, modal)
-})
-
-module.exports = modals
+register(ChangeInstalledModal)
+register(ReportRollModal)
+register(SavedRollModal)

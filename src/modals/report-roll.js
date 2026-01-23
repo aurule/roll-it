@@ -1,88 +1,92 @@
-import { ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } from "discord.js"
+import { TextInputBuilder, TextInputStyle } from "discord.js"
 
-const { logger } = require("../util/logger")
-const { i18n } = require("../locales")
-const { Feedback } = require("../db/feedback")
-const { sendError } = require("../services/metrics")
+import { logger } from "../util/logger.js"
+import { i18n } from "../locales/index.js"
+import { Feedback } from "../db/feedback.js"
+import { sendError } from "../services/metrics.js"
+import { Modal } from "./modal.js"
+import * as build from "../util/modal-builders.js"
 
 /**
  * Modal for adding feedback details after reporting a roll
- *
- * @type {Object}
  */
-module.exports = {
-  name: "report-roll",
+export class ReportRollModal extends Modal {
+  static name = "report-roll"
+  t
+  db
+
   /**
    * Create the modal's data structure
-   * @param  {number} feedback_id Internal ID of the associated feedback record
-   * @param  {string} locale      Locale code
-   * @return {ModalBuilder}       Modal data object
+   * @param  {number}       feedback_id Internal ID of the associated feedback record
+   * @param  {string}       locale      Locale code
+   * @return {ModalBuilder}             Modal data object
    */
-  data(feedback_id, locale) {
+  static data(feedback_id, locale) {
     const t = i18n.getFixedT(locale, "modals", `report-roll`)
-
-    const modal = new ModalBuilder()
-      .setCustomId(`${module.exports.name}_${feedback_id}`)
-      .setTitle(t("title"))
 
     const notes_input = new TextInputBuilder()
       .setCustomId("notes")
-      .setLabel(t("inputs.notes.label"))
       .setPlaceholder(t("inputs.notes.placeholder"))
       .setStyle(TextInputStyle.Paragraph)
       .setRequired(false)
       .setMaxLength(4000)
-    const notes_row = new ActionRowBuilder().addComponents(notes_input)
+
 
     const consent_length = t("inputs.consent.keyword").length
     const consent_input = new TextInputBuilder()
       .setCustomId("consent")
-      .setLabel(t("inputs.consent.label"))
       .setPlaceholder(t("inputs.consent.placeholder"))
       .setStyle(TextInputStyle.Short)
       .setRequired(false)
       .setMinLength(consent_length)
       .setMaxLength(consent_length)
-    const consent_row = new ActionRowBuilder().addComponents(consent_input)
 
-    modal.addComponents(notes_row, consent_row)
+    const components = [
+      build.label(notes_input, t("inputs.notes.label")),
+      build.label(consent_input, t("inputs.consent.label")),
+    ]
 
-    return modal
-  },
-  async submit(modal_interaction, feedback_id) {
-    const t = i18n.getFixedT(modal_interaction.locale, "modals", `report-roll`)
+    return build.modal(`${ReportRollModal.name}_${feedback_id}`, t("title"), components)
+  }
 
-    const notes = modal_interaction.fields.getTextInputValue("notes") ?? "no notes given"
+  constructor(modal_interaction, feedback_id) {
+    super(modal_interaction, feedback_id)
+    this.t = i18n.getFixedT(this.interaction.locale, "modals", `report-roll`)
+    this.db = new Feedback()
+  }
+
+  /**
+   * Submit the modal
+   */
+  async submit() {
+    const notes = this.getTextInputValue("notes", "no notes given")
+    const canReply = this.getTextInputValue("consent") === this.t("inputs.consent.keyword")
 
     const data = {
-      canReply:
-        modal_interaction.fields.getTextInputValue("consent") === t("inputs.consent.keyword"),
+      canReply,
       notes,
-      userId: modal_interaction.user.id,
-      id: feedback_id,
+      userId: this.interaction.user.id,
+      id: this.id,
     }
 
-    const feedback = new Feedback()
     try {
-      feedback.addNotes(data)
+      this.db.addNotes(data)
     } catch (err) {
       sendError(err, {
-        user: modal_interaction.user,
-        guild: modal_interaction.guildId,
-        inputs: modal_interaction.fields.fields,
+        user: this.interaction.user,
+        guild: this.interaction.guildId,
+        inputs: this.fields,
       })
       logger.error(
         {
           err,
-          user: modal_interaction.user,
-          guild: modal_interaction.guildId,
-          inputs: modal_interaction.fields.fields,
+          user: this.interaction.user,
+          guild: this.interaction.guildId,
+          inputs: this.fields,
         },
         "Could not update feedback record",
       )
-      return modal_interaction.whisper(t("response.error"))
+      return this.whisper(this.t("response.error"))
     }
-
-    return modal_interaction.whisper(t("response.success"))
-  },
+  }
 }
