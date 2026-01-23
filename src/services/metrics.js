@@ -30,6 +30,12 @@ process.on("beforeExit", async (_code) => {
   await client.shutdown()
 })
 
+/**
+ * Capture a user event
+ * @param  {string}    event             Event name
+ * @param  {Snowflake} userId            User's Discord ID
+ * @param  {object}    custom_properties Additional data to store about the event
+ */
 export function sendEvent(event, userId, custom_properties = {}) {
   return client.capture({
     distinctId: userId.toString(),
@@ -40,6 +46,14 @@ export function sendEvent(event, userId, custom_properties = {}) {
   })
 }
 
+/**
+ * Capture an error
+ *
+ * This should only be used for errors caused by our own code, _not_ errors from Discord's API.
+ *
+ * @param  {Error}  err               Error object to capture
+ * @param  {object} custom_properties Additional error info to store
+ */
 export function sendError(err, custom_properties = {}) {
   return client.captureException(err, custom_properties)
 }

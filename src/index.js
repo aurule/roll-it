@@ -31,11 +31,14 @@ import {
 
 import { commands } from "./commands/index.js"
 import { modals } from "./modals/index.js"
-import { register } from "./events/index.js"
+import { register as registerEvents } from "./events/index.js"
 
 import package_data from "../package.json" with { type: "json" }
 
-// Create a new client instance
+/**
+ * Discord.js client instance
+ * @type Client
+ */
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
   partials: [Partials.User],
@@ -57,7 +60,7 @@ client.commands = commands
 client.modals = modals
 
 // Register event listeners
-register(client)
+registerEvents(client)
 
-// Login to Discord with your client's token
+// Login to Discord with the bot's token
 client.login(process.env.BOT_TOKEN)
