@@ -89,7 +89,7 @@ export async function handleModal(interaction) {
     `modal ${modal.name} submitted`,
   )
 
-  return modal.submit(interaction, modal_id)
+  return new modal(interaction, modal_id).submit()
 }
 
 export async function handleComponent(interaction) {
