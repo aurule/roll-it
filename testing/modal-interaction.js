@@ -1,8 +1,8 @@
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
 
-const { Interaction } = require("./interaction")
+import { Interaction } from "./interaction.js"
 
-class ModalFields extends Collection {
+export class ModalFields extends Collection {
   getTextInputValue(name) {
     return this.get(name)
   }
@@ -15,7 +15,7 @@ class ModalFields extends Collection {
 /**
  * Class to mock a Discord modal interaction
  */
-class ModalInteraction extends Interaction {
+export class ModalInteraction extends Interaction {
   customId
   fields = new ModalFields()
 
@@ -52,8 +52,4 @@ class ModalInteraction extends Interaction {
   setField(name, value) {
     this.fields.set(name, value)
   }
-}
-
-module.exports = {
-  ModalInteraction,
 }

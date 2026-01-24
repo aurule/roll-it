@@ -1,6 +1,6 @@
-const { Collection } = require("discord.js")
+import { Collection } from "discord.js"
 
-class ReactionsUserManager {
+export class ReactionsUserManager {
   constructor(users = []) {
     this.users = new Collection(users.map((u) => [u.id, u]))
   }
@@ -8,8 +8,4 @@ class ReactionsUserManager {
   async fetch(opts) {
     return this.users
   }
-}
-
-module.exports = {
-  ReactionsUserManager,
 }

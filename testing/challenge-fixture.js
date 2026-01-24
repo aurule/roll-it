@@ -1,13 +1,13 @@
-const { Opposed } = require("../src/db/opposed")
-const { Challenge } = require("../src/db/opposed/challenge")
-const { Participant } = require("../src/db/opposed/participant")
+import { Opposed } from "../src/db/opposed.js"
+import { Challenge } from "../src/db/opposed/challenge.js"
+import { Participant } from "../src/db/opposed/participant.js"
 
 /**
  * Class for creating and manipulating an opposed challenge record during tests
  *
  * This class and its related classes are designed to streamline test setup.
  */
-class ChallengeFixture {
+export class ChallengeFixture {
   /**
    * Database object
    * @type db
@@ -271,7 +271,7 @@ class ChallengeFixture {
 /**
  * Class for creating and manipulating a challenge participant record during tests
  */
-class ParticipantFixture {
+export class ParticipantFixture {
   /**
    * Database object
    * @type Opposed
@@ -353,7 +353,7 @@ class ParticipantFixture {
 /**
  * Class for creating and manipulating a single test record during tests
  */
-class TestFixture {
+export class TestFixture {
   /**
    * Database object
    * @type Opposed
@@ -494,7 +494,7 @@ class TestFixture {
 /**
  * Class for creating and manipulating a single chop record during tests
  */
-class ChopFixture {
+export class ChopFixture {
   /**
    * Database object
    * @type Opposed
@@ -583,8 +583,4 @@ class ChopFixture {
     this.db.setChopTieAccepted(this.id, true)
     return this
   }
-}
-
-module.exports = {
-  ChallengeFixture,
 }

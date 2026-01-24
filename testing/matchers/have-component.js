@@ -5,7 +5,7 @@
  * @param  {str} component_id The custom id to check for
  * @return {obj}              Jest matcher result object
  */
-function toHaveComponent(message, component_id) {
+export function toHaveComponent(message, component_id) {
   const components = message.components
     .map((row) => row.components.map((c) => c.data.custom_id))
     .flat()
@@ -31,8 +31,4 @@ function toHaveComponent(message, component_id) {
         `Received: ${this.utils.printReceived(components)}`
 
   return { actual: components, message: response, pass }
-}
-
-module.exports = {
-  toHaveComponent,
 }

@@ -1,7 +1,7 @@
-const { MessageFlags } = require("discord.js")
+import { MessageFlags } from "discord.js"
 
-const { Interaction } = require("../interaction")
-const { pretty } = require("../command-pretty")
+import { Interaction } from "../interaction.js"
+import { pretty } from "../command-pretty.js"
 
 /**
  * Test the shared behavior of the `secret` option
@@ -25,7 +25,7 @@ const { pretty } = require("../command-pretty")
  * @param  {callable} after_interaction   Optional callable to run more setup after the interaction is created
  * @return {describe}                     Jest describe results
  */
-function test_secret_option(command, interaction_options, after_interaction) {
+export function test_secret_option(command, interaction_options, after_interaction) {
   var interaction
 
   return describe(`${pretty(command)} secret option`, () => {
@@ -57,8 +57,4 @@ function test_secret_option(command, interaction_options, after_interaction) {
       expect(interaction.replies[0].flags).not.toHaveFlag(MessageFlags.Ephemeral)
     })
   })
-}
-
-module.exports = {
-  test_secret_option,
 }

@@ -1,7 +1,7 @@
-const { expect, it, describe } = require("@jest/globals")
-const { MessageFlags } = require("discord.js")
+import { expect, it, describe } from "@jest/globals"
+import { MessageFlags } from "discord.js"
 
-const { toHaveFlag } = require("./have-flag")
+import { toHaveFlag } from "./have-flag.js"
 
 describe("toHaveFlag", () => {
   it("passes when bitfield contains the flag", () => {

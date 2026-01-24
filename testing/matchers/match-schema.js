@@ -5,7 +5,7 @@
  * @param  {Joi.any} schema The schema to test against
  * @return {obj}            Jest matcher result object
  */
-function toMatchSchema(actual, schema) {
+export function toMatchSchema(actual, schema) {
   const hint_options = {
     comment: "Joi schema validation",
     isNot: this.isNot,
@@ -28,8 +28,4 @@ function toMatchSchema(actual, schema) {
         result.error.details.map((d) => `\n- ${this.utils.printExpected(d.message)}`)
 
   return { actual, message, pass }
-}
-
-module.exports = {
-  toMatchSchema,
 }

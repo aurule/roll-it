@@ -5,7 +5,7 @@
  * @param  {bit}   flag     The expected flag
  * @return {object}         Jest results object
  */
-function toHaveFlag(bitfield, flag) {
+export function toHaveFlag(bitfield, flag) {
   const hint_options = {
     comment: "(bitfield & flag) !== 0",
     isNot: this.isNot,
@@ -36,8 +36,4 @@ function toHaveFlag(bitfield, flag) {
         `Received: ${this.utils.printReceived(pretty_bitfield)}`
 
   return { actual: bitfield, message, pass }
-}
-
-module.exports = {
-  toHaveFlag,
 }

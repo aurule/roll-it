@@ -1,16 +1,16 @@
-const { simpleflake } = require("simpleflakes")
-const { EventEmitter } = require("node:events")
-const { MessageFlags } = require("discord.js")
+import { simpleflake } from "simpleflakes"
+import { EventEmitter } from "node:events"
+import { MessageFlags } from "discord.js"
 
-const { ComponentInteraction } = require("./component-interaction")
-const { User } = require("./user")
+import { ComponentInteraction } from "./component-interaction.js"
+import { User } from "./user.js"
 
 /**
  * Fake message class for testing
  *
  * This mimics the data and behavior of Discord's Message class, but not perfectly.
  */
-class Message {
+export class Message {
   id
   guildId
   channelId
@@ -155,7 +155,7 @@ class Message {
   }
 }
 
-class ComponentEventEmitter extends EventEmitter {
+export class ComponentEventEmitter extends EventEmitter {
   /**
    * Call listeners for an event using special async handling
    *
@@ -181,8 +181,6 @@ class ComponentEventEmitter extends EventEmitter {
   }
 }
 
-require("../src/patches/whisper").patch(Message)
+import { patch as whisperPatch } from "../src/patches/whisper.js"
 
-module.exports = {
-  Message,
-}
+whisperPatch(Message)

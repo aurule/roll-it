@@ -1,6 +1,6 @@
-const { Interaction } = require("./interaction")
+import { Interaction } from "./interaction.js"
 
-class CommandInteraction extends Interaction {
+export class CommandInteraction extends Interaction {
   commandName
   command_options = {}
 
@@ -21,8 +21,4 @@ class CommandInteraction extends Interaction {
   setOption(name, value) {
     this.command_options[name] = value
   }
-}
-
-module.exports = {
-  CommandInteraction,
 }

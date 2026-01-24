@@ -1,7 +1,7 @@
-const { expect, it, describe } = require("@jest/globals")
-const Joi = require("joi")
+import { expect, it, describe } from "@jest/globals"
+import Joi from "joi"
 
-const { toMatchSchema } = require("./match-schema")
+import { toMatchSchema } = from "./match-schema"
 
 describe("toMatchSchema", () => {
   const test_schema = Joi.string()

@@ -1,7 +1,7 @@
-const { simpleflake } = require("simpleflakes")
-const { userMention } = require("discord.js")
+import { simpleflake } from "simpleflakes"
+import { userMention } from "discord.js"
 
-class User {
+export class User {
   constructor(snowflake) {
     this.flake = snowflake ?? simpleflake()
 
@@ -13,8 +13,4 @@ class User {
   toString() {
     return userMention(this.id)
   }
-}
-
-module.exports = {
-  User,
 }

@@ -1,6 +1,6 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-module.exports = Joi.array().items(
+export default Joi.array().items(
   Joi.object({
     label: Joi.string().required().min(1),
     value: Joi.string().required().min(1),

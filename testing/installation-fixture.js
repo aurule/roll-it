@@ -1,6 +1,6 @@
-const { Installation } = require("../src/db/installation")
+import { Installation } from "../src/db/installation.js"
 
-class InstallationFixture {
+export class InstallationFixture {
   /**
    * Database object
    * @type db
@@ -81,8 +81,4 @@ class InstallationFixture {
     })
     return this
   }
-}
-
-module.exports = {
-  InstallationFixture,
 }

@@ -1,4 +1,4 @@
-const { Interaction } = require("./interaction")
+import { Interaction } from "./interaction.js"
 
 class ComponentInteraction extends Interaction {
   customId
@@ -10,8 +10,4 @@ class ComponentInteraction extends Interaction {
     this.values = values
     this.message = message
   }
-}
-
-module.exports = {
-  ComponentInteraction,
 }

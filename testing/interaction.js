@@ -1,6 +1,7 @@
-const { simpleflake } = require("simpleflakes")
-const { PermissionFlagsBits, Collection } = require("discord.js")
-const { User } = require("./user")
+import { simpleflake } from "simpleflakes"
+import { PermissionFlagsBits, Collection } from "discord.js"
+import { User } from "./user.js"
+import { Message } from "./message.js"
 
 /**
  * Fake interaction class for testing
@@ -10,10 +11,8 @@ const { User } = require("./user")
  * To test against the output of a command, you can use the `replyContent` property, which aggregates all text
  * from simple calls to reply() and friends.
  */
-class Interaction {
+export class Interaction {
   constructor(guildId = null, member_flake = null) {
-    const { Message } = require("./message")
-
     let member_snowflake = member_flake ?? simpleflake()
 
     this.id = simpleflake()
@@ -199,12 +198,12 @@ class Interaction {
   }
 }
 
-require("../src/patches/whisper").patch(Interaction)
-require("../src/patches/authorize").patch(Interaction)
-require("../src/patches/ensure").patch(Interaction)
-require("../src/patches/paginate").patch(Interaction)
-require("../src/patches/roll-reply").patch(Interaction)
+import { patch as patchEnsure } from "../src/patches/ensure.js"
+import { patch as patchPaginate } from "../src/patches/paginate.js"
+import { patch as patchRollReply } from "../src/patches/roll-reply.js"
+import { patch as patchAuthorize } from "../src/patches/authorize.js"
 
-module.exports = {
-  Interaction,
-}
+patchEnsure(Interaction)
+patchPaginate(Interaction)
+patchRollReply(Interaction)
+patchAuthorize(Interaction)

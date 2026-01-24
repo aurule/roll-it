@@ -1,5 +1,1 @@
-const stringSelectMenuOptions = require("./string-select-menu-options")
-
-module.exports = {
-  stringSelectMenuOptions,
-}
+export stringSelectMenuOptions from "./string-select-menu-options.js"
