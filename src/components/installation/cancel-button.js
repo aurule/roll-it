@@ -1,7 +1,7 @@
 import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Installation } from "../../db/installation.js"
-import cancelled from "../../messages/installation/cancelled.js"
+import { messageData as cancelledMessage} from "../../messages/installation/cancelled.js"
 import { Component } from "../component.js"
 
 export function data(locale) {
@@ -25,7 +25,7 @@ export async function execute(interaction) {
     return
   })
 
-  interaction.ensure("reply", cancelled.data(install.id), {
+  interaction.ensure("reply", cancelledMessage(install.id), {
     install,
     detail: "failed to send cancellation message",
   })

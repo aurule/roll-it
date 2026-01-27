@@ -4,9 +4,9 @@ import { Opposed } from "../db/opposed.js"
 import { Challenge } from "../db/opposed/challenge.js"
 import { Participant } from "../db/opposed/participant.js"
 import { logger } from "../util/logger.js"
-import api from "../services/api.js"
-import advantages_attacker_message from "../messages/opposed/advantages-attacker.js"
-import expired_message from "../messages/opposed/expired.js"
+import { sendMessage } from "../services/api.js"
+import { messageData as advantagesAttackerMessage } from "../messages/opposed/advantages-attacker.js"
+import { messageData as expiredMessage } from "../messages/opposed/expired.js"
 
 /**
  * How long the challenge is allowed to be active, in seconds
@@ -61,7 +61,7 @@ export async function opposedBegin({ interaction, description, attackerId, defen
   })
 
   return interaction
-    .ensure("reply", advantages_attacker_message.data(challenge_id), {
+    .ensure("reply", advantagesAttackerMessage(challenge_id), {
       challenge_id,
       detail: "failed to send advantages prompt",
     })
@@ -96,8 +96,7 @@ export async function opposedTimeout(challenge_id) {
   }
 
   opposed_db.setChallengeState(challenge.id, Challenge.States.Expired)
-  return api
-    .sendMessage(challenge.channel_uid, expired_message.data(challenge_id))
+  return sendMessage(challenge.channel_uid, expiredMessage(challenge_id))
     .then((message) =>
       opposed_db.addMessage({
         message_uid: message.id,

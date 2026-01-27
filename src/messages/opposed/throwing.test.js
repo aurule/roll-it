@@ -20,10 +20,10 @@ describe("opposed throwing prompt message", () => {
     challenge.cleanup()
   })
 
-  describe("data", () => {
+  describe("messageData", () => {
     describe("for the first test of a challenge", () => {
       it("shows the initial test message", () => {
-        const result = throwing.data(challenge.id)
+        const result = throwing.messageData(challenge.id)
 
         expect(result.content).toMatch("first test")
       })
@@ -37,32 +37,32 @@ describe("opposed throwing prompt message", () => {
       })
 
       it("shows the retest reason", () => {
-        const result = throwing.data(challenge.id)
+        const result = throwing.messageData(challenge.id)
 
         expect(result.content).toMatch("a different ability")
       })
     })
 
     it("shows the throw request message", () => {
-      const result = throwing.data(challenge.id)
+      const result = throwing.messageData(challenge.id)
 
       expect(result.content).toMatch("choose what you will throw")
     })
 
     it("has attacker throw picker", () => {
-      const result = throwing.data(challenge.id)
+      const result = throwing.messageData(challenge.id)
 
       expect(result).toHaveComponent(`throw_symbol_picker_${challenge.attacker.id}`)
     })
 
     it("has defender throw picker", () => {
-      const result = throwing.data(challenge.id)
+      const result = throwing.messageData(challenge.id)
 
       expect(result).toHaveComponent(`throw_symbol_picker_${challenge.defender.id}`)
     })
 
     it("has a go button", () => {
-      const result = throwing.data(challenge.id)
+      const result = throwing.messageData(challenge.id)
 
       expect(result).toHaveComponent("go_button")
     })

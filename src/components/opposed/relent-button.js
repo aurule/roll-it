@@ -2,7 +2,7 @@ import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-import relented_message from "../../messages/opposed/relented.js"
+import { messageData as relentedMessage } from "../../messages/opposed/relented.js"
 import { OpposedComponent } from "../opposed-component.js"
 
 /**
@@ -29,7 +29,7 @@ export async function execute(interaction) {
 
   opposed_db.setChallengeState(challenge.id, Challenge.States.Relented)
   return interaction
-    .ensure("reply", relented_message.data(challenge.id), {
+    .ensure("reply", relentedMessage(challenge.id), {
       component: "opposed_relent",
       challenge_id: challenge.id,
       detail: "Failed to reply with relented message",

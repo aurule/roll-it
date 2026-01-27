@@ -2,7 +2,7 @@ import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-import withdrawn_message from "../../messages/opposed/withdrawn.js"
+import { messageData as withdrawnMessage } from "../../messages/opposed/withdrawn.js"
 import { OpposedComponent } from "../opposed-component.js"
 
 /**
@@ -32,7 +32,7 @@ export async function execute(interaction) {
 
   opposed_db.setChallengeState(challenge.id, Challenge.States.Withdrawn)
   return interaction
-    .ensure("reply", withdrawn_message.data(challenge.id), {
+    .ensure("reply", withdrawnMessage(challenge.id), {
       component: "opposed_withdraw_challenge",
       challenge_id: challenge.id,
       detail: "Failed to reply with withdrawn message",

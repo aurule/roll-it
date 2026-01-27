@@ -18,53 +18,53 @@ describe("opposed tying summary message", () => {
     challenge.cleanup()
   })
 
-  describe("data", () => {
+  describe("messageData", () => {
     it("shows the tying message", () => {
-      const result = tying.data(challenge.id)
+      const result = tying.messageData(challenge.id)
 
       expect(result.content).toMatch("challenge is tied")
     })
 
     it("shows the summary", () => {
-      const result = tying.data(challenge.id)
+      const result = tying.messageData(challenge.id)
 
       expect(result.content).toMatch("test summary")
     })
 
     it("has an accept button", () => {
-      const result = tying.data(challenge.id)
+      const result = tying.messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_accept")
     })
 
     it("has a retest picker", () => {
-      const result = tying.data(challenge.id)
+      const result = tying.messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_retest_select")
     })
 
     it("has an retest button", () => {
-      const result = tying.data(challenge.id)
+      const result = tying.messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_retest")
     })
   })
 
-  describe("data", () => {
+  describe("inert", () => {
     it("shows the headline", () => {
-      const result = tying.inert(challenge.id)
+      const result = tying.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("challenge is tied")
     })
 
     it("shows the summary", () => {
-      const result = tying.data(challenge.id)
+      const result = tying.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("test summary")
     })
 
     it("has no components", () => {
-      const result = tying.inert(challenge.id)
+      const result = tying.inertMessageData(challenge.id)
 
       expect(result.components).toEqual([{ components: [] }])
     })

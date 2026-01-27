@@ -4,13 +4,13 @@ import { Challenge } from "../../db/opposed/challenge.js"
 const messages = require("./index")
 
 const message_schema = Joi.object({
-  state: Joi.string()
+  challengeState: Joi.string()
     .required()
     .valid(...Object.values(Challenge.States)),
-  data: Joi.function().arity(1).required(),
+  messageData: Joi.function().arity(1).required(),
   inert: Joi.function().optional(),
   afterRetry: Joi.function().arity(1).optional(),
-  handleReply: Joi.function().arity(1).optional(),
+  onReply: Joi.function().arity(1).optional(),
 })
 
 describe("opposed messages", () => {
@@ -19,7 +19,7 @@ describe("opposed messages", () => {
   })
 
   it("indexes messages by state name", () => {
-    expect(messages.get("withdrawn").state).toEqual("withdrawn")
+    expect(messages.get("withdrawn").challengeState).toEqual("withdrawn")
   })
 
   it("excludes the index file", () => {
@@ -27,7 +27,7 @@ describe("opposed messages", () => {
   })
 
   it.concurrent.each(
-    messages.map((m) => [m.state, m]),
+    messages.map((m) => [m.challengeState, m]),
   )("%s message matches schema", (_state, message) => {
     expect(message).toMatchSchema(message_schema)
   })

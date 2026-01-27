@@ -7,7 +7,7 @@ const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
 import { i18n } from "../../locales/index.js"
 const rollCache = require("../../services/roll-cache")
 const SavedRollModal = require("../../modals/saved-roll")
-const build = require("../../util/message-builders")
+import build from "../../util/message-builders.js"
 
 const command_name = "manage"
 const parent_name = "saved"

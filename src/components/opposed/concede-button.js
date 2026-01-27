@@ -2,7 +2,7 @@ import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-import conceded_message from "../../messages/opposed/conceded.js"
+import { messageData as concededMessage } from "../../messages/opposed/conceded.js"
 import { OpposedComponent } from "../opposed-component.js"
 
 /**
@@ -33,7 +33,7 @@ export async function execute(interaction) {
 
   opposed_db.setChallengeState(challenge.id, Challenge.States.Conceded)
   return interaction
-    .ensure("reply", conceded_message.data(challenge.id), {
+    .ensure("reply", concededMessage(challenge.id), {
       user_uid: interaction.user.id,
       component: "opposed_concede",
     })

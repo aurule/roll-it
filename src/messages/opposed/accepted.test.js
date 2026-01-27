@@ -5,7 +5,7 @@ import { Challenge } from "../../db/opposed/challenge.js"
 const accepted = require("./accepted")
 
 describe("opposed tie accepted message", () => {
-  describe("data", () => {
+  describe("messageData", () => {
     let challenge
 
     beforeEach(() => {
@@ -17,13 +17,13 @@ describe("opposed tie accepted message", () => {
     })
 
     it("shows the accepted message", () => {
-      const result = accepted.data(challenge.id)
+      const result = accepted.messageData(challenge.id)
 
       expect(result.content).toMatch("ended in a tie")
     })
 
     it("includes the challenge summary", () => {
-      const result = accepted.data(challenge.id)
+      const result = accepted.messageData(challenge.id)
 
       expect(result.content).toMatch("challenge summary")
     })

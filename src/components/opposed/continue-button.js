@@ -2,9 +2,9 @@ import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-import throwing_message from "../../messages/opposed/throwing.js"
+import { messageData as throwingMessage } from "../../messages/opposed/throwing.js"
 import { OpposedComponent } from "../opposed-component.js"
-import cancelling_message from "../../messages/opposed/cancelling.js"
+import { messageData as inertCancellingMessage } from "../../messages/opposed/cancelling.js"
 
 /**
  * Button to continue a retest when participant has the option to cancel
@@ -25,7 +25,7 @@ export async function execute(interaction) {
 
   interaction.authorize(test.canceller.user_uid)
 
-  await interaction.message.edit(cancelling_message.inert(test.challenge_id)).catch(() => {
+  await interaction.message.edit(inertCancellingMessage(test.challenge_id)).catch(() => {
     // suppress all errors so we can send other messages
     return
   })
@@ -37,7 +37,7 @@ export async function execute(interaction) {
   opposed_db.setChallengeState(test.challenge_id, Challenge.States.Throwing)
 
   return interaction
-    .ensure("reply", throwing_message.data(test.challenge_id), {
+    .ensure("reply", throwingMessage(test.challenge_id), {
       component: "opposed_continue",
       test: test,
       detail: "failed to send throwing prompt",

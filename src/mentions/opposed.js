@@ -3,7 +3,7 @@ import { MentionHandler } from "./mention-handler.js"
 import { Opposed } from "../db/opposed.js"
 import { i18n, available_locales } from "../locales/index.js"
 import { logger } from "../util/logger.js"
-import { messages } from "../messages/opposed/index.js"
+import { afterRetryIndex, messageIndex, onReplyIndex } from "../messages/opposed/index.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 import { sendError } from "../services/metrics.js"
 
@@ -49,14 +49,14 @@ export class OpposedMentionHandler extends MentionHandler {
    * This first handles the special "retry" logic to re-send the message for the challenge's current state. It
    * will call an `afterRetry` hook if present on the message.
    *
-   * Otherwise, any message file with a `handleReply` function will have it called with the interaction.
+   * Otherwise, any message file with a `onReply` function will have it called with the interaction.
    */
   async handle() {
     const challenge = this.db.findChallengeByMessage(this.referenced_message_uuid)
-    const replyMessage = messages.get(challenge.state)
+    const replyMessage = messageIndex.get(challenge.state)
 
     if (this.isRetry) {
-      return this.message.ensure("reply", replyMessage.data(challenge.id), {
+      return this.message.ensure("reply", replyMessage(challenge.id), {
         challenge_id: challenge.id,
         channel_id: this.message.channelId,
         detail: `failed to retry message for state "${challenge.state}"`,
@@ -70,16 +70,17 @@ export class OpposedMentionHandler extends MentionHandler {
           test_id: this.db.findTestByMessage(this.mention_message_uuid)?.id ?? null,
         }
         this.db.addMessage(message_props)
-        if (replyMessage.afterRetry !== undefined) {
-          replyMessage.afterRetry(reply_response)
+        const afterRetry = afterRetryIndex.get(challenge.state)
+        if (afterRetry !== undefined) {
+          afterRetry(reply_response)
         }
       })
     }
 
-
-    if (replyMessage.handleReply !== undefined) {
+    const onReply = onReplyIndex.get(challenge.state)
+    if (onReply !== undefined) {
       try {
-        return replyMessage.handleReply(message)
+        return onReply(message)
       } catch (err) {
         if (err instanceof UnauthorizedError) {
           logger.info({

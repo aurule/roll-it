@@ -7,7 +7,7 @@ import { features } from "../data/features.js"
 import * as build from "../util/modal-builders.js"
 import { featureOptions } from "../presenters/feature-options-presenter.js"
 import { Installation } from "../db/installation.js"
-import changesMessage from "../messages/installation/changes.js"
+import { messageData as changesMessage } from "../messages/installation/changes.js"
 import { Modal } from "./modal.js"
 
 /**
@@ -129,7 +129,7 @@ export class ChangeInstalledModal extends Modal {
     this.db.setNewDeets(this.id, new_deets)
     modal_interaction.message.delete().catch((_e) => {})
     return modal_interaction
-      .ensure("reply", changesMessage.data(this.id), {
+      .ensure("reply", changesMessage(this.id), {
         installation_id: this.id,
         detail: "Failed to send install changes message",
       })

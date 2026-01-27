@@ -4,7 +4,7 @@ const { Installation } = require("../../db/installation")
 const starting = require("./starting")
 
 describe("install starting message", () => {
-  describe("data", () => {
+  describe("messageData", () => {
     let install_id
     let install_db
 
@@ -24,37 +24,37 @@ describe("install starting message", () => {
     })
 
     it("shows the installed systems", () => {
-      const result = starting.data(install_id)
+      const result = starting.messageData(install_id)
 
       expect(result.content).toMatch("Shadowrun")
     })
 
     it("shows the installed features", () => {
-      const result = starting.data(install_id)
+      const result = starting.messageData(install_id)
 
       expect(result.content).toMatch("Tables")
     })
 
     it("shows the installed commands", () => {
-      const result = starting.data(install_id)
+      const result = starting.messageData(install_id)
 
       expect(result.content).toMatch("`/nwod`")
     })
 
     it("shows the global commands", () => {
-      const result = starting.data(install_id)
+      const result = starting.messageData(install_id)
 
       expect(result.content).toMatch("`/saved`")
     })
 
     it("shows change button", () => {
-      const result = starting.data(install_id)
+      const result = starting.messageData(install_id)
 
       expect(result).toHaveComponent("install_change")
     })
 
     it("shows cancel button", () => {
-      const result = starting.data(install_id)
+      const result = starting.messageData(install_id)
 
       expect(result).toHaveComponent("install_cancel")
     })

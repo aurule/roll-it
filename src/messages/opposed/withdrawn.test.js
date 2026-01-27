@@ -5,7 +5,7 @@ import { Challenge } from "../../db/opposed/challenge.js"
 const withdrawn = require("./withdrawn")
 
 describe("opposed challenge withdrawn message", () => {
-  describe("data", () => {
+  describe("messageData", () => {
     let challenge
 
     beforeEach(() => {
@@ -19,7 +19,7 @@ describe("opposed challenge withdrawn message", () => {
     })
 
     it("shows the withdrawn message", () => {
-      const result = withdrawn.data(challenge.id)
+      const result = withdrawn.messageData(challenge.id)
 
       expect(result.content).toMatch("withdrew their challenge")
     })

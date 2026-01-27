@@ -15,95 +15,95 @@ describe("opposed attacker advantages message", () => {
     challenge.cleanup()
   })
 
-  describe("data", () => {
+  describe("messageData", () => {
     it("shows the initial summary", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result.content).toMatch("you are attacking <@def>")
     })
 
     it("includes the description if given", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result.content).toMatch("fake challenge")
     })
 
     it("shows the attribute", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result.content).toMatch("Mental")
     })
 
     it("shows the named retest", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result.content).toMatch("occult")
     })
 
     it("gives the option to withdraw", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_withdraw_challenge")
     })
 
     it("shows the condition picker", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_condition_select")
     })
 
     it("shows the advantages picker", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result).toHaveComponent(`opposed_advantage_select_${challenge.attacker.id}`)
     })
 
     it("shows the ready button", () => {
-      const result = advantages_attacker.data(challenge.id)
+      const result = advantages_attacker.messageData(challenge.id)
 
       expect(result).toHaveComponent(`opposed_ready_${challenge.attacker.id}`)
     })
   })
 
-  describe("inert", () => {
+  describe("inertMessageData", () => {
     it("shows the generic summary", () => {
-      const result = advantages_attacker.inert(challenge.id)
+      const result = advantages_attacker.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("<@atk> is attacking <@def>")
     })
 
     it("shows the description if present", () => {
-      const result = advantages_attacker.inert(challenge.id)
+      const result = advantages_attacker.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("fake challenge")
     })
 
     it("shows the attribute", () => {
-      const result = advantages_attacker.inert(challenge.id)
+      const result = advantages_attacker.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("Mental")
     })
 
     it("shows the named retest", () => {
-      const result = advantages_attacker.inert(challenge.id)
+      const result = advantages_attacker.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("occult")
     })
 
     it("shows the conditions", () => {
-      const result = advantages_attacker.inert(challenge.id)
+      const result = advantages_attacker.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("not a special attack")
     })
 
     it("shows the attacker's advantages", () => {
-      const result = advantages_attacker.inert(challenge.id)
+      const result = advantages_attacker.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("<@atk> has no special advantages")
     })
 
     it("has no components", () => {
-      const result = advantages_attacker.inert(challenge.id)
+      const result = advantages_attacker.inertMessageData(challenge.id)
 
       expect(result.components).toEqual([{ components: [] }])
     })

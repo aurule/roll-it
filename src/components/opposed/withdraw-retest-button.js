@@ -5,9 +5,9 @@ import { Challenge } from "../../db/opposed/challenge.js"
 import { OpposedComponent } from "../opposed-component.js"
 import { OpTest } from "../../db/opposed/optest.js"
 import { makeHistory } from "../../services/opposed/history.js"
-import cancelling_message from "../../messages/opposed/cancelling.js"
-import winning_message from "../../messages/opposed/winning.js"
-import tying_message from "../../messages/opposed/tying.js"
+import { inertMessageData as inertCancellingMessage } from "../../messages/opposed/cancelling.js"
+import { messageData as winningMessage } from "../../messages/opposed/winning.js"
+import { messageData as tyingMessage } from "../../messages/opposed/tying.js"
 
 /**
  * Button to walk back a retest while the other participant has the option to cancel it
@@ -35,25 +35,25 @@ export async function execute(interaction) {
   }
 
   await interaction.message
-    .edit(cancelling_message.inert(test.challenge_id, "withdraw"))
+    .edit(inertCancellingMessage(test.challenge_id, "withdraw"))
     .catch(() => {
       // suppress all errors so we can send other messages
       return
     })
 
-  let state
-  let message
+  let next_state
+  let nextMessage
   if (test.leader_id) {
-    state = Challenge.States.Winning
-    message = winning_message
+    next_state = Challenge.States.Winning
+    nextMessage = winningMessage
   } else {
-    state = Challenge.States.Tying
-    message = tying_message
+    next_state = Challenge.States.Tying
+    nextMessage = tyingMessage
   }
-  opposed_db.setChallengeState(test.challenge_id, state)
+  opposed_db.setChallengeState(test.challenge_id, next_state)
 
   return interaction
-    .ensure("reply", message.data(test.challenge_id), {
+    .ensure("reply", nextMessage(test.challenge_id), {
       component: "opposed_withdraw_retest",
       test: test,
       detail: "failed to send new challenge summary message",

@@ -5,10 +5,10 @@ import { Challenge } from "../../db/opposed/challenge.js"
 import { Participant } from "../../db/opposed/participant.js"
 import { makeHistory } from "../../services/opposed/history.js"
 import { OpposedComponent } from "../opposed-component.js"
-import winning_message from "../../messages/opposed/winning.js"
-import tying_message from "../../messages/opposed/tying.js"
-import cancelling_message from "../../messages/opposed/cancelling.js"
-import throwing_message from "../../messages/opposed/throwing.js"
+import { inertMessageData as innertWinningMessage } from "../../messages/opposed/winning.js"
+import { inertMessageData as innertTyingMessage } from "../../messages/opposed/tying.js"
+import { messageData as cancellingMessage } from "../../messages/opposed/cancelling.js"
+import { messageData as throwingMessage } from "../../messages/opposed/throwing.js"
 
 const abilityReasons = new Set(["named", "ability"])
 
@@ -67,9 +67,9 @@ export async function execute(interaction) {
     })
   }
 
-  const message = challenge.state === Challenge.States.Winning ? winning_message : tying_message
+  const inertPrompt = challenge.state === Challenge.States.Winning ? innertWinningMessage : innertTyingMessage
 
-  await interaction.message.edit(message.inert(challenge.id)).catch(() => {
+  await interaction.message.edit(inertPrompt(challenge.id)).catch(() => {
     // suppress all errors so we can send other messages
     return
   })
@@ -87,11 +87,11 @@ export async function execute(interaction) {
       opposed_db.setTestCancelledWith(test.id, "ability")
     }
     return interaction
-      .ensure("reply", cancelling_message.data(challenge.id), {
+      .ensure("reply", cancellingMessage(challenge.id), {
         component: "opposed_retest",
         test: test,
         challenge: challenge,
-        detail: `failed to send ${cancelling_message.state} prompt`,
+        detail: `failed to send cancelling prompt`,
       })
       .then((reply_result) => {
         const message_uid = reply_result?.resource?.message?.id ?? reply_result.id
@@ -110,11 +110,11 @@ export async function execute(interaction) {
       locale: test.locale,
     }).lastInsertRowid
     return interaction
-      .ensure("reply", throwing_message.data(challenge.id), {
+      .ensure("reply", throwingMessage(challenge.id), {
         component: "opposed_retest",
         test: test,
         challenge: challenge,
-        detail: `failed to send ${throwing_message.state} prompt`,
+        detail: `failed to send throwing prompt`,
       })
       .then((reply_result) => {
         const message_uid = reply_result?.resource?.message?.id ?? reply_result.id

@@ -5,7 +5,7 @@ import { Challenge } from "../../db/opposed/challenge.js"
 const relented = require("./relented")
 
 describe("opposed relented message", () => {
-  describe("data", () => {
+  describe("messageData", () => {
     let challenge
 
     beforeEach(() => {
@@ -19,7 +19,7 @@ describe("opposed relented message", () => {
     })
 
     it("shows the relented message", () => {
-      const result = relented.data(challenge.id)
+      const result = relented.messageData(challenge.id)
 
       expect(result.content).toMatch("**relented** to the challenge")
     })

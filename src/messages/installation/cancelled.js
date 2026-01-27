@@ -1,19 +1,18 @@
-const { Installation } = require("../../db/installation")
+import { Installation } from "../../db/installation.js"
 import { i18n } from "../../locales/index.js"
-const build = require("../../util/message-builders")
+import build from "../../util/message-builders.js"
 
 /**
- * Message shown upon cancelling an install process
+ * Create the message shown upon cancelling an install process
+ * @param  {number}         installation_id Internal ID of the installation record
+ * @return {MessageBuilder}                 Message data object
  */
-module.exports = {
-  name: "cancelled",
-  data: (installation_id) => {
-    const install_db = new Installation()
-    const install = install_db.getInstallation(installation_id)
-    const locale = install.locale
+export function messageData(installation_id) {
+  const install_db = new Installation()
+  const install = install_db.getInstallation(installation_id)
+  const locale = install.locale
 
-    const t = i18n.getFixedT(locale, "install")
+  const t = i18n.getFixedT(locale, "install")
 
-    return build.textMessage(t("cancelled"))
-  },
+  return build.textMessage(t("cancelled"))
 }

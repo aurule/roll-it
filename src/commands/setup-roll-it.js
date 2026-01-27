@@ -4,7 +4,7 @@ const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
 const CommandNamePresenter = require("../presenters/command-name-presenter")
 const api = require("../services/api")
 const { Installation } = require("../db/installation")
-const starting = require("../messages/installation/starting")
+import { messageData as startingMessage } from "../messages/installation/starting"
 const systemHelpers = require("../services/system-helpers")
 const featureHelpers = require("../services/feature-helpers")
 const { safe_locale } = require("../locales/helpers")
@@ -42,7 +42,7 @@ module.exports = {
       },
     }).lastInsertRowid
 
-    const message = starting.data(installation_id)
+    const message = startingMessage(installation_id)
     await cmd_interaction
       .ensure("reply", message, {
         installation_id,

@@ -5,8 +5,8 @@ import { Challenge } from "../../db/opposed/challenge.js"
 import { handleRequest } from "../../services/met-roller.js"
 import { makeBreakdown } from "../../services/opposed/breakdown.js"
 import { makeHistory } from "../../services/opposed/history.js"
-import winning_message from "../../messages/opposed/winning.js"
-import bidding_atk_message from "../../messages/opposed/bidding-attacker.js"
+import { messageData as winningMessage } from "../../messages/opposed/winning.js"
+import { messageData as biddingAttackMessage } from "../../messages/opposed/bidding-attacker.js"
 import { textMessage } from "../../util/message-builders.js"
 import { OpposedComponent } from "../opposed-component.js"
 
@@ -94,7 +94,7 @@ export async function resolveChops({ interaction, chops, participants, test }) {
     opposed_db.setChallengeState(test.challenge_id, Challenge.States.Winning)
 
     return interaction
-      .ensure("followUp", winning_message.data(test.challenge_id), {
+      .ensure("followUp", winningMessage(test.challenge_id), {
         test,
         user_uid: interaction.user.id,
         component: "go_button",
@@ -112,7 +112,7 @@ export async function resolveChops({ interaction, chops, participants, test }) {
   } else {
     opposed_db.setChallengeState(test.challenge_id, Challenge.States.BiddingAttacker)
     return interaction
-      .ensure("followUp", bidding_atk_message.data(test.challenge_id), {
+      .ensure("followUp", biddingAttackMessage(test.challenge_id), {
         test,
         user_uid: interaction.user.id,
         component: "go_button",

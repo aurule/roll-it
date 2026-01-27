@@ -17,21 +17,21 @@ describe("opposed cancelling a retest message", () => {
     challenge.cleanup()
   })
 
-  describe("data", () => {
+  describe("messageData", () => {
     it("shows the retest reason", () => {
-      const result = cancelling.data(challenge.id)
+      const result = cancelling.messageData(challenge.id)
 
       expect(result.content).toMatch("retesting with an ability")
     })
 
     it("has a withdraw cancel button", () => {
-      const result = cancelling.data(challenge.id)
+      const result = cancelling.messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_withdraw_retest")
     })
 
     it("has a cancel button", () => {
-      const result = cancelling.data(challenge.id)
+      const result = cancelling.messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_cancel")
     })
@@ -42,13 +42,13 @@ describe("opposed cancelling a retest message", () => {
       })
 
       it("shows cancel reason picker", () => {
-        const result = cancelling.data(challenge.id)
+        const result = cancelling.messageData(challenge.id)
 
         expect(result).toHaveComponent("opposed_cancel_select")
       })
 
       it("shows cancels disclaimer", () => {
-        const result = cancelling.data(challenge.id)
+        const result = cancelling.messageData(challenge.id)
 
         expect(result.content).toMatch("you will see this prompt for every retest")
       })
@@ -57,7 +57,7 @@ describe("opposed cancelling a retest message", () => {
 
   describe("inert", () => {
     it("shows the retest reason", () => {
-      const result = cancelling.inert(challenge.id)
+      const result = cancelling.inertMessageData(challenge.id)
 
       expect(result.content).toMatch("retesting with an ability")
     })
@@ -68,14 +68,14 @@ describe("opposed cancelling a retest message", () => {
         ["cancel", "cancelled"],
         ["continue", "retesting with"],
       ])("%s action shows appropriate content", (action, content) => {
-        const result = cancelling.inert(challenge.id, action)
+        const result = cancelling.inertMessageData(challenge.id, action)
 
         expect(result.content).toMatch(content)
       })
     })
 
     it("has no components", () => {
-      const result = cancelling.inert(challenge.id)
+      const result = cancelling.inertMessageData(challenge.id)
 
       expect(result.components).toEqual([{ components: [] }])
     })

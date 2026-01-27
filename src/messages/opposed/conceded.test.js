@@ -5,7 +5,7 @@ import { Challenge } from "../../db/opposed/challenge.js"
 const conceded = require("./conceded")
 
 describe("opposed challenge conceded message", () => {
-  describe("data", () => {
+  describe("messageData", () => {
     let challenge
 
     beforeEach(() => {
@@ -20,13 +20,13 @@ describe("opposed challenge conceded message", () => {
     })
 
     it("shows the conceded message", () => {
-      const result = conceded.data(challenge.id)
+      const result = conceded.messageData(challenge.id)
 
       expect(result.content).toMatch("<@atk> wins")
     })
 
     it("includes the challenge summary", () => {
-      const result = conceded.data(challenge.id)
+      const result = conceded.messageData(challenge.id)
 
       expect(result.content).toMatch("challenge summary")
     })

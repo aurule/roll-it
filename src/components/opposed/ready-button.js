@@ -2,10 +2,10 @@ import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-import throwing_message from "../../messages/opposed/throwing.js"
+import { messageData as throwingMessage } from "../../messages/opposed/throwing.js"
 import { OpposedComponent } from "../opposed-component.js"
-import advantages_attacker from "../../messages/opposed/advantages-attacker.js"
-import advantages_defender from "../../messages/opposed/advantages-defender.js"
+import { inertMessageData as inertAdvantagesAttacker } from "../../messages/opposed/advantages-attacker.js"
+import { messageData as advantagesDefender, inertMessageData as inertAdvantagesDefender } from "../../messages/opposed/advantages-defender.js"
 
 /**
  * Determine which participant wins on a tied result
@@ -51,7 +51,7 @@ export async function execute(interaction) {
   const t = i18n.getFixedT(challenge.locale, "opposed")
 
   if (allowed_participant.id === attacker.id) {
-    await interaction.message.edit(advantages_attacker.inert(challenge.id)).catch(() => {
+    await interaction.message.edit(inertAdvantagesAttacker(challenge.id)).catch(() => {
       // suppress all other errors so we can try to send something else
       return
     })
@@ -59,7 +59,7 @@ export async function execute(interaction) {
     opposed_db.setChallengeState(challenge.id, Challenge.States.AdvantagesDefender)
 
     return interaction
-      .ensure("reply", advantages_defender.data(challenge.id), {
+      .ensure("reply", advantagesDefender(challenge.id), {
         challenge,
         user_uid: interaction.user.id,
         component: "opposed_ready",
@@ -97,13 +97,13 @@ export async function execute(interaction) {
     locale: challenge.locale,
   }).lastInsertRowid
 
-  await interaction.message.edit(advantages_defender.inert(challenge.id)).catch(() => {
+  await interaction.message.edit(inertAdvantagesDefender(challenge.id)).catch(() => {
     // suppress all other errors so we can try to send something else
     return
   })
 
   return interaction
-    .ensure("reply", throwing_message.data(challenge.id), {
+    .ensure("reply", throwingMessage(challenge.id), {
       challenge,
       component: "opposed_ready",
       detail: "Failed to reply with throwing message",
