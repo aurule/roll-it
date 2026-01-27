@@ -1,4 +1,4 @@
-const { signed, operator } = require("../../util/formatters/index.js")
+import { signed, operator } from "../../util/formatters/signed.js"
 import { i18n } from "../../locales/index.js"
 
 const emoji = [

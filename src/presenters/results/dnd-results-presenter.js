@@ -1,5 +1,5 @@
-const { i18n } = require("../../locales/index.js")
-const { operator } = require("../../util/formatters/index.js")
+import { i18n } from "../../locales/index.js"
+import { operator } from "../../util/formatters/index.js"
 
 /**
  * Generate the details of a roll

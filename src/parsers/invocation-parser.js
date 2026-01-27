@@ -1,5 +1,6 @@
 import { RollParseError } from "../errors/roll-parse-error.js"
 import { validateOptions } from "../util/parser-helpers.js"
+import { commands } from "../commands"
 
 /**
  * Parse a command invocation string
@@ -16,8 +17,6 @@ import { validateOptions } from "../util/parser-helpers.js"
 export async function parseInvocation(invocation) {
   const command_re = /\/(?<command>[\w-]+)/
   const args_re = /(\s+)?(?<name>\w+):(?<value>([\w+-/^*]+\s*)+(\s|$))/g
-
-  const commands = require("../commands")
 
   const groups = invocation.match(command_re)?.groups
   if (!groups) {
