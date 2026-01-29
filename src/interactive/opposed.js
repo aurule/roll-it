@@ -66,7 +66,7 @@ export async function opposedBegin({ interaction, description, attackerId, defen
       detail: "failed to send advantages prompt",
     })
     .then((reply_result) => {
-      setTimeout(module.exports.opposedTimeout, MAX_DURATION * 1_000, challenge_id)
+      setTimeout(opposedTimeout, MAX_DURATION * 1_000, challenge_id)
 
       // expect an InteractionCallbackResponse, but deal with a Message too
       const message_uid = reply_result?.resource?.message?.id ?? reply_result.id

@@ -76,7 +76,7 @@ export async function teamworkBegin({ interaction, description, command, options
       withResponse: true,
     })
     .then((reply_interaction) => {
-      setTimeout(module.exports.teamworkTimeout, MAX_DURATION, test_id)
+      setTimeout(teamworkTimeout, MAX_DURATION, test_id)
 
       teamwork_db.addMessage({
         teamwork_id: test_id,
@@ -120,7 +120,7 @@ export async function teamworkTimeout(teamwork_id) {
     return
   }
 
-  module.exports.cleanup(teamwork_id)
+  cleanup(teamwork_id)
 
   const t_args = {
     ns: "teamwork",

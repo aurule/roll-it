@@ -18,7 +18,7 @@ export function register(client) {
   client.once(Events.ClientReady, (client) => {
     logger.info(
       {
-        event: module.exports.name,
+        event: Events.ClientReady,
         tag: client.user.tag,
       },
       `Ready! Logged in as ${client.user.tag}`,

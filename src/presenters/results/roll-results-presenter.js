@@ -16,9 +16,9 @@ export function present({ rolls, locale, ...rollOptions }) {
   }
 
   if (rolls == 1) {
-    return module.exports.presentOne(presenter_options)
+    return presentOne(presenter_options)
   }
-  return module.exports.presentMany(presenter_options)
+  return presentMany(presenter_options)
 }
 
 /**
@@ -36,7 +36,7 @@ export function presentOne({ pool, sides, description, raw, summed, modifier = 0
   const t_args = {
     result: summed[0] + modifier,
     description,
-    detail: module.exports.detail({ pool, sides, raw: raw[0], modifier }),
+    detail: detail({ pool, sides, raw: raw[0], modifier }),
     count: 1,
   }
 
@@ -72,7 +72,7 @@ export function presentMany({ pool, sides, description, raw, summed, modifier = 
           "\t" +
           t("response.result", {
             total: summed[index] + modifier,
-            detail: module.exports.detail({ pool, sides, raw: result, modifier }),
+            detail: detail({ pool, sides, raw: result, modifier }),
           })
         )
       })

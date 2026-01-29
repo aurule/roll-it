@@ -34,7 +34,7 @@ export const message = jest.fn((components = [], options = {}) => {
 })
 
 export const textMessage = jest.fn((text, options = {}) => {
-  return module.exports.message([module.exports.text(text)], options)
+  return message([text(text)], options)
 })
 
 export const text = jest.fn((content) => {
