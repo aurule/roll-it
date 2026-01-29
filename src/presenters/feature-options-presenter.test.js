@@ -1,6 +1,6 @@
-const { features } = require("../data/features.js")
+import { features } from "../data/features.js.js"
 
-const { featureOptions } = require("./feature-options-presenter")
+import { featureOptions } from "./feature-options-presenter.js"
 
 describe("features options presenter", () => {
   it("includes every feature", () => {

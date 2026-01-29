@@ -1,4 +1,4 @@
-const { differ } = require("./changes")
+import { differ } from "./changes.js"
 
 describe("pending changes message", () => {
   describe("differ", () => {

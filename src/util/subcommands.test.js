@@ -1,7 +1,7 @@
 jest.mock("../util/message-builders")
 
 import { Collection } from "discord.js"
-const { Interaction } = require("../../testing/interaction")
+import { Interaction } from "../../testing/interaction.js"
 const helpers = require("./subcommands")
 
 describe("subcommand dispatcher", () => {

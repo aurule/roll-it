@@ -1,4 +1,4 @@
-const { Participant } = require("./participant")
+import { Participant } from "./participant.js"
 
 describe("db Participant class", () => {
   describe("constructor", () => {

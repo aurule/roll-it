@@ -1,6 +1,6 @@
 const commonSchemas = require("../util/common-schemas")
 
-const { schemaMessages } = require("../../testing/schema-messages")
+import { schemaMessages } from "../../testing/schema-messages.js"
 
 describe("shared option schemas", () => {
   describe("description", () => {

@@ -1,6 +1,6 @@
-const { makeDB } = require("./index")
+import { makeDB } from "./index.js"
 
-const { Feedback } = require("./feedback")
+import { Feedback } from "./feedback.js"
 
 describe("Feedback db class", () => {
   let feedback

@@ -10,7 +10,7 @@ import { shared } from "../locales/helpers.js"
  * @param  {SlashCommandStringOption} option Option to populate
  * @return {SlashCommandStringOption}        Populated option
  */
-export function description(option) {
+export function descriptionOption(option) {
   return option
     .setName("description")
     .setNameLocalizations(shared.mapped("name", option.name))
@@ -25,7 +25,7 @@ export function description(option) {
  * @param  {SlashCommandIntegerOption} option Option to populate
  * @return {SlashCommandIntegerOption}        Populated option
  */
-export function rolls(option) {
+export function rollsOption(option) {
   return option
     .setName("rolls")
     .setNameLocalizations(shared.mapped("name", option.name))
@@ -41,7 +41,7 @@ export function rolls(option) {
  * @param  {SlashCommandBooleanOption} option Option to populate
  * @return {SlashCommandBooleanOption}        Populated option
  */
-export function secret(option) {
+export function secretOption(option) {
   return option
     .setName("secret")
     .setNameLocalizations(shared.mapped("name", option.name))
@@ -55,7 +55,7 @@ export function secret(option) {
  * @param  {SlashCommandIntegerOption} option Option to populate
  * @return {SlashCommandIntegerOption}        Populated option
  */
-export function pool(option) {
+export function poolOption(option) {
   return option
     .setName("pool")
     .setNameLocalizations(shared.mapped("name", option.name))
@@ -70,7 +70,7 @@ export function pool(option) {
  * @param  {SlashCommandBooleanOption} option Option to populate
  * @return {SlashCommandBooleanOption}        Populated option
  */
-export function teamwork(option) {
+export function teamworkOption(option) {
   return option
     .setName("teamwork")
     .setNameLocalizations(shared.mapped("name", option.name))

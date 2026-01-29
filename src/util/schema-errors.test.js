@@ -1,4 +1,4 @@
-const { schemaErrors } = require("./schema-errors")
+import { schemaErrors } from "./schema-errors.js"
 
 describe("schema errors extractor", () => {
   describe("with errors", () => {

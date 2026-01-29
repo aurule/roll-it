@@ -1,4 +1,4 @@
-const { forceArray } = require("./force-array")
+import { forceArray } from "./force-array.js"
 
 describe("array coercion helper", () => {
   describe("forceArray", () => {

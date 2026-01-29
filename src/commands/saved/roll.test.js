@@ -1,8 +1,8 @@
 jest.mock("../../util/message-builders")
 
-const { UserSavedRolls } = require("../../db/saved_rolls")
-const { Interaction } = require("../../../testing/interaction")
-const { test_secret_option } = require("../../../testing/shared/execute-secret")
+import { UserSavedRolls } from "../../db/saved_rolls.js"
+import { Interaction } from "../../../testing/interaction.js"
+import { test_secret_option } from "../../../testing/shared/execute-secret.js"
 
 const saved_roll_command = require("./roll")
 

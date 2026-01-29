@@ -1,4 +1,4 @@
-const Joi = require("joi")
+import Joi from "joi"
 const CommandHelpPresenter = require("../presenters/command-help-presenter")
 
 const commands = require("./index")

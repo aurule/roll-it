@@ -1,4 +1,4 @@
-const { parse } = require("./invocation-parser")
+import { parse } from "./invocation-parser.js"
 
 describe("invocation parser", () => {
   describe("with junk input", () => {

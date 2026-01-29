@@ -1,21 +1,21 @@
 import Joi from "joi"
 
-export const description = Joi.string()
+export const descriptionSchema = Joi.string()
   .trim()
   .optional()
   .max(1500)
   .message("The description is too long. Keep it under 1500 characters.")
 
-export const rolls = Joi.number().optional().integer().min(1).max(100).messages({
+export const rollsSchema = Joi.number().optional().integer().min(1).max(100).messages({
   "number.integer": "Rolls must be a whole number.",
   "number.min": "Rolls must be between 1 and 100.",
   "number.max": "Rolls must be between 1 and 100.",
 })
 
-export const modifier = Joi.number().optional().integer().messages({
+export const modifierSchema = Joi.number().optional().integer().messages({
   "number.integer": "Modifier must be a whole number.",
 })
 
-export const until = Joi.number().optional().integer().min(1).max(100)
+export const untilSchema = Joi.number().optional().integer().min(1).max(100)
 
-export const pool = Joi.number().required().integer().min(1).max(1000)
+export const poolSchema = Joi.number().required().integer().min(1).max(1000)

@@ -1,9 +1,9 @@
 jest.mock("../util/message-builders")
 
-const { Interaction } = require("../../testing/interaction")
-const { User } = require("../../testing/user")
-const { UserBans } = require("../db/bans")
-const { Feedback } = require("../db/feedback")
+import { Interaction } from "../../testing/interaction.js"
+import { User } from "../../testing/user.js"
+import { UserBans } from "../db/bans.js"
+import { Feedback } from "../db/feedback.js"
 
 const report_roll_command = require("./report-this-roll")
 

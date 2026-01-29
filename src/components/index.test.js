@@ -1,4 +1,4 @@
-const { handle, handlers } = require("./index")
+import { handle, handlers } from "./index.js"
 
 describe("component dispatching", () => {
   describe("handle", () => {

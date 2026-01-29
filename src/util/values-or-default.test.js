@@ -1,6 +1,6 @@
-const { ComponentInteraction } = require("../../testing/component-interaction")
+import { ComponentInteraction } from "../../testing/component-interaction.js"
 
-const { valuesOrDefault } = require("./values-or-default")
+import { valuesOrDefault } from "./values-or-default.js"
 
 describe("select values getter", () => {
   describe("valuesOrDefault", () => {

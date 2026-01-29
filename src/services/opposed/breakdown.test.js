@@ -1,7 +1,7 @@
 import { Collection } from "discord.js"
 import { i18n } from "../../locales/index.js"
 
-const { makeBreakdown } = require("./breakdown")
+import { makeBreakdown } from "./breakdown.js"
 
 describe("opposed result breakdown creator", () => {
   describe("makeBreakdown", () => {

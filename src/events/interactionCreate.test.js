@@ -1,6 +1,6 @@
 jest.mock("../util/message-builders")
 
-const { Interaction } = require("../../testing/interaction")
+import { Interaction } from "../../testing/interaction.js"
 
 const InteractionCreateEvent = require("./interactionCreate")
 

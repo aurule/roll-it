@@ -1,7 +1,7 @@
 jest.mock("../util/message-builders")
 
-const { Teamwork } = require("../db/teamwork")
-const { Interaction } = require("../../testing/interaction")
+import { Teamwork } from "../db/teamwork.js"
+import { Interaction } from "../../testing/interaction.js"
 const teamwork = require("./teamwork")
 
 describe("teamwork reply handler", () => {

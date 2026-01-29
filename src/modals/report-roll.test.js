@@ -1,7 +1,7 @@
 jest.mock("../util/message-builders")
 
-const { Feedback } = require("../db/feedback")
-const { ModalInteraction } = require("../../testing/modal-interaction")
+import { Feedback } from "../db/feedback.js"
+import { ModalInteraction } from "../../testing/modal-interaction.js"
 
 const ReportRollModal = require("./report-roll")
 

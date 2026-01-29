@@ -1,5 +1,5 @@
-const { Interaction } = require("../../../testing/interaction")
-const { Teamwork } = require("../../db/teamwork")
+import { Interaction } from "../../../testing/interaction.js"
+import { Teamwork } from "../../db/teamwork.js"
 
 const roll_button = require("./roll-button")
 

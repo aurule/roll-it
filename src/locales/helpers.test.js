@@ -1,5 +1,5 @@
-const { available_locales } = require("./index")
-const { canonical, mapped, safe_locale } = require("./helpers")
+import { available_locales } from "./index.js"
+import { canonical, mapped, safe_locale } from "./helpers.js"
 
 describe("locale helpers", () => {
   describe("canonical", () => {

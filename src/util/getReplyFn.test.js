@@ -1,6 +1,6 @@
-const { getReplyFn } = require("./getReplyFn")
+import { getReplyFn } from "./getReplyFn.js"
 
-const { Interaction } = require("../../testing/interaction")
+import { Interaction } from "../../testing/interaction.js"
 
 describe("reply function selector", () => {
   let interaction

@@ -1,9 +1,9 @@
-const { simpleflake } = require("simpleflakes")
-const { makeDB } = require("./index")
+import { simpleflake } from "simpleflakes.js"
+import { makeDB } from "./index.js"
 
-const { Opposed } = require("./opposed")
-const { Challenge } = require("./opposed/challenge")
-const { Participant } = require("./opposed/participant")
+import { Opposed } from "./opposed.js"
+import { Challenge } from "./opposed/challenge.js"
+import { Participant } from "./opposed/participant.js"
 
 describe("Opposed DB", () => {
   let opposed

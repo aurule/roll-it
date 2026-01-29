@@ -1,4 +1,4 @@
-const { siteLink, rootLink, ROOT_URL } = require("./site-link")
+import { siteLink, rootLink, ROOT_URL } from "./site-link.js"
 
 describe("website link helpers", () => {
   describe("siteLink", () => {

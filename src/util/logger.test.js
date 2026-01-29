@@ -1,4 +1,4 @@
-const { pickStream } = require("./logger")
+import { pickStream } from "./logger.js"
 
 describe("logger", () => {
   let old_env
@@ -17,7 +17,7 @@ describe("logger", () => {
   })
 
   it("creates a pino instance", () => {
-    const { logger } = require("./logger")
+    import { logger } from "./logger.js"
     expect(logger).toBeTruthy()
   })
 

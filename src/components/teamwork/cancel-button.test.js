@@ -1,5 +1,5 @@
-const { Interaction } = require("../../../testing/interaction")
-const { Teamwork } = require("../../db/teamwork")
+import { Interaction } from "../../../testing/interaction.js"
+import { Teamwork } from "../../db/teamwork.js"
 
 const cancel_button = require("./cancel-button")
 

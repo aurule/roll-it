@@ -1,4 +1,4 @@
-const { extractNumber } = require("./extract-number")
+import { extractNumber } from "./extract-number.js"
 
 describe("number extraction helper", () => {
   describe("extractNumber", () => {

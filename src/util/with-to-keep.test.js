@@ -1,4 +1,4 @@
-const { with_to_keep } = require("./with-to-keep")
+import { with_to_keep } from "./with-to-keep.js"
 
 describe("with_to_keep converter", () => {
   it("translates `advantage` to `highest`", () => {

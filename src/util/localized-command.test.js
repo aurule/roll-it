@@ -1,6 +1,6 @@
-const { canonical, mapped } = require("../locales/helpers")
+import { canonical, mapped } from "../locales/helpers.js"
 
-const { LocalizedSlashCommandBuilder, LocalizedSubcommandBuilder } = require("./localized-command")
+import { LocalizedSlashCommandBuilder, LocalizedSubcommandBuilder } from "./localized-command.js"
 
 describe("localized command builders", () => {
   describe("LocalizedSlashCommandBuilder", () => {

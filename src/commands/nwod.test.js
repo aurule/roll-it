@@ -2,9 +2,9 @@ jest.mock("../util/message-builders")
 
 const nwod_command = require("./nwod")
 
-const { Interaction } = require("../../testing/interaction")
-const { test_secret_option } = require("../../testing/shared/execute-secret")
-const { NwodPresenter } = require("../presenters/results/nwod-results-presenter")
+import { Interaction } from "../../testing/interaction.js"
+import { test_secret_option } from "../../testing/shared/execute-secret.js"
+import { NwodPresenter } from "../presenters/results/nwod-results-presenter.js"
 
 describe("/nwod command", () => {
   describe("schema", () => {

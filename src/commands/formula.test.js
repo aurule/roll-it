@@ -1,6 +1,6 @@
 const formula_command = require("./formula")
 
-const { test_secret_option } = require("../../testing/shared/execute-secret")
+import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/formula command", () => {
   describe("schema", () => {

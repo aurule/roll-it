@@ -1,4 +1,4 @@
-const { ShadowrunAnarchyPresenter } = require("./shadowrun-anarchy-results-presenter")
+import { ShadowrunAnarchyPresenter } from "./shadowrun-anarchy-results-presenter.js"
 
 describe("Shadowrun Anarchy presenter", () => {
   const defaults = {

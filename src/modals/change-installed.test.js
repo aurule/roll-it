@@ -1,7 +1,7 @@
 jest.mock("../util/message-builders")
 
-const { ModalInteraction } = require("../../testing/modal-interaction")
-const { Installation } = require("../db/installation")
+import { ModalInteraction } from "../../testing/modal-interaction.js"
+import { Installation } from "../db/installation.js"
 const changeInstalled = require("./change-installed")
 
 describe("change installed modal", () => {

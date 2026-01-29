@@ -1,4 +1,4 @@
-const { Interaction } = require("../../testing/interaction")
+import { Interaction } from "../../testing/interaction.js"
 
 const Fallback = require("./fallback")
 

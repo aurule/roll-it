@@ -1,4 +1,4 @@
-const { fetchLines } = require("./attachment-lines")
+import { fetchLines } from "./attachment-lines.js"
 
 describe("attached file line getters", () => {
   let dummy_attachment

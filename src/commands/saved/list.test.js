@@ -1,7 +1,7 @@
 jest.mock("../../util/message-builders")
 
-const { UserSavedRolls } = require("../../db/saved_rolls")
-const { Interaction } = require("../../../testing/interaction")
+import { UserSavedRolls } from "../../db/saved_rolls.js"
+import { Interaction } from "../../../testing/interaction.js"
 
 const saved_list_command = require("./list")
 

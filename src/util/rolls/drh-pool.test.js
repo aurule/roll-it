@@ -1,4 +1,4 @@
-const { DrhPool } = require("./drh-pool")
+import { DrhPool } from "./drh-pool.js"
 
 describe("DrhPool rolled dice class", () => {
   it("saves the name", () => {

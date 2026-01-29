@@ -1,4 +1,4 @@
-const { NwodPresenter } = require("./nwod-results-presenter")
+import { NwodPresenter } from "./nwod-results-presenter.js"
 
 describe("nwod results presenter", () => {
   describe("presentResults", () => {

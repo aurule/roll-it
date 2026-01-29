@@ -1,6 +1,6 @@
 const fallback_handler = require("./fallback")
 
-const { handle } = require("./index")
+import { handle } from "./index.js"
 
 describe("message mention dispatching", () => {
   describe("handle", () => {

@@ -1,9 +1,9 @@
 jest.mock("../util/message-builders")
 
-const { Interaction } = require("../../testing/interaction")
-const { Teamwork } = require("../db/teamwork")
+import { Interaction } from "../../testing/interaction.js"
+import { Teamwork } from "../db/teamwork.js"
 const cancel_button = require("./teamwork/cancel-button")
-const { UnauthorizedError } = require("../errors/unauthorized-error")
+import { UnauthorizedError } from "../errors/unauthorized-error.js"
 
 const teamwork = require("./teamwork")
 

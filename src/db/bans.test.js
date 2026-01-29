@@ -1,6 +1,6 @@
-const { makeDB } = require("./index")
+import { makeDB } from "./index.js"
 
-const { UserBans } = require("./bans")
+import { UserBans } from "./bans.js"
 
 describe("UserBans sql accessor", () => {
   let db

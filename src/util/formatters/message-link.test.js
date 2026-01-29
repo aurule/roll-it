@@ -1,6 +1,6 @@
-const { messageLink } = require("./message-link")
+import { messageLink } from "./message-link.js"
 
-const { Message } = require("../../../testing/message")
+import { Message } from "../../../testing/message.js"
 
 describe("messageLink", () => {
   let message

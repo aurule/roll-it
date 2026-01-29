@@ -3,7 +3,7 @@ const saved_command = require("../commands/saved")
 const setup_command = require("../commands/setup-roll-it")
 const save_this_roll_command = require("../commands/save-this-roll")
 
-const { present } = require("./command-help-presenter")
+import { present } from "./command-help-presenter.js"
 
 describe("command help presenter", () => {
   describe("present", () => {

@@ -1,4 +1,4 @@
-const { CachedDb } = require("./cached-db")
+import { CachedDb } from "./cached-db.js"
 
 describe("CachedDb", () => {
   describe("prepared", () => {

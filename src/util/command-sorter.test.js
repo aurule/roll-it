@@ -1,6 +1,6 @@
-const { i18n } = require("../locales")
+import { i18n } from "../locales.js"
 
-const { splitter, normalize, comparator, cache_id } = require("./command-sorter")
+import { splitter, normalize, comparator, cache_id } from "./command-sorter.js"
 
 describe("command sorter", () => {
   describe("splitter", () => {

@@ -1,4 +1,4 @@
-const { injectMention } = require("./inject-user")
+import { injectMention } from "./inject-user.js"
 
 describe("inject-user helper", () => {
   it("uses the given user snowflake", () => {

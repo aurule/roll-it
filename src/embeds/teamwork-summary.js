@@ -1,7 +1,7 @@
 import { EmbedBuilder, userMention } from "discord.js"
-const { Teamwork } = require("../db/teamwork")
-const { i18n } = require("../locales")
-const { signed } = require("../util/formatters/signed")
+import { Teamwork } from "../db/teamwork.js"
+import { i18n } from "../locales.js"
+import { signed } from "../util/formatters/signed.js"
 
 /**
  * Embed to show a summary for a finished teamwork test

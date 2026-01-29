@@ -1,4 +1,4 @@
-const { DndAttack } = require("./dnd-attack")
+import { DndAttack } from "./dnd-attack.js"
 
 describe("DndAttack object", () => {
   it("stores the modifier", () => {

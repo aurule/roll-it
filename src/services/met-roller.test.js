@@ -1,4 +1,4 @@
-const { roll, compare, handleRequest } = require("./met-roller")
+import { roll, compare, handleRequest } from "./met-roller.js"
 
 describe("met roller", () => {
   describe("roll", () => {

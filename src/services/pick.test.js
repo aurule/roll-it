@@ -1,4 +1,4 @@
-const { pickDice, keepFromArray } = require("./pick")
+import { pickDice, keepFromArray } from "./pick.js"
 
 describe("dice pick helper", () => {
   describe("pickDice", () => {

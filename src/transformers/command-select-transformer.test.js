@@ -1,9 +1,9 @@
 "use strict"
 
-const { stringSelectMenuOptions } = require("../../testing/discord-schemas")
+import { stringSelectMenuOptions } from "../../testing/discord-schemas.js"
 const commands = require("../commands")
 
-const { transform } = require("./command-select-transformer")
+import { transform } from "./command-select-transformer.js"
 
 describe("command select option transformer", () => {
   it("creates an array of suitable objects", () => {

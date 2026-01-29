@@ -1,8 +1,8 @@
 jest.mock("../../util/message-builders")
 
-const { GuildRollables } = require("../../db/rollable")
-const { Interaction } = require("../../../testing/interaction")
-const { test_secret_option } = require("../../../testing/shared/execute-secret")
+import { GuildRollables } from "../../db/rollable.js"
+import { Interaction } from "../../../testing/interaction.js"
+import { test_secret_option } from "../../../testing/shared/execute-secret.js"
 
 const table_roll_command = require("./roll")
 

@@ -2,10 +2,10 @@ jest.mock("../../util/message-builders")
 
 const feedback_help_command = require("./feedback")
 
-const { Interaction } = require("../../../testing/interaction")
-const { User } = require("../../../testing/user")
-const { Feedback } = require("../../db/feedback")
-const { UserBans } = require("../../db/bans")
+import { Interaction } from "../../../testing/interaction.js"
+import { User } from "../../../testing/user.js"
+import { Feedback } from "../../db/feedback.js"
+import { UserBans } from "../../db/bans.js"
 
 describe("/help feedback", () => {
   describe("execute", () => {

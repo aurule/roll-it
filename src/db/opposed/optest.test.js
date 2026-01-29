@@ -1,8 +1,8 @@
-const { Opposed } = require("../opposed")
-const { Challenge } = require("./challenge")
-const { Participant } = require("./participant")
+import { Opposed } from "../opposed.js"
+import { Challenge } from "./challenge.js"
+import { Participant } from "./participant.js"
 
-const { OpTest } = require("./optest")
+import { OpTest } from "./optest.js"
 
 describe("db OpTest class", () => {
   let opposed_db

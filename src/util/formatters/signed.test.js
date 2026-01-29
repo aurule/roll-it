@@ -1,4 +1,4 @@
-const { operator, signed } = require("./signed")
+import { operator, signed } from "./signed.js"
 
 describe("pos/neg sign helpers", () => {
   describe("operator", () => {

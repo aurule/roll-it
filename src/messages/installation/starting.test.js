@@ -1,6 +1,6 @@
 jest.mock("../../util/message-builders")
 
-const { Installation } = require("../../db/installation")
+import { Installation } from "../../db/installation.js"
 const starting = require("./starting")
 
 describe("install starting message", () => {

@@ -1,6 +1,6 @@
-const { GuildRollables } = require("../../db/rollable")
-const { Interaction } = require("../../../testing/interaction")
-const { Attachment } = require("../../../testing/attachment")
+import { GuildRollables } from "../../db/rollable.js"
+import { Interaction } from "../../../testing/interaction.js"
+import { Attachment } from "../../../testing/attachment.js"
 const attachment_lines = require("../../util/attachment-lines")
 
 describe("/table add", () => {

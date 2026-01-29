@@ -1,4 +1,4 @@
-const { present } = require("./table-results-presenter")
+import { present } from "./table-results-presenter.js"
 
 describe("table results presenter", () => {
   let opts

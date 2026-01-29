@@ -1,9 +1,9 @@
 const fs = require("fs")
 const path = require("path")
 import { Collection } from "discord.js"
-const { oneLine } = require("common-tags")
-const { jsNoTests, noDotFiles } = require("../util/filters")
-const { logger } = require("../util/logger")
+import { oneLine } from "common-tags.js"
+import { jsNoTests, noDotFiles } from "../util/filters.js"
+import { logger } from "../util/logger.js"
 
 const commands_path = path.join(__dirname, "..", "commands")
 

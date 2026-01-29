@@ -1,4 +1,4 @@
-const { ShadowrunPresenter } = require("./shadowrun-results-presenter")
+import { ShadowrunPresenter } from "./shadowrun-results-presenter.js"
 
 describe("shadowrun results presenter", () => {
   let options

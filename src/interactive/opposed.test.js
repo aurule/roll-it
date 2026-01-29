@@ -1,10 +1,10 @@
 jest.mock("../util/message-builders")
 jest.mock("../services/api")
 
-const { Opposed } = require("../db/opposed")
-const { Challenge } = require("../db/opposed/challenge")
-const { Interaction } = require("../../testing/interaction")
-const { ChallengeFixture } = require("../../testing/challenge-fixture")
+import { Opposed } from "../db/opposed.js"
+import { Challenge } from "../db/opposed/challenge.js"
+import { Interaction } from "../../testing/interaction.js"
+import { ChallengeFixture } from "../../testing/challenge-fixture.js"
 const api = require("../services/api")
 
 const InteractiveOpposed = require("./opposed")

@@ -1,6 +1,6 @@
 jest.mock("../../util/message-builders")
 
-const { ChallengeFixture } = require("../../../testing/challenge-fixture")
+import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 const advantages_defender = require("./advantages-defender")
 

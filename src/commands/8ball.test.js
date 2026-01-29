@@ -1,6 +1,6 @@
 const eightball_command = require("./8ball")
 
-const { test_secret_option } = require("../../testing/shared/execute-secret")
+import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/8ball command", () => {
   describe("schema", () => {

@@ -2,7 +2,7 @@
 
 const PolicyChecker = require("./policy-checker")
 
-const { Interaction } = require("../../testing/interaction")
+import { Interaction } from "../../testing/interaction.js"
 
 describe("policy checker", () => {
   describe("check", () => {

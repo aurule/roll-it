@@ -1,4 +1,4 @@
-const { saved_bonus_target } = require("./saved-bonus-target")
+import { saved_bonus_target } from "./saved-bonus-target.js"
 
 describe("saved roll bonus field selector", () => {
   describe("saved_bonus_target", () => {

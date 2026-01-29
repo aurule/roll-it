@@ -1,4 +1,4 @@
-const { capitalize } = require("./capitalize")
+import { capitalize } from "./capitalize.js"
 
 describe("capitalize formatter", () => {
   it("changes first character", () => {

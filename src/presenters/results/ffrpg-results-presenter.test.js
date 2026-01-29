@@ -1,4 +1,4 @@
-const { FfrpgPresenter } = require("./ffrpg-results-presenter")
+import { FfrpgPresenter } from "./ffrpg-results-presenter.js"
 
 describe("ffrpg results presenter", () => {
   describe("presentResults", () => {

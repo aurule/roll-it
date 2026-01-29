@@ -1,4 +1,4 @@
-const Joi = require("joi")
+import Joi from "joi"
 import { Challenge } from "../../db/opposed/challenge.js"
 
 const messages = require("./index")

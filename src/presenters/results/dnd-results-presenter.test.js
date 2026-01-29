@@ -1,4 +1,4 @@
-const { DndAttack } = require("../../util/rolls/dnd-attack")
+import { DndAttack } from "../../util/rolls/dnd-attack.js"
 import { i18n } from "../../locales/index.js"
 const presenter = require("./dnd-results-presenter")
 

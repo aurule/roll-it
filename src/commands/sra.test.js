@@ -1,8 +1,8 @@
 jest.mock("../util/message-builders")
 
-const { Interaction } = require("../../testing/interaction")
-const { test_secret_option } = require("../../testing/shared/execute-secret")
-const { ShadowrunPresenter } = require("../presenters/results/shadowrun-results-presenter")
+import { Interaction } from "../../testing/interaction.js"
+import { test_secret_option } from "../../testing/shared/execute-secret.js"
+import { ShadowrunPresenter } from "../presenters/results/shadowrun-results-presenter.js"
 
 const sra_command = require("./sra")
 

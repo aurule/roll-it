@@ -1,6 +1,6 @@
-const { simpleflake } = require("simpleflakes")
-const { makeDB } = require("./index")
-const { Installation } = require("./installation")
+import { simpleflake } from "simpleflakes.js"
+import { makeDB } from "./index.js"
+import { Installation } from "./installation.js"
 
 describe("Installation DB", () => {
   /**

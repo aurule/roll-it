@@ -1,11 +1,11 @@
 jest.mock("../util/message-builders")
 
-const Joi = require("joi")
+import Joi from "joi"
 
-const { Interaction } = require("../../testing/interaction")
-const { InstallationFixture } = require("../../testing/installation-fixture")
+import { Interaction } from "../../testing/interaction.js"
+import { InstallationFixture } from "../../testing/installation-fixture.js"
 const cancel_button = require("./installation/cancel-button")
-const { UnauthorizedError } = require("../errors/unauthorized-error")
+import { UnauthorizedError } from "../errors/unauthorized-error.js"
 const install_handler = require("./installation")
 
 const install_component_schema = Joi.object({

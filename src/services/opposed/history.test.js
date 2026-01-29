@@ -1,8 +1,8 @@
-const { ChallengeFixture } = require("../../../testing/challenge-fixture")
+import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const { OpTest } = require("../../db/opposed/optest")
+import { OpTest } from "../../db/opposed/optest.js"
 
-const { makeHistory } = require("./history")
+import { makeHistory } from "./history.js"
 
 describe("opposed test history creator", () => {
   describe("makeHistory", () => {

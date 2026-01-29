@@ -1,4 +1,4 @@
-const { WodPresenter } = require("./wod20-results-presenter")
+import { WodPresenter } from "./wod20-results-presenter.js"
 
 describe("wod results presenter", () => {
   describe("presentResults", () => {

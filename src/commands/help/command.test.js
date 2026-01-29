@@ -3,7 +3,7 @@ jest.mock("../../util/message-builders")
 const eightball_command = require("../../commands/8ball")
 const command_help_command = require("./command")
 
-const { Interaction } = require("../../../testing/interaction")
+import { Interaction } from "../../../testing/interaction.js"
 
 describe("/help command", () => {
   describe("execute", () => {

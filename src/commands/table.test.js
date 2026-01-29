@@ -1,8 +1,8 @@
 jest.mock("../util/message-builders")
 
-const { GuildRollables } = require("../db/rollable")
-const { Interaction } = require("../../testing/interaction")
-const { Attachment } = require("../../testing/attachment")
+import { GuildRollables } from "../db/rollable.js"
+import { Interaction } from "../../testing/interaction.js"
+import { Attachment } from "../../testing/attachment.js"
 const table_command = require("./table")
 
 describe("/table command", () => {

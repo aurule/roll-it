@@ -1,5 +1,5 @@
-const { GuildRollables } = require("./rollable")
-const { makeDB } = require("./index")
+import { GuildRollables } from "./rollable.js"
+import { makeDB } from "./index.js"
 
 describe("GuildRollables", () => {
   let db

@@ -1,6 +1,6 @@
-const { makeDB } = require("./index")
+import { makeDB } from "./index.js"
 
-const { Teamwork, MessageType } = require("./teamwork")
+import { Teamwork, MessageType } from "./teamwork.js"
 
 describe("Teamwork DB", () => {
   let teamwork

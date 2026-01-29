@@ -1,4 +1,4 @@
-const { roll, doRote, NwodRollOptions } = require("./nwod-roller")
+import { roll, doRote, NwodRollOptions } from "./nwod-roller.js"
 
 describe("nwod roller", () => {
   describe("roll", () => {

@@ -1,7 +1,7 @@
 jest.mock("../../util/message-builders")
 
-const { Interaction } = require("../../../testing/interaction")
-const { test_secret_option } = require("../../../testing/shared/execute-secret")
+import { Interaction } from "../../../testing/interaction.js"
+import { test_secret_option } from "../../../testing/shared/execute-secret.js"
 
 const met_opposed_command = require("./opposed")
 

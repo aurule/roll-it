@@ -1,4 +1,4 @@
-const { clamp } = require("./clamp")
+import { clamp } from "./clamp.js"
 
 describe("number clamp helper", () => {
   it("returns num if it's in range", () => {

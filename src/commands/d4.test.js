@@ -2,8 +2,8 @@ jest.mock("../util/message-builders")
 
 const d4_command = require("./d4")
 
-const { Interaction } = require("../../testing/interaction")
-const { test_secret_option } = require("../../testing/shared/execute-secret")
+import { Interaction } from "../../testing/interaction.js"
+import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/d4 command", () => {
   let interaction

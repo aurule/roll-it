@@ -1,5 +1,5 @@
-const { CommandInteraction } = require("../../testing/command-interaction")
-const { Installation } = require("../db/installation")
+import { CommandInteraction } from "../../testing/command-interaction.js"
+import { Installation } from "../db/installation.js"
 
 jest.mock("../util/message-builders")
 jest.mock("../services/api")

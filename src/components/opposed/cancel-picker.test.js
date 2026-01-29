@@ -1,9 +1,9 @@
 jest.mock("../../util/message-builders")
 
-const { ChallengeFixture } = require("../../../testing/challenge-fixture")
-const { Interaction } = require("../../../testing/interaction")
+import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
+import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const { OpTest } = require("../../db/opposed/optest")
+import { OpTest } from "../../db/opposed/optest.js"
 
 const cancelPicker = require("./cancel-picker")
 

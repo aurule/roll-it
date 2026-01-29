@@ -1,4 +1,4 @@
-const { arrayEq } = require("./array-eq")
+import { arrayEq } from "./array-eq.js"
 
 describe("arrayEq helper", () => {
   it("returns true for self", () => {

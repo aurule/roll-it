@@ -1,6 +1,6 @@
 const CoinResultsPresenter = require("./coin-results-presenter")
 
-const { simpleflake } = require("simpleflakes")
+import { simpleflake } from "simpleflakes.js"
 
 describe("coin results presenter", () => {
   describe("present", () => {

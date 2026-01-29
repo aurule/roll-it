@@ -1,7 +1,7 @@
 jest.mock("../util/message-builders")
 
-const { test_secret_option } = require("../../testing/shared/execute-secret")
-const { Interaction } = require("../../testing/interaction")
+import { test_secret_option } from "../../testing/shared/execute-secret.js"
+import { Interaction } from "../../testing/interaction.js"
 
 const wod_command = require("./wod20")
 

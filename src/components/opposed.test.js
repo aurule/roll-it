@@ -1,12 +1,12 @@
 jest.mock("../util/message-builders")
 
-const Joi = require("joi")
+import Joi from "joi"
 
-const { Interaction } = require("../../testing/interaction")
-const { Challenge } = require("../db/opposed/challenge")
+import { Interaction } from "../../testing/interaction.js"
+import { Challenge } from "../db/opposed/challenge.js"
 const cancel_button = require("./opposed/cancel-button")
-const { UnauthorizedError } = require("../errors/unauthorized-error")
-const { ChallengeFixture } = require("../../testing/challenge-fixture")
+import { UnauthorizedError } from "../errors/unauthorized-error.js"
+import { ChallengeFixture } from "../../testing/challenge-fixture.js"
 
 const opposed_handler = require("./opposed")
 

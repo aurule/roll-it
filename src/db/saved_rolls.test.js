@@ -1,5 +1,5 @@
-const { makeUpdateFields, UserSavedRolls, GlobalSavedRolls } = require("./saved_rolls")
-const { makeDB } = require("./index")
+import { makeUpdateFields, UserSavedRolls, GlobalSavedRolls } from "./saved_rolls.js"
+import { makeDB } from "./index.js"
 
 /**
  * Create a record for testing a saved roll

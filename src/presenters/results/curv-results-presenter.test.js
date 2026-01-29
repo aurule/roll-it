@@ -1,4 +1,4 @@
-const { CurvPresenter } = require("./curv-results-presenter")
+import { CurvPresenter } from "./curv-results-presenter.js"
 
 describe("curv results presenter", () => {
   describe("mode", () => {

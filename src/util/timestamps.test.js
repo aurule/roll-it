@@ -1,4 +1,4 @@
-const { relativeTimestamp } = require("./timestamps")
+import { relativeTimestamp } from "./timestamps.js"
 
 describe("timestamp helpers", () => {
   describe("relativeTimestamp", () => {

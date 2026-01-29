@@ -1,7 +1,7 @@
 const untilService = require("./until-roller")
 
-const { roll } = require("../services/base-roller")
-const { sum } = require("../services/tally")
+import { roll } from "../services/base-roller.js"
+import { sum } from "../services/tally.js"
 
 describe("roll-until helpers", () => {
   describe("rollUntil", () => {

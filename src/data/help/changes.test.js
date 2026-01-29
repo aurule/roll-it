@@ -1,5 +1,5 @@
 const changesTopic = require("./changes")
-const { version } = require("../../../package.json")
+import { version } from "../../../package.json.js"
 
 describe("changes help topic", () => {
   describe("getChangelog", () => {

@@ -1,5 +1,5 @@
-const { presentList } = require("./table-list-presenter")
-const { i18n } = require("../locales")
+import { presentList } from "./table-list-presenter.js"
+import { i18n } from "../locales.js"
 
 describe("table list presenter", () => {
   const t = i18n.getFixedT("en-US", "commands", "table.list")

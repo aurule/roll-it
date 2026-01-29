@@ -1,6 +1,6 @@
-const { systems } = require("../data/systems.js")
+import { systems } from "../data/systems.js.js"
 
-const { systemOptions } = require("./system-options-presenter")
+import { systemOptions } from "./system-options-presenter.js"
 
 describe("systems options presenter", () => {
   it("includes every system", () => {

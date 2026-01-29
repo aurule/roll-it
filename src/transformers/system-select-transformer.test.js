@@ -1,7 +1,7 @@
-const { stringSelectMenuOptions } = require("../../testing/discord-schemas")
+import { stringSelectMenuOptions } from "../../testing/discord-schemas.js"
 
-const { systems } = require("../data/systems.js")
-const { transform } = require("./system-select-transformer")
+import { systems } from "../data/systems.js.js"
+import { transform } from "./system-select-transformer.js"
 
 describe("string select options transformer", () => {
   it("creates an array of select options", () => {

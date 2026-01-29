@@ -2,9 +2,9 @@ jest.mock("../util/message-builders")
 
 const coin_command = require("./coin")
 
-const { Interaction } = require("../../testing/interaction")
-const { schemaMessages } = require("../../testing/schema-messages")
-const { test_secret_option } = require("../../testing/shared/execute-secret")
+import { Interaction } from "../../testing/interaction.js"
+import { schemaMessages } from "../../testing/schema-messages.js"
+import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/coin command", () => {
   describe("execute", () => {

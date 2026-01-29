@@ -1,4 +1,4 @@
-const { roll } = require("./swn-roller")
+import { roll } from "./swn-roller.js"
 
 describe("SWN roller", () => {
   describe("roll", () => {

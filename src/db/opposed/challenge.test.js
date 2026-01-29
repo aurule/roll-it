@@ -1,4 +1,4 @@
-const { Challenge } = require("./challenge")
+import { Challenge } from "./challenge.js"
 
 describe("db Challenge class", () => {
   describe("constructor", () => {

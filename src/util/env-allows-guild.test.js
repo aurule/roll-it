@@ -1,4 +1,4 @@
-const { envAllowsGuild } = require("./env-allows-guild")
+import { envAllowsGuild } from "./env-allows-guild.js"
 
 describe("allowed guild helper", () => {
   describe("envAllowsGuild", () => {

@@ -1,7 +1,7 @@
 import { Collection } from "discord.js"
 
-const { DrhPool } = require("../../util/rolls/drh-pool")
-const { DrhPresenter, DrhRollPresenter, DrhTeamworkPresenter } = require("./drh-results-presenter")
+import { DrhPool } from "../../util/rolls/drh-pool.js"
+import { DrhPresenter, DrhRollPresenter, DrhTeamworkPresenter } from "./drh-results-presenter.js"
 
 describe("drh results presenter", () => {
   describe("presentResults", () => {
