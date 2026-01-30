@@ -20,15 +20,15 @@ import { pretty } from "../command-pretty.js"
  * test_secret_option(roll_command, {pool: 1, sides: 2}, (interaction) => interaction.customId = "testid")
  * ```
  *
- * @param  {Object}   command             Command to test
+ * @param  {Command}  kommand             Command class to test
  * @param  {Object}   interaction_options Option values to add to the interaction before each test
  * @param  {callable} after_interaction   Optional callable to run more setup after the interaction is created
  * @return {describe}                     Jest describe results
  */
-export function test_secret_option(command, interaction_options, after_interaction) {
+export function test_secret_option(kommand, interaction_options, after_interaction) {
   var interaction
 
-  return describe(`${pretty(command)} secret option`, () => {
+  return describe(`${pretty(kommand.name)} secret option`, () => {
     beforeEach(() => {
       interaction = new Interaction()
       interaction.command_options = { ...interaction_options }
@@ -37,6 +37,7 @@ export function test_secret_option(command, interaction_options, after_interacti
 
     it("when secret is true, reply is ephemeral", async () => {
       interaction.command_options.secret = true
+      const command = new kommand(interaction)
 
       await command.execute(interaction)
 
@@ -45,6 +46,7 @@ export function test_secret_option(command, interaction_options, after_interacti
 
     it("when secret is false, reply is not ephemeral", async () => {
       interaction.command_options.secret = false
+      const command = new kommand(interaction)
 
       await command.execute(interaction)
 
@@ -52,6 +54,8 @@ export function test_secret_option(command, interaction_options, after_interacti
     })
 
     it("secret defaults to false", async () => {
+      const command = new kommand(interaction)
+
       await command.execute(interaction)
 
       expect(interaction.replies[0].flags).not.toHaveFlag(MessageFlags.Ephemeral)
