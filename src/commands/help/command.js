@@ -1,7 +1,7 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const CommandHelpPresenter = require("../../presenters/command-help-presenter")
-const CommandNamePresenter = require("../../presenters/command-name-presenter")
-const Completers = require("../../completers/command-completers")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { present as presentHelp } from "../../presenters/command-help-presenter.js"
+import { list as listCommands } from "../../presenters/command-name-presenter.js"
+import { all as suggestCommands } from "../../completers/command-completers.js"
 import { i18n } from "../../locales/index.js"
 
 const command_name = "command"
@@ -25,7 +25,7 @@ module.exports = {
     if (!command)
       return interaction.whisper(t("options.command.validation.unavailable", { command_name }))
 
-    const full_text = CommandHelpPresenter.present(command, interaction.locale)
+    const full_text = presentHelp(command, interaction.locale)
     return interaction.paginate({
       content: full_text,
       secret: true,
@@ -37,13 +37,13 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "command":
-        return Completers.all(partialText)
+        return suggestCommands(partialText)
     }
   },
   help_data(opts) {
     const commands = require("../index")
     return {
-      commands: CommandNamePresenter.list(commands.sorted.get(opts.locale), opts.locale),
+      commands: listCommands(commands.sorted.get(opts.locale), opts.locale),
     }
   },
 }

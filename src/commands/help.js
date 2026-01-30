@@ -1,7 +1,7 @@
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const CommandNamePresenter = require("../presenters/command-name-presenter")
-const TopicNamePresenter = require("../presenters/topic-name-presenter")
-const { loadSubcommands, dispatch } = require("../util/subcommands")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { list as topicList } from "../presenters/topic-name-presenter.js"
+import { list as commandList } from "../presenters/command-name-presenter.js"
+import { loadSubcommands, dispatch } from "../util/subcommands.js"
 
 const command_name = "help"
 const subcommands = loadSubcommands(command_name)
@@ -26,8 +26,8 @@ module.exports = {
   help_data(opts) {
     const commands = require("./index")
     return {
-      topics: TopicNamePresenter.list(opts.locale),
-      commands: CommandNamePresenter.list(commands.sorted.get(opts.locale), opts.locale),
+      topics: topicList(opts.locale),
+      commands: commandList(commands.sorted.get(opts.locale), opts.locale),
     }
   },
 }

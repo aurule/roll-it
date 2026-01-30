@@ -1,16 +1,16 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { rollUntil } = require("../services/until-roller")
-const { rollExplode } = require("../services/base-roller")
-const { successes } = require("../services/tally")
-const { ShadowrunPresenter, present } = require("../presenters/results/shadowrun-results-presenter")
-const { teamworkBegin } = require("../interactive/teamwork")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const { i18n } = require("../locales")
-const sacrifice = require("../services/easter-eggs/sacrifice")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { rollUntil } from "../services/until-roller.js"
+import { rollExplode } from "../services/base-roller.js"
+import { successes } from "../services/tally.js"
+import { ShadowrunPresenter, present } from "../presenters/results/shadowrun-results-presenter.js"
+import { teamworkBegin } from "../interactive/teamwork.js"
+import { descriptionOption, rollsOption, teamworkOption, secretOption } from "../util/common-options.js"
+import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import { i18n } from "../locales.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 
 const command_name = "shadowrun"
 
@@ -21,20 +21,20 @@ module.exports = {
       .addLocalizedIntegerOption("pool", (option) =>
         option.setMinValue(1).setMaxValue(1000).setRequired(true),
       )
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedBooleanOption("edge")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.teamwork)
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(teamworkOption)
       .addLocalizedIntegerOption("until", (option) => option.setMinValue(1))
-      .addBooleanOption(commonOpts.secret),
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["pool"],
   schema: Joi.object({
-    pool: commonSchemas.pool,
+    pool: poolSchema,
     edge: Joi.boolean().optional(),
-    rolls: commonSchemas.rolls,
-    until: commonSchemas.until,
-    description: commonSchemas.description,
+    rolls: rollsSchema,
+    until: untilSchema,
+    description: descriptionSchema,
   }),
   teamwork: {
     roller: (final_pool, { explode }) => rollExplode(final_pool, 6, explode, 1),

@@ -1,6 +1,6 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const { presentList } = require("../../presenters/table-list-presenter")
-const { GuildRollables } = require("../../db/rollable")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { presentList } from "../../presenters/table-list-presenter.js"
+import { GuildRollables } from "../../db/rollable.js"
 import { i18n } from "../../locales/index.js"
 
 const command_name = "list"

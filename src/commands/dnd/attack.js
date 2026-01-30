@@ -1,11 +1,11 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const commonOpts = require("../../util/common-options")
-const { injectMention } = require("../../util/formatters/inject-user.js")
-const { DndAttack } = require("../../util/rolls/dnd-attack")
-const { presentAttack } = require("../../presenters/results/dnd-results-presenter")
-const commonSchemas = require("../../util/common-schemas")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { injectMention } from "../../util/formatters/inject-user.js.js"
+import { DndAttack } from "../../util/rolls/dnd-attack.js"
+import { presentAttack } from "../../presenters/results/dnd-results-presenter.js"
+import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
+import { modifierSchema, descriptionSchema, rollsSchema } from "../../util/common-schemas.js"
 
 const command_name = "attack"
 const parent_name = "dnd"
@@ -16,16 +16,16 @@ module.exports = {
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedIntegerOption("modifier", (option) => option.setRequired(true))
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(20))
       .addLocalizedIntegerOption("ac", (option) => option.setMinValue(1))
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier", "ac", "crit"],
   schema: Joi.object({
-    modifier: commonSchemas.modifier,
-    description: commonSchemas.description,
+    modifier: modifierSchema,
+    description: descriptionSchema,
     crit: Joi.number().optional().integer().min(0).max(20).messages({
       "number.integer": "Crit must be a whole number.",
       "number.min": "crit must be between 0 and 20.",
@@ -35,7 +35,7 @@ module.exports = {
       "number.integer": "AC must be a whole number.",
       "number.min": "AC must be 1 or more.",
     }),
-    rolls: commonSchemas.rolls,
+    rolls: rollsSchema,
   }),
   perform({ modifier = 0, crit = 20, ac = 0, description = "", rolls = 1, locale = "en-US" } = {}) {
     const attacks = Array.from({ length: rolls }, () => new DndAttack(modifier, crit))

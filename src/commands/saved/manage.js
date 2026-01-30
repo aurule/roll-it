@@ -1,13 +1,13 @@
 import { ButtonBuilder, ButtonStyle, ComponentType } from "discord.js"
 
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const saved_roll_completers = require("../../completers/saved-roll-completers")
-const { UserSavedRolls } = require("../../db/saved_rolls")
-const saved_roll_presenter = require("../../presenters/saved-roll-presenter")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { saved_roll as suggestSavedRoll } from "../../completers/saved-roll-completers.js"
+import { UserSavedRolls } from "../../db/saved_rolls.js"
+import { present } from "../../presenters/saved-roll-presenter.js"
 import { i18n } from "../../locales/index.js"
-const rollCache = require("../../services/roll-cache")
-const SavedRollModal = require("../../modals/saved-roll")
-import build from "../../util/message-builders.js"
+import rollCache from "../../services/roll-cache.js"
+import { SavedRollModal } from "../../modals/saved-roll.js"
+import * as build from "../../util/message-builders.js"
 
 const command_name = "manage"
 const parent_name = "saved"
@@ -34,7 +34,7 @@ module.exports = {
       return cmd_interaction.whisper(t("options.name.validation.missing"))
     }
 
-    let manage_text = saved_roll_presenter.present(detail, cmd_interaction.locale)
+    let manage_text = present(detail, cmd_interaction.locale)
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")
 
@@ -144,7 +144,7 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "name":
-        return saved_roll_completers.saved_roll(partialText, saved_rolls.all())
+        return suggestSavedRoll(partialText, saved_rolls.all())
     }
   },
 }

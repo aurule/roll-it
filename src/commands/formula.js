@@ -1,13 +1,13 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
-const { sum } = require("../services/tally")
-const { present } = require("../presenters/results/formula-results-presenter")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const { operator } = require("../util/formatters/signed.js")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { roll } from "../services/base-roller.js"
+import { sum } from "../services/tally.js"
+import { present } from "../presenters/results/formula-results-presenter.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { modifierSchema, rollsSchema, descriptionSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import { operator } from "../util/formatters/signed.js.js"
 
 const command_name = "formula"
 
@@ -18,16 +18,16 @@ module.exports = {
       .addLocalizedStringOption("formula", (option) =>
         option.setMinLength(3).setMaxLength(1500).setRequired(true),
       )
-      .addStringOption(commonOpts.description)
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addStringOption(descriptionOption)
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier"],
   schema: Joi.object({
     formula: Joi.string().required().trim().min(3).max(1500),
-    modifier: commonSchemas.modifier,
-    rolls: commonSchemas.rolls,
-    description: commonSchemas.description,
+    modifier: modifierSchema,
+    rolls: rollsSchema,
+    description: descriptionSchema,
   }),
   perform({ formula, rolls = 1, modifier = 0, description, locale = "en-US" } = {}) {
     const results = []

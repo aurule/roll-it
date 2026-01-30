@@ -1,14 +1,14 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/swn-roller")
-const { present } = require("../presenters/results/swn-results-presenter")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const { pickDice } = require("../services/pick")
-const { pickedSum } = require("../services/tally")
-const sacrifice = require("../services/easter-eggs/sacrifice")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { roll } from "../services/swn-roller.js"
+import { present } from "../presenters/results/swn-results-presenter.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { poolSchema, descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import { pickDice } from "../services/pick.js"
+import { pickedSum } from "../services/tally.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 
 const command_name = "swn"
 
@@ -16,19 +16,19 @@ module.exports = {
   name: command_name,
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
       .addLocalizedIntegerOption("pool", (option) => option.setMinValue(2))
-      .addIntegerOption(commonOpts.rolls)
+      .addIntegerOption(rollsOption)
       .addLocalizedBooleanOption("reroll-1s")
-      .addBooleanOption(commonOpts.secret),
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier", "pool"],
   schema: Joi.object({
-    pool: commonSchemas.pool.min(2),
-    description: commonSchemas.description,
-    modifier: commonSchemas.modifier,
-    rolls: commonSchemas.rolls,
+    pool: poolSchema.min(2),
+    description: descriptionSchema,
+    modifier: modifierSchema,
+    rolls: rollsSchema,
   }),
   judge(results, locale) {
     const buckets = [0, 0, 0, 0, 0]

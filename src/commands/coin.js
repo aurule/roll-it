@@ -1,12 +1,12 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/results/coin-results-presenter")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const sacrifice = require("../services/easter-eggs/sacrifice")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { roll } from "../services/base-roller.js"
+import { present } from "../presenters/results/coin-results-presenter.js"
+import { descriptionOption, secretOption} from "../util/common-options.js"
+import { descriptionSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 
 const command_name = "coin"
 
@@ -14,11 +14,11 @@ module.exports = {
   name: command_name,
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedStringOption("call", (option) => option.setLocalizedChoices("1", "2"))
-      .addBooleanOption(commonOpts.secret),
+      .addBooleanOption(secretOption),
   schema: Joi.object({
-    description: commonSchemas.description,
+    description: descriptionSchema,
     call: Joi.string().optional().valid("1", "2").messages({
       "any.only": 'Call must be either "1" or "2".',
     }),

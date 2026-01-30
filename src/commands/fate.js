@@ -1,13 +1,13 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
-const { present } = require("../presenters/results/fate-results-presenter")
-const { fudge } = require("../services/tally")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const sacrifice = require("../services/easter-eggs/sacrifice")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { roll } from "../services/base-roller.js"
+import { present } from "../presenters/results/fate-results-presenter.js"
+import { fudge } from "../services/tally.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { rollsSchema, modifierSchema, descriptionSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 
 const command_name = "fate"
 
@@ -15,16 +15,16 @@ module.exports = {
   name: command_name,
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier"],
   schema: Joi.object({
-    rolls: commonSchemas.rolls,
-    modifier: commonSchemas.modifier,
-    description: commonSchemas.description,
+    rolls: rollsSchema,
+    modifier: modifierSchema,
+    description: descriptionSchema,
   }),
   judge(results, locale) {
     const buckets = [0, 0, 0, 0, 0]

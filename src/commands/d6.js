@@ -1,12 +1,12 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
-const { sum } = require("../services/tally")
-const { present } = require("../presenters/results/roll-results-presenter")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { roll } from "../services/base-roller.js"
+import { sum } from "../services/tally.js"
+import { present } from "../presenters/results/roll-results-presenter.js"
+import { descriptionOption, poolOption, rollsOption, secretOption } from "../util/common-options.js"
+import { descriptionSchema, modifierSchema, poolSchema, rollsSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
 
 const command_name = "d6"
 
@@ -14,18 +14,18 @@ module.exports = {
   name: command_name,
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
-      .addIntegerOption(commonOpts.pool)
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(poolOption)
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier"],
   schema: Joi.object({
-    description: commonSchemas.description,
-    modifier: commonSchemas.modifier,
-    pool: commonSchemas.pool,
-    rolls: commonSchemas.rolls,
+    description: descriptionSchema,
+    modifier: modifierSchema,
+    pool: poolSchema,
+    rolls: rollsSchema,
   }),
   perform({ rolls = 1, modifier = 0, pool = 1, description, locale = "en-US" } = {}) {
     const raw_results = roll(pool, 6, rolls)

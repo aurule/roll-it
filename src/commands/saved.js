@@ -1,6 +1,6 @@
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { loadSubcommands, dispatch } = require("../util/subcommands")
-const CommandNamePresenter = require("../presenters/command-name-presenter")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { loadSubcommands, dispatch } from "../util/subcommands.js"
+import { list } from "../presenters/command-name-presenter.js"
 
 const command_name = "saved"
 const subcommands = loadSubcommands(command_name)
@@ -26,7 +26,7 @@ module.exports = {
   help_data(opts) {
     const savable_commands = require("./index").sorted.savable.get(opts.locale)
     return {
-      savable: CommandNamePresenter.list(savable_commands, opts.locale),
+      savable: list(savable_commands, opts.locale),
     }
   },
 }

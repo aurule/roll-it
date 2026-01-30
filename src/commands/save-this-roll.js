@@ -1,13 +1,13 @@
 import { ContextMenuCommandBuilder, ApplicationCommandType } from "discord.js"
 
-const CommandNamePresenter = require("../presenters/command-name-presenter")
-const interactionCache = require("../services/interaction-cache")
-const { i18n } = require("../locales")
-const { canonical, mapped } = require("../locales/helpers")
-const rollCache = require("../services/roll-cache")
-const SavedRollModal = require("../modals/saved-roll")
+import { presentCommand, listCommands } from "../presenters/command-name-presenter.js"
+import interactionCache from "../services/interaction-cache.js"
+import { i18n } from "../locales.js"
+import { canonical, mapped } from "../locales/helpers.js"
+import rollCache from "../services/roll-cache.js"
+import { SavedRollModal } from "../modals/saved-roll.js"
+import { commands } from "./index.js"
 
-require("dotenv").config({ quiet: true })
 const botId = process.env.CLIENT_ID
 
 const command_id = "save-this-roll"
@@ -23,8 +23,6 @@ module.exports = {
       .setNameLocalizations(mapped("name", command_id))
       .setType(ApplicationCommandType.Message),
   async execute(interaction) {
-    const commands = require("./index")
-
     const t = i18n.getFixedT(interaction.locale, "commands", "save-this-roll")
 
     const message = interaction.targetMessage
@@ -39,7 +37,7 @@ module.exports = {
 
     const command = commands.get(cachedInvocation.commandName)
     if (!command.savable) {
-      const presented = CommandNamePresenter.present(command, interaction.locale)
+      const presented = presentCommand(command, interaction.locale)
       return interaction.whisper(t("validation.unsavable", { presented }))
     }
 
@@ -73,9 +71,9 @@ module.exports = {
     return interaction.showModal(modal)
   },
   help_data(opts) {
-    const savable_commands = require("./index").sorted.savable.get(opts.locale)
+    const savable_commands = commands.sorted.savable.get(opts.locale)
     return {
-      savable: CommandNamePresenter.list(savable_commands, opts.locale),
+      savable: listCommands(savable_commands, opts.locale),
     }
   },
 }

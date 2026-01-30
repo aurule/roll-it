@@ -1,9 +1,9 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const saved_roll_completers = require("../../completers/saved-roll-completers")
-const { UserSavedRolls } = require("../../db/saved_rolls")
-const present_command = require("../../presenters/command-name-presenter").present
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { saved_roll as suggestSavedRoll, changeable_choices as suggestChangeableOption } from "../../completers/saved-roll-completers.js"
+import { UserSavedRolls } from "../../db/saved_rolls.js"
+import { present as presentCommand } from "../../presenters/command-name-presenter.js"
 import { i18n } from "../../locales/index.js"
-const { saved_bonus_target } = require("../../util/saved-bonus-target")
+import { saved_bonus_target } from "../../util/saved-bonus-target.js"
 
 const command_name = "grow"
 const parent_name = "saved"
@@ -49,7 +49,7 @@ module.exports = {
       return interaction.whisper(
         t("options.change.validation.missing", {
           target,
-          command: present_command(command, interaction.locale),
+          command: presentCommand(command, interaction.locale),
         }),
       )
     }
@@ -80,9 +80,9 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "name":
-        return saved_roll_completers.saved_roll(partialText, all_rolls)
+        return suggestSavedRoll(partialText, all_rolls)
       case "change":
-        return saved_roll_completers.changeable_choices(partialText, all_rolls, interaction.options)
+        return suggestChangeableOption(partialText, all_rolls, interaction.options)
     }
   },
 }

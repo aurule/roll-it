@@ -1,6 +1,6 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const commonOpts = require("../../util/common-options")
-const { opposedBegin } = require("../../interactive/opposed")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { opposedBegin } from "../../interactive/opposed.js"
+import { descriptionOption } from "../../util/common-options.js"
 import { i18n } from "../../locales/index.js"
 
 const command_name = "opposed"
@@ -16,7 +16,7 @@ module.exports = {
         option.setLocalizedChoices("mental", "social", "physical").setRequired(true),
       )
       .addLocalizedStringOption("retest", (option) => option.setRequired(true))
-      .addStringOption(commonOpts.description),
+      .addStringOption(descriptionOption),
   async execute(interaction) {
     const attackerId = interaction.user.id
     const defenderId = interaction.options.getUser("opponent").id

@@ -1,11 +1,11 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const commonOpts = require("../../util/common-options")
-const { injectMention } = require("../../util/formatters/inject-user.js")
-const { roll } = require("../../services/base-roller")
-const { presentSkill } = require("../../presenters/results/dnd-results-presenter")
-const commonSchemas = require("../../util/common-schemas")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { injectMention } from "../../util/formatters/inject-user.js.js"
+import { roll } from "../../services/base-roller.js"
+import { presentSkill } from "../../presenters/results/dnd-results-presenter.js"
+import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
+import { modifierSchema, descriptionSchema, rollsSchema } from "../../util/common-schemas.js"
 
 const command_name = "skill"
 const parent_name = "dnd"
@@ -15,21 +15,21 @@ module.exports = {
   parent: parent_name,
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
       .addLocalizedIntegerOption("dc", (option) => option.setMinValue(1))
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier", "dc"],
   schema: Joi.object({
-    modifier: commonSchemas.modifier,
-    description: commonSchemas.description,
+    modifier: modifierSchema,
+    description: descriptionSchema,
     dc: Joi.number().optional().integer().min(1).messages({
       "number.integer": "DC must be a whole number.",
       "number.min": "DC must be 1 or more.",
     }),
-    rolls: commonSchemas.rolls,
+    rolls: rollsSchema,
   }),
   perform({ modifier = 0, dc = 0, description = "", rolls = 1, locale = "en-US" } = {}) {
     const raw_results = roll(1, 20, rolls)

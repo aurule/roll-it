@@ -1,12 +1,12 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { rollExplode } = require("../services/base-roller")
-const { sum } = require("../services/tally")
-const { present } = require("../presenters/results/kob-results-presenter")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { rollExplode } from "../services/base-roller.js"
+import { sum } from "../services/tally.js"
+import { present } from "../presenters/results/kob-results-presenter.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
 
 const command_name = "kob"
 
@@ -27,17 +27,17 @@ module.exports = {
           )
           .setRequired(true),
       )
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier"],
   schema: Joi.object({
     sides: Joi.number().required().integer().valid(4, 6, 8, 10, 12, 20, 100),
-    description: commonSchemas.description,
-    modifier: commonSchemas.modifier,
-    rolls: commonSchemas.rolls,
+    description: descriptionSchema,
+    modifier: modifierSchema,
+    rolls: rollsSchema,
   }),
   perform({ rolls = 1, modifier = 0, description, sides, locale = "en-US" } = {}) {
     const raw_results = rollExplode(1, sides, sides, rolls)

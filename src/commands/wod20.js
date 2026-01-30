@@ -1,17 +1,17 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { rollUntil } = require("../services/until-roller")
-const { roll } = require("../services/base-roller")
-const { wod20 } = require("../services/tally")
-const { present } = require("../presenters/results/wod20-results-presenter")
-const { teamworkBegin } = require("../interactive/teamwork")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const { i18n } = require("../locales")
-const hummingbird = require("../services/easter-eggs/hummingbird")
-const sacrifice = require("../services/easter-eggs/sacrifice")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { rollUntil } from "../services/until-roller.js"
+import { roll } from "../services/base-roller.js"
+import { wod20 } from "../services/tally.js"
+import { present } from "../presenters/results/wod20-results-presenter.js"
+import { teamworkBegin } from "../interactive/teamwork.js"
+import { descriptionOption, rollsOption, teamworkOption, secretOption } from "../util/common-options.js"
+import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import { i18n } from "../locales.js"
+import * as hummingbird from "../services/easter-eggs/hummingbird.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 
 const command_name = "wod20"
 
@@ -22,22 +22,22 @@ module.exports = {
       .addLocalizedIntegerOption("pool", (option) =>
         option.setMinValue(1).setMaxValue(1000).setRequired(true),
       )
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("difficulty", (option) => option.setMinValue(2).setMaxValue(10))
       .addLocalizedBooleanOption("specialty")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.teamwork)
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(teamworkOption)
       .addLocalizedIntegerOption("until", (option) => option.setMinValue(1))
-      .addBooleanOption(commonOpts.secret),
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["pool", "difficulty"],
   schema: Joi.object({
-    pool: commonSchemas.pool,
+    pool: poolSchema,
     difficulty: Joi.number().optional().integer().min(2).max(10),
     specialty: Joi.boolean().optional(),
-    rolls: commonSchemas.rolls,
-    until: commonSchemas.until,
-    description: commonSchemas.description,
+    rolls: rollsSchema,
+    until: untilSchema,
+    description: descriptionSchema,
   }),
   judge(results, pool, difficulty, locale) {
     const factor = 10 / (11 - difficulty)

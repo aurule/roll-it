@@ -1,6 +1,6 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const { presentList } = require("../../presenters/saved-roll-presenter")
-const { UserSavedRolls } = require("../../db/saved_rolls")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { presentList } from "../../presenters/saved-roll-presenter.js"
+import { UserSavedRolls } from "../../db/saved_rolls.js"
 
 const command_name = "list"
 const parent_name = "saved"

@@ -1,5 +1,5 @@
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { loadSubcommands, dispatch } = require("../util/subcommands")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { loadSubcommands, dispatch } from "../util/subcommands.js"
 
 const command_name = "table"
 const subcommands = loadSubcommands(command_name)

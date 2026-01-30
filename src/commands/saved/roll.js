@@ -1,12 +1,13 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const saved_roll_completers = require("../../completers/saved-roll-completers")
-const { operator } = require("../../util/formatters/signed.js")
-const { UserSavedRolls } = require("../../db/saved_rolls")
-const commonOpts = require("../../util/common-options")
-const present_command = require("../../presenters/command-name-presenter").present
-const { injectMention } = require("../../util/formatters/inject-user.js")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { saved_roll as suggestSavedRoll, changeable_choices as suggestChangeableOption } from "../../completers/saved-roll-completers.js"
+import { operator } from "../../util/formatters/signed.js.js"
+import { UserSavedRolls } from "../../db/saved_rolls.js"
+import { present } from "../../presenters/command-name-presenter.js"
+import { injectMention } from "../../util/formatters/inject-user.js.js"
 import { i18n } from "../../locales/index.js"
-const { saved_bonus_target } = require("../../util/saved-bonus-target")
+import { saved_bonus_target } from "../../util/saved-bonus-target.js"
+import { secretOption } from "../../util/common-options.js"
+import { commands } from "../index.js"
 
 const command_name = "roll"
 const parent_name = "saved"
@@ -21,7 +22,7 @@ module.exports = {
       .addLocalizedIntegerOption("bonus")
       .addLocalizedStringOption("change", (option) => option.setAutocomplete(true))
       .addLocalizedIntegerOption("rolls", (option) => option.setMinValue(1).setMaxValue(100))
-      .addBooleanOption(commonOpts.secret),
+      .addBooleanOption(secretOption),
   async execute(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
 
@@ -47,7 +48,7 @@ module.exports = {
     const rolls = interaction.options.getInteger("rolls") ?? 0
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const savable_commands = require("../index").savable
+    const savable_commands = commands.savable
     const command = savable_commands.get(roll_detail.command)
     const target = saved_bonus_target(bonus, change, command.changeable)
 
@@ -56,7 +57,7 @@ module.exports = {
         return interaction.whisper(
           t("options.change.validation.missing", {
             target,
-            command: present_command(command, interaction.locale),
+            command: present(command, interaction.locale),
           }),
         )
       }
@@ -99,9 +100,9 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "name":
-        return saved_roll_completers.saved_roll(partialText, all_rolls)
+        return suggestSavedRoll(partialText, all_rolls)
       case "change":
-        return saved_roll_completers.changeable_choices(partialText, all_rolls, interaction.options)
+        return suggestChangeableOption(partialText, all_rolls, interaction.options)
     }
   },
 }

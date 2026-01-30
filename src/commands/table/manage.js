@@ -6,9 +6,9 @@ const {
   MessageFlags,
 } = require("discord.js")
 
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const Completers = require("../../completers/table-completers")
-const { GuildRollables } = require("../../db/rollable")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { table as suggestTables } from "../../completers/table-completers.js"
+import { GuildRollables } from "../../db/rollable.js"
 import { i18n } from "../../locales/index.js"
 
 const command_name = "manage"
@@ -146,7 +146,7 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "table":
-        return Completers.table(partialText, tables.all())
+        return suggestTables(partialText, tables.all())
     }
   },
 }

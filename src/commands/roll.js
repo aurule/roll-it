@@ -1,12 +1,12 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
-const { sum } = require("../services/tally")
-const { present } = require("../presenters/results/roll-results-presenter")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { roll } from "../services/base-roller.js"
+import { sum } from "../services/tally.js"
+import { present } from "../presenters/results/roll-results-presenter.js"
+import { poolOption, descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { poolSchema, descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
 
 const command_name = "roll"
 
@@ -15,20 +15,20 @@ module.exports = {
   global: true,
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
-      .addIntegerOption((opt) => commonOpts.pool(opt).setRequired(true))
+      .addIntegerOption((opt) => poolOption(opt).setRequired(true))
       .addLocalizedIntegerOption("sides", (option) => option.setMinValue(2).setRequired(true))
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier", "pool"],
   schema: Joi.object({
-    pool: commonSchemas.pool,
+    pool: poolSchema,
     sides: Joi.number().required().integer().min(2).max(100000),
-    description: commonSchemas.description,
-    modifier: commonSchemas.modifier,
-    rolls: commonSchemas.rolls,
+    description: descriptionSchema,
+    modifier: modifierSchema,
+    rolls: rollsSchema,
   }),
   perform({ pool, sides, description, modifier = 0, rolls = 1, locale = "en-US" } = {}) {
     const raw_results = roll(pool, sides, rolls)

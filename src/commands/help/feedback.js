@@ -1,7 +1,7 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const Completers = require("../../completers/command-completers")
-const { UserBans } = require("../../db/bans")
-const { Feedback } = require("../../db/feedback")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { all as suggestCommands } from "../../completers/command-completers.js"
+import { UserBans } from "../../db/bans.js"
+import { Feedback } from "../../db/feedback.js"
 import { i18n } from "../../locales/index.js"
 
 const command_name = "feedback"
@@ -45,7 +45,7 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "command":
-        return Completers.all(partialText)
+        return suggestCommands(partialText)
     }
   },
 }

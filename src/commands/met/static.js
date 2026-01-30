@@ -1,10 +1,10 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const commonOpts = require("../../util/common-options")
-const { compare, handleRequest } = require("../../services/met-roller")
-const { present } = require("../../presenters/results/met-static-results-presenter")
-const { injectMention } = require("../../util/formatters/inject-user.js")
-const sacrifice = require("../../services/easter-eggs/sacrifice")
-const advice = require("../../services/easter-eggs/advice")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { compare, handleRequest } from "../../services/met-roller.js"
+import { present } from "../../presenters/results/met-static-results-presenter.js"
+import { injectMention } from "../../util/formatters/inject-user.js.js"
+import * as sacrifice from "../../services/easter-eggs/sacrifice.js"
+import * as advice from "../../services/easter-eggs/advice.js"
+import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
 
 const command_name = "static"
 const parent_name = "met"
@@ -14,15 +14,15 @@ module.exports = {
   parent: parent_name,
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedStringOption("throw", (option) =>
         option.setLocalizedChoices("rock", "paper", "bomb", "scissors", "rand", "rand-bomb"),
       )
       .addLocalizedStringOption("vs", (option) =>
         option.setLocalizedChoices("rand", "rand-bomb", "none"),
       )
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   judge(compared, locale) {
     if (compared.includes("")) return sacrifice.neutral(locale)
 

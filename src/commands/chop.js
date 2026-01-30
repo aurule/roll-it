@@ -1,12 +1,12 @@
 import { subtext } from "discord.js"
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
 const metStatic = require("./met/static")
-const { i18n } = require("../locales")
+import { i18n } from "../locales.js"
 
 const command_name = "chop"
 
@@ -14,15 +14,15 @@ module.exports = {
   name: command_name,
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedBooleanOption("static")
       .addLocalizedBooleanOption("bomb")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   schema: Joi.object({
     bomb: Joi.boolean().optional(),
-    description: commonSchemas.description,
-    rolls: commonSchemas.rolls,
+    description: descriptionSchema,
+    rolls: rollsSchema,
     static_test: Joi.boolean().optional(),
   }),
   perform({ static_test, bomb, rolls, description, locale = "en-US" } = {}) {

@@ -1,6 +1,6 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const TopicNamePresenter = require("../../presenters/topic-name-presenter")
-const { helpTopics } = require("../../data/help-topics")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { list as listTopics } from "../../presenters/topic-name-presenter.js"
+import { helpTopics } from "../../data/help-topics.js"
 import { i18n } from "../../locales/index.js"
 
 const command_name = "topic"
@@ -42,7 +42,7 @@ module.exports = {
   },
   help_data(opts) {
     return {
-      topics: TopicNamePresenter.list(opts.locale),
+      topics: listTopics(opts.locale),
     }
   },
 }

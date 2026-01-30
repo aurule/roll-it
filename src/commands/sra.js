@@ -1,17 +1,17 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const commonSchemas = require("../util/common-schemas")
-const commonOptions = require("../util/common-options")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const { i18n } = require("../locales")
-const sacrifice = require("../services/easter-eggs/sacrifice")
-const { roll } = require("../services/base-roller")
-const { rollUntil } = require("../services/until-roller")
-const { riskSuccesses } = require("../services/tally")
-const {
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import { i18n } from "../locales.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
+import { roll } from "../services/base-roller.js"
+import { rollUntil } from "../services/until-roller.js"
+import { riskSuccesses } from "../services/tally.js"
+import {
   ShadowrunAnarchyPresenter,
-} = require("../presenters/results/shadowrun-anarchy-results-presenter")
+} from "../presenters/results/shadowrun-anarchy-results-presenter.js"
 
 const command_name = "sra"
 
@@ -38,23 +38,23 @@ module.exports = {
       .addLocalizedIntegerOption("pool", (option) =>
         option.setMinValue(1).setMaxValue(1000).setRequired(true),
       )
-      .addStringOption(commonOptions.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("risk")
       .addLocalizedStringOption("with", (option) =>
         option.setLocalizedChoices("advantage", "disadvantage"),
       )
-      .addIntegerOption(commonOptions.rolls)
+      .addIntegerOption(rollsOption)
       .addLocalizedIntegerOption("until", (option) => option.setMinValue(1))
-      .addBooleanOption(commonOptions.secret),
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["pool", "risk"],
   schema: Joi.object({
-    pool: commonSchemas.pool,
+    pool: poolSchema,
     risk: Joi.number().optional().integer().min(1).max(1000),
     with: Joi.string().optional().valid("advantage", "disadvantage"),
-    rolls: commonSchemas.rolls,
-    until: commonSchemas.until,
-    description: commonSchemas.description,
+    rolls: rollsSchema,
+    until: untilSchema,
+    description: descriptionSchema,
   }),
   judge(presenter) {
     const buckets = [0, 0, 0, 0, 0]

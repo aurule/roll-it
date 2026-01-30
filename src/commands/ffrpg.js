@@ -1,13 +1,13 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { roll } = require("../services/base-roller")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const { FfrpgPresenter } = require("../presenters/results/ffrpg-results-presenter")
-const { i18n } = require("../locales")
-const sacrifice = require("../services/easter-eggs/sacrifice")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { roll } from "../services/base-roller.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js"
+import { i18n } from "../locales.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 
 const command_name = "ffrpg"
 
@@ -16,15 +16,15 @@ module.exports = {
   data: () =>
     new LocalizedSlashCommandBuilder(command_name)
       .addLocalizedIntegerOption("base", (option) => option.setRequired(true))
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("intrinsic")
       .addLocalizedIntegerOption("conditional")
       .addLocalizedIntegerOption("avoid")
       .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(100))
       .addLocalizedIntegerOption("botch", (option) => option.setMinValue(0).setMaxValue(100))
       .addLocalizedBooleanOption("flat")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   schema: Joi.object({
     base: Joi.number().integer().required(),
     intrinsic: Joi.number().optional().integer(),
@@ -32,8 +32,8 @@ module.exports = {
     avoid: Joi.number().optional().integer(),
     crit: Joi.number().optional().integer().min(0).max(100),
     botch: Joi.number().optional().integer().min(0).max(100).greater(Joi.ref("crit")),
-    description: commonSchemas.description,
-    rolls: commonSchemas.rolls,
+    description: descriptionSchema,
+    rolls: rollsSchema,
   }),
   judge(presenter, locale) {
     const buckets = [0, 0, 0, 0]

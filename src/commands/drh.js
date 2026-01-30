@@ -1,13 +1,13 @@
 import { Collection } from "discord.js"
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const { present } = require("../presenters/results/drh-results-presenter")
-const commonOpts = require("../util/common-options")
-const commonSchemas = require("../util/common-schemas")
-const { injectMention } = require("../util/formatters/inject-user.js")
-const { DrhPool } = require("../util/rolls/drh-pool")
-const { i18n } = require("../locales")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { present } from "../presenters/results/drh-results-presenter.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { descriptionSchema, rollsSchema, modifierSchema } from "../util/common-schemas.js"
+import { injectMention } from "../util/formatters/inject-user.js.js"
+import { DrhPool } from "../util/rolls/drh-pool.js"
+import { i18n } from "../locales.js"
 
 const command_name = "drh"
 
@@ -21,15 +21,15 @@ module.exports = {
       .addLocalizedIntegerOption("pain", (option) =>
         option.setRequired(true).setMinValue(0).setMaxValue(100),
       )
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("exhaustion", (option) => option.setMinValue(1).setMaxValue(6))
       .addLocalizedIntegerOption("madness", (option) => option.setMinValue(1))
       .addLocalizedStringOption("talent", (option) =>
         option.setLocalizedChoices("minor", "major", "madness"),
       )
       .addLocalizedIntegerOption("modifier")
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier", "exhaustion", "madness", "discipline", "pain"],
   schema: Joi.object({
@@ -57,9 +57,9 @@ module.exports = {
     talent: Joi.string().optional().valid("minor", "major", "madness").default("none").messages({
       "any.only": "Talent must be one of 'minor', 'major', or 'madness'.",
     }),
-    description: commonSchemas.description,
-    rolls: commonSchemas.rolls,
-    modifier: commonSchemas.modifier,
+    description: descriptionSchema,
+    rolls: rollsSchema,
+    modifier: modifierSchema,
   }),
   perform({
     discipline,

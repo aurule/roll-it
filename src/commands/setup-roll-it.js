@@ -1,17 +1,15 @@
 import { PermissionFlagsBits } from "discord.js"
 
-const { LocalizedSlashCommandBuilder } = require("../util/localized-command")
-const CommandNamePresenter = require("../presenters/command-name-presenter")
-const api = require("../services/api")
-const { Installation } = require("../db/installation")
+import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
+import { Installation } from "../db/installation.js"
 import { messageData as startingMessage } from "../messages/installation/starting"
-const systemHelpers = require("../services/system-helpers")
-const featureHelpers = require("../services/feature-helpers")
-const { safe_locale } = require("../locales/helpers")
-import { features } from "../data/features.js"
-import { systems } from "../data/systems.js"
-const { i18n } = require("../locales")
-const { present } = require("../presenters/command-name-presenter")
+import { safe_locale } from "../locales/helpers.js"
+import { i18n } from "../locales.js"
+import { list, present } from "../presenters/command-name-presenter.js"
+import { getGuildCommands } from "../services/api.js"
+import { findByCommands as findFeatures } from "../services/feature-helpers.js"
+import { findByCommands as findSystems } from "../services/system-helpers.js"
+import { commands } from "./index.js"
 
 const command_name = "setup-roll-it"
 
@@ -24,11 +22,10 @@ module.exports = {
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   },
   async execute(cmd_interaction) {
-    const old_commands = await api
-      .getGuildCommands(cmd_interaction.guildId)
+    const old_commands = await getGuildCommands(cmd_interaction.guildId)
       .then((res) => res.map((c) => c.name))
-    const old_systems = systemHelpers.findByCommands(...old_commands).map((s) => s.name)
-    const old_features = featureHelpers.findByCommands(...old_commands).map((f) => f.name)
+    const old_systems = findSystems(...old_commands).map((s) => s.name)
+    const old_features = findFeatures(...old_commands).map((f) => f.name)
 
     const install_db = new Installation()
     const installation_id = install_db.addInstallation({
@@ -59,7 +56,6 @@ module.exports = {
       })
   },
   help_data(opts) {
-    const commands = require("./index")
     const locale = opts.locale
     const cmd_locale = safe_locale(locale)
     const guild_commands = commands.sorted.guild.get(cmd_locale)
@@ -98,7 +94,7 @@ module.exports = {
     })
 
     return {
-      globals: CommandNamePresenter.list(global_commands, locale),
+      globals: list(global_commands, locale),
       systems: systems_list,
       features: features_list,
     }

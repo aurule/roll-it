@@ -1,13 +1,12 @@
 import { ContextMenuCommandBuilder, ApplicationCommandType } from "discord.js"
 
-const { Feedback } = require("../db/feedback")
-const { UserBans } = require("../db/bans")
-const interactionCache = require("../services/interaction-cache")
-const { i18n } = require("../locales")
-const { canonical, mapped } = require("../locales/helpers")
-const ReportRollModal = require("../modals/report-roll")
+import { Feedback } from "../db/feedback.js"
+import { UserBans } from "../db/bans.js"
+import interactionCache from "../services/interaction-cache.js"
+import { i18n } from "../locales.js"
+import { canonical, mapped } from "../locales/helpers.js"
+import { ReportRollModal } from "../modals/report-roll.js"
 
-require("dotenv").config({ quiet: true })
 const botId = process.env.CLIENT_ID
 
 const command_id = "report-this-roll"

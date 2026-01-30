@@ -1,9 +1,9 @@
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const Completers = require("../../completers/table-completers")
-const { present } = require("../../presenters/results/table-results-presenter")
-const { GuildRollables } = require("../../db/rollable")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { table as suggestTables } from "../../completers/table-completers.js"
+import { present } from "../../presenters/results/table-results-presenter.js"
+import { GuildRollables } from "../../db/rollable.js"
 import { i18n } from "../../locales/index.js"
-const commonOpts = require("../../util/common-options")
+import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
 
 const command_name = "roll"
 const parent_name = "table"
@@ -14,9 +14,9 @@ module.exports = {
   data: () =>
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedStringOption("table", (option) => option.setRequired(true).setAutocomplete(true))
-      .addStringOption(commonOpts.description)
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addStringOption(descriptionOption)
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   async execute(interaction) {
     const tables = new GuildRollables(interaction.guildId)
 
@@ -56,7 +56,7 @@ module.exports = {
 
     switch (focusedOption.name) {
       case "table":
-        return Completers.table(partialText, tables.all())
+        return suggestTables(partialText, tables.all())
     }
   },
 }

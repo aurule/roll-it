@@ -1,11 +1,11 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const { LocalizedSubcommandBuilder } = require("../../util/localized-command")
-const commonOpts = require("../../util/common-options")
-const { injectMention } = require("../../util/formatters/inject-user.js")
-const { DndAttack } = require("../../util/rolls/dnd-attack")
-const { presentFullAttack } = require("../../presenters/results/dnd-results-presenter")
-const commonSchemas = require("../../util/common-schemas")
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
+import { injectMention } from "../../util/formatters/inject-user.js.js"
+import { DndAttack } from "../../util/rolls/dnd-attack.js"
+import { presentFullAttack } from "../../presenters/results/dnd-results-presenter.js"
+import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
+import { modifierSchema, descriptionSchema, rollsSchema } from "../../util/common-schemas.js"
 
 const command_name = "full-attack"
 const parent_name = "dnd"
@@ -17,11 +17,11 @@ module.exports = {
     new LocalizedSubcommandBuilder(command_name, parent_name)
       .addLocalizedIntegerOption("swings", (option) => option.setRequired(true).setMinValue(1))
       .addLocalizedIntegerOption("modifier", (option) => option.setRequired(true))
-      .addStringOption(commonOpts.description)
+      .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(21))
       .addLocalizedIntegerOption("ac", (option) => option.setMinValue(1))
-      .addIntegerOption(commonOpts.rolls)
-      .addBooleanOption(commonOpts.secret),
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption),
   savable: true,
   changeable: ["modifier", "ac", "swings", "crit"],
   schema: Joi.object({
@@ -29,8 +29,8 @@ module.exports = {
       "number.integer": "Swings must be a whole number.",
       "number.min": "Swings must be 1 or more.",
     }),
-    modifier: commonSchemas.modifier,
-    description: commonSchemas.description,
+    modifier: modifierSchema,
+    description: descriptionSchema,
     crit: Joi.number().optional().integer().min(0).max(20).messages({
       "number.integer": "Crit must be a whole number.",
       "number.min": "crit must be between 0 and 20.",
@@ -40,7 +40,7 @@ module.exports = {
       "number.integer": "AC must be a whole number.",
       "number.min": "AC must be 1 or more.",
     }),
-    rolls: commonSchemas.rolls,
+    rolls: rollsSchema,
   }),
   perform({
     swings = 1,
