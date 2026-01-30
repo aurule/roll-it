@@ -1,11 +1,12 @@
-const eightball_command = require("./8ball")
+import { Magic8Ball } from "./8ball.js"
 
 import { test_secret_option } from "../../testing/shared/execute-secret.js"
+import { Interaction } from "../../testing/interaction.js"
 
 describe("/8ball command", () => {
   describe("schema", () => {
     describe("question", () => {
-      const question_schema = eightball_command.schema.extract("question")
+      const question_schema = Magic8Ball.schema.extract("question")
 
       it("is required", () => {
         const result = question_schema.validate()
@@ -27,7 +28,7 @@ describe("/8ball command", () => {
     })
 
     describe("doit", () => {
-      const doit_schema = eightball_command.schema.extract("doit")
+      const doit_schema = Magic8Ball.schema.extract("doit")
 
       it("is optional", () => {
         const result = doit_schema.validate()
@@ -52,11 +53,13 @@ describe("/8ball command", () => {
   describe("perform", () => {
     it("displays the question", () => {
       const question_text = "this is a test"
-      const options = {
-        question: question_text,
+      const interaction = new Interaction()
+      interaction.command_options = {
+        question: question_text
       }
+      const cmd = new Magic8Ball(interaction)
 
-      const result = eightball_command.perform(options)
+      const result = cmd.perform(options)
 
       expect(result).toMatch(question_text)
     })
