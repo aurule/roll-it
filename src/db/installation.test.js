@@ -1,4 +1,4 @@
-import { simpleflake } from "simpleflakes.js"
+import { simpleflake } from "simpleflakes"
 import { makeDB } from "./index.js"
 import { Installation } from "./installation.js"
 

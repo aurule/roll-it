@@ -1,4 +1,4 @@
-import { simpleflake } from "simpleflakes.js"
+import { simpleflake } from "simpleflakes"
 import { makeDB } from "./index.js"
 
 import { Opposed } from "./opposed.js"
