@@ -46,12 +46,12 @@ export function message(components = [], options = {}) {
  *
  * This simple helper makes it easy to create messages that contain only text.
  *
- * @param  {string} text    Text of the message
+ * @param  {string} content    Text of the message
  * @param  {Object} options Message options
  * @return {Object}         Message data
  */
-export function textMessage(text, options = {}) {
-  return message([text(text)], options)
+export function textMessage(content, options = {}) {
+  return message([text(content)], options)
 }
 
 /**
