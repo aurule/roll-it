@@ -12,8 +12,6 @@ export function toHaveFlag(bitfield, flag) {
     promise: this.promise,
   }
 
-  this.utils?.ensureNumbers(bitfield, flag, "toHaveFlag", hint_options)
-
   const pass = (bitfield & flag) !== 0
 
   const bitfield_str = bitfield.toString(16)
