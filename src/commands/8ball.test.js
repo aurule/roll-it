@@ -59,11 +59,11 @@ describe("/8ball command", () => {
       }
       const cmd = new Magic8Ball(interaction)
 
-      const result = cmd.perform(options)
+      const result = cmd.perform()
 
       expect(result).toMatch(question_text)
     })
   })
 
-  test_secret_option(eightball_command)
+  test_secret_option(Magic8Ball)
 })
