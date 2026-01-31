@@ -9,7 +9,7 @@ import { list, present } from "../presenters/command-name-presenter.js"
 import { getGuildCommands } from "../services/api.js"
 import { findByCommands as findFeatures } from "../services/feature-helpers.js"
 import { findByCommands as findSystems } from "../services/system-helpers.js"
-import { commands } from "./index.js"
+import { globals, guild } from "./index.js"
 
 const command_name = "setup-roll-it"
 
@@ -58,8 +58,8 @@ module.exports = {
   help_data(opts) {
     const locale = opts.locale
     const cmd_locale = safe_locale(locale)
-    const guild_commands = commands.sorted.guild.get(cmd_locale)
-    const global_commands = commands.sorted.global.get(cmd_locale)
+    const guild_commands = guild.sorted.get(cmd_locale)
+    const global_commands = globals.sorted.get(cmd_locale)
 
     const data_t = i18n.getFixedT(locale, "translation")
     const cmd_t = i18n.getFixedT(locale, "commands", "setup-roll-it")

@@ -1,16 +1,8 @@
-import * as fs from "node:fs"
-import * as path from "node:path"
-
 import { Collection } from "discord.js"
 import { available_locales } from "../locales/index.js"
 import { comparator } from "../util/command-sorter.js"
 
-import { jsNoTests } from "../util/filters.js"
-
-const __dirname = import.meta.dirname;
-const __filename = import.meta.filename;
-const basename = path.basename(__filename)
-const commandsDir = __dirname
+import { Magic8Ball } from "./8ball.js"
 
 /**
  * Top-level collection of command objects
@@ -21,60 +13,47 @@ const commandsDir = __dirname
  */
 export const commands = new Collection()
 
-commands.global = new Collection()
-commands.guild = new Collection()
-commands.deployable = new Collection()
-commands.savable = new Collection()
-commands.all_choices = []
-commands.deprecated = new Collection()
-commands.teamworkable = new Collection()
+export const all_choices = []
 
-commands.sorted = new Collection()
-commands.sorted.guild = new Collection()
-commands.sorted.global = new Collection()
-commands.sorted.savable = new Collection()
-commands.sorted.teamworkable = new Collection()
+export const globals = new Collection()
+export const guild = new Collection()
+export const savable = new Collection()
+export const teamworkable = new Collection()
 
-const contents = fs
-  .readdirSync(commandsDir)
-  .filter(jsNoTests)
-  .filter((file) => {
-    return file !== basename
+function register(kommand) {
+  commands.set(kommand.name, kommand)
+  all_choices.push({
+    name: kommand.name,
+    value: kommand.name,
   })
-contents.forEach(async (command_file) => {
-  const command = await import(path.join(commandsDir, command_file))
-  commands.set(command.name, command)
-  commands.all_choices.push({
-    name: command.name,
-    value: command.name,
-  })
-
-  command.subcommands?.each((subc) => {
-    commands.set(`${command.name} ${subc.name}`, subc)
-    commands.all_choices.push({
-      name: `${command.name} ${subc.name}`,
-      value: `${command.name} ${subc.name}`,
-    })
-  })
-
-  // subcommands never appear in these collections
-  if (command.savable) commands.savable.set(command.name, command)
-  if (command.teamwork) commands.teamworkable.set(command.name, command)
-  if (command.global) {
-    commands.global.set(command.name, command)
+  if (kommand.global) {
+    globals.set(kommand.name, kommand)
   } else {
-    commands.guild.set(command.name, command)
-    if (!command.hidden) {
-      if (command.replacement) commands.deprecated.set(command.name, command)
-      else commands.deployable.set(command.name, command)
-    }
+    guild.set(kommand.name, kommand)
   }
-})
+
+  // for each subcommand...
+  //   add to commands with the key `${command.name} ${subc.name}`
+  //   add to all_choices as `${command.name} ${subc.name}`
+
+  if (kommand.savable) savable.set(kommand.name, kommand)
+  if (kommand.teamworkable) teamworkable.set(kommand.name, kommand)
+}
+
+// Register all command classes
+register(Magic8Ball)
+
+// set up per-locale sorted collections
+commands.sorted = new Collection()
+globals.sorted = new Collection()
+guild.sorted = new Collection()
+savable.sorted = new Collection()
+teamworkable.sorted = new Collection()
 
 for (const locale of available_locales) {
   commands.sorted.set(locale, commands.toSorted(comparator(locale)))
-  commands.sorted.guild.set(locale, commands.guild.toSorted(comparator(locale)))
-  commands.sorted.global.set(locale, commands.global.toSorted(comparator(locale)))
-  commands.sorted.savable.set(locale, commands.savable.toSorted(comparator(locale)))
-  commands.sorted.teamworkable.set(locale, commands.teamworkable.toSorted(comparator(locale)))
+  globals.sorted.set(locale, globals.toSorted(comparator(locale)))
+  guild.sorted.set(locale, guild.toSorted(comparator(locale)))
+  savable.sorted.set(locale, savable.toSorted(comparator(locale)))
+  teamworkable.sorted.set(locale, teamworkable.toSorted(comparator(locale)))
 }

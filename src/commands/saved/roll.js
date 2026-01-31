@@ -7,7 +7,7 @@ import { injectMention } from "../../util/formatters/inject-user.js.js"
 import { i18n } from "../../locales/index.js"
 import { saved_bonus_target } from "../../util/saved-bonus-target.js"
 import { secretOption } from "../../util/common-options.js"
-import { commands } from "../index.js"
+import { savable } from "../index.js"
 
 const command_name = "roll"
 const parent_name = "saved"
@@ -48,8 +48,7 @@ module.exports = {
     const rolls = interaction.options.getInteger("rolls") ?? 0
     const secret = interaction.options.getBoolean("secret") ?? false
 
-    const savable_commands = commands.savable
-    const command = savable_commands.get(roll_detail.command)
+    const command = savable.get(roll_detail.command)
     const target = saved_bonus_target(bonus, change, command.changeable)
 
     if (target) {

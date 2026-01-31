@@ -6,7 +6,7 @@ import { i18n } from "../locales.js"
 import { canonical, mapped } from "../locales/helpers.js"
 import rollCache from "../services/roll-cache.js"
 import { SavedRollModal } from "../modals/saved-roll.js"
-import { commands } from "./index.js"
+import { commands, savable } from "./index.js"
 
 const botId = process.env.CLIENT_ID
 
@@ -71,7 +71,7 @@ module.exports = {
     return interaction.showModal(modal)
   },
   help_data(opts) {
-    const savable_commands = commands.sorted.savable.get(opts.locale)
+    const savable_commands = savable.sorted.get(opts.locale)
     return {
       savable: listCommands(savable_commands, opts.locale),
     }

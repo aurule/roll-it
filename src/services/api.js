@@ -4,7 +4,7 @@
 
 import { REST, Routes } from "discord.js"
 import { logger } from "../util/logger.js"
-import { commands } from "../commands/index.js"
+import { globals, guild as guild_commands } from "../commands/index.js"
 
 export const client = new REST().setToken(process.env.BOT_TOKEN)
 
@@ -48,7 +48,7 @@ export async function getGlobalCommands() {
  * @return {Promise} Promise resolving to the endpoint's response
  */
 export async function setGlobalCommands() {
-  const global_json = commandsToJSON(commands.global)
+  const global_json = commandsToJSON(globals)
 
   logger.info("Begin setting global commands")
   return client
@@ -74,7 +74,7 @@ export async function setGlobalCommands() {
  * @return {Promise}               Promise resolving to the endpoint's response
  */
 export async function updateGlobalCommand(commandName, commandId) {
-  const command_json = commands.global.get(commandName).data().toJSON()
+  const command_json = globals.get(commandName).data().toJSON()
 
   logger.info({ command: commandName }, "Begin updating global command")
   return client
@@ -136,7 +136,6 @@ export async function getGuildCommands(guildId) {
  * @return {Promise}               Promise resolving to the endpoint response
  */
 export async function setGuildCommands(guildId, commandNames) {
-  const guild_commands = commands.guild
   let new_commands = guild_commands
   if (typeof commandNames !== "undefined") {
     new_commands = guild_commands.filter((c) => commandNames.includes(c.name))
@@ -176,7 +175,7 @@ export async function setGuildCommands(guildId, commandNames) {
  * @return {Promise}               Promise resolving to the endpoint's response
  */
 export async function updateGuildCommand(guildId, commandName, commandId) {
-  const command_json = commands.guild.get(commandName).data().toJSON()
+  const command_json = guild_commands.get(commandName).data().toJSON()
 
   logger.info({ guild: guildId, command: commandName }, "Begin updating guild command")
   return client

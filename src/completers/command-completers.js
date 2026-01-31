@@ -1,4 +1,4 @@
-import { commands } from "../commands/index.js"
+import { all_choices } from "../commands/index.js"
 
 /**
  * Completer for looking up commands
@@ -9,7 +9,7 @@ import { commands } from "../commands/index.js"
 export function all(partialText) {
   const search = partialText.normalize().toLowerCase()
 
-  return commands.all_choices
+  return all_choices
     .filter((c) => c.name.normalize().toLowerCase().startsWith(search))
     .slice(0, 25)
 }

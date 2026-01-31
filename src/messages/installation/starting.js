@@ -5,7 +5,7 @@ import CancelButton from "../../components/installation/cancel-button.js"
 import build from "../../util/message-builders.js"
 import { present } from "../../presenters/command-name-presenter.js"
 import { safe_locale } from "../../locales/helpers.js"
-import { commands } from "../../commands/index.js"
+import { guild, globals } from "../../commands/index.js"
 
 /**
  * Message shown upon starting an install process
@@ -20,8 +20,8 @@ export function messageData(installation_id) {
   const t = i18n.getFixedT(locale, "install")
 
   const cmd_locale = safe_locale(locale)
-  const guild_commands = commands.sorted.guild.get(cmd_locale)
-  const global_commands = commands.sorted.global.get(cmd_locale)
+  const guild_commands = guild.sorted.get(cmd_locale)
+  const global_commands = globals.sorted.get(cmd_locale)
 
   const system_titles = install.old_deets.systems.map((k) => `_${data_t(`systems.${k}.title`)}_`)
   const feature_titles = install.old_deets.features.map((k) => data_t(`features.${k}.title`))

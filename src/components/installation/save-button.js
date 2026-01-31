@@ -7,7 +7,7 @@ import { present } from "../../presenters/command-name-presenter.js"
 import { safe_locale } from "../../locales/helpers.js"
 import { sendError } from "../../services/metrics.js"
 import { Component } from "../component"
-import { commands } from "../../commands/index.js"
+import { guild as guildc } from "../../commands/index.js"
 
 /**
  * Button to save changes to installed commands
@@ -50,7 +50,7 @@ export async function execute(interaction) {
       await interaction.message.delete().catch((_e) => {})
 
       const cmd_locale = safe_locale(locale)
-      const guild_commands = commands.sorted.guild.get(cmd_locale)
+      const guild_commands = guildc.sorted.get(cmd_locale)
 
       const command_names = guild_commands
         .filter((c) => install.new_deets.commands.includes(c.name))
