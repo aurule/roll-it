@@ -1,5 +1,6 @@
 import { i18n } from "../../locales/index.js"
 import { LocalizedSlashCommandBuilder } from "../../util/localized-command.js"
+import { injectMention } from "../../util/formatters/inject-user.js"
 
 /**
  * Basic class to handle Discord slash commands
@@ -55,6 +56,8 @@ export class Command {
    */
   secret = false
 
+  global = false
+
   /**
    * Translation function scoped to this command
    * @type i18n.t
@@ -108,7 +111,10 @@ export class Command {
     const partial_message = this.perform()
 
     const full_text = injectMention(partial_message, this.interaction.user.id)
-    return this.interaction.paginate(full_text, this.secret)
+    return this.interaction.paginate({
+      content: full_text,
+      secret: this.secret,
+    })
   }
 
   /**
