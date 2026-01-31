@@ -2,6 +2,9 @@ import { MessageFlags } from "discord.js"
 
 import { Interaction } from "../interaction.js"
 import { pretty } from "../command-pretty.js"
+import { toMatchSchema } from "../matchers/match-schema.js"
+
+expect.extend({toMatchSchema})
 
 /**
  * Test the shared behavior of the `secret` option
@@ -17,7 +20,7 @@ import { pretty } from "../command-pretty.js"
  *
  * @example
  * ```js
- * test_secret_option(roll_command, {pool: 1, sides: 2}, (interaction) => interaction.customId = "testid")
+ * test_secret_option(kommand, {pool: 1, sides: 2}, (interaction) => interaction.customId = "testid")
  * ```
  *
  * @param  {Command}  kommand             Command class to test
