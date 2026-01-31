@@ -2,7 +2,7 @@ import { simpleflake } from "simpleflakes"
 import { EventEmitter } from "node:events"
 import { MessageFlags } from "discord.js"
 
-import { ComponentInteraction } from "./component-interaction.js"
+import { ComponentInteraction } from "./interaction.js"
 import { User } from "./user.js"
 
 /**
