@@ -1,4 +1,4 @@
-import { ComponentInteraction } from "../../testing/component-interaction.js"
+import { ComponentInteraction } from "../../testing/interaction.js"
 
 import { valuesOrDefault } from "./values-or-default.js"
 
