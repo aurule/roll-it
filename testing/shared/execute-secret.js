@@ -26,7 +26,7 @@ expect.extend({toMatchSchema})
  * @param  {Command}  kommand             Command class to test
  * @param  {Object}   interaction_options Option values to add to the interaction before each test
  * @param  {callable} after_interaction   Optional callable to run more setup after the interaction is created
- * @return {describe}                     Jest describe results
+ * @return {string}                       Vitest result description
  */
 export function test_secret_option(kommand, interaction_options, after_interaction) {
   var interaction

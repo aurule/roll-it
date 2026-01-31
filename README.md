@@ -127,7 +127,7 @@ cd docs
 python3 -m http.server 3000
 ```
 
-Docsify-cli has problems with its dependencies (see [GH issue 191](https://github.com/docsifyjs/docsify-cli/issues/191)), so the `ansi-colors`, `semver`, and `y18n` packages are added to our own dev requirements as a fix. Similarly, Jest relies on `prettier` for error formatting, so it's in our dev dependencies even though we use Biome instead.
+Docsify-cli has problems with its dependencies (see [GH issue 191](https://github.com/docsifyjs/docsify-cli/issues/191)), so the `ansi-colors`, `semver`, and `y18n` packages are added to our own dev requirements as a fix.
 
 ## Localization
 
