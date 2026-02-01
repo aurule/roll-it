@@ -33,6 +33,21 @@ export class Command {
   static schema
 
   /**
+   * Whether this command is global, or scoped to specific guilds
+   * @type {boolean}
+   */
+  static global = false
+
+  /**
+   * Command type code
+   *
+   * One of "menu" or "slash"
+   * 
+   * @type {string}
+   */
+  static type = "slash"
+
+  /**
    * Discord Interaction object
    * @type Interaction
    */
@@ -55,8 +70,6 @@ export class Command {
    * @type boolean
    */
   secret = false
-
-  global = false
 
   /**
    * Translation function scoped to this command
