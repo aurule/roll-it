@@ -6,7 +6,7 @@ import { logger } from "../../util/logger.js"
 import { present } from "../../presenters/command-name-presenter.js"
 import { safe_locale } from "../../locales/helpers.js"
 import { sendError } from "../../services/metrics.js"
-import { Component } from "../component"
+import { Component } from "../component.js"
 import { guild as guildc } from "../../commands/index.js"
 
 /**

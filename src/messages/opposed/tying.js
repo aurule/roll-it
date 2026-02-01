@@ -3,7 +3,7 @@ import { i18n } from "../../locales/index.js"
 import accept_button from "../../components/opposed/accept-button.js"
 import retest_picker from "../../components/opposed/retest-picker.js"
 import retest_button from "../../components/opposed/retest-button.js"
-import build from "../../util/message-builders.js"
+import * as build from "../../util/message-builders.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
 /**

@@ -1,7 +1,7 @@
 import { Events } from "discord.js"
 import { logger } from "../util/logger.js"
 import { handle as mentionDispatch } from "../mentions/index.js"
-import { sendError } from "../services/metrics"
+import { sendError } from "../services/metrics.js"
 
 import { handleInteractionCreated } from "./interactionCreate.js"
 

@@ -9,7 +9,7 @@ import { teamworkBegin } from "../interactive/teamwork.js"
 import { descriptionOption, rollsOption, teamworkOption, secretOption } from "../util/common-options.js"
 import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
 import { injectMention } from "../util/formatters/inject-user.js.js"
-import { i18n } from "../locales.js"
+import { i18n } from "../locales/index.js"
 import * as hummingbird from "../services/easter-eggs/hummingbird.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 

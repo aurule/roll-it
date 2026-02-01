@@ -4,7 +4,7 @@ import withdraw_button from "../../components/opposed/withdraw-retest-button.js"
 import cancel_picker from "../../components/opposed/cancel-picker.js"
 import cancel_button from "../../components/opposed/cancel-button.js"
 import continue_button from "../../components/opposed/continue-button.js"
-import build from "../../util/message-builders.js"
+import * as build from "../../util/message-builders.js"
 import { Participant } from "../../db/opposed/participant.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 

@@ -7,7 +7,7 @@ import { descriptionOption, rollsOption, secretOption } from "../util/common-opt
 import { descriptionSchema, rollsSchema, modifierSchema } from "../util/common-schemas.js"
 import { injectMention } from "../util/formatters/inject-user.js.js"
 import { DrhPool } from "../util/rolls/drh-pool.js"
-import { i18n } from "../locales.js"
+import { i18n } from "../locales/index.js"
 
 const command_name = "drh"
 

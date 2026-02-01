@@ -1,7 +1,7 @@
 import { MessageFlags } from "discord.js"
 import { logger } from "../util/logger.js"
 import { getReplyFn } from "../util/getReplyFn.js"
-import PolicyChecker from "../services/policy-checker.js"
+import { check as checkPolicy } from "../services/policy-checker.js"
 import interactionCache from "../services/interaction-cache.js"
 import { i18n } from "../locales/index.js"
 import { envAllowsGuild } from "../util/env-allows-guild.js"
@@ -18,6 +18,7 @@ import { sendError, sendEvent } from "../services/metrics.js"
  *                                    interaction. Rejects if command not found.
  */
 export async function handleCommand(interaction) {
+  console.log(interaction.options)
   const command = interaction.client.commands.get(interaction.commandName)
 
   if (!command) return Promise.reject(`no command ${interaction.commandName}`)
@@ -29,7 +30,7 @@ export async function handleCommand(interaction) {
     `command ${interaction.commandName} called`,
   )
 
-  const policyResult = await PolicyChecker.check(command.policy, interaction)
+  const policyResult = await checkPolicy(command.policy, interaction)
 
   if (!policyResult.allowed) {
     return interaction.whisper(policyResult.errorMessages.join(". "))

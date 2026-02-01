@@ -4,7 +4,7 @@ import withdraw_button from "../../components/opposed/withdraw-challenge-button.
 import condition_picker from "../../components/opposed/condition-picker.js"
 import advantage_picker from "../../components/opposed/advantage-picker.js"
 import ready_button from "../../components/opposed/ready-button.js"
-import build from "../../util/message-builders.js"
+import * as build from "../../util/message-builders.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
 /**

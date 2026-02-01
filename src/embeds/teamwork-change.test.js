@@ -1,4 +1,4 @@
-import { i18n } from "../locales.js"
+import { i18n } from "../locales/index.js"
 
 const embed = require("./teamwork-change")
 

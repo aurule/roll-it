@@ -1,6 +1,6 @@
 import { EmbedBuilder, userMention } from "discord.js"
 import { Teamwork } from "../db/teamwork.js"
-import { i18n } from "../locales.js"
+import { i18n } from "../locales/index.js"
 import { signed } from "../util/formatters/signed.js"
 
 /**

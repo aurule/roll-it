@@ -1,7 +1,7 @@
 import { ButtonBuilder, ButtonStyle, userMention } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Teamwork } from "../../db/teamwork.js"
-import { Component } from "../component"
+import { Component } from "../component.js"
 import { cleanup } from "../../interactive/teamwork.js"
 
 export function data(locale) {

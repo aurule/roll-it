@@ -4,7 +4,7 @@ import { OpposedComponent } from "../opposed-component.js"
 import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import { valuesOrDefault } from "../../util/values-or-default.js"
-import { Challenge } from "../../db/opposed/challenge"
+import { Challenge } from "../../db/opposed/challenge.js"
 
 /**
  * Selector to pick challenge conditions

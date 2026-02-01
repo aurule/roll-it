@@ -5,7 +5,7 @@ import { makeHistory } from "../../services/opposed/history.js"
 import { i18n } from "../../locales/index.js"
 import { messageData as winningMessage } from "./winning.js"
 import { messageData as tyingMessage } from "./tying.js"
-import build from "../../util/message-builders.js"
+import * as build from "../../util/message-builders.js"
 
 /**
  * Challenge state this message is shown for

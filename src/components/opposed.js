@@ -4,7 +4,7 @@ import { logger } from "../util/logger.js"
 import { i18n } from "../locales/index.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 import { sendError } from "../services/metrics.js"
-import { ComponentHandler } from "./component-handler"
+import { ComponentHandler } from "./component-handler.js"
 
 import acceptButton from "./opposed/accept-button.js"
 import advantagePicker from "./opposed/advantage-picker.js"

@@ -5,7 +5,7 @@ import { TeamworkChangeEmbed } from "../../embeds/teamwork-change.js"
 import { arrayEq } from "../../util/array-eq.js"
 import { logger } from "../../util/logger.js"
 import { messageLink } from "../../util/formatters/message-link.js"
-import { Component } from "../component"
+import { Component } from "../component.js"
 
 export function data(locale) {
   return new UserSelectMenuBuilder({

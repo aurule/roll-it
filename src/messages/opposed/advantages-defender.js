@@ -1,10 +1,10 @@
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { i18n } from "../../locales/index.js"
-import relent_button from "../../components/opposed/relent-button"
-import advantage_picker from "../../components/opposed/advantage-picker"
-import ready_button from "../../components/opposed/ready-button"
-import build from "../../util/message-builders.js"
+import relent_button from "../../components/opposed/relent-button.js"
+import advantage_picker from "../../components/opposed/advantage-picker.js"
+import ready_button from "../../components/opposed/ready-button.js"
+import * as build from "../../util/message-builders.js"
 
 /**
  * Challenge state this message is shown for

@@ -6,7 +6,7 @@ import { descriptionOption, rollsOption, secretOption } from "../util/common-opt
 import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
 import { injectMention } from "../util/formatters/inject-user.js.js"
 import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js"
-import { i18n } from "../locales.js"
+import { i18n } from "../locales/index.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 
 const command_name = "ffrpg"

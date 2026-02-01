@@ -1,38 +1,6 @@
 import { Collection } from "discord.js"
 
 /**
- * Collection of supported systems and the commands needed for each
- *
- * @type {Collection<System>}
- */
-export const systems = new Collection()
-
-register(new System("curv").require("curv").recommend("formula", "d4", "d6", "d8", "d10", "d12", "d20", "d100").optional("table"))
-register(new System("dnd35").require("dnd", "formula").recommend("d4", "d6", "d8", "d10", "d12", "d100").optional("table"))
-register(new System("dnd5e").require("d20").recommend("formula", "d4", "d6", "d8", "d10", "d12", "d100").optional("table"))
-register(new System("drh").require("drh"))
-register(new System("fate").require("fate"))
-register(new System("ffrpg").require("ffrpg", "d10", "formula").recommend("d100"))
-register(new System("generic").require("d4", "d6", "d8", "d10", "d12", "d20", "d100", "formula").optional("table"))
-register(new System("kob").require("kob").recommend("formula"))
-register(new System("met").require("met").recommend("d10", "chop"))
-register(new System("nwod").require("nwod", "d10"))
-register(new System("pba").require("pba"))
-register(new System("shadowrun").require("shadowrun").recommend("formula", "d6"))
-register(new System("sra").require("sra").recommend("formula", "d6"))
-register(new System("swn").require("d20", "swn").recommend("formula", "d100", "table", "d4", "d6", "d8"))
-register(new System("wod20").require("wod20", "d10"))
-
-/**
- * Register a system
- *
- * @param  {System} system System object
- */
-export function register(system) {
-  systems.set(system.name, system)
-}
-
-/**
  * System class
  */
 export class System {
@@ -100,4 +68,36 @@ export class System {
     this.commands.optional = command_names
     return this
   }
+}
+
+/**
+ * Collection of supported systems and the commands needed for each
+ *
+ * @type {Collection<System>}
+ */
+export const systems = new Collection()
+
+register(new System("curv").require("curv").recommend("formula", "d4", "d6", "d8", "d10", "d12", "d20", "d100").optional("table"))
+register(new System("dnd35").require("dnd", "formula").recommend("d4", "d6", "d8", "d10", "d12", "d100").optional("table"))
+register(new System("dnd5e").require("d20").recommend("formula", "d4", "d6", "d8", "d10", "d12", "d100").optional("table"))
+register(new System("drh").require("drh"))
+register(new System("fate").require("fate"))
+register(new System("ffrpg").require("ffrpg", "d10", "formula").recommend("d100"))
+register(new System("generic").require("d4", "d6", "d8", "d10", "d12", "d20", "d100", "formula").optional("table"))
+register(new System("kob").require("kob").recommend("formula"))
+register(new System("met").require("met").recommend("d10", "chop"))
+register(new System("nwod").require("nwod", "d10"))
+register(new System("pba").require("pba"))
+register(new System("shadowrun").require("shadowrun").recommend("formula", "d6"))
+register(new System("sra").require("sra").recommend("formula", "d6"))
+register(new System("swn").require("d20", "swn").recommend("formula", "d100", "table", "d4", "d6", "d8"))
+register(new System("wod20").require("wod20", "d10"))
+
+/**
+ * Register a system
+ *
+ * @param  {System} system System object
+ */
+export function register(system) {
+  systems.set(system.name, system)
 }

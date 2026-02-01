@@ -81,6 +81,7 @@ module.exports = {
       }
     }
 
+    // new command(interaction, roll_detail.options).execute()
     const partial_message = command.perform({
       locale: interaction.locale,
       ...roll_detail.options,

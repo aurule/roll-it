@@ -1,5 +1,5 @@
 import { oneLine } from "common-tags"
-import { Joi } from "joi"
+import Joi from "joi"
 import { db as defaultDb } from "./index.js"
 
 /**

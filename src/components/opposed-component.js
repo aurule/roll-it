@@ -1,4 +1,4 @@
-import { Component } from "./component"
+import { Component } from "./component.js"
 
 /**
  * Class for components used in the met-opposed workflow

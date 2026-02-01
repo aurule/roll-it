@@ -2,7 +2,7 @@ import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Installation } from "../../db/installation.js"
 import { Component } from "../component.js"
-import changeInstalled from "../../modals/change-installed.js"
+import { ChangeInstalledModal } from "../../modals/change-installed.js"
 
 /**
  * Button to make changes to installed commands
@@ -23,7 +23,7 @@ export async function execute(interaction) {
 
   interaction.authorize(install.user_uid)
 
-  const modal = changeInstalled.data(install)
+  const modal = ChangeInstalledModal.data(install)
 
   return interaction.showModal(modal)
 }

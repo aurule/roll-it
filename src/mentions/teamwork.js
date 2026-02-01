@@ -1,7 +1,7 @@
 import { userMention } from "discord.js"
 import { Teamwork, MessageType } from "../db/teamwork.js"
 import { i18n } from "../locales/index.js"
-import { TeamworkChangeEmbed } from "../../embeds/teamwork-change.js"
+import { TeamworkChangeEmbed } from "../embeds/teamwork-change.js"
 import { teamworkTimeout } from "../interactive/teamwork.js"
 import { logger } from "../util/logger.js"
 import { messageLink } from "../util/formatters/message-link.js"

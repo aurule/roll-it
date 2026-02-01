@@ -1,5 +1,5 @@
 import { presentList } from "./table-list-presenter.js"
-import { i18n } from "../locales.js"
+import { i18n } from "../locales/index.js"
 
 describe("table list presenter", () => {
   const t = i18n.getFixedT("en-US", "commands", "table.list")

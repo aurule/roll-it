@@ -2,6 +2,7 @@ import { StringSelectMenuBuilder } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import { OpposedComponent } from "../opposed-component.js"
+import { Challenge } from "../../db/opposed/challenge.js"
 
 /**
  * Select control for picking the retest cancel reason

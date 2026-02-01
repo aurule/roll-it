@@ -5,7 +5,7 @@ import { injectMention } from "../../util/formatters/inject-user.js"
 import { TeamworkSummaryEmbed } from "../../embeds/teamwork-summary.js"
 import { logger } from "../../util/logger.js"
 import { commands } from "../../commands/index.js"
-import { TeamworkManager } from "../../interactive/teamwork.js"
+import { cleanup } from "../../interactive/teamwork.js"
 import { Component } from "../component.js"
 
 export function data(locale) {
@@ -34,7 +34,7 @@ export async function execute(interaction) {
       },
       "Test has undefined command name",
     )
-    await TeamworkManager.cleanup(test.id)
+    await cleanup(test.id)
     return interaction.ensure("reply", t("invalid"), {
       test: test.id,
       detail: "Could not reply about invalid test",
@@ -54,7 +54,7 @@ export async function execute(interaction) {
 
   const embed = new TeamworkSummaryEmbed(test).data()
 
-  await TeamworkManager.cleanup(test.id)
+  await cleanup(test.id)
 
   const t_args = {
     presented,

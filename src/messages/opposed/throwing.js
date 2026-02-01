@@ -2,7 +2,7 @@ import { i18n } from "../../locales/index.js"
 import { Opposed } from "../../db/opposed.js"
 import throw_picker from "../../components/opposed/throw-picker.js"
 import go_button from "../../components/opposed/go-button.js"
-import build from "../../util/message-builders.js"
+import * as build from "../../util/message-builders.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
 /**

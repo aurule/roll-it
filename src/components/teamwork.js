@@ -1,5 +1,5 @@
 import { userMention } from "discord.js"
-import { ComponentHandler } from "./component-handler"
+import { ComponentHandler } from "./component-handler.js"
 import { Teamwork } from "../db/teamwork.js"
 import { teamworkTimeout } from "../interactive/teamwork.js"
 import { logger } from "../util/logger.js"
@@ -7,9 +7,9 @@ import { i18n } from "../locales/index.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 import { sendError } from "../services/metrics.js"
 
-import cancelButton from "./teamwork/cancel-button"
-import helperPicker from "./teamwork/helper-picker"
-import rollButton from "./teamwork/roll-button"
+import cancelButton from "./teamwork/cancel-button.js"
+import helperPicker from "./teamwork/helper-picker.js"
+import rollButton from "./teamwork/roll-button.js"
 
 export const components = [cancelButton, helperPicker, rollButton]
 

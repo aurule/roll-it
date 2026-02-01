@@ -1,9 +1,9 @@
 import { PermissionFlagsBits } from "discord.js"
 
 import { Installation } from "../db/installation.js"
-import { messageData as startingMessage } from "../messages/installation/starting"
+import { messageData as startingMessage } from "../messages/installation/starting.js"
 import { safe_locale } from "../locales/helpers.js"
-import { i18n } from "../locales.js"
+import { i18n } from "../locales/index.js"
 import { list, present } from "../presenters/command-name-presenter.js"
 import { getGuildCommands } from "../services/api.js"
 import { findByCommands as findFeatures } from "../services/feature-helpers.js"

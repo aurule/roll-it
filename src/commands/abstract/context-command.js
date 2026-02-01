@@ -1,7 +1,7 @@
 import { ContextMenuCommandBuilder } from "discord.js"
 
 import { Command } from "./command.js";
-import { mapped } from "../locales/helpers.js"
+import { mapped } from "../../locales/helpers.js"
 
 /**
  * Class to handle Discord context menu commands

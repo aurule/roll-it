@@ -1,6 +1,6 @@
 import { Installation } from "../../db/installation.js"
 import { i18n } from "../../locales/index.js"
-import build from "../../util/message-builders.js"
+import * as build from "../../util/message-builders.js"
 
 /**
  * Create the message shown upon cancelling an install process

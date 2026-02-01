@@ -4,6 +4,8 @@ import path from "node:path"
 
 import Database from "better-sqlite3"
 
+const __dirname = import.meta.dirname
+
 /**
  * Get the correct database file path for our environment
  *

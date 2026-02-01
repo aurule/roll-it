@@ -1,7 +1,7 @@
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { i18n } from "../../locales/index.js"
-import build from "../../util/message-builders.js"
+import * as build from "../../util/message-builders.js"
 
 /**
  * Challenge state this message is shown for

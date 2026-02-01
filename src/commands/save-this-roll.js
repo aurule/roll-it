@@ -1,6 +1,6 @@
 import { ApplicationCommandType } from "discord.js"
 
-import { presentCommand, listCommands } from "../presenters/command-name-presenter.js"
+import { present as presentCommand, list as listCommands } from "../presenters/command-name-presenter.js"
 import interactionCache from "../services/interaction-cache.js"
 import { canonical } from "../locales/helpers.js"
 import rollCache from "../services/roll-cache.js"

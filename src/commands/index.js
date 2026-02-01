@@ -59,9 +59,9 @@ savable.sorted = new Collection()
 teamworkable.sorted = new Collection()
 
 for (const locale of available_locales) {
-  commands.sorted.set(locale, commands.toSorted(comparator(locale)))
-  globals.sorted.set(locale, globals.toSorted(comparator(locale)))
-  guild.sorted.set(locale, guild.toSorted(comparator(locale)))
-  savable.sorted.set(locale, savable.toSorted(comparator(locale)))
-  teamworkable.sorted.set(locale, teamworkable.toSorted(comparator(locale)))
+  commands.sorted.set(locale, commands.clone().sort(comparator(locale)))
+  globals.sorted.set(locale, globals.clone().sort(comparator(locale)))
+  guild.sorted.set(locale, guild.clone().sort(comparator(locale)))
+  savable.sorted.set(locale, savable.clone().sort(comparator(locale)))
+  teamworkable.sorted.set(locale, teamworkable.clone().sort(comparator(locale)))
 }
