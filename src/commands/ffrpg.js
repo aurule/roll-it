@@ -124,7 +124,7 @@ export class Ffrpg extends Command {
     const presented_result = presenter.presentResults()
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(presenter, locale)
+      const sacrifice_message = this.judge(presenter, locale)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 
