@@ -77,8 +77,8 @@ export class ChangeInstalledModal extends Modal {
     return build.modal(`${ChangeInstalledModal.name}_${installation.id}`, t("title"), components)
   }
 
-  constructor(modal_interaction, installation_id) {
-    super(modal_interaction, installation_id)
+  constructor(interaction, installation_id) {
+    super(interaction, installation_id)
     this.db = new Installation()
     this.installation = this.db.getInstallation(this.id)
   }
@@ -127,8 +127,8 @@ export class ChangeInstalledModal extends Modal {
 
     // update and show changes
     this.db.setNewDeets(this.id, new_deets)
-    modal_interaction.message.delete().catch((_e) => {})
-    return modal_interaction
+    this.interaction.message.delete().catch((_e) => {})
+    return this.interaction
       .ensure("reply", changesMessage(this.id), {
         installation_id: this.id,
         detail: "Failed to send install changes message",
