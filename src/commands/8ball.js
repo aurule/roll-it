@@ -5,6 +5,9 @@ import { present } from "../presenters/results/8ball-results-presenter.js"
 import { secretOption } from "../util/common-options.js"
 import { Command } from "./abstract/command.js"
 
+/**
+ * Class for the /8ball command
+ */
 export class Magic8Ball extends Command {
   static name = "8ball"
   static schema = Joi.object({
