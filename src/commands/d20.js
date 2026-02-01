@@ -1,31 +1,38 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { roll } from "../services/base-roller.js"
 import { present } from "../presenters/results/d20-results-presenter.js"
 import { pickDice, strategies } from "../services/pick.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
-import { descriptionSchema, modifierSchema, poolSchema, rollsSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
+import { descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { with_to_keep } from "../util/with-to-keep.js"
+import { SavableCommand } from "./abstract/savable-command.js"
 
-const command_name = "d20"
+/**
+ * Class for the d20 command
+ */
+export class D20 extends SavableCommand {
+  static name = "d20"
+  static changeable = ["modifier"]
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  modifier = 0
+  keep
+  rolls = 1
+  description = ""
+
+  static data() {
+    return this.builder
       .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
       .addLocalizedStringOption("with", (option) =>
         option.setLocalizedChoices("advantage", "disadvantage"),
       )
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     modifier: modifierSchema,
     keep: Joi.string()
       .optional()
@@ -36,8 +43,25 @@ module.exports = {
     with: Joi.string().optional().valid("advantage", "disadvantage"),
     rolls: rollsSchema,
     description: descriptionSchema,
-  }).oxor("keep", "with"),
-  judge(picked, locale) {
+  }).oxor("keep", "with")
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("modifier")
+    this.saveOption("rolls")
+    this.saveOption("description")
+    this.saveOption("secret")
+    // Keep is special, because it needs to be translated from "advantage" to "highest"
+    this.keep = with_to_keep(this.interaction.options.getString("with"))
+  }
+
+  /**
+   * Judge a result for the sacrifice easter egg
+   * @param  {object[]} picked Array of pick data
+   * @return {string}          Sacrifice string
+   */
+  judge(picked) {
     const buckets = picked
       .reduce(
         (acc, cur) => {
@@ -52,69 +76,40 @@ module.exports = {
     const dominating = buckets.findIndex((b) => b >= picked.length / 2)
     switch (dominating) {
       case 0:
-        return sacrifice.great(locale)
+        return sacrifice.great(this.locale)
       case 1:
-        return sacrifice.good(locale)
+        return sacrifice.good(this.locale)
       case 2:
       default:
-        return sacrifice.neutral(locale)
+        return sacrifice.neutral(this.locale)
       case 3:
-        return sacrifice.bad(locale)
+        return sacrifice.bad(this.locale)
       case 4:
-        return sacrifice.awful(locale)
+        return sacrifice.awful(this.locale)
     }
-  },
-  perform({
-    keep = "all",
-    rolls = 1,
-    modifier = 0,
-    locale = "en-US",
-    description,
-    ...others
-  } = {}) {
-    if (others.with) keep = with_to_keep(others.with)
+  }
 
-    const pool = keep == "all" ? 1 : 2
+  perform() {
+    const pool = this.keep == "all" ? 1 : 2
 
-    const raw_results = roll(pool, 20, rolls)
-    const pick_results = pickDice(raw_results, 1, keep)
+    const raw_results = roll(pool, 20, this.rolls)
+    const pick_results = pickDice(raw_results, 1, this.keep)
 
     const presented_result = present({
-      rolls,
-      modifier,
-      description,
-      keep,
+      rolls: this.rolls,
+      modifier: this.modifier,
+      description: this.description,
+      keep: this.keep,
       raw: raw_results,
       picked: pick_results,
-      locale,
+      locale: this.locale,
     })
 
-    if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(pick_results, locale)
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
+      const sacrifice_message = this.judge(pick_results)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 
     return presented_result
-  },
-  execute(interaction) {
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const keep = with_to_keep(interaction.options.getString("with"))
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      rolls,
-      modifier,
-      description: roll_description,
-      keep,
-      locale: interaction.locale,
-    })
-
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }
