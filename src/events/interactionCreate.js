@@ -18,25 +18,26 @@ import { sendError, sendEvent } from "../services/metrics.js"
  *                                    interaction. Rejects if command not found.
  */
 export async function handleCommand(interaction) {
-  const command = interaction.client.commands.get(interaction.commandName)
+  const kommand = interaction.client.commands.get(interaction.commandName)
 
-  if (!command) return Promise.reject(`no command ${interaction.commandName}`)
+  if (!kommand) return Promise.reject(`no command ${interaction.commandName}`)
 
   logger.info(
     {
-      command: interaction.commandName,
+      command: kommand.name,
     },
-    `command ${interaction.commandName} called`,
+    `command ${kommand.name} called`,
   )
 
-  const policyResult = await checkPolicy(command.policy, interaction)
+  const policyResult = await checkPolicy(kommand.policy, interaction)
 
   if (!policyResult.allowed) {
     return interaction.whisper(policyResult.errorMessages.join(". "))
   }
 
   await interactionCache.set(interaction)
-  return command.execute(interaction)
+  const command = new kommand(interaction)
+  return command.execute()
 }
 
 /**
