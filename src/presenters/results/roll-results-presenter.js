@@ -1,4 +1,4 @@
-import { operator } from "../../util/formatters/index.js"
+import { operator } from "../../util/formatters/signed.js"
 import { i18n } from "../../locales/index.js"
 
 /**
