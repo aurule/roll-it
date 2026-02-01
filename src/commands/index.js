@@ -7,6 +7,12 @@ import { SetupRollIt } from "./setup-roll-it.js"
 import { Coin } from "./coin.js"
 import { ReportThisRoll } from "./report-this-roll.js"
 import { SaveThisRoll } from "./save-this-roll.js"
+import { D10 } from "./d10.js"
+import { D100 } from "./d100.js"
+import { D12 } from "./d12.js"
+import { D4 } from "./d4.js"
+import { D6 } from "./d6.js"
+import { D8 } from "./d8.js"
 
 /**
  * Top-level collection of command objects
@@ -50,6 +56,12 @@ register(Coin)
 register(SetupRollIt)
 register(ReportThisRoll)
 register(SaveThisRoll)
+register(D10)
+register(D100)
+register(D12)
+register(D4)
+register(D6)
+register(D8)
 
 // set up per-locale sorted collections
 commands.sorted = new Collection()
