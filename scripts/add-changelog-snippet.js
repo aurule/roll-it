@@ -30,7 +30,7 @@ import prompts from "prompts"
   prompts(questions)
     .then((response) => {
       fs.writeFileSync(
-        path.join(__dirname, "../changes", `${response.label}.${response.type}`),
+        path.join(import.meta.dirname, "../changes", `${response.label}.${response.type}`),
         response.message,
       )
     })
