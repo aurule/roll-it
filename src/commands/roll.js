@@ -1,70 +1,68 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { roll } from "../services/base-roller.js"
 import { sum } from "../services/tally.js"
 import { present } from "../presenters/results/roll-results-presenter.js"
 import { poolOption, descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { poolSchema, descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
+import { SavableCommand } from "./abstract/savable-command.js"
 
-const command_name = "roll"
+/**
+ * Class for the global roll command
+ */
+export class Roll extends SavableCommand {
+  static name = "roll"
+  static global = true
+  static changeable = ["modifier", "pool"]
 
-module.exports = {
-  name: command_name,
-  global: true,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  pool = 1
+  sides = 2
+  modifier = 0
+  rolls = 1
+  description = ""
+
+  static data() {
+    return this.builder
       .addIntegerOption((opt) => poolOption(opt).setRequired(true))
       .addLocalizedIntegerOption("sides", (option) => option.setMinValue(2).setRequired(true))
       .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier", "pool"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     pool: poolSchema,
     sides: Joi.number().required().integer().min(2).max(100000),
     description: descriptionSchema,
     modifier: modifierSchema,
     rolls: rollsSchema,
-  }),
-  perform({ pool, sides, description, modifier = 0, rolls = 1, locale = "en-US" } = {}) {
-    const raw_results = roll(pool, sides, rolls)
+  })
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("pool")
+    this.saveOption("sides")
+    this.saveOption("modifier")
+    this.saveOption("rolls")
+    this.saveOption("description")
+    this.saveOption("secret")
+  }
+
+  perform() {
+    const raw_results = roll(this.pool, this.sides, this.rolls)
     const summed_results = sum(raw_results)
 
     return present({
-      rolls,
-      pool,
-      sides,
-      modifier,
-      description,
+      rolls: this.rolls,
+      pool: this.pool,
+      sides: this.sides,
+      modifier: this.modifier,
+      description: this.description,
       raw: raw_results,
       summed: summed_results,
-      locale,
+      locale: this.locale,
     })
-  },
-  execute(interaction) {
-    const pool = interaction.options.getInteger("pool")
-    const sides = interaction.options.getInteger("sides")
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      rolls,
-      pool,
-      sides,
-      modifier,
-      description: roll_description,
-      locale: interaction.locale,
-    })
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }

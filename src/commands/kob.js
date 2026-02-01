@@ -1,19 +1,29 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { rollExplode } from "../services/base-roller.js"
 import { sum } from "../services/tally.js"
 import { present } from "../presenters/results/kob-results-presenter.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
+import { SavableCommand } from "./abstract/savable-command.js"
 
-const command_name = "kob"
+/**
+ * Class for the kob command
+ */
+export class Kob extends SavableCommand {
+  static name = "kob"
+  static changeable = ["modifier"]
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  sides = 4
+
+  description = ""
+
+  modifier = 0
+
+  rolls = 1
+
+  static data() {
+    return this.builder
       .addLocalizedIntegerOption("sides", (option) =>
         option
           .addChoices(
@@ -30,47 +40,37 @@ module.exports = {
       .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     sides: Joi.number().required().integer().valid(4, 6, 8, 10, 12, 20, 100),
     description: descriptionSchema,
     modifier: modifierSchema,
     rolls: rollsSchema,
-  }),
-  perform({ rolls = 1, modifier = 0, description, sides, locale = "en-US" } = {}) {
-    const raw_results = rollExplode(1, sides, sides, rolls)
+  })
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("sides")
+    this.saveOption("description")
+    this.saveOption("modifier")
+    this.saveOption("rolls")
+    this.saveOption("secret")
+  }
+
+  perform() {
+    const raw_results = rollExplode(1, this.sides, this.sides, this.rolls)
 
     return present({
-      sides,
-      rolls,
-      modifier,
-      description,
+      sides: this.sides,
+      rolls: this.rolls,
+      modifier: this.modifier,
+      description: this.description,
       raw: raw_results,
       summed: sum(raw_results),
-      locale,
+      locale: this.locale,
     })
-  },
-  execute(interaction) {
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const sides = interaction.options.getInteger("sides") ?? 4
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      rolls,
-      sides,
-      modifier,
-      description: roll_description,
-      locale: interaction.locale,
-    })
-
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }

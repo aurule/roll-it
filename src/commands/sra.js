@@ -1,10 +1,7 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
-import { i18n } from "../locales/index.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { roll } from "../services/base-roller.js"
 import { rollUntil } from "../services/until-roller.js"
@@ -12,15 +9,14 @@ import { riskSuccesses } from "../services/tally.js"
 import {
   ShadowrunAnarchyPresenter,
 } from "../presenters/results/shadowrun-anarchy-results-presenter.js"
-
-const command_name = "sra"
+import { SavableCommand } from "./abstract/savable-command.js"
 
 /**
  * Convert the `with` keyword into a success threshold
  * @param  {string} keyword Keyword. One of "advantage", "disadvantage", or anything else.
  * @return {number}         4 for "advantage", 6 for "disadvantage", and 5 for other.
  */
-function make_threshold(keyword) {
+export function make_threshold(keyword) {
   switch (keyword) {
     case "advantage":
       return 4
@@ -31,10 +27,27 @@ function make_threshold(keyword) {
   }
 }
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+/**
+ * Class for the sra command
+ */
+export class Sra extends SavableCommand {
+  static name = "sra"
+  static changeable = ["pool", "risk"]
+
+  pool = 1
+
+  risk = 0
+
+  threshold = 5
+
+  rolls = 1
+
+  until = 0
+
+  description = ""
+
+  static data() {
+    return this.builder
       .addLocalizedIntegerOption("pool", (option) =>
         option.setMinValue(1).setMaxValue(1000).setRequired(true),
       )
@@ -45,17 +58,36 @@ module.exports = {
       )
       .addIntegerOption(rollsOption)
       .addLocalizedIntegerOption("until", (option) => option.setMinValue(1))
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["pool", "risk"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     pool: poolSchema,
     risk: Joi.number().optional().integer().min(1).max(1000),
     with: Joi.string().optional().valid("advantage", "disadvantage"),
     rolls: rollsSchema,
     until: untilSchema,
     description: descriptionSchema,
-  }),
+  })
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("pool")
+    this.saveOption("description")
+    this.saveOption("risk")
+    this.saveOption("rolls")
+    this.saveOption("until")
+    this.saveOption("secret")
+
+    this.threshold = make_threshold(this.options.get("with"))
+  }
+
+  /**
+   * Judge the average result for the sacrifice easter egg
+   * @param  {ShadowrunAnarchyPresenter} presenter Presenter object
+   * @return {string}                              Sacrifice string
+   */
   judge(presenter) {
     const buckets = [0, 0, 0, 0, 0]
     let divisor = 3
@@ -113,76 +145,47 @@ module.exports = {
       case 4:
         return sacrifice.awful(presenter.locale)
     }
-  },
-  perform({ pool, risk, advantage, rolls = 1, until, description, locale = "en-US" } = {}) {
+  }
+
+  perform() {
     let raw_results
     let summed_results
 
-    const threshold = make_threshold(advantage)
-
-    if (until) {
+    if (this.until) {
       ;({ raw_results, summed_results } = rollUntil({
-        roll: () => roll(pool, 6),
-        tally: (currentResult) => riskSuccesses(currentResult, threshold, risk),
-        max: rolls === 1 ? 0 : rolls,
-        target: until,
+        roll: () => roll(this.pool, 6),
+        tally: (currentResult) => riskSuccesses(currentResult, this.threshold, this.risk),
+        max: this.rolls === 1 ? 0 : this.rolls,
+        target: this.until,
       }))
     } else {
-      raw_results = roll(pool, 6, rolls)
-      summed_results = riskSuccesses(raw_results, threshold, risk)
+      raw_results = roll(this.pool, 6, this.rolls)
+      summed_results = riskSuccesses(raw_results, this.threshold, this.risk)
     }
 
     const presenter = new ShadowrunAnarchyPresenter({
-      pool,
-      threshold,
-      risk,
-      rolls,
-      until,
-      description,
+      pool: this.pool,
+      threshold: this.threshold,
+      risk: this.risk,
+      rolls: this.rolls,
+      until: this.until,
+      description: this.description,
       raw: raw_results,
       summed: summed_results,
-      locale,
+      locale: this.locale,
     })
 
     const result_lines = [presenter.presentResults()]
 
     if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(presenter)
+      const sacrifice_message = this.judge(presenter)
       result_lines.push(`-# ${sacrifice_message}`)
     }
 
     return result_lines.join("\n")
-  },
-  async execute(interaction) {
-    const pool = interaction.options.getInteger("pool")
-    const risk = interaction.options.getInteger("risk") ?? 0
-    const advantage = interaction.options.getString("with") ?? ""
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const until = interaction.options.getInteger("until") ?? 0
-    const description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
+  }
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "sra")
-    const userFlake = interaction.user.id
-
-    if (risk > pool) {
-      return interaction.ensure("whisper", t("options.risk.validation.collision"), {
-        detail: "Could not whisper about invalid risk",
-      })
-    }
-
-    const partial_message = module.exports.perform({
-      pool,
-      risk,
-      advantage,
-      rolls,
-      until,
-      description,
-    })
-    const full_text = injectMention(partial_message, userFlake)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  validate() {
+    if (this.risk > this.pool) return this.t("options.risk.validation.collision")
+  }
 }
