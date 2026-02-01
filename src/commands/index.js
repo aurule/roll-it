@@ -3,6 +3,10 @@ import { available_locales } from "../locales/index.js"
 import { comparator } from "../util/command-sorter.js"
 
 import { Magic8Ball } from "./8ball.js"
+import { SetupRollIt } from "./setup-roll-it.js"
+import { Coin } from "./coin.js"
+import { ReportThisRoll } from "./report-this-roll.js"
+import { SaveThisRoll } from "./save-this-roll.js"
 
 /**
  * Top-level collection of command objects
@@ -42,6 +46,10 @@ function register(kommand) {
 
 // Register all command classes
 register(Magic8Ball)
+register(Coin)
+register(SetupRollIt)
+register(ReportThisRoll)
+register(SaveThisRoll)
 
 // set up per-locale sorted collections
 commands.sorted = new Collection()
