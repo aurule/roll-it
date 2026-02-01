@@ -1,20 +1,30 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { roll } from "../services/base-roller.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
 import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js"
-import { i18n } from "../locales/index.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
+import { Command } from "./abstract/command.js"
 
-const command_name = "ffrpg"
+/**
+ * Class for the ffrpg roller
+ */
+export class Ffrpg extends Command {
+  static name = "ffrpg"
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  base = 0
+  intrinsic = 0
+  conditional = 0
+  avoid = 0
+  crit = 10
+  botch = 95
+  flat = false
+  rolls = 1
+  description = ""
+
+  static data() {
+    return this.builder
       .addLocalizedIntegerOption("base", (option) => option.setRequired(true))
       .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("intrinsic")
@@ -24,8 +34,10 @@ module.exports = {
       .addLocalizedIntegerOption("botch", (option) => option.setMinValue(0).setMaxValue(100))
       .addLocalizedBooleanOption("flat")
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     base: Joi.number().integer().required(),
     intrinsic: Joi.number().optional().integer(),
     conditional: Joi.number().optional().integer(),
@@ -34,8 +46,29 @@ module.exports = {
     botch: Joi.number().optional().integer().min(0).max(100).greater(Joi.ref("crit")),
     description: descriptionSchema,
     rolls: rollsSchema,
-  }),
-  judge(presenter, locale) {
+  })
+
+  constructor(interaction) {
+    super(interaction)
+
+    this.saveOption("base")
+    this.saveOption("intrinsic")
+    this.saveOption("conditional")
+    this.saveOption("avoid")
+    this.saveOption("crit")
+    this.saveOption("botch")
+    this.saveOption("flat")
+    this.saveOption("rolls")
+    this.saveOption("description")
+    this.saveOption("secret")
+
+    if (this.flat) {
+      this.crit = 0
+      this.botch = 0
+    }
+  }
+
+  judge(presenter) {
     const buckets = [0, 0, 0, 0]
 
     for (let idx = 0; idx < presenter.raw.length; idx++) {
@@ -58,44 +91,34 @@ module.exports = {
       const dominating = buckets.findIndex((b) => b >= presenter.raw.length / 2)
       switch (dominating) {
         case 0:
-          return sacrifice.great(locale)
+          return sacrifice.great(this.locale)
         case 1:
-          return sacrifice.good(locale)
+          return sacrifice.good(this.locale)
         case 3:
-          return sacrifice.bad(locale)
+          return sacrifice.bad(this.locale)
         case 4:
-          return sacrifice.awful(locale)
+          return sacrifice.awful(this.locale)
         default:
-          return sacrifice.neutral(locale)
+          return sacrifice.neutral(this.locale)
       }
     }
-  },
-  perform({
-    base,
-    intrinsic = 0,
-    conditional = 0,
-    avoid = 0,
-    crit = 10,
-    botch = 95,
-    flat = false,
-    rolls = 1,
-    description,
-    locale = "en-US",
-  } = {}) {
-    const raw_results = roll(1, 100, rolls)
+  }
+
+  perform() {
+    const raw_results = roll(1, 100, this.rolls)
 
     const presenter = new FfrpgPresenter({
       raw: raw_results,
-      base,
-      intrinsic,
-      conditional,
-      avoid,
-      crit,
-      botch,
-      flat,
-      rolls,
-      description,
-      locale,
+      base: this.base,
+      intrinsic: this.intrinsic,
+      conditional: this.conditional,
+      avoid: this.avoid,
+      crit: this.crit,
+      botch: this.botch,
+      flat: this.flat,
+      rolls: this.rolls,
+      description: this.description,
+      locale: this.locale,
     })
 
     const presented_result = presenter.presentResults()
@@ -106,51 +129,18 @@ module.exports = {
     }
 
     return presented_result
-  },
-  execute(interaction) {
-    const base = interaction.options.getInteger("base") ?? 0
-    const intrinsic = interaction.options.getInteger("intrinsic") ?? 0
-    const conditional = interaction.options.getInteger("conditional") ?? 0
-    const avoid = interaction.options.getInteger("avoid") ?? 0
-    let crit = interaction.options.getInteger("crit") ?? 10
-    let botch = interaction.options.getInteger("botch") ?? 95
-    const flat = interaction.options.getBoolean("flat") ?? false
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
+  }
 
-    const t = i18n.getFixedT(interaction.locale, "commands", command_name)
-
-    if (flat) {
+  validate() {
+    if (this.flat) {
       if (intrinsic + conditional + avoid) {
-        return interaction.whisper(t("validation.flat.disallowed"))
+        return this.t("validation.flat.disallowed")
       }
-
-      crit = 0
-      botch = 0
+      return
     }
 
-    if (crit && botch && crit >= botch) {
-      return interaction.whisper(t("validation.crit.collision"))
+    if (this.crit && this.botch && this.crit >= this.botch) {
+      return this.t("validation.crit.collision")
     }
-
-    const partial_message = module.exports.perform({
-      rolls,
-      description: roll_description,
-      locale: interaction.locale,
-      base,
-      intrinsic,
-      conditional,
-      avoid,
-      crit,
-      botch,
-      flat,
-    })
-
-    let full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }

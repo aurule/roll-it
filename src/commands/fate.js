@@ -1,32 +1,55 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { roll } from "../services/base-roller.js"
 import { present } from "../presenters/results/fate-results-presenter.js"
 import { fudge } from "../services/tally.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { rollsSchema, modifierSchema, descriptionSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
+import { SavableCommand } from "./abstract/savable-command.js"
 
-const command_name = "fate"
+/**
+ * Class for the fate roller
+ */
+export class Fate extends SavableCommand {
+  static name = "fate"
+  static changeable = ["modifier"]
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  modifier = 0
+
+  description = ""
+
+  rolls = 1
+
+  static data() {
+    return this.builder
       .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("modifier")
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     rolls: rollsSchema,
     modifier: modifierSchema,
     description: descriptionSchema,
-  }),
-  judge(results, locale) {
+  })
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("description")
+    this.saveOption("modifier")
+    this.saveOption("rolls")
+    this.saveOption("secret")
+  }
+
+  /**
+   * Judge average outcome for the sacrifice easter egg
+   * @param  {number[]} results Summed results
+   * @return {string}           Sacrifice string
+   */
+  judge(results) {
     const buckets = [0, 0, 0, 0, 0]
     for (const result of results) {
       switch (true) {
@@ -52,53 +75,36 @@ module.exports = {
     const dominating = buckets.findIndex((b) => b >= results.length / 2)
     switch (dominating) {
       case 0:
-        return sacrifice.great(locale)
+        return sacrifice.great(this.locale)
       case 1:
-        return sacrifice.good(locale)
+        return sacrifice.good(this.locale)
       case 2:
       default:
-        return sacrifice.neutral(locale)
+        return sacrifice.neutral(this.locale)
       case 3:
-        return sacrifice.bad(locale)
+        return sacrifice.bad(this.locale)
       case 4:
-        return sacrifice.awful(locale)
+        return sacrifice.awful(this.locale)
     }
-  },
-  perform({ rolls = 1, modifier = 0, description, locale = "en-US" } = {}) {
-    const raw_results = roll(4, 3, rolls)
+  }
+
+  perform() {
+    const raw_results = roll(4, 3, this.rolls)
     const summed_results = fudge(raw_results)
 
     const presented_result = present({
-      rolls,
-      modifier,
-      description,
+      rolls: this.rolls,
+      modifier: this.modifier,
+      description: this.description,
       raw: raw_results,
       summed: summed_results,
     })
 
-    if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(summed_results, locale)
+    if (sacrifice.hasTrigger(description, this.locale)) {
+      const sacrifice_message = judge(summed_results)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 
     return presented_result
-  },
-  execute(interaction) {
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      rolls,
-      modifier,
-      description: roll_description,
-      locale: interaction.locale,
-    })
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }

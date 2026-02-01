@@ -12,7 +12,12 @@ import { D100 } from "./d100.js"
 import { D12 } from "./d12.js"
 import { D4 } from "./d4.js"
 import { D6 } from "./d6.js"
+import { D20 } from "./d20.js"
 import { D8 } from "./d8.js"
+import { DRH } from "./drh.js"
+import { Fate } from "./fate.js"
+import { Ffrpg } from "./ffrpg.js"
+import { Formula } from "./formula.js"
 
 /**
  * Top-level collection of command objects
@@ -62,6 +67,11 @@ register(D12)
 register(D4)
 register(D6)
 register(D8)
+register(D20)
+register(DRH)
+register(Fate)
+register(Ffrpg)
+register(Formula)
 
 // set up per-locale sorted collections
 commands.sorted = new Collection()

@@ -457,7 +457,6 @@ export class DrhTeamworkPresenter {
    * @return {str} String describing the results
    */
   presentResults() {
-    const key_parts = ["response.helping"]
     let t_args = {
       context: this.description ? "description" : undefined,
       description: this.description,

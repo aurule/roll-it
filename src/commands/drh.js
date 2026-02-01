@@ -1,20 +1,30 @@
 import { Collection } from "discord.js"
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { present } from "../presenters/results/drh-results-presenter.js"
-import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { descriptionOption, poolOption, rollsOption, secretOption } from "../util/common-options.js"
 import { descriptionSchema, rollsSchema, modifierSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
 import { DrhPool } from "../util/rolls/drh-pool.js"
-import { i18n } from "../locales/index.js"
+import { SavableCommand } from "./abstract/savable-command.js"
 
-const command_name = "drh"
+/**
+ * Class for the drh roller
+ */
+export class DRH extends SavableCommand {
+  static name = "drh"
+  static changeable = ["modifier", "exhaustion", "madness", "discipline", "pain"]
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  discipline = 3
+  pain = 1
+  exhaustion = 0
+  madness = 0
+  talent = "none"
+  modifier = 0
+  rolls = 1
+  roll_description = ""
+
+  static data() {
+    return this.builder
       .addLocalizedIntegerOption("discipline", (option) =>
         option.setRequired(true).setMinValue(1).setMaxValue(6),
       )
@@ -29,10 +39,10 @@ module.exports = {
       )
       .addLocalizedIntegerOption("modifier")
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier", "exhaustion", "madness", "discipline", "pain"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     discipline: Joi.number().required().integer().min(1).max(6),
     pain: Joi.number().required().integer().min(1).max(100),
     exhaustion: Joi.number()
@@ -60,119 +70,64 @@ module.exports = {
     description: descriptionSchema,
     rolls: rollsSchema,
     modifier: modifierSchema,
-  }),
-  perform({
-    discipline,
-    pain,
-    exhaustion,
-    madness,
-    talent = "none",
-    rolls = 1,
-    description,
-    modifier = 0,
-    locale = "en-US",
-  } = {}) {
-    if (pain === 0) {
-      const pool_options = new Collection([["discipline", discipline]])
+  })
 
-      const tests = Array.from({ length: rolls }, () => {
-        return pool_options.mapValues(DrhPool.fromPool).filter((pool) => pool !== undefined)
-      })
+  constructor(interaction, options) {
+    super(interaction, options)
 
-      return present({
-        helper: true,
-        tests,
-        description,
-        rolls,
-        locale,
-      })
+    this.saveOption("discipline")
+    this.saveOption("pain")
+    this.saveOption("description")
+    this.saveOption("exhaustion")
+    this.saveOption("madness")
+    this.saveOption("talent")
+    this.saveOption("modifier")
+    this.saveOption("rolls")
+    this.saveOption("secret")
+  }
+
+  perform() {
+    const pool_options = new Collection([["discipline", this.discipline]])
+    if (this.pain !== 0) {
+      poolOption.set("pain", this.pain)
+      poolOption.set("exhaustion", this.exhaustion)
+      poolOption.set("madness", this.madness)
     }
 
-    const pool_options = new Collection([
-      ["discipline", discipline],
-      ["pain", pain],
-      ["exhaustion", exhaustion],
-      ["madness", madness],
-    ])
-
-    const tests = Array.from({ length: rolls }, () => {
+    const tests = Array.from({ length: this.rolls }, () => {
       return pool_options.mapValues(DrhPool.fromPool).filter((pool) => pool !== undefined)
     })
 
     return present({
+      helper: this.pain === 0,
       tests,
-      description,
-      talent,
-      rolls,
-      modifier,
-      locale,
+      description: this.description,
+      talent: this.talent,
+      rolls: this.rolls,
+      modifier: this.modifier,
+      locale: this.locale,
     })
-  },
-  execute(interaction) {
-    const discipline = interaction.options.getInteger("discipline") ?? 3
-    const pain = interaction.options.getInteger("pain") ?? 1
-    const exhaustion = interaction.options.getInteger("exhaustion") ?? 0
-    const madness = interaction.options.getInteger("madness") ?? 0
-    const talent = interaction.options.getString("talent") ?? "none"
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
+  }
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "drh")
-
-    if (pain === 0) {
-      if (talent !== "none") {
-        return interaction.whisper(t("response.helping.validation.talent"))
-      }
-
-      if (exhaustion || madness) {
-        return interaction.whisper(t("response.helping.validation.pools"))
-      }
-
-      if (modifier) {
-        return interaction.whisper(t("response.helping.validation.modifier"))
-      }
-
-      const partial_message = module.exports.perform({
-        pain,
-        rolls,
-        discipline,
-        description: roll_description,
-        locale: interaction.locale,
-      })
+  validate() {
+    if (this.pain === 0) {
+      if (this.talent !== "none") return this.t("response.helping.validation.talent")
+      if (this.exhaustion || this.madness) return this.t("response.helping.validation.pools")
+      if (this.modifier) return this.t("response.helping.validation.modifier")
     }
 
-    switch (talent) {
+    switch (this.talent) {
       case "minor":
       case "major":
-        if (exhaustion === 0) {
-          return interaction.whisper(t("options.talent.validation.exhaustion"))
+        if (this.exhaustion === 0) {
+          return this.t("options.talent.validation.exhaustion")
         }
         break
       case "madness":
-        if (madness === 0) {
-          return interaction.whisper(t("options.talent.validation.madness"))
+        if (this.madness === 0) {
+          return this.t("options.talent.validation.madness")
         }
         break
     }
-
-    const partial_message = module.exports.perform({
-      rolls,
-      discipline,
-      pain,
-      exhaustion,
-      madness,
-      talent,
-      modifier,
-      description: roll_description,
-      locale: interaction.locale,
-    })
-
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }
