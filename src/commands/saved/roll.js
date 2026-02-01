@@ -3,7 +3,6 @@ import { saved_roll as suggestSavedRoll, changeable_choices as suggestChangeable
 import { operator } from "../../util/formatters/signed.js.js"
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { present } from "../../presenters/command-name-presenter.js"
-import { injectMention } from "../../util/formatters/inject-user.js.js"
 import { i18n } from "../../locales/index.js"
 import { saved_bonus_target } from "../../util/saved-bonus-target.js"
 import { secretOption } from "../../util/common-options.js"
@@ -47,16 +46,17 @@ module.exports = {
     const change = interaction.options.getString("change")
     const rolls = interaction.options.getInteger("rolls") ?? 0
     const secret = interaction.options.getBoolean("secret") ?? false
+    roll_detail.options.secret = secret
 
-    const command = savable.get(roll_detail.command)
-    const target = saved_bonus_target(bonus, change, command.changeable)
+    const kommand = savable.get(roll_detail.command)
+    const target = saved_bonus_target(bonus, change, kommand.changeable)
 
     if (target) {
-      if (!command.changeable.includes(target)) {
+      if (!kommand.changeable.includes(target)) {
         return interaction.whisper(
           t("options.change.validation.missing", {
             target,
-            command: present(command, interaction.locale),
+            command: present(kommand, interaction.locale),
           }),
         )
       }
@@ -69,7 +69,7 @@ module.exports = {
     if (rolls) roll_detail.options.rolls = rolls
 
     try {
-      await command.schema.validateAsync(roll_detail.options)
+      await kommand.schema.validateAsync(roll_detail.options)
     } catch (err) {
       if (target) {
         return interaction.whisper(
@@ -81,16 +81,8 @@ module.exports = {
       }
     }
 
-    // new command(interaction, roll_detail.options).execute()
-    const partial_message = command.perform({
-      locale: interaction.locale,
-      ...roll_detail.options,
-    })
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
+    const command = new kommand(interaction, roll_detail.options)
+    return command.execute()
   },
   async autocomplete(interaction) {
     const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
