@@ -44,8 +44,8 @@
     "y18n": "^5.0.8"
   },
   "scripts": {
-    "test": "vitest --run",
-    "test:watch": "vitest",
+    "test": "vitest",
+    "test:once": "vitest --run",
     "coverage": "vitest --coverage.enabled",
     "changelog:build": "node scripts/build-changelog.js",
     "changelog:add": "node scripts/add-changelog-snippet.js",
