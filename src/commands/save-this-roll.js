@@ -1,44 +1,45 @@
-import { ContextMenuCommandBuilder, ApplicationCommandType } from "discord.js"
+import { ApplicationCommandType } from "discord.js"
 
 import { presentCommand, listCommands } from "../presenters/command-name-presenter.js"
 import interactionCache from "../services/interaction-cache.js"
-import { i18n } from "../locales.js"
-import { canonical, mapped } from "../locales/helpers.js"
+import { canonical } from "../locales/helpers.js"
 import rollCache from "../services/roll-cache.js"
 import { SavedRollModal } from "../modals/saved-roll.js"
 import { commands, savable } from "./index.js"
+import { ContextCommand } from "./abstract/context-command.js"
 
-const botId = process.env.CLIENT_ID
+/**
+ * Class for the save roll command
+ */
+export class SaveThisRoll extends ContextCommand {
+  static i18nId = "save-this-roll"
+  static name = canonical("name", this.i18nId)
+  static global = true
 
-const command_id = "save-this-roll"
+  static data() {
+    return this.builder
+      .setType(ApplicationCommandType.Message)
+  }
 
-module.exports = {
-  i18nId: command_id,
-  name: canonical("name", command_id),
-  type: "menu",
-  global: true,
-  data: () =>
-    new ContextMenuCommandBuilder()
-      .setName(canonical("name", command_id))
-      .setNameLocalizations(mapped("name", command_id))
-      .setType(ApplicationCommandType.Message),
-  async execute(interaction) {
-    const t = i18n.getFixedT(interaction.locale, "commands", "save-this-roll")
-
-    const message = interaction.targetMessage
-    if (message.author.id != botId) {
-      return interaction.whisper(t("validation.foreign"))
+  /**
+   * Show the save roll modal
+   * @return {Promise} Modal promise
+   */
+  async execute() {
+    const message = this.interaction.targetMessage
+    if (message.author.id != process.env.CLIENT_ID) {
+      return this.interaction.whisper(this.t("validation.foreign"))
     }
 
-    const cachedInvocation = await interactionCache.getMessage(interaction.targetMessage)
+    const cachedInvocation = await interactionCache.getMessage(message)
     if (!cachedInvocation) {
-      return interaction.whisper(t("validation.missing"))
+      return this.interaction.whisper(this.t("validation.missing"))
     }
 
     const command = commands.get(cachedInvocation.commandName)
     if (!command.savable) {
-      const presented = presentCommand(command, interaction.locale)
-      return interaction.whisper(t("validation.unsavable", { presented }))
+      const presented = presentCommand(command, this.locale)
+      return this.interaction.whisper(this.t("validation.unsavable", { presented }))
     }
 
     let validated_options
@@ -47,8 +48,8 @@ module.exports = {
         abortEarly: false,
       })
     } catch (err) {
-      return interaction.whisper(
-        t("validation.options", {
+      return this.interaction.whisper(
+        this.t("validation.options", {
           command,
           messages: err.details.map((d) => d.message).join("\n"),
         }),
@@ -59,7 +60,7 @@ module.exports = {
       command: command.name,
       options: validated_options,
     }
-    const modal = SavedRollModal.data("create", interaction.locale, {
+    const modal = SavedRollModal.data("create", this.locale, {
       description: validated_options.description,
       saved: cache_data,
       changeable: command.changeable,
@@ -69,11 +70,12 @@ module.exports = {
     await rollCache.set(interaction, cache_data)
 
     return interaction.showModal(modal)
-  },
-  help_data(opts) {
+  }
+
+  static help_data(opts) {
     const savable_commands = savable.sorted.get(opts.locale)
     return {
       savable: listCommands(savable_commands, opts.locale),
     }
-  },
+  }
 }
