@@ -44,7 +44,7 @@ export class Coin extends Command {
     return this.builder
       .addStringOption(descriptionOption)
       .addLocalizedStringOption("call", (option) => option.setLocalizedChoices("1", "2"))
-      .addBooleanOption(secretOption),
+      .addBooleanOption(secretOption)
   }
 
   /**
