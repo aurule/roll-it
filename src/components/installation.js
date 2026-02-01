@@ -1,4 +1,4 @@
-import { userMention } from "discord.js"
+import { userMention, Collection } from "discord.js"
 import { ComponentHandler } from "./component-handler.js"
 import { Installation } from "../db/installation.js"
 import { logger } from "../util/logger.js"
@@ -10,7 +10,11 @@ import cancelButton from "./installation/cancel-button.js"
 import changeButton from "./installation/change-button.js"
 import saveButton from "./installation/save-button.js"
 
-export const components = [cancelButton, changeButton, saveButton]
+export const components = new Collection([
+  [cancelButton.name, cancelButton],
+  [changeButton.name, changeButton],
+  [saveButton.name, saveButton],
+])
 
 export default new ComponentHandler(handle, components)
 
