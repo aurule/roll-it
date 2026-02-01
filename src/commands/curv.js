@@ -1,30 +1,26 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { roll } from "../services/base-roller.js"
 import { present } from "../presenters/results/curv-results-presenter.js"
 import { keepFromArray, strategies } from "../services/pick.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { modifierSchema, rollsSchema, descriptionSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
 import { with_to_keep } from "../util/with-to-keep.js"
+import { SavableCommand } from "./abstract/savable-command.js"
 
-const command_name = "curv"
+/**
+ * Class for the /curv command
+ */
+export class Curv extends SavableCommand {
+  static name = "curv"
+  static changeable = ["modifier"]
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
-      .addStringOption(descriptionOption)
-      .addLocalizedIntegerOption("modifier")
-      .addLocalizedStringOption("with", (option) =>
-        option.setLocalizedChoices("advantage", "disadvantage"),
-      )
-      .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier"],
-  schema: Joi.object({
+  modifier = 0
+  keep
+  rolls = 1
+  description = ""
+
+  static schema = Joi.object({
     modifier: modifierSchema,
     keep: Joi.string()
       .optional()
@@ -35,56 +31,49 @@ module.exports = {
     with: Joi.string().optional().valid("advantage", "disadvantage"),
     rolls: rollsSchema,
     description: descriptionSchema,
-  }).oxor("keep", "with"),
-  perform({
-    keep = "all",
-    rolls = 1,
-    modifier = 0,
-    locale = "en-US",
-    description,
-    ...others
-  } = {}) {
-    if (others.with) keep = with_to_keep(others.with)
+  }).oxor("keep", "with")
 
-    const advantage_rolls = keep == "all" ? 1 : 2
-    const raw_results = Array.from({ length: rolls }, () => roll(3, 6, advantage_rolls))
+  static data() {
+    return this.builder
+      .addStringOption(descriptionOption)
+      .addLocalizedIntegerOption("modifier")
+      .addLocalizedStringOption("with", (option) =>
+        option.setLocalizedChoices("advantage", "disadvantage"),
+      )
+      .addIntegerOption(rollsOption)
+      .addBooleanOption(secretOption)
+  }
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("modifier")
+    this.saveOption("rolls")
+    this.saveOption("description")
+    this.saveOption("secret")
+    // Keep is special, because it needs to be translated from "advantage" to "highest"
+    this.keep = with_to_keep(this.interaction.options.getString("with"))
+  }
+
+  perform() {
+    const advantage_rolls = this.keep == "all" ? 1 : 2
+    const raw_results = Array.from({ length: this.rolls }, () => roll(3, 6, advantage_rolls))
     const sums = raw_results.map((roll_set) => {
       return roll_set.map((result) => {
         return result.reduce((acc, curr) => acc + curr, 0)
       })
     })
-    const picked_results = sums.map((sum) => keepFromArray(sum, 1, keep).indexes[0])
+    const picked_results = sums.map((sum) => keepFromArray(sum, 1, this.keep).indexes[0])
 
     return present({
-      rolls,
+      rolls: this.rolls,
       picked: picked_results,
       sums,
-      modifier,
-      description,
-      keep,
+      modifier: this.modifier,
+      description: this.description,
+      keep: this.keep,
       raw: raw_results,
-      locale,
+      locale: this.locale,
     })
-  },
-  execute(interaction) {
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const keep = with_to_keep(interaction.options.getString("with"))
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      rolls,
-      modifier,
-      description: roll_description,
-      keep,
-      locale: interaction.locale,
-    })
-
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }
