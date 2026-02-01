@@ -29,7 +29,7 @@ export class Magic8Ball extends Command {
    * Whether to force a positive result
    * @type boolean
    */
-  doit
+  doit = false
 
   static data() {
     return this.builder
@@ -41,9 +41,9 @@ export class Magic8Ball extends Command {
   constructor(interaction) {
     super(interaction)
 
-    this.question = this.options.getString("question")
-    this.doit = this.options.getBoolean("doit") ?? false
-    this.secret = this.options.getBoolean("secret") ?? false
+    this.saveOption("question")
+    this.saveOption("doit")
+    this.saveOption("secret")
   }
 
   perform() {

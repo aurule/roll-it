@@ -1,6 +1,7 @@
 import { i18n } from "../../locales/index.js"
 import { LocalizedSlashCommandBuilder } from "../../util/localized-command.js"
 import { injectMention } from "../../util/formatters/inject-user.js"
+import { CommandOptions } from "./command-options.js"
 
 /**
  * Basic class to handle Discord slash commands
@@ -55,7 +56,7 @@ export class Command {
 
   /**
    * Discord options object
-   * @type Interaction.Options
+   * @type CommandOptions
    */
   options
 
@@ -103,7 +104,7 @@ export class Command {
    */
   constructor(interaction) {
     this.interaction = interaction
-    this.options = interaction.options
+    this.options = new CommandOptions(interaction.options)
     this.locale = interaction.locale
     this.t = i18n.getFixedT(this.locale, "commands", this.constructor.name)
   }
@@ -174,5 +175,25 @@ export class Command {
    */
   static help_data(opts) {
     return {}
+  }
+
+  /**
+   * Save a user option value to an own property
+   *
+   * This works on the assumption that all of our option names map 1:1 with an
+   * object property. If that option was given a value by the user, it is saved
+   * to the corresponding property. If not, then the property's existing value
+   * is unchanged. This makes it possible to assign default values at the class
+   * or instance level while still respecting user inputs.
+   *
+   * @param  {string}                name Name of the option (and property) to save
+   * @return {string|number|boolean}      The resolved value of the property. Either the user value or the default value.
+   */
+  saveOption(name) {
+    const user_value = this.options.get(name)
+    if (user_value) {
+      this[name] = user_value
+    }
+    return this[name]
   }
 }

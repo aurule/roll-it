@@ -26,13 +26,13 @@ export class Coin extends Command {
    *
    * @type string
    */
-  call
+  call = ""
 
   /**
    * Description for the coin toss
    * @type string
    */
-  description
+  description = ""
 
   /**
    * Raw dice results
@@ -55,9 +55,9 @@ export class Coin extends Command {
   constructor(interaction) {
     super(interaction)
 
-    this.description = this.options.getString("description") ?? ""
-    this.call = this.options.getString("call") ?? ""
-    this.secret = this.options.getBoolean("secret") ?? false
+    this.saveOption("description")
+    this.saveOption("call")
+    this.saveOption("secret")
   }
 
   perform() {
