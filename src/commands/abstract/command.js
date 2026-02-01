@@ -156,4 +156,23 @@ export class Command {
   perform() {
     throw new Error("The function `perform` is not implemented")
   }
+
+  /**
+   * Get data for this command's help text
+   *
+   * Many commands do not need additional help data. By default, the following
+   * vars are available to the translated help text:
+   *
+   * - `cmd`: The translated name of the command
+   * - `opts`: Object of translated option names keyed by option i18n name
+   * - `sub`: Object of translated subcommand names, keyed by subcommand i18n name
+   *
+   * If the command's help text needs other data, add it here.
+   *
+   * @param  {object} opts Default help properties
+   * @return {object}      New help properties to add
+   */
+  static help_data(opts) {
+    return {}
+  }
 }

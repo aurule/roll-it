@@ -53,9 +53,7 @@ export function present(command, locale) {
     sub: subcommand_names,
     locale,
   }
-  if (command.help_data) {
-    Object.assign(help_opts, command.help_data(help_opts))
-  }
+  Object.assign(help_opts, command.help_data(help_opts))
   const help_text = cmd_t("help", help_opts)
 
   const title_args = {
