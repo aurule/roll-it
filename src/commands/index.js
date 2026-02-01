@@ -14,7 +14,7 @@ import { D4 } from "./d4.js"
 import { D6 } from "./d6.js"
 import { D20 } from "./d20.js"
 import { D8 } from "./d8.js"
-import { DRH } from "./drh.js"
+import { Drh } from "./drh.js"
 import { Fate } from "./fate.js"
 import { Ffrpg } from "./ffrpg.js"
 import { Formula } from "./formula.js"
@@ -68,7 +68,7 @@ register(D4)
 register(D6)
 register(D8)
 register(D20)
-register(DRH)
+register(Drh)
 register(Fate)
 register(Ffrpg)
 register(Formula)

@@ -10,7 +10,7 @@ import { SavableCommand } from "./abstract/savable-command.js"
 /**
  * Class for the drh roller
  */
-export class DRH extends SavableCommand {
+export class Drh extends SavableCommand {
   static name = "drh"
   static changeable = ["modifier", "exhaustion", "madness", "discipline", "pain"]
 
