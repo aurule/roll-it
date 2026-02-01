@@ -16,7 +16,7 @@ export class Curv extends SavableCommand {
   static changeable = ["modifier"]
 
   modifier = 0
-  keep
+  keep = "all"
   rolls = 1
   description = ""
 
