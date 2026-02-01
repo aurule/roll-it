@@ -1,4 +1,4 @@
-import { Collection } from "./discord.js"
+import { Collection } from "discord.js"
 
 /**
  * Class for handling command options
