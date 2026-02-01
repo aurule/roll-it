@@ -1,6 +1,5 @@
 import { PermissionFlagsBits } from "discord.js"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { Installation } from "../db/installation.js"
 import { messageData as startingMessage } from "../messages/installation/starting"
 import { safe_locale } from "../locales/helpers.js"
@@ -10,28 +9,32 @@ import { getGuildCommands } from "../services/api.js"
 import { findByCommands as findFeatures } from "../services/feature-helpers.js"
 import { findByCommands as findSystems } from "../services/system-helpers.js"
 import { globals, guild } from "./index.js"
+import { Command } from "./abstract/command.js"
 
-const command_name = "setup-roll-it"
+/**
+ * Class for the setup command
+ */
+export class SetupRollIt extends Command {
+  static name = "setup-roll-it"
+  static global = true
 
-module.exports = {
-  name: command_name,
-  global: true,
-  data() {
-    return new LocalizedSlashCommandBuilder(command_name)
+  static data() {
+    return this.builder
       .setDMPermission(false)
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-  },
-  async execute(cmd_interaction) {
-    const old_commands = await getGuildCommands(cmd_interaction.guildId)
+  }
+
+  async execute() {
+    const old_commands = await getGuildCommands(this.interaction.guildId)
       .then((res) => res.map((c) => c.name))
     const old_systems = findSystems(...old_commands).map((s) => s.name)
     const old_features = findFeatures(...old_commands).map((f) => f.name)
 
     const install_db = new Installation()
     const installation_id = install_db.addInstallation({
-      locale: cmd_interaction.locale,
-      guild_uid: cmd_interaction.guildId,
-      user_uid: cmd_interaction.user.id,
+      locale: this.interaction.locale,
+      guild_uid: this.interaction.guildId,
+      user_uid: this.interaction.user.id,
       old_deets: {
         commands: old_commands,
         systems: old_systems,
@@ -40,7 +43,7 @@ module.exports = {
     }).lastInsertRowid
 
     const message = startingMessage(installation_id)
-    await cmd_interaction
+    await this.interaction
       .ensure("reply", message, {
         installation_id,
         detail: "failed to send install start prompt",
@@ -54,9 +57,15 @@ module.exports = {
           message_uid,
         })
       })
-  },
-  help_data(opts) {
-    const locale = opts.locale
+  }
+
+  /**
+   * Get the commands to show in our help text
+   * @param  {object} options
+   * @param  {string} options.locale Locale code for the help text
+   * @return {object}                Additional help data properties
+   */
+  static help_data({ locale }) {
     const cmd_locale = safe_locale(locale)
     const guild_commands = guild.sorted.get(cmd_locale)
     const global_commands = globals.sorted.get(cmd_locale)
@@ -98,5 +107,5 @@ module.exports = {
       systems: systems_list,
       features: features_list,
     }
-  },
+  }
 }
