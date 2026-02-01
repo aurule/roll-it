@@ -63,6 +63,6 @@ export class Component {
    * @return {void}                             No return value is expected.
    */
   execute(interaction) {
-    return this._data(interaction)
+    return this._execute(interaction)
   }
 }
