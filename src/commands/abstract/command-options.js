@@ -45,4 +45,23 @@ export class CommandOptions {
   get(name) {
     return this.data.get(name)
   }
+
+  /**
+   * Serialize our data to a json-save object
+   *
+   * The internal options data is converted into an object which can be passed
+   * to our constructor. Data keys become object property names and values are
+   * assigned directly.
+   *
+   * @return {object} Object of option data
+   */
+  toJSON() {
+    const opts_obj = {}
+
+    for (const [key, value] of this.data.entries()) {
+      opts_obj[key] = value
+    }
+
+    return opts_obj
+  }
 }
