@@ -211,8 +211,8 @@ export class Teamwork {
    *
    * This method adds an `expired` property for convenience.
    *
-   * @param  {Snowflake} message_uid Discord ID of the message
-   * @return {int}                   Internal ID of the associated teamwork test
+   * @param  {Snowflake}    message_uid Discord ID of the message
+   * @return {TeamworkTest}             Teamwork test record
    */
   findTestByMessage(message_uid) {
     const select = this.db.prepare(oneLine`
