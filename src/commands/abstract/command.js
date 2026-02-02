@@ -55,7 +55,7 @@ export class Command {
   interaction
 
   /**
-   * Discord options object
+   * Internal options container
    * @type CommandOptions
    */
   options
