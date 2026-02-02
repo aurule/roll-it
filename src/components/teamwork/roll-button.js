@@ -25,9 +25,9 @@ export async function execute(interaction) {
 
   const final_pool = teamwork_db.getFinalSum(test.id)
 
-  const command = commands.get(test.command)
+  const kommand = commands.get(test.command)
 
-  if (command === undefined) {
+  if (kommand === undefined) {
     logger.error(
       {
         test,
@@ -41,16 +41,10 @@ export async function execute(interaction) {
     })
   }
 
-  const raw_results = command.teamwork.roller(final_pool, test.options.roller)
-  const summed_results = command.teamwork.summer(raw_results, test.options.summer)
-  const presented_raw = command.teamwork.presenter(
-    final_pool,
-    raw_results,
-    summed_results,
-    test.locale,
-    test.options.presenter,
-  )
-  const presented = injectMention(presented_raw, test.leader)
+  const command = new kommand(interaction, test.options)
+  const partial_message = command.performTeamwork(final_pool)
+
+  const presented = injectMention(partial_message, test.leader)
 
   const embed = new TeamworkSummaryEmbed(test).data()
 
