@@ -1,24 +1,33 @@
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { roll, NwodRollOptions } from "../services/nwod-roller.js"
 import { rollUntil } from "../services/until-roller.js"
 import { successes } from "../services/tally.js"
-import { NwodPresenter, present } from "../presenters/results/nwod-results-presenter.js"
-import { teamworkBegin } from "../interactive/teamwork.js"
+import { NwodPresenter } from "../presenters/results/nwod-results-presenter.js"
 import { descriptionOption, rollsOption, teamworkOption, secretOption } from "../util/common-options.js"
 import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
-import { i18n } from "../locales/index.js"
 import * as hummingbird from "../services/easter-eggs/hummingbird.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
+import { TeamworkableCommand } from "./abstract/teamworkable-command.js"
 
-const command_name = "nwod"
+/**
+ * Class for the nwod command
+ */
+export class Nwod extends TeamworkableCommand {
+  static name = "nwod"
+  static changeable = ["pool"]
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  pool = 1
+  description = ""
+  explode = 10
+  threshold = 8
+  rote = false
+  rolls = 1
+  until = 0
+  decreasing = false
+
+  static data() {
+    return this.builder
       .addLocalizedIntegerOption("pool", (option) =>
         option.setMinValue(0).setMaxValue(1000).setRequired(true),
       )
@@ -30,10 +39,10 @@ module.exports = {
       .addLocalizedIntegerOption("until", (option) => option.setMinValue(1).setMaxValue(100))
       .addLocalizedBooleanOption("decreasing")
       .addBooleanOption(teamworkOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["pool"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     pool: poolSchema,
     explode: Joi.number().optional().integer().min(2).max(11),
     threshold: Joi.number().optional().integer().min(2).max(10),
@@ -42,7 +51,21 @@ module.exports = {
     until: untilSchema,
     description: descriptionSchema,
     decreasing: Joi.boolean().optional(),
-  }),
+  })
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("pool")
+    this.saveOption("description")
+    this.saveOption("explode")
+    this.saveOption("threshold")
+    this.saveOption("rote")
+    this.saveOption("rolls")
+    this.saveOption("until")
+    this.saveOption("decreasing")
+  }
+
   judge(presenter) {
     const buckets = [0, 0, 0, 0, 0]
 
@@ -90,180 +113,127 @@ module.exports = {
     const dominating = buckets.findIndex((b) => b >= presenter.summed.length / 2)
     switch (dominating) {
       case 0:
-        return sacrifice.great(presenter.locale)
+        return sacrifice.great(this.locale)
       case 1:
-        return sacrifice.good(presenter.locale)
+        return sacrifice.good(this.locale)
       case 2:
       default:
-        return sacrifice.neutral(presenter.locale)
+        return sacrifice.neutral(this.locale)
       case 3:
-        return sacrifice.bad(presenter.locale)
+        return sacrifice.bad(this.locale)
       case 4:
-        return sacrifice.awful(presenter.locale)
+        return sacrifice.awful(this.locale)
     }
-  },
-  teamwork: {
-    roller: (final_pool, { explode, rote, threshold }) => {
-      const options = new NwodRollOptions({
-        pool: final_pool,
-        explode,
-        rote,
-        threshold,
-        rolls: 1,
-      })
-      return roll(options)
-    },
-    summer: (raw_results, { threshold }) => successes(raw_results, threshold),
-    presenter: (
-      final_pool,
-      raw_results,
-      summed_results,
-      locale,
-      { explode, threshold, rote, description },
-    ) =>
-      present({
-        rolls: 1,
-        pool: final_pool,
-        explode,
-        threshold,
-        rote,
-        until: 0,
-        description,
-        raw: raw_results,
-        summed: summed_results,
-        locale,
-      }),
-  },
-  perform({
-    pool,
-    explode = 10,
-    threshold = 8,
-    rote,
-    rolls = 1,
-    until,
-    description,
-    decreasing,
-    locale = "en-US",
-  } = {}) {
-    const chance = !pool
+  }
+
+  performTeamwork(final_pool) {
+    const roll_options = new NwodRollOptions({
+      pool: final_pool,
+      explode: this.explode,
+      rote: this.rote,
+      threshold: this.threshold,
+      rolls: 1,
+    })
+    const raw_results = roll(roll_options)
+    const summed_results = successes(raw_results, this.threshold)
+    const presenter = new NwodPresenter({
+      rolls: 1,
+      pool: final_pool,
+      rote: this.rote,
+      chance: false,
+      explode: this.explode,
+      threshold: this.threshold,
+      until: 0,
+      decreasing: false,
+      description: this.description,
+      raw: raw_results,
+      summed: summed_results,
+      locale: this.locale,
+    })
+    const result_lines = [presenter.presentResults()]
+
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
+      const sacrifice_message = this.judge(presenter)
+      result_lines.push(`-# ${sacrifice_message}`)
+    }
+
+    return result_lines.join("\n")
+  }
+
+  perform() {
+    const chance = !this.pool
+    // in chance mode, override a bunch of settings
     if (chance) {
-      pool = 1
-      explode = 10
-      threshold = 10
-      decreasing = false
+      this.pool = 1
+      this.explode = 10
+      this.threshold = 10
+      this.decreasing = false
     }
 
     let raw_results
     let summed_results
 
-    if (until) {
+    if (this.until) {
       const rollOptions = new NwodRollOptions({
-        pool,
-        explode,
-        threshold,
+        pool: this.pool,
+        explode: this.explode,
+        threshold: this.threshold,
         chance,
-        rote,
-        decreasing,
+        rote: this.rote,
+        decreasing: this.decreasing,
       })
       ;({ raw_results, summed_results } = rollUntil({
         roll: () => roll(rollOptions),
         tally: (currentResult) => successes(currentResult, rollOptions.threshold),
-        max: rolls === 1 ? 0 : rolls,
-        target: until,
+        max: this.rolls === 1 ? 0 : this.rolls,
+        target: this.until,
       }))
     } else {
       const options = new NwodRollOptions({
-        pool,
-        explode,
-        rote,
-        threshold,
+        pool: this.pool,
+        explode: this.explode,
+        rote: this.rote,
+        threshold: this.threshold,
         chance,
-        rolls,
-        decreasing,
+        rolls: this.rolls,
+        decreasing: this.decreasing,
       })
       raw_results = roll(options)
-      summed_results = successes(raw_results, threshold)
+      summed_results = successes(raw_results, this.threshold)
     }
 
     const presenter = new NwodPresenter({
-      rolls,
-      pool,
-      rote,
+      rolls: this.rolls,
+      pool: this.pool,
+      rote: this.rote,
       chance,
-      explode,
-      threshold,
-      until,
-      decreasing,
-      description,
+      explode: this.explode,
+      threshold: this.threshold,
+      until: this.until,
+      decreasing: this.decreasing,
+      description: this.description,
       raw: raw_results,
       summed: summed_results,
-      locale,
+      locale: this.locale,
     })
     const result_lines = [presenter.presentResults()]
 
-    if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(presenter)
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
+      const sacrifice_message = this.judge(presenter)
       result_lines.push(`-# ${sacrifice_message}`)
     }
 
-    if (hummingbird.hasTrigger(description, locale) && summed_results.some(hummingbird.qualified)) {
-      const hummingbird_message = hummingbird.spotted(locale)
+    if (hummingbird.hasTrigger(this.description, this.locale) && summed_results.some(hummingbird.qualified)) {
+      const hummingbird_message = hummingbird.spotted(this.locale)
       result_lines.push(`-# ${hummingbird_message}`)
     }
 
     return result_lines.join("\n")
-  },
-  execute(interaction) {
-    let pool = interaction.options.getInteger("pool")
-    let explode = interaction.options.getInteger("explode") ?? 10
-    let threshold = interaction.options.getInteger("threshold") ?? 8
-    const rote = interaction.options.getBoolean("rote") ?? false
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const until = interaction.options.getInteger("until") ?? 0
-    const decreasing = interaction.options.getBoolean("decreasing") ?? false
-    const description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-    const is_teamwork = interaction.options.getBoolean("teamwork") ?? false
+  }
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "nwod")
-
-    const userFlake = interaction.user.id
-
-    if (is_teamwork) {
-      if (rolls > 1 || until > 0 || secret || !pool) {
-        return interaction.whisper(t("options.teamwork.validation.conflict"))
-      }
-
-      const teamwork_options = {
-        roller: { explode, rote, threshold },
-        summer: { threshold },
-        presenter: { explode, threshold, rote, description },
-      }
-
-      return teamworkBegin({
-        interaction,
-        description,
-        command: command_name,
-        options: teamwork_options,
-        pool,
-      })
+  validate() {
+    if (this.teamwork && (this.rolls > 1 || this.until > 0 || this.secret || !this.pool)) {
+      return this.t("options.teamwork.validation.conflict")
     }
-
-    const partial_message = module.exports.perform({
-      rolls,
-      pool,
-      rote,
-      explode,
-      threshold,
-      until,
-      decreasing,
-      description,
-      locale: interaction.locale,
-    })
-    const full_text = injectMention(partial_message, userFlake)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }
