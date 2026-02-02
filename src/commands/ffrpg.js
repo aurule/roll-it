@@ -60,7 +60,6 @@ export class Ffrpg extends Command {
     this.saveOption("flat")
     this.saveOption("rolls")
     this.saveOption("description")
-    this.saveOption("secret")
 
     if (this.flat) {
       this.crit = 0

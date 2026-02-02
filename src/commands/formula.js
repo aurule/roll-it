@@ -42,7 +42,6 @@ export class Formula extends SavableCommand {
     this.saveOption("formula")
     this.saveOption("description")
     this.saveOption("rolls")
-    this.saveOption("secret")
   }
 
   perform() {

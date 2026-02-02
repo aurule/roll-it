@@ -46,7 +46,6 @@ export class Swn extends SavableCommand {
     this.saveOption("modifier")
     this.saveOption("pool")
     this.saveOption("rolls")
-    this.saveOption("secret")
 
     this.reroll = this.options.get("reroll-1s") ?? false
   }

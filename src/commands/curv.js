@@ -50,7 +50,6 @@ export class Curv extends SavableCommand {
     this.saveOption("modifier")
     this.saveOption("rolls")
     this.saveOption("description")
-    this.saveOption("secret")
     // Keep is special, because it needs to be translated from "advantage" to "highest"
     this.keep = with_to_keep(this.interaction.options.getString("with"))
   }

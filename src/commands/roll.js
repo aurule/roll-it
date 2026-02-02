@@ -47,7 +47,6 @@ export class Roll extends SavableCommand {
     this.saveOption("modifier")
     this.saveOption("rolls")
     this.saveOption("description")
-    this.saveOption("secret")
   }
 
   perform() {

@@ -41,7 +41,6 @@ export class Fate extends SavableCommand {
     this.saveOption("description")
     this.saveOption("modifier")
     this.saveOption("rolls")
-    this.saveOption("secret")
   }
 
   /**

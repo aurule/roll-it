@@ -78,7 +78,6 @@ export class Sra extends SavableCommand {
     this.saveOption("risk")
     this.saveOption("rolls")
     this.saveOption("until")
-    this.saveOption("secret")
 
     this.threshold = make_threshold(this.options.get("with"))
   }

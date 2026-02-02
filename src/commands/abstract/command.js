@@ -97,7 +97,9 @@ export class Command {
   /**
    * Create a new Command object
    *
-   * Subclasses should use their constructor to extract command option data
+   * Subclasses should use their constructor to extract command option data.
+   *
+   * By default, only the "secret" boolean option is extracted and set.
    *
    * @param  {Interaction} interaction Discord interaction object
    * @return {Command}                 New Command object
@@ -107,6 +109,8 @@ export class Command {
     this.options = new CommandOptions(interaction.options)
     this.locale = interaction.locale
     this.t = i18n.getFixedT(this.locale, "commands", this.constructor.name)
+
+    this.saveOption("secret")
   }
 
   /**

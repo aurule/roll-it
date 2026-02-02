@@ -57,7 +57,6 @@ export class Coin extends Command {
 
     this.saveOption("description")
     this.saveOption("call")
-    this.saveOption("secret")
   }
 
   perform() {

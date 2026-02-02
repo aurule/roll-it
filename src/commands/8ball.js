@@ -43,7 +43,6 @@ export class Magic8Ball extends Command {
 
     this.saveOption("question")
     this.saveOption("doit")
-    this.saveOption("secret")
   }
 
   perform() {

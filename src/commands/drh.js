@@ -83,7 +83,6 @@ export class Drh extends SavableCommand {
     this.saveOption("talent")
     this.saveOption("modifier")
     this.saveOption("rolls")
-    this.saveOption("secret")
   }
 
   perform() {

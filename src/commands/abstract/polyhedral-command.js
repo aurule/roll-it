@@ -66,7 +66,6 @@ export class PolyhedralCommand extends SavableCommand {
     this.saveOption("rolls")
     this.saveOption("pool")
     this.saveOption("description")
-    this.saveOption("secret")
   }
 
   perform() {
