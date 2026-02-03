@@ -24,6 +24,15 @@ export class Command {
   static name
 
   /**
+   * The name of this command's parent command
+   *
+   * Only subcommands should ever have a parent. For all other commands, it must be `undefined`
+   *
+   * @type string | undefined
+   */
+  static parent
+
+  /**
    * Joi schema for the command's options
    *
    * This is not currently used outside of the saved roll system, but every
