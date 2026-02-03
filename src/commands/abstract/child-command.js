@@ -1,3 +1,5 @@
+import { i18n } from "../../locales.js"
+
 /**
  * Mixin to convert a command to a subcommand
  *
@@ -17,6 +19,12 @@ export function Child(kommand, parent_name) {
      */
     static get builder() {
       return new LocalizedSubcommandBuilder(this.name, this.parent)
+    }
+
+    constructor(interaction) {
+      super(interaction)
+
+      this.t = i18n.getFixedT(this.locale, "commands", `${this.constructor.parent}.${this.constructor.name}`)
     }
   }
 }
