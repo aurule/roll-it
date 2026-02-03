@@ -1,49 +1,67 @@
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { present as presentHelp } from "../../presenters/command-help-presenter.js"
 import { list as listCommands } from "../../presenters/command-name-presenter.js"
 import { all as suggestCommands } from "../../completers/command-completers.js"
-import { i18n } from "../../locales/index.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
+import { commands } from "../index.js"
+import { safe_locale } from "../../locales/helpers.js"
 
-const command_name = "command"
-const parent_name = "help"
+/**
+ * Class for the help command command
+ */
+export const CommandHelp = Child(BaseCommandHelp, "help")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
+/**
+ * Base class for the help command command
+ */
+class BaseCommandHelp extends Command {
+  static name = "command"
+
+  /**
+   * The response from `/help command` is always ephemeral
+   * @type {boolean}
+   */
+  static secret = true
+
+  command
+
+  static data() {
+    return this.builder.addLocalizedStringOption(
       "command",
       (option) => option.setAutocomplete(true).setRequired(true),
-    ),
-  execute(interaction) {
-    const command_name = interaction.options.getString("command") ?? ""
+    )
+  }
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "help.command")
+  constructor(interaction) {
+    super(interaction)
 
-    const command = interaction.client.commands.get(command_name)
+    this.saveOption("command")
+  }
 
-    if (!command)
-      return interaction.whisper(t("options.command.validation.unavailable", { command_name }))
+  perform() {
+    const commandKlass = commands.get(this.command)
+    return presentHelp(commandKlass, this.locale)
+  }
 
-    const full_text = presentHelp(command, interaction.locale)
-    return interaction.paginate({
-      content: full_text,
-      secret: true,
-    })
-  },
-  async autocomplete(interaction) {
-    const focusedOption = interaction.options.getFocused(true)
+  validate() {
+    if (!commands.has(this.command)) return this.t("options.command.validation.unavailable", { command_name: this.command })
+  }
+
+  autocomplete() {
+    const focusedOption = this.interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 
     switch (focusedOption.name) {
       case "command":
         return suggestCommands(partialText)
     }
-  },
-  help_data(opts) {
-    const commands = require("../index")
+  }
+
+  static help_data(opts) {
+    // we need to use a safe locale here because we're getting translated command names
+    const locale = safe_locale(opts.locale)
     return {
-      commands: listCommands(commands.sorted.get(opts.locale), opts.locale),
+      commands: listCommands(commands.sorted.get(locale), locale),
     }
-  },
+  }
 }

@@ -8,7 +8,7 @@ import { data as changesData } from "./help/changes.js"
 
 /**
  * Collection of help topics
- * @type {Collection}
+ * @type Collection<string, Function>
  */
 export const helpTopics = new Collection()
 

@@ -1,48 +1,69 @@
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { list as listTopics } from "../../presenters/topic-name-presenter.js"
 import { helpTopics } from "../../data/help-topics.js"
 import { i18n } from "../../locales/index.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "topic"
-const parent_name = "help"
+/**
+ * Class for the help topic command
+ */
+export const Topic = Child(BaseTopic)
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
+/**
+ * Base class for the help topic command
+ */
+class BaseTopic extends Command {
+  static name = "topic"
+
+  /**
+   * The response from `/help topic` is always ephemeral
+   * @type {boolean}
+   */
+  static secret = true
+
+  topic = ""
+
+  static data() {
+    return this.builder.addLocalizedStringOption(
       "topic",
       (option) => option.setLocalizedChoices("about", "changes", "commands", "saved", "systems"),
-    ),
-  execute(interaction) {
-    const topic_name = interaction.options.getString("topic") ?? ""
+    )
+  }
 
-    const t = i18n.getFixedT(interaction.locale)
+  constructor(interaction) {
+    super(interaction)
 
-    const topic = helpTopics.get(topic_name)
-    if (!topic)
-      return interaction.whisper(
-        t("commands:help.topic.options.topic.validation.unavailable", { topic_name }),
-      )
+    this.saveOption("topic")
+  }
+
+  perform() {
+    /**
+     * Registered function to get values for help string interpolation
+     * @type Function
+     */
+    const topicHelpData = helpTopics.get(this.topic)
 
     const data = {
       returnObjects: true,
     }
-    if (topic.help_data) {
-      Object.assign(data, topic.help_data(interaction.locale))
-    }
+    Object.assign(data, topicHelpData(this.locale))
 
-    const topic_title = t(`help:${topic_name}.title`)
-    const topic_body = t(`help:${topic_name}.lines`, data).join("\n")
-    const full_text = t("help:topics.message", { title: topic_title, body: topic_body })
-    return interaction.paginate({
-      content: full_text,
-      secret: true,
-    })
-  },
+    const help_t = i18n.getFixedT(this.locale, "help")
+
+    const title = help_t(`${this.topic}.title`)
+    const body = help_t(`${this.topic}.lines`, data).join("\n")
+    return help_t("topics.message", { title, body })
+  }
+
+  validate() {
+    const topic = helpTopics.get(this.topic)
+    if (!topic)
+      return this.t("options.topic.validation.unavailable", { topic_name: this.topic })
+  }
+
   help_data(opts) {
     return {
-      topics: listTopics(opts.locale),
+      topics: listTopics(opts.locale)
     }
-  },
+  }
 }

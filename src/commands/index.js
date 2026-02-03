@@ -24,6 +24,7 @@ import { SetupRollIt } from "./setup-roll-it.js"
 import { Sra } from "./sra.js"
 import { Swn } from "./swn.js"
 import { Dnd } from "./dnd.js"
+import { Help } from "./help.js"
 
 /**
  * Top-level collection of command objects
@@ -90,6 +91,7 @@ register(Drh)
 register(Fate)
 register(Ffrpg)
 register(Formula)
+register(Help)
 register(Kob)
 register(Magic8Ball)
 register(Pba)
