@@ -18,7 +18,8 @@ import { sendError, sendEvent } from "../services/metrics.js"
  *                                    interaction. Rejects if command not found.
  */
 export async function handleCommand(interaction) {
-  const kommand = interaction.client.commands.get(interaction.commandName)
+  const command_key = interaction.hasSubcommand() ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
+  const kommand = interaction.client.commands.get(command_key)
 
   if (!kommand) return Promise.reject(`no command ${interaction.commandName}`)
 
@@ -49,25 +50,12 @@ export async function handleCommand(interaction) {
  *                                    completer isn't found.
  */
 export async function handleAutocomplete(interaction) {
-  const command = interaction.client.commands.get(interaction.commandName)
-  if (!command) return Promise.reject(`no command ${interaction.commandName} (autocomplete)`)
+  const command_key = interaction.hasSubcommand() ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
+  const kommand = interaction.client.commands.get(command_key)
+  if (!kommand) return Promise.reject(`no command ${interaction.commandName} (autocomplete)`)
 
-  const completer = command.autocomplete
-  const option = interaction.options.getFocused(true)
-  if (!completer)
-    return Promise.reject(
-      `no autocomplete for option ${option.name} on command ${interaction.commandName}`,
-    )
-
-  logger.info(
-    {
-      command: command.name,
-      option: option.name,
-    },
-    `autocomplete called for option ${option.name} on command ${interaction.commandName}`,
-  )
-
-  return completer(interaction).then((result) => interaction.respond(result))
+  const command = new kommand(interaction)
+  return command.autocomplete().then((result) => interaction.respond(result))
 }
 
 /**

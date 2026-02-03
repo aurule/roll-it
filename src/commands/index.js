@@ -27,7 +27,13 @@ import { Swn } from "./swn.js"
 /**
  * Top-level collection of command objects
  *
- * Various keys are reserved for grouping commands. Otherwise, keys match the name of the bot's commands.
+ * Top-level commands are keyed by their static `name` property. This lets the
+ * interaction handler look them up from the data passed by Discord.
+ *
+ * Subcommands are keyed by a combination of their parent name and own
+ * name: `parent child`.
+ *
+ * @see interactionCreate.js
  *
  * @type {Collection}
  */
@@ -52,12 +58,21 @@ function register(kommand) {
     guild.set(kommand.name, kommand)
   }
 
-  // for each subcommand...
-  //   add to commands with the key `${command.name} ${subc.name}`
-  //   add to all_choices as `${command.name} ${subc.name}`
-
   if (kommand.savable) savable.set(kommand.name, kommand)
   if (kommand.teamworkable) teamworkable.set(kommand.name, kommand)
+
+  // duplicate the registration logic for subcommands using their compound key
+  const subcommands = kommand.children ?? []
+  for (const subc in subcommands) {
+    const subc_key = `${kommand.name} ${subc.name}`
+    commands.set(subc_key, kommand)
+    all_choices.push({
+      name: subc_key,
+      value: kommand.name,
+    })
+    if (subc.savable) savable.set(subc_key, kommand)
+    if (subc.teamworkable) teamworkable.set(subc_key, kommand)
+  }
 }
 
 // Register all command classes
