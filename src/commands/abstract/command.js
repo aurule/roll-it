@@ -136,6 +136,21 @@ export class Command {
   }
 
   /**
+   * Handle an autocomplete request
+   *
+   * This is invoked to handle autocomplete for partially typed entries in a
+   * string select command option.
+   *
+   * The option with its partial text can be fetched using
+   * `this.interaction.options.getFocused(true)`.
+   *
+   * @return {Promise<StringSelectOption[]>} Array of selection options
+   */
+  async autocomplete() {
+    throw new Error("The method `autocomplete` is not implemented")
+  }
+
+  /**
    * Validate the option values
    *
    * If all is well, return undefined or some other falsy value. Returning a
