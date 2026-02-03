@@ -6,13 +6,6 @@ import { Command } from "./command.js";
  * This covers the majority of dice rolling commands.
  */
 export class SavableCommand extends Command {
-  /**
-   * Whether this command can be saved
-   *
-   * Always true for savable commands.
-   *
-   * @type {boolean}
-   */
   static savable = true
 
   /**

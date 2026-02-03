@@ -49,6 +49,20 @@ export class Command {
   static type = "slash"
 
   /**
+   * Whether this command can be saved
+   *
+   * @type {boolean}
+   */
+  static savable = false
+
+  /**
+   * Whether this command supports interactive teamwork
+   *
+   * @type {boolean}
+   */
+  static teamworkable = false
+
+  /**
    * Discord Interaction object
    * @type Interaction
    */

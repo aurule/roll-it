@@ -11,13 +11,6 @@ import { SavableCommand } from "./savable-command.js"
  * boolean command option named "teamwork".
  */
 export class TeamworkableCommand extends SavableCommand {
-  /**
-   * Whether this command supports interactive teamwork
-   *
-   * Always true.
-   *
-   * @type {boolean}
-   */
   static teamworkable = true
 
   /**
