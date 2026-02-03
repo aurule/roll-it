@@ -1,20 +1,13 @@
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
-import { loadSubcommands, dispatch } from "../util/subcommands.js"
+import { ParentCommand } from "./abstract/parent-command.js"
+import { Attack } from "./dnd/attack.js"
+import { FullAttack } from "./dnd/full-attack.js"
+import { Save } from "./dnd/save.js"
+import { Skill } from "./dnd/skill.js"
 
-const command_name = "dnd"
-const subcommands = loadSubcommands(command_name)
-
-module.exports = {
-  name: command_name,
-  subcommands,
-  data() {
-    return new LocalizedSlashCommandBuilder(command_name)
-      .addSubcommand(subcommands.get("attack").data())
-      .addSubcommand(subcommands.get("full-attack").data())
-      .addSubcommand(subcommands.get("save").data())
-      .addSubcommand(subcommands.get("skill").data())
-  },
-  async execute(interaction) {
-    return dispatch(interaction, module.exports.subcommands)
-  },
+/**
+ * Class for the dnd parent command
+ */
+export class Dnd extends ParentCommand {
+  static name = "dnd"
+  static children = [Attack, FullAttack, Save, Skill]
 }

@@ -1,30 +1,43 @@
 import Joi from "joi"
 
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
-import { injectMention } from "../../util/formatters/inject-user.js.js"
 import { DndAttack } from "../../util/rolls/dnd-attack.js"
 import { presentFullAttack } from "../../presenters/results/dnd-results-presenter.js"
 import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
 import { modifierSchema, descriptionSchema, rollsSchema } from "../../util/common-schemas.js"
+import { SavableCommand } from "../abstract/savable-command.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "full-attack"
-const parent_name = "dnd"
+/**
+ * Class for the dnd full-attack subcommand
+ */
+export const FullAttack = Child(BaseFullAttack, "dnd")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name)
+/**
+ * Base class for the dnd full-attack subcommand
+ */
+class BaseFullAttack extends SavableCommand {
+  static name = "full-attack"
+  static changeable = ["modifier", "ac", "swings", "crit"]
+
+  swings = 1
+  modifier = 0
+  description = ""
+  crit = 20
+  ac = 0
+  rolls = 1
+
+  static data() {
+    return this.builder
       .addLocalizedIntegerOption("swings", (option) => option.setRequired(true).setMinValue(1))
       .addLocalizedIntegerOption("modifier", (option) => option.setRequired(true))
       .addStringOption(descriptionOption)
-      .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(21))
+      .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(20))
       .addLocalizedIntegerOption("ac", (option) => option.setMinValue(1))
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier", "ac", "swings", "crit"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     swings: Joi.number().required().integer().min(1).messages({
       "number.integer": "Swings must be a whole number.",
       "number.min": "Swings must be 1 or more.",
@@ -41,57 +54,37 @@ module.exports = {
       "number.min": "AC must be 1 or more.",
     }),
     rolls: rollsSchema,
-  }),
-  perform({
-    swings = 1,
-    modifier = 0,
-    crit = 20,
-    ac = 0,
-    description = "",
-    rolls = 1,
-    locale = "en-US",
-  } = {}) {
-    const attacks = Array.from({ length: rolls }, () => {
-      return Array.from({ length: swings }, (_v, idx) => new DndAttack(modifier - 5 * idx, crit))
+  })
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("swings")
+    this.saveOption("modifier")
+    this.saveOption("description")
+    this.saveOption("crit")
+    this.saveOption("ac")
+    this.saveOption("rolls")
+  }
+
+  perform() {
+    const attacks = Array.from({ length: this.rolls }, () => {
+      return Array.from({ length: this.swings }, (_v, idx) => new DndAttack(this.modifier - 5 * idx, this.crit))
     })
 
     const presented_results = presentFullAttack({
-      swings,
+      swings: this.swings,
       attacks,
-      modifier,
-      crit,
-      ac,
-      rolls,
-      description,
-      locale,
+      modifier: this.modifier,
+      crit: this.crit,
+      ac: this.ac,
+      rolls: this.rolls,
+      description: this.description,
+      locale: this.locale,
     })
 
     // this space reserved for easter eggs
 
     return presented_results
-  },
-  async execute(interaction) {
-    const swings = interaction.options.getInteger("swings") ?? 1
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const crit = interaction.options.getInteger("crit") ?? 20
-    const ac = interaction.options.getInteger("ac") ?? 0
-    const description = interaction.options.getString("description") ?? ""
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      swings,
-      modifier,
-      crit,
-      ac,
-      description,
-      rolls,
-      locale: interaction.locale,
-    })
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }

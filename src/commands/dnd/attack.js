@@ -1,29 +1,42 @@
 import Joi from "joi"
 
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
-import { injectMention } from "../../util/formatters/inject-user.js.js"
 import { DndAttack } from "../../util/rolls/dnd-attack.js"
 import { presentAttack } from "../../presenters/results/dnd-results-presenter.js"
 import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
 import { modifierSchema, descriptionSchema, rollsSchema } from "../../util/common-schemas.js"
+import { SavableCommand } from "../abstract/savable-command.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "attack"
-const parent_name = "dnd"
+/**
+ * Class for the dnd attack subcommand
+ */
+export const Attack = Child(BaseAttack, "dnd")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name)
+/**
+ * Base class for the dnd attack subcommand
+ */
+class BaseAttack extends SavableCommand {
+  static name = "attack"
+  static parent = "dnd"
+  static changeable = ["modifier", "ac", "crit"]
+
+  modifier = 0
+  description = ""
+  crit = 20
+  ac = 0
+  rolls = 1
+
+  static data() {
+    return this.builder
       .addLocalizedIntegerOption("modifier", (option) => option.setRequired(true))
       .addStringOption(descriptionOption)
       .addLocalizedIntegerOption("crit", (option) => option.setMinValue(0).setMaxValue(20))
       .addLocalizedIntegerOption("ac", (option) => option.setMinValue(1))
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  savable: true,
-  changeable: ["modifier", "ac", "crit"],
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     modifier: modifierSchema,
     description: descriptionSchema,
     crit: Joi.number().optional().integer().min(0).max(20).messages({
@@ -36,44 +49,33 @@ module.exports = {
       "number.min": "AC must be 1 or more.",
     }),
     rolls: rollsSchema,
-  }),
-  perform({ modifier = 0, crit = 20, ac = 0, description = "", rolls = 1, locale = "en-US" } = {}) {
-    const attacks = Array.from({ length: rolls }, () => new DndAttack(modifier, crit))
+  })
+
+  constructor(interaction, options) {
+    super(interaction, options)
+
+    this.saveOption("modifier")
+    this.saveOption("description")
+    this.saveOption("crit")
+    this.saveOption("ac")
+    this.saveOption("rolls")
+  }
+
+  perform() {
+    const attacks = Array.from({ length: this.rolls }, () => new DndAttack(this.modifier, this.crit))
 
     const presented_results = presentAttack({
       attacks,
-      modifier,
-      crit,
-      ac,
-      rolls,
-      description,
-      locale,
+      modifier: this.modifier,
+      crit: this.crit,
+      ac: this.ac,
+      rolls: this.rolls,
+      description: this.description,
+      locale: this.locale,
     })
 
     // this space reserved for easter eggs
 
     return presented_results
-  },
-  async execute(interaction) {
-    const modifier = interaction.options.getInteger("modifier") ?? 0
-    const crit = interaction.options.getInteger("crit") ?? 20
-    const ac = interaction.options.getInteger("ac") ?? 0
-    const description = interaction.options.getString("description") ?? ""
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      modifier,
-      crit,
-      ac,
-      description,
-      rolls,
-      locale: interaction.locale,
-    })
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }

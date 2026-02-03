@@ -23,6 +23,7 @@ import { SaveThisRoll } from "./save-this-roll.js"
 import { SetupRollIt } from "./setup-roll-it.js"
 import { Sra } from "./sra.js"
 import { Swn } from "./swn.js"
+import { Dnd } from "./dnd.js"
 
 /**
  * Top-level collection of command objects
@@ -84,6 +85,7 @@ register(D20)
 register(D4)
 register(D6)
 register(D8)
+register(Dnd)
 register(Drh)
 register(Fate)
 register(Ffrpg)
