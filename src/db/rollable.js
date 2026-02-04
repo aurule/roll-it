@@ -180,6 +180,39 @@ export class GuildRollables {
   }
 
   /**
+   * Get whether a particular table exists
+   *
+   * This method accepts either a rollable ID or a name. At least one must be provided. If both are given, it
+   * will prefer the ID.
+   *
+   * @param  {number} id   ID of the rollable to roll
+   * @param  {string} name Name of the rollable to roll
+   * @return {boolean}     True if a rollable exists for the given ID or name, false if not
+   */
+  has(id, name) {
+    let sql = oneLine`
+      SELECT 1
+      FROM rollable
+      WHERE
+    `
+
+    if (id) {
+      sql += " id = @id AND guildFlake = @guildFlake"
+    } else if (name) {
+      sql += " guildFlake = @guildFlake AND name = @name"
+    }
+
+    const select = this.db.prepare(sql)
+    select.pluck()
+    const result = select.get({
+      id,
+      name,
+      guildFlake: this.guildId,
+    })
+    return !!result
+  }
+
+  /**
    * Update the values for a given rollable
    *
    * This method will only update the values that are passed in as part of `data`. Because this method can
