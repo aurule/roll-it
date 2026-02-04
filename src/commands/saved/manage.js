@@ -1,40 +1,55 @@
 import { ButtonBuilder, ButtonStyle, ComponentType } from "discord.js"
 
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { saved_roll as suggestSavedRoll } from "../../completers/saved-roll-completers.js"
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { present } from "../../presenters/saved-roll-presenter.js"
-import { i18n } from "../../locales/index.js"
 import rollCache from "../../services/roll-cache.js"
 import { SavedRollModal } from "../../modals/saved-roll.js"
 import * as build from "../../util/message-builders.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
+import { savable } from "../index.js"
 
-const command_name = "manage"
-const parent_name = "saved"
+/**
+ * Class for the save manage command
+ */
+export const Manage = Child(BaseManage, "saved")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
+/**
+ * Base class for the save manage command
+ */
+class BaseManage extends Command {
+  static name = "manage"
+
+  static secret = true
+
+  rolls_db
+  saved_roll
+  name = ""
+
+  static data() {
+    return this.builder.addLocalizedStringOption(
       "name",
       (option) => option.setRequired(true).setAutocomplete(true),
-    ),
-  async execute(cmd_interaction) {
-    const saved_rolls = new UserSavedRolls(cmd_interaction.guildId, cmd_interaction.user.id)
+    )
+  }
 
-    const t = i18n.getFixedT(cmd_interaction.locale, "commands", "saved.manage")
+  constructor(interaction) {
+    super(interaction)
 
-    const roll_name = cmd_interaction.options.getString("name")
-    const roll_id = parseInt(roll_name)
+    this.saveOption("name")
 
-    const detail = saved_rolls.detail(roll_id, roll_name)
+    this.rolls_db = new UserSavedRolls(this.interaction.guildId, this.interaction.user.id)
+    const roll_id = parseInt(this.name)
+    this.saved_roll = this.rolls_db.detail(roll_id, this.name)
+  }
 
-    if (detail === undefined) {
-      return cmd_interaction.whisper(t("options.name.validation.missing"))
+  async execute() {
+    if (this.saved_roll === undefined) {
+      return this.interaction.whisper(this.t("options.name.validation.missing"))
     }
 
-    let manage_text = present(detail, cmd_interaction.locale)
+    let manage_text = present(this.saved_roll, this.locale)
     manage_text += "\n\n"
     manage_text += t("state.initial.prompt")
 
@@ -55,22 +70,21 @@ module.exports = {
       build.text(manage_text),
       build.actions(edit_button, cancel_button, remove_button),
     ]
-    const manage_prompt = await cmd_interaction.reply(
-      build.message(prompt_components, { secret: true }),
+    const manage_prompt = await this.interaction.reply(
+      build.message(prompt_components, { secret: this.secret }),
     )
 
     const manageHandler = async (comp_interaction) => {
       switch (comp_interaction.customId) {
         case "edit":
-          await rollCache.set(cmd_interaction, detail)
+          await rollCache.set(this.interaction, this.saved_roll)
 
-          const savable_commands = require("../index").savable
-          const command = savable_commands.get(detail.command)
+          const command = savable.get(this.saved_roll.command)
 
-          const modal = SavedRollModal.data("edit", cmd_interaction.locale, {
-            name: detail.name,
-            description: detail.description,
-            saved: detail,
+          const modal = SavedRollModal.data("edit", this.locale, {
+            name: this.saved_roll.name,
+            description: this.saved_roll.description,
+            saved: this.saved_roll,
             changeable: command.changeable,
           })
           await comp_interaction.showModal(modal)
@@ -78,19 +92,19 @@ module.exports = {
         case "remove":
           const remove_cancel = new ButtonBuilder()
             .setCustomId("remove_cancel")
-            .setLabel(t("state.remove.buttons.cancel"))
+            .setLabel(this.t("state.remove.buttons.cancel"))
             .setStyle(ButtonStyle.Secondary)
           const remove_confirm = new ButtonBuilder()
             .setCustomId("remove_confirm")
-            .setLabel(t("state.remove.buttons.confirm"))
+            .setLabel(this.t("state.remove.buttons.confirm"))
             .setStyle(ButtonStyle.Danger)
 
           const remove_components = [
-            build.text(t("state.remove.prompt", { name: detail.name })),
+            build.text(this.t("state.remove.prompt", { name: this.saved_roll.name })),
             build.actions(remove_cancel, remove_confirm),
           ]
           const remove_chicken = await manage_prompt.edit(
-            build.message(remove_components, { secret: true }),
+            build.message(remove_components, { secret: this.secret }),
           )
 
           remove_chicken
@@ -102,28 +116,28 @@ module.exports = {
               remove_interaction.deferUpdate()
               if (remove_interaction.customId == "remove_cancel") {
                 manage_prompt.edit(
-                  build.textMessage(t("state.remove.response.cancel"), { secret: true }),
+                  build.textMessage(this.t("state.remove.response.cancel"), { secret: this.secret }),
                 )
-                return cmd_interaction
+                return this.interaction
               }
 
-              saved_rolls.destroy(detail.id)
+              this.rolls_db.destroy(this.saved_roll.id)
 
               return manage_prompt.edit(
-                build.textMessage(t("state.remove.response.success", { name: detail.name }), {
-                  secret: true,
+                build.textMessage(this.t("state.remove.response.success", { name: this.saved_roll.name }), {
+                  secret: this.secret,
                 }),
               )
             })
             .catch(() => {
               manage_prompt.delete()
-              return cmd_interaction
+              return this.interaction
             })
           break
         case "cancel":
         default:
           manage_prompt.delete()
-          return cmd_interaction
+          return this.interaction
       }
     }
 
@@ -133,18 +147,19 @@ module.exports = {
     collector.once("collect", manageHandler)
     collector.once("end", (_, reason) => {
       if (reason === "time") {
-        return cmd_interaction.editReply(build.textMessage(t("response.timeout")))
+        return this.interaction.editReply(build.textMessage(this.t("response.timeout")))
       }
     })
-  },
-  async autocomplete(interaction) {
-    const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
-    const focusedOption = interaction.options.getFocused(true)
+  }
+
+  async autocomplete() {
+    const all_rolls = this.rolls_db.all()
+    const focusedOption = this.interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 
     switch (focusedOption.name) {
       case "name":
-        return suggestSavedRoll(partialText, saved_rolls.all())
+        return suggestSavedRoll(partialText, all_rolls)
     }
-  },
+  }
 }

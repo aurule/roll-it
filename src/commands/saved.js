@@ -5,13 +5,14 @@ import { safe_locale } from "../locales/helpers.js"
 import { Roll } from "./saved/roll.js"
 import { Grow } from "./saved/grow.js"
 import { List } from "./saved/list.js"
+import { Manage } from "./saved/manage.js"
 
 /**
  * Class for the saved family of commands
  */
 export class Saved extends ParentCommand {
   static name = "saved"
-  static children = [Roll, Grow, List]
+  static children = [Roll, Grow, List, Manage]
   static global = true
 
   static data() {
