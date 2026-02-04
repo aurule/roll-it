@@ -61,7 +61,7 @@ class BaseTopic extends Command {
       return this.t("options.topic.validation.unavailable", { topic_name: this.topic })
   }
 
-  help_data(opts) {
+  static help_data(opts) {
     return {
       topics: listTopics(opts.locale)
     }
