@@ -1,24 +1,32 @@
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { presentList } from "../../presenters/table-list-presenter.js"
 import { GuildRollables } from "../../db/rollable.js"
-import { i18n } from "../../locales/index.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "list"
-const parent_name = "table"
+/**
+ * Class for the table list command
+ */
+export const List = Child(BaseList, "table")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () => new LocalizedSubcommandBuilder(command_name, parent_name),
-  async execute(interaction) {
-    const tables = new GuildRollables(interaction.guildId)
+/**
+ * Base class for the table list command
+ */
+class BaseList extends Command {
+  static name = "list"
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "table.list")
+  table_db
 
-    const full_text = presentList(tables.all(), t)
-    return interaction.paginate({
-      content: full_text,
-      secret: true,
-    })
-  },
+  static data() {
+    return this.builder
+  }
+
+  constructor(interaction) {
+    super(interaction)
+
+    this.table_db = new GuildRollables(interaction.guildId)
+  }
+
+  perform() {
+    return presentList(this.table_db.all(), this.t)
+  }
 }

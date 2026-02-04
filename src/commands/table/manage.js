@@ -6,54 +6,67 @@ const {
   MessageFlags,
 } = require("discord.js")
 
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { table as suggestTables } from "../../completers/table-completers.js"
 import { GuildRollables } from "../../db/rollable.js"
-import { i18n } from "../../locales/index.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "manage"
-const parent_name = "table"
+/**
+ * Class for the table manage command
+ */
+export const Manage = Child(BaseManage, "table")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name).addLocalizedStringOption(
+/**
+ * Base class for the table manage command
+ */
+class BaseManage extends Command {
+  static name = "manage"
+
+  table = ""
+  table_id = 0
+  table_db
+
+  static data() {
+    return this.builder.addLocalizedStringOption(
       "table",
       (option) => option.setRequired(true).setAutocomplete(true),
-    ),
-  async execute(cmd_interaction) {
-    const tables = new GuildRollables(cmd_interaction.guildId)
+    )
+  }
 
-    const t = i18n.getFixedT(cmd_interaction.locale, "commands", "table.manage")
+  constructor(interaction) {
+    super(interaction)
 
-    const table_name = cmd_interaction.options.getString("table")
-    const table_id = parseInt(table_name)
+    this.saveOption("table")
 
-    const detail = tables.detail(table_id, table_name)
+    this.table_db = new GuildRollables(interaction.guildId)
+    this.table_id = parseInt(this.table)
+  }
 
-    if (detail === undefined) {
-      return cmd_interaction.whisper(t("options.table.validation.missing"))
+  async execute() {
+    if (!this.table_db.has(this.table_id, this.table)) {
+      return this.interaction.whisper(this.t("options.table.validation.missing"))
     }
+
+    const detail = this.table_db.detail(this.table_id, this.table)
 
     const show_button = new ButtonBuilder()
       .setCustomId("show")
-      .setLabel(t("state.initial.buttons.show"))
+      .setLabel(this.t("state.initial.buttons.show"))
       .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
-      .setLabel(t("state.initial.buttons.cancel"))
+      .setLabel(this.t("state.initial.buttons.cancel"))
       .setStyle(ButtonStyle.Secondary)
     const remove_button = new ButtonBuilder()
       .setCustomId("remove")
-      .setLabel(t("state.initial.buttons.remove"))
+      .setLabel(this.t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
     const manage_actions = new ActionRowBuilder().addComponents(
       show_button,
       cancel_button,
       remove_button,
     )
-    const manage_prompt = await cmd_interaction.reply({
+    const manage_prompt = await this.interaction.reply({
       content: [t("state.initial.details", { table: detail }), t("state.initial.prompt")].join(
         "\n",
       ),
@@ -65,27 +78,27 @@ module.exports = {
       switch (comp_interaction.customId) {
         case "show":
           await manage_prompt.delete()
-          const full_text = t("state.show.response.success", {
+          const full_text = this.t("state.show.response.success", {
             name: detail.name,
             contents: detail.contents,
           })
 
-          return cmd_interaction.paginate({
+          return this.interaction.paginate({
             content: full_text,
             secret: true,
           })
         case "remove":
           const remove_cancel = new ButtonBuilder()
             .setCustomId("remove_cancel")
-            .setLabel(t("state.remove.buttons.cancel"))
+            .setLabel(this.t("state.remove.buttons.cancel"))
             .setStyle(ButtonStyle.Secondary)
           const remove_confirm = new ButtonBuilder()
             .setCustomId("remove_confirm")
-            .setLabel(t("state.remove.buttons.confirm"))
+            .setLabel(this.t("state.remove.buttons.confirm"))
             .setStyle(ButtonStyle.Danger)
           const remove_actions = new ActionRowBuilder().addComponents(remove_cancel, remove_confirm)
           const remove_chicken = await manage_prompt.edit({
-            content: t("state.remove.prompt", { name: detail.name }),
+            content: this.t("state.remove.prompt", { name: detail.name }),
             components: [remove_actions],
             flags: MessageFlags.Ephemeral,
           })
@@ -99,30 +112,30 @@ module.exports = {
               remove_event.deferUpdate()
               if (remove_event.customId == "remove_cancel") {
                 manage_prompt.edit({
-                  content: t("state.remove.response.cancel"),
+                  content: this.t("state.remove.response.cancel"),
                   components: [],
                   flags: MessageFlags.Ephemeral,
                 })
-                return cmd_interaction
+                return this.interaction
               }
 
-              tables.destroy(detail.id)
+              this.table_db.destroy(detail.id)
 
               return manage_prompt.edit({
-                content: t("state.remove.response.success", { name: detail.name }),
+                content: this.t("state.remove.response.success", { name: detail.name }),
                 components: [],
                 flags: MessageFlags.Ephemeral,
               })
             })
             .catch(() => {
               manage_prompt.delete()
-              return cmd_interaction
+              return this.interaction
             })
           break
         case "cancel":
         default:
           manage_prompt.delete()
-          return cmd_interaction
+          return this.interaction
       }
     }
 
@@ -132,21 +145,21 @@ module.exports = {
     collector.once("collect", manageHandler)
     collector.once("end", (_, reason) => {
       if (reason === "time") {
-        return cmd_interaction.editReply({
-          content: t("response.timeout"),
+        return this.interaction.editReply({
+          content: this.t("response.timeout"),
           components: [],
         })
       }
     })
-  },
-  async autocomplete(interaction) {
-    const tables = new GuildRollables(interaction.guildId)
-    const focusedOption = interaction.options.getFocused(true)
+  }
+
+  async autocomplete() {
+    const focusedOption = this.interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 
     switch (focusedOption.name) {
       case "table":
-        return suggestTables(partialText, tables.all())
+        return suggestTables(partialText, this.table_db.all())
     }
-  },
+  }
 }

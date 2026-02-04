@@ -1,62 +1,74 @@
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { table as suggestTables } from "../../completers/table-completers.js"
 import { present } from "../../presenters/results/table-results-presenter.js"
 import { GuildRollables } from "../../db/rollable.js"
-import { i18n } from "../../locales/index.js"
 import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "roll"
-const parent_name = "table"
+/**
+ * Class for the table roll command
+ */
+export const Roll = Child(BaseRoll, "table")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name)
+/**
+ * Base class for the table roll command
+ */
+class BaseRoll extends Command {
+  static name = "roll"
+
+  table = ""
+  table_id = 0
+  description = ""
+  rolls = 1
+  table_db
+
+  static data() {
+    return this.builder
       .addLocalizedStringOption("table", (option) => option.setRequired(true).setAutocomplete(true))
       .addStringOption(descriptionOption)
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  async execute(interaction) {
-    const tables = new GuildRollables(interaction.guildId)
+      .addBooleanOption(secretOption)
+  }
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "table.roll")
+  constructor(interaction) {
+    super(interaction)
 
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-    const table_name = interaction.options.getString("table") ?? "0"
-    const table_id = parseInt(table_name)
+    this.saveOption("table")
+    this.saveOption("description")
+    this.saveOption("rolls")
 
-    const results = Array.from({ length: rolls }, () => tables.random(table_id, table_name))
+    this.table_db = new GuildRollables(interaction.guildId)
+    this.table_id = parseInt(this.table)
+  }
 
-    if (results[0] === undefined) {
-      return interaction.whisper(t("options.table.validation.missing"))
-    }
+  perform() {
+    const results = Array.from({ length: this.rolls }, () => this.table_db.random(this.table_id, this.table_name))
 
     const detail = tables.detail(table_id, table_name)
 
-    const full_text = present({
-      userFlake: interaction.user.id,
-      rolls,
+    return present({
+      userFlake: this.interaction.user.id,
+      rolls: this.rolls,
       tableName: detail.name,
       results,
-      description: roll_description,
-      locale: interaction.locale,
+      description: this.description,
+      locale: this.locale,
     })
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
-  async autocomplete(interaction) {
-    const tables = new GuildRollables(interaction.guildId)
-    const focusedOption = interaction.options.getFocused(true)
+  }
+
+  validate() {
+    if (!this.table_db.has(this.table_id, this.table)) {
+      return this.t("options.table.validation.missing")
+    }
+  }
+
+  async autocomplete() {
+    const focusedOption = this.interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 
     switch (focusedOption.name) {
       case "table":
-        return suggestTables(partialText, tables.all())
+        return suggestTables(partialText, this.table_db.all())
     }
-  },
+  }
 }

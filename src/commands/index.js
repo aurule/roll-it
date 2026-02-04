@@ -27,6 +27,7 @@ import { Dnd } from "./dnd.js"
 import { Help } from "./help.js"
 import { Met } from "./met.js"
 import { Saved } from "./saved.js"
+import { Table } from "./table.js"
 
 /**
  * Top-level collection of command objects
@@ -135,6 +136,7 @@ register(Sra)
 register(Swn)
 register(Met)
 register(Saved)
+register(Table)
 
 // set up per-locale sorted collections
 commands.sorted = new Collection()
