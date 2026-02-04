@@ -1,19 +1,29 @@
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { compare, handleRequest } from "../../services/met-roller.js"
 import { present } from "../../presenters/results/met-static-results-presenter.js"
-import { injectMention } from "../../util/formatters/inject-user.js.js"
 import * as sacrifice from "../../services/easter-eggs/sacrifice.js"
 import * as advice from "../../services/easter-eggs/advice.js"
 import { descriptionOption, rollsOption, secretOption } from "../../util/common-options.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "static"
-const parent_name = "met"
+/**
+ * Class for the met static command
+ */
+export const MetStatic = Child(StaticBase, "met")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name)
+/**
+ * Base class for the met static command
+ */
+class StaticBase extends Command {
+  static name = "static"
+
+  description = ""
+  throw = "rand"
+  vs = "rand"
+  rolls = 1
+
+  static data() {
+    return this.builder
       .addStringOption(descriptionOption)
       .addLocalizedStringOption("throw", (option) =>
         option.setLocalizedChoices("rock", "paper", "bomb", "scissors", "rand", "rand-bomb"),
@@ -22,9 +32,20 @@ module.exports = {
         option.setLocalizedChoices("rand", "rand-bomb", "none"),
       )
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  judge(compared, locale) {
-    if (compared.includes("")) return sacrifice.neutral(locale)
+      .addBooleanOption(secretOption)
+  }
+
+  constructor(interaction) {
+    super(interaction)
+
+    this.saveOption("description")
+    this.saveOption("throw")
+    this.saveOption("vs")
+    this.saveOption("rolls")
+  }
+
+  judge(compared) {
+    if (compared.includes("")) return sacrifice.neutral(this.locale)
 
     const totals = {
       win: 0,
@@ -38,65 +59,40 @@ module.exports = {
 
     const threshold = compared.length / 2
 
-    if (totals.win > threshold) return sacrifice.great(locale)
-    if (totals.tie > threshold) return sacrifice.good(locale)
-    if (totals.lose > threshold) return sacrifice.awful(locale)
+    if (totals.win > threshold) return sacrifice.great(this.locale)
+    if (totals.tie > threshold) return sacrifice.good(this.locale)
+    if (totals.lose > threshold) return sacrifice.awful(this.locale)
 
-    return sacrifice.neutral(locale)
-  },
-  perform({
-    throw_request = "rand",
-    vs_request = "rand",
-    description = "",
-    rolls = 1,
-    locale = "en-US",
-  } = {}) {
-    const thrown = handleRequest(throw_request, rolls)
-    const vs = handleRequest(vs_request, rolls)
+    return sacrifice.neutral(this.locale)
+  }
 
-    const compared = thrown.map((elem, idx) => compare(elem, vs[idx]))
+  perform() {
+    const thrown_symbols = handleRequest(this.throw, this.rolls)
+    const vs_symbols = handleRequest(this.vs, this.rolls)
+
+    const compared = thrown_symbols.map((elem, idx) => compare(elem, vs_symbols[idx]))
 
     const result_lines = [
       present({
-        vs_request,
-        rolls,
-        thrown,
-        vs,
+        vs_request: this.vs,
+        rolls: this.rolls,
+        thrown: thrown_symbols,
+        vs: vs_symbols,
         compared,
-        description,
-        locale,
+        description: this.description,
+        locale: this.locale,
       }),
     ]
 
-    if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = module.exports.judge(compared, locale)
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
+      const sacrifice_message = this.judge(compared)
       result_lines.push(`-# ${sacrifice_message}`)
     }
 
     if (advice.showAdvice()) {
-      result_lines.push(`-# ${advice.message(locale)}`)
+      result_lines.push(`-# ${advice.message(this.locale)}`)
     }
 
     return result_lines.join("\n")
-  },
-  async execute(interaction) {
-    const throw_request = interaction.options.getString("throw") ?? "rand"
-    const vs_request = interaction.options.getString("vs") ?? "rand"
-    const roll_description = interaction.options.getString("description") ?? ""
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const partial_message = module.exports.perform({
-      throw_request,
-      vs_request,
-      description: roll_description,
-      rolls,
-      locale: interaction.locale,
-    })
-    const full_text = injectMention(partial_message, interaction.user.id)
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+  }
 }

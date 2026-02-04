@@ -1,39 +1,56 @@
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { opposedBegin } from "../../interactive/opposed.js"
 import { descriptionOption } from "../../util/common-options.js"
-import { i18n } from "../../locales/index.js"
+import { Child } from "../abstract/child-command.js"
 
-const command_name = "opposed"
-const parent_name = "met"
+/**
+ * Class for the met opposed command
+ */
+export const Opposed = Child(OpposedBase, "met")
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name)
+/**
+ * Base class for the met opposed command
+ */
+class OpposedBase extends Command {
+  static name = "opposed"
+
+  attacker
+  defender
+  attribute = ""
+  retest = ""
+  description = ""
+
+  static data() {
+    return this.builder
       .addLocalizedUserOption("opponent", (option) => option.setRequired(true))
       .addLocalizedStringOption("attribute", (option) =>
         option.setLocalizedChoices("mental", "social", "physical").setRequired(true),
       )
       .addLocalizedStringOption("retest", (option) => option.setRequired(true))
-      .addStringOption(descriptionOption),
-  async execute(interaction) {
-    const attackerId = interaction.user.id
-    const defenderId = interaction.options.getUser("opponent").id
+      .addStringOption(descriptionOption)
+  }
 
-    const t = i18n.getFixedT(interaction.guild.locale, "commands", "met.opposed")
+  constructor(interaction) {
+    super(interaction)
 
-    if (attackerId === defenderId) {
-      return interaction.whisper(t("options.opponent.validation.self"))
-    }
+    this.saveOption("attribute")
+    this.saveOption("description")
+    this.saveOption("retest")
+    this.attacker = this.interaction.user.id
+    this.defender = this.interaction.options.getUser("opponent").id
+  }
 
+  perform() {
     return opposedBegin({
       interaction,
-      attackerId,
-      defenderId,
-      attribute: interaction.options.getString("attribute"),
-      description: interaction.options.getString("description") ?? "",
-      retest: interaction.options.getString("retest"),
+      attackerId: this.attacker,
+      defenderId: this.defender,
+      attribute: this.attribute,
+      retest: this.retest,
+      description: this.description,
     })
-  },
+  }
+
+  validate() {
+    if (this.attacker === this.defender) return this.t("options.opponent.validation.self")
+  }
 }
