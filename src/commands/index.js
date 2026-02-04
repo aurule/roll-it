@@ -39,17 +39,47 @@ import { Saved } from "./saved.js"
  *
  * @see interactionCreate.js
  *
- * @type {Collection}
+ * @type {Collection<string, Command>}
  */
 export const commands = new Collection()
 
+/**
+ * Array of select option autocomplete objects for every command and subcommand
+ * @type {object[]}
+ */
 export const all_choices = []
 
+/**
+ * Collection of globally available commands
+ * @type {Collection<string, Command>}
+ */
 export const globals = new Collection()
+
+/**
+ * Collection of commands that can be installed to a guild
+ * @type {Collection<string, Command>}
+ */
 export const guild = new Collection()
+
+/**
+ * Collection of commands which can be saved
+ * @type {Collection<string, SavableCommand>}
+ */
 export const savable = new Collection()
+
+/**
+ * Collection of commands which support interactive teamwork
+ * @type {Collection<string, TeamworkableCommand>}
+ */
 export const teamworkable = new Collection()
 
+/**
+ * Register a command class so it's callable
+ *
+ * This adds the passed class to various collections based on its properties.
+ *
+ * @param  {Command} kommand Command class to register
+ */
 function register(kommand) {
   commands.set(kommand.name, kommand)
   all_choices.push({
