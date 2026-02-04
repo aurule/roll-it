@@ -2,7 +2,7 @@ import { list } from "../presenters/command-name-presenter.js"
 import { ParentCommand } from "./abstract/parent-command.js"
 import { savable } from "../index.js"
 import { safe_locale } from "../locales/helpers.js"
-import { Roll } from "./roll.js"
+import { Roll } from "./saved/roll.js"
 import { Grow } from "./saved/grow.js"
 import { List } from "./saved/list.js"
 
