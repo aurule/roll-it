@@ -1,88 +1,95 @@
-import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { saved_roll as suggestSavedRoll, changeable_choices as suggestChangeableOption } from "../../completers/saved-roll-completers.js"
 import { UserSavedRolls } from "../../db/saved_rolls.js"
-import { present as presentCommand } from "../../presenters/command-name-presenter.js"
-import { i18n } from "../../locales/index.js"
+import { present } from "../../presenters/command-name-presenter.js"
 import { saved_bonus_target } from "../../util/saved-bonus-target.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
+import { savable } from "../index.js"
 
-const command_name = "grow"
-const parent_name = "saved"
+/**
+ * Class for the saved grow command
+ */
+export const Grow = Child(GrowBase)
 
-module.exports = {
-  name: command_name,
-  parent: parent_name,
-  data: () =>
-    new LocalizedSubcommandBuilder(command_name, parent_name)
+/**
+ * Base class for the saved grow command
+ */
+class GrowBase extends Command {
+  static name = "grow"
+
+  static secret = true
+
+  rolls_db
+  saved_roll
+  command_options
+  name = ""
+  adjustment = 0
+  change = ""
+  kommand
+  change_target
+
+  static data() {
+    return this.builder
       .addLocalizedStringOption("name", (option) => option.setRequired(true).setAutocomplete(true))
       .addLocalizedIntegerOption("adjustment")
-      .addLocalizedStringOption("change", (option) => option.setAutocomplete(true)),
-  async execute(interaction) {
-    const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
+      .addLocalizedStringOption("change", (option) => option.setAutocomplete(true))
+  }
 
-    const t = i18n.getFixedT(interaction.locale, "commands", "saved.grow")
+  constructor(interaction) {
+    super(interaction)
 
-    const roll_name = interaction.options.getString("name") ?? ""
-    const roll_id = parseInt(roll_name)
+    this.saveOption("name")
+    this.saveOption("adjustment")
+    this.saveOption("change")
 
-    const roll_detail = saved_rolls.detail(roll_id, roll_name)
-    if (roll_detail === undefined) {
-      return interaction.whisper(t("options.name.validation.missing"))
-    }
+    this.rolls_db = new UserSavedRolls(this.interaction.guildId, this.interaction.user.id)
+    const roll_id = parseInt(this.name)
+    this.saved_roll = this.rolls_db.detail(roll_id, this.name)
+    this.command_options = this.saved_roll.options
 
-    if (roll_detail.invalid) {
-      return interaction.whisper(t("options.name.validation.invalid"))
-    }
+    this.kommand = savable.get(this.saved_roll.command)
+    this.change_target = saved_bonus_target(this.bonus, this.change, this.kommand)
+  }
 
-    const adjustment = interaction.options.getInteger("adjustment") ?? 0
-
-    if (adjustment === 0) {
-      return interaction.whisper(t("options.adjustment.validation.zero"))
-    }
-
-    const change = interaction.options.getString("change")
-
-    const savable_commands = require("../index").savable
-    const command = savable_commands.get(roll_detail.command)
-    const target = saved_bonus_target(adjustment, change, command.changeable)
-
-    if (!command.changeable.includes(target)) {
-      return interaction.whisper(
-        t("options.change.validation.missing", {
-          target,
-          command: presentCommand(command, interaction.locale),
-        }),
-      )
-    }
-
-    const old_number = roll_detail.options[target] ?? 0
-    const new_number = old_number + adjustment
-    roll_detail.options[target] = new_number
+  perform() {
+    const old_number = this.command_options[this.change_target] ?? 0
+    const new_number = old_number + this.adjustment
+    this.command_options[this.change_target] = new_number
 
     try {
-      await command.schema.validateAsync(roll_detail.options)
+      this.kommand.schema.validate(this.command_options)
     } catch (err) {
-      return interaction.whisper(
-        t("validation.invalid", { adjustment, target, message: err.details[0].message }),
-      )
+      return this.t("validation.invalid", { adjustment: this.adjustment, target: this.change_target, message: err.details[0].message })
     }
 
-    saved_rolls.update(roll_detail.id, { options: roll_detail.options })
+    this.rolls_db.update(this.saved_roll.id, { options: this.command_options })
 
-    return interaction.whisper(
-      t("response.success", { target, name: roll_detail.name, old: old_number, new: new_number }),
-    )
-  },
-  async autocomplete(interaction) {
-    const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
-    const all_rolls = saved_rolls.all()
-    const focusedOption = interaction.options.getFocused(true)
+    return this.t("response.success", { target: this.change_target, name: this.command_options.name, old: old_number, new: new_number })
+  }
+
+  validate() {
+    if (this.saved_roll === undefined) return this.t("options.name.validation.missing")
+    if (this.saved_roll.invalid) return this.t("options.name.validation.invalid")
+    if (adjustment === 0) return this.t("options.adjustment.validation.zero")
+
+    if (!this.kommand.changeable.includes(this.change_target)) {
+        return this.t("options.change.validation.missing", {
+          target: change_target,
+          command: present(kommand, interaction.locale),
+        })
+    }
+  }
+
+  async autocomplete() {
+    const all_rolls = this.rolls_db.all()
+    const focusedOption = this.interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 
     switch (focusedOption.name) {
       case "name":
         return suggestSavedRoll(partialText, all_rolls)
       case "change":
-        return suggestChangeableOption(partialText, all_rolls, interaction.options)
+        return suggestChangeableOption(partialText, all_rolls, this.interaction.options)
     }
-  },
+  }
 }
