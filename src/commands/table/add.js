@@ -6,9 +6,112 @@ import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 import { GuildRollables } from "../../db/rollable.js"
 import { fetchLines } from "../../util/attachment-lines.js"
 import { i18n } from "../../locales/index.js"
+import { Command } from "../abstract/command.js"
+import { Child } from "../abstract/child-command.js"
+import { secretOption } from "../../util/common-options.js"
 
-const MAX_UPLOAD_SIZE = 5_242_880
-const MAX_ENTRY_LENGTH = 1500
+/**
+ * Class for the saved add command
+ */
+export const Add = Child(AddBase, "saved")
+
+/**
+ * Max size of an uploaded file, in bytes
+ * @type number
+ */
+export const MAX_UPLOAD_SIZE = 5_242_880
+
+/**
+ * Max number of lines in a file
+ * @type number
+ */
+export const MAX_ENTRY_LENGTH = 1500
+
+/**
+ * Base class for the saved add command
+ */
+class AddBase extends Command {
+  static name = "add"
+
+  name = ""
+  description = ""
+  file
+  table_db
+  contents
+
+  static data() {
+    return this.builder
+      .addLocalizedStringOption("name", (option) => option.setMinLength(3).setRequired(true))
+      .addLocalizedStringOption("description", (option) => option.setMinLength(3).setRequired(true))
+      .addLocalizedAttachmentOption("file", (option) => option.setRequired(true))
+      .addBooleanOption(secretOption)
+  }
+
+  constructor(interaction) {
+    super(interaction)
+
+    this.saveOption("name")
+    this.saveOption("description")
+    this.saveOption("file")
+    // need to trim name and description
+
+    this.table_db = new GuildRollables(interaction.guildId)
+  }
+
+  async execute() {
+    await this.interaction.deferReply()
+
+    const options_error = this.validate_options()
+    if (options_error) {
+      return this.interaction.whisper(options_error)
+    }
+
+    this.contents = await fetchLines(table_file)
+    // need to trim each line
+
+    const contents_error = this.validate_options()
+    if (contents_error) {
+      return this.interaction.whisper(contents_error)
+    }
+
+    this.table_db.create(this.name, this.description, this.contents)
+    return this.interaction.editReply({
+      content: this.t("response.success", { user: userMention(this.interaction.user.id), name: this.name }),
+      ephemeral: this.secret,
+    })
+  }
+
+  validate_options() {
+    // name is unique
+    // file.contentType is text/plain
+    // file.size <= MAX_UPLOAD_SIZE
+  }
+
+  validate_contents() {
+    // length >= 2
+    // no entry is longer than MAX_ENTRY_LENGTH
+  }
+
+  static help_data(_opts) {
+    return {
+      entry_length: MAX_ENTRY_LENGTH,
+    }
+  }
+}
+
+// custom execute
+//   deferReply
+//   validate options
+//   fetch file
+//   validate contents
+//   create record
+//   reply
+// validate_options
+//   remove options schema
+//   validate file details manually and return propertly translated errors
+// validate_contents
+//   use contents schema
+//   have it return translation key strings, then translate errors properly
 
 /**
  * Validate that a given value is not in use as a name for a rollable in this server
@@ -145,10 +248,5 @@ module.exports = {
       content: t("response.success", { user: userMention(interaction.user.id), name: table_name }),
       ephemeral: secret,
     })
-  },
-  help_data(opts) {
-    return {
-      entry_length: MAX_ENTRY_LENGTH,
-    }
   },
 }

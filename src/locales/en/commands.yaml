@@ -1998,9 +1998,6 @@ table:
       file:
         name: file
         description: A plain text file with the table's entries, one per line. Keep it under 5 MB.
-      quiet:
-        name: quiet
-        description: Hide the new table announcement from other users
     response:
       success: >
         {{user}} created the table *{{name}}*! You can roll on it with `/table roll name:{{name}}`.
