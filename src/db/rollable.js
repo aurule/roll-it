@@ -12,7 +12,7 @@ import { db as defaultDb } from "./index.js"
 export class GuildRollables {
   /**
    * ID of the guild to use
-   * @type str
+   * @type string
    */
   guildId
 
@@ -36,9 +36,9 @@ export class GuildRollables {
    * The rollable name is unique within the guild. If the given name is already in use, this method will
    * throw an error and roll back any transaction it's in.
    *
-   * @param  {str}   name        Unique name of the new rollable
-   * @param  {str}   description Descriptive text for the new rollable
-   * @param  {str[]} contents    Array of strings that are the rollable's contents
+   * @param  {string}   name        Unique name of the new rollable
+   * @param  {string}   description Descriptive text for the new rollable
+   * @param  {string[]} contents    Array of strings that are the rollable's contents
    * @return {Info}              Query info object with `changes` and `lastInsertRowid` properties
    *
    * @throws {SqliteError} If `name` already exists for this guild
@@ -71,7 +71,7 @@ export class GuildRollables {
    * Each object in the array represents a single rollable, and has the `id`, `name`, `description`, and `die`
    * fields. The contents are not returned by this method, as they are generally not needed in bulk.
    *
-   * @return {obj[]} Array of rollable info objects
+   * @return {object[]} Array of rollable info objects
    */
   all() {
     const select = this.db.prepare(oneLine`
@@ -108,9 +108,9 @@ export class GuildRollables {
    * // }
    * ```
    *
-   * @param  {int} id   ID of the rollable to get
-   * @param  {str} name Name of the rollable to get
-   * @return {obj}      Object with all the fields of the rollable
+   * @param  {number} id   ID of the rollable to get
+   * @param  {string} name Name of the rollable to get
+   * @return {object}      Object with all the fields of the rollable
    */
   detail(id, name) {
     let sql = oneLine`
@@ -149,9 +149,9 @@ export class GuildRollables {
    * This rolls the `die` inside sql and picks the given result from the stored rollable. This should make it
    * nearly impossible to roll an invalid result. For safety, the query is still scoped to the current guild.
    *
-   * @param  {int} id   ID of the rollable to roll
-   * @param  {str} name Name of the rollable to roll
-   * @return {str}      Rollable entry
+   * @param  {number} id   ID of the rollable to roll
+   * @param  {string} name Name of the rollable to roll
+   * @return {string}      Rollable entry
    */
   random(id, name) {
     let sql = oneLine`
@@ -225,12 +225,12 @@ export class GuildRollables {
    * You *must* supply at least one data attribute when calling this function. Otherwise, it will throw an
    * error.
    *
-   * @param  {int}   id               The ID of the rollable to update
-   * @param  {obj}   data             The new values to set
-   * @param  {str}   data.name        Unique name of the new rollable
-   * @param  {str}   data.description Descriptive text for the new rollable
-   * @param  {str[]} data.contents    Array of strings that are the rollable's contents
-   * @return {Info}                   Query info object with `changes` and `lastInsertRowid` properties
+   * @param  {number}   id               The ID of the rollable to update
+   * @param  {object}   data             The new values to set
+   * @param  {string}   data.name        Unique name of the new rollable
+   * @param  {string}   data.description Descriptive text for the new rollable
+   * @param  {string[]} data.contents    Array of strings that are the rollable's contents
+   * @return {Info}                      Query info object with `changes` and `lastInsertRowid` properties
    *
    * @throws {SqliteError} If the new `name` already exists for this guild
    * @throws {SqliteError} If `data` is empty
@@ -276,7 +276,7 @@ export class GuildRollables {
   /**
    * Get the number of rollables for this guild
    *
-   * @return {int} Number of rollables for the guild
+   * @return {number} Number of rollables for the guild
    */
   count() {
     const select = this.db.prepare(oneLine`
@@ -290,8 +290,8 @@ export class GuildRollables {
   /**
    * Check whether a given name is in use for this guild
    *
-   * @param  {str} name The name to check
-   * @return {bool}     True if a rollable exists for this guild with the given name, false if not
+   * @param  {string} name The name to check
+   * @return {boolean}     True if a rollable exists for this guild with the given name, false if not
    */
   taken(name) {
     const select = this.db.prepare(oneLine`
@@ -310,7 +310,7 @@ export class GuildRollables {
    *
    * For safety, the delete query is still scoped to the current guild.
    *
-   * @param  {int} id The ID of the rollable to delete
+   * @param  {number} id The ID of the rollable to delete
    * @return {Info}   Query info object with `changes` and `lastInsertRowid` properties
    */
   destroy(id) {
