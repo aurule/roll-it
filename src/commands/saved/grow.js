@@ -9,7 +9,7 @@ import { savable } from "../index.js"
 /**
  * Class for the saved grow command
  */
-export const Grow = Child(GrowBase)
+export const Grow = Child(GrowBase, "saved")
 
 /**
  * Base class for the saved grow command

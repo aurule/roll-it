@@ -6,7 +6,7 @@ import { Child } from "../abstract/child-command.js"
 /**
  * Class for the saved list command
  */
-export const List = Child(ListBase)
+export const List = Child(ListBase, "saved")
 
 /**
  * Base class for the saved list command
