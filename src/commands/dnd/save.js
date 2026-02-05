@@ -8,11 +8,6 @@ import { SavableCommand } from "../abstract/savable-command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the dnd save subcommand
- */
-export const Save = Child(BaseSave, "dnd")
-
-/**
  * Base class for the dnd save subcommand
  */
 class BaseSave extends SavableCommand {
@@ -69,3 +64,8 @@ class BaseSave extends SavableCommand {
     return presented_results
   }
 }
+
+/**
+ * Class for the dnd save subcommand
+ */
+export const Save = Child(BaseSave, "dnd")

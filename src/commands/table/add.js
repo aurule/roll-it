@@ -8,11 +8,6 @@ import { Child } from "../abstract/child-command.js"
 import { secretOption } from "../../util/common-options.js"
 
 /**
- * Class for the saved add command
- */
-export const Add = Child(AddBase, "saved")
-
-/**
  * Max size of an uploaded file, in bytes
  * @type number
  */
@@ -116,3 +111,8 @@ class AddBase extends Command {
     }
   }
 }
+
+/**
+ * Class for the saved add command
+ */
+export const Add = Child(AddBase, "saved")

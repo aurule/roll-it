@@ -4,11 +4,6 @@ import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the saved list command
- */
-export const List = Child(ListBase, "saved")
-
-/**
  * Base class for the saved list command
  */
 class ListBase extends Command {
@@ -24,3 +19,8 @@ class ListBase extends Command {
     return presentList(saved_rolls.all(), this.locale)
   }
 }
+
+/**
+ * Class for the saved list command
+ */
+export const List = Child(ListBase, "saved")

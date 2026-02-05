@@ -7,11 +7,6 @@ import { Child } from "../abstract/child-command.js"
 import { savable } from "../index.js"
 
 /**
- * Class for the saved grow command
- */
-export const Grow = Child(GrowBase, "saved")
-
-/**
  * Base class for the saved grow command
  */
 class GrowBase extends Command {
@@ -93,3 +88,8 @@ class GrowBase extends Command {
     }
   }
 }
+
+/**
+ * Class for the saved grow command
+ */
+export const Grow = Child(GrowBase, "saved")

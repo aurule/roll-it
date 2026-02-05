@@ -7,11 +7,6 @@ import { commands } from "../index.js"
 import { safe_locale } from "../../locales/helpers.js"
 
 /**
- * Class for the help command command
- */
-export const CommandHelp = Child(BaseCommandHelp, "help")
-
-/**
  * Base class for the help command command
  */
 class BaseCommandHelp extends Command {
@@ -65,3 +60,8 @@ class BaseCommandHelp extends Command {
     }
   }
 }
+
+/**
+ * Class for the help command command
+ */
+export const CommandHelp = Child(BaseCommandHelp, "help")

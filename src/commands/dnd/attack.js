@@ -8,11 +8,6 @@ import { SavableCommand } from "../abstract/savable-command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the dnd attack subcommand
- */
-export const Attack = Child(BaseAttack, "dnd")
-
-/**
  * Base class for the dnd attack subcommand
  */
 class BaseAttack extends SavableCommand {
@@ -79,3 +74,8 @@ class BaseAttack extends SavableCommand {
     return presented_results
   }
 }
+
+/**
+ * Class for the dnd attack subcommand
+ */
+export const Attack = Child(BaseAttack, "dnd")

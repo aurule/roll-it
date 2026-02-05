@@ -11,11 +11,6 @@ import { Child } from "../abstract/child-command.js"
 import { savable } from "../index.js"
 
 /**
- * Class for the save manage command
- */
-export const Manage = Child(BaseManage, "saved")
-
-/**
  * Base class for the save manage command
  */
 class BaseManage extends Command {
@@ -163,3 +158,8 @@ class BaseManage extends Command {
     }
   }
 }
+
+/**
+ * Class for the save manage command
+ */
+export const Manage = Child(BaseManage, "saved")

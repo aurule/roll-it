@@ -17,6 +17,7 @@ import {
 
 /**
  * Create the ensure method
+ * @type {InteractionClass} Interaction object to patch
  */
 export function patch(target_klass) {
   let klasses = [

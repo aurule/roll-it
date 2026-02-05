@@ -9,11 +9,6 @@ import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the saved roll command
- */
-export const Roll = Child(BaseRoll, "saved")
-
-/**
  * Base class for the saved roll command
  */
 class BaseRoll extends Command {
@@ -115,3 +110,8 @@ class BaseRoll extends Command {
     }
   }
 }
+
+/**
+ * Class for the saved roll command
+ */
+export const Roll = Child(BaseRoll, "saved")

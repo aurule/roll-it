@@ -7,11 +7,6 @@ import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the met static command
- */
-export const MetStatic = Child(StaticBase, "met")
-
-/**
  * Base class for the met static command
  */
 class StaticBase extends Command {
@@ -96,3 +91,8 @@ class StaticBase extends Command {
     return result_lines.join("\n")
   }
 }
+
+/**
+ * Class for the met static command
+ */
+export const MetStatic = Child(StaticBase, "met")

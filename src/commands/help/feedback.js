@@ -5,11 +5,6 @@ import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the help feedback command
- */
-export const Feedback = Child(BaseFeedback, "help")
-
-/**
  * Base class for the help feedback command
  */
 class BaseFeedback extends Command {
@@ -69,3 +64,8 @@ class BaseFeedback extends Command {
     }
   }
 }
+
+/**
+ * Class for the help feedback command
+ */
+export const Feedback = Child(BaseFeedback, "help")

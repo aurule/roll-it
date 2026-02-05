@@ -8,11 +8,6 @@ import { SavableCommand } from "../abstract/savable-command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the dnd skill subcommand
- */
-export const Skill = Child(BaseSkill, "dnd")
-
-/**
  * Base class for the dnd skill subcommand
  */
 class BaseSkill extends SavableCommand {
@@ -68,3 +63,8 @@ class BaseSkill extends SavableCommand {
     return presented_results
   }
 }
+
+/**
+ * Class for the dnd skill subcommand
+ */
+export const Skill = Child(BaseSkill, "dnd")

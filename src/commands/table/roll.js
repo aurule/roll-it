@@ -6,11 +6,6 @@ import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the table roll command
- */
-export const Roll = Child(BaseRoll, "table")
-
-/**
  * Base class for the table roll command
  */
 class BaseRoll extends Command {
@@ -72,3 +67,8 @@ class BaseRoll extends Command {
     }
   }
 }
+
+/**
+ * Class for the table roll command
+ */
+export const Roll = Child(BaseRoll, "table")

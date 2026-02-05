@@ -12,11 +12,6 @@ import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the table manage command
- */
-export const Manage = Child(BaseManage, "table")
-
-/**
  * Base class for the table manage command
  */
 class BaseManage extends Command {
@@ -163,3 +158,8 @@ class BaseManage extends Command {
     }
   }
 }
+
+/**
+ * Class for the table manage command
+ */
+export const Manage = Child(BaseManage, "table")

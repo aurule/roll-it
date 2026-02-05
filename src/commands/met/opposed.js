@@ -50,3 +50,8 @@ class OpposedBase extends Command {
     if (this.attacker === this.defender) return this.t("options.opponent.validation.self")
   }
 }
+
+/**
+ * Class for the met opposed command
+ */
+export const Opposed = Child(OpposedBase, "met")

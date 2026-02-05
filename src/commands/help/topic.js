@@ -5,11 +5,6 @@ import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
 /**
- * Class for the help topic command
- */
-export const Topic = Child(BaseTopic)
-
-/**
  * Base class for the help topic command
  */
 class BaseTopic extends Command {
@@ -67,3 +62,8 @@ class BaseTopic extends Command {
     }
   }
 }
+
+/**
+ * Class for the help topic command
+ */
+export const Topic = Child(BaseTopic)
