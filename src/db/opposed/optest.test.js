@@ -100,7 +100,7 @@ describe("db OpTest class", () => {
         retester_id: defender.id,
         canceller_id: attacker.id,
       })
-      test_id = result.lastInsertRowid
+      const test_id = result.lastInsertRowid
       test_record = opposed_db.getTest(test_id)
     })
 
