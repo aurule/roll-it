@@ -2,7 +2,7 @@ import { MessageFlags } from "discord.js"
 
 import { forceArray } from "../force-array.js"
 
-export const message = jest.fn((components = [], options = {}) => {
+export const message = vitest.fn((components = [], options = {}) => {
   const opt_flags = options.flags ?? 0
   let flags = MessageFlags.IsComponentsV2 | opt_flags
   if (options.secret) {
@@ -33,15 +33,15 @@ export const message = jest.fn((components = [], options = {}) => {
   }
 })
 
-export const textMessage = jest.fn((text, options = {}) => {
-  return message([text(text)], options)
+export const textMessage = vitest.fn((text, options = {}) => {
+  return message([{ content: text }], options)
 })
 
-export const text = jest.fn((content) => {
+export const text = vitest.fn((content) => {
   return { content }
 })
 
-export const section = jest.fn((paragraphs, accessory) => {
+export const section = vitest.fn((paragraphs, accessory) => {
   const texts = forceArray(paragraphs)
   return {
     content: texts.join("\n"),
@@ -49,8 +49,8 @@ export const section = jest.fn((paragraphs, accessory) => {
   }
 })
 
-export const separator = jest.fn(() => "---")
+export const separator = vitest.fn(() => "---")
 
-export const actions = jest.fn((...components) => {
+export const actions = vitest.fn((...components) => {
   return { components }
 })

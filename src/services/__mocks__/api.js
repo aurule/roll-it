@@ -2,7 +2,7 @@
  * API overrides for testing
  */
 
-export const sendMessage = jest.fn(async (channelId, payload) => {
+export const sendMessage = vitest.fn(async (channelId, payload) => {
   return {
     channel_id: channelId,
     payload: payload,
@@ -10,6 +10,6 @@ export const sendMessage = jest.fn(async (channelId, payload) => {
   }
 })
 
-export const getGuildCommands = jest.fn(async (_guildId) => [])
+export const getGuildCommands = vitest.fn(async (_guildId) => [])
 
-export const setGuildCommands = jest.fn(async (_guildId, _commandNames) => true)
+export const setGuildCommands = vitest.fn(async (_guildId, _commandNames) => true)
