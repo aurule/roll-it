@@ -23,7 +23,7 @@ export class Magic8Ball extends Command {
    * The question asked of the 8 ball
    * @type string
    */
-  question
+  question = ""
 
   /**
    * Whether to force a positive result
