@@ -1,4 +1,5 @@
 import { Collection } from "discord.js"
+
 import { i18n } from "../locales/index.js"
 
 /**

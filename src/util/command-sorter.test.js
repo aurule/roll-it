@@ -1,10 +1,4 @@
 import { i18n } from "../locales/index.js"
-import { Met } from "../commands/met.js"
-import { Opposed } from "../commands/met/opposed.js"
-import { Table } from "../commands/table.js"
-import { Add } from "../commands/table/add.js"
-import { Help } from "../commands/help.js"
-import { Topic } from "../commands/help/topic.js"
 
 import { splitter, normalize, comparator, cache_id } from "./command-sorter.js"
 
@@ -129,19 +123,19 @@ describe("command sorter", () => {
       })
 
       it("met before met opposed", () => {
-        const result = compare(Met, Opposed)
+        const result = compare({ name: "met" }, { name: "opposed", parent: "met" })
 
         expect(result).toEqual(-1)
       })
 
       it("table before table add", () => {
-        const result = compare(Table, Add)
+        const result = compare({ name: "table" }, { name: "add", parent: "table" })
 
         expect(result).toEqual(-1)
       })
 
       it("help before help topic", () => {
-        const result = compare(Help, Topic)
+        const result = compare({name: "help"}, { name: "topic", parent: "help"})
 
         expect(result).toEqual(-1)
       })
