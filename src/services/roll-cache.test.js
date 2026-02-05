@@ -1,4 +1,4 @@
-const roll_cache = require("./roll-cache")
+import roll_cache from "./roll-cache.js"
 
 describe("roll cache", () => {
   describe("set", () => {
