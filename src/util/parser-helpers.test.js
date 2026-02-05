@@ -1,14 +1,14 @@
-const helpers = require("./parser-helpers")
+import { validateOptions } from "./parser-helpers"
+import { Nwod } from "../commands/nwod"
 
 describe("option schema validation helper", () => {
   describe("validateOptions", () => {
     it("with valid options, returns sanitized values", async () => {
-      const command = require("../commands/nwod")
       const options = {
         pool: "6",
       }
 
-      const result = await helpers.validateOptions(options, command)
+      const result = await validateOptions(options, Nwod)
 
       expect(result).toMatchObject({
         pool: 6,
@@ -16,12 +16,11 @@ describe("option schema validation helper", () => {
     })
 
     it("with invalid options, throws error", async () => {
-      const command = require("../commands/nwod")
       const options = {
         pool: "0",
       }
 
-      await expect(helpers.validateOptions(options, command)).rejects.toThrow()
+      await expect(validateOptions(options, Nwod)).rejects.toThrow()
     })
   })
 })

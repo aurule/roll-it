@@ -3,9 +3,9 @@ import { RollParseError } from "../errors/roll-parse-error"
 /**
  * Validate an object of command options against a command using its schema
  *
- * @param  {obj} options Options object to validate
- * @param  {obj} command Command object to validate against. Must have a schema attribute.
- * @return {obj}         Validated and sanitized options object.
+ * @param  {object}  options Options object to validate
+ * @param  {Command} command Command object to validate against. Must have a schema attribute.
+ * @return {object}          Validated and sanitized options object.
  *
  * @throws RollParseError On nvalid options.
  */
