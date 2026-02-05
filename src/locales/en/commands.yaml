@@ -1992,12 +1992,32 @@ table:
       name:
         name: name
         description: Unique name for the table
+        validation:
+          taken: >-
+            You already have a table named {{name}} on this server. You can pick
+            a different name, or use `/table manage` to remove the existing table.
       description:
         name: description
         description: A few words about the table
       file:
         name: file
         description: A plain text file with the table's entries, one per line. Keep it under 5 MB.
+        validation:
+          type: >-
+            The file you uploaded doesn't look like a plain text file: the
+            reported file type was {{type}}. Try again using a plain, basic text
+            file by saving as `.txt` with one result per line break.
+          size: >-
+            The file you uploaded is too large. Make sure your file is under
+            5 MB.
+          entry:
+            length: >-
+              At least one of the table entries is too long. Keep each one below
+              1500 characters.
+          lines:
+            min: >-
+              The file you uploaded does not have enough lines. Ensure there are
+              at least two lines of text in the file.
     response:
       success: >
         {{user}} created the table *{{name}}*! You can roll on it with `/table roll name:{{name}}`.
