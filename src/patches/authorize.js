@@ -15,16 +15,6 @@ import { UnauthorizedError } from "../errors/unauthorized-error.js"
  * Create the authorize method
  */
 export function patch(target_klass) {
-  let klasses = [
-    ButtonInteraction,
-    UserSelectMenuInteraction,
-    StringSelectMenuInteraction,
-    Message,
-  ]
-  if (target_klass) {
-    klasses = [target_klass]
-  }
-
   /**
    * Allow users with the given discord uids to continue
    *
@@ -38,8 +28,21 @@ export function patch(target_klass) {
       throw new UnauthorizedError(this, allowed_uids)
     }
   }
+  target_klass.prototype.authorize = authorize
+}
+
+/**
+ * Patch the default discord classes
+ */
+export function patchDiscord() {
+  const klasses = [
+    ButtonInteraction,
+    UserSelectMenuInteraction,
+    StringSelectMenuInteraction,
+    Message,
+  ]
 
   for (const klass of klasses) {
-    klass.prototype.authorize = authorize
+    patch(klass)
   }
 }

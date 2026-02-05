@@ -1,4 +1,4 @@
-const authorize = require("./authorize")
+import { patch, patchDiscord } from "./authorize.js"
 
 const {
   ButtonInteraction,
@@ -35,22 +35,24 @@ class PatchMeAuthorizeMessage {
 }
 
 describe("authorize helper", () => {
-  describe("patch", () => {
+  describe("default patches", () => {
+    beforeAll(() => {
+      patchDiscord()
+    })
+
     it.concurrent.each([
       [ButtonInteraction],
       [UserSelectMenuInteraction],
       [StringSelectMenuInteraction],
     ])("patches %p by default", async (klass) => {
-      authorize.patch()
-
       expect(klass.prototype.authorize).not.toBeUndefined()
     })
   })
 
   describe("authorize", () => {
     beforeAll(() => {
-      authorize.patch(PatchMeAuthorize)
-      authorize.patch(PatchMeAuthorizeMessage)
+      patch(PatchMeAuthorize)
+      patch(PatchMeAuthorizeMessage)
     })
 
     describe("with an allowed user", () => {

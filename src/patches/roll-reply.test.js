@@ -1,9 +1,10 @@
-jest.mock("../util/message-builders")
-
-const ensure = require("./ensure")
-const rollReply = require("./roll-reply")
+vitest.mock("../util/message-builders")
 
 import { CommandInteraction, MessageFlags } from "discord.js"
+
+import { patch as patchEnsure } from "./ensure.js"
+import { patch, patchDiscord } from "./roll-reply.js"
+
 
 class PatchMeRollReply {
   async reply(args) {
@@ -11,10 +12,12 @@ class PatchMeRollReply {
   }
 }
 
-describe("patch", () => {
-  it("targets the base command class by default", () => {
-    rollReply.patch()
+describe("default patches", () => {
+  beforeAll(() => {
+    patchDiscord()
+  })
 
+  it("targets the base command class by default", () => {
     expect(CommandInteraction.prototype.rollReply).not.toBeUndefined()
   })
 })
@@ -23,8 +26,8 @@ describe("rollReply helper", () => {
   let fake
 
   beforeAll(() => {
-    rollReply.patch(PatchMeRollReply)
-    ensure.patch(PatchMeRollReply)
+    patch(PatchMeRollReply)
+    patchEnsure(PatchMeRollReply)
   })
 
   beforeEach(() => {

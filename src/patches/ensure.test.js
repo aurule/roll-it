@@ -1,14 +1,15 @@
-const {
-  MessageFlags,
+import {
   CommandInteraction,
   ModalSubmitInteraction,
   ButtonInteraction,
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
   Message,
-} = require("discord.js")
+} from "discord.js"
 
-jest.mock("../services/api")
+vitest.mock("../services/api")
+
+import { patch, patchDiscord } from "./ensure.js"
 
 class PatchMeEnsure {
   channel = {
@@ -19,20 +20,22 @@ class PatchMeEnsure {
     return Promise.resolve(args)
   }
 
-  explode(args) {
+  explode(_args) {
     return Promise.reject({
       code: 10062,
     })
   }
 
-  die(args) {
+  die(_args) {
     return Promise.reject("nah")
   }
 }
 
 describe("ensure helper", () => {
-  describe("patch", () => {
-    const ensure = require("./ensure")
+  describe("default patches", () => {
+    beforeAll(() => {
+      patchDiscord()
+    })
 
     it.concurrent.each([
       [CommandInteraction],
@@ -42,15 +45,13 @@ describe("ensure helper", () => {
       [StringSelectMenuInteraction],
       [Message],
     ])("patches %p by default", async (klass) => {
-      ensure.patch()
-
       expect(klass.prototype.ensure).not.toBeUndefined()
     })
   })
 
   describe("ensure", () => {
     beforeAll(() => {
-      require("./ensure").patch(PatchMeEnsure)
+      patch(PatchMeEnsure)
     })
 
     it("calls the named function", async () => {

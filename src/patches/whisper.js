@@ -17,18 +17,6 @@ import * as build from "../util/message-builders.js"
  * Create the whisper method
  */
 export function patch(target_klass) {
-  let klasses = [
-    CommandInteraction,
-    ModalSubmitInteraction,
-    ButtonInteraction,
-    UserSelectMenuInteraction,
-    StringSelectMenuInteraction,
-    Message,
-  ]
-  if (target_klass) {
-    klasses = [target_klass]
-  }
-
   /**
    * Reply with an ephemeral message
    *
@@ -40,7 +28,23 @@ export function patch(target_klass) {
     return this.reply(message)
   }
 
+  target_klass.prototype.whisper = whisper
+}
+
+/**
+ * Patch the default discord interaction classes
+ */
+export function patchDiscord() {
+  const klasses = [
+    CommandInteraction,
+    ModalSubmitInteraction,
+    ButtonInteraction,
+    UserSelectMenuInteraction,
+    StringSelectMenuInteraction,
+    Message,
+  ]
+
   for (const klass of klasses) {
-    klass.prototype.whisper = whisper
+    patch(klass)
   }
 }

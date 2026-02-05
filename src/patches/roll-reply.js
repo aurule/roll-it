@@ -9,8 +9,6 @@ import * as build from "../util/message-builders.js"
  * Create the rollReply method
  */
 export function patch(klass) {
-  if (!klass) klass = CommandInteraction
-
   /**
    * Reply with a possibly ephemeral message
    *
@@ -30,5 +28,16 @@ export function patch(klass) {
     const message = build.textMessage(content, { secret })
 
     return this.ensure("reply", message)
+  }
+}
+
+/**
+ * Patch the default discord classes
+ */
+export function patchDiscord() {
+  const klasses = [CommandInteraction]
+
+  for (const klass of klasses) {
+    patch(klass)
   }
 }

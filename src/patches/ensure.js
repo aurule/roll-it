@@ -2,10 +2,6 @@
  * This patch creates a helper method named "ensure" on all interaction objects.
  */
 
-import { sendMessage } from "../services/api.js"
-import { sendError } from "../services/metrics.js"
-import { logger } from "../util/logger.js"
-
 import {
   CommandInteraction,
   ModalSubmitInteraction,
@@ -15,23 +11,15 @@ import {
   Message,
 } from "discord.js"
 
+import { sendMessage } from "../services/api.js"
+import { sendError } from "../services/metrics.js"
+import { logger } from "../util/logger.js"
+
 /**
  * Create the ensure method
  * @type {InteractionClass} Interaction object to patch
  */
 export function patch(target_klass) {
-  let klasses = [
-    CommandInteraction,
-    ModalSubmitInteraction,
-    ButtonInteraction,
-    UserSelectMenuInteraction,
-    StringSelectMenuInteraction,
-    Message,
-  ]
-  if (target_klass) {
-    klasses = [target_klass]
-  }
-
   /**
    * Try to ensure that a particular message will be sent
    *
@@ -103,7 +91,23 @@ export function patch(target_klass) {
     })
   }
 
+  target_klass.prototype.ensure = ensure
+}
+
+/**
+ * Patch the default discord interaction classes
+ */
+export function patchDiscord() {
+  const klasses = [
+    CommandInteraction,
+    ModalSubmitInteraction,
+    ButtonInteraction,
+    UserSelectMenuInteraction,
+    StringSelectMenuInteraction,
+    Message,
+  ]
+
   for (const klass of klasses) {
-    klass.prototype.ensure = ensure
+    patch(klass)
   }
 }

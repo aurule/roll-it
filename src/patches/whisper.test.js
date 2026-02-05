@@ -1,6 +1,6 @@
-jest.mock("../util/message-builders")
+vitest.mock("../util/message-builders")
 
-const whisper = require("./whisper")
+import { patch, patchDiscord } from "./whisper"
 
 const {
   MessageFlags,
@@ -20,6 +20,10 @@ class PatchMeWhisper {
 
 describe("whisper helper", () => {
   describe("patch", () => {
+    beforeAll(() => {
+      patchDiscord()
+    })
+
     it.concurrent.each([
       [CommandInteraction],
       [ModalSubmitInteraction],
@@ -28,15 +32,13 @@ describe("whisper helper", () => {
       [StringSelectMenuInteraction],
       [Message],
     ])("patches %p by default", async (klass) => {
-      whisper.patch()
-
       expect(klass.prototype.whisper).not.toBeUndefined()
     })
   })
 
   describe("whisper", () => {
     beforeAll(() => {
-      whisper.patch(PatchMeWhisper)
+      patch(PatchMeWhisper)
     })
 
     it("sends a reply that includes the message", () => {

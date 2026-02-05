@@ -1,8 +1,9 @@
-jest.mock("../util/message-builders")
-
-const paginate = require("./paginate")
+vitest.mock("../util/message-builders")
 
 import { CommandInteraction, MessageFlags } from "discord.js"
+
+import { Paginator, patch, patchDiscord } from "./paginate"
+
 
 class PatchMePaginate {
   messages = []
@@ -25,7 +26,7 @@ class PatchMePaginate {
 describe("Paginator class", () => {
   describe("constructor", () => {
     it("sets the page length for locale", () => {
-      const paginator = new paginate.Paginator("stuff")
+      const paginator = new Paginator("stuff")
 
       expect(paginator.page_length).toBeLessThan(paginator.max_characters)
     })
@@ -33,13 +34,13 @@ describe("Paginator class", () => {
 
   describe("prefix", () => {
     it("gives first page prefix", () => {
-      const paginator = new paginate.Paginator("stuff")
+      const paginator = new Paginator("stuff")
 
       expect(paginator.prefix(1)).toEqual("")
     })
 
     it("gives other page prefix", () => {
-      const paginator = new paginate.Paginator("stuff")
+      const paginator = new Paginator("stuff")
 
       expect(paginator.prefix(2)).toEqual("…")
     })
@@ -49,7 +50,7 @@ describe("Paginator class", () => {
     let paginator
 
     beforeEach(() => {
-      paginator = new paginate.Paginator("rocks and trees and trees and rocks", 30)
+      paginator = new Paginator("rocks and trees and trees and rocks", 30)
     })
 
     it("gives first page suffix", () => {
@@ -67,7 +68,7 @@ describe("Paginator class", () => {
 
   describe("newlines", () => {
     it("returns all newline indexes", () => {
-      const paginator = new paginate.Paginator("rocks and trees\nand trees\nand rocks")
+      const paginator = new Paginator("rocks and trees\nand trees\nand rocks")
 
       expect(paginator.newlines).toEqual([15, 25])
     })
@@ -75,13 +76,13 @@ describe("Paginator class", () => {
 
   describe("invalid_ranges", () => {
     it("returns an array of invalid range sets", () => {
-      const paginator = new paginate.Paginator("rocks and trees *and trees* and rocks")
+      const paginator = new Paginator("rocks and trees *and trees* and rocks")
 
       expect(paginator.invalid_ranges).toEqual([[16, 27]])
     })
 
     it("handles multiple ranges", () => {
-      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+      const paginator = new Paginator("__rocks__ and trees *and trees* and rocks")
 
       expect(paginator.invalid_ranges).toEqual([
         [20, 31],
@@ -92,7 +93,7 @@ describe("Paginator class", () => {
 
   describe("breakpoint_is_valid", () => {
     it("returns true when breakpoint is outside of all invalid ranges", () => {
-      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+      const paginator = new Paginator("__rocks__ and trees *and trees* and rocks")
 
       const result = paginator.breakpoint_is_valid(12)
 
@@ -100,7 +101,7 @@ describe("Paginator class", () => {
     })
 
     it("returns false when breakpoint is within an invalid range", () => {
-      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+      const paginator = new Paginator("__rocks__ and trees *and trees* and rocks")
 
       const result = paginator.breakpoint_is_valid(22)
 
@@ -110,7 +111,7 @@ describe("Paginator class", () => {
 
   describe("segments", () => {
     it("finds word boundaries", () => {
-      const paginator = new paginate.Paginator("rocks and trees and trees and rocks")
+      const paginator = new Paginator("rocks and trees and trees and rocks")
 
       const result = paginator.segments
 
@@ -118,7 +119,7 @@ describe("Paginator class", () => {
     })
 
     it("omits boundaries within an invalid range", () => {
-      const paginator = new paginate.Paginator("__rocks__ and trees *and trees* and rocks")
+      const paginator = new Paginator("__rocks__ and trees *and trees* and rocks")
 
       const result = paginator.segments
 
@@ -134,7 +135,7 @@ describe("Paginator class", () => {
     describe("with a single page", () => {
       beforeEach(() => {
         original = "rocks and trees and trees and rocks"
-        paginator = new paginate.Paginator(original, 100)
+        paginator = new Paginator(original, 100)
       })
 
       it("returns an array with one message", () => {
@@ -171,7 +172,7 @@ Curabitur facilisis purus at venenatis imperdiet.
 Sed eget nisi non ante pellentesque pretium in vitae diam.
 Mauris pulvinar massa quis nulla condimentum luctus.
 Maecenas malesuada diam in arcu mattis, sed varius justo tristique.`
-          paginator = new paginate.Paginator(original, 500)
+          paginator = new Paginator(original, 500)
         })
 
         it("returns all pages", () => {
@@ -205,7 +206,7 @@ Maecenas malesuada diam in arcu mattis, sed varius justo tristique.`
 
 Etiam vehicula ante eget nulla pharetra, eget dignissim sem dictum. Proin finibus arcu lectus. Proin eget elit sed nunc blandit condimentum. Proin sollicitudin quam sed nulla sodales, in ullamcorper sapien porttitor. Suspendisse sit amet aliquet nibh, sed varius eros. Ut elementum orci massa, vitae egestas risus lacinia eu. Nunc cursus, ex *id malesuada fermentum*, leo arcu luctus metus, eu condimentum neque ante vitae sem. Proin eros nunc, vestibulum quis blandit eu, porttitor et justo. Aliquam non lacus dictum, laoreet odio et, dignissim turpis. Donec commodo maximus diam, tempus ultricies elit iaculis vitae. Praesent efficitur sollicitudin lectus, vel scelerisque tellus imperdiet vel. Duis dictum, nisl quis ullamcorper congue, purus diam rhoncus ipsum, ut pretium tellus odio sit amet tellus. In in velit neque. Nam lacinia feugiat facilisis.
 `
-          paginator = new paginate.Paginator(original, 500)
+          paginator = new Paginator(original, 500)
         })
 
         it("returns all pages", () => {
@@ -231,17 +232,19 @@ Etiam vehicula ante eget nulla pharetra, eget dignissim sem dictum. Proin finibu
 })
 
 describe("pagination helper", () => {
-  describe("patch", () => {
-    it("targets the base command class by default", () => {
-      paginate.patch()
+  describe("default patches", () => {
+    beforeAll(() => {
+      patchDiscord()
+    })
 
+    it("targets the base command class by default", () => {
       expect(CommandInteraction.prototype.paginate).not.toBeUndefined()
     })
   })
 
   describe("paginate", () => {
     beforeAll(() => {
-      paginate.patch(PatchMePaginate)
+      patch(PatchMePaginate)
     })
 
     describe("with a short message", () => {

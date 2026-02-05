@@ -9,11 +9,11 @@ process.on("unhandledRejection", (error) => {
   logger.error(error, "Unhandled promise rejection")
 })
 
-import { patch as patchWhisper } from "./patches/whisper.js"
-import { patch as patchEnsure } from "./patches/ensure.js"
-import { patch as patchPaginate } from "./patches/paginate.js"
-import { patch as patchRollReply } from "./patches/roll-reply.js"
-import { patch as patchAuthorize } from "./patches/authorize.js"
+import { patchDiscord as patchWhisper } from "./patches/whisper.js"
+import { patchDiscord as patchEnsure } from "./patches/ensure.js"
+import { patchDiscord as patchPaginate } from "./patches/paginate.js"
+import { patchDiscord as patchRollReply } from "./patches/roll-reply.js"
+import { patchDiscord as patchAuthorize } from "./patches/authorize.js"
 
 patchWhisper()
 patchEnsure()

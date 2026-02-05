@@ -269,8 +269,6 @@ export async function sendDetached(channel_id, message) {
  * Create the paginate method
  */
 export function patch(klass) {
-  if (!klass) klass = CommandInteraction
-
   /**
    * Split a long message if needed and send in multiple replies
    *
@@ -343,5 +341,16 @@ export function patch(klass) {
     }
 
     return this
+  }
+}
+
+/**
+ * Patch the default discord classes
+ */
+export function patchDiscord() {
+  const klasses = [CommandInteraction]
+
+  for (const klass of klasses) {
+    patch(klass)
   }
 }
