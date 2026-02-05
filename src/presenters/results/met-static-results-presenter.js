@@ -64,7 +64,7 @@ export function presentOne({ vs_request, thrown, vs, compared, description, t })
  * @param  {i18n.t} options.t             Translation function
  * @return {str}                          Fully presented roll
  */
-function presentMany({ vs_request, rolls, thrown, vs, compared, description, t }) {
+export function presentMany({ vs_request, rolls, thrown, vs, compared, description, t }) {
   const t_args = {
     description,
     count: rolls,
@@ -103,11 +103,11 @@ function presentMany({ vs_request, rolls, thrown, vs, compared, description, t }
 /**
  * Present a met static roll
  *
- * @param  {object}   options
- * @param  {int}      options.rolls       Number of rolls made
- * @param  {str}      options.locale      Locale for the final string
- * @param  {obj}      options.rollOptions Options used in the roll
- * @return {str}                          String showing the roll and its outcome
+ * @param  {object} options
+ * @param  {number} options.rolls       Number of rolls made
+ * @param  {string} options.locale      Locale for the final string
+ * @param  {object} options.rollOptions Options used in the roll
+ * @return {string}                     String showing the roll and its outcome
  */
 export function present({ rolls, locale, ...rollOptions }) {
   const presenter_options = {
