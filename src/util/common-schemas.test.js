@@ -1,4 +1,4 @@
-const commonSchemas = require("../util/common-schemas")
+import { descriptionSchema, rollsSchema, modifierSchema, utilSchema, poolSchema, untilSchema } from "../util/common-schemas.js"
 
 import { schemaMessages } from "../../testing/schema-messages.js"
 
@@ -7,7 +7,7 @@ describe("shared option schemas", () => {
     it("is optional", () => {
       const desc_string = undefined
 
-      const result = commonSchemas.description.validate(desc_string, {
+      const result = descriptionSchema.validate(desc_string, {
         abortEarly: false,
       })
 
@@ -17,7 +17,7 @@ describe("shared option schemas", () => {
     it("allows at most 1500 characters", () => {
       const desc_string = "x".repeat(2000)
 
-      const result = commonSchemas.description.validate(desc_string, {
+      const result = descriptionSchema.validate(desc_string, {
         abortEarly: false,
       })
 
@@ -29,7 +29,7 @@ describe("shared option schemas", () => {
     it("is optional", () => {
       const rolls_value = undefined
 
-      const result = commonSchemas.rolls.validate(rolls_value, {
+      const result = rollsSchema.validate(rolls_value, {
         abortEarly: false,
       })
 
@@ -39,7 +39,7 @@ describe("shared option schemas", () => {
     it("is an integer", () => {
       const rolls_value = 1.5
 
-      const result = commonSchemas.rolls.validate(rolls_value, {
+      const result = rollsSchema.validate(rolls_value, {
         abortEarly: false,
       })
 
@@ -49,7 +49,7 @@ describe("shared option schemas", () => {
     it("must be at least 1", () => {
       const rolls_value = 0
 
-      const result = commonSchemas.rolls.validate(rolls_value, {
+      const result = rollsSchema.validate(rolls_value, {
         abortEarly: false,
       })
 
@@ -59,7 +59,7 @@ describe("shared option schemas", () => {
     it("must be at most 100", () => {
       const rolls_value = 101
 
-      const result = commonSchemas.rolls.validate(rolls_value, {
+      const result = rollsSchema.validate(rolls_value, {
         abortEarly: false,
       })
 
@@ -69,7 +69,7 @@ describe("shared option schemas", () => {
     it.concurrent.each([[1], [15], [100]])("allows normal value %i", async (val) => {
       const rolls_value = val
 
-      const result = commonSchemas.rolls.validate(rolls_value, {
+      const result = rollsSchema.validate(rolls_value, {
         abortEarly: false,
       })
 
@@ -81,7 +81,7 @@ describe("shared option schemas", () => {
     it("is optional", () => {
       const modifier_value = undefined
 
-      const result = commonSchemas.modifier.validate(modifier_value)
+      const result = modifierSchema.validate(modifier_value)
 
       expect(schemaMessages(result)).not.toMatch("Modifier")
     })
@@ -89,75 +89,71 @@ describe("shared option schemas", () => {
     it("is an integer", () => {
       const modifier_value = 1.2
 
-      const result = commonSchemas.modifier.validate(modifier_value)
+      const result = modifierSchema.validate(modifier_value)
 
       expect(schemaMessages(result)).toMatch("whole number")
     })
   })
 
   describe("until", () => {
-    const until_schema = commonSchemas.until
-
     it("is optional", () => {
-      const result = until_schema.validate()
+      const result = untilSchema.validate()
 
       expect(result.error).toBeFalsy()
     })
 
     it("is an int", () => {
-      const result = until_schema.validate(5.5)
+      const result = untilSchema.validate(5.5)
 
       expect(result.error).toBeTruthy()
     })
 
     it("min of 1", () => {
-      const result = until_schema.validate(0)
+      const result = untilSchema.validate(0)
 
       expect(result.error).toBeTruthy()
     })
 
     it("max of 100", () => {
-      const result = until_schema.validate(101)
+      const result = untilSchema.validate(101)
 
       expect(result.error).toBeTruthy()
     })
 
     it("accepts expected values", () => {
-      const result = until_schema.validate(8)
+      const result = untilSchema.validate(8)
 
       expect(result.error).toBeFalsy()
     })
   })
 
   describe("pool", () => {
-    const pool_schema = commonSchemas.pool
-
     it("is required", () => {
-      const result = pool_schema.validate()
+      const result = poolSchema.validate()
 
       expect(result.error).toBeTruthy()
     })
 
     it("is an int", () => {
-      const result = pool_schema.validate(4.2)
+      const result = poolSchema.validate(4.2)
 
       expect(result.error).toBeTruthy()
     })
 
     it("min of zero", () => {
-      const result = pool_schema.validate(-1)
+      const result = poolSchema.validate(-1)
 
       expect(result.error).toBeTruthy()
     })
 
     it("max of 1000", () => {
-      const result = pool_schema.validate(1001)
+      const result = poolSchema.validate(1001)
 
       expect(result.error).toBeTruthy()
     })
 
     it("accepts expected values", () => {
-      const result = pool_schema.validate(5)
+      const result = poolSchema.validate(5)
 
       expect(result.error).toBeFalsy()
     })
