@@ -1,40 +1,40 @@
-import { parse } from "./invocation-parser.js"
+import { parseInvocation } from "./invocation-parser.js"
 
 describe("invocation parser", () => {
   describe("with junk input", () => {
     it("errors early", async () => {
-      await expect(parse("something something explosions")).rejects.toThrow("invalid")
+      await expect(parseInvocation("something something explosions")).rejects.toThrow("invalid")
     })
   })
 
   describe("with an unknown command", () => {
     it("errors early", async () => {
-      await expect(parse("/nopealope pool:3")).rejects.toThrow("cannot save")
+      await expect(parseInvocation("/nopealope pool:3")).rejects.toThrow("cannot save")
     })
   })
 
   describe("with a non-savable command", () => {
     it("errors early", async () => {
-      await expect(parse("/coin")).rejects.toThrow("cannot save")
+      await expect(parseInvocation("/coin")).rejects.toThrow("cannot save")
     })
   })
 
   describe("with a savable command", () => {
     describe("with invalid options", () => {
       it("throws validation errors", async () => {
-        await expect(parse("/roll pool:3")).rejects.toThrow('"sides" is required')
+        await expect(parseInvocation("/roll pool:3")).rejects.toThrow('"sides" is required')
       })
     })
 
     describe("with valid options", () => {
       it("returns the command name", async () => {
-        const result = await parse("/roll pool:3 sides:6 modifier:2")
+        const result = await parseInvocation("/roll pool:3 sides:6 modifier:2")
 
         expect(result.command).toEqual("roll")
       })
 
       it("returns converted options object", async () => {
-        const result = await parse("/roll pool:3 sides:6 modifier:2")
+        const result = await parseInvocation("/roll pool:3 sides:6 modifier:2")
 
         expect(result.options).toMatchObject({
           pool: 3,
@@ -94,7 +94,7 @@ describe("invocation parser", () => {
         },
       ],
     ])("parses %s", async (invocation, expected_options) => {
-      const result = await parse(invocation)
+      const result = await parseInvocation(invocation)
 
       expect(result.options).toMatchObject(expected_options)
     })
