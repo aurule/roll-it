@@ -1,34 +1,5 @@
 import { Collection } from "discord.js"
 import { available_locales } from "../locales/index.js"
-import { comparator } from "../util/command-sorter.js"
-
-import { Coin } from "./coin.js"
-import { D10 } from "./d10.js"
-import { D100 } from "./d100.js"
-import { D12 } from "./d12.js"
-import { D20 } from "./d20.js"
-import { D4 } from "./d4.js"
-import { D6 } from "./d6.js"
-import { D8 } from "./d8.js"
-import { Drh } from "./drh.js"
-import { Fate } from "./fate.js"
-import { Ffrpg } from "./ffrpg.js"
-import { Formula } from "./formula.js"
-import { Kob } from "./kob.js"
-import { Magic8Ball } from "./8ball.js"
-import { Pba } from "./pba.js"
-import { ReportThisRoll } from "./report-this-roll.js"
-import { Roll } from "./roll.js"
-import { SaveThisRoll } from "./save-this-roll.js"
-import { SetupRollIt } from "./setup-roll-it.js"
-import { Sra } from "./sra.js"
-import { Swn } from "./swn.js"
-import { Dnd } from "./dnd.js"
-import { Help } from "./help.js"
-import { Met } from "./met.js"
-import { Saved } from "./saved.js"
-import { Table } from "./table.js"
-import { Chop } from "./chop.js"
 
 /**
  * Top-level collection of command objects
@@ -75,6 +46,39 @@ export const savable = new Collection()
  */
 export const teamworkable = new Collection()
 
+import { Chop } from "./chop.js"
+import { Coin } from "./coin.js"
+import { D10 } from "./d10.js"
+import { D100 } from "./d100.js"
+import { D12 } from "./d12.js"
+import { D20 } from "./d20.js"
+import { D4 } from "./d4.js"
+import { D6 } from "./d6.js"
+import { D8 } from "./d8.js"
+import { Dnd } from "./dnd.js"
+import { Drh } from "./drh.js"
+import { Fate } from "./fate.js"
+import { Ffrpg } from "./ffrpg.js"
+import { Formula } from "./formula.js"
+import { Help } from "./help.js"
+import { Kob } from "./kob.js"
+import { Magic8Ball } from "./8ball.js"
+import { Met } from "./met.js"
+import { Nwod } from "./nwod.js"
+import { Pba } from "./pba.js"
+import { ReportThisRoll } from "./report-this-roll.js"
+import { Roll } from "./roll.js"
+import { Saved } from "./saved.js"
+import { SaveThisRoll } from "./save-this-roll.js"
+import { SetupRollIt } from "./setup-roll-it.js"
+import { Shadowrun } from "./shadowrun.js"
+import { Sra } from "./sra.js"
+import { Swn } from "./swn.js"
+import { Table } from "./table.js"
+import { Wod20 } from "./wod20.js"
+
+import { comparator } from "../util/command-sorter.js"
+
 /**
  * Register a command class so it's callable
  *
@@ -112,6 +116,7 @@ function register(kommand) {
 }
 
 // Register all command classes
+register(Chop)
 register(Coin)
 register(D10)
 register(D100)
@@ -128,17 +133,19 @@ register(Formula)
 register(Help)
 register(Kob)
 register(Magic8Ball)
+register(Met)
+register(Nwod)
 register(Pba)
 register(ReportThisRoll)
 register(Roll)
+register(Saved)
 register(SaveThisRoll)
 register(SetupRollIt)
+register(Shadowrun)
 register(Sra)
 register(Swn)
-register(Met)
-register(Saved)
 register(Table)
-register(Chop)
+register(Wod20)
 
 // set up per-locale sorted collections
 commands.sorted = new Collection()
