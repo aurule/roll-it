@@ -1,11 +1,7 @@
 import { opposedBegin } from "../../interactive/opposed.js"
 import { descriptionOption } from "../../util/common-options.js"
 import { Child } from "../abstract/child-command.js"
-
-/**
- * Class for the met opposed command
- */
-export const Opposed = Child(OpposedBase, "met")
+import { Command } from "../abstract/command.js"
 
 /**
  * Base class for the met opposed command

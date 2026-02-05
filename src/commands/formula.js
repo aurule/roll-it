@@ -5,7 +5,7 @@ import { sum } from "../services/tally.js"
 import { present } from "../presenters/results/formula-results-presenter.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { modifierSchema, rollsSchema, descriptionSchema } from "../util/common-schemas.js"
-import { operator } from "../util/formatters/signed.js.js"
+import { operator } from "../util/formatters/signed.js"
 import { SavableCommand } from "./abstract/savable-command.js"
 
 /**

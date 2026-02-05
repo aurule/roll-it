@@ -5,7 +5,7 @@
 import fs from "node:fs"
 import path from "node:path"
 
-import package_data from "../package.json" with { type: "json" }
+import package_data from "../../../package.json" with { type: "json" }
 import { i18n } from "../../locales/index.js"
 
 /**
