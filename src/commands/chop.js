@@ -1,64 +1,68 @@
 import { subtext } from "discord.js"
 import Joi from "joi"
 
-import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js"
-const metStatic = require("./met/static")
-import { i18n } from "../locales/index.js"
+import { Command } from "./abstract/command.js"
+import { present } from "../presenters/results/met-static-results-presenter.js"
+import { compare, handleRequest } from "../services/met-roller.js"
 
-const command_name = "chop"
+/**
+ * Class for the chop command
+ *
+ * This largely duplicates the logic of `/met static`, but is less configurable.
+ */
+export class Chop extends Command {
+  static name = "chop"
 
-module.exports = {
-  name: command_name,
-  data: () =>
-    new LocalizedSlashCommandBuilder(command_name)
+  description = ""
+  static = false
+  bomb = false
+  rolls = 1
+
+  static data() {
+    return this.builder
       .addStringOption(descriptionOption)
       .addLocalizedBooleanOption("static")
       .addLocalizedBooleanOption("bomb")
       .addIntegerOption(rollsOption)
-      .addBooleanOption(secretOption),
-  schema: Joi.object({
+      .addBooleanOption(secretOption)
+  }
+
+  static schema = Joi.object({
     bomb: Joi.boolean().optional(),
     description: descriptionSchema,
     rolls: rollsSchema,
     static_test: Joi.boolean().optional(),
-  }),
-  perform({ static_test, bomb, rolls, description, locale = "en-US" } = {}) {
-    const throw_request = bomb ? "rand-bomb" : "rand"
-    const vs_request = static_test ? "rand" : "none"
+  })
 
-    return metStatic.perform({
-      throw_request,
+  constructor(interaction) {
+    super(interaction)
+
+    this.saveOption("description")
+    this.saveOption("static")
+    this.saveOption("bomb")
+    this.saveOption("rolls")
+  }
+
+  perform() {
+    const throw_request = this.bomb ? "rand-bomb" : "rand"
+    const vs_request = this.static ? "rand" : "none"
+
+    const thrown_symbols = handleRequest(throw_request, this.rolls)
+    const vs_symbols = handleRequest(vs_request, this.rolls)
+    const compared = thrown_symbols.map((elem, idx) => compare(elem, vs_symbols[idx]))
+
+    const presented = present({
       vs_request,
-      rolls,
-      description,
-      locale,
-    })
-  },
-  execute(interaction) {
-    const static_test = interaction.options.getBoolean("static") ?? false
-    const bomb = interaction.options.getBoolean("bomb") ?? false
-    const rolls = interaction.options.getInteger("rolls") ?? 1
-    const roll_description = interaction.options.getString("description") ?? ""
-    const secret = interaction.options.getBoolean("secret") ?? false
-
-    const t = i18n.getFixedT(interaction.locale, "commands", "chop")
-
-    const partial_message = module.exports.perform({
-      rolls,
-      static_test,
-      bomb,
-      description: roll_description,
-      locale: interaction.locale,
+      rolls: this.rolls,
+      thrown: thrown_symbols,
+      vs: vs_symbols,
+      compared,
+      description: this.description,
+      locale: this.locale
     })
 
-    let full_text = injectMention(partial_message, interaction.user.id)
-    full_text += "\n" + subtext(t("response.shortcut"))
-    return interaction.paginate({
-      content: full_text,
-      secret,
-    })
-  },
+    return `${presented}\n${subtext(this.t("response.shortcut"))}`
+  }
 }

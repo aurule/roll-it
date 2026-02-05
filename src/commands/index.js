@@ -28,6 +28,7 @@ import { Help } from "./help.js"
 import { Met } from "./met.js"
 import { Saved } from "./saved.js"
 import { Table } from "./table.js"
+import { Chop } from "./chop.js"
 
 /**
  * Top-level collection of command objects
@@ -137,6 +138,7 @@ register(Swn)
 register(Met)
 register(Saved)
 register(Table)
+register(Chop)
 
 // set up per-locale sorted collections
 commands.sorted = new Collection()
