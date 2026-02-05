@@ -15,6 +15,7 @@ import { TeamworkableCommand } from "./abstract/teamworkable-command.js"
  */
 export class Wod20 extends TeamworkableCommand {
   static name = "wod20"
+  static savable = true
   static changeable = ["pool", "difficulty"]
 
   pool = 1

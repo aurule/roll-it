@@ -14,6 +14,7 @@ import { TeamworkableCommand } from "./abstract/teamworkable-command.js"
  */
 export class Shadowrun extends TeamworkableCommand {
   static name = "shadowrun"
+  static savable = true
   static changeable = ["pool"]
 
   pool = 1
