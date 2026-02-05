@@ -4,7 +4,7 @@ import Joi from "joi"
 import { LocalizedSlashCommandBuilder } from "../util/localized-command.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
-import { injectMention } from "../util/formatters/inject-user.js.js"
+import { injectMention } from "../util/formatters/inject-user.js"
 const metStatic = require("./met/static")
 import { i18n } from "../locales/index.js"
 

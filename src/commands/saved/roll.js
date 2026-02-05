@@ -1,5 +1,5 @@
 import { saved_roll as suggestSavedRoll, changeable_choices as suggestChangeableOption } from "../../completers/saved-roll-completers.js"
-import { operator } from "../../util/formatters/signed.js.js"
+import { operator } from "../../util/formatters/signed.js"
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { present } from "../../presenters/command-name-presenter.js"
 import { saved_bonus_target } from "../../util/saved-bonus-target.js"

@@ -1,4 +1,4 @@
-import { systems } from "../data/systems.js.js"
+import { systems } from "../data/systems.js"
 
 import { systemOptions } from "./system-options-presenter.js"
 

@@ -1,4 +1,4 @@
-import { features } from "../data/features.js.js"
+import { features } from "../data/features.js"
 
 import { featureOptions } from "./feature-options-presenter.js"
 

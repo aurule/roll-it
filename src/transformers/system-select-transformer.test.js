@@ -1,6 +1,6 @@
 import { stringSelectMenuOptions } from "../../testing/discord-schemas.js"
 
-import { systems } from "../data/systems.js.js"
+import { systems } from "../data/systems.js"
 import { transform } from "./system-select-transformer.js"
 
 describe("string select options transformer", () => {
