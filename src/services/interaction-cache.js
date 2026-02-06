@@ -34,7 +34,7 @@ export class InteractionCache extends Keyv {
       commandName: interaction.commandName,
       options,
     }
-    return super.set(interaction.id, data)
+    return super.set(interaction.id.toString(), data)
   }
 
   /**
@@ -44,7 +44,7 @@ export class InteractionCache extends Keyv {
    * @return {object}                  Object with the command and options used in the saved interaction
    */
   async getInteraction(interaction) {
-    return super.get(interaction.id)
+    return super.get(interaction.id.toString())
   }
 
   /**
@@ -54,7 +54,7 @@ export class InteractionCache extends Keyv {
    * @return {object}          Object with the command and options used in the saved interaction
    */
   async getMessage(message) {
-    return super.get(message.interactionMetadata.id)
+    return super.get(message.interactionMetadata.id.toString())
   }
 }
 
