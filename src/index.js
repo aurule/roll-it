@@ -29,10 +29,6 @@ import {
   Partials,
 } from "discord.js"
 
-import { commands } from "./commands/index.js"
-import { modals } from "./modals/index.js"
-import { register as registerEvents } from "./events/index.js"
-
 import package_data from "../package.json" with { type: "json" }
 
 /**
@@ -55,11 +51,15 @@ const client = new Client({
 })
 
 // Store commands (slash commands, context menu commands)
+import { commands } from "./commands/index.js"
 client.commands = commands
+
 // Store modals
+import { modals } from "./modals/index.js"
 client.modals = modals
 
 // Register event listeners
+import { register as registerEvents } from "./events/index.js"
 registerEvents(client)
 
 // Login to Discord with the bot's token
