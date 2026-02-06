@@ -1,6 +1,6 @@
 vitest.mock("../util/message-builders")
 
-const d20_command = require("./d20")
+import { D20 } from "./d20.js"
 
 import { Interaction } from "../../testing/interaction.js"
 
@@ -14,7 +14,7 @@ describe("/d20 command", () => {
   describe("d20 command", () => {
     describe("schema", () => {
       describe("keep", () => {
-        const keep_schema = d20_command.schema.extract("keep")
+        const keep_schema = D20.schema.extract("keep")
 
         it("is optional", () => {
           const result = keep_schema.validate()
@@ -36,7 +36,7 @@ describe("/d20 command", () => {
       })
 
       describe("with", () => {
-        const with_schema = d20_command.schema.extract("with")
+        const with_schema = D20.schema.extract("with")
 
         it("is optional", () => {
           const result = with_schema.validate()
@@ -63,7 +63,7 @@ describe("/d20 command", () => {
           with: "advantage",
         }
 
-        const result = d20_command.schema.validate(options, { abortEarly: false })
+        const result = D20.schema.validate(options, { abortEarly: false })
 
         expect(result.error.message).toMatch("exclusive peers")
       })
@@ -73,7 +73,7 @@ describe("/d20 command", () => {
           keep: "all",
         }
 
-        const result = d20_command.schema.validate(options, { abortEarly: false })
+        const result = D20.schema.validate(options, { abortEarly: false })
 
         expect(result.error).toBeFalsy()
       })
@@ -83,7 +83,7 @@ describe("/d20 command", () => {
           with: "advantage",
         }
 
-        const result = d20_command.schema.validate(options, { abortEarly: false })
+        const result = D20.schema.validate(options, { abortEarly: false })
 
         expect(result.error).toBeFalsy()
       })
@@ -98,13 +98,14 @@ describe("/d20 command", () => {
           [5, "inadequate"],
           [1, "angers"],
         ])("returns correct text for %i", async (die, text) => {
+          const d20_command = new D20(interaction)
           const picked = [
             {
               results: [die],
             },
           ]
 
-          const result = d20_command.judge(picked, "en-US")
+          const result = d20_command.judge(picked)
 
           expect(result).toMatch(text)
         })
@@ -112,6 +113,7 @@ describe("/d20 command", () => {
 
       describe("with no dominant outcome", () => {
         it("returns the neutral message", () => {
+          const d20_command = new D20(interaction)
           const picked = [
             {
               results: [20],
@@ -124,7 +126,7 @@ describe("/d20 command", () => {
             },
           ]
 
-          const result = d20_command.judge(picked, "en-US")
+          const result = d20_command.judge(picked)
 
           expect(result).toMatch("noted")
         })
@@ -133,40 +135,41 @@ describe("/d20 command", () => {
 
     describe("perform", () => {
       it("displays the description if present", () => {
-        const options = {
+        interaction.command_options = {
           description: "this is a test",
           rolls: 1,
         }
+        const d20_command = new D20(interaction)
 
-        const result = d20_command.perform(options)
+        const result = d20_command.perform()
 
         expect(result).toMatch("this is a test")
       })
 
       it("overrides `keep` using `with`", () => {
-        const options = {
+        interaction.command_options = {
           rolls: 1,
           with: "advantage",
         }
+        const d20_command = new D20(interaction)
 
-        const result = d20_command.perform(options)
+        const result = d20_command.perform()
 
         expect(result).toMatch("advantage")
       })
 
       it("displays the sacrifice easter egg if present", () => {
-        const options = {
+        interaction.command_options = {
           description: "sacrificing a chicken",
           rolls: 1,
         }
+        const d20_command = new D20(interaction)
 
-        const result = d20_command.perform(options)
+        const result = d20_command.perform()
 
         expect(result).toMatch("Your sacrifice")
       })
-    })
 
-    describe("execute", () => {
       describe("with multiple rolls", () => {
         beforeEach(() => {
           interaction.command_options.rolls = 2
@@ -175,10 +178,11 @@ describe("/d20 command", () => {
         it("displays the description if present", () => {
           const description_text = "this is a test"
           interaction.command_options.description = description_text
+          const d20_command = new D20(interaction)
 
-          d20_command.execute(interaction)
+          const result = d20_command.perform()
 
-          expect(interaction.replyContent).toMatch(description_text)
+          expect(result).toMatch(description_text)
         })
       })
     })
