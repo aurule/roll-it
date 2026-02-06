@@ -1,4 +1,4 @@
-jest.mock("../../util/message-builders")
+vitest.mock("../../util/message-builders")
 
 import { Installation } from "../../db/installation.js"
 const starting = require("./starting")

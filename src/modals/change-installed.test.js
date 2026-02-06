@@ -1,4 +1,4 @@
-jest.mock("../util/message-builders")
+vitest.mock("../util/message-builders")
 
 import { ModalInteraction } from "../../testing/modal-interaction.js"
 import { Installation } from "../db/installation.js"

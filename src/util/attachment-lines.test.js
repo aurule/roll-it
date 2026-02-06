@@ -13,7 +13,7 @@ describe("attached file line getters", () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vitest.restoreAllMocks()
   })
 
   it("splits on \\n", async () => {

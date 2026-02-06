@@ -1,4 +1,4 @@
-jest.mock("../../util/message-builders")
+vitest.mock("../../util/message-builders")
 
 import { GuildRollables } from "../../db/rollable.js"
 import { Interaction } from "../../../testing/interaction.js"

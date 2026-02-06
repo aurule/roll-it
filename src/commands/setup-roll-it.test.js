@@ -1,8 +1,8 @@
 import { CommandInteraction } from "../../testing/command-interaction.js"
 import { Installation } from "../db/installation.js"
 
-jest.mock("../util/message-builders")
-jest.mock("../services/api")
+vitest.mock("../util/message-builders")
+vitest.mock("../services/api")
 
 describe("/setup-roll-it command", () => {
   const setup_command = require("./setup-roll-it")

@@ -1,4 +1,4 @@
-jest.mock("../util/message-builders")
+vitest.mock("../util/message-builders")
 
 const d100_command = require("./d100")
 

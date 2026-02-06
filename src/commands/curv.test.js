@@ -1,4 +1,4 @@
-jest.mock("../util/message-builders")
+vitest.mock("../util/message-builders")
 
 const curv_command = require("./curv")
 

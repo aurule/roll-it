@@ -1,4 +1,4 @@
-jest.mock("../../util/message-builders")
+vitest.mock("../../util/message-builders")
 
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { CommandInteraction } from "../../../testing/command-interaction.js"

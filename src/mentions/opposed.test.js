@@ -1,4 +1,4 @@
-jest.mock("../util/message-builders")
+vitest.mock("../util/message-builders")
 
 import { Opposed } from "../db/opposed.js"
 import { Interaction } from "../../testing/interaction.js"

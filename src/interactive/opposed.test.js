@@ -1,5 +1,5 @@
-jest.mock("../util/message-builders")
-jest.mock("../services/api")
+vitest.mock("../util/message-builders")
+vitest.mock("../services/api")
 
 import { Opposed } from "../db/opposed.js"
 import { Challenge } from "../db/opposed/challenge.js"

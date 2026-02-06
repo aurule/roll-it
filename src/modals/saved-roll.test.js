@@ -1,4 +1,4 @@
-jest.mock("../util/message-builders")
+vitest.mock("../util/message-builders")
 
 const rollCache = require("../services/roll-cache")
 import { ModalInteraction } from "../../testing/modal-interaction.js"

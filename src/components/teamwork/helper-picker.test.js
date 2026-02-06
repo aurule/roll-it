@@ -1,4 +1,4 @@
-jest.mock("../../util/message-builders")
+vitest.mock("../../util/message-builders")
 
 import { Interaction } from "../../../testing/interaction.js"
 import { Teamwork } from "../../db/teamwork.js"
