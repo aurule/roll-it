@@ -85,7 +85,7 @@ export class Coin extends Command {
     if (this.call === "") return ""
 
     const result = this.raw_results[0][0]
-    if (call == result) return sacrifice.good(locale)
-    return sacrifice.bad(locale)
+    if (this.call == result) return sacrifice.good(this.locale)
+    return sacrifice.bad(this.locale)
   }
 }
