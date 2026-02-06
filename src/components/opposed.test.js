@@ -164,7 +164,7 @@ describe("opposed component handler", () => {
         challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
         challenge.addTest().attachMessage(interaction.message.id)
 
-        execute_spy = jest.spyOn(cancel_button, "execute")
+        execute_spy = vitest.spyOn(cancel_button, "execute")
       })
 
       it("lets the component handle the interaction", async () => {

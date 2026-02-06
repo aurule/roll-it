@@ -122,7 +122,7 @@ describe("teamwork component handler", () => {
           teamwork_id: teamwork_test_id,
         })
 
-        execute_spy = jest.spyOn(cancel_button, "execute")
+        execute_spy = vitest.spyOn(cancel_button, "execute")
       })
 
       it("lets the component handle the interaction", async () => {

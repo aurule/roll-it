@@ -5,7 +5,7 @@ describe("attached file line getters", () => {
 
   beforeEach(() => {
     dummy_attachment = { url: "" }
-    jest.spyOn(global, "fetch").mockImplementation((_url) => {
+    vitest.spyOn(global, "fetch").mockImplementation((_url) => {
       return Promise.resolve({
         text: () => "first\nsecond",
       })

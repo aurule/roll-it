@@ -21,8 +21,8 @@ describe("Fallback message mention handler", () => {
         users: new Map([[process.env.CLIENT_ID, "yes"]]),
       }
       message.author.id = process.env.CLIENT_ID
-      jest.spyOn(message, "reply")
-      jest.spyOn(message, "react")
+      vitest.spyOn(message, "reply")
+      vitest.spyOn(message, "react")
 
       await Fallback.handle(message)
 
@@ -42,7 +42,7 @@ describe("Fallback message mention handler", () => {
             ["somebody_else", "yes"],
           ]),
         }
-        jest.spyOn(message, "react")
+        vitest.spyOn(message, "react")
 
         await Fallback.handle(message)
 
@@ -59,7 +59,7 @@ describe("Fallback message mention handler", () => {
         message.mentions = {
           users: new Map([[process.env.CLIENT_ID, "yes"]]),
         }
-        jest.spyOn(message, "reply")
+        vitest.spyOn(message, "reply")
 
         await Fallback.handle(message)
 

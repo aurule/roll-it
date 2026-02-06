@@ -101,7 +101,7 @@ describe("installation component handler", () => {
 
         install = new InstallationFixture().attachMessage(interaction.message.id)
 
-        execute_spy = jest.spyOn(cancel_button, "execute")
+        execute_spy = vitest.spyOn(cancel_button, "execute")
       })
 
       afterEach(() => {

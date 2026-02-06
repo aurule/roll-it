@@ -33,7 +33,7 @@ describe("/table command", () => {
     })
 
     it("calls add subcommand", async () => {
-      const fetchMock = jest.spyOn(global, "fetch").mockImplementation(() =>
+      const fetchMock = vitest.spyOn(global, "fetch").mockImplementation(() =>
         Promise.resolve({
           text: () => "hello\nthere",
         }),

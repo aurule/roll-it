@@ -35,7 +35,7 @@ describe("interactionCreate handler", () => {
     describe("dispatches commands", () => {
       beforeEach(() => {
         interaction.interactionType = "command"
-        handleSpy = jest.spyOn(InteractionCreateEvent, "handleCommand")
+        handleSpy = vitest.spyOn(InteractionCreateEvent, "handleCommand")
       })
 
       it("executes commands", () => {
@@ -63,7 +63,7 @@ describe("interactionCreate handler", () => {
     describe("dispatches autocompletes", () => {
       beforeEach(() => {
         interaction.interactionType = "autocomplete"
-        handleSpy = jest.spyOn(InteractionCreateEvent, "handleAutocomplete")
+        handleSpy = vitest.spyOn(InteractionCreateEvent, "handleAutocomplete")
       })
 
       it("executes autocompletes", () => {

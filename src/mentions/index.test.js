@@ -28,7 +28,7 @@ describe("message mention dispatching", () => {
         canHandle: (_interaction) => false,
         handle: (_interaction) => "two",
       }
-      const fallback_spy = jest.spyOn(fallback_handler, "handle")
+      const fallback_spy = vitest.spyOn(fallback_handler, "handle")
 
       await handle(
         {
