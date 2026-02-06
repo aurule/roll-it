@@ -1,5 +1,5 @@
-import { validateOptions } from "./parser-helpers"
-import { Nwod } from "../commands/nwod"
+import { validateOptions } from "./parser-helpers.js"
+import { D6 } from "../commands/d6.js"
 
 describe("option schema validation helper", () => {
   describe("validateOptions", () => {
@@ -8,7 +8,7 @@ describe("option schema validation helper", () => {
         pool: "6",
       }
 
-      const result = await validateOptions(options, Nwod)
+      const result = await validateOptions(options, D6)
 
       expect(result).toMatchObject({
         pool: 6,
@@ -20,7 +20,7 @@ describe("option schema validation helper", () => {
         pool: "0",
       }
 
-      await expect(validateOptions(options, Nwod)).rejects.toThrow()
+      await expect(validateOptions(options, D6)).rejects.toThrow()
     })
   })
 })
