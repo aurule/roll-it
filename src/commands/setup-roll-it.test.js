@@ -8,7 +8,7 @@ describe("/setup-roll-it command", () => {
   const setup_command = require("./setup-roll-it")
 
   afterEach(() => {
-    jest.clearAllMocks()
+    vitest.clearAllMocks()
   })
 
   it("is global", () => {

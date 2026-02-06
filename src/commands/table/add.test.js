@@ -1,12 +1,12 @@
 import { GuildRollables } from "../../db/rollable.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Attachment } from "../../../testing/attachment.js"
-const attachment_lines = require("../../util/attachment-lines")
+const attachment_lines = require("../../util/attachment-lines.js")
 
 describe("/table add", () => {
   describe("execute", () => {
     beforeAll(() => {
-      fetchMock = jest
+      fetchMock = vitest
         .spyOn(attachment_lines, "fetchLines")
         .mockImplementation((attachment) => attachment.contents.split(/\n/))
 
