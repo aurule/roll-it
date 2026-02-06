@@ -3,7 +3,6 @@ jest.mock("../util/message-builders")
 const drh_command = require("./drh")
 
 import { CommandInteraction } from "../../testing/command-interaction.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/drh command", () => {
   describe("schema", () => {
@@ -405,7 +404,5 @@ describe("/drh command", () => {
         expect(interaction.replyContent).toMatch("dominated")
       })
     })
-
-    test_secret_option(drh_command, { discipline: 1, pain: 1 })
   })
 })

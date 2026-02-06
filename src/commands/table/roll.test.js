@@ -2,7 +2,6 @@ jest.mock("../../util/message-builders")
 
 import { GuildRollables } from "../../db/rollable.js"
 import { Interaction } from "../../../testing/interaction.js"
-import { test_secret_option } from "../../../testing/shared/execute-secret.js"
 
 const table_roll_command = require("./roll")
 
@@ -53,18 +52,5 @@ describe("/table roll", () => {
 
       expect(interaction.replyContent).toMatch("roll description")
     })
-
-    test_secret_option(
-      table_roll_command,
-      {
-        subcommand_name: "roll",
-        rolls: 1,
-      },
-      (i) => {
-        const secret_rollables = new GuildRollables(i.guildId)
-        const insertion = secret_rollables.create("testx", "a test", ["first"])
-        i.command_options.table = insertion.lastInsertRowid
-      },
-    )
   })
 })

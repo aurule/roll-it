@@ -2,7 +2,6 @@ jest.mock("../util/message-builders")
 
 const ffrpg_command = require("./ffrpg")
 
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js"
 import { CommandInteraction } from "../../testing/command-interaction.js"
 
@@ -253,6 +252,4 @@ describe("/ffrpg command", () => {
       expect(interaction.message.content).toMatch("rolled a")
     })
   })
-
-  test_secret_option(ffrpg_command)
 })

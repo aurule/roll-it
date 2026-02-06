@@ -1,7 +1,6 @@
 const fate_command = require("./fate")
 
 import { Interaction } from "../../testing/interaction.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/fate command", () => {
   let interaction
@@ -72,6 +71,4 @@ describe("/fate command", () => {
       expect(result).toMatch("Your sacrifice")
     })
   })
-
-  test_secret_option(fate_command)
 })

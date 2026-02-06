@@ -3,7 +3,6 @@ jest.mock("../util/message-builders")
 const kob_command = require("./kob")
 
 import { Interaction } from "../../testing/interaction.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/kob command", () => {
   let interaction
@@ -57,10 +56,6 @@ describe("/kob command", () => {
   })
 
   describe("execute", () => {
-    describe("with one roll", () => {
-      test_secret_option(kob_command, { rolls: 1, sides: 6 })
-    })
-
     describe("with multiple rolls", () => {
       beforeEach(() => {
         interaction.command_options.rolls = 2

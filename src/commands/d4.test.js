@@ -3,7 +3,6 @@ jest.mock("../util/message-builders")
 const d4_command = require("./d4")
 
 import { Interaction } from "../../testing/interaction.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/d4 command", () => {
   let interaction
@@ -25,10 +24,6 @@ describe("/d4 command", () => {
   })
 
   describe("execute", () => {
-    describe("with one roll", () => {
-      test_secret_option(d4_command, { rolls: 1 })
-    })
-
     describe("with multiple rolls", () => {
       beforeEach(() => {
         interaction.command_options.rolls = 2

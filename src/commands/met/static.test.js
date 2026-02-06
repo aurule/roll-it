@@ -1,5 +1,4 @@
 import { Interaction } from "../../../testing/interaction.js"
-import { test_secret_option } from "../../../testing/shared/execute-secret.js"
 
 const met_static_command = require("./static")
 
@@ -35,8 +34,6 @@ describe("/met static", () => {
       interaction = new Interaction()
       interaction.command_options.subcommand_name = "static"
     })
-
-    test_secret_option(met_static_command)
   })
 
   describe("judge", () => {

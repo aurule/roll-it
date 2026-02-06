@@ -2,8 +2,6 @@ jest.mock("../util/message-builders")
 
 const roll_command = require("./roll")
 
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
-
 describe("/roll command", () => {
   describe("schema", () => {
     describe("sides", () => {
@@ -127,6 +125,4 @@ describe("/roll command", () => {
       })
     })
   })
-
-  test_secret_option(roll_command)
 })

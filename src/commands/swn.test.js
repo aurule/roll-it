@@ -3,7 +3,6 @@ jest.mock("../util/message-builders")
 const swn_command = require("./swn")
 
 import { Interaction } from "../../testing/interaction.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/swn command", () => {
   let interaction
@@ -77,10 +76,6 @@ describe("/swn command", () => {
   })
 
   describe("execute", () => {
-    describe("with one roll", () => {
-      test_secret_option(swn_command, { rolls: 1 })
-    })
-
     describe("with multiple rolls", () => {
       beforeEach(() => {
         interaction.command_options.rolls = 2

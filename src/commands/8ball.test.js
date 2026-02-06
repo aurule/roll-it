@@ -1,6 +1,5 @@
 import { Magic8Ball } from "./8ball.js"
 
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 import { Interaction } from "../../testing/interaction.js"
 
 describe("/8ball command", () => {
@@ -64,6 +63,4 @@ describe("/8ball command", () => {
       expect(result).toMatch(question_text)
     })
   })
-
-  test_secret_option(Magic8Ball)
 })

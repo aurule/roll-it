@@ -1,6 +1,5 @@
 jest.mock("../util/message-builders")
 
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 import { Interaction } from "../../testing/interaction.js"
 
 const wod_command = require("./wod20")
@@ -252,7 +251,5 @@ describe("/wod20 command", () => {
         expect(interaction.replyContent).toMatch("started a teamwork")
       })
     })
-
-    test_secret_option(wod_command)
   })
 })

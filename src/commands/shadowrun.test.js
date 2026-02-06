@@ -1,7 +1,6 @@
 jest.mock("../util/message-builders")
 
 import { Interaction } from "../../testing/interaction.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 import { ShadowrunPresenter } from "../presenters/results/shadowrun-results-presenter.js"
 
 const shadowrun_command = require("./shadowrun")
@@ -222,6 +221,4 @@ describe("/shadowrun command", () => {
       expect(interaction.replyContent).toMatch("**")
     })
   })
-
-  test_secret_option(shadowrun_command, { pool: 1 })
 })

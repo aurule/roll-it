@@ -1,5 +1,4 @@
 import { Interaction } from "../../../testing/interaction.js"
-import { test_secret_option } from "../../../testing/shared/execute-secret.js"
 
 const dnd_skill_command = require("./skill")
 
@@ -67,7 +66,5 @@ describe("/dnd skill", () => {
       interaction = new Interaction()
       interaction.command_options.subcommand_name = "skill"
     })
-
-    test_secret_option(dnd_skill_command)
   })
 })

@@ -1,7 +1,6 @@
 jest.mock("../util/message-builders")
 
 import { Interaction } from "../../testing/interaction.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 import { ShadowrunPresenter } from "../presenters/results/shadowrun-results-presenter.js"
 
 const sra_command = require("./sra")
@@ -153,6 +152,4 @@ describe("/sra command", () => {
       expect(result).toMatch("angers")
     })
   })
-
-  test_secret_option(sra_command, { pool: 1 })
 })

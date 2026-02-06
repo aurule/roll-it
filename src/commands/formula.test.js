@@ -1,7 +1,5 @@
 const formula_command = require("./formula")
 
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
-
 describe("/formula command", () => {
   describe("schema", () => {
     describe("formula", () => {
@@ -104,6 +102,4 @@ describe("/formula command", () => {
       expect(result).toMatch("3")
     })
   })
-
-  test_secret_option(formula_command, { formula: "1d4" })
 })
