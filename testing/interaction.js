@@ -3,6 +3,77 @@ import { PermissionFlagsBits, Collection } from "discord.js"
 import { User } from "./user.js"
 import { Message } from "./message.js"
 
+class MockOptions {
+  interaction
+
+  /**
+   * Create a new MockOptions object
+   *
+   * The passed interaction _must_ be a testing interaction, not a real one!
+   *
+   * @param  {Interaction} interaction Our parent interaction
+   * @return {MockOptions}             New MockOptions object
+   */
+  constructor(interaction) {
+    this.interaction = interaction
+  }
+
+  /**
+   * Get data in the format presented by the normal Interaction object
+   *
+   * @return {object[]} Array of options data objects
+   */
+  get data() {
+    const option_objects = []
+    for (const key in this.interaction.command_options) {
+      option_objects.push({
+        name: key,
+        value: this.interaction.command_options[key]
+      })
+    }
+    return option_objects
+  }
+
+  getString(key) {
+    return this.command_options[key]?.toString()
+  }
+
+  getBoolean(key) {
+    return !!this.command_options[key]
+  }
+
+  getChannel(key) {
+    return this.command_options[key]
+  }
+
+  getInteger(key) {
+    return this.command_options[key]
+  }
+
+  getUser(key) {
+    return this.command_options[key]
+  }
+
+  getAttachment(key) {
+    return this.command_options[key]
+  }
+
+  getFocused(be_obj = false) {
+    if (be_obj) {
+      return {
+        name: this.focused_option,
+        value: this.partial_text,
+      }
+    }
+
+    return this.partial_text
+  }
+
+  getSubcommand() {
+    return this.command_options.subcommand_name
+  }
+}
+
 /**
  * Fake interaction class for testing
  *
@@ -20,26 +91,8 @@ export class Interaction {
     this.partial_text = "partial"
     this.focused_option = "test"
     this.locale = "en-US"
-    this.options = {
-      data: [],
-      getString: (key) => this.command_options[key]?.toString(),
-      getBoolean: (key) => !!this.command_options[key],
-      getChannel: (key) => this.command_options[key],
-      getInteger: (key) => this.command_options[key],
-      getUser: (key) => this.command_options[key],
-      getAttachment: (key) => this.command_options[key],
-      getFocused: (be_obj = false) => {
-        if (be_obj) {
-          return {
-            name: this.focused_option,
-            value: this.partial_text,
-          }
-        }
+    this.options = new MockOptions(this)
 
-        return this.partial_text
-      },
-      getSubcommand: () => this.command_options.subcommand_name,
-    }
     this.guildId = guildId ?? simpleflake()
     this.guild = {
       id: this.guildId,
