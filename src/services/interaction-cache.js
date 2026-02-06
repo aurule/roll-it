@@ -1,4 +1,4 @@
-import { Keyv } from "keyv"
+import Keyv from "keyv"
 
 /**
  * Cache class for storing data from command interactions
