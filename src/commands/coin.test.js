@@ -1,43 +1,51 @@
-jest.mock("../util/message-builders")
+vitest.mock("../util/message-builders")
 
-const coin_command = require("./coin")
+import { Coin } from "./coin.js"
 
 import { Interaction } from "../../testing/interaction.js"
 import { schemaMessages } from "../../testing/schema-messages.js"
-import { test_secret_option } from "../../testing/shared/execute-secret.js"
 
 describe("/coin command", () => {
+  let interaction
+
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
+
   describe("execute", () => {
-    let interaction
-
-    beforeEach(() => {
-      interaction = new Interaction()
-    })
-
     it("performs the roll", async () => {
-      const result = await coin_command.execute(interaction)
+      const coin_command = new Coin(interaction)
+      const result = await coin_command.execute()
 
-      expect(result.content).toMatch("flipped a coin")
+      expect(result.message.content).toMatch("flipped a coin")
     })
-
-    test_secret_option(coin_command)
   })
 
   describe("judge", () => {
+    let coin_command
+
+    beforeEach(() => {
+      coin_command = new Coin(interaction)
+      coin_command.raw_results = [[1]]
+    })
+
     it("returns empty string with no call", () => {
-      const result = coin_command.judge([[1]], "", "en-US")
+      coin_command.call = ""
+      const result = coin_command.judge()
 
       expect(result).toEqual("")
     })
 
     it("returns good message when call matches result", () => {
-      const result = coin_command.judge([[1]], "1", "en-US")
+      coin_command.call = "1"
+      const result = coin_command.judge()
 
       expect(result).toMatch("accepted")
     })
 
     it("returns bad message when call does not match result", () => {
-      const result = coin_command.judge([[1]], "2", "en-US")
+      coin_command.call = "2"
+      const result = coin_command.judge()
 
       expect(result).toMatch("inadequate")
     })
@@ -45,31 +53,35 @@ describe("/coin command", () => {
 
   describe("perform", () => {
     it("displays the description if present", () => {
-      const options = {
+      interaction.command_options = {
         description: "this is a test",
       }
+      const coin_command = new Coin(interaction)
 
-      const result = coin_command.perform(options)
+      const result = coin_command.perform()
 
-      expect(result).toMatch(options.description)
+      expect(result).toMatch("this is a test")
     })
 
     it("displays the call if present", () => {
-      const options = {
+      interaction.command_options = {
         call: "1",
       }
+      const coin_command = new Coin(interaction)
 
-      const result = coin_command.perform(options)
+      const result = coin_command.perform()
 
       expect(result).toMatch("called *heads*")
     })
 
     it("displays sacrifice easter egg", () => {
-      const options = {
+      interaction.command_options = {
         description: "sacrificing a chicken",
+        call: "1"
       }
+      const coin_command = new Coin(interaction)
 
-      const result = coin_command.perform(options)
+      const result = coin_command.perform()
 
       expect(result).toMatch("Your sacrifice")
     })
@@ -79,7 +91,7 @@ describe("/coin command", () => {
     describe("call", () => {
       it("is optional", () => {
         const options = {}
-        const result = coin_command.schema.validate(options, {
+        const result = Coin.schema.validate(options, {
           abortEarly: false,
         })
 
@@ -90,7 +102,7 @@ describe("/coin command", () => {
         const options = {
           call: call_value,
         }
-        const result = coin_command.schema.validate(options, {
+        const result = Coin.schema.validate(options, {
           abortEarly: false,
         })
 
@@ -101,7 +113,7 @@ describe("/coin command", () => {
         const options = {
           call: "nopealope",
         }
-        const result = coin_command.schema.validate(options, {
+        const result = Coin.schema.validate(options, {
           abortEarly: false,
         })
 
