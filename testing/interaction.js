@@ -35,27 +35,27 @@ class MockOptions {
   }
 
   getString(key) {
-    return this.command_options[key]?.toString()
+    return this.interaction.command_options[key]?.toString()
   }
 
   getBoolean(key) {
-    return !!this.command_options[key]
+    return !!this.interaction.command_options[key]
   }
 
   getChannel(key) {
-    return this.command_options[key]
+    return this.interaction.command_options[key]
   }
 
   getInteger(key) {
-    return this.command_options[key]
+    return this.interaction.command_options[key]
   }
 
   getUser(key) {
-    return this.command_options[key]
+    return this.interaction.command_options[key]
   }
 
   getAttachment(key) {
-    return this.command_options[key]
+    return this.interaction.command_options[key]
   }
 
   getFocused(be_obj = false) {
@@ -70,7 +70,7 @@ class MockOptions {
   }
 
   getSubcommand() {
-    return this.command_options.subcommand_name
+    return this.interaction.command_options.subcommand_name
   }
 }
 
