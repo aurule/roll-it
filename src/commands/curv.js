@@ -7,6 +7,7 @@ import { descriptionOption, rollsOption, secretOption } from "../util/common-opt
 import { modifierSchema, rollsSchema, descriptionSchema } from "../util/common-schemas.js"
 import { with_to_keep } from "../util/with-to-keep.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the /curv command
@@ -76,3 +77,5 @@ export class Curv extends SavableCommand {
     })
   }
 }
+
+registerCommand(Curv)

@@ -8,6 +8,7 @@ import { pickDice } from "../services/pick.js"
 import { pickedSum } from "../services/tally.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the swn command
@@ -114,3 +115,5 @@ export class Swn extends SavableCommand {
     return presented_result
   }
 }
+
+registerCommand(SavableCommand)

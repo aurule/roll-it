@@ -3,7 +3,7 @@ import { list as listCommands } from "../../presenters/command-name-presenter.js
 import { all as suggestCommands } from "../../completers/command-completers.js"
 import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
-import { commands } from "../index.js"
+import { commands, sortedCommands } from "../index.js"
 import { safe_locale } from "../../locales/helpers.js"
 
 /**
@@ -56,7 +56,7 @@ class BaseCommandHelp extends Command {
     // we need to use a safe locale here because we're getting translated command names
     const locale = safe_locale(opts.locale)
     return {
-      commands: listCommands(commands.sorted.get(locale), locale),
+      commands: listCommands(sortedCommands(locale).commands, locale),
     }
   }
 }

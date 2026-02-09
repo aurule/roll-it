@@ -6,6 +6,7 @@ import interactionCache from "../services/interaction-cache.js"
 import { canonical } from "../locales/helpers.js"
 import { ReportRollModal } from "../modals/report-roll.js"
 import { ContextCommand } from "./abstract/context-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the report roll command
@@ -54,3 +55,5 @@ export class ReportThisRoll extends ContextCommand {
     return this.interaction.showModal(modal)
   }
 }
+
+registerCommand(ReportThisRoll)

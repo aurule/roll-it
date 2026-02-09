@@ -6,6 +6,7 @@ import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
 import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { Command } from "./abstract/command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the ffrpg roller
@@ -143,3 +144,5 @@ export class Ffrpg extends Command {
     }
   }
 }
+
+registerCommand(Ffrpg)

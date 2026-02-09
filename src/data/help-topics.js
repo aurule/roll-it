@@ -1,7 +1,7 @@
 import { Collection } from "discord.js"
 
 import { present, list } from "../presenters/command-name-presenter"
-import { sorted, commands } from "../commands/index.js"
+import { sorted, commands, sortedCommands } from "../commands/index.js"
 import { systems } from "./systems.js"
 import { i18n } from "../locales/index.js"
 import { data as changesData } from "./help/changes.js"
@@ -22,13 +22,13 @@ register("changes", changesData)
 
 register("commands", (locale) => {
   return {
-    commands: list(sorted.get(locale), locale)
+    commands: list(sortedCommands(locale).commands, locale)
   }
 })
 
 register("saved", (locale) => {
   return {
-    savable: list(sorted.savable.get(locale), locale)
+    savable: list(sortedCommands(locale).savable, locale)
   }
 })
 
@@ -49,6 +49,6 @@ register("systems", (locale) => {
 
 register("teamwork", (locale) => {
   return {
-    teamworkable: list(sorted.teamworkable.get(locale), locale)
+    teamworkable: list(sortedCommands(locale).teamworkable, locale)
   }
 })

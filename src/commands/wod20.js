@@ -9,6 +9,7 @@ import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util
 import * as hummingbird from "../services/easter-eggs/hummingbird.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { TeamworkableCommand } from "./abstract/teamworkable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the wod20 command
@@ -177,3 +178,5 @@ export class Wod20 extends TeamworkableCommand {
     }
   }
 }
+
+registerCommand(Wod20)

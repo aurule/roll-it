@@ -10,6 +10,7 @@ import {
   ShadowrunAnarchyPresenter,
 } from "../presenters/results/shadowrun-anarchy-results-presenter.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Convert the `with` keyword into a success threshold
@@ -188,3 +189,5 @@ export class Sra extends SavableCommand {
     if (this.risk > this.pool) return this.t("options.risk.validation.collision")
   }
 }
+
+registerCommand(Sra)

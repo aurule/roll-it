@@ -2,14 +2,14 @@ import { PermissionFlagsBits } from "discord.js"
 
 import { Installation } from "../db/installation.js"
 import { messageData as startingMessage } from "../messages/installation/starting.js"
-import { safe_locale } from "../locales/helpers.js"
 import { i18n } from "../locales/index.js"
 import { list, present } from "../presenters/command-name-presenter.js"
 import { getGuildCommands } from "../services/api.js"
 import { findByCommands as findFeatures } from "../services/feature-helpers.js"
 import { findByCommands as findSystems } from "../services/system-helpers.js"
-import { globals, guild } from "./index.js"
+import { sortedCommands } from "./index.js"
 import { Command } from "./abstract/command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the setup command
@@ -66,9 +66,9 @@ export class SetupRollIt extends Command {
    * @return {object}                Additional help data properties
    */
   static help_data({ locale }) {
-    const cmd_locale = safe_locale(locale)
-    const guild_commands = guild.sorted.get(cmd_locale)
-    const global_commands = globals.sorted.get(cmd_locale)
+    const sorted = sortedCommands(locale)
+    const guild_commands = sorted.guild
+    const global_commands = sorted.globals
 
     const data_t = i18n.getFixedT(locale, "translation")
     const cmd_t = i18n.getFixedT(locale, "commands", "setup-roll-it")
@@ -109,3 +109,5 @@ export class SetupRollIt extends Command {
     }
   }
 }
+
+registerCommand(SetupRollIt)

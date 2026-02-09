@@ -4,6 +4,7 @@ import { roll } from "../services/base-roller.js"
 import { present } from "../presenters/results/8ball-results-presenter.js"
 import { secretOption } from "../util/common-options.js"
 import { Command } from "./abstract/command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the /8ball command
@@ -56,3 +57,5 @@ export class Magic8Ball extends Command {
     })
   }
 }
+
+registerCommand(Magic8Ball)

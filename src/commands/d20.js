@@ -8,6 +8,7 @@ import { descriptionSchema, modifierSchema, rollsSchema } from "../util/common-s
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { with_to_keep } from "../util/with-to-keep.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the d20 command
@@ -112,3 +113,5 @@ export class D20 extends SavableCommand {
     return presented_result
   }
 }
+
+registerCommand(D20)

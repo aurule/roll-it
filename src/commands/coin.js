@@ -6,6 +6,7 @@ import { descriptionOption, secretOption} from "../util/common-options.js"
 import { descriptionSchema } from "../util/common-schemas.js"
 import { present } from "../presenters/results/coin-results-presenter.js"
 import { roll } from "../services/base-roller.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the /coin command
@@ -89,3 +90,5 @@ export class Coin extends Command {
     return sacrifice.bad(this.locale)
   }
 }
+
+registerCommand(Coin)

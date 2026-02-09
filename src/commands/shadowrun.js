@@ -8,6 +8,7 @@ import { descriptionOption, rollsOption, teamworkOption, secretOption } from "..
 import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { TeamworkableCommand } from "./abstract/teamworkable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the shadowrun command
@@ -164,3 +165,5 @@ export class Shadowrun extends TeamworkableCommand {
     }
   }
 }
+
+registerCommand(Shadowrun)

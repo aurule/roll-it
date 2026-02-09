@@ -1,5 +1,7 @@
 import { Collection } from "discord.js"
 import { available_locales } from "../locales/index.js"
+import { safe_locale } from "../locales/helpers.js"
+import { comparator } from "../util/command-sorter.js"
 
 /**
  * Top-level collection of command objects
@@ -46,38 +48,11 @@ export const savable = new Collection()
  */
 export const teamworkable = new Collection()
 
-import { Chop } from "./chop.js"
-import { Coin } from "./coin.js"
-import { D10 } from "./d10.js"
-import { D100 } from "./d100.js"
-import { D12 } from "./d12.js"
-import { D20 } from "./d20.js"
-import { D4 } from "./d4.js"
-import { D6 } from "./d6.js"
-import { D8 } from "./d8.js"
-import { Dnd } from "./dnd.js"
-import { Drh } from "./drh.js"
-import { Fate } from "./fate.js"
-import { Ffrpg } from "./ffrpg.js"
-import { Formula } from "./formula.js"
-import { Help } from "./help.js"
-import { Kob } from "./kob.js"
-import { Magic8Ball } from "./8ball.js"
-import { Met } from "./met.js"
-import { Nwod } from "./nwod.js"
-import { Pba } from "./pba.js"
-import { ReportThisRoll } from "./report-this-roll.js"
-import { Roll } from "./roll.js"
-import { Saved } from "./saved.js"
-import { SaveThisRoll } from "./save-this-roll.js"
-import { SetupRollIt } from "./setup-roll-it.js"
-import { Shadowrun } from "./shadowrun.js"
-import { Sra } from "./sra.js"
-import { Swn } from "./swn.js"
-import { Table } from "./table.js"
-import { Wod20 } from "./wod20.js"
-
-import { comparator } from "../util/command-sorter.js"
+/**
+ * Collection of command data sorted by locale
+ * @type {Collection}
+ */
+export const sorted = new Collection()
 
 /**
  * Register a command class so it's callable
@@ -86,7 +61,7 @@ import { comparator } from "../util/command-sorter.js"
  *
  * @param  {Command} kommand Command class to register
  */
-function register(kommand) {
+export function registerCommand(kommand) {
   commands.set(kommand.name, kommand)
   all_choices.push({
     name: kommand.name,
@@ -115,49 +90,31 @@ function register(kommand) {
   }
 }
 
-// Register all command classes
-register(Chop)
-register(Coin)
-register(D10)
-register(D100)
-register(D12)
-register(D20)
-register(D4)
-register(D6)
-register(D8)
-register(Dnd)
-register(Drh)
-register(Fate)
-register(Ffrpg)
-register(Formula)
-register(Help)
-register(Kob)
-register(Magic8Ball)
-register(Met)
-register(Nwod)
-register(Pba)
-register(ReportThisRoll)
-register(Roll)
-register(Saved)
-register(SaveThisRoll)
-register(SetupRollIt)
-register(Shadowrun)
-register(Sra)
-register(Swn)
-register(Table)
-register(Wod20)
+/**
+ * Generate the sorted collections for a given locale
+ *
+ * Locale _must_ be one which exists in our translation files. Use safe_locale to be sure.
+ *
+ * @param  {string} locale Locale code to generate
+ * @return {object}        Object of command collections sorted for the given locale
+ */
+export function buildSorted(locale) {
+  const comparatorFn = comparator(locale)
+  return {
+    commands: commands.clone().sort(comparatorFn),
+    globals: globals.clone().sort(comparatorFn),
+    guild: guild.clone().sort(comparatorFn),
+    savable: savable.clone().sort(comparatorFn),
+    teamworkable: teamworkable.clone().sort(comparatorFn),
+  }
+}
 
-// set up per-locale sorted collections
-commands.sorted = new Collection()
-globals.sorted = new Collection()
-guild.sorted = new Collection()
-savable.sorted = new Collection()
-teamworkable.sorted = new Collection()
-
-for (const locale of available_locales) {
-  commands.sorted.set(locale, commands.clone().sort(comparator(locale)))
-  globals.sorted.set(locale, globals.clone().sort(comparator(locale)))
-  guild.sorted.set(locale, guild.clone().sort(comparator(locale)))
-  savable.sorted.set(locale, savable.clone().sort(comparator(locale)))
-  teamworkable.sorted.set(locale, teamworkable.clone().sort(comparator(locale)))
+/**
+ * Get the sorted command collections for a given locale
+ * @param  {string} locale Locale code to generate
+ * @return {object}        Object of command collections sorted for the given locale
+ */
+export function sortedCommands(locale) {
+  const real_locale = safe_locale(locale)
+  return sorted.ensure(real_locale, buildSorted(real_locale))
 }

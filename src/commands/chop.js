@@ -6,6 +6,7 @@ import { descriptionSchema, rollsSchema } from "../util/common-schemas.js"
 import { Command } from "./abstract/command.js"
 import { present } from "../presenters/results/met-static-results-presenter.js"
 import { compare, handleRequest } from "../services/met-roller.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the chop command
@@ -66,3 +67,5 @@ export class Chop extends Command {
     return `${presented}\n${subtext(this.t("response.shortcut"))}`
   }
 }
+
+registerCommand(Chop)

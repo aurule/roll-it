@@ -9,6 +9,7 @@ import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util
 import * as hummingbird from "../services/easter-eggs/hummingbird.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { TeamworkableCommand } from "./abstract/teamworkable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the nwod command
@@ -238,3 +239,5 @@ export class Nwod extends TeamworkableCommand {
     }
   }
 }
+
+registerCommand(Nwod)

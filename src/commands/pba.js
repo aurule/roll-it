@@ -5,6 +5,7 @@ import { descriptionSchema, modifierSchema, rollsSchema } from "../util/common-s
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { SavableCommand } from "./abstract/savable-command.js"
 import { present } from "../presenters/results/roll-results-presenter.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the pba roller
@@ -101,3 +102,5 @@ export class Pba extends SavableCommand {
     return presented_result
   }
 }
+
+registerCommand(Pba)

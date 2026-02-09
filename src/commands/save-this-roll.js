@@ -5,8 +5,9 @@ import interactionCache from "../services/interaction-cache.js"
 import { canonical } from "../locales/helpers.js"
 import rollCache from "../services/roll-cache.js"
 import { SavedRollModal } from "../modals/saved-roll.js"
-import { commands, savable } from "./index.js"
+import { commands, sortedCommands } from "./index.js"
 import { ContextCommand } from "./abstract/context-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the save roll command
@@ -73,9 +74,11 @@ export class SaveThisRoll extends ContextCommand {
   }
 
   static help_data(opts) {
-    const savable_commands = savable.sorted.get(opts.locale)
+    const savable_commands = sortedCommands(opts.locale).savable
     return {
       savable: listCommands(savable_commands, opts.locale),
     }
   }
 }
+
+registerCommand(SaveThisRoll)

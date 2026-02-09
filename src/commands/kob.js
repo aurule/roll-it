@@ -6,6 +6,7 @@ import { present } from "../presenters/results/kob-results-presenter.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the kob command
@@ -73,3 +74,5 @@ export class Kob extends SavableCommand {
     })
   }
 }
+
+registerCommand(Kob)

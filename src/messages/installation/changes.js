@@ -1,13 +1,12 @@
 import { ButtonStyle } from "discord.js"
 import { Installation } from "../../db/installation.js"
 import { i18n } from "../../locales/index.js"
-import { safe_locale } from "../../locales/helpers.js"
 import * as build from "../../util/message-builders.js"
 import { present } from "../../presenters/command-name-presenter.js"
 import CancelButton from "../../components/installation/cancel-button.js"
 import ChangeButton from "../../components/installation/change-button.js"
 import SaveButton from "../../components/installation/save-button.js"
-import { guild, globals } from "../../commands/index.js"
+import { sortedCommands } from "../../commands/index.js"
 
 /**
  * Highlight changes between two arrays
@@ -54,9 +53,8 @@ export function messageData(installation_id) {
   const install = install_db.getInstallation(installation_id)
   const locale = install.locale
 
-  const cmd_locale = safe_locale(locale)
-  const guild_commands = guild.sorted.get(cmd_locale)
-  const global_commands = globals.sorted.get(cmd_locale)
+  const guild_commands = sortedCommands(locale).guild
+  const global_commands = sortedCommands(locale).globals
 
   const data_t = i18n.getFixedT(locale, "translation")
   const t = i18n.getFixedT(locale, "install")

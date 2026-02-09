@@ -7,6 +7,7 @@ import { descriptionOption, rollsOption, secretOption } from "../util/common-opt
 import { modifierSchema, rollsSchema, descriptionSchema } from "../util/common-schemas.js"
 import { operator } from "../util/formatters/signed.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the formula command
@@ -84,3 +85,5 @@ export class Formula extends SavableCommand {
     })
   }
 }
+
+registerCommand(Formula)

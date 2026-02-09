@@ -7,6 +7,7 @@ import { descriptionOption, rollsOption, secretOption } from "../util/common-opt
 import { rollsSchema, modifierSchema, descriptionSchema } from "../util/common-schemas.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the fate roller
@@ -107,3 +108,5 @@ export class Fate extends SavableCommand {
     return presented_result
   }
 }
+
+registerCommand(Fate)

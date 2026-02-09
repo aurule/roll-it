@@ -6,6 +6,7 @@ import { descriptionOption, poolOption, rollsOption, secretOption } from "../uti
 import { descriptionSchema, rollsSchema, modifierSchema } from "../util/common-schemas.js"
 import { DrhPool } from "../util/rolls/drh-pool.js"
 import { SavableCommand } from "./abstract/savable-command.js"
+import { registerCommand } from "./index.js"
 
 /**
  * Class for the drh roller
@@ -130,3 +131,5 @@ export class Drh extends SavableCommand {
     }
   }
 }
+
+registerCommand(Drh)
