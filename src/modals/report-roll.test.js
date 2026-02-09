@@ -3,7 +3,7 @@ vitest.mock("../util/message-builders")
 import { Feedback } from "../db/feedback.js"
 import { ModalInteraction } from "../../testing/modal-interaction.js"
 
-const ReportRollModal = require("./report-roll")
+import { ReportRollModal } from "./report-roll.js"
 
 describe("report roll modal", () => {
   describe("data", () => {

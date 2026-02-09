@@ -1,7 +1,5 @@
-"use strict"
-
 import { stringSelectMenuOptions } from "../../testing/discord-schemas.js"
-const commands = require("../commands")
+import { commands } from "../commands/index.js"
 
 import { transform } from "./command-select-transformer.js"
 

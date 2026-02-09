@@ -1,14 +1,14 @@
 vitest.mock("../util/message-builders")
 
-const ffrpg_command = require("./ffrpg")
-
 import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js"
 import { CommandInteraction } from "../../testing/command-interaction.js"
+
+import { Ffrpg } from "./ffrpg.js"
 
 describe("/ffrpg command", () => {
   describe("schema", () => {
     describe("base", () => {
-      const base_schema = ffrpg_command.schema.extract("base")
+      const base_schema = Ffrpg.schema.extract("base")
 
       it("is an integer", () => {
         const result = base_schema.validate(22.5)
@@ -24,7 +24,7 @@ describe("/ffrpg command", () => {
     })
 
     describe("intrinsic", () => {
-      const intrinsic_schema = ffrpg_command.schema.extract("intrinsic")
+      const intrinsic_schema = Ffrpg.schema.extract("intrinsic")
 
       it("is an integer", () => {
         const result = intrinsic_schema.validate(22.5)
@@ -40,7 +40,7 @@ describe("/ffrpg command", () => {
     })
 
     describe("conditional", () => {
-      const conditional_schema = ffrpg_command.schema.extract("conditional")
+      const conditional_schema = Ffrpg.schema.extract("conditional")
 
       it("is an integer", () => {
         const result = conditional_schema.validate(22.5)
@@ -56,7 +56,7 @@ describe("/ffrpg command", () => {
     })
 
     describe("avoid", () => {
-      const avoid_schema = ffrpg_command.schema.extract("avoid")
+      const avoid_schema = Ffrpg.schema.extract("avoid")
 
       it("is an integer", () => {
         const result = avoid_schema.validate(22.5)
@@ -72,7 +72,7 @@ describe("/ffrpg command", () => {
     })
 
     describe("crit", () => {
-      const crit_schema = ffrpg_command.schema.extract("crit")
+      const crit_schema = Ffrpg.schema.extract("crit")
 
       it("is an integer", () => {
         const result = crit_schema.validate(22.5)
@@ -100,7 +100,7 @@ describe("/ffrpg command", () => {
     })
 
     describe("botch", () => {
-      const botch_schema = ffrpg_command.schema.extract("botch")
+      const botch_schema = Ffrpg.schema.extract("botch")
 
       it("is an integer", () => {
         const result = botch_schema.validate(22.5)

@@ -1,6 +1,6 @@
 import { Interaction } from "../../testing/interaction.js"
 
-const saved_roll_completers = require("./saved-roll-completers")
+import { saved_roll, changeable_choices } from "./saved-roll-completers"
 
 describe("saved roll completers", () => {
   describe("saved_roll", () => {
@@ -10,7 +10,7 @@ describe("saved roll completers", () => {
         { name: "FIDO", id: 2 },
       ]
 
-      const result = saved_roll_completers.saved_roll("fi", rolls)
+      const result = saved_roll("fi", rolls)
 
       const ids = result.map((r) => r.value)
       expect(ids).toContain("1")
@@ -20,7 +20,7 @@ describe("saved roll completers", () => {
     it("caps returned names at 100 characters", () => {
       const rolls = [{ name: "a".repeat(101), id: 1 }]
 
-      const result = saved_roll_completers.saved_roll("a", rolls)
+      const result = saved_roll("a", rolls)
 
       expect(result[0].name.length).toEqual(100)
     })
@@ -28,7 +28,7 @@ describe("saved roll completers", () => {
     it("sends the id as the value", () => {
       const rolls = [{ name: "very well", id: 5 }]
 
-      const result = saved_roll_completers.saved_roll("v", rolls)
+      const result = saved_roll("v", rolls)
 
       expect(result[0].value).toEqual("5")
     })
@@ -39,7 +39,7 @@ describe("saved roll completers", () => {
         id: idx,
       }))
 
-      const result = saved_roll_completers.saved_roll("test", rolls)
+      const result = saved_roll("test", rolls)
 
       expect(result.length).toEqual(25)
     })
@@ -51,7 +51,7 @@ describe("saved roll completers", () => {
       interaction.command_options.name = "very well"
       const rolls = [{ name: "very well", id: 5, command: "nwod" }]
 
-      const result = saved_roll_completers.changeable_choices("", rolls, interaction.options)
+      const result = changeable_choices("", rolls, interaction.options)
 
       expect(result[0].value).toEqual("pool")
     })
@@ -61,7 +61,7 @@ describe("saved roll completers", () => {
       interaction.command_options.name = "5"
       const rolls = [{ name: "very well", id: 5, command: "nwod" }]
 
-      const result = saved_roll_completers.changeable_choices("", rolls, interaction.options)
+      const result = changeable_choices("", rolls, interaction.options)
 
       expect(result[0].value).toEqual("pool")
     })
@@ -71,7 +71,7 @@ describe("saved roll completers", () => {
       interaction.command_options.name = "5"
       const rolls = [{ name: "very well", id: 5, command: "wod20" }]
 
-      const result = saved_roll_completers.changeable_choices("di", rolls, interaction.options)
+      const result = changeable_choices("di", rolls, interaction.options)
 
       expect(result[0].value).toEqual("difficulty")
     })
@@ -81,7 +81,7 @@ describe("saved roll completers", () => {
       interaction.command_options.name = "5"
       const rolls = [{ name: "very well", id: 5, command: "nah" }]
 
-      const result = saved_roll_completers.changeable_choices("di", rolls, interaction.options)
+      const result = changeable_choices("di", rolls, interaction.options)
 
       expect(result).toEqual([])
     })

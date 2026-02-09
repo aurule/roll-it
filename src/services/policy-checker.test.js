@@ -1,8 +1,6 @@
-"use strict"
-
-const PolicyChecker = require("./policy-checker")
-
 import { Interaction } from "../../testing/interaction.js"
+
+import { check, PolicyResult } from "./policy-checker.js"
 
 describe("policy checker", () => {
   describe("check", () => {
@@ -13,13 +11,13 @@ describe("policy checker", () => {
     })
 
     it("allows when policies are empty", async () => {
-      const policyResult = await PolicyChecker.check([], interaction)
+      const policyResult = await check([], interaction)
 
       expect(policyResult.allowed).toBeTruthy()
     })
 
     it("allows when policies are undefined", async () => {
-      const policyResult = await PolicyChecker.check(undefined, interaction)
+      const policyResult = await check(undefined, interaction)
 
       expect(policyResult.allowed).toBeTruthy()
     })
@@ -29,7 +27,7 @@ describe("policy checker", () => {
         allow: async () => true,
       }
 
-      const policyResult = await PolicyChecker.check(policy, interaction)
+      const policyResult = await check(policy, interaction)
 
       expect(policyResult.allowed).toBeTruthy()
     })
@@ -42,7 +40,7 @@ describe("policy checker", () => {
         allow: async () => true,
       }
 
-      const policyResult = await PolicyChecker.check([policy1, policy2], interaction)
+      const policyResult = await check([policy1, policy2], interaction)
 
       expect(policyResult.allowed).toBeTruthy()
     })
@@ -56,7 +54,7 @@ describe("policy checker", () => {
         errorMessage: "nope",
       }
 
-      const policyResult = await PolicyChecker.check([policy1, policy2], interaction)
+      const policyResult = await check([policy1, policy2], interaction)
 
       expect(policyResult.allowed).toBeFalsy()
     })
@@ -75,7 +73,7 @@ describe("policy checker", () => {
         errorMessage: "bad",
       }
 
-      const policyResult = await PolicyChecker.check([policy1, policy2, policy3], interaction)
+      const policyResult = await check([policy1, policy2, policy3], interaction)
 
       expect(policyResult.errorMessages).toContain("nope")
       expect(policyResult.errorMessages).toContain("bad")
@@ -85,13 +83,13 @@ describe("policy checker", () => {
 
   describe("PolicyResult", () => {
     it("ingests bare string message", () => {
-      const result = new PolicyChecker.PolicyResult(true, "message")
+      const result = new PolicyResult(true, "message")
 
       expect(result.errorMessages).toEqual(["message"])
     })
 
     it("accepts an array of messages", () => {
-      const result = new PolicyChecker.PolicyResult(true, ["m1", "m2"])
+      const result = new PolicyResult(true, ["m1", "m2"])
 
       expect(result.errorMessages).toEqual(["m1", "m2"])
     })

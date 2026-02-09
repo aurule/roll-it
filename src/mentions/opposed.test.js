@@ -5,7 +5,7 @@ import { Interaction } from "../../testing/interaction.js"
 import { Challenge } from "../db/opposed/challenge.js"
 import { ChallengeFixture } from "../../testing/challenge-fixture.js"
 
-const opposed = require("./opposed")
+import { OpposedMentionHandler } from "./opposed"
 
 describe("opposed reply handler", () => {
   describe("canHandle", () => {

@@ -1,21 +1,21 @@
-const eightball_command = require("../commands/8ball")
-const save_this_roll_command = require("../commands/save-this-roll")
-const table_list_command = require("../commands/table/list")
-const commands = require("../commands")
+import { Magic8Ball } from "../commands/8ball.js"
+import { SaveThisRoll } from "../commands/save-this-roll.js"
+import { List } from "../commands/table/list.js"
+import { sortedCommands } from "../commands/index.js"
 
-const CommandNamePresenter = require("./command-name-presenter")
+import { present, list } from "./command-name-presenter.js"
 
 describe("command name presenter", () => {
   describe("present", () => {
     describe("with a menu command", () => {
       it("uses the name directly", () => {
-        const result = CommandNamePresenter.present(save_this_roll_command, "en-US")
+        const result = present(SaveThisRoll, "en-US")
 
         expect(result).toEqual(`*Save this roll...*`)
       })
 
       it("with unformatted true, strips md formatting", () => {
-        const result = CommandNamePresenter.present(save_this_roll_command, "en-US", {
+        const result = present(SaveThisRoll, "en-US", {
           unformatted: true,
         })
 
@@ -25,13 +25,13 @@ describe("command name presenter", () => {
 
     describe("with a slash command", () => {
       it("prefixes the name with a slash", () => {
-        const result = CommandNamePresenter.present(eightball_command, "en-US")
+        const result = present(Magic8Ball, "en-US")
 
         expect(result).toEqual("`/8ball`")
       })
 
       it("with unformatted true, strips md formatting", () => {
-        const result = CommandNamePresenter.present(eightball_command, "en-US", {
+        const result = present(Magic8Ball, "en-US", {
           unformatted: true,
         })
 
@@ -41,13 +41,13 @@ describe("command name presenter", () => {
 
     describe("with a subcommand", () => {
       it("returns an accurate invocation", () => {
-        const result = CommandNamePresenter.present(table_list_command, "en-US")
+        const result = present(List, "en-US")
 
         expect(result).toMatch("`/table list`")
       })
 
       it("with unformatted true, strips md formatting", () => {
-        const result = CommandNamePresenter.present(table_list_command, "en-US", {
+        const result = present(List, "en-US", {
           unformatted: true,
         })
 
@@ -58,19 +58,19 @@ describe("command name presenter", () => {
 
   describe("list", () => {
     it("shows commands", () => {
-      const result = CommandNamePresenter.list(commands.sorted.get("en-US"))
+      const result = list(sortedCommands("en-US").commands)
 
       expect(result.some((r) => r.includes("8ball"))).toBeTruthy()
     })
 
     it("shows subcommands", () => {
-      const result = CommandNamePresenter.list(commands.sorted.get("en-US"))
+      const result = list(sortedCommands("en-US").commands)
 
       expect(result.some((r) => r.includes("saved list"))).toBeTruthy()
     })
 
     it("shows context commands", () => {
-      const result = CommandNamePresenter.list(commands.sorted.get("en-US"))
+      const result = list(sortedCommands("en-US").commands)
 
       expect(result.some((r) => r.includes("Report this roll"))).toBeTruthy()
     })

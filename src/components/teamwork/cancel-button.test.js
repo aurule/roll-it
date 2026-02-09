@@ -1,20 +1,20 @@
 import { Interaction } from "../../../testing/interaction.js"
 import { Teamwork } from "../../db/teamwork.js"
 
-const cancel_button = require("./cancel-button")
+import cancelButton from "./cancel-button.js"
 
 describe("teamwork cancel button", () => {
   describe("data", () => {
     it("creates valid data", () => {
-      const result = cancel_button.data("en-US")
+      const result = cancelButton.data("en-US")
 
       expect(result).toBeTruthy()
     })
 
     it("customId matches component name", () => {
-      const result = cancel_button.data("en-US")
+      const result = cancelButton.data("en-US")
 
-      expect(result.data.custom_id).toEqual(cancel_button.name)
+      expect(result.data.custom_id).toEqual(cancelButton.name)
     })
   })
 
@@ -25,7 +25,7 @@ describe("teamwork cancel button", () => {
     beforeEach(() => {
       interaction = new Interaction()
       interaction.user.id = "test_leader"
-      interaction.customId = cancel_button.name
+      interaction.customId = cancelButton.name
 
       teamwork_db = new Teamwork()
       const teamwork_test_id = teamwork_db.addTeamwork({
@@ -47,7 +47,7 @@ describe("teamwork cancel button", () => {
       interaction.user.id = "someone else"
 
       try {
-        await cancel_button.execute(interaction)
+        await cancelButton.execute(interaction)
       } catch (e) {
         expect(e.message).toMatch("not allowed")
       }
@@ -56,7 +56,7 @@ describe("teamwork cancel button", () => {
     it.todo("marks teamwork test as cancelled")
 
     it("sends cancellation message", async () => {
-      await cancel_button.execute(interaction)
+      await cancelButton.execute(interaction)
 
       expect(interaction.replyContent).toMatch("cancelled their teamwork test")
     })

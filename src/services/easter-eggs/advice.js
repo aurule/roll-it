@@ -42,6 +42,6 @@ export function showAdvice() {
  * @return {str}        Advice message string
  */
 export function message(locale) {
-  const messages = i18n.t("easter-eggs.advice.messages", { returnObjects: true })
+  const messages = i18n.t("easter-eggs.advice.messages", { returnObjects: true, lng: locale })
   return messages.at(randomInt(messages.length))
 }

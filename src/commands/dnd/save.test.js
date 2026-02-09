@@ -1,11 +1,11 @@
 import { Interaction } from "../../../testing/interaction.js"
 
-const dnd_save_command = require("./save")
+import { Save } from "./save.js"
 
 describe("/dnd save", () => {
   describe("schema", () => {
     describe("dc", () => {
-      const dc_schema = dnd_save_command.schema.extract("dc")
+      const dc_schema = Save.schema.extract("dc")
 
       it("is optional", () => {
         const result = dc_schema.validate(undefined, {

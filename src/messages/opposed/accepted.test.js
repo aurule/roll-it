@@ -2,7 +2,7 @@ vitest.mock("../../util/message-builders")
 
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const accepted = require("./accepted")
+import { messageData } from "./accepted.js"
 
 describe("opposed tie accepted message", () => {
   describe("messageData", () => {
@@ -17,13 +17,13 @@ describe("opposed tie accepted message", () => {
     })
 
     it("shows the accepted message", () => {
-      const result = accepted.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("ended in a tie")
     })
 
     it("includes the challenge summary", () => {
-      const result = accepted.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("challenge summary")
     })

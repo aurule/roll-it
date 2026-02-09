@@ -1,6 +1,6 @@
 vitest.mock("../util/message-builders")
 
-const swn_command = require("./swn")
+import { Swn } from "./swn.js"
 
 import { Interaction } from "../../testing/interaction.js"
 
@@ -13,7 +13,7 @@ describe("/swn command", () => {
 
   describe("schema", () => {
     describe("pool", () => {
-      const pool_schema = swn_command.schema.extract("pool")
+      const pool_schema = Swn.schema.extract("pool")
 
       it("has a min of 2", () => {
         const result = pool_schema.validate(1)

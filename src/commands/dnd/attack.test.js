@@ -1,11 +1,11 @@
 import { Interaction } from "../../../testing/interaction.js"
 
-const dnd_attack_command = require("./attack")
+import { Attack } from "./attack.js"
 
 describe("/dnd attack", () => {
   describe("schema", () => {
     describe("crit", () => {
-      const crit_schema = dnd_attack_command.schema.extract("crit")
+      const crit_schema = Attack.schema.extract("crit")
 
       it("is optional", () => {
         const result = crit_schema.validate(undefined, {
@@ -47,7 +47,7 @@ describe("/dnd attack", () => {
     })
 
     describe("ac", () => {
-      const ac_schema = dnd_attack_command.schema.extract("ac")
+      const ac_schema = Attack.schema.extract("ac")
 
       it("is optional", () => {
         const result = ac_schema.validate(undefined, {

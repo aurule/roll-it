@@ -1,20 +1,20 @@
 import { Interaction } from "../../../testing/interaction.js"
 import { Teamwork } from "../../db/teamwork.js"
 
-const roll_button = require("./roll-button")
+import rollButton from "./roll-button.js"
 
 describe("teamwork roll button", () => {
   describe("data", () => {
     it("creates valid data", () => {
-      const result = roll_button.data("en-US")
+      const result = rollButton.data("en-US")
 
       expect(result).toBeTruthy()
     })
 
     it("customId matches component name", () => {
-      const result = roll_button.data("en-US")
+      const result = rollButton.data("en-US")
 
-      expect(result.data.custom_id).toEqual(roll_button.name)
+      expect(result.data.custom_id).toEqual(rollButton.name)
     })
   })
 
@@ -26,7 +26,7 @@ describe("teamwork roll button", () => {
     beforeEach(() => {
       interaction = new Interaction()
       interaction.user.id = "test_leader"
-      interaction.customId = roll_button.name
+      interaction.customId = rollButton.name
 
       teamwork_db = new Teamwork()
       teamwork_test_id = teamwork_db.addTeamwork({
@@ -67,7 +67,7 @@ describe("teamwork roll button", () => {
       interaction.user.id = "someone else"
 
       try {
-        await roll_button.execute(interaction)
+        await rollButton.execute(interaction)
       } catch (e) {
         expect(e.message).toMatch("not allowed")
       }
@@ -77,7 +77,7 @@ describe("teamwork roll button", () => {
       beforeEach(() => {
         interaction = new Interaction()
         interaction.user.id = "test_leader"
-        interaction.customId = roll_button.name
+        interaction.customId = rollButton.name
 
         teamwork_db = new Teamwork()
         teamwork_test_id = teamwork_db.addTeamwork({
@@ -113,20 +113,20 @@ describe("teamwork roll button", () => {
       it.todo("marks the test as finished")
 
       it("replies that the test was invalid", async () => {
-        await roll_button.execute(interaction)
+        await rollButton.execute(interaction)
 
         expect(interaction.replyContent).toMatch("cannot be rolled")
       })
     })
 
     it("shows the command's final result", async () => {
-      await roll_button.execute(interaction)
+      await rollButton.execute(interaction)
 
       expect(interaction.replyContent).toMatch("rolled **")
     })
 
     it("shows the helpers embed", async () => {
-      await roll_button.execute(interaction)
+      await rollButton.execute(interaction)
 
       expect(interaction.replies[0].embeds).toBeTruthy()
     })

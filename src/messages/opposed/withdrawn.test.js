@@ -2,7 +2,8 @@ vitest.mock("../../util/message-builders")
 
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const withdrawn = require("./withdrawn")
+
+import { messageData } from "./withdrawn.js"
 
 describe("opposed challenge withdrawn message", () => {
   describe("messageData", () => {
@@ -19,7 +20,7 @@ describe("opposed challenge withdrawn message", () => {
     })
 
     it("shows the withdrawn message", () => {
-      const result = withdrawn.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("withdrew their challenge")
     })

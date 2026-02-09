@@ -2,7 +2,8 @@ vitest.mock("../util/message-builders")
 
 import { ModalInteraction } from "../../testing/modal-interaction.js"
 import { Installation } from "../db/installation.js"
-const changeInstalled = require("./change-installed")
+
+import { ChangeInstalledModal, setMatch } from "./change-installed.js"
 
 describe("change installed modal", () => {
   describe("submit", () => {
@@ -86,7 +87,7 @@ describe("change installed modal", () => {
       const set1 = new Set(["a", "b", "c"])
       const set2 = new Set(["a", "b", "c"])
 
-      const result = changeInstalled.setMatch(set1, set2)
+      const result = setMatch(set1, set2)
 
       expect(result).toBe(true)
     })
@@ -95,7 +96,7 @@ describe("change installed modal", () => {
       const set1 = new Set(["a", "b", "c", "d"])
       const set2 = new Set(["a", "b", "c"])
 
-      const result = changeInstalled.setMatch(set1, set2)
+      const result = setMatch(set1, set2)
 
       expect(result).toBe(false)
     })
@@ -104,7 +105,7 @@ describe("change installed modal", () => {
       const set1 = new Set(["a", "b", "c"])
       const set2 = new Set(["a", "b", "d"])
 
-      const result = changeInstalled.setMatch(set1, set2)
+      const result = setMatch(set1, set2)
 
       expect(result).toBe(false)
     })
@@ -113,7 +114,7 @@ describe("change installed modal", () => {
       const set1 = new Set()
       const set2 = new Set()
 
-      const result = changeInstalled.setMatch(set1, set2)
+      const result = setMatch(set1, set2)
 
       expect(result).toBe(true)
     })

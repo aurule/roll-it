@@ -3,7 +3,7 @@ vitest.mock("../../util/message-builders")
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { Interaction } from "../../../testing/interaction.js"
 
-const saved_grow_command = require("./grow")
+import { Grow } from "./grow.js"
 
 describe("/saved grow", () => {
   describe("execute", () => {

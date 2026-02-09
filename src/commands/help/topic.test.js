@@ -1,6 +1,6 @@
 vitest.mock("../../util/message-builders")
 
-const topic_help_command = require("./topic")
+import { Topic } from "./topic.js"
 
 import { Interaction } from "../../../testing/interaction.js"
 

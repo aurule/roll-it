@@ -6,7 +6,7 @@ import { Challenge } from "../../db/opposed/challenge.js"
 import { OpTest } from "../../db/opposed/optest.js"
 import { Participant } from "../../db/opposed/participant.js"
 
-const retestButton = require("./retest-button")
+import retestButton from "./retest-button.js"
 
 describe("retest result button", () => {
   describe("data", () => {

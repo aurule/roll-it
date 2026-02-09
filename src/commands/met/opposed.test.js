@@ -2,7 +2,7 @@ vitest.mock("../../util/message-builders")
 
 import { Interaction } from "../../../testing/interaction.js"
 
-const met_opposed_command = require("./opposed")
+import { Opposed } from "./opposed.js"
 
 describe("/met opposed", () => {
   describe("execute", () => {

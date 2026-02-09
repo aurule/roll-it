@@ -2,7 +2,7 @@ vitest.mock("../util/message-builders")
 
 import { Interaction } from "../../testing/interaction.js"
 
-const InteractionCreateEvent = require("./interactionCreate")
+import { execute, handleCommand, handleAutocomplete, handleModal } from "./interactionCreate.js"
 
 describe("interactionCreate handler", () => {
   let interaction
@@ -26,7 +26,7 @@ describe("interactionCreate handler", () => {
       })
 
       it("aborts the event", () => {
-        return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch(
+        return expect(execute(interaction)).resolves.toMatch(
           "wrong guild for env",
         )
       })
@@ -41,20 +41,20 @@ describe("interactionCreate handler", () => {
       it("executes commands", () => {
         handleSpy.mockResolvedValue("worked")
 
-        return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch("worked")
+        return expect(execute(interaction)).resolves.toMatch("worked")
       })
 
       it("executes application commands", () => {
         interaction.interactionType = "chatInputCommand"
         handleSpy.mockResolvedValue("worked")
 
-        return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch("worked")
+        return expect(execute(interaction)).resolves.toMatch("worked")
       })
 
       it("gracefully handles command errors", async () => {
         handleSpy.mockRejectedValue("failed")
 
-        const result = await InteractionCreateEvent.execute(interaction)
+        const result = await execute(interaction)
 
         expect(result.content).toMatch("There was an error")
       })
@@ -69,13 +69,13 @@ describe("interactionCreate handler", () => {
       it("executes autocompletes", () => {
         handleSpy.mockResolvedValue("worked")
 
-        return expect(InteractionCreateEvent.execute(interaction)).resolves.toMatch("worked")
+        return expect(execute(interaction)).resolves.toMatch("worked")
       })
 
       it("gracefully handles autocomplete errors", async () => {
         handleSpy.mockRejectedValue("failed")
 
-        const result = await InteractionCreateEvent.execute(interaction)
+        const result = await execute(interaction)
 
         expect(result).toEqual([])
       })
@@ -95,7 +95,7 @@ describe("interactionCreate handler", () => {
     it("rejects on unknown command", () => {
       interaction.commandName = "nope"
 
-      return expect(InteractionCreateEvent.handleCommand(interaction)).rejects.toMatch("no command")
+      return expect(handleCommand(interaction)).rejects.toMatch("no command")
     })
 
     describe("when command is in a guild", () => {
@@ -104,7 +104,7 @@ describe("interactionCreate handler", () => {
 
     describe("when command has no policy", () => {
       it("executes the command", () => {
-        return expect(InteractionCreateEvent.handleCommand(interaction)).resolves.toMatch("worked")
+        return expect(handleCommand(interaction)).resolves.toMatch("worked")
       })
     })
 
@@ -118,7 +118,7 @@ describe("interactionCreate handler", () => {
           allow: async (_interaction) => true,
         }
 
-        return expect(InteractionCreateEvent.handleCommand(interaction)).resolves.toMatch("worked")
+        return expect(handleCommand(interaction)).resolves.toMatch("worked")
       })
 
       it("replies with the policy error message when the policy disallows", () => {
@@ -127,7 +127,7 @@ describe("interactionCreate handler", () => {
           errorMessage: "not allowed",
         }
 
-        return expect(InteractionCreateEvent.handleCommand(interaction)).resolves.toMatchObject({
+        return expect(handleCommand(interaction)).resolves.toMatchObject({
           content: "not allowed",
         })
       })
@@ -147,7 +147,7 @@ describe("interactionCreate handler", () => {
       interaction.client.commands.set("testing", testCommand)
       interaction.commandName = "nope"
 
-      return expect(InteractionCreateEvent.handleAutocomplete(interaction)).rejects.toMatch(
+      return expect(handleAutocomplete(interaction)).rejects.toMatch(
         "no command",
       )
     })
@@ -156,7 +156,7 @@ describe("interactionCreate handler", () => {
       interaction.client.commands.set("testing", invalidTestCommand)
       interaction.commandName = "testing"
 
-      return expect(InteractionCreateEvent.handleAutocomplete(interaction)).rejects.toMatch(
+      return expect(handleAutocomplete(interaction)).rejects.toMatch(
         "no autocomplete",
       )
     })
@@ -166,7 +166,7 @@ describe("interactionCreate handler", () => {
       interaction.commandName = "testing"
       interaction.focused_option = "testOption"
 
-      return expect(InteractionCreateEvent.handleAutocomplete(interaction)).resolves.toMatch(
+      return expect(handleAutocomplete(interaction)).resolves.toMatch(
         "worked",
       )
     })
@@ -181,21 +181,21 @@ describe("interactionCreate handler", () => {
       interaction.client.modals.set("testing", testModal)
       interaction.customId = "nope"
 
-      return expect(InteractionCreateEvent.handleModal(interaction)).rejects.toMatch("no modal")
+      return expect(handleModal(interaction)).rejects.toMatch("no modal")
     })
 
     it("executes the modal submit method", () => {
       interaction.client.modals.set("testing", testModal)
       interaction.customId = "testing"
 
-      return expect(InteractionCreateEvent.handleModal(interaction)).resolves.toMatch("worked")
+      return expect(handleModal(interaction)).resolves.toMatch("worked")
     })
 
     it("sends the extracted id", () => {
       interaction.client.modals.set("testing", testModal)
       interaction.customId = "testing_5"
 
-      return expect(InteractionCreateEvent.handleModal(interaction)).resolves.toMatch("5")
+      return expect(handleModal(interaction)).resolves.toMatch("5")
     })
   })
 })

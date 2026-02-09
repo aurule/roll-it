@@ -1,11 +1,11 @@
-const formatters = require("./i18n")
+import { ul, ol, indented, spaced, arithmetic } from "./i18n.js"
 
 describe("i18n formatting helpers", () => {
   describe("ul", () => {
     it("prefixes with dashes", () => {
       const list = ["first", "second", "third"]
 
-      const output = formatters.ul(list)
+      const output = ul(list)
 
       expect(output).toMatch("- first")
     })
@@ -15,7 +15,7 @@ describe("i18n formatting helpers", () => {
     it("prefixes with numbers", () => {
       const list = ["first", "second", "third"]
 
-      const output = formatters.ol(list)
+      const output = ol(list)
 
       expect(output).toMatch("1. first")
     })
@@ -23,7 +23,7 @@ describe("i18n formatting helpers", () => {
     it("changes number for each line", () => {
       const list = ["first", "second", "third"]
 
-      const output = formatters.ol(list)
+      const output = ol(list)
 
       expect(output).toMatch("3. third")
     })
@@ -33,7 +33,7 @@ describe("i18n formatting helpers", () => {
     it("prefixes first line with a tab", () => {
       const list = ["first", "second", "third"]
 
-      const output = formatters.indented(list)
+      const output = indented(list)
 
       expect(output).toMatch("\tfirst")
     })
@@ -41,7 +41,7 @@ describe("i18n formatting helpers", () => {
     it("prefixes later lines with tabs", () => {
       const list = ["first", "second", "third"]
 
-      const output = formatters.indented(list)
+      const output = indented(list)
 
       expect(output).toMatch("\tthird")
     })
@@ -51,7 +51,7 @@ describe("i18n formatting helpers", () => {
     it("joins using spaces", () => {
       const list = ["first", "second", "third"]
 
-      const output = formatters.spaced(list)
+      const output = spaced(list)
 
       expect(output).toEqual("first second third")
     })
@@ -61,7 +61,7 @@ describe("i18n formatting helpers", () => {
     it("strips zeroes", () => {
       const list = [1, 2, 0, 4, 5]
 
-      const output = formatters.arithmetic(list)
+      const output = arithmetic(list)
 
       expect(output).not.toMatch("0")
     })
@@ -70,7 +70,7 @@ describe("i18n formatting helpers", () => {
       it("is emitted as-is when positive", () => {
         const list = [1]
 
-        const output = formatters.arithmetic(list)
+        const output = arithmetic(list)
 
         expect(output).toEqual("1")
       })
@@ -78,7 +78,7 @@ describe("i18n formatting helpers", () => {
       it("is prefixed with sign when negative", () => {
         const list = [-1]
 
-        const output = formatters.arithmetic(list)
+        const output = arithmetic(list)
 
         expect(output).toEqual("-1")
       })
@@ -88,7 +88,7 @@ describe("i18n formatting helpers", () => {
       it("each is emitted with operator", () => {
         const list = [-1, 3, -2, 6]
 
-        const output = formatters.arithmetic(list)
+        const output = arithmetic(list)
 
         expect(output).toEqual("-1 + 3 - 2 + 6")
       })
@@ -97,13 +97,13 @@ describe("i18n formatting helpers", () => {
 
   describe("signed", () => {
     it("shows a plus for positive numbers", () => {
-      const result = formatters.signed(5)
+      const result = signed(5)
 
       expect(result).toEqual("+5")
     })
 
     it("shows a minus for negative numbers", () => {
-      const result = formatters.signed(-3)
+      const result = signed(-3)
 
       expect(result).toEqual("-3")
     })

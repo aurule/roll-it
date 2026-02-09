@@ -1,11 +1,11 @@
 import { Interaction } from "../../testing/interaction.js"
 
-const Fallback = require("./fallback")
+import { FallbackMentionHandler } from "./fallback"
 
 describe("Fallback message mention handler", () => {
   describe("canHandle", () => {
     it("always returns true", () => {
-      const result = Fallback.canHandle("I'm not actually a message")
+      const result = FallbackMentionHandler.canHandle("I'm not actually a message")
 
       expect(result).toEqual(true)
     })
@@ -24,7 +24,7 @@ describe("Fallback message mention handler", () => {
       vitest.spyOn(message, "reply")
       vitest.spyOn(message, "react")
 
-      await Fallback.handle(message)
+      await FallbackMentionHandler.handle(message)
 
       expect(message.reply).not.toHaveBeenCalled()
       expect(message.react).not.toHaveBeenCalled()
@@ -44,7 +44,7 @@ describe("Fallback message mention handler", () => {
         }
         vitest.spyOn(message, "react")
 
-        await Fallback.handle(message)
+        await FallbackMentionHandler.handle(message)
 
         expect(message.react).toHaveBeenCalled()
       })
@@ -61,7 +61,7 @@ describe("Fallback message mention handler", () => {
         }
         vitest.spyOn(message, "reply")
 
-        await Fallback.handle(message)
+        await FallbackMentionHandler.handle(message)
 
         expect(message.reply).toHaveBeenCalled()
       })

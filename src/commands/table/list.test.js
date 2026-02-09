@@ -2,7 +2,7 @@ vitest.mock("../../util/message-builders")
 
 import { GuildRollables } from "../../db/rollable.js"
 import { Interaction } from "../../../testing/interaction.js"
-const table_list_command = require("./list")
+import { List } from "./list.js"
 
 describe("/table list", () => {
   describe("execute", () => {

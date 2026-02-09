@@ -1,6 +1,6 @@
 vitest.mock("../util/message-builders")
 
-const pba_command = require("./pba")
+import { Pba } from "./pba.js"
 
 import { Interaction } from "../../testing/interaction.js"
 

@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-const conditionPicker = require("./condition-picker")
+import conditionPicker from "./condition-picker.js"
 
 describe("challenge condition selector", () => {
   describe("data", () => {

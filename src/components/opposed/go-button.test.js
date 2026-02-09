@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-const goButton = require("./go-button")
+import goButton from "./go-button.js"
 
 describe("go throw button", () => {
   describe("data", () => {

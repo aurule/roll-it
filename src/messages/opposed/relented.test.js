@@ -2,7 +2,8 @@ vitest.mock("../../util/message-builders")
 
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const relented = require("./relented")
+
+import { messageData } from "./relented.js"
 
 describe("opposed relented message", () => {
   describe("messageData", () => {
@@ -19,7 +20,7 @@ describe("opposed relented message", () => {
     })
 
     it("shows the relented message", () => {
-      const result = relented.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("**relented** to the challenge")
     })

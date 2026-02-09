@@ -1,6 +1,6 @@
 import { MessageFlags, ButtonStyle, ComponentType } from "discord.js"
 
-const build = require("./message-builders")
+import * as build from "./message-builders.js"
 
 describe("message builders", () => {
   describe("message", () => {

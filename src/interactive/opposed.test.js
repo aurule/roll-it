@@ -5,9 +5,9 @@ import { Opposed } from "../db/opposed.js"
 import { Challenge } from "../db/opposed/challenge.js"
 import { Interaction } from "../../testing/interaction.js"
 import { ChallengeFixture } from "../../testing/challenge-fixture.js"
-const api = require("../services/api")
+import { sendMessage } from "../services/api.js"
 
-const InteractiveOpposed = require("./opposed")
+import { opposedBegin, opposedTimeout } from "./opposed.js"
 
 describe("interactive opposed challenge", () => {
   describe("opposedBegin", () => {
@@ -15,7 +15,7 @@ describe("interactive opposed challenge", () => {
       const interaction = new Interaction()
       const opposed_db = new Opposed()
 
-      await InteractiveOpposed.opposedBegin({
+      await opposedBegin({
         interaction,
         description: "",
         attackerId: "atk",
@@ -34,7 +34,7 @@ describe("interactive opposed challenge", () => {
         interaction.guild.locale = "es-ES"
         const opposed_db = new Opposed()
 
-        await InteractiveOpposed.opposedBegin({
+        await opposedBegin({
           interaction,
           description: "",
           attackerId: "atk",
@@ -51,7 +51,7 @@ describe("interactive opposed challenge", () => {
         const interaction = new Interaction()
         const opposed_db = new Opposed()
 
-        await InteractiveOpposed.opposedBegin({
+        await opposedBegin({
           interaction,
           description: "",
           attackerId: "atk",
@@ -69,7 +69,7 @@ describe("interactive opposed challenge", () => {
       const interaction = new Interaction()
       const opposed_db = new Opposed()
 
-      await InteractiveOpposed.opposedBegin({
+      await opposedBegin({
         interaction,
         description: "",
         attackerId: "atk",
@@ -87,7 +87,7 @@ describe("interactive opposed challenge", () => {
     it("shows the attacker advantages prompt", async () => {
       const interaction = new Interaction()
 
-      await InteractiveOpposed.opposedBegin({
+      await opposedBegin({
         interaction,
         description: "",
         attackerId: "atk",
@@ -119,28 +119,28 @@ describe("interactive opposed challenge", () => {
       })
 
       it("leaves state unchanged", async () => {
-        await InteractiveOpposed.opposedTimeout(challenge.id)
+        await opposedTimeout(challenge.id)
 
         expect(challenge.record.state).toEqual(Challenge.States.Accepted)
       })
 
       it("does not send a message", async () => {
-        await InteractiveOpposed.opposedTimeout(challenge.id)
+        await opposedTimeout(challenge.id)
 
-        expect(api.sendMessage).not.toHaveBeenCalled()
+        expect(sendMessage).not.toHaveBeenCalled()
       })
     })
 
     it("sets challenge to expired state", async () => {
-      await InteractiveOpposed.opposedTimeout(challenge.id)
+      await opposedTimeout(challenge.id)
 
       expect(challenge.record.state).toEqual(Challenge.States.Expired)
     })
 
     it("shows expired message", async () => {
-      await InteractiveOpposed.opposedTimeout(challenge.id)
+      await opposedTimeout(challenge.id)
 
-      expect(api.sendMessage).toHaveBeenCalled()
+      expect(sendMessage).toHaveBeenCalled()
     })
   })
 })

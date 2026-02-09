@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-const readyButton = require("./ready-button")
+import readyButton from "./ready-button.js"
 
 describe("opposed participant ready button", () => {
   describe("data", () => {

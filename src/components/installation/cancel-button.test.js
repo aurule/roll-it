@@ -1,4 +1,4 @@
-const cancelButton = require("./cancel-button")
+import cancelButton from "./cancel-button.js"
 
 describe("installation cancel button", () => {
   describe("data", () => {

@@ -1,10 +1,10 @@
-const {
+import {
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
   ComponentType,
   MessageFlags,
-} = require("discord.js")
+} from "discord.js"
 
 import { table as suggestTables } from "../../completers/table-completers.js"
 import { GuildRollables } from "../../db/rollable.js"

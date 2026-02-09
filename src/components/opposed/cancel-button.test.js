@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-const cancelButton = require("./cancel-button")
+import cancelButton from "./cancel-button.js"
 
 describe("opposed retest cancel button", () => {
   describe("data", () => {

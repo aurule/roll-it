@@ -1,26 +1,26 @@
 import { GuildRollables } from "../../db/rollable.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Attachment } from "../../../testing/attachment.js"
-const attachment_lines = require("../../util/attachment-lines.js")
+import { fetchLines } from "../../util/attachment-lines.js"
+
+import { Add } from "./add.js"
 
 describe("/table add", () => {
   describe("execute", () => {
+    let fetchMock
+
     beforeAll(() => {
       fetchMock = vitest
-        .spyOn(attachment_lines, "fetchLines")
+        .spyOn(fetchLines)
         .mockImplementation((attachment) => attachment.contents.split(/\n/))
-
-      table_add_command = require("./add")
     })
 
     afterAll(() => {
       fetchMock.mockRestore()
     })
 
-    var fetchMock
-    var interaction
-    var rollables
-    var table_add_command
+    let interaction
+    let rollables
 
     beforeEach(() => {
       interaction = new Interaction()

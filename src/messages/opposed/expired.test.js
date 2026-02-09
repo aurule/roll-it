@@ -2,7 +2,8 @@ vitest.mock("../../util/message-builders")
 
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const expired = require("./expired")
+
+import { messageData } from "./expired.js"
 
 describe("opposed challenge expired message", () => {
   describe("messageData", () => {
@@ -20,7 +21,7 @@ describe("opposed challenge expired message", () => {
 
     describe("with no tests", () => {
       it("shows the empty expired message", () => {
-        const result = expired.messageData(challenge.id)
+        const result = messageData(challenge.id)
 
         expect(result.content).toMatch("ran out of time")
       })
@@ -32,19 +33,19 @@ describe("opposed challenge expired message", () => {
       })
 
       it("shows the expired message", () => {
-        const result = expired.messageData(challenge.id)
+        const result = messageData(challenge.id)
 
         expect(result.content).toMatch("ran out of time")
       })
 
       it("shows the tied state", () => {
-        const result = expired.messageData(challenge.id)
+        const result = messageData(challenge.id)
 
         expect(result.content).toMatch("both were tied")
       })
 
       it("shows the challenge summary", () => {
-        const result = expired.messageData(challenge.id)
+        const result = messageData(challenge.id)
 
         expect(result.content).toMatch("challenge summary")
       })
@@ -56,19 +57,19 @@ describe("opposed challenge expired message", () => {
       })
 
       it("shows the expired message", () => {
-        const result = expired.messageData(challenge.id)
+        const result = messageData(challenge.id)
 
         expect(result.content).toMatch("ran out of time")
       })
 
       it("shows the winner", () => {
-        const result = expired.messageData(challenge.id)
+        const result = messageData(challenge.id)
 
         expect(result.content).toMatch("<@def> was winning")
       })
 
       it("shows the challenge summary", () => {
-        const result = expired.messageData(challenge.id)
+        const result = messageData(challenge.id)
 
         expect(result.content).toMatch("challenge summary")
       })

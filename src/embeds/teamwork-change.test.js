@@ -1,6 +1,6 @@
 import { i18n } from "../locales/index.js"
 
-const embed = require("./teamwork-change")
+import { TeamworkChangeEmbed } from "./teamwork-change.js"
 
 describe("teamwork change embed", () => {
   describe("name", () => {
@@ -20,13 +20,13 @@ describe("teamwork change embed", () => {
       })
 
       it("mentions the user", () => {
-        const result = embed.name(helper, t)
+        const result = TeamworkChangeEmbed.name(helper, t)
 
         expect(result).toMatch("bob")
       })
 
       it("has a neutral emoji", () => {
-        const result = embed.name(helper, t)
+        const result = TeamworkChangeEmbed.name(helper, t)
 
         expect(result).toMatch("➕")
       })
@@ -46,13 +46,13 @@ describe("teamwork change embed", () => {
         })
 
         it("mentions the user", () => {
-          const result = embed.name(helper, t)
+          const result = TeamworkChangeEmbed.name(helper, t)
 
           expect(result).toMatch("bob")
         })
 
         it("has a negative emoji", () => {
-          const result = embed.name(helper, t)
+          const result = TeamworkChangeEmbed.name(helper, t)
 
           expect(result).toMatch("❌")
         })
@@ -64,13 +64,13 @@ describe("teamwork change embed", () => {
         })
 
         it("mentions the user", () => {
-          const result = embed.name(helper, t)
+          const result = TeamworkChangeEmbed.name(helper, t)
 
           expect(result).toMatch("bob")
         })
 
         it("has a success emoji", () => {
-          const result = embed.name(helper, t)
+          const result = TeamworkChangeEmbed.name(helper, t)
 
           expect(result).toMatch("✅")
         })
@@ -82,13 +82,13 @@ describe("teamwork change embed", () => {
         })
 
         it("mentions the user", () => {
-          const result = embed.name(helper, t)
+          const result = TeamworkChangeEmbed.name(helper, t)
 
           expect(result).toMatch("bob")
         })
 
         it("has a success emoji", () => {
-          const result = embed.name(helper, t)
+          const result = TeamworkChangeEmbed.name(helper, t)
 
           expect(result).toMatch("✅")
         })

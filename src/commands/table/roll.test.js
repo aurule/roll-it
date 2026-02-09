@@ -3,7 +3,7 @@ vitest.mock("../../util/message-builders")
 import { GuildRollables } from "../../db/rollable.js"
 import { Interaction } from "../../../testing/interaction.js"
 
-const table_roll_command = require("./roll")
+import { Roll } from "./roll.js"
 
 describe("/table roll", () => {
   describe("execute", () => {

@@ -1,7 +1,7 @@
 vitest.mock("../../util/message-builders")
 
-const eightball_command = require("../../commands/8ball")
-const command_help_command = require("./command")
+import { Magic8Ball } from "../../commands/8ball.js"
+import { CommandHelp } from "./command.js"
 
 import { Interaction } from "../../../testing/interaction.js"
 

@@ -1,4 +1,4 @@
-const CoinResultsPresenter = require("./coin-results-presenter")
+import { present } from "./coin-results-presenter.js"
 
 import { simpleflake } from "simpleflakes"
 
@@ -13,19 +13,19 @@ describe("coin results presenter", () => {
     }
 
     it("includes the user placeholder", () => {
-      const result = CoinResultsPresenter.present(defaultArgs)
+      const result = present(defaultArgs)
 
       expect(result).toMatch("{{userMention}}")
     })
 
     it("includes description if present", () => {
-      const result = CoinResultsPresenter.present(defaultArgs)
+      const result = present(defaultArgs)
 
       expect(result).toMatch(`"${defaultArgs.description}"`)
     })
 
     it("includes the call if present", () => {
-      const result = CoinResultsPresenter.present({
+      const result = present({
         ...defaultArgs,
         call: "1",
       })

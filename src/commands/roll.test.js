@@ -1,11 +1,11 @@
 vitest.mock("../util/message-builders")
 
-const roll_command = require("./roll")
+import { Roll } from "./roll.js"
 
 describe("/roll command", () => {
   describe("schema", () => {
     describe("sides", () => {
-      const sides_schema = roll_command.schema.extract("sides")
+      const sides_schema = Roll.schema.extract("sides")
 
       it("is required", () => {
         const result = sides_schema.validate()

@@ -1,4 +1,4 @@
-const db = require("./index")
+import { db } from "./index"
 
 describe("db module", () => {
   describe("dbFileParent", () => {

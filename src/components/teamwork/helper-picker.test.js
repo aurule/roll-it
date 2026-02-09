@@ -3,20 +3,20 @@ vitest.mock("../../util/message-builders")
 import { Interaction } from "../../../testing/interaction.js"
 import { Teamwork } from "../../db/teamwork.js"
 
-const helper_picker = require("./helper-picker")
+import helperPicker from "./helper-picker.js"
 
 describe("teamwork helper picker", () => {
   describe("data", () => {
     it("creates valid data", () => {
-      const result = helper_picker.data("en-US")
+      const result = helperPicker.data("en-US")
 
       expect(result).toBeTruthy()
     })
 
     it("customId matches component name", () => {
-      const result = helper_picker.data("en-US")
+      const result = helperPicker.data("en-US")
 
-      expect(result.data.custom_id).toEqual(helper_picker.name)
+      expect(result.data.custom_id).toEqual(helperPicker.name)
     })
   })
 
@@ -28,7 +28,7 @@ describe("teamwork helper picker", () => {
     beforeEach(() => {
       interaction = new Interaction()
       interaction.user.id = "test_leader"
-      interaction.customId = helper_picker.name
+      interaction.customId = helperPicker.name
 
       teamwork_db = new Teamwork()
       teamwork_test_id = teamwork_db.addTeamwork({
@@ -52,7 +52,7 @@ describe("teamwork helper picker", () => {
       interaction.user.id = "someone else"
 
       try {
-        await helper_picker.execute(interaction)
+        await helperPicker.execute(interaction)
       } catch (e) {
         expect(e.message).toMatch("not allowed")
       }
@@ -61,7 +61,7 @@ describe("teamwork helper picker", () => {
     it("replies with an info message when values have not changed", async () => {
       interaction.values = []
 
-      await helper_picker.execute(interaction)
+      await helperPicker.execute(interaction)
 
       expect(interaction.replyContent).toMatch("did not change")
     })
@@ -69,7 +69,7 @@ describe("teamwork helper picker", () => {
     it("forces bot contribution to zero", async () => {
       interaction.values = [process.env.CLIENT_ID]
 
-      await helper_picker.execute(interaction)
+      await helperPicker.execute(interaction)
 
       const bot_helper = teamwork_db.getHelperDetails(teamwork_test_id, process.env.CLIENT_ID)
       expect(bot_helper.dice).toEqual(0)
@@ -78,7 +78,7 @@ describe("teamwork helper picker", () => {
     it("sets the helpers on the teamwork test", async () => {
       interaction.values = ["helper1", "helper2"]
 
-      await helper_picker.execute(interaction)
+      await helperPicker.execute(interaction)
 
       const helpers = teamwork_db.getRequestedHelpers(teamwork_test_id)
       const helper_uids = helpers.map((h) => h.user_uid)
@@ -88,7 +88,7 @@ describe("teamwork helper picker", () => {
     it("replies with info about added helpers", async () => {
       interaction.values = ["helper1", "helper2"]
 
-      await helper_picker.execute(interaction)
+      await helperPicker.execute(interaction)
 
       expect(interaction.replyContent).toMatch("requested help from")
     })
@@ -97,7 +97,7 @@ describe("teamwork helper picker", () => {
       teamwork_db.setRequestedHelpers(teamwork_test_id, ["helper1", "helper2"])
       interaction.values = ["helper2"]
 
-      await helper_picker.execute(interaction)
+      await helperPicker.execute(interaction)
 
       expect(interaction.replyContent).toMatch("has requested help.")
     })

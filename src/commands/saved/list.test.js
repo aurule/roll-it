@@ -3,7 +3,7 @@ vitest.mock("../../util/message-builders")
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { Interaction } from "../../../testing/interaction.js"
 
-const saved_list_command = require("./list")
+import { List } from "./list.js"
 
 describe("/saved list", () => {
   describe("execute", () => {

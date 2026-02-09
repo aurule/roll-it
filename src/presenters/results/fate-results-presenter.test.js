@@ -1,5 +1,6 @@
-const FateResultsPresenter = require("./fate-results-presenter")
 import { i18n } from "../../locales/index.js"
+
+import { presentOne, presentMany, detail } from "./fate-results-presenter.js"
 
 describe("fate results presenter", () => {
   describe("presentOne", () => {
@@ -11,19 +12,19 @@ describe("fate results presenter", () => {
     }
 
     it("includes the ladder word for the sum", () => {
-      const result = FateResultsPresenter.presentOne(defaultArgs)
+      const result = presentOne(defaultArgs)
 
       expect(result).toMatch("Average")
     })
 
     it("shows the sum", () => {
-      const result = FateResultsPresenter.presentOne(defaultArgs)
+      const result = presentOne(defaultArgs)
 
       expect(result).toMatch("+1")
     })
 
     it("includes description if present", () => {
-      const result = FateResultsPresenter.presentOne({
+      const result = presentOne({
         description: "test roll",
         ...defaultArgs,
       })
@@ -44,19 +45,19 @@ describe("fate results presenter", () => {
     }
 
     it("highlights final sum", () => {
-      const result = FateResultsPresenter.presentMany(defaultArgs)
+      const result = presentMany(defaultArgs)
 
       expect(result).toMatch("+7")
     })
 
     it("includes the ladder word for the final sum", () => {
-      const result = FateResultsPresenter.presentMany(defaultArgs)
+      const result = presentMany(defaultArgs)
 
       expect(result).toMatch("Epic")
     })
 
     it("includes description if present", () => {
-      const result = FateResultsPresenter.presentMany({
+      const result = presentMany({
         description: "test roll",
         ...defaultArgs,
       })
@@ -70,7 +71,7 @@ describe("fate results presenter", () => {
     const default_modifier = 2
 
     it("shows the breakdown of the dice", () => {
-      const result = FateResultsPresenter.detail(default_raw, default_modifier)
+      const result = detail(default_raw, default_modifier)
 
       expect(result).toMatch("fateneg")
       expect(result).toMatch("fatezero")
@@ -78,13 +79,13 @@ describe("fate results presenter", () => {
     })
 
     it("shows the modifier if non-zero", () => {
-      const result = FateResultsPresenter.detail(default_raw, default_modifier)
+      const result = detail(default_raw, default_modifier)
 
       expect(result).toMatch(" + 2")
     })
 
     it("excludes modifier if zero", () => {
-      const result = FateResultsPresenter.detail(default_raw, 0)
+      const result = detail(default_raw, 0)
 
       expect(result).not.toMatch(" + ")
     })

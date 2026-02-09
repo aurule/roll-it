@@ -4,11 +4,11 @@ import Joi from "joi"
 
 import { Interaction } from "../../testing/interaction.js"
 import { Challenge } from "../db/opposed/challenge.js"
-const cancel_button = require("./opposed/cancel-button")
+import cancelButton from "./opposed/cancel-button.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 import { ChallengeFixture } from "../../testing/challenge-fixture.js"
 
-const opposed_handler = require("./opposed")
+import { handle, components } from "./opposed.js"
 
 const opposed_component_schema = Joi.object({
   name: Joi.string().required(),
@@ -22,7 +22,7 @@ const opposed_component_schema = Joi.object({
 
 describe("opposed component correctness", () => {
   it.concurrent.each(
-    Array.from(opposed_handler.components.entries()),
+    Array.from(components.entries()),
   )("`%s` component matches the schema", (_name, component) => {
     expect(component).toMatchSchema(opposed_component_schema)
   })
@@ -66,7 +66,7 @@ describe("opposed component handler", () => {
       it("replies that the challenge is over", async () => {
         interaction = new Interaction()
 
-        await opposed_handler.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -79,7 +79,7 @@ describe("opposed component handler", () => {
         const interaction = new Interaction()
         new ChallengeFixture(state).attachMessage(interaction.message.id)
 
-        await opposed_handler.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -103,7 +103,7 @@ describe("opposed component handler", () => {
       })
 
       it("replies that the challenge is over", async () => {
-        await opposed_handler.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -126,7 +126,7 @@ describe("opposed component handler", () => {
       })
 
       it("replies that the message is outdated", async () => {
-        await opposed_handler.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("message is outdated")
       })
@@ -148,7 +148,7 @@ describe("opposed component handler", () => {
       })
 
       it("replies that the message is outdated", async () => {
-        await opposed_handler.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("message is outdated")
       })
@@ -164,13 +164,13 @@ describe("opposed component handler", () => {
         challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
         challenge.addTest().attachMessage(interaction.message.id)
 
-        execute_spy = vitest.spyOn(cancel_button, "execute")
+        execute_spy = vitest.spyOn(cancelButton, "execute")
       })
 
       it("lets the component handle the interaction", async () => {
         execute_spy.mockImplementation(async () => true)
 
-        await opposed_handler.handle(interaction)
+        await handle(interaction)
 
         expect(execute_spy).toHaveBeenCalled()
       })
@@ -180,7 +180,7 @@ describe("opposed component handler", () => {
           throw new UnauthorizedError(interaction, [interaction.user.id])
         })
 
-        await opposed_handler.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("can use this control")
       })

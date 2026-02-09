@@ -1,7 +1,7 @@
 vitest.mock("../../util/message-builders")
 
 import { Installation } from "../../db/installation.js"
-const starting = require("./starting")
+import { messageData } from "./starting.js"
 
 describe("install starting message", () => {
   describe("messageData", () => {
@@ -24,37 +24,37 @@ describe("install starting message", () => {
     })
 
     it("shows the installed systems", () => {
-      const result = starting.messageData(install_id)
+      const result = messageData(install_id)
 
       expect(result.content).toMatch("Shadowrun")
     })
 
     it("shows the installed features", () => {
-      const result = starting.messageData(install_id)
+      const result = messageData(install_id)
 
       expect(result.content).toMatch("Tables")
     })
 
     it("shows the installed commands", () => {
-      const result = starting.messageData(install_id)
+      const result = messageData(install_id)
 
       expect(result.content).toMatch("`/nwod`")
     })
 
     it("shows the global commands", () => {
-      const result = starting.messageData(install_id)
+      const result = messageData(install_id)
 
       expect(result.content).toMatch("`/saved`")
     })
 
     it("shows change button", () => {
-      const result = starting.messageData(install_id)
+      const result = messageData(install_id)
 
       expect(result).toHaveComponent("install_change")
     })
 
     it("shows cancel button", () => {
-      const result = starting.messageData(install_id)
+      const result = messageData(install_id)
 
       expect(result).toHaveComponent("install_cancel")
     })

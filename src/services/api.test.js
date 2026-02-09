@@ -1,4 +1,4 @@
-const api = require("./api")
+import { commandsToJSON } from "./api.js"
 
 /**
  * Only the functional helper is tested, as the other functions are bare-bones wrappers around
@@ -19,7 +19,7 @@ describe("api", () => {
     }
 
     it("creates json from data()", () => {
-      const result = api.commandsToJSON([test_command])
+      const result = commandsToJSON([test_command])
 
       expect(result[0]).toEqual('"test"')
     })
@@ -27,7 +27,7 @@ describe("api", () => {
     it("makes one json object per command", () => {
       const inputs = [test_command]
 
-      const result = api.commandsToJSON(inputs)
+      const result = commandsToJSON(inputs)
 
       expect(result.length).toEqual(inputs.length)
     })

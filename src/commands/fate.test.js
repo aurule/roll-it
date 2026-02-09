@@ -1,6 +1,6 @@
-const fate_command = require("./fate")
-
 import { Interaction } from "../../testing/interaction.js"
+
+import { Fate } from "./fate.js"
 
 describe("/fate command", () => {
   let interaction

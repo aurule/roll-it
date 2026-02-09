@@ -2,7 +2,8 @@ vitest.mock("../../util/message-builders")
 
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const winning = require("./winning")
+
+import { inertMessageData, messageData } from "./winning.js"
 
 describe("opposed winning summary message", () => {
   let challenge
@@ -20,43 +21,43 @@ describe("opposed winning summary message", () => {
 
   describe("messageData", () => {
     it("shows the winning message", () => {
-      const result = winning.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("is currently winning")
     })
 
     it("shows the summary", () => {
-      const result = winning.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("test summary")
     })
 
     it("mentions the winner", () => {
-      const result = winning.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("<@atk>")
     })
 
     it("shows the summary", () => {
-      const result = winning.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("test summary")
     })
 
     it("has a concede button", () => {
-      const result = winning.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_concede")
     })
 
     it("has a retest picker", () => {
-      const result = winning.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_retest_select")
     })
 
     it("has an retest button", () => {
-      const result = winning.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_retest")
     })
@@ -64,19 +65,19 @@ describe("opposed winning summary message", () => {
 
   describe("inert", () => {
     it("shows the headline", () => {
-      const result = winning.inertMessageData(challenge.id)
+      const result = inertMessageData(challenge.id)
 
       expect(result.content).toMatch("is currently winning")
     })
 
     it("shows the summary", () => {
-      const result = winning.inertMessageData(challenge.id)
+      const result = inertMessageData(challenge.id)
 
       expect(result.content).toMatch("test summary")
     })
 
     it("has no components", () => {
-      const result = winning.inertMessageData(challenge.id)
+      const result = inertMessageData(challenge.id)
 
       expect(result.components).toEqual([{ components: [] }])
     })

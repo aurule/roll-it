@@ -4,7 +4,8 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { UnauthorizedError } from "../../errors/unauthorized-error.js"
-const bidding_defender = require("./bidding-defender")
+
+import { onReply, messageData } from "./bidding-defender.js"
 
 describe("opposed defender advantages message", () => {
   let challenge
@@ -23,19 +24,19 @@ describe("opposed defender advantages message", () => {
 
   describe("messageData", () => {
     it("shows the bidding prompt", () => {
-      const result = bidding_defender.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("you are currently tied")
     })
 
     it("mentions the defender", () => {
-      const result = bidding_defender.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("<@def>")
     })
 
     it("shows the attacker's bid", () => {
-      const result = bidding_defender.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("bid 15 traits")
     })
@@ -53,13 +54,13 @@ describe("opposed defender advantages message", () => {
     it("rejects non-defender user", () => {
       interaction.author.id = "asdf"
 
-      expect(() => bidding_defender.onReply(interaction)).toThrow(UnauthorizedError)
+      expect(() => onReply(interaction)).toThrow(UnauthorizedError)
     })
 
     it("with no number, replies with error", () => {
       interaction.content = "I got nothin"
 
-      bidding_defender.onReply(interaction)
+      onReply(interaction)
 
       expect(interaction.replyContent).toMatch("couldn't find a number")
     })
@@ -67,7 +68,7 @@ describe("opposed defender advantages message", () => {
     it("sets traits for defender's chop", () => {
       interaction.content = "I got 15"
 
-      bidding_defender.onReply(interaction)
+      onReply(interaction)
 
       expect(bidding_test.defender_chop.record.traits).toEqual(15)
     })
@@ -76,7 +77,7 @@ describe("opposed defender advantages message", () => {
       it("changes challenge state to Tying", () => {
         interaction.content = "I got 15"
 
-        bidding_defender.onReply(interaction)
+        onReply(interaction)
 
         expect(challenge.record.state).toEqual(Challenge.States.Tying)
       })
@@ -84,7 +85,7 @@ describe("opposed defender advantages message", () => {
       it("shows tying message", () => {
         interaction.content = "I got 15"
 
-        bidding_defender.onReply(interaction)
+        onReply(interaction)
 
         expect(interaction.replyContent).toMatch("The challenge is tied")
       })
@@ -94,7 +95,7 @@ describe("opposed defender advantages message", () => {
       it("changes challenge state to Winning", () => {
         interaction.content = "I got 11"
 
-        bidding_defender.onReply(interaction)
+        onReply(interaction)
 
         expect(challenge.record.state).toEqual(Challenge.States.Winning)
       })
@@ -102,7 +103,7 @@ describe("opposed defender advantages message", () => {
       it("shows winning message", () => {
         interaction.content = "I got 11"
 
-        bidding_defender.onReply(interaction)
+        onReply(interaction)
 
         expect(interaction.replyContent).toMatch("is currently winning")
       })

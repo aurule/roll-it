@@ -1,4 +1,4 @@
-const EightBallResultsPresenter = require("./8ball-results-presenter")
+import { present } from "./8ball-results-presenter.js"
 
 describe("8ball results presenter", () => {
   describe("present", () => {
@@ -9,13 +9,13 @@ describe("8ball results presenter", () => {
     }
 
     it("includes the user placeholder", () => {
-      const result = EightBallResultsPresenter.present(defaultArgs)
+      const result = present(defaultArgs)
 
       expect(result).toMatch("{{userMention}}")
     })
 
     it("includes the question", () => {
-      const result = EightBallResultsPresenter.present(defaultArgs)
+      const result = present(defaultArgs)
 
       expect(result).toMatch(`"${defaultArgs.question}"`)
     })
@@ -24,7 +24,7 @@ describe("8ball results presenter", () => {
       let args = defaultArgs
       args.doit = true
 
-      const result = EightBallResultsPresenter.present(args)
+      const result = present(args)
 
       expect(result).toMatch("Do it")
     })

@@ -5,13 +5,9 @@ import { User } from "../../testing/user.js"
 import { UserBans } from "../db/bans.js"
 import { Feedback } from "../db/feedback.js"
 
-const report_roll_command = require("./report-this-roll")
+import { ReportThisRoll } from "./report-this-roll.js"
 
 describe("Report this roll command", () => {
-  beforeAll(() => {
-    require("dotenv").config({ quiet: true })
-  })
-
   describe("execute", () => {
     let interaction
     let past_interaction

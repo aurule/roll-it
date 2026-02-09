@@ -1,6 +1,6 @@
 import { Interaction } from "../../../testing/interaction.js"
 
-const met_static_command = require("./static")
+import { MetStatic } from "./static.js"
 
 describe("/met static", () => {
   describe("perform", () => {

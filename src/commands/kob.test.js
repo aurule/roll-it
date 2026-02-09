@@ -1,6 +1,6 @@
 vitest.mock("../util/message-builders")
 
-const kob_command = require("./kob")
+import { Kob } from "./kob.js"
 
 import { Interaction } from "../../testing/interaction.js"
 
@@ -13,7 +13,7 @@ describe("/kob command", () => {
 
   describe("schema", () => {
     describe("sides", () => {
-      const sides_schema = kob_command.schema.extract("sides")
+      const sides_schema = Kob.schema.extract("sides")
 
       it("is required", () => {
         const result = sides_schema.validate()

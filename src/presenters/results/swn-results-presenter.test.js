@@ -1,6 +1,6 @@
 import { i18n } from "../../locales/index.js"
 
-const swnPresenter = require("./swn-results-presenter")
+import { detail, present } from "./swn-results-presenter.js"
 
 describe("swn results presenter", () => {
   describe("present", () => {
@@ -19,7 +19,7 @@ describe("swn results presenter", () => {
       })
 
       it("includes description if present", () => {
-        const result = swnPresenter.present(defaultArgs)
+        const result = present(defaultArgs)
 
         expect(result).toMatch(`"${defaultArgs.description}"`)
       })
@@ -43,7 +43,7 @@ describe("swn results presenter", () => {
       })
 
       it("includes description if present", () => {
-        const result = swnPresenter.present(defaultArgs)
+        const result = present(defaultArgs)
 
         expect(result).toMatch(`"${defaultArgs.description}"`)
       })
@@ -62,13 +62,13 @@ describe("swn results presenter", () => {
       }
 
       it("shows the dice", () => {
-        const result = swnPresenter.detail(detailArgs)
+        const result = detail(detailArgs)
 
         expect(result).toMatch("[5, 2]")
       })
 
       it("shows the pool", () => {
-        const result = swnPresenter.detail(detailArgs)
+        const result = detail(detailArgs)
 
         expect(result).toMatch("2d6")
       })
@@ -80,7 +80,7 @@ describe("swn results presenter", () => {
         }
 
         it("shows the modifier", () => {
-          const result = swnPresenter.detail(modArgs)
+          const result = detail(modArgs)
 
           expect(result).toMatch("+ 3")
         })
@@ -93,7 +93,7 @@ describe("swn results presenter", () => {
         }
 
         it("shows the reroll flag", () => {
-          const result = swnPresenter.detail(rerollArgs)
+          const result = detail(rerollArgs)
 
           expect(result).toMatch("re-roll")
         })
@@ -111,13 +111,13 @@ describe("swn results presenter", () => {
       }
 
       it("shows the dice", () => {
-        const result = swnPresenter.detail(detailArgs)
+        const result = detail(detailArgs)
 
         expect(result).toMatch("[5, ~~2~~, 4]")
       })
 
       it("shows the pool", () => {
-        const result = swnPresenter.detail(detailArgs)
+        const result = detail(detailArgs)
 
         expect(result).toMatch("3d6")
       })
@@ -129,7 +129,7 @@ describe("swn results presenter", () => {
         }
 
         it("shows the modifier", () => {
-          const result = swnPresenter.detail(modArgs)
+          const result = detail(modArgs)
 
           expect(result).toMatch("+ 3")
         })
@@ -142,7 +142,7 @@ describe("swn results presenter", () => {
         }
 
         it("shows the reroll flag", () => {
-          const result = swnPresenter.detail(rerollArgs)
+          const result = detail(rerollArgs)
 
           expect(result).toMatch("re-roll")
         })

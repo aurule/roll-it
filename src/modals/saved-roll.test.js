@@ -1,10 +1,10 @@
 vitest.mock("../util/message-builders")
 
-const rollCache = require("../services/roll-cache")
+import rollCache from "../services/roll-cache.js"
 import { ModalInteraction } from "../../testing/modal-interaction.js"
 import { UserSavedRolls } from "../db/saved_rolls.js"
 
-const SavedRollModal = require("./saved-roll")
+import { SavedRollModal } from "./saved-roll.js"
 
 describe("saved roll modal", () => {
   describe("data", () => {

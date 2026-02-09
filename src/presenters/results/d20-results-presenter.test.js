@@ -1,5 +1,5 @@
-const d20Presenter = require("./d20-results-presenter")
 import { i18n } from "../../locales/index.js"
+import { presentOne, presentMany, rollResult, detail } from "./d20-results-presenter.js"
 
 describe("d20 results presenter", () => {
   describe("presentOne", () => {
@@ -12,7 +12,7 @@ describe("d20 results presenter", () => {
     }
 
     it("includes description if present", () => {
-      const result = d20Presenter.presentOne({
+      const result = presentOne({
         ...defaultArgs,
         description: "test roll",
       })
@@ -21,7 +21,7 @@ describe("d20 results presenter", () => {
     })
 
     it("includes modifier if present", () => {
-      const result = d20Presenter.presentOne({
+      const result = presentOne({
         ...defaultArgs,
         modifier: 8,
       })
@@ -35,7 +35,7 @@ describe("d20 results presenter", () => {
         keep: "highest",
       }
 
-      const result = d20Presenter.presentOne(args)
+      const result = presentOne(args)
 
       expect(result).toMatch("with advantage")
     })
@@ -46,7 +46,7 @@ describe("d20 results presenter", () => {
         keep: "lowest",
       }
 
-      const result = d20Presenter.presentOne(args)
+      const result = presentOne(args)
 
       expect(result).toMatch("with disadvantage")
     })
@@ -67,7 +67,7 @@ describe("d20 results presenter", () => {
         description: "test roll",
       }
 
-      const result = d20Presenter.presentMany(args)
+      const result = presentMany(args)
 
       expect(result).toMatch("test roll")
     })
@@ -78,7 +78,7 @@ describe("d20 results presenter", () => {
         modifier: 7,
       }
 
-      const result = d20Presenter.presentMany(args)
+      const result = presentMany(args)
 
       expect(result).toMatch("+ 7")
     })
@@ -89,7 +89,7 @@ describe("d20 results presenter", () => {
         keep: "highest",
       }
 
-      const result = d20Presenter.presentMany(args)
+      const result = presentMany(args)
 
       expect(result).toMatch("with advantage")
     })
@@ -100,7 +100,7 @@ describe("d20 results presenter", () => {
         keep: "lowest",
       }
 
-      const result = d20Presenter.presentMany(args)
+      const result = presentMany(args)
 
       expect(result).toMatch("with disadvantage")
     })
@@ -109,13 +109,13 @@ describe("d20 results presenter", () => {
   describe("rollResult", () => {
     describe("with a single die", () => {
       it("uses that die", () => {
-        const result = d20Presenter.rollResult([5], [0], 0)
+        const result = rollResult([5], [0], 0)
 
         expect(result).toEqual(5)
       })
 
       it("adds a modifier", () => {
-        const result = d20Presenter.rollResult([5], [0], 2)
+        const result = rollResult([5], [0], 2)
 
         expect(result).toEqual(7)
       })
@@ -123,13 +123,13 @@ describe("d20 results presenter", () => {
 
     describe("with multiple dice", () => {
       it("uses the picked die", () => {
-        const result = d20Presenter.rollResult([5, 18], [1], 0)
+        const result = rollResult([5, 18], [1], 0)
 
         expect(result).toEqual(18)
       })
 
       it("adds a modifier", () => {
-        const result = d20Presenter.rollResult([5, 18], [1], 2)
+        const result = rollResult([5, 18], [1], 2)
 
         expect(result).toEqual(20)
       })
@@ -140,7 +140,7 @@ describe("d20 results presenter", () => {
     describe("single die", () => {
       describe("when modifier is zero", () => {
         it("returns a simple breakdown", () => {
-          const result = d20Presenter.detail([5], [0], 0)
+          const result = detail([5], [0], 0)
 
           expect(result).toMatch("[5]")
         })
@@ -148,7 +148,7 @@ describe("d20 results presenter", () => {
 
       describe("when modifier is non-zero", () => {
         it("includes the modifier", () => {
-          const result = d20Presenter.detail([5], [0], 3)
+          const result = detail([5], [0], 3)
 
           expect(result).toMatch("[5] + 3")
         })
@@ -158,7 +158,7 @@ describe("d20 results presenter", () => {
     describe("two dice", () => {
       describe("when modifier is zero", () => {
         it("shows the rejected die", () => {
-          const result = d20Presenter.detail([5, 18], [1], 0)
+          const result = detail([5, 18], [1], 0)
 
           expect(result).toMatch("~~5~~")
         })
@@ -166,13 +166,13 @@ describe("d20 results presenter", () => {
 
       describe("when modifier is non-zero", () => {
         it("shows the rejected die", () => {
-          const result = d20Presenter.detail([5, 18], [1], 5)
+          const result = detail([5, 18], [1], 5)
 
           expect(result).toMatch("~~5~~")
         })
 
         it("shows a breakdown with modifier", () => {
-          const result = d20Presenter.detail([5, 18], [1], 5)
+          const result = detail([5, 18], [1], 5)
 
           expect(result).toMatch("+ 5")
         })

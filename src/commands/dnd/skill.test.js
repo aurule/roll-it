@@ -1,11 +1,11 @@
 import { Interaction } from "../../../testing/interaction.js"
 
-const dnd_skill_command = require("./skill")
+import { Skill } from "./skill.js"
 
 describe("/dnd skill", () => {
   describe("schema", () => {
     describe("dc", () => {
-      const dc_schema = dnd_skill_command.schema.extract("dc")
+      const dc_schema = Skill.schema.extract("dc")
 
       it("is optional", () => {
         const result = dc_schema.validate(undefined, {

@@ -1,11 +1,11 @@
 import { Interaction } from "../../../testing/interaction.js"
 
-const dnd_full_attack_command = require("./full-attack")
+import { FullAttack } from "./full-attack.js"
 
 describe("/dnd full-attack", () => {
   describe("schema", () => {
     describe("swings", () => {
-      const swings_schema = dnd_full_attack_command.schema.extract("swings")
+      const swings_schema = FullAttack.schema.extract("swings")
 
       it("is required", () => {
         const result = swings_schema.validate(undefined, {
@@ -35,7 +35,7 @@ describe("/dnd full-attack", () => {
     })
 
     describe("crit", () => {
-      const crit_schema = dnd_full_attack_command.schema.extract("crit")
+      const crit_schema = FullAttack.schema.extract("crit")
 
       it("is optional", () => {
         const result = crit_schema.validate(undefined, {
@@ -77,7 +77,7 @@ describe("/dnd full-attack", () => {
     })
 
     describe("ac", () => {
-      const ac_schema = dnd_full_attack_command.schema.extract("ac")
+      const ac_schema = FullAttack.schema.extract("ac")
 
       it("is optional", () => {
         const result = ac_schema.validate(undefined, {

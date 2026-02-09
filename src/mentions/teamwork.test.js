@@ -2,7 +2,7 @@ vitest.mock("../util/message-builders")
 
 import { Teamwork } from "../db/teamwork.js"
 import { Interaction } from "../../testing/interaction.js"
-const teamwork = require("./teamwork")
+import { TeamworkMentionHandler } from "./teamwork"
 
 describe("teamwork reply handler", () => {
   describe("canHandle", () => {

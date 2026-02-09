@@ -2,12 +2,12 @@ vitest.mock("../util/message-builders")
 
 import { Interaction } from "../../testing/interaction.js"
 
-const wod_command = require("./wod20")
+import { Wod20 } from "./wod20.js"
 
 describe("/wod20 command", () => {
   describe("schema", () => {
     describe("difficulty", () => {
-      const difficulty_schema = wod_command.schema.extract("difficulty")
+      const difficulty_schema = Wod20.schema.extract("difficulty")
 
       it("is optional", () => {
         const result = difficulty_schema.validate()
@@ -41,7 +41,7 @@ describe("/wod20 command", () => {
     })
 
     describe("specialty", () => {
-      const specialty_schema = wod_command.schema.extract("specialty")
+      const specialty_schema = Wod20.schema.extract("specialty")
 
       it("is optional", () => {
         const result = specialty_schema.validate()

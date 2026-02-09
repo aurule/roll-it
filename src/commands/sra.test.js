@@ -1,14 +1,11 @@
 vitest.mock("../util/message-builders")
 
-import { Interaction } from "../../testing/interaction.js"
-import { ShadowrunPresenter } from "../presenters/results/shadowrun-results-presenter.js"
-
-const sra_command = require("./sra")
+import { Sra } from "./sra.js"
 
 describe("/sra command", () => {
   describe("schema", () => {
     describe("risk", () => {
-      const risk_schema = sra_command.schema.extract("risk")
+      const risk_schema = Sra.schema.extract("risk")
 
       it("is optional", () => {
         const risk_value = undefined
@@ -52,7 +49,7 @@ describe("/sra command", () => {
     })
 
     describe("with", () => {
-      const with_schema = sra_command.schema.extract("with")
+      const with_schema = Sra.schema.extract("with")
 
       it("is optional", () => {
         const result = with_schema.validate()

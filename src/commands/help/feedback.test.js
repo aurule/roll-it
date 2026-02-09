@@ -1,6 +1,6 @@
 vitest.mock("../../util/message-builders")
 
-const feedback_help_command = require("./feedback")
+import { Feedback } from "./feedback.js"
 
 import { Interaction } from "../../../testing/interaction.js"
 import { User } from "../../../testing/user.js"

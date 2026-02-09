@@ -4,9 +4,9 @@ import { Installation } from "../db/installation.js"
 vitest.mock("../util/message-builders")
 vitest.mock("../services/api")
 
-describe("/setup-roll-it command", () => {
-  const setup_command = require("./setup-roll-it")
+import { SetupRollIt } from "./setup-roll-it.js"
 
+describe("/setup-roll-it command", () => {
   afterEach(() => {
     vitest.clearAllMocks()
   })

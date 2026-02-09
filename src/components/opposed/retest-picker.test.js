@@ -5,7 +5,7 @@ import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { OpTest } from "../../db/opposed/optest.js"
 
-const retestPicker = require("./retest-picker")
+import retestPicker from "./retest-picker.js"
 
 describe("opposed retest reason picker", () => {
   let challenge

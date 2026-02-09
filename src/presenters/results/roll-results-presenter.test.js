@@ -1,5 +1,6 @@
-const RollResultsPresenter = require("./roll-results-presenter")
 import { i18n } from "../../locales/index.js"
+
+import { presentOne, presentMany, detail } from "./roll-results-presenter.js"
 
 describe("roll results presenter", () => {
   describe("presentOne", () => {
@@ -14,13 +15,13 @@ describe("roll results presenter", () => {
     }
 
     it("highlights final sum", () => {
-      const result = RollResultsPresenter.presentOne(defaultArgs)
+      const result = presentOne(defaultArgs)
 
       expect(result).toMatch("**7**")
     })
 
     it("includes description if present", () => {
-      const result = RollResultsPresenter.presentOne(defaultArgs)
+      const result = presentOne(defaultArgs)
 
       expect(result).toMatch(`"${defaultArgs.description}"`)
     })
@@ -41,13 +42,13 @@ describe("roll results presenter", () => {
     }
 
     it("highlights final sum", () => {
-      const result = RollResultsPresenter.presentMany(defaultArgs)
+      const result = presentMany(defaultArgs)
 
       expect(result).toMatch("**7**")
     })
 
     it("includes description if present", () => {
-      const result = RollResultsPresenter.presentMany(defaultArgs)
+      const result = presentMany(defaultArgs)
 
       expect(result).toMatch(`"${defaultArgs.description}"`)
     })
@@ -62,19 +63,19 @@ describe("roll results presenter", () => {
     }
 
     it("names the dice rolled as NdM", () => {
-      const result = RollResultsPresenter.detail(defaultArgs)
+      const result = detail(defaultArgs)
 
       expect(result).toMatch("2d6")
     })
 
     it("shows the breakdown of the dice", () => {
-      const result = RollResultsPresenter.detail(defaultArgs)
+      const result = detail(defaultArgs)
 
       expect(result).toMatch("[1, 4]")
     })
 
     it("shows the modifier if non-zero", () => {
-      const result = RollResultsPresenter.detail(defaultArgs)
+      const result = detail(defaultArgs)
 
       expect(result).toMatch(" + 2")
     })
@@ -82,7 +83,7 @@ describe("roll results presenter", () => {
     it("excludes modifier if zero", () => {
       let args = defaultArgs
       args.modifier = 0
-      const result = RollResultsPresenter.detail(args)
+      const result = detail(args)
 
       expect(result).not.toMatch(" + ")
       expect(result).toMatch("]")

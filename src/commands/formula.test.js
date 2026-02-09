@@ -1,9 +1,9 @@
-const formula_command = require("./formula")
+import { Formula } from "./formula.js"
 
 describe("/formula command", () => {
   describe("schema", () => {
     describe("formula", () => {
-      const formula_schema = formula_command.schema.extract("formula")
+      const formula_schema = Formula.schema.extract("formula")
 
       it("is required", () => {
         const result = formula_schema.validate()

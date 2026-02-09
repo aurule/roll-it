@@ -2,7 +2,7 @@ vitest.mock("../util/message-builders")
 
 import { patch, patchDiscord } from "./whisper"
 
-const {
+import {
   MessageFlags,
   CommandInteraction,
   ModalSubmitInteraction,
@@ -10,7 +10,7 @@ const {
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
   Message,
-} = require("discord.js")
+} from "discord.js"
 
 class PatchMeWhisper {
   reply(args) {

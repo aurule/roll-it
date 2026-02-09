@@ -1,4 +1,4 @@
-const fallback_handler = require("./fallback")
+import { FallbackMentionHandler } from "./fallback"
 
 import { handle } from "./index.js"
 
@@ -28,7 +28,7 @@ describe("message mention dispatching", () => {
         canHandle: (_interaction) => false,
         handle: (_interaction) => "two",
       }
-      const fallback_spy = vitest.spyOn(fallback_handler, "handle")
+      const fallback_spy = vitest.spyOn(FallbackMentionHandler, "handle")
 
       await handle(
         {

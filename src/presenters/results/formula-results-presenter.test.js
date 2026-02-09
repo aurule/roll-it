@@ -1,5 +1,6 @@
-const roll_formula_presenter = require("./formula-results-presenter")
 import { i18n } from "../../locales/index.js"
+
+import { detail, presentOne, presentMany, limitedEvaluate } from "./formula-results-presenter.js"
 
 describe("formula results presenter", () => {
   describe("presentOne", () => {
@@ -19,31 +20,31 @@ describe("formula results presenter", () => {
     }
 
     it("includes the original formula", () => {
-      const result = roll_formula_presenter.presentOne(default_opts)
+      const result = presentOne(default_opts)
 
       expect(result).toMatch("1d4 + 5")
     })
 
     it("includes the rolled formula", () => {
-      const result = roll_formula_presenter.presentOne(default_opts)
+      const result = presentOne(default_opts)
 
       expect(result).toMatch("2 + 5")
     })
 
     it("breaks down each pool in the roll", () => {
-      const result = roll_formula_presenter.presentOne(default_opts)
+      const result = presentOne(default_opts)
 
       expect(result).toMatch("2 from 1d4 [2]")
     })
 
     it("shows the final total", () => {
-      const result = roll_formula_presenter.presentOne(default_opts)
+      const result = presentOne(default_opts)
 
       expect(result).toMatch("**7**")
     })
 
     it("includes the description if present", () => {
-      const result = roll_formula_presenter.presentOne(default_opts)
+      const result = presentOne(default_opts)
 
       expect(result).toMatch("test roll")
     })
@@ -55,7 +56,7 @@ describe("formula results presenter", () => {
       }
       options.results[0].rolledFormula = "evaluate(4 + 3) + 3"
 
-      const result = roll_formula_presenter.presentOne(options)
+      const result = presentOne(options)
 
       expect(result).toMatch("`evaluate` is disabled")
     })
@@ -85,26 +86,26 @@ describe("formula results presenter", () => {
     }
 
     it("includes the original formula", () => {
-      const result = roll_formula_presenter.presentMany(default_opts)
+      const result = presentMany(default_opts)
 
       expect(result).toMatch("1d6 + 2")
     })
 
     it("includes each rolled formula", () => {
-      const result = roll_formula_presenter.presentMany(default_opts)
+      const result = presentMany(default_opts)
 
       expect(result).toMatch("3 + 2")
       expect(result).toMatch("4 + 2")
     })
 
     it("breaks down each pool in a roll", () => {
-      const result = roll_formula_presenter.presentMany(default_opts)
+      const result = presentMany(default_opts)
 
       expect(result).toMatch("3 from 1d6")
     })
 
     it("shows each final total", () => {
-      const result = roll_formula_presenter.presentMany(default_opts)
+      const result = presentMany(default_opts)
 
       expect(result).toMatch("5")
       expect(result).toMatch("6")
@@ -115,7 +116,7 @@ describe("formula results presenter", () => {
         ...default_opts,
         description: "test roll",
       }
-      const result = roll_formula_presenter.presentMany(options)
+      const result = presentMany(options)
 
       expect(result).toMatch("test roll")
     })
@@ -127,7 +128,7 @@ describe("formula results presenter", () => {
       }
       options.results[0].rolledFormula = "evaluate(4 + 3) + 3"
 
-      const result = roll_formula_presenter.presentMany(options)
+      const result = presentMany(options)
 
       expect(result).toMatch("`evaluate` is disabled")
     })
@@ -143,7 +144,7 @@ describe("formula results presenter", () => {
       ["derivative"],
     ])("disables %s", async (fn_name) => {
       expect(() => {
-        roll_formula_presenter.limitedEvaluate(`${fn_name}()`)
+        limitedEvaluate(`${fn_name}()`)
       }).toThrow(`${fn_name} is disabled`)
     })
   })
@@ -158,14 +159,14 @@ describe("formula results presenter", () => {
     }
 
     it("shows every pool", () => {
-      const result = roll_formula_presenter.detail(default_opts)
+      const result = detail(default_opts)
 
       expect(result).toMatch("1d3")
       expect(result).toMatch("1d4")
     })
 
     it("shows the sum", () => {
-      const result = roll_formula_presenter.detail(default_opts)
+      const result = detail(default_opts)
 
       expect(result).toMatch("2")
     })
@@ -175,13 +176,13 @@ describe("formula results presenter", () => {
         ...default_opts,
         labels: ["thing", undefined],
       }
-      const result = roll_formula_presenter.detail(opts)
+      const result = detail(opts)
 
       expect(result).toMatch("thing")
     })
 
     it("shows raw die results", () => {
-      const result = roll_formula_presenter.detail(default_opts)
+      const result = detail(default_opts)
 
       expect(result).toMatch("[2]")
     })

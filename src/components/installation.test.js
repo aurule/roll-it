@@ -4,9 +4,9 @@ import Joi from "joi"
 
 import { Interaction } from "../../testing/interaction.js"
 import { InstallationFixture } from "../../testing/installation-fixture.js"
-const cancel_button = require("./installation/cancel-button")
+import cancelButton from "./installation/cancel-button.jx"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
-const install_handler = require("./installation")
+import { handle } from "./installation.js"
 
 const install_component_schema = Joi.object({
   name: Joi.string().required(),

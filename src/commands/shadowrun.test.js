@@ -3,12 +3,12 @@ vitest.mock("../util/message-builders")
 import { Interaction } from "../../testing/interaction.js"
 import { ShadowrunPresenter } from "../presenters/results/shadowrun-results-presenter.js"
 
-const shadowrun_command = require("./shadowrun")
+import { Shadowrun } from "./shadowrun.js"
 
 describe("/shadowrun command", () => {
   describe("schema", () => {
     describe("edge", () => {
-      const edge_schema = shadowrun_command.schema.extract("edge")
+      const edge_schema = Shadowrun.schema.extract("edge")
 
       it("is optional", () => {
         const result = edge_schema.validate()

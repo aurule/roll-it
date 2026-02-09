@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-const concedeButton = require("./concede-button")
+import concedeButton from "./concede-button.js"
 
 describe("opposed test concede button", () => {
   describe("data", () => {

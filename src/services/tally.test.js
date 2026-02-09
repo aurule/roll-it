@@ -1,4 +1,4 @@
-const tallyService = require("./tally")
+import { sum, pickedSum, fudge, wod20, successes, riskSuccesses } from "./tally.js"
 
 describe("tally summation helpers", () => {
   describe("sum", () => {
@@ -9,7 +9,7 @@ describe("tally summation helpers", () => {
     ]
 
     it("generates one number per array of the result set", () => {
-      const sums = tallyService.sum(resultSets)
+      const sums = sum(resultSets)
 
       expect(sums.length).toEqual(3)
     })
@@ -17,7 +17,7 @@ describe("tally summation helpers", () => {
     it("sums each result set", () => {
       const expectedSums = [15, 5, 7]
 
-      const sums = tallyService.sum(resultSets)
+      const sums = sum(resultSets)
 
       expect(sums).toEqual(expectedSums)
     })
@@ -33,7 +33,7 @@ describe("tally summation helpers", () => {
       const pickedDice = [{ indexes: [0, 1] }, { indexes: [0, 1] }, { indexes: [0, 1] }]
 
       it("generates one number per array of the result set", () => {
-        const sums = tallyService.pickedSum(resultSets, pickedDice)
+        const sums = pickedSum(resultSets, pickedDice)
 
         expect(sums.length).toEqual(3)
       })
@@ -41,7 +41,7 @@ describe("tally summation helpers", () => {
       it("sums each result set", () => {
         const expectedSums = [15, 5, 7]
 
-        const sums = tallyService.pickedSum(resultSets, pickedDice)
+        const sums = pickedSum(resultSets, pickedDice)
 
         expect(sums).toEqual(expectedSums)
       })
@@ -58,7 +58,7 @@ describe("tally summation helpers", () => {
       it("sums the picked pickedDice", () => {
         const expectedSums = [11, 12, 7]
 
-        const sums = tallyService.pickedSum(resultSets, pickedDice)
+        const sums = pickedSum(resultSets, pickedDice)
 
         expect(sums).toEqual(expectedSums)
       })
@@ -73,7 +73,7 @@ describe("tally summation helpers", () => {
         [1, 3, 1, 3],
       ]
 
-      const fudgeSums = tallyService.fudge(resultSets)
+      const fudgeSums = fudge(resultSets)
 
       expect(fudgeSums.length).toEqual(3)
     })
@@ -82,7 +82,7 @@ describe("tally summation helpers", () => {
       const resultSets = [[1, 2, 2, 2]]
       const expectedSums = [-1]
 
-      const fudgeSums = tallyService.fudge(resultSets)
+      const fudgeSums = fudge(resultSets)
 
       expect(fudgeSums).toEqual(expectedSums)
     })
@@ -91,7 +91,7 @@ describe("tally summation helpers", () => {
       const resultSets = [[2, 2, 2, 2]]
       const expectedSums = [0]
 
-      const fudgeSums = tallyService.fudge(resultSets)
+      const fudgeSums = fudge(resultSets)
 
       expect(fudgeSums).toEqual(expectedSums)
     })
@@ -100,7 +100,7 @@ describe("tally summation helpers", () => {
       const resultSets = [[3, 2, 2, 2]]
       const expectedSums = [1]
 
-      const fudgeSums = tallyService.fudge(resultSets)
+      const fudgeSums = fudge(resultSets)
 
       expect(fudgeSums).toEqual(expectedSums)
     })
@@ -114,7 +114,7 @@ describe("tally summation helpers", () => {
         [3, 6, 9, 10],
       ]
 
-      const successSums = tallyService.wod20(resultSets, 6)
+      const successSums = wod20(resultSets, 6)
 
       expect(successSums.length).toEqual(3)
     })
@@ -122,7 +122,7 @@ describe("tally summation helpers", () => {
     it("adds a success for a number that meets threshold", () => {
       const resultSets = [[5, 6, 7]]
 
-      const successSums = tallyService.wod20(resultSets, 7)
+      const successSums = wod20(resultSets, 7)
 
       expect(successSums[0]).toEqual(1)
     })
@@ -130,7 +130,7 @@ describe("tally summation helpers", () => {
     it("adds a success for a number that exceeds threshold", () => {
       const resultSets = [[5, 6, 7]]
 
-      const successSums = tallyService.wod20(resultSets, 6)
+      const successSums = wod20(resultSets, 6)
 
       expect(successSums[0]).toEqual(2)
     })
@@ -138,7 +138,7 @@ describe("tally summation helpers", () => {
     it("subtracts a success for every 1", () => {
       const resultSets = [[1, 5, 6, 7]]
 
-      const successSums = tallyService.wod20(resultSets, 6)
+      const successSums = wod20(resultSets, 6)
 
       expect(successSums[0]).toEqual(1)
     })
@@ -146,7 +146,7 @@ describe("tally summation helpers", () => {
     it("rounds to 0 if negative and any 1s", () => {
       const resultSets = [[1, 1, 1, 7]]
 
-      const successSums = tallyService.wod20(resultSets, 6)
+      const successSums = wod20(resultSets, 6)
 
       expect(successSums[0]).toEqual(0)
     })
@@ -154,7 +154,7 @@ describe("tally summation helpers", () => {
     it("returns negative if no successes and any 1s", () => {
       const resultSets = [[1, 1, 1, 3]]
 
-      const successSums = tallyService.wod20(resultSets, 6)
+      const successSums = wod20(resultSets, 6)
 
       expect(successSums[0]).toEqual(-3)
     })
@@ -162,7 +162,7 @@ describe("tally summation helpers", () => {
     it("counts tens twice if asked", () => {
       const resultSets = [[2, 3, 4, 10]]
 
-      const successSums = tallyService.wod20(resultSets, 6, true)
+      const successSums = wod20(resultSets, 6, true)
 
       expect(successSums[0]).toEqual(2)
     })
@@ -176,7 +176,7 @@ describe("tally summation helpers", () => {
         [3, 6, 9, 10],
       ]
 
-      const successSums = tallyService.successes(resultSets, 6)
+      const successSums = successes(resultSets, 6)
 
       expect(successSums.length).toEqual(3)
     })
@@ -184,7 +184,7 @@ describe("tally summation helpers", () => {
     it("adds a success for a number that exceeds threshold", () => {
       const resultSets = [[5, 6, 7]]
 
-      const successSums = tallyService.successes(resultSets, 6)
+      const successSums = successes(resultSets, 6)
 
       expect(successSums[0]).toEqual(2)
     })
@@ -192,7 +192,7 @@ describe("tally summation helpers", () => {
     it("adds a success for a number that meets threshold", () => {
       const resultSets = [[5, 6, 7]]
 
-      const successSums = tallyService.successes(resultSets, 7)
+      const successSums = successes(resultSets, 7)
 
       expect(successSums[0]).toEqual(1)
     })
@@ -201,7 +201,7 @@ describe("tally summation helpers", () => {
       it("adds a success for a number under the threshold", () => {
         const resultSets = [[5, 6, 7]]
 
-        const successSums = tallyService.successes(resultSets, 6, true)
+        const successSums = successes(resultSets, 6, true)
 
         expect(successSums[0]).toEqual(2)
       })
@@ -209,7 +209,7 @@ describe("tally summation helpers", () => {
       it("adds a success for a number that meets threshold", () => {
         const resultSets = [[5, 6, 7]]
 
-        const successSums = tallyService.successes(resultSets, 5, true)
+        const successSums = successes(resultSets, 5, true)
 
         expect(successSums[0]).toEqual(1)
       })
@@ -224,7 +224,7 @@ describe("tally summation helpers", () => {
         [6, 2, 5, 4],
       ]
 
-      const successSums = tallyService.riskSuccesses(resultSets, 5, 0)
+      const successSums = riskSuccesses(resultSets, 5, 0)
 
       expect(successSums.length).toEqual(3)
     })
@@ -233,7 +233,7 @@ describe("tally summation helpers", () => {
       it("adds a success for each die > threshold", () => {
         const resultSets = [[6]]
 
-        const successSums = tallyService.riskSuccesses(resultSets, 5, 0)
+        const successSums = riskSuccesses(resultSets, 5, 0)
 
         expect(successSums[0]).toEqual(1)
       })
@@ -241,7 +241,7 @@ describe("tally summation helpers", () => {
       it("adds a success for each die == threshold", () => {
         const resultSets = [[5, 5]]
 
-        const successSums = tallyService.riskSuccesses(resultSets, 5, 0)
+        const successSums = riskSuccesses(resultSets, 5, 0)
 
         expect(successSums[0]).toEqual(2)
       })
@@ -251,7 +251,7 @@ describe("tally summation helpers", () => {
       it("adds two successes for each die > threshold before the risk count", () => {
         const resultSets = [[6, 6]]
 
-        const successSums = tallyService.riskSuccesses(resultSets, 5, 1)
+        const successSums = riskSuccesses(resultSets, 5, 1)
 
         expect(successSums[0]).toEqual(3)
       })
@@ -259,7 +259,7 @@ describe("tally summation helpers", () => {
       it("adds two successes for each die == threshold before the risk count", () => {
         const resultSets = [[5, 5]]
 
-        const successSums = tallyService.riskSuccesses(resultSets, 5, 1)
+        const successSums = riskSuccesses(resultSets, 5, 1)
 
         expect(successSums[0]).toEqual(3)
       })

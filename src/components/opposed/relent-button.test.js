@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-const relentButton = require("./relent-button")
+import relentButton from "./relent-button.js"
 
 describe("opposed withdraw challenge button", () => {
   describe("data", () => {

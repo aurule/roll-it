@@ -5,7 +5,7 @@ import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { Participant } from "../../db/opposed/participant.js"
 
-const advantagePicker = require("./advantage-picker")
+import advantagePicker from "./advantage-picker.js"
 
 describe("participant advantage selector", () => {
   describe("data", () => {

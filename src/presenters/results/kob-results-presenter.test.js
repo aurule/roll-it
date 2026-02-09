@@ -1,5 +1,6 @@
-const kobPresenter = require("./kob-results-presenter")
 import { i18n } from "../../locales/index.js"
+
+import { presentOne, presentMany, detail } from "./kob-results-presenter.js"
 
 describe("kob results presenter", () => {
   describe("presentOne", () => {
@@ -11,7 +12,7 @@ describe("kob results presenter", () => {
     }
 
     it("includes description if present", () => {
-      const result = kobPresenter.presentOne({
+      const result = presentOne({
         description: "test roll",
         ...defaultArgs,
       })
@@ -26,7 +27,7 @@ describe("kob results presenter", () => {
         summed: [8],
       }
 
-      const result = kobPresenter.presentOne(args)
+      const result = presentOne(args)
 
       expect(result).toMatch(`8`)
     })
@@ -38,13 +39,13 @@ describe("kob results presenter", () => {
         summed: [8],
       }
 
-      const result = kobPresenter.presentOne(args)
+      const result = presentOne(args)
 
       expect(result).toMatch(`, 2`)
     })
 
     it("includes modifier if present", () => {
-      const result = kobPresenter.presentOne({
+      const result = presentOne({
         modifier: 3,
         ...defaultArgs,
       })
@@ -61,7 +62,7 @@ describe("kob results presenter", () => {
     }
 
     it("includes description if present", () => {
-      const result = kobPresenter.presentMany({
+      const result = presentMany({
         description: "test roll",
         ...defaultArgs,
       })
@@ -70,7 +71,7 @@ describe("kob results presenter", () => {
     })
 
     it("includes modifier if present", () => {
-      const result = kobPresenter.presentMany({
+      const result = presentMany({
         modifier: 3,
         ...defaultArgs,
       })
@@ -82,19 +83,19 @@ describe("kob results presenter", () => {
   describe("detail", () => {
     describe("when modifier is zero", () => {
       it("shows the die sides", () => {
-        const result = kobPresenter.detail({ sides: 6, raw: [5], modifier: 0 })
+        const result = detail({ sides: 6, raw: [5], modifier: 0 })
 
         expect(result).toMatch("d6")
       })
 
       it("shows the die results", () => {
-        const result = kobPresenter.detail({ sides: 6, raw: [5], modifier: 0 })
+        const result = detail({ sides: 6, raw: [5], modifier: 0 })
 
         expect(result).toMatch("[5]")
       })
 
       it("highlights exploding dice", () => {
-        const result = kobPresenter.detail({ sides: 6, raw: [6, 1], modifier: 0 })
+        const result = detail({ sides: 6, raw: [6, 1], modifier: 0 })
 
         expect(result).toMatch("**6**")
       })
@@ -102,7 +103,7 @@ describe("kob results presenter", () => {
 
     describe("when modifier is non-zero", () => {
       it("includes the modifier", () => {
-        const result = kobPresenter.detail({ sides: 6, raw: [5], modifier: 2 })
+        const result = detail({ sides: 6, raw: [5], modifier: 2 })
 
         expect(result).toMatch("+ 2")
       })

@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-const withdrawChallengeButton = require("./withdraw-challenge-button")
+import withdrawChallengeButton from "./withdraw-challenge-button.js"
 
 describe("opposed withdraw challenge button", () => {
   describe("data", () => {

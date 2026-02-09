@@ -5,7 +5,7 @@ import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { OpTest } from "../../db/opposed/optest.js"
 
-const withdrawRetestButton = require("./withdraw-retest-button")
+import withdrawRetestButton from "./withdraw-retest-button.js"
 
 describe("withdraw opposed retest button", () => {
   describe("data", () => {

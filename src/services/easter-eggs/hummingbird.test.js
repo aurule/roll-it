@@ -1,11 +1,11 @@
-const hummingbird = require("./hummingbird")
+import { hasTrigger, qualified, spotted } from "./hummingbird.js"
 
 describe("hummingbird easter egg", () => {
   describe("hasTrigger", () => {
     it("returns true when one trigger appears", () => {
       const message = "perception"
 
-      const result = hummingbird.hasTrigger(message)
+      const result = hasTrigger(message)
 
       expect(result).toEqual(true)
     })
@@ -13,7 +13,7 @@ describe("hummingbird easter egg", () => {
     it("returns true when multiple triggers appears", () => {
       const message = "perceiving for a look"
 
-      const result = hummingbird.hasTrigger(message)
+      const result = hasTrigger(message)
 
       expect(result).toEqual(true)
     })
@@ -21,7 +21,7 @@ describe("hummingbird easter egg", () => {
     it("returns false with no triggers", () => {
       const message = "something else"
 
-      const result = hummingbird.hasTrigger(message)
+      const result = hasTrigger(message)
 
       expect(result).toEqual(false)
     })
@@ -29,13 +29,13 @@ describe("hummingbird easter egg", () => {
 
   describe("qualified", () => {
     it("returns true with 11 successes", () => {
-      const result = hummingbird.qualified(11)
+      const result = qualified(11)
 
       expect(result).toEqual(true)
     })
 
     it("returns false with other successes", () => {
-      const result = hummingbird.qualified(10)
+      const result = qualified(10)
 
       expect(result).toEqual(false)
     })
@@ -43,7 +43,7 @@ describe("hummingbird easter egg", () => {
 
   describe("spotted", () => {
     it("returns the localized message", () => {
-      const result = hummingbird.spotted("en-US")
+      const result = spotted("en-US")
 
       expect(result).toMatch("You saw the hummingbird")
     })

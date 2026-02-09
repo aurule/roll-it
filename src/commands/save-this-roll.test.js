@@ -2,15 +2,11 @@ vitest.mock("../util/message-builders")
 
 import { UserSavedRolls } from "../db/saved_rolls.js"
 import { Interaction } from "../../testing/interaction.js"
-const interactionCache = require("../services/interaction-cache")
+import interactionCache from "../services/interaction-cache.js"
 
-const save_roll_command = require("./save-this-roll")
+import { SaveThisRoll } from "./save-this-roll.js"
 
 describe("Save this roll command", () => {
-  beforeAll(() => {
-    require("dotenv").config({ quiet: true })
-  })
-
   describe("execute", () => {
     let interaction
     let past_interaction

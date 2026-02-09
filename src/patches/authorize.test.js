@@ -1,10 +1,10 @@
 import { patch, patchDiscord } from "./authorize.js"
 
-const {
+import {
   ButtonInteraction,
   UserSelectMenuInteraction,
   StringSelectMenuInteraction,
-} = require("discord.js")
+} from "discord.js"
 
 class PatchMeAuthorize {
   user

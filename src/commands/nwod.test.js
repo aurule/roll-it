@@ -1,6 +1,6 @@
 vitest.mock("../util/message-builders")
 
-const nwod_command = require("./nwod")
+import { Nwod } from "./nwod.js"
 
 import { Interaction } from "../../testing/interaction.js"
 import { NwodPresenter } from "../presenters/results/nwod-results-presenter.js"
@@ -8,7 +8,7 @@ import { NwodPresenter } from "../presenters/results/nwod-results-presenter.js"
 describe("/nwod command", () => {
   describe("schema", () => {
     describe("explode", () => {
-      const explode_schema = nwod_command.schema.extract("explode")
+      const explode_schema = Nwod.schema.extract("explode")
 
       it("is optional", () => {
         const result = explode_schema.validate()
@@ -42,7 +42,7 @@ describe("/nwod command", () => {
     })
 
     describe("threshold", () => {
-      const threshold_schema = nwod_command.schema.extract("threshold")
+      const threshold_schema = Nwod.schema.extract("threshold")
 
       it("is optional", () => {
         const result = threshold_schema.validate()
@@ -76,7 +76,7 @@ describe("/nwod command", () => {
     })
 
     describe("rote", () => {
-      const rote_schema = nwod_command.schema.extract("rote")
+      const rote_schema = Nwod.schema.extract("rote")
 
       it("is optional", () => {
         const result = rote_schema.validate()
@@ -98,7 +98,7 @@ describe("/nwod command", () => {
     })
 
     describe("decreasing", () => {
-      const decreasing_schema = nwod_command.schema.extract("decreasing")
+      const decreasing_schema = Nwod.schema.extract("decreasing")
 
       it("is optional", () => {
         const result = decreasing_schema.validate()

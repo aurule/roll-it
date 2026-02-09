@@ -1,13 +1,13 @@
 vitest.mock("../util/message-builders")
 
-const drh_command = require("./drh")
+import { Drh } from "./drh.js"
 
 import { CommandInteraction } from "../../testing/command-interaction.js"
 
 describe("/drh command", () => {
   describe("schema", () => {
     describe("discipline", () => {
-      const discipline_schema = drh_command.schema.extract("discipline")
+      const discipline_schema = Drh.schema.extract("discipline")
 
       it("is required", () => {
         const result = discipline_schema.validate()
@@ -41,7 +41,7 @@ describe("/drh command", () => {
     })
 
     describe("pain", () => {
-      const pain_schema = drh_command.schema.extract("pain")
+      const pain_schema = Drh.schema.extract("pain")
 
       it("is required", () => {
         const result = pain_schema.validate()
@@ -81,7 +81,7 @@ describe("/drh command", () => {
           pain: 1,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeFalsy()
       })
@@ -93,7 +93,7 @@ describe("/drh command", () => {
           exhaustion: 3.5,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -105,7 +105,7 @@ describe("/drh command", () => {
           exhaustion: 0,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -117,7 +117,7 @@ describe("/drh command", () => {
           exhaustion: 7,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -129,7 +129,7 @@ describe("/drh command", () => {
           exhaustion: 4,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeFalsy()
       })
@@ -141,7 +141,7 @@ describe("/drh command", () => {
           talent: "minor",
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -153,7 +153,7 @@ describe("/drh command", () => {
           talent: "major",
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -166,7 +166,7 @@ describe("/drh command", () => {
           pain: 1,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeFalsy()
       })
@@ -178,7 +178,7 @@ describe("/drh command", () => {
           madness: 3.5,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -190,7 +190,7 @@ describe("/drh command", () => {
           madness: 0,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -202,7 +202,7 @@ describe("/drh command", () => {
           madness: 9,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
@@ -214,7 +214,7 @@ describe("/drh command", () => {
           madness: 4,
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeFalsy()
       })
@@ -226,14 +226,14 @@ describe("/drh command", () => {
           talent: "madness",
         }
 
-        const result = drh_command.schema.validate(options)
+        const result = Drh.schema.validate(options)
 
         expect(result.error).toBeTruthy()
       })
     })
 
     describe("talent", () => {
-      const talent_schema = drh_command.schema.extract("talent")
+      const talent_schema = Drh.schema.extract("talent")
 
       it("is optional", () => {
         const result = talent_schema.validate()

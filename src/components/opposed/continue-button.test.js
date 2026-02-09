@@ -5,7 +5,7 @@ import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { OpTest } from "../../db/opposed/optest.js"
 
-const continueButton = require("./continue-button")
+import continueButton from "./continue-button.js"
 
 describe("continue retest button", () => {
   describe("data", () => {

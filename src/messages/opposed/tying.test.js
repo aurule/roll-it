@@ -2,7 +2,8 @@ vitest.mock("../../util/message-builders")
 
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-const tying = require("./tying")
+
+ import { inertMessageData, messageData } from "./tying.js"
 
 describe("opposed tying summary message", () => {
   let challenge
@@ -20,31 +21,31 @@ describe("opposed tying summary message", () => {
 
   describe("messageData", () => {
     it("shows the tying message", () => {
-      const result = tying.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("challenge is tied")
     })
 
     it("shows the summary", () => {
-      const result = tying.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result.content).toMatch("test summary")
     })
 
     it("has an accept button", () => {
-      const result = tying.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_accept")
     })
 
     it("has a retest picker", () => {
-      const result = tying.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_retest_select")
     })
 
     it("has an retest button", () => {
-      const result = tying.messageData(challenge.id)
+      const result = messageData(challenge.id)
 
       expect(result).toHaveComponent("opposed_retest")
     })
@@ -52,19 +53,19 @@ describe("opposed tying summary message", () => {
 
   describe("inert", () => {
     it("shows the headline", () => {
-      const result = tying.inertMessageData(challenge.id)
+      const result = inertMessageData(challenge.id)
 
       expect(result.content).toMatch("challenge is tied")
     })
 
     it("shows the summary", () => {
-      const result = tying.inertMessageData(challenge.id)
+      const result = inertMessageData(challenge.id)
 
       expect(result.content).toMatch("test summary")
     })
 
     it("has no components", () => {
-      const result = tying.inertMessageData(challenge.id)
+      const result = inertMessageData(challenge.id)
 
       expect(result.components).toEqual([{ components: [] }])
     })

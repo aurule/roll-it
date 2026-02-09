@@ -2,10 +2,10 @@ vitest.mock("../util/message-builders")
 
 import { Interaction } from "../../testing/interaction.js"
 import { Teamwork } from "../db/teamwork.js"
-const cancel_button = require("./teamwork/cancel-button")
+import cancelButton from "./opposed/cancel-button.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 
-const teamwork = require("./teamwork")
+import { components, handle } from "./teamwork.js"
 
 describe("teamwork component handler", () => {
   describe("canHandle", () => {
@@ -31,7 +31,7 @@ describe("teamwork component handler", () => {
 
     describe("with no teamwork test", () => {
       it("replies that the test is concluded", async () => {
-        teamwork.handle(interaction)
+        handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -78,7 +78,7 @@ describe("teamwork component handler", () => {
       it.todo("marks the test as done")
 
       it("replies that the test is concluded", async () => {
-        await teamwork.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -122,13 +122,13 @@ describe("teamwork component handler", () => {
           teamwork_id: teamwork_test_id,
         })
 
-        execute_spy = vitest.spyOn(cancel_button, "execute")
+        execute_spy = vitest.spyOn(cancelButton, "execute")
       })
 
       it("lets the component handle the interaction", async () => {
         execute_spy.mockImplementation(async () => true)
 
-        await teamwork.handle(interaction)
+        await handle(interaction)
 
         expect(execute_spy).toHaveBeenCalled()
       })
@@ -138,7 +138,7 @@ describe("teamwork component handler", () => {
           throw new UnauthorizedError(interaction, [interaction.user.id])
         })
 
-        await teamwork.handle(interaction)
+        await handle(interaction)
 
         expect(interaction.replyContent).toMatch("can use this control")
       })
