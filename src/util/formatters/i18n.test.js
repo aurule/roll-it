@@ -1,4 +1,4 @@
-import { ul, ol, indented, spaced, arithmetic } from "./i18n.js"
+import { ul, ol, indented, spaced, arithmetic, signed } from "./i18n.js"
 
 describe("i18n formatting helpers", () => {
   describe("ul", () => {
