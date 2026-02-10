@@ -51,59 +51,59 @@ describe("opposed defender advantages message", () => {
       bidding_test.attachMessage(interaction.reference.messageId)
     })
 
-    it("rejects non-defender user", () => {
+    it("rejects non-defender user", async () => {
       interaction.author.id = "asdf"
 
-      expect(() => onReply(interaction)).toThrow(UnauthorizedError)
+      await expect(onReply(interaction)).rejects.toThrow(UnauthorizedError)
     })
 
-    it("with no number, replies with error", () => {
+    it("with no number, replies with error", async () => {
       interaction.content = "I got nothin"
 
-      onReply(interaction)
+      await onReply(interaction)
 
       expect(interaction.replyContent).toMatch("couldn't find a number")
     })
 
-    it("sets traits for defender's chop", () => {
+    it("sets traits for defender's chop", async () => {
       interaction.content = "I got 15"
 
-      onReply(interaction)
+      await onReply(interaction)
 
       expect(bidding_test.defender_chop.record.traits).toEqual(15)
     })
 
     describe("with equal traits", () => {
-      it("changes challenge state to Tying", () => {
+      it("changes challenge state to Tying", async () => {
         interaction.content = "I got 15"
 
-        onReply(interaction)
+        await onReply(interaction)
 
         expect(challenge.record.state).toEqual(Challenge.States.Tying)
       })
 
-      it("shows tying message", () => {
+      it("shows tying message", async () => {
         interaction.content = "I got 15"
 
-        onReply(interaction)
+        await onReply(interaction)
 
         expect(interaction.replyContent).toMatch("The challenge is tied")
       })
     })
 
     describe("with a winner", () => {
-      it("changes challenge state to Winning", () => {
+      it("changes challenge state to Winning", async () => {
         interaction.content = "I got 11"
 
-        onReply(interaction)
+        await onReply(interaction)
 
         expect(challenge.record.state).toEqual(Challenge.States.Winning)
       })
 
-      it("shows winning message", () => {
+      it("shows winning message", async () => {
         interaction.content = "I got 11"
 
-        onReply(interaction)
+        await onReply(interaction)
 
         expect(interaction.replyContent).toMatch("is currently winning")
       })
