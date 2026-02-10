@@ -16,7 +16,7 @@ describe("opposed retest reason picker", () => {
 
   describe("data", () => {
     it("has a descriptive placeholder", () => {
-      const selector = retestPicker.data(challenge.record)
+      const selector = retestPicker.data("en-US", challenge.record.retest_ability)
 
       expect(selector.data.placeholder).toMatch("How are you retesting")
     })
@@ -25,14 +25,14 @@ describe("opposed retest reason picker", () => {
       Object.entries(OpTest.RetestReasons).map((e) => [e[1]]),
     )("includes the %s option", (advantage) => {
       const challenge = new ChallengeFixture(Challenge.States.Cancelling).withParticipants()
-      const selector = retestPicker.data(challenge.record)
+      const selector = retestPicker.data("en-US", challenge.record.retest_ability)
 
       const option_names = selector.options.map((o) => o.data.value)
       expect(option_names).toContain(advantage)
     })
 
     it("requires one value", () => {
-      const selector = retestPicker.data(challenge.record)
+      const selector = retestPicker.data("en-US", challenge.record.retest_ability)
 
       expect(selector.data.min_values).toEqual(1)
       expect(selector.data.max_values).toEqual(1)

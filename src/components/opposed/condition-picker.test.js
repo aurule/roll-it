@@ -59,7 +59,7 @@ describe("challenge condition selector", () => {
       it("disallows all others", async () => {
         interaction.user.id = "other"
 
-        await expect(conditionPicker.execute(interaction)).rejects.toThrow()
+        expect(() => conditionPicker.execute(interaction)).toThrow()
       })
     })
 

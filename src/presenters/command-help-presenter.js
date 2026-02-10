@@ -42,7 +42,7 @@ export function present(command, locale) {
     option_names[opt.name] = inlineCode(localized_name)
   }
   const subcommand_names = {}
-  const subcommands = command.subcommands?.values() ?? []
+  const subcommands = command.children ?? []
   for (const sub of subcommands) {
     const presented = presentCommandName(sub, locale)
     subcommand_names[sub.name] = presented
@@ -65,7 +65,7 @@ export function present(command, locale) {
   if (command_options.length) {
     const args_args = {
       count: command_options.length,
-      context: command.subcommands ? "subcommands" : undefined,
+      context: command.children ? "subcommands" : undefined,
       options: options_list,
     }
     help_lines.push(help_t("response.args", args_args))

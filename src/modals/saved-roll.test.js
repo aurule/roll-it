@@ -25,13 +25,13 @@ describe("saved roll modal", () => {
     it("presets name value if given", () => {
       const modal = SavedRollModal.data("create", "en-US", { name: "test" })
 
-      expect(modal.components[1].components[0].data.value).toEqual("test")
+      expect(modal.components[1].data.component.data.value).toEqual("test")
     })
 
     it("presets description value if given", () => {
       const modal = SavedRollModal.data("create", "en-US", { description: "test" })
 
-      expect(modal.components[2].components[0].data.value).toEqual("test")
+      expect(modal.components[2].data.component.data.value).toEqual("test")
     })
 
     it("shows the invocation", () => {
@@ -50,14 +50,16 @@ describe("saved roll modal", () => {
   describe("submit", () => {
     let interaction
     let response
+    let modal
 
     beforeEach(() => {
       interaction = new ModalInteraction()
       response = interaction.message
+      modal = new SavedRollModal(interaction)
     })
 
     it("shows error on cache miss", async () => {
-      await SavedRollModal.submit(interaction)
+      await modal.submit(interaction)
 
       expect(response.content).toMatch("nothing to change")
     })
@@ -65,7 +67,7 @@ describe("saved roll modal", () => {
     it("shows error on missing name", async () => {
       await rollCache.set(interaction, { description: "description" })
 
-      await SavedRollModal.submit(interaction)
+      await modal.submit(interaction)
 
       expect(response.content).toMatch("give both a name")
     })
@@ -73,7 +75,7 @@ describe("saved roll modal", () => {
     it("shows error on missing description", async () => {
       await rollCache.set(interaction, { name: "name" })
 
-      await SavedRollModal.submit(interaction)
+      await modal.submit(interaction)
 
       expect(response.content).toMatch("give both a name")
     })
@@ -91,19 +93,19 @@ describe("saved roll modal", () => {
       })
 
       it("saves the new roll", async () => {
-        await SavedRollModal.submit(interaction)
+        await modal.submit(interaction)
 
         expect(user_rolls.count()).toEqual(1)
       })
 
       it("shows a success message", async () => {
-        await SavedRollModal.submit(interaction)
+        await modal.submit(interaction)
 
         expect(response.content).toMatch("roll is saved")
       })
 
       it("shows an invocation example", async () => {
-        await SavedRollModal.submit(interaction)
+        await modal.submit(interaction)
 
         expect(response.content).toMatch("/saved roll name:clean")
       })
@@ -119,13 +121,15 @@ describe("saved roll modal", () => {
       })
 
       it("shows an error message", async () => {
-        await SavedRollModal.submit(interaction)
+        await modal.submit(interaction)
 
         expect(response.content).toMatch("Something went wrong")
       })
     })
 
     describe("with a name collision", () => {
+      let user_rolls
+
       beforeEach(async () => {
         user_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
         user_rolls.create({
@@ -142,14 +146,14 @@ describe("saved roll modal", () => {
       })
 
       it("prompts the user for action", async () => {
-        await SavedRollModal.submit(interaction)
+        await modal.submit(interaction)
 
         expect(response.content).toMatch("What do you want to do?")
       })
 
       describe("on cancel", () => {
         it("shows a cancel message", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.click("abort")
 
@@ -157,7 +161,7 @@ describe("saved roll modal", () => {
         })
 
         it("clears the cache", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.click("abort")
 
@@ -168,7 +172,7 @@ describe("saved roll modal", () => {
 
       describe("on try again", () => {
         it("shows an edit message", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.click("retry")
 
@@ -176,7 +180,7 @@ describe("saved roll modal", () => {
         })
 
         it("leaves cache alone", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.click("retry")
 
@@ -187,7 +191,7 @@ describe("saved roll modal", () => {
 
       describe("on overwrite", () => {
         it("replaces the old roll", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.click("overwrite")
 
@@ -196,7 +200,7 @@ describe("saved roll modal", () => {
         })
 
         it("clears the cache", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.click("overwrite")
 
@@ -205,7 +209,7 @@ describe("saved roll modal", () => {
         })
 
         it("shows a success message", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.click("overwrite")
 
@@ -215,7 +219,7 @@ describe("saved roll modal", () => {
 
       describe("on timeout", () => {
         it("shows the timeout message", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.timeout()
 
@@ -223,7 +227,7 @@ describe("saved roll modal", () => {
         })
 
         it("clears the cache", async () => {
-          await SavedRollModal.submit(interaction)
+          await modal.submit(interaction)
 
           await response.timeout()
 

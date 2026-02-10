@@ -123,8 +123,8 @@ export class Ffrpg extends Command {
 
     const presented_result = presenter.presentResults()
 
-    if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = this.judge(presenter, locale)
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
+      const sacrifice_message = this.judge(presenter, this.locale)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 
@@ -133,7 +133,7 @@ export class Ffrpg extends Command {
 
   validate() {
     if (this.flat) {
-      if (intrinsic + conditional + avoid) {
+      if (this.intrinsic + this.conditional + this.avoid) {
         return this.t("validation.flat.disallowed")
       }
       return

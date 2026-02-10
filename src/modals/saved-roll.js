@@ -7,6 +7,7 @@ import {
   ButtonStyle,
   ComponentType,
   MessageFlags,
+  ActionRowBuilder,
 } from "discord.js"
 
 import { logger } from "../util/logger.js"
@@ -47,7 +48,7 @@ export class SavedRollModal extends Modal {
       throw new Error(`Unrecognized mode "${mode}" for saved roll modal`)
     }
 
-    t = i18n.getFixedT(locale, "modals", `save-roll.${mode}`)
+    const t = i18n.getFixedT(locale, "modals", `save-roll.${mode}`)
 
     const name_input = new TextInputBuilder()
       .setCustomId("name")
@@ -84,7 +85,7 @@ export class SavedRollModal extends Modal {
   }
 
   async submit() {
-    cached_roll = await rollCache.get(this.interaction)
+    const cached_roll = await rollCache.get(this.interaction)
 
     if (!cached_roll) {
       logger.warn(
@@ -112,33 +113,33 @@ export class SavedRollModal extends Modal {
       user_rolls.upsert(cached_roll)
 
       rollCache.delete(this.interaction)
-      return this.whisper(t("response.success", { name }))
+      return this.whisper(this.t("response.success", { name }))
     } catch (err) {
       if (!user_rolls.taken(name)) {
         sendError(err, { cached_roll })
         logger.error({ err, cached_roll }, `failed to update saved roll`)
-        return this.whisper(t("response.error"))
+        return this.whisper(this.t("response.error"))
       }
 
       const overwrite = new ButtonBuilder()
         .setCustomId("overwrite")
-        .setLabel(t("response.collision.choices.overwrite"))
+        .setLabel(this.t("response.collision.choices.overwrite"))
         .setStyle(ButtonStyle.Danger)
 
       const abort = new ButtonBuilder()
         .setCustomId("abort")
-        .setLabel(t("response.collision.choices.abort"))
+        .setLabel(this.t("response.collision.choices.abort"))
         .setStyle(ButtonStyle.Secondary)
 
       const retry = new ButtonBuilder()
         .setCustomId("retry")
-        .setLabel(t("response.collision.choices.retry"))
+        .setLabel(this.t("response.collision.choices.retry"))
         .setStyle(ButtonStyle.Success)
 
       const buttons = new ActionRowBuilder().addComponents(retry, abort, overwrite)
 
-      const prompt_response = await this.reply({
-        content: t("response.collision.prompt", { name }),
+      const prompt_response = await this.interaction.reply({
+        content: this.t("response.collision.prompt", { name }),
         components: [buttons],
         flags: MessageFlags.Ephemeral,
         withResponse: true,
@@ -158,13 +159,13 @@ export class SavedRollModal extends Modal {
             user_rolls.upsert(cached_roll)
             rollCache.delete(this.interaction)
             return button_interaction.update({
-              content: t("response.collision.overwritten", { name }),
+              content: this.t("response.collision.overwritten", { name }),
               components: [],
             })
           case "abort":
             rollCache.delete(this.interaction)
             return button_interaction.update({
-              content: t("response.collision.aborted"),
+              content: this.t("response.collision.aborted"),
               components: [],
             })
           case "retry":
@@ -173,7 +174,7 @@ export class SavedRollModal extends Modal {
             })
             await button_interaction.showModal(retry_modal)
             return button_interaction.editReply({
-              content: t("response.collision.retry"),
+              content: this.t("response.collision.retry"),
               components: [],
             })
         }
@@ -183,7 +184,7 @@ export class SavedRollModal extends Modal {
         if (reason === "time") {
           rollCache.delete(this.interaction)
           return this.interaction.editReply({
-            content: t("response.collision.timeout"),
+            content: this.t("response.collision.timeout"),
             components: [],
           })
         }

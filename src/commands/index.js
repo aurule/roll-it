@@ -79,10 +79,10 @@ export function registerCommand(kommand) {
   const subcommands = kommand.children ?? []
   for (const subc of subcommands) {
     const subc_key = `${kommand.name} ${subc.name}`
-    commands.set(subc_key, kommand)
+    commands.set(subc_key, subc)
     all_choices.push({
       name: subc_key,
-      value: kommand.name,
+      value: subc.name,
     })
     if (subc.savable) savable.set(subc_key, kommand)
     if (subc.teamworkable) teamworkable.set(subc_key, kommand)

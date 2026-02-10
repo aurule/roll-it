@@ -1,4 +1,5 @@
 import { i18n } from "../../locales/index.js"
+import { LocalizedSubcommandBuilder } from "../../util/localized-command.js"
 
 /**
  * Mixin to convert a command to a subcommand

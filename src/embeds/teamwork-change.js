@@ -31,8 +31,8 @@ export class TeamworkChangeEmbed {
     this.builder.setColor(0x03b199)
     this.builder.setTitle(this.t("title"))
     this.builder.setDescription(this.description)
-    this.builder.addField(this.helper_names)
-    this.builder.addField(this.helper_bonuses)
+    this.builder.addFields(this.helper_names)
+    this.builder.addFields(this.helper_bonuses)
   }
 
   /**

@@ -38,9 +38,9 @@ export function execute(interaction) {
 
   interaction.authorize(participants.get("attacker").user_uid)
 
-  interaction.deferUpdate()
-
   const values = valuesOrDefault(interaction, ["normal"])
 
   opposed_db.setChallengeConditions(challenge.id, values)
+
+  return interaction.deferUpdate()
 }

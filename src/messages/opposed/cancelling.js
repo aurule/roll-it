@@ -66,7 +66,7 @@ export function inertMessageData(challenge_id, action = "continue") {
   const test = opposed_db.getLatestTest(challenge_id)
   const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling")
 
-  lines = [
+  const lines = [
     t(`headline.${test.retest_reason}`, {
       retester: test.retester.mention,
       ability: challenge.retest_ability,

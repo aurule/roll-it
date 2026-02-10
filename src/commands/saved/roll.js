@@ -12,7 +12,7 @@ import { Child } from "../abstract/child-command.js"
  * Base class for the saved roll command
  */
 class BaseRoll extends Command {
-  static name = "saved"
+  static name = "roll"
 
   static secret = true
 

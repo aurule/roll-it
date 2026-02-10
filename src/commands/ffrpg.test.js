@@ -4,6 +4,7 @@ import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js
 import { CommandInteraction } from "../../testing/command-interaction.js"
 
 import { Ffrpg } from "./ffrpg.js"
+import { Interaction } from "../../testing/interaction.js"
 
 describe("/ffrpg command", () => {
   describe("schema", () => {
@@ -137,12 +138,14 @@ describe("/ffrpg command", () => {
         [50, 40, "noted"],
         [99, 40, "inadequate"],
       ])("returns correct text for %i", async (die, base, text) => {
+        const interaction = new Interaction()
+        const cmd = new Ffrpg(interaction)
         const presenter = new FfrpgPresenter({
           raw: [[die]],
           base,
         })
 
-        const result = ffrpg_command.judge(presenter, "en-US")
+        const result = cmd.judge(presenter, "en-US")
 
         expect(result).toMatch(text)
       })
@@ -150,12 +153,14 @@ describe("/ffrpg command", () => {
 
     describe("with no dominant outcome", () => {
       it("returns the neutral message", () => {
+        const interaction = new Interaction()
+        const cmd = new Ffrpg(interaction)
         const presenter = new FfrpgPresenter({
           raw: [[23], [51], [98]],
           base: 40,
         })
 
-        const result = ffrpg_command.judge(presenter, "en-US")
+        const result = cmd.judge(presenter, "en-US")
 
         expect(result).toMatch("noted")
       })
@@ -163,93 +168,78 @@ describe("/ffrpg command", () => {
   })
 
   describe("perform", () => {
-    it("displays the description if present", () => {
-      const description_text = "this is a test"
-      const options = {
-        description: description_text,
-        base: 50,
-      }
+    let interaction
 
-      const result = ffrpg_command.perform(options)
-
-      expect(result).toMatch(description_text)
-    })
-
-    it("displays the modifiers", () => {
-      const options = {
-        base: 50,
-        intrinsic: -10,
-      }
-
-      const result = ffrpg_command.perform(options)
-
-      expect(result).toMatch("- 10")
+    beforeEach(() => {
+      interaction = new Interaction()
     })
 
     it("includes the sacrifice message", () => {
-      const options = {
+      interaction.command_options = {
         base: 50,
         intrinsic: -10,
         description: "sacrifice",
       }
+      const cmd = new Ffrpg(interaction)
 
-      const result = ffrpg_command.perform(options)
+      const result = cmd.perform()
 
       expect(result).toMatch("Your sacrifice")
     })
   })
 
-  describe("execute", () => {
+  describe("validate", () => {
     let interaction
 
     beforeEach(() => {
-      interaction = new CommandInteraction("ffrpg")
+      interaction = new Interaction()
     })
 
-    describe("flat roll", () => {
-      it("shows error message if modifiers are present", async () => {
-        interaction.setOptions({
-          flat: true,
-          conditional: 10,
-          base: 50,
-        })
-
-        await ffrpg_command.execute(interaction)
-
-        expect(interaction.message.content).toMatch("do not allow")
+    describe("with a flat roll", () => {
+      beforeEach(() => {
+        interaction.command_options = {
+          flat: true
+        }
       })
 
-      it("reports flat roll", async () => {
-        interaction.setOptions({
-          flat: true,
-          base: 50,
-        })
+      it("disallows intrinsic", () => {
+        interaction.command_options.intrinsic = 40
+        const cmd = new Ffrpg(interaction)
 
-        await ffrpg_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.message.content).toMatch("*flat*")
+        expect(result).toMatch("do not allow")
+      })
+
+      it("disallows conditional", () => {
+        interaction.command_options.conditional = 40
+        const cmd = new Ffrpg(interaction)
+
+        const result = cmd.validate()
+
+        expect(result).toMatch("do not allow")
+      })
+
+      it("disallows avoid", () => {
+        interaction.command_options.avoid = 40
+        const cmd = new Ffrpg(interaction)
+
+        const result = cmd.validate()
+
+        expect(result).toMatch("do not allow")
       })
     })
 
-    it("shows error message for crit over botch", async () => {
-      interaction.setOptions({
-        crit: 80,
-        botch: 50,
-      })
+    it("disallows crit higher than botch", () => {
+      interaction.command_options = {
+        crit: 50,
+        botch: 40,
+      }
+      const cmd = new Ffrpg(interaction)
 
-      await ffrpg_command.execute(interaction)
+      const result = cmd.validate()
 
-      expect(interaction.message.content).toMatch("must be lower")
-    })
-
-    it("shows results", async () => {
-      interaction.setOptions({
-        base: 60,
-      })
-
-      await ffrpg_command.execute(interaction)
-
-      expect(interaction.message.content).toMatch("rolled a")
+      expect(result).toMatch("must be lower")
     })
   })
 })

@@ -108,7 +108,7 @@ export class OpTest {
 
   /**
    * Enum of retest keywords
-   * @type {Object}
+   * @type object<string, string>
    */
   static RetestReasons = Object.freeze({
     Named: "named",

@@ -13,8 +13,8 @@ export class ParentCommand extends Command {
   static children
 
   static data() {
-    for (const subcommand of this.children) {
-      this.builder.addSubcommand(subcommand.data())
+    for (const child of this.children) {
+      this.builder.addSubcommand(child.data())
     }
     return this.builder
   }

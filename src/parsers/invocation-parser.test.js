@@ -1,3 +1,11 @@
+import "../commands/d20.js"
+import "../commands/fate.js"
+import "../commands/nwod.js"
+import "../commands/formula.js"
+import "../commands/roll.js"
+import "../commands/wod20.js"
+import "../commands/drh.js"
+
 import { parseInvocation } from "./invocation-parser.js"
 
 describe("invocation parser", () => {

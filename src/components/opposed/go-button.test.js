@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-import goButton from "./go-button.js"
+import goButton, { chooseLeader, resolveChops } from "./go-button.js"
 
 describe("go throw button", () => {
   describe("data", () => {
@@ -32,7 +32,7 @@ describe("go throw button", () => {
     it("with a tied result, returns challenge winner", () => {
       const chops = [rps_test.attacker_chop.record, rps_test.defender_chop.record]
 
-      const result = goButton.chooseLeader(chops, participants, challenge.id)
+      const result = chooseLeader(chops, participants, challenge.id)
 
       expect(result.id).toBe(challenge.attacker.id)
     })
@@ -42,7 +42,7 @@ describe("go throw button", () => {
       rps_test.defender_chop.resolve("rock")
       const chops = [rps_test.attacker_chop.record, rps_test.defender_chop.record]
 
-      const result = goButton.chooseLeader(chops, participants, challenge.id)
+      const result = chooseLeader(chops, participants, challenge.id)
 
       expect(result.id).toBe(challenge.attacker.id)
     })
@@ -52,7 +52,7 @@ describe("go throw button", () => {
       rps_test.defender_chop.resolve("paper")
       const chops = [rps_test.attacker_chop.record, rps_test.defender_chop.record]
 
-      const result = goButton.chooseLeader(chops, participants, challenge.id)
+      const result = chooseLeader(chops, participants, challenge.id)
 
       expect(result.id).toBe(challenge.defender.id)
     })
@@ -82,7 +82,7 @@ describe("go throw button", () => {
       })
 
       it("saves the chop results", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -94,7 +94,7 @@ describe("go throw button", () => {
       })
 
       it("edits the message to show chop results", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -107,7 +107,7 @@ describe("go throw button", () => {
       })
 
       it("saves test leader", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -118,7 +118,7 @@ describe("go throw button", () => {
       })
 
       it("saves test breakdown", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -129,7 +129,7 @@ describe("go throw button", () => {
       })
 
       it("saves test breakdown", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -140,7 +140,7 @@ describe("go throw button", () => {
       })
 
       it("sets challenge state to bidding-attacker", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -151,7 +151,7 @@ describe("go throw button", () => {
       })
 
       it("replies with winning message", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -172,7 +172,7 @@ describe("go throw button", () => {
       })
 
       it("saves the chop results", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -184,7 +184,7 @@ describe("go throw button", () => {
       })
 
       it("edits the message to show chop results", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -195,7 +195,7 @@ describe("go throw button", () => {
       })
 
       it("sets challenge state to bidding-attacker", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,
@@ -206,7 +206,7 @@ describe("go throw button", () => {
       })
 
       it("replies with bidding-attack message", async () => {
-        await goButton.resolveChops({
+        await resolveChops({
           interaction,
           chops,
           participants,

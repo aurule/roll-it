@@ -3,6 +3,9 @@ import { SaveThisRoll } from "../commands/save-this-roll.js"
 import { List } from "../commands/table/list.js"
 import { sortedCommands } from "../commands/index.js"
 
+import "../commands/saved.js"
+import "../commands/report-this-roll.js"
+
 import { present, list } from "./command-name-presenter.js"
 
 describe("command name presenter", () => {

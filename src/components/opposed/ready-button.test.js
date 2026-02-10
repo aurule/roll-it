@@ -4,7 +4,7 @@ import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
-import readyButton from "./ready-button.js"
+import readyButton, { tieWinnerId } from "./ready-button.js"
 
 describe("opposed participant ready button", () => {
   describe("data", () => {
@@ -143,7 +143,7 @@ describe("opposed participant ready button", () => {
       })
 
       it("returns attacker id", () => {
-        const result = readyButton.tieWinnerId(attacker, defender)
+        const result = tieWinnerId(attacker, defender)
 
         expect(result).toEqual(attacker.id)
       })
@@ -163,7 +163,7 @@ describe("opposed participant ready button", () => {
       })
 
       it("returns defender id", () => {
-        const result = readyButton.tieWinnerId(attacker, defender)
+        const result = tieWinnerId(attacker, defender)
 
         expect(result).toEqual(defender.id)
       })
@@ -183,7 +183,7 @@ describe("opposed participant ready button", () => {
       })
 
       it("returns null", () => {
-        const result = readyButton.tieWinnerId(attacker, defender)
+        const result = tieWinnerId(attacker, defender)
 
         expect(result).toBeNull()
       })
@@ -203,7 +203,7 @@ describe("opposed participant ready button", () => {
       })
 
       it("returns null", () => {
-        const result = readyButton.tieWinnerId(attacker, defender)
+        const result = tieWinnerId(attacker, defender)
 
         expect(result).toBeNull()
       })

@@ -1,5 +1,7 @@
 vitest.mock("../../util/message-builders")
 
+import "../../commands/nwod.js"
+import "../../commands/saved.js"
 import { Installation } from "../../db/installation.js"
 import { messageData } from "./starting.js"
 

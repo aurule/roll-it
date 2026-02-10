@@ -10,6 +10,8 @@ import { findByCommands as findSystems } from "../services/system-helpers.js"
 import { sortedCommands } from "./index.js"
 import { Command } from "./abstract/command.js"
 import { registerCommand } from "./index.js"
+import { systems } from "../data/systems.js"
+import { features } from "../data/features.js"
 
 /**
  * Class for the setup command
@@ -73,7 +75,7 @@ export class SetupRollIt extends Command {
     const data_t = i18n.getFixedT(locale, "translation")
     const cmd_t = i18n.getFixedT(locale, "commands", "setup-roll-it")
 
-    const systems_list = systems_list.map((sys) => {
+    const systems_list = systems.map((sys) => {
       const sys_commands = new Set(sys.commands.required)
       if (sys.commands.recommended) {
         for (const c of sys.commands.recommended) {
@@ -90,7 +92,7 @@ export class SetupRollIt extends Command {
       return cmd_t("feature", t_args)
     })
 
-    const features_list = features_list.map((feat) => {
+    const features_list = features.map((feat) => {
       const feat_commands = new Set(feat.commands)
 
       const t_args = {

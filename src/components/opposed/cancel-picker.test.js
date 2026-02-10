@@ -5,7 +5,7 @@ import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { OpTest } from "../../db/opposed/optest.js"
 
-import cancelPicker from "./cancel-picker.jx"
+import cancelPicker from "./cancel-picker.js"
 
 describe("opposed test cancel reason picker", () => {
   let challenge

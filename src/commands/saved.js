@@ -21,7 +21,7 @@ export class Saved extends ParentCommand {
 
   static help_data(opts) {
     return {
-      savable: list(sortedCommands(locale).savable, locale),
+      savable: list(sortedCommands(opts.locale).savable, opts.locale),
     }
   }
 }

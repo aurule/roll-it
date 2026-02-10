@@ -6,7 +6,7 @@ import { Challenge } from "../../db/opposed/challenge.js"
 import { OpTest } from "../../db/opposed/optest.js"
 import { Participant } from "../../db/opposed/participant.js"
 
-import retestButton from "./retest-button.js"
+import retestButton, { canCancel } from "./retest-button.js"
 
 describe("retest result button", () => {
   describe("data", () => {
@@ -31,7 +31,7 @@ describe("retest result button", () => {
       ["item", true, false, false],
       ["item", false, true, true],
       ["item", true, true, true],
-    ])("reason with %s\tability_used %p\tcancels %p \treturns %p", (reason, ability_used, cancels, expected) => {
+    ])("reason with %s\tability_used %s\tcancels %s\treturns %s", (reason, ability_used, cancels, expected) => {
       const challenge = new ChallengeFixture(Challenge.States.Winning).withParticipants()
       const retest = challenge.attackerRetest(reason)
       challenge.defender.abilityUsed(ability_used)
@@ -39,7 +39,7 @@ describe("retest result button", () => {
         challenge.defender.setAdvantages(["cancels"])
       }
 
-      const result = retestButton.canCancel(retest.record)
+      const result = canCancel(retest.record)
 
       expect(result).toBe(expected)
     })
