@@ -1,5 +1,4 @@
 import { Collection } from "discord.js"
-import { available_locales } from "../locales/index.js"
 import { safe_locale } from "../locales/helpers.js"
 import { comparator } from "../util/command-sorter.js"
 
@@ -78,7 +77,7 @@ export function registerCommand(kommand) {
 
   // duplicate the registration logic for subcommands using their compound key
   const subcommands = kommand.children ?? []
-  for (const subc in subcommands) {
+  for (const subc of subcommands) {
     const subc_key = `${kommand.name} ${subc.name}`
     commands.set(subc_key, kommand)
     all_choices.push({
