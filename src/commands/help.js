@@ -12,6 +12,7 @@ import { registerCommand } from "./index.js"
  */
 export class Help extends ParentCommand {
   static name = "help"
+  static global = true
   static children = [Topic, CommandHelp, Feedback]
 
   static help_data(opts) {
