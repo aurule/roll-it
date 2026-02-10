@@ -50,10 +50,11 @@ export class Component {
    * `name` property.
    *
    * @param  {string}           locale Locale string
+   * @param  {...any}           rest   Other arguments for the data method
    * @return {ComponentBuilder}        Discord component builder object
    */
-  data(locale) {
-    return this._data(locale)
+  data(locale, ...rest) {
+    return this._data(locale, ...rest)
   }
 
   /**
