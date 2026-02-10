@@ -40,7 +40,7 @@ class StaticBase extends Command {
   }
 
   judge(compared) {
-    if (compared.includes("")) return sacrifice.neutral(this.locale)
+    if (this.vs == "none") return sacrifice.neutral(this.locale)
 
     const totals = {
       win: 0,

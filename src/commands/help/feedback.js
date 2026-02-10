@@ -39,7 +39,7 @@ class BaseFeedback extends Command {
     const feedback = new Feedback()
     feedback.create({
       userId: this.interaction.user.id,
-      content: message,
+      content: this.message,
       guildId: this.interaction.guildId,
       commandName: this.command,
       canReply: this.consent === "yes",

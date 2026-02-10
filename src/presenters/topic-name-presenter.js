@@ -9,9 +9,9 @@ import { helpTopics } from "../data/help-topics.js"
  */
 export function list(locale) {
   const t = i18n.getFixedT(locale, "help")
-  return helpTopics.map((topic) => {
-    const title = t(`${topic.name}.title`)
-    const description = t(`${topic.name}.description`)
+  return helpTopics.map((_fn, topic) => {
+    const title = t(`${topic}.title`)
+    const description = t(`${topic}.description`)
     return t("topics.list-entry", { title, description })
   })
 }

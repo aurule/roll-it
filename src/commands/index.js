@@ -115,5 +115,5 @@ export function buildSorted(locale) {
  */
 export function sortedCommands(locale) {
   const real_locale = safe_locale(locale)
-  return sorted.ensure(real_locale, buildSorted(real_locale))
+  return sorted.ensure(real_locale, buildSorted)
 }

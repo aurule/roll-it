@@ -1,6 +1,6 @@
 import { Help } from "./help.js"
 
-describe("/help command", () => {
+describe("/help", () => {
   describe("help_data", () => {
     it("includes topic names", () => {
       const help_data = Help.help_data({ locale: "en-US" })

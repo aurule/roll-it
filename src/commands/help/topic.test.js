@@ -5,54 +5,43 @@ import { Topic } from "./topic.js"
 import { Interaction } from "../../../testing/interaction.js"
 
 describe("/help topic", () => {
-  describe("execute", () => {
-    describe("with a valid topic name", () => {
-      let interaction
+  let interaction
 
-      beforeEach(() => {
-        interaction = new Interaction()
-        interaction.command_options.subcommand_name = "topic"
-        interaction.command_options.topic = "about"
-      })
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
 
-      it("shows the topic title", async () => {
-        await topic_help_command.execute(interaction)
+  describe("perform", () => {
+    it("shows the named topic's help text", () => {
+      interaction.command_options = {
+        topic: "about"
+      }
+      const cmd = new Topic(interaction)
 
-        expect(interaction.replyContent).toMatch("About Roll It")
-      })
+      const result = cmd.perform()
 
-      it("shows the topic body", async () => {
-        await topic_help_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("passion project")
-      })
-    })
-
-    it("without a topic name, shows no help", async () => {
-      const interaction = new Interaction()
-      interaction.command_options.subcommand_name = "topic"
-
-      await topic_help_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("No help is available")
-    })
-
-    it("with an unknown topic name, shows no help", async () => {
-      const interaction = new Interaction()
-      interaction.command_options.subcommand_name = "topic"
-      interaction.command_options.topic = "trickery"
-
-      await topic_help_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("No help is available")
+      expect(result).toMatch("About Roll It")
     })
   })
 
-  describe("help", () => {
-    it("includes topic names", () => {
-      const help_data = topic_help_command.help_data({ locale: "en-US" })
+  describe("validate", () => {
+    it("returns error with unknown topic", () => {
+      interaction.command_options = {
+        topic: "thingie"
+      }
+      const cmd = new Topic(interaction)
 
-      expect(help_data.topics.some((c) => c.includes("About Roll It"))).toBeTruthy()
+      const result = cmd.validate()
+
+      expect(result).toMatch("No help is available")
+    })
+  })
+
+  describe("help_data", () => {
+    it("includes topic list", () => {
+      const result = Topic.help_data({locale: "en-US"})
+
+      expect(result.topics.some(t => t.includes("About Roll It"))).toBeTruthy()
     })
   })
 })

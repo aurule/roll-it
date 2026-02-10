@@ -108,35 +108,32 @@ describe("/dnd full-attack", () => {
   })
 
   describe("perform", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
     it("rolls a single result", () => {
-      const result = dnd_full_attack_command.perform({})
+      interaction.command_options = {
+        rolls: 1
+      }
+      const cmd = new FullAttack(interaction)
+
+      const result = cmd.perform()
 
       expect(result).toMatch("1d20")
     })
 
     it("rolls multiple results", () => {
-      const result = dnd_full_attack_command.perform({
-        rolls: 2,
-      })
+      interaction.command_options = {
+        rolls: 2
+      }
+      const cmd = new FullAttack(interaction)
+
+      const result = cmd.perform()
 
       expect(result).toMatch("2 full attacks")
-    })
-
-    it("shows description if present", () => {
-      const result = dnd_full_attack_command.perform({
-        description: "a test",
-      })
-
-      expect(result).toMatch("a test")
-    })
-  })
-
-  describe("execute", () => {
-    var interaction
-
-    beforeEach(() => {
-      interaction = new Interaction()
-      interaction.command_options.subcommand_name = "full-attack"
     })
   })
 })

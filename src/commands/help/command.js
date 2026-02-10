@@ -4,7 +4,6 @@ import { all as suggestCommands } from "../../completers/command-completers.js"
 import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 import { commands, sortedCommands } from "../index.js"
-import { safe_locale } from "../../locales/helpers.js"
 
 /**
  * Base class for the help command command
@@ -53,10 +52,8 @@ class BaseCommandHelp extends Command {
   }
 
   static help_data(opts) {
-    // we need to use a safe locale here because we're getting translated command names
-    const locale = safe_locale(opts.locale)
     return {
-      commands: listCommands(sortedCommands(locale).commands, locale),
+      commands: listCommands(sortedCommands(opts.locale).commands, opts.locale),
     }
   }
 }

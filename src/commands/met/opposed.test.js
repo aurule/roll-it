@@ -5,19 +5,17 @@ import { Interaction } from "../../../testing/interaction.js"
 import { Opposed } from "./opposed.js"
 
 describe("/met opposed", () => {
-  describe("execute", () => {
-    let interaction
+  describe("validate", () => {
+    it("errors when challenging yourself", () => {
+      const interaction = new Interaction()
+      interaction.command_options = {
+        opponent: interaction.user
+      }
+      const cmd = new Opposed(interaction)
 
-    beforeEach(() => {
-      interaction = new Interaction()
-    })
+      const result = cmd.validate()
 
-    it("errors on self opponent", () => {
-      interaction.command_options.opponent = { id: interaction.user.id }
-
-      met_opposed_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("cannot challenge yourself")
+      expect(result).toMatch("cannot challenge yourself")
     })
   })
 })

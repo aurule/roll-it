@@ -51,8 +51,7 @@ class BaseTopic extends Command {
   }
 
   validate() {
-    const topic = helpTopics.get(this.topic)
-    if (!topic)
+    if (!helpTopics.has(this.topic))
       return this.t("options.topic.validation.unavailable", { topic_name: this.topic })
   }
 
@@ -66,4 +65,4 @@ class BaseTopic extends Command {
 /**
  * Class for the help topic command
  */
-export const Topic = Child(BaseTopic)
+export const Topic = Child(BaseTopic, "help")

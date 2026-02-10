@@ -1,48 +1,59 @@
 vitest.mock("../../util/message-builders")
 
-import { Magic8Ball } from "../../commands/8ball.js"
-import { CommandHelp } from "./command.js"
-
+import "../../commands/8ball.js"
 import { Interaction } from "../../../testing/interaction.js"
 
+import { CommandHelp } from "./command.js"
+
 describe("/help command", () => {
-  describe("execute", () => {
-    it("with a known command, it shows its help", async () => {
-      const interaction = new Interaction()
-      interaction.command_options.subcommand_name = "command"
-      interaction.command_options.command = "8ball"
-      interaction.client.commands.set("8ball", eightball_command)
+  let interaction
 
-      await command_help_command.execute(interaction)
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
 
-      expect(interaction.replyContent).toMatch("Magic 8 Ball")
-    })
+  describe("perform", () => {
+    it("with a real command, it returns the help text", () => {
+      interaction.command_options = {
+        command: "8ball"
+      }
+      const cmd = new CommandHelp(interaction)
 
-    it("with an unknown command, it shows no help", async () => {
-      const interaction = new Interaction()
-      interaction.command_options.subcommand_name = "command"
-      interaction.command_options.command = "fake-command"
+      const result = cmd.perform()
 
-      await command_help_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("No help is available")
-    })
-
-    it("without a command, it shows no help", async () => {
-      const interaction = new Interaction()
-      interaction.command_options.subcommand_name = "command"
-
-      await command_help_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("No help is available")
+      expect(result).toMatch("Magic 8 Ball")
     })
   })
 
-  describe("help", () => {
-    it("includes command names", () => {
-      const help_data = command_help_command.help_data({ locale: "en-US" })
+  describe("validation", () => {
+    it("with a fake command, it returns no help available message", () => {
+      interaction.command_options = {
+        command: "lollery"
+      }
+      const cmd = new CommandHelp(interaction)
 
-      expect(help_data.commands.some((c) => c.includes("setup-roll-it"))).toBeTruthy()
+      const result = cmd.validate()
+
+      expect(result).toMatch("No help is available")
+    })
+
+    it("with no command, it returns now help available message", () => {
+      interaction.command_options = {
+        command: ""
+      }
+      const cmd = new CommandHelp(interaction)
+
+      const result = cmd.validate()
+
+      expect(result).toMatch("No help is available")
+    })
+  })
+
+  describe("help_data", () => {
+    it("gets command names", () => {
+      const result = CommandHelp.help_data({locale: "en-US"})
+
+      expect(result.commands.some(c => c.includes("8ball"))).toBeTruthy()
     })
   })
 })

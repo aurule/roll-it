@@ -44,40 +44,40 @@ describe("opposed defender advantages message", () => {
       bidding_test.defenderChop("rock")
     })
 
-    it("rejects non-attacker user", () => {
+    it("rejects non-attacker user", async () => {
       interaction.author.id = "asdf"
 
-      expect(() => onReply(interaction)).toThrow(UnauthorizedError)
+      await expect(() => onReply(interaction)).rejects.toThrow(UnauthorizedError)
     })
 
-    it("with no number, replies with error", () => {
+    it("with no number, replies with error", async () => {
       interaction.content = "I got nothin"
 
-      onReply(interaction)
+      await onReply(interaction)
 
       expect(interaction.replyContent).toMatch("couldn't find a number")
     })
 
-    it("sets traits for attacker's chop", () => {
+    it("sets traits for attacker's chop", async () => {
       interaction.content = "I got 15"
 
-      onReply(interaction)
+      await onReply(interaction)
 
       expect(bidding_test.attacker_chop.record.traits).toEqual(15)
     })
 
-    it("changes challenge state to BiddingDefender", () => {
+    it("changes challenge state to BiddingDefender", async () => {
       interaction.content = "I got 15"
 
-      onReply(interaction)
+      await onReply(interaction)
 
       expect(challenge.record.state).toEqual(Challenge.States.BiddingDefender)
     })
 
-    it("shows the bidding-defender message", () => {
+    it("shows the bidding-defender message", async () => {
       interaction.content = "I got 15"
 
-      onReply(interaction)
+      await onReply(interaction)
 
       expect(interaction.replyContent).toMatch("<@def>, you are currently tied")
     })

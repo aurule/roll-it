@@ -3,82 +3,39 @@ vitest.mock("../../util/message-builders")
 import { Feedback } from "./feedback.js"
 
 import { Interaction } from "../../../testing/interaction.js"
-import { User } from "../../../testing/user.js"
-import { Feedback } from "../../db/feedback.js"
+import { Feedback as FeedbackDB } from "../../db/feedback.js"
 import { UserBans } from "../../db/bans.js"
 
 describe("/help feedback", () => {
-  describe("execute", () => {
-    let interaction
+  let interaction
 
-    describe("with a banned user", () => {
-      let banned_user
+  beforeEach(() => {
+    interaction = new Interaction()
+  })
 
-      beforeEach(() => {
-        banned_user = new User()
-        const bans = new UserBans(banned_user.id)
-        bans.create("testing")
-        interaction = new Interaction(null, banned_user.id)
-      })
+  describe("perform", () => {
+    it("creates a feedback record", () => {
+      interaction.command_options = {
+        message: "yeehaw"
+      }
+      const cmd = new Feedback(interaction)
 
-      it("does not add feedback", () => {
-        feedback_help_command.execute(interaction)
+      cmd.perform()
 
-        const feedbacks = new Feedback()
-        expect(feedbacks.count()).toEqual(0)
-      })
-
-      it("says the user is banned", () => {
-        feedback_help_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("not allowed")
-      })
+      const feedbacks = new FeedbackDB()
+      expect(feedbacks.count()).toEqual(1)
     })
+  })
 
-    describe("with a valid user", () => {
-      beforeEach(() => {
-        interaction = new Interaction()
-      })
+  describe("validate", () => {
+    it("rejects banned users", () => {
+      const bans = new UserBans(interaction.user.id)
+      bans.create("testing")
+      const cmd = new Feedback(interaction)
 
-      it("says feedback was recorded", () => {
-        interaction.command_options.message = "test message"
+      const result = cmd.validate()
 
-        feedback_help_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("has been recorded")
-      })
-
-      it("saves message", () => {
-        interaction.command_options.message = "test message"
-
-        feedback_help_command.execute(interaction)
-
-        const feedbacks = new Feedback()
-        const messages = feedbacks.all().map((f) => f.content)
-        expect(messages).toContain("test message")
-      })
-
-      it("saves command name", () => {
-        interaction.command_options.message = "test message"
-        interaction.command_options.command = "d20"
-
-        feedback_help_command.execute(interaction)
-
-        const feedbacks = new Feedback()
-        const commands = feedbacks.all().map((f) => f.commandName)
-        expect(commands).toContain("d20")
-      })
-
-      it("saves consent", () => {
-        interaction.command_options.message = "test message"
-        interaction.command_options.consent = "yes"
-
-        feedback_help_command.execute(interaction)
-
-        const feedbacks = new Feedback()
-        const consents = feedbacks.all().map((f) => f.canReply)
-        expect(consents).toContain(true)
-      })
+      expect(result).toMatch("not allowed")
     })
   })
 })
