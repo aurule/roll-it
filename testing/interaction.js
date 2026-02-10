@@ -255,11 +255,13 @@ import { patch as patchEnsure } from "../src/patches/ensure.js"
 import { patch as patchPaginate } from "../src/patches/paginate.js"
 import { patch as patchRollReply } from "../src/patches/roll-reply.js"
 import { patch as patchAuthorize } from "../src/patches/authorize.js"
+import { patch as patchWhisper } from "../src/patches/whisper.js"
 
 patchEnsure(Interaction)
 patchPaginate(Interaction)
 patchRollReply(Interaction)
 patchAuthorize(Interaction)
+patchWhisper(Interaction)
 
 export class ComponentInteraction extends Interaction {
   customId
