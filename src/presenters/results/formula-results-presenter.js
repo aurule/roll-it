@@ -124,7 +124,7 @@ export function presentOne({ formula, description, results, t }) {
     pools: detail({ t, ...results[0] }),
     total: t("response.total", { final: finalSum, rolled: rolledFormula }),
   }
-  key_parts = ["response"]
+  const key_parts = ["response"]
   if (description) {
     key_parts.push("withDescription")
   } else {
@@ -180,7 +180,7 @@ export function presentMany({ formula, description, results, t }) {
       .join("\n"),
   }
 
-  key_parts = ["response"]
+  const key_parts = ["response"]
   if (description) {
     key_parts.push("withDescription")
   } else {
