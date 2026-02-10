@@ -12,6 +12,7 @@ import { i18n } from "../../locales/index.js"
 export function Child(kommand, parent_name) {
   return class extends kommand {
     static parent = parent_name
+    static name = kommand.name
 
     /**
      * Get a command builder using our name
