@@ -3,7 +3,6 @@ vitest.mock("../../util/message-builders")
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { Challenge } from "../../db/opposed/challenge.js"
-import { Participant } from "../../db/opposed/participant.js"
 
 import throwPicker from "./throw-picker.js"
 
