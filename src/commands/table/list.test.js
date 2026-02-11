@@ -5,33 +5,35 @@ import { Interaction } from "../../../testing/interaction.js"
 import { List } from "./list.js"
 
 describe("/table list", () => {
-  describe("execute", () => {
-    it("shows table names", async () => {
-      const interaction = new Interaction()
-      interaction.command_options.subcommand_name = "list"
-      const contents = ["first"]
-      const rollables = new GuildRollables(interaction.guildId)
-      rollables.create("test1", "a test", contents)
-      rollables.create("test2", "a test", contents)
+  let interaction
+  let rollables
 
-      await table_list_command.execute(interaction)
+  beforeEach(() => {
+    interaction = new Interaction()
+    rollables = new GuildRollables(interaction.guildId)
 
-      expect(interaction.replyContent).toMatch("test1")
-      expect(interaction.replyContent).toMatch("test2")
+    const contents = ["first"]
+    rollables.create("test1", "test desc 1", contents)
+    rollables.create("test2", "test desc 2", contents)
+  })
+
+  describe("perform", () => {
+    it("shows table names", () => {
+      const cmd = new List(interaction)
+
+      const result = cmd.perform()
+
+      expect(result).toMatch("test1")
+      expect(result).toMatch("test2")
     })
 
-    it("shows table descriptions", async () => {
-      const interaction = new Interaction()
-      interaction.command_options.subcommand_name = "list"
-      const contents = ["first"]
-      const rollables = new GuildRollables(interaction.guildId)
-      rollables.create("test1", "test desc 1", contents)
-      rollables.create("test2", "test desc 2", contents)
+    it("shows table descriptions", () => {
+      const cmd = new List(interaction)
 
-      await table_list_command.execute(interaction)
+      const result = cmd.perform()
 
-      expect(interaction.replyContent).toMatch("test desc 1")
-      expect(interaction.replyContent).toMatch("test desc 2")
+      expect(result).toMatch("desc 1")
+      expect(result).toMatch("desc 2")
     })
   })
 })

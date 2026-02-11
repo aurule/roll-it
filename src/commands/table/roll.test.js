@@ -6,51 +6,52 @@ import { Interaction } from "../../../testing/interaction.js"
 import { Roll } from "./roll.js"
 
 describe("/table roll", () => {
-  describe("execute", () => {
-    var interaction
-    var rollables
-    var table_id
+  let interaction
+  let rollables
+  let table_id
 
-    beforeEach(() => {
-      interaction = new Interaction()
-      interaction.command_options.subcommand_name = "roll"
-      rollables = new GuildRollables(interaction.guildId)
-      const insertion = rollables.create("test", "a test", ["first"])
-      table_id = insertion.lastInsertRowid
+  beforeEach(() => {
+    interaction = new Interaction()
+    rollables = new GuildRollables(interaction.guildId)
+    table_id = rollables.create("test", "a test", ["first"]).lastInsertRowid
+  })
+
+  describe("validate", () => {
+    it("warns on missing table", () => {
+      interaction.command_options = {
+        table: "nope"
+      }
+      const cmd = new Roll(interaction)
+
+      const result = cmd.validate()
+
+      expect(result).toMatch("does not exist")
+    })
+  })
+
+  describe("perform", () => {
+    it("rolls single result", () => {
+      interaction.command_options = {
+        table: "test",
+        rolls: 1,
+      }
+      const cmd = new Roll(interaction)
+
+      const result = cmd.perform()
+
+      expect(result).toMatch("first")
     })
 
-    it("warns on missing table", async () => {
-      interaction.command_options.table = 0
+    it("rolls multiple results", () => {
+      interaction.command_options = {
+        table: "test",
+        rolls: 2,
+      }
+      const cmd = new Roll(interaction)
 
-      await table_roll_command.execute(interaction)
+      const result = cmd.perform()
 
-      expect(interaction.replyContent).toMatch("does not exist")
-    })
-
-    it("rolls a single result", async () => {
-      interaction.command_options.table = table_id
-
-      await table_roll_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("first")
-    })
-
-    it("rolls multiple results", async () => {
-      interaction.command_options.table = table_id
-      interaction.command_options.rolls = 2
-
-      await table_roll_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("rolled 2 times")
-    })
-
-    it("shows the description, if present", async () => {
-      interaction.command_options.table = table_id
-      interaction.command_options.description = "roll description"
-
-      await table_roll_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("roll description")
+      expect(result).toMatch("rolled 2 times")
     })
   })
 })
