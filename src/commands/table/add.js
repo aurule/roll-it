@@ -77,7 +77,7 @@ class AddBase extends Command {
 
     this.contents = await fetchLines(table_file)
 
-    const contents_error = this.validate_contents()
+    const contents_error = await this.validate_contents()
     if (contents_error) {
       return this.interaction.whisper(contents_error)
     }
@@ -95,10 +95,10 @@ class AddBase extends Command {
     if (file.size > MAX_UPLOAD_SIZE) return this.t("options.file.size")
   }
 
-  validate_contents() {
+  async validate_contents() {
     let validated_contents
     try {
-      validated_contents = fileContentSchema.validate(this.contents)
+      validated_contents = fileContentSchema.validateAsync(this.contents)
     } catch (err) {
       return this.t(err.details[0].message)
     }

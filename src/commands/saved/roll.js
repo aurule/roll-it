@@ -69,11 +69,10 @@ class BaseRoll extends Command {
 
     if (this.rolls) this.command_options.rolls = this.rolls
 
-    try {
-      this.kommand.schema.validate(this.command_options)
-    } catch (err) {
+    const schema_result = this.kommand.schema.validate(this.command_options)
+    if (schema_result.error) {
       if (this.change_target) {
-        return this.t("validation.invalidated", { target: this.change_target, message: err.details[0].message })
+        return this.t("validation.invalidated", { target: this.change_target, message: schema_result.error.details[0].message })
       } else {
         this.rolls_db.update(this.saved_roll.id, { invalid: true })
         return this.t("validation.invalid")
