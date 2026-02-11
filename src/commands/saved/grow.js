@@ -16,12 +16,10 @@ class GrowBase extends Command {
 
   rolls_db
   saved_roll
-  command_options
   name = ""
   adjustment = 0
   change = ""
   kommand
-  change_target
 
   static data() {
     return this.builder
@@ -40,37 +38,37 @@ class GrowBase extends Command {
     this.rolls_db = new UserSavedRolls(this.interaction.guildId, this.interaction.user.id)
     const roll_id = parseInt(this.name)
     this.saved_roll = this.rolls_db.detail(roll_id, this.name)
-    this.command_options = this.saved_roll.options
 
-    this.kommand = savable.get(this.saved_roll.command)
-    this.change_target = saved_bonus_target(this.bonus, this.change, this.kommand)
+    this.kommand = savable.get(this.saved_roll?.command)
   }
 
   perform() {
-    const old_number = this.command_options[this.change_target] ?? 0
-    const new_number = old_number + this.adjustment
-    this.command_options[this.change_target] = new_number
+    const command_options = this.saved_roll?.options
+    const change_target = saved_bonus_target(this.adjustment, this.change, this.kommand.changeable)
 
-    try {
-      this.kommand.schema.validate(this.command_options)
-    } catch (err) {
-      return this.t("validation.invalid", { adjustment: this.adjustment, target: this.change_target, message: err.details[0].message })
+    const old_number = command_options[change_target] ?? 0
+    const new_number = old_number + this.adjustment
+    command_options[change_target] = new_number
+
+    const schema_result = this.kommand.schema.validate(command_options)
+    if (schema_result.error) {
+      return this.t("validation.invalid", { adjustment: this.adjustment, target: change_target, message: schema_result.error.details[0].message })
     }
 
-    this.rolls_db.update(this.saved_roll.id, { options: this.command_options })
+    this.rolls_db.update(this.saved_roll.id, { options: command_options })
 
-    return this.t("response.success", { target: this.change_target, name: this.command_options.name, old: old_number, new: new_number })
+    return this.t("response.success", { target: change_target, name: command_options.name, old: old_number, new: new_number })
   }
 
   validate() {
     if (this.saved_roll === undefined) return this.t("options.name.validation.missing")
     if (this.saved_roll.invalid) return this.t("options.name.validation.invalid")
-    if (adjustment === 0) return this.t("options.adjustment.validation.zero")
+    if (this.adjustment === 0) return this.t("options.adjustment.validation.zero")
 
-    if (!this.kommand.changeable.includes(this.change_target)) {
+    if (!this.kommand.changeable.includes(this.change)) {
         return this.t("options.change.validation.missing", {
-          target: change_target,
-          command: present(kommand, interaction.locale),
+          target: this.change,
+          command: present(this.kommand, this.locale),
         })
     }
   }
