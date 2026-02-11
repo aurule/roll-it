@@ -6,10 +6,16 @@ import { Interaction } from "../../../testing/interaction.js"
 import { List } from "./list.js"
 
 describe("/saved list", () => {
-  describe("execute", () => {
+  let interaction
+  let saved_rolls
+
+  beforeEach(() => {
+    interaction = new Interaction()
+    saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
+  })
+
+  describe("perform", () => {
     it("shows all saved rolls for the user and guild", () => {
-      const interaction = new Interaction()
-      const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
       saved_rolls.create({
         name: "test1",
         description: "test1",
@@ -22,24 +28,23 @@ describe("/saved list", () => {
         command: "d20",
         options: {},
       })
+      const cmd = new List(interaction)
 
-      saved_list_command.execute(interaction)
+      const result = cmd.perform()
 
-      expect(interaction.replyContent).toMatch("test1")
-      expect(interaction.replyContent).toMatch("test2")
+      expect(result).toMatch("test1")
+      expect(result).toMatch("test2")
     })
 
     it("shows a message when there are no saved rolls", () => {
-      const interaction = new Interaction()
+      const cmd = new List(interaction)
 
-      saved_list_command.execute(interaction)
+      const result = cmd.perform()
 
-      expect(interaction.replyContent).toMatch("no saved rolls")
+      expect(result).toMatch("no saved rolls")
     })
 
     it("marks invalid rolls", () => {
-      const interaction = new Interaction()
-      const saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
       saved_rolls.create({
         name: "test1",
         description: "test1",
@@ -49,10 +54,11 @@ describe("/saved list", () => {
           keep: "all the things",
         },
       })
+      const cmd = new List(interaction)
 
-      saved_list_command.execute(interaction)
+      const result = cmd.perform()
 
-      expect(interaction.replyContent).toMatch(":x:")
+      expect(result).toMatch(":x:")
     })
   })
 })
