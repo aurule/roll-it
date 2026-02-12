@@ -233,7 +233,7 @@ export class Command {
    */
   saveOption(name) {
     const user_value = this.options.get(name)
-    if (user_value) {
+    if (user_value !== undefined) {
       this[name] = user_value
     }
     return this[name]
