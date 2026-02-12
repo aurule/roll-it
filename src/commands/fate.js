@@ -100,7 +100,7 @@ export class Fate extends SavableCommand {
       summed: summed_results,
     })
 
-    if (sacrifice.hasTrigger(description, this.locale)) {
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
       const sacrifice_message = this.judge(summed_results)
       return `${presented_result}\n-# ${sacrifice_message}`
     }

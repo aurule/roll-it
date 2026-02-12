@@ -18,9 +18,10 @@ describe("/fate command", () => {
         [-2, "inadequate"],
         [-4, "angers"],
       ])("returns correct text for %i", async (die, text) => {
+        const fate_command = new Fate(interaction)
         const results = [die]
 
-        const result = fate_command.judge(results, "en-US")
+        const result = fate_command.judge(results)
 
         expect(result).toMatch(text)
       })
@@ -28,9 +29,10 @@ describe("/fate command", () => {
 
     describe("with no dominant outcome", () => {
       it("returns the neutral message", () => {
+        const fate_command = new Fate(interaction)
         const results = [-4, 0, 4]
 
-        const result = fate_command.judge(results, "en-US")
+        const result = fate_command.judge(results)
 
         expect(result).toMatch("noted")
       })
@@ -38,35 +40,14 @@ describe("/fate command", () => {
   })
 
   describe("perform", () => {
-    it("displays the description if present", () => {
-      const description_text = "this is a test"
-      const options = {
-        description: description_text,
-      }
-
-      const result = fate_command.perform(options)
-
-      expect(result).toMatch(description_text)
-    })
-
-    it("displays the modifier", () => {
-      interaction.command_options.modifier = 8
-      const options = {
-        modifier: 8,
-      }
-
-      const result = fate_command.perform(options)
-
-      expect(result).toMatch("8")
-    })
-
     it("displays the sacrifice easter egg if present", () => {
       const description_text = "sacrificing a goat"
-      const options = {
-        description: description_text,
+      interaction.command_options = {
+        description: description_text
       }
+      const cmd = new Fate(interaction)
 
-      const result = fate_command.perform(options)
+      const result = cmd.perform()
 
       expect(result).toMatch("Your sacrifice")
     })

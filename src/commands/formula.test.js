@@ -1,3 +1,4 @@
+import { Interaction } from "../../testing/interaction.js"
 import { Formula } from "./formula.js"
 
 describe("/formula command", () => {
@@ -38,66 +39,78 @@ describe("/formula command", () => {
   })
 
   describe("perform", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
     it("displays the description if present", async () => {
       const description_text = "this is a test"
-      const options = {
+      interaction.command_options = {
         formula: "1d4 + 8",
         description: description_text,
       }
+      const formula_command = new Formula(interaction)
 
-      const result = formula_command.perform(options)
+      const result = formula_command.perform()
 
       expect(result).toMatch(description_text)
     })
 
     it("displays the result", async () => {
-      const options = {
+      interaction.command_options = {
         formula: "1d4 + 8",
       }
+      const formula_command = new Formula(interaction)
 
-      const result = formula_command.perform(options)
+      const result = formula_command.perform()
 
       expect(result).toMatch(/\*\*\d+\*\*/)
     })
 
     it("allows upper case letter 'D'", async () => {
-      const options = {
+      interaction.command_options = {
         formula: "1D4 + 8",
       }
+      const formula_command = new Formula(interaction)
 
-      const result = formula_command.perform(options)
+      const result = formula_command.perform()
 
       expect(result).toMatch(/\*\*\d+\*\*/)
     })
 
     it("displays the rest of the formula", async () => {
-      const options = {
+      interaction.command_options = {
         formula: "1d4 + 8",
       }
+      const formula_command = new Formula(interaction)
 
-      const result = formula_command.perform(options)
+      const result = formula_command.perform()
 
       expect(result).toMatch("8")
     })
 
     it("adds the modifier if present", () => {
-      const options = {
+      interaction.command_options = {
         formula: "5",
         modifier: 2,
       }
+      const formula_command = new Formula(interaction)
 
-      const result = formula_command.perform(options)
+      const result = formula_command.perform()
 
       expect(result).toMatch("7")
     })
 
     it("subtracts the modifier if present", () => {
-      const options = {
+      interaction.command_options = {
         formula: "5",
         modifier: -2,
       }
+      const formula_command = new Formula(interaction)
 
-      const result = formula_command.perform(options)
+      const result = formula_command.perform()
 
       expect(result).toMatch("3")
     })

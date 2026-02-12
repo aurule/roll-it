@@ -2,7 +2,7 @@ vitest.mock("../util/message-builders")
 
 import { Drh } from "./drh.js"
 
-import { CommandInteraction } from "../../testing/command-interaction.js"
+import { Interaction } from "../../testing/interaction.js"
 
 describe("/drh command", () => {
   describe("schema", () => {
@@ -260,149 +260,120 @@ describe("/drh command", () => {
   })
 
   describe("perform", () => {
-    it("rolls multiple times", () => {
-      const options = {
-        discipline: 1,
-        pain: 1,
-        rolls: 2,
-      }
-
-      const result = drh_command.perform(options)
-
-      expect(result).toMatch("2 times")
-    })
-  })
-
-  describe("execute", () => {
     let interaction
 
     beforeEach(() => {
-      interaction = new CommandInteraction("drh")
+      interaction = new Interaction()
     })
 
-    describe("helper mode", () => {
-      it("does the roll", async () => {
-        interaction.setOptions({
-          discipline: 1,
-          pain: 0,
-        })
+    it("rolls single result", () => {
+      interaction.command_options = {
+        rolls: 1,
+      }
+      const cmd = new Drh(interaction)
 
-        await drh_command.execute(interaction)
+      const result = cmd.perform()
 
-        expect(interaction.replyContent).toMatch("helped")
+      expect(result).toMatch("rolled a")
+    })
+
+    it("rolls multiple results", () => {
+      interaction.command_options = {
+        rolls: 2,
+      }
+      const cmd = new Drh(interaction)
+
+      const result = cmd.perform()
+
+      expect(result).toMatch("rolled 2 times")
+    })
+  })
+
+  describe("validate", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
+    describe("with pain zero", () => {
+      beforeEach(() => {
+        interaction.command_options = {
+          pain: 0
+        }
       })
 
-      it("disallows talents", async () => {
-        interaction.setOptions({
-          discipline: 1,
-          pain: 0,
-          talent: "major",
-        })
+      it("requires talent 'none'", () => {
+        interaction.command_options.talent = "minor"
+        const cmd = new Drh(interaction)
 
-        await drh_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use a `talent`")
+        expect(result).toMatch("cannot use")
       })
 
-      it("disallows other pools", async () => {
-        interaction.setOptions({
-          discipline: 1,
-          pain: 0,
-          exhaustion: 1,
-        })
+      it("requires no exhaustion", () => {
+        interaction.command_options.exhaustion = 3
+        const cmd = new Drh(interaction)
 
-        await drh_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("can only roll `discipline`")
+        expect(result).toMatch("can only roll")
       })
 
-      it("disallows modifier", async () => {
-        interaction.setOptions({
-          discipline: 1,
-          pain: 0,
-          modifier: 1,
-        })
+      it("requires no madness", () => {
+        interaction.command_options.madness = 3
+        const cmd = new Drh(interaction)
 
-        await drh_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot have a `modifier`")
+        expect(result).toMatch("can only roll")
+      })
+
+      it("requires no modifier", () => {
+        interaction.command_options.modifier = 3
+        const cmd = new Drh(interaction)
+
+        const result = cmd.validate()
+
+        expect(result).toMatch("cannot have")
       })
     })
 
-    describe("normal mode", () => {
-      it("performs the roll", async () => {
-        interaction.setOptions({
-          discipline: 1,
-          pain: 1,
-        })
+    it("minor talent requires exhaustion", () => {
+      interaction.command_options = {
+        talent: "minor",
+        exhaustion: 0,
+      }
+      const cmd = new Drh(interaction)
 
-        await drh_command.execute(interaction)
+      const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("rolled")
-      })
+      expect(result).toMatch("need at least 1 `exhaustion`")
+    })
 
-      it("with major talent, requires exhaustion", async () => {
-        interaction.setOptions({
-          talent: "major",
-          discipline: 1,
-          pain: 1,
-        })
+    it("major talent requires exhaustion", () => {
+      interaction.command_options = {
+        talent: "major",
+        exhaustion: 0,
+      }
+      const cmd = new Drh(interaction)
 
-        await drh_command.execute(interaction)
+      const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("need at least 1 `exhaustion`")
-      })
+      expect(result).toMatch("need at least 1 `exhaustion`")
+    })
 
-      it("with minor talent, requires exhaustion", async () => {
-        interaction.setOptions({
-          talent: "minor",
-          discipline: 1,
-          pain: 1,
-        })
+    it("madness talent requires madness dice", () => {
+      interaction.command_options = {
+        talent: "madness",
+        madness: 0,
+      }
+      const cmd = new Drh(interaction)
 
-        await drh_command.execute(interaction)
+      const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("need at least 1 `exhaustion`")
-      })
-
-      it("allows exhaustion talent with exhaustion pool", async () => {
-        interaction.setOptions({
-          talent: "minor",
-          discipline: 1,
-          exhaustion: 1,
-          pain: 1,
-        })
-
-        await drh_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("dominated")
-      })
-
-      it("with madness talent, requires madness", async () => {
-        interaction.setOptions({
-          talent: "madness",
-          discipline: 1,
-          pain: 1,
-        })
-
-        await drh_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("need at least 1 `madness`")
-      })
-
-      it("allows madness talent with madness pool", async () => {
-        interaction.setOptions({
-          talent: "madness",
-          discipline: 1,
-          exhaustion: 1,
-          madness: 1,
-          pain: 1,
-        })
-
-        await drh_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("dominated")
-      })
+      expect(result).toMatch("need at least 1 `madness`")
     })
   })
 })

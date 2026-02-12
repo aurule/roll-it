@@ -89,9 +89,9 @@ export class Drh extends SavableCommand {
   perform() {
     const pool_options = new Collection([["discipline", this.discipline]])
     if (this.pain !== 0) {
-      poolOption.set("pain", this.pain)
-      poolOption.set("exhaustion", this.exhaustion)
-      poolOption.set("madness", this.madness)
+      pool_options.set("pain", this.pain)
+      pool_options.set("exhaustion", this.exhaustion)
+      pool_options.set("madness", this.madness)
     }
 
     const tests = Array.from({ length: this.rolls }, () => {

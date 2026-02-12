@@ -1,7 +1,6 @@
 vitest.mock("../util/message-builders")
 
 import { FfrpgPresenter } from "../presenters/results/ffrpg-results-presenter.js"
-import { CommandInteraction } from "../../testing/command-interaction.js"
 
 import { Ffrpg } from "./ffrpg.js"
 import { Interaction } from "../../testing/interaction.js"
