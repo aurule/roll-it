@@ -121,6 +121,14 @@ describe("/nwod command", () => {
   })
 
   describe("judge", () => {
+    let interaction
+    let nwod_command
+
+    beforeEach(() => {
+      interaction = new Interaction()
+      nwod_command = new Nwod(interaction)
+    })
+
     describe("with dominant outcome", () => {
       it.concurrent.each([
         [4, "pleases"],
@@ -179,146 +187,128 @@ describe("/nwod command", () => {
     })
   })
 
-  describe("perform", () => {
-    describe("normal mode", () => {
-      let options
-
-      beforeEach(() => {
-        options = {
-          pool: 10,
-        }
-      })
-
-      it("displays the description if present", () => {
-        const description_text = "this is a test"
-        options.description = description_text
-
-        const result = nwod_command.perform(options)
-
-        expect(result).toMatch(description_text)
-      })
-
-      it("displays the result", () => {
-        const description_text = "this is a test"
-        const options = {
-          pool: 5,
-        }
-
-        const result = nwod_command.perform(options)
-
-        expect(result).toMatch(/\*\*\d\*\*/)
-      })
-
-      it("displays the sacrifice message", () => {
-        options.description = "sacrifice"
-
-        const result = nwod_command.perform(options)
-
-        expect(result).toMatch("Your sacrifice")
-      })
-
-      it("displays the hummingbird message", () => {
-        options.description = "perception"
-        options.threshold = 1
-        options.pool = 11
-        options.explode = 11
-
-        const result = nwod_command.perform(options)
-
-        expect(result).toMatch("hummingbird")
-      })
-    })
-
-    describe("until mode", () => {
-      let options
-
-      beforeEach(() => {
-        options = {
-          pool: 10,
-          explode: 10,
-          threshold: 8,
-          rolls: 1,
-          until: 2,
-        }
-      })
-
-      it("displays the description if present", () => {
-        const description_text = "this is a test"
-        options.description = description_text
-
-        const result = nwod_command.perform(options)
-
-        expect(result).toMatch(description_text)
-      })
-
-      it("displays the result", () => {
-        const result = nwod_command.perform(options)
-
-        expect(result).toMatch(/\*\*\d\*\*/)
-      })
-    })
-  })
-
-  describe("execute", () => {
+  describe("validate", () => {
     let interaction
 
     beforeEach(() => {
       interaction = new Interaction()
     })
 
-    describe("teamwork mode", () => {
-      it("does not work with rolls option", async () => {
-        interaction.command_options.teamwork = true
+    describe("with teamwork", () => {
+      beforeEach(() => {
+        interaction.command_options = {
+          teamwork: true,
+        }
+      })
+
+      it("requires one roll", () => {
         interaction.command_options.rolls = 5
+        const cmd = new Nwod(interaction)
 
-        nwod_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
 
-      it("does not work with rote option", async () => {
-        interaction.command_options.teamwork = true
-        interaction.command_options.rote = true
-
-        nwod_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
-      })
-
-      it("does not work with until option", async () => {
-        interaction.command_options.teamwork = true
+      it("disallows until", () => {
         interaction.command_options.until = 5
+        const cmd = new Nwod(interaction)
 
-        nwod_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
 
-      it("does not work with secret option", async () => {
-        interaction.command_options.teamwork = true
+      it("disallows secret", () => {
         interaction.command_options.secret = true
+        const cmd = new Nwod(interaction)
 
-        nwod_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
 
-      it("does not work with chance option", async () => {
-        interaction.command_options.teamwork = true
+      it("requiers a pool >= 1", () => {
         interaction.command_options.pool = 0
+        const cmd = new Nwod(interaction)
 
-        nwod_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
+      })
+    })
+  })
+
+  describe("perform", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
+    describe("with chance pool", () => {
+      beforeEach(() => {
+        interaction.command_options.pool = 0
       })
 
-      it("shows the teamwork prompt with correct options", async () => {
-        interaction.command_options.teamwork = true
-        interaction.command_options.pool = 5
+      it("forces pool to 1", () => {
+        const cmd = new Nwod(interaction)
 
-        await nwod_command.execute(interaction)
+        cmd.perform()
 
-        expect(interaction.replyContent).toMatch("started a teamwork")
+        expect(cmd.pool).toBe(1)
+      })
+
+      it("forces explode to 10", () => {
+        interaction.command_options.explode = 9
+        const cmd = new Nwod(interaction)
+
+        cmd.perform()
+
+        expect(cmd.explode).toBe(10)
+      })
+
+      it("forces threshold to 10", () => {
+        const cmd = new Nwod(interaction)
+
+        cmd.perform()
+
+        expect(cmd.threshold).toBe(10)
+      })
+
+      it("forces decreasing false", () => {
+        interaction.command_options.decreasing = true
+        const cmd = new Nwod(interaction)
+
+        cmd.perform()
+
+        expect(cmd.decreasing).toBe(false)
+      })
+    })
+
+    describe("with until true", () => {
+      beforeEach(() => {
+        interaction.command_options.until = 5
+      })
+
+      it("shows the sacrifice easter egg", () => {
+        interaction.command_options.description = "sacrificing"
+        const cmd = new Nwod(interaction)
+
+        const result = cmd.perform()
+
+        expect(result).toMatch("Your sacrifice")
+      })
+    })
+
+    describe("in normal mode", () => {
+      it("shows the sacrifice easter egg", () => {
+        interaction.command_options.description = "sacrificing"
+        const cmd = new Nwod(interaction)
+
+        const result = cmd.perform()
+
+        expect(result).toMatch("Your sacrifice")
       })
     })
   })

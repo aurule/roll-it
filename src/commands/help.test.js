@@ -1,3 +1,4 @@
+import "./8ball.js"
 import { Help } from "./help.js"
 
 describe("/help", () => {

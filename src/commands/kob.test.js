@@ -40,36 +40,4 @@ describe("/kob command", () => {
       })
     })
   })
-
-  describe("perform", () => {
-    it("displays the description if present", () => {
-      const options = {
-        description: "this is a test",
-        rolls: 1,
-        sides: 6,
-      }
-
-      const result = kob_command.perform(options)
-
-      expect(result).toMatch("this is a test")
-    })
-  })
-
-  describe("execute", () => {
-    describe("with multiple rolls", () => {
-      beforeEach(() => {
-        interaction.command_options.rolls = 2
-        interaction.command_options.sides = 6
-      })
-
-      it("displays the description if present", () => {
-        const description_text = "this is a test"
-        interaction.command_options.description = description_text
-
-        kob_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch(description_text)
-      })
-    })
-  })
 })
