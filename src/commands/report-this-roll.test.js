@@ -11,6 +11,7 @@ describe("Report this roll command", () => {
   describe("execute", () => {
     let interaction
     let past_interaction
+
     beforeEach(() => {
       interaction = new Interaction()
       past_interaction = new Interaction(interaction.guildId)
@@ -33,15 +34,19 @@ describe("Report this roll command", () => {
         interaction.user = banned_user
       })
 
-      it("does not add feedback", () => {
-        report_roll_command.execute(interaction)
+      it("does not add feedback", async () => {
+        const report_roll_command = new ReportThisRoll(interaction)
+
+        await report_roll_command.execute()
 
         const feedbacks = new Feedback()
         expect(feedbacks.count()).toEqual(0)
       })
 
-      it("says the user is banned", () => {
-        report_roll_command.execute(interaction)
+      it("says the user is banned", async () => {
+        const report_roll_command = new ReportThisRoll(interaction)
+
+        await report_roll_command.execute()
 
         expect(interaction.replyContent).toMatch("not allowed")
       })
@@ -49,14 +54,17 @@ describe("Report this roll command", () => {
 
     it("shows error on bad author ID", async () => {
       interaction.targetMessage.author.id = "wasnt_me"
+      const report_roll_command = new ReportThisRoll(interaction)
 
-      await report_roll_command.execute(interaction)
+      await report_roll_command.execute()
 
       expect(interaction.replyContent).toMatch("not sent by a Roll It command")
     })
 
     it("shows a modal", async () => {
-      const sent = await report_roll_command.execute(interaction)
+      const report_roll_command = new ReportThisRoll(interaction)
+
+      const sent = await report_roll_command.execute()
 
       expect(sent).toBeTruthy()
     })
