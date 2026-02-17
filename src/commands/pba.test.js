@@ -21,9 +21,10 @@ describe("/pba command", () => {
           [4, "inadequate"],
           [2, "angers"],
         ])("returns correct text for %i", async (die, text) => {
+          const pba_command = new Pba(interaction)
           const results = [die]
 
-          const result = pba_command.judge(results, "en-US")
+          const result = pba_command.judge(results)
 
           expect(result).toMatch(text)
         })
@@ -31,9 +32,10 @@ describe("/pba command", () => {
 
       describe("with no dominant outcome", () => {
         it("returns the neutral message", () => {
+          const pba_command = new Pba(interaction)
           const results = [2, 7, 12]
 
-          const result = pba_command.judge(results, "en-US")
+          const result = pba_command.judge(results)
 
           expect(result).toMatch("noted")
         })
@@ -41,31 +43,15 @@ describe("/pba command", () => {
     })
 
     describe("perform", () => {
-      it("displays the description if present", () => {
-        const options = {
-          description: "this is a test",
+      it("shows the sacrifice easter egg if triggered", () => {
+        interaction.command_options = {
+          description: "sacrificing"
         }
+        const pba_command = new Pba(interaction)
 
-        const result = pba_command.perform(options)
+        const result = pba_command.perform()
 
-        expect(result).toMatch("this is a test")
-      })
-    })
-
-    describe("execute", () => {
-      describe("with multiple rolls", () => {
-        beforeEach(() => {
-          interaction.command_options.rolls = 2
-        })
-
-        it("displays the description if present", () => {
-          const description_text = "this is a test"
-          interaction.command_options.description = description_text
-
-          pba_command.execute(interaction)
-
-          expect(interaction.replyContent).toMatch(description_text)
-        })
+        expect(result).toMatch("Your sacrifice")
       })
     })
   })

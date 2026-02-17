@@ -6,6 +6,8 @@ import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { SavableCommand } from "./abstract/savable-command.js"
 import { present } from "../presenters/results/roll-results-presenter.js"
 import { registerCommand } from "./index.js"
+import { roll } from "../services/base-roller.js"
+import { sum } from "../services/tally.js"
 
 /**
  * Class for the pba roller
@@ -94,7 +96,7 @@ export class Pba extends SavableCommand {
       locale: this.locale,
     })
 
-    if (sacrifice.hasTrigger(description, this.locale)) {
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
       const sacrifice_message = this.judge(summed_results)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
