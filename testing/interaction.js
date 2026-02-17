@@ -34,6 +34,12 @@ class MockOptions {
     return option_objects
   }
 
+  set data(command_options) {
+    for (const key in command_options) {
+      this.interaction.command_options[key] = command_options[key]
+    }
+  }
+
   getString(key) {
     return this.interaction.command_options[key]?.toString()
   }
