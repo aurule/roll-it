@@ -1,21 +1,21 @@
-import { db } from "./index"
+import { dbFileParent, mainDatabaseFile, interactiveDatabaseFile } from "./index"
 
 describe("db module", () => {
   describe("dbFileParent", () => {
     it("puts dev db in .sqlite", () => {
-      const result = db.dbFileParent("development")
+      const result = dbFileParent("development")
 
       expect(result).toMatch(".sqlite")
     })
 
     it("puts prod db outside of .sqlite", () => {
-      const result = db.dbFileParent("production")
+      const result = dbFileParent("production")
 
       expect(result).not.toMatch(".sqlite")
     })
 
     it("puts other env db outside of .sqlite", () => {
-      const result = db.dbFileParent("other")
+      const result = dbFileParent("other")
 
       expect(result).not.toMatch(".sqlite")
     })
@@ -27,7 +27,7 @@ describe("db module", () => {
       ["production", "roll-it.prod.db"],
       ["other", ":memory:"],
     ])("for %s env uses file %s", (env_name, file_name) => {
-      const result = db.mainDatabaseFile(env_name)
+      const result = mainDatabaseFile(env_name)
 
       expect(result).toMatch(file_name)
     })
@@ -39,7 +39,7 @@ describe("db module", () => {
       ["production", "roll-it-interactive.prod.db"],
       ["other", ":memory:"],
     ])("for %s env uses file %s", (env_name, file_name) => {
-      const result = db.interactiveDatabaseFile(env_name)
+      const result = interactiveDatabaseFile(env_name)
 
       expect(result).toMatch(file_name)
     })
