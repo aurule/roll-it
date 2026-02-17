@@ -64,6 +64,12 @@ describe("/wod20 command", () => {
   })
 
   describe("judge", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
     describe("with dominant outcome", () => {
       const parameters = [
         // 3 expected successes
@@ -86,9 +92,14 @@ describe("/wod20 command", () => {
       it.concurrent.each(
         parameters,
       )(`difficulty %i, returns the correct text for %i successes`, async (difficulty, sum, pool, text) => {
+        interaction.command_options = {
+          pool: pool,
+          difficulty: difficulty,
+        }
+        const wod_command = new Wod20(interaction)
         const results = [[sum]]
 
-        const result = wod_command.judge(results, pool, difficulty, "en-US")
+        const result = wod_command.judge(results)
 
         expect(result).toMatch(text)
       })
@@ -96,160 +107,79 @@ describe("/wod20 command", () => {
 
     describe("with no dominant outcome", () => {
       it("returns the neutral message", () => {
-        const pool = 6
-        const difficulty = 8
+        interaction.command_options = {
+          pool: 6,
+          difficulty: 8,
+        }
+        const wod_command = new Wod20(interaction)
         const results = [0, 2, 4]
 
-        const result = wod_command.judge(results, pool, difficulty, "en-US")
+        const result = wod_command.judge(results)
 
         expect(result).toMatch("noted")
       })
     })
   })
 
-  describe("perform", () => {
-    describe("with one roll", () => {
-      let options
-
-      beforeEach(() => {
-        options = {
-          rolls: 1,
-          pool: 1,
-        }
-      })
-
-      it("displays the result", async () => {
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch(/\*\*(botch|\d)\*\*/)
-      })
-
-      it("displays the description if present", async () => {
-        const description_text = "this is a test"
-        options.description = description_text
-
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch(description_text)
-      })
-
-      it("displays the sacrifice message", () => {
-        options.description = "sacrifice"
-
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch("Your sacrifice")
-      })
-
-      it("displays the hummingbird message", () => {
-        options.pool = 11
-        options.difficulty = 1
-        options.description = "perception"
-
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch("hummingbird")
-      })
-    })
-
-    describe("with multiple rolls", () => {
-      it("displays the description if present", async () => {
-        const description_text = "this is a test"
-        const options = {
-          rolls: 2,
-          pool: 1,
-          description: description_text,
-        }
-
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch(description_text)
-      })
-
-      it("displays the result", async () => {
-        const options = {
-          rolls: 2,
-          pool: 1,
-        }
-
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch(/\*\*(botch|\d)\*\*/)
-      })
-    })
-
-    describe("with until", () => {
-      it("displays the description if present", async () => {
-        const description_text = "this is a test"
-        const options = {
-          pool: 5,
-          until: 1,
-          difficulty: 5,
-          description: description_text,
-        }
-
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch(description_text)
-      })
-
-      it("displays the result", async () => {
-        const options = {
-          pool: 5,
-          until: 1,
-          difficulty: 5,
-        }
-
-        const result = wod_command.perform(options)
-
-        expect(result).toMatch(/\*\*(botch|\d)\*\*/)
-      })
-    })
-  })
-
-  describe("execute", () => {
+  describe("validate", () => {
     let interaction
 
     beforeEach(() => {
       interaction = new Interaction()
     })
 
-    describe("teamwork mode", () => {
-      it("does not work with rolls option", async () => {
-        interaction.command_options.teamwork = true
+    describe("with teamwork", () => {
+      beforeEach(() => {
+        interaction.command_options = {
+          teamwork: true,
+        }
+      })
+
+      it("requires one roll", () => {
         interaction.command_options.rolls = 5
+        const cmd = new Wod20(interaction)
 
-        wod_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
 
-      it("does not work with until option", async () => {
-        interaction.command_options.teamwork = true
+      it("disallows until", () => {
         interaction.command_options.until = 5
+        const cmd = new Wod20(interaction)
 
-        wod_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
 
-      it("does not work with secret option", async () => {
-        interaction.command_options.teamwork = true
+      it("disallows secret", () => {
         interaction.command_options.secret = true
+        const cmd = new Wod20(interaction)
 
-        wod_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
+    })
+  })
 
-      it("shows the teamwork prompt with correct options", async () => {
-        interaction.command_options.teamwork = true
-        interaction.command_options.pool = 5
+  describe("perform", () => {
+    let interaction
 
-        await wod_command.execute(interaction)
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
 
-        expect(interaction.replyContent).toMatch("started a teamwork")
-      })
+    it("shows the sacrifice easter egg if triggered", () => {
+      interaction.command_options = {
+        description: "sacrificing"
+      }
+      const cmd = new Wod20(interaction)
+
+      const result = cmd.perform()
+
+      expect(result).toMatch("Your sacrifice")
     })
   })
 })

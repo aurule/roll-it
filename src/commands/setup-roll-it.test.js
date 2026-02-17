@@ -1,4 +1,4 @@
-import { CommandInteraction } from "../../testing/command-interaction.js"
+import { Interaction } from "../../testing/interaction.js"
 import { Installation } from "../db/installation.js"
 
 vitest.mock("../util/message-builders")
@@ -12,28 +12,32 @@ describe("/setup-roll-it command", () => {
   })
 
   it("is global", () => {
-    expect(setup_command.global).toBeTruthy()
+    expect(SetupRollIt.global).toBe(true)
   })
 
   describe("execute", () => {
-    let cmd_interaction
+    let interaction
     let install_db
 
     beforeEach(() => {
-      cmd_interaction = new CommandInteraction({ commandName: "setup-roll-it" })
+      interaction = new Interaction()
       install_db = new Installation()
     })
 
     it("creates an installation record", async () => {
-      await setup_command.execute(cmd_interaction)
+      const setup_command = new SetupRollIt(interaction)
+
+      await setup_command.execute()
 
       expect(install_db.installationCount()).toEqual(1)
     })
 
     it("shows the starting message", async () => {
-      await setup_command.execute(cmd_interaction)
+      const setup_command = new SetupRollIt(interaction)
 
-      expect(cmd_interaction.replyContent).toMatch("installed on this server")
+      await setup_command.execute()
+
+      expect(interaction.replyContent).toMatch("installed on this server")
     })
   })
 })

@@ -177,7 +177,7 @@ export class Sra extends SavableCommand {
 
     const result_lines = [presenter.presentResults()]
 
-    if (sacrifice.hasTrigger(description, locale)) {
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
       const sacrifice_message = this.judge(presenter)
       result_lines.push(`-# ${sacrifice_message}`)
     }

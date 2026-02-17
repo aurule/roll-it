@@ -1,5 +1,6 @@
 vitest.mock("../util/message-builders")
 
+import { Interaction } from "../../testing/interaction.js"
 import { Sra } from "./sra.js"
 
 describe("/sra command", () => {
@@ -72,6 +73,12 @@ describe("/sra command", () => {
   })
 
   describe("judge", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
     // biome-ignore format: visual table for readability
     it.concurrent.each([
       ["angers", 5, 12, 0,  1, 0],
@@ -90,6 +97,8 @@ describe("/sra command", () => {
       ["accept", 4, 12, 0,  8, 0],
       ["pleases",4, 12, 0, 12, 0],
     ])("%s\tthreshold %i\tdice %i\trisk %i\tsuccesses %i\tglitches %i", (judgement, threshold, pool, risk, successes, glitches) => {
+      const sra_command = new Sra(interaction)
+
       const result = sra_command.judge({
         threshold,
         pool,
@@ -102,6 +111,8 @@ describe("/sra command", () => {
     })
 
     it("neutral with a glitch downgrades to bad", () => {
+      const sra_command = new Sra(interaction)
+
       const result = sra_command.judge({
         threshold: 5,
         pool: 12,
@@ -114,6 +125,8 @@ describe("/sra command", () => {
     })
 
     it("neutral with two glitches downgrades to awful", () => {
+      const sra_command = new Sra(interaction)
+
       const result = sra_command.judge({
         threshold: 5,
         pool: 12,
@@ -126,6 +139,8 @@ describe("/sra command", () => {
     })
 
     it("good with three glitches downgrades to awful", () => {
+      const sra_command = new Sra(interaction)
+
       const result = sra_command.judge({
         threshold: 5,
         pool: 12,
@@ -138,6 +153,8 @@ describe("/sra command", () => {
     })
 
     it("awful with a glitch remains awful", () => {
+      const sra_command = new Sra(interaction)
+
       const result = sra_command.judge({
         threshold: 5,
         pool: 12,
@@ -147,6 +164,46 @@ describe("/sra command", () => {
       })
 
       expect(result).toMatch("angers")
+    })
+  })
+
+  describe("validate", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
+    it("errors on risk > pool", () => {
+      interaction.command_options = {
+        risk: 5,
+        pool: 4,
+      }
+      const cmd = new Sra(interaction)
+
+      const result = cmd.validate()
+
+      expect(result).toMatch("cannot risk more dice")
+    })
+  })
+
+  describe("perform", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
+    it("shows sacrifice easter egg if triggered", () => {
+      interaction.command_options = {
+        pool: 5,
+        description: "sacrifice"
+      }
+      const cmd = new Sra(interaction)
+
+      const result = cmd.perform()
+
+      expect(result).toMatch("Your sacrifice")
     })
   })
 })

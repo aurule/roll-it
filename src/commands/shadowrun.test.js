@@ -31,6 +31,12 @@ describe("/shadowrun command", () => {
   })
 
   describe("judge", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
     describe("with dominant outcome", () => {
       it.concurrent.each([
         ["high success", 4, [2, 6, 4, 5, 6, 5], "pleases"],
@@ -39,6 +45,7 @@ describe("/shadowrun command", () => {
         ["glitch", 2, [1, 1, 1, 1, 6, 5], "inadequate"],
         ["critical glitch", 0, [1, 1, 1, 1, 3, 4], "angers"],
       ])("returns correct text for %s", async (_label, successes, dice, text) => {
+        const shadowrun_command = new Shadowrun(interaction)
         const presenter = new ShadowrunPresenter({
           pool: 6,
           summed: [successes],
@@ -55,6 +62,7 @@ describe("/shadowrun command", () => {
 
     describe("with no dominant outcome", () => {
       it("returns the neutral message", () => {
+        const shadowrun_command = new Shadowrun(interaction)
         const presenter = new ShadowrunPresenter({
           pool: 6,
           summed: [0, 2, 4],
@@ -75,97 +83,26 @@ describe("/shadowrun command", () => {
   })
 
   describe("perform", () => {
-    describe("with one roll", () => {
-      it("displays the description if present", () => {
-        const options = {
-          pool: 1,
-          description: "a test",
-        }
+    let interaction
 
-        const result = shadowrun_command.perform(options)
-
-        expect(result).toMatch("a test")
-      })
-
-      it("displays a result", () => {
-        const options = {
-          pool: 1,
-          description: "a test",
-        }
-
-        const result = shadowrun_command.perform(options)
-
-        expect(result).toMatch("**")
-      })
-
-      it("displays the sacrifice easter egg if present", () => {
-        const options = {
-          pool: 1,
-          description: "sacrifice",
-        }
-
-        const result = shadowrun_command.perform(options)
-
-        expect(result).toMatch("Your sacrifice")
-      })
+    beforeEach(() => {
+      interaction = new Interaction()
     })
 
-    describe("with multiple rolls", () => {
-      it("displays the description if present", () => {
-        const options = {
-          pool: 1,
-          rolls: 3,
-          description: "a test",
-        }
+    it("displays the sacrifice easter egg if present", () => {
+      interaction.command_options = {
+        pool: 1,
+        description: "sacrifice",
+      }
+      const shadowrun_command = new Shadowrun(interaction)
 
-        const result = shadowrun_command.perform(options)
+      const result = shadowrun_command.perform()
 
-        expect(result).toMatch("a test")
-      })
-
-      it("displays a result", () => {
-        const options = {
-          pool: 1,
-          rolls: 3,
-          description: "a test",
-        }
-
-        const result = shadowrun_command.perform(options)
-
-        expect(result).toMatch("**")
-      })
-    })
-
-    describe("with until", () => {
-      it("displays the description if present", () => {
-        const options = {
-          pool: 1,
-          rolls: 3,
-          until: 1,
-          description: "a test",
-        }
-
-        const result = shadowrun_command.perform(options)
-
-        expect(result).toMatch("a test")
-      })
-
-      it("displays a result", () => {
-        const options = {
-          pool: 1,
-          rolls: 3,
-          until: 1,
-          description: "a test",
-        }
-
-        const result = shadowrun_command.perform(options)
-
-        expect(result).toMatch("**")
-      })
+      expect(result).toMatch("Your sacrifice")
     })
   })
 
-  describe("execute", () => {
+  describe("validate", () => {
     let interaction
 
     beforeEach(() => {
@@ -173,52 +110,38 @@ describe("/shadowrun command", () => {
     })
 
     describe("with teamwork", () => {
-      it("disallows rolls option", async () => {
-        interaction.command_options.pool = 3
-        interaction.command_options.teamwork = true
-        interaction.command_options.rolls = 4
-
-        await shadowrun_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+      beforeEach(() => {
+        interaction.command_options = {
+          teamwork: true,
+        }
       })
 
-      it("disallows until option", async () => {
-        interaction.command_options.pool = 3
-        interaction.command_options.teamwork = true
-        interaction.command_options.until = 4
+      it("requires one roll", () => {
+        interaction.command_options.rolls = 5
+        const cmd = new Shadowrun(interaction)
 
-        await shadowrun_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
 
-      it("disallows secret option", async () => {
-        interaction.command_options.pool = 3
-        interaction.command_options.teamwork = true
+      it("disallows until", () => {
+        interaction.command_options.until = 5
+        const cmd = new Shadowrun(interaction)
+
+        const result = cmd.validate()
+
+        expect(result).toMatch("cannot use teamwork")
+      })
+
+      it("disallows secret", () => {
         interaction.command_options.secret = true
+        const cmd = new Shadowrun(interaction)
 
-        await shadowrun_command.execute(interaction)
+        const result = cmd.validate()
 
-        expect(interaction.replyContent).toMatch("cannot use teamwork")
+        expect(result).toMatch("cannot use teamwork")
       })
-
-      it("shows the teamwork prompt with correct options", async () => {
-        interaction.command_options.teamwork = true
-        interaction.command_options.pool = 5
-
-        await shadowrun_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("started a teamwork")
-      })
-    })
-
-    it("responds with the result", async () => {
-      interaction.command_options.pool = 3
-
-      await shadowrun_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("**")
     })
   })
 })

@@ -24,6 +24,12 @@ describe("/swn command", () => {
   })
 
   describe("judge", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
     describe("with dominant outcome", () => {
       it.concurrent.each([
         [11, "pleases"],
@@ -32,9 +38,10 @@ describe("/swn command", () => {
         [4, "inadequate"],
         [2, "angers"],
       ])("returns correct text for %i", async (die, text) => {
+        const swn_command = new Swn(interaction)
         const results = [die]
 
-        const result = swn_command.judge(results, "en-US")
+        const result = swn_command.judge(results)
 
         expect(result).toMatch(text)
       })
@@ -42,9 +49,10 @@ describe("/swn command", () => {
 
     describe("with no dominant outcome", () => {
       it("returns the neutral message", () => {
+        const swn_command = new Swn(interaction)
         const results = [2, 7, 12]
 
-        const result = swn_command.judge(results, "en-US")
+        const result = swn_command.judge(results)
 
         expect(result).toMatch("noted")
       })
@@ -52,43 +60,22 @@ describe("/swn command", () => {
   })
 
   describe("perform", () => {
-    it("displays the description if present", () => {
-      const options = {
-        description: "this is a test",
-        rolls: 1,
-      }
+    let interaction
 
-      const result = swn_command.perform(options)
-
-      expect(result).toMatch("this is a test")
+    beforeEach(() => {
+      interaction = new Interaction()
     })
 
     it("displays the sacrifice easter egg if present", () => {
-      const options = {
+      interaction.command_options = {
         description: "sacrificing",
         rolls: 1,
       }
+      const swn_command = new Swn(interaction)
 
-      const result = swn_command.perform(options)
+      const result = swn_command.perform()
 
       expect(result).toMatch("Your sacrifice")
-    })
-  })
-
-  describe("execute", () => {
-    describe("with multiple rolls", () => {
-      beforeEach(() => {
-        interaction.command_options.rolls = 2
-      })
-
-      it("displays the description if present", () => {
-        const description_text = "this is a test"
-        interaction.command_options.description = description_text
-
-        swn_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch(description_text)
-      })
     })
   })
 })

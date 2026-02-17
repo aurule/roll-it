@@ -228,7 +228,7 @@ describe("/nwod command", () => {
         expect(result).toMatch("cannot use teamwork")
       })
 
-      it("requiers a pool >= 1", () => {
+      it("requires a pool >= 1", () => {
         interaction.command_options.pool = 0
         const cmd = new Nwod(interaction)
 

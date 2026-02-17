@@ -107,8 +107,8 @@ export class Swn extends SavableCommand {
       locale: this.locale,
     })
 
-    if (sacrifice.hasTrigger(description, locale)) {
-      const sacrifice_message = this.judge(summed_results, locale)
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
+      const sacrifice_message = this.judge(summed_results, this.locale)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 
