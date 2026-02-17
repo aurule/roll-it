@@ -131,7 +131,8 @@ export class Command {
     this.interaction = interaction
     this.options = new CommandOptions(interaction.options)
     this.locale = interaction.locale
-    this.t = i18n.getFixedT(this.locale, "commands", this.constructor.name)
+    const t_name = this.constructor.i18nId || this.constructor.name
+    this.t = i18n.getFixedT(this.locale, "commands", t_name)
 
     this.saveOption("secret")
   }
