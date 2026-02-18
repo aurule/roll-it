@@ -1,5 +1,7 @@
-import { stringSelectMenuOptions } from "../../testing/discord-schemas.js"
+import stringSelectMenuOptions from "../../testing/discord-schemas/string-select-menu-options.js"
 import { commands } from "../commands/index.js"
+
+import "../commands/8ball.js"
 
 import { transform } from "./command-select-transformer.js"
 

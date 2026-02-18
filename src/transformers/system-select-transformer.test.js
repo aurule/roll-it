@@ -1,4 +1,4 @@
-import { stringSelectMenuOptions } from "../../testing/discord-schemas.js"
+import stringSelectMenuOptions from "../../testing/discord-schemas/string-select-menu-options.js"
 
 import { systems } from "../data/systems.js"
 import { transform } from "./system-select-transformer.js"
