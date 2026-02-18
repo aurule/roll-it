@@ -23,12 +23,12 @@ export function toHaveFlag(bitfield, flag) {
 
   const message = pass
     ? () =>
-        this.utils.matcherHint("toHaveFlag", undefined, undefined, hint_options) +
+        this.utils.matcherHint("toHaveFlag", pretty_bitfield, pretty_flag, hint_options) +
         "\n\n" +
         `Expected: not ${this.utils.printExpected(pretty_flag)}\n` +
         `Received: ${this.utils.printReceived(pretty_bitfield)}`
     : () =>
-        this.utils.matcherHint("toHaveFlag", undefined, undefined, hint_options) +
+        this.utils.matcherHint("toHaveFlag", pretty_bitfield, pretty_flag, hint_options) +
         "\n\n" +
         `Expected: ${this.utils.printExpected(pretty_flag)}\n` +
         `Received: ${this.utils.printReceived(pretty_bitfield)}`
