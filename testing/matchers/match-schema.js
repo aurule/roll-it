@@ -12,6 +12,18 @@ export function toMatchSchema(actual, schema) {
     promise: this.promise,
   }
 
+  if (!schema?.validate) {
+    return {
+      actual: schema,
+      message: () => {
+        return this.utils.matcherHint("toMatchSchema", undefined, undefined, hint_options) +
+        "\n\n" +
+        "Schema does not support `validate`"
+      },
+      pass: false
+    }
+  }
+
   const result = schema.validate(actual, { abortEarly: false, errors: { wrap: { label: "`" } } })
   const pass = result.error === undefined
 
