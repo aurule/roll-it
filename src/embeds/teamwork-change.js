@@ -41,9 +41,9 @@ export class TeamworkChangeEmbed {
    */
   get description() {
     const desc_args = {
-      leader: userMention(test.leader),
-      description: test.description,
-      context: test.description ? "description" : undefined,
+      leader: userMention(this.test.leader),
+      description: this.test.description,
+      context: this.test.description ? "description" : undefined,
     }
 
     return this.t("body", desc_args)
@@ -55,7 +55,7 @@ export class TeamworkChangeEmbed {
    */
   get helpers() {
     if (!this._helpers) {
-      this._helpers = this.teamwork_db.allHelpers(test.id).filter((helper) => helper.user_uid !== this.test.leader)
+      this._helpers = this.teamwork_db.allHelpers(this.test.id).filter((helper) => helper.user_uid !== this.test.leader)
     }
     return this._helpers
   }
@@ -65,11 +65,28 @@ export class TeamworkChangeEmbed {
    * @type object
    */
   get helper_names() {
-    const names = this.helpers.map(this.annotateHelper)
+    const names = this.helpers.map((h) => this.annotateHelper(h))
     return {
       name: this.t("fields.helper-name.title"),
       inline: true,
       value: names.join("\n"),
+    }
+  }
+
+  /**
+   * Helper bonuses field object
+   * @return object
+   */
+  get helper_bonuses() {
+    const bonuses = this.helpers.map((helper) => {
+      if (helper.dice === null) return "—"
+      return signed(helper.dice)
+    })
+
+    return {
+      name: this.t("fields.helper-name.title"),
+      inline: true,
+      value: bonuses.join("\n"),
     }
   }
 
@@ -93,23 +110,6 @@ export class TeamworkChangeEmbed {
       t_args.context = "normal"
     }
     return this.t("helper", t_args)
-  }
-
-  /**
-   * Helper bonuses field object
-   * @return object
-   */
-  get helper_bonuses() {
-    const bonuses = this.helpers.map((helper) => {
-      if (helper.dice === null) return "—"
-      return signed(helper.dice)
-    })
-
-    return {
-      name: this.t("fields.helper-name.title"),
-      inline: true,
-      value: bonuses.join("\n"),
-    }
   }
 
   /**
