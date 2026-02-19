@@ -1,4 +1,6 @@
 import { Interaction } from "../../testing/interaction.js"
+import "../commands/nwod.js"
+import "../commands/wod20.js"
 
 import { saved_roll, changeable_choices } from "./saved-roll-completers"
 

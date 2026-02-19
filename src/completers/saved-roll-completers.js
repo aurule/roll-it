@@ -1,7 +1,7 @@
 /**
- * Autocomplete functions used by the /table family of commands
+ * Autocomplete functions used by the /saved family of commands
  *
- * These are invoked by that command's `autcomplete` function. Their code lives
+ * These are invoked by each command's `autcomplete` function. Their code lives
  * here for easier testing.
  */
 
