@@ -11,6 +11,7 @@ export class TeamworkSummaryEmbed {
   t
   teamwork_db
   builder
+  _helpers
 
   /**
    * Create a new teamwork summary embed
@@ -26,10 +27,9 @@ export class TeamworkSummaryEmbed {
     this.builder.setColor(0x03b199)
     this.builder.setTitle(this.t("title"))
     this.builder.setDescription(this.description)
-    this.builder.addField(this.leader_info)
+    this.builder.addFields(this.leader_info)
     if (this.helpers.length) {
-      this.builder.addField(this.helper_names)
-      this.builder.addField(this.helper_bonuses)
+      this.builder.addFields(this.helper_names, this.helper_bonuses)
     }
   }
 
@@ -39,9 +39,9 @@ export class TeamworkSummaryEmbed {
    */
   get description() {
     const desc_args = {
-      leader: userMention(test.leader),
-      description: test.description,
-      context: test.description ? "description" : undefined,
+      leader: userMention(this.test.leader),
+      description: this.test.description,
+      context: this.test.description ? "description" : undefined,
     }
 
     return this.t("body", desc_args)
@@ -53,7 +53,7 @@ export class TeamworkSummaryEmbed {
    */
   get leader() {
     if (!this._leader) {
-      this._leader = this.teamwork_db.realHelpers(test.id).filter((helper) => helper.user_uid === this.test.leader)
+      this._leader = this.teamwork_db.getHelperDetails(this.test.id, this.test.leader)
     }
     return this._leader
   }
@@ -64,8 +64,8 @@ export class TeamworkSummaryEmbed {
    */
   get leader_info() {
     return {
-      name: t("fields.leader.title"),
-      value: t("fields.leader.body", {
+      name: this.t("fields.leader.title"),
+      value: this.t("fields.leader.body", {
         leader: userMention(this.leader.user_uid),
         count: this.leader.dice,
       })
@@ -78,7 +78,7 @@ export class TeamworkSummaryEmbed {
    */
   get helpers() {
     if (!this._helpers) {
-      this._helpers = this.teamwork_db.realHelpers(test.id).filter((helper) => helper.user_uid !== this.test.leader)
+      this._helpers = this.teamwork_db.realHelpers(this.test.id).filter((helper) => helper.user_uid !== this.test.leader)
     }
     return this._helpers
   }
