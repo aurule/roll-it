@@ -23,8 +23,9 @@ describe("Fallback message mention handler", () => {
       message.author.id = process.env.CLIENT_ID
       vitest.spyOn(message, "reply")
       vitest.spyOn(message, "react")
+      const handler = new FallbackMentionHandler(message)
 
-      await FallbackMentionHandler.handle(message)
+      await handler.handle(message)
 
       expect(message.reply).not.toHaveBeenCalled()
       expect(message.react).not.toHaveBeenCalled()
@@ -43,8 +44,9 @@ describe("Fallback message mention handler", () => {
           ]),
         }
         vitest.spyOn(message, "react")
+        const handler = new FallbackMentionHandler(message)
 
-        await FallbackMentionHandler.handle(message)
+        await handler.handle()
 
         expect(message.react).toHaveBeenCalled()
       })
@@ -60,8 +62,9 @@ describe("Fallback message mention handler", () => {
           users: new Map([[process.env.CLIENT_ID, "yes"]]),
         }
         vitest.spyOn(message, "reply")
+        const handler = new FallbackMentionHandler(message)
 
-        await FallbackMentionHandler.handle(message)
+        await handler.handle()
 
         expect(message.reply).toHaveBeenCalled()
       })
