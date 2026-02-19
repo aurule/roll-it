@@ -5,12 +5,13 @@ import { TeamworkMentionHandler } from "./teamwork.js"
 /**
  * Array of message mention handlers
  *
+ * This should not include the fallback handler, as it is invoked separately by the `handle` function.
+ *
  * @type {MentionHandler[]}
  */
 export const handlers = [
   OpposedMentionHandler,
   TeamworkMentionHandler,
-  FallbackMentionHandler, // This must always be last
 ]
 
 /**
@@ -28,4 +29,5 @@ export async function handle(message, handlers_override) {
   for (const handler of our_handlers) {
     if (handler.canHandle(message)) return new handler(message).handle()
   }
+  return new FallbackMentionHandler(message).handle()
 }

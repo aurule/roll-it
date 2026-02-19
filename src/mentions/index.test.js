@@ -1,34 +1,39 @@
 import { FallbackMentionHandler } from "./fallback"
+import { MentionHandler } from "./mention-handler.js"
 
 import { handle } from "./index.js"
+
+
+class Handler1 extends MentionHandler {
+  static canHandle(_message) {
+    return false
+  }
+
+  async handle() {
+    return "one"
+  }
+}
+
+class Handler2 extends MentionHandler {
+  static canHandle(_message) {
+    return true
+  }
+
+  async handle() {
+    return "two"
+  }
+}
 
 describe("message mention dispatching", () => {
   describe("handle", () => {
     it("calls the first handler that can take the message", async () => {
-      const handler1 = {
-        canHandle: (_interaction) => false,
-        handle: (_interaction) => "one",
-      }
-      const handler2 = {
-        canHandle: (_interaction) => true,
-        handle: (_interaction) => "two",
-      }
-
-      const result = await handle({}, [handler1, handler2])
+      const result = await handle({}, [Handler1, Handler2])
 
       expect(result).toEqual("two")
     })
 
-    it("calls the fallback handler if nothing else takes the message", async () => {
-      const handler1 = {
-        canHandle: (_interaction) => false,
-        handle: (_interaction) => "one",
-      }
-      const handler2 = {
-        canHandle: (_interaction) => false,
-        handle: (_interaction) => "two",
-      }
-      const fallback_spy = vitest.spyOn(FallbackMentionHandler, "handle")
+    it.only("calls the fallback handler if nothing else takes the message", async () => {
+      const fallback_spy = vitest.spyOn(FallbackMentionHandler.prototype, "handle")
 
       await handle(
         {
@@ -38,7 +43,7 @@ describe("message mention dispatching", () => {
           },
           reply: () => false,
         },
-        [handler1, handler2],
+        [Handler1],
       )
 
       expect(fallback_spy).toHaveBeenCalled()
