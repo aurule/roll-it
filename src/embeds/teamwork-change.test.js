@@ -14,15 +14,18 @@ describe("TeamworkChangeEmbed class", () => {
     db = new Teamwork()
     const test_id = db.addTeamwork({
       command: "nwod",
-      options: {
-        pool: 6,
-      },
+      options: {},
       leader: "cap",
       locale: "en-US",
       channelId: "channel",
       description: "test test",
     }).lastInsertRowid
     teamwork_test = db.detail(test_id)
+    db.addHelper({
+      teamwork_id: test_id,
+      userId: "cap",
+      dice: 6,
+    })
   })
 
   describe("description", () => {
