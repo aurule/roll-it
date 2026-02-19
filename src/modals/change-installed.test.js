@@ -35,8 +35,9 @@ describe("change installed modal", () => {
           systems: ["drh", "nwod"],
           features: [],
         })
+        const changeInstalled = new ChangeInstalledModal(interaction, installation_id)
 
-        await changeInstalled.submit(interaction, installation_id)
+        await changeInstalled.submit()
 
         const record = db.getInstallation(installation_id)
         expect(record.new_deets.systems).toContain("drh")
@@ -48,8 +49,9 @@ describe("change installed modal", () => {
           systems: ["drh", "nwod"],
           features: [],
         })
+        const changeInstalled = new ChangeInstalledModal(interaction, installation_id)
 
-        await changeInstalled.submit(interaction, installation_id)
+        await changeInstalled.submit()
 
         expect(interaction.replyContent).toMatch("the changes")
       })
@@ -75,7 +77,9 @@ describe("change installed modal", () => {
       })
 
       it("acknowledges the interaction", async () => {
-        await changeInstalled.submit(interaction, installation_id)
+        const changeInstalled = new ChangeInstalledModal(interaction, installation_id)
+
+        await changeInstalled.submit()
 
         expect(interaction.deferred).toBe(true)
       })

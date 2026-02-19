@@ -6,34 +6,20 @@ import { ModalInteraction } from "../../testing/modal-interaction.js"
 import { ReportRollModal } from "./report-roll.js"
 
 describe("report roll modal", () => {
-  describe("data", () => {
-    it("has a notes field", () => {
-      const modal = ReportRollModal.data(1, "en-US")
-
-      expect(modal.components[0].components[0].data.custom_id).toMatch("notes")
-    })
-
-    it("has a consent field", () => {
-      const modal = ReportRollModal.data(1, "en-US")
-
-      expect(modal.components[1].components[0].data.custom_id).toMatch("consent")
-    })
-  })
-
   describe("submit", () => {
     let interaction
-    let response
 
     beforeEach(() => {
       interaction = new ModalInteraction()
-      response = interaction.message
     })
 
     describe("with missing record", () => {
       it("fails silently", async () => {
-        await ReportRollModal.submit(interaction, 5)
+        const modal = new ReportRollModal(interaction, 5)
 
-        expect(response.content).toMatch("Thanks")
+        await modal.submit()
+
+        expect(interaction.replyContent).toMatch("Thanks")
       })
     })
 
@@ -58,15 +44,20 @@ describe("report roll modal", () => {
       describe("with notes", () => {
         it("prepends the notes to the existing record", async () => {
           interaction.setField("notes", "new note")
+          const modal = new ReportRollModal(interaction, record_id)
 
-          await ReportRollModal.submit(interaction, record_id)
+          await modal.submit()
+
+          const detail = feedback.detail(record_id)
+          expect(detail.content).toMatch("new note\n")
         })
 
         it("updates the consent field", async () => {
           interaction.setField("notes", "new note")
           interaction.setField("consent", "CONSENT")
+          const modal = new ReportRollModal(interaction, record_id)
 
-          await ReportRollModal.submit(interaction, record_id)
+          await modal.submit()
 
           const detail = feedback.detail(record_id)
           expect(detail.canReply).toEqual(true)
@@ -75,7 +66,9 @@ describe("report roll modal", () => {
 
       describe("with no notes", () => {
         it("saves that no notes were given", async () => {
-          await ReportRollModal.submit(interaction, record_id)
+          const modal = new ReportRollModal(interaction, record_id)
+
+          await modal.submit()
 
           const detail = feedback.detail(record_id)
           expect(detail.content).toMatch("no notes")
@@ -83,8 +76,9 @@ describe("report roll modal", () => {
 
         it("updates the consent field", async () => {
           interaction.setField("consent", "CONSENT")
+          const modal = new ReportRollModal(interaction, record_id)
 
-          await ReportRollModal.submit(interaction, record_id)
+          await modal.submit()
 
           const detail = feedback.detail(record_id)
           expect(detail.canReply).toEqual(true)

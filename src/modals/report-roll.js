@@ -88,5 +88,7 @@ export class ReportRollModal extends Modal {
       )
       return this.whisper(this.t("response.error"))
     }
+
+    return this.whisper(this.t("response.success"))
   }
 }
