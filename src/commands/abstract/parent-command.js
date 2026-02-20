@@ -13,10 +13,11 @@ export class ParentCommand extends Command {
   static children
 
   static data() {
+    const built = this.builder
     for (const child of this.children) {
-      this.builder.addSubcommand(child.data())
+      built.addSubcommand(child.data())
     }
-    return this.builder
+    return built
   }
 
   /**

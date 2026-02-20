@@ -16,7 +16,8 @@ export class Saved extends ParentCommand {
 
   static data() {
     const partialBuilder = super.data()
-    return partialBuilder.setDMPermission(false)
+    partialBuilder.setDMPermission(false)
+    return partialBuilder
   }
 
   static help_data(opts) {
