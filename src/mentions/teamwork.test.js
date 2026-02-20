@@ -29,13 +29,13 @@ describe("teamwork reply handler", () => {
     })
 
     it("returns true when message exists", () => {
-      const result = teamwork.canHandle(interaction)
+      const result = TeamworkMentionHandler.canHandle(interaction)
 
       expect(result).toBe(true)
     })
 
     it("returns false when message does not exist", () => {
-      const result = teamwork.canHandle({ reference: { messageId: "nope" } })
+      const result = TeamworkMentionHandler.canHandle({ reference: { messageId: "nope" } })
 
       expect(result).toBe(false)
     })
@@ -51,7 +51,9 @@ describe("teamwork reply handler", () => {
 
     describe("with missing test", () => {
       it("whispers with concluded message", async () => {
-        await teamwork.handle(interaction)
+        const teamwork = new TeamworkMentionHandler(interaction)
+
+        await teamwork.handle()
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -76,7 +78,9 @@ describe("teamwork reply handler", () => {
       })
 
       it("whispers with concluded message", async () => {
-        await teamwork.handle(interaction)
+        const teamwork = new TeamworkMentionHandler(interaction)
+
+        await teamwork.handle()
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -103,7 +107,9 @@ describe("teamwork reply handler", () => {
       })
 
       it("whispers with missing number message", async () => {
-        await teamwork.handle(interaction)
+        const teamwork = new TeamworkMentionHandler(interaction)
+
+        await teamwork.handle()
 
         expect(interaction.replyContent).toMatch("find a number")
       })
@@ -132,14 +138,18 @@ describe("teamwork reply handler", () => {
       })
 
       it("saves the dice for the user", async () => {
-        await teamwork.handle(interaction)
+        const teamwork = new TeamworkMentionHandler(interaction)
+
+        await teamwork.handle()
 
         const helper = teamwork_db.getHelperDetails(teamwork_id, interaction.user.id)
         expect(helper.dice).toEqual(3)
       })
 
       it("replies with the success message", async () => {
-        await teamwork.handle(interaction)
+        const teamwork = new TeamworkMentionHandler(interaction)
+
+        await teamwork.handle()
 
         expect(interaction.replyContent).toMatch("added 3 dice")
       })

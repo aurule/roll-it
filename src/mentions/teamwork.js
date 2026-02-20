@@ -41,7 +41,7 @@ export class TeamworkMentionHandler extends MentionHandler {
    */
   async handle() {
     if (this.test === undefined) {
-      return this.whisper(i18n.t("concluded", { ns: "teamwork", lng: interaction.locale }))
+      return this.whisper(i18n.t("concluded", { ns: "teamwork", lng: this.locale }))
       .catch((error) => {
         return logger.warn(
           {
