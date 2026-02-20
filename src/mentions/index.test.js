@@ -32,7 +32,7 @@ describe("message mention dispatching", () => {
       expect(result).toEqual("two")
     })
 
-    it.only("calls the fallback handler if nothing else takes the message", async () => {
+    it("calls the fallback handler if nothing else takes the message", async () => {
       const fallback_spy = vitest.spyOn(FallbackMentionHandler.prototype, "handle")
 
       await handle(
