@@ -68,14 +68,12 @@ class AddBase extends Command {
   }
 
   async execute() {
-    await this.interaction.deferReply()
-
     const options_error = this.validate_options()
     if (options_error) {
       return this.interaction.whisper(options_error)
     }
 
-    this.contents = await fetchLines(table_file)
+    this.contents = await fetchLines(this.file)
 
     const contents_error = await this.validate_contents()
     if (contents_error) {
@@ -83,22 +81,30 @@ class AddBase extends Command {
     }
 
     this.table_db.create(this.name, this.description, this.contents)
-    return this.interaction.editReply({
+    return this.interaction.reply({
       content: this.t("response.success", { user: userMention(this.interaction.user.id), name: this.name }),
       ephemeral: this.secret,
     })
   }
 
+  /**
+   * Validate our options
+   * @return {string?} An error string, or void if validation passes
+   */
   validate_options() {
-    if (this.table_db.taken(this.name)) return this.t("options.name.taken", { name: this.name })
-    if (file.contentType != "text/plain") return this.t("options.file.type", { type: this.file.contentType })
-    if (file.size > MAX_UPLOAD_SIZE) return this.t("options.file.size")
+    if (this.table_db.taken(this.name)) return this.t("options.name.validation.taken", { name: this.name })
+    if (this.file.contentType != "text/plain") return this.t("options.file.validation.type", { type: this.file.contentType })
+    if (this.file.size > MAX_UPLOAD_SIZE) return this.t("options.file.validation.size", { size: MAX_UPLOAD_SIZE / 1_048_576 })
   }
 
+  /**
+   * Validate the file's contents
+   * @return {string?} An error string, or void if validation passes
+   */
   async validate_contents() {
     let validated_contents
     try {
-      validated_contents = fileContentSchema.validateAsync(this.contents)
+      validated_contents = await fileContentSchema.validateAsync(this.contents)
     } catch (err) {
       return this.t(err.details[0].message)
     }
@@ -115,4 +121,4 @@ class AddBase extends Command {
 /**
  * Class for the saved add command
  */
-export const Add = Child(AddBase, "saved")
+export const Add = Child(AddBase, "table")
