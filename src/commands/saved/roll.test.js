@@ -2,28 +2,32 @@ vitest.mock("../../util/message-builders")
 
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { Interaction } from "../../../testing/interaction.js"
+import "../roll.js"
 
 import { Roll } from "./roll.js"
 
 describe("/saved roll", () => {
-  describe("execute", () => {
-    var interaction
-    var saved_rolls
+  let interaction
+  let saved_rolls
 
-    beforeEach(() => {
-      interaction = new Interaction()
-      saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
+  beforeEach(() => {
+    interaction = new Interaction()
+    saved_rolls = new UserSavedRolls(interaction.guildId, interaction.user.id)
+  })
+
+  describe("validate", () => {
+    it("requires roll to exist", () => {
+      interaction.command_options = {
+        name: "nope"
+      }
+      const cmd = new Roll(interaction)
+
+      const result = cmd.validate()
+
+      expect(result).toMatch("roll does not exist")
     })
 
-    it("warns on unknown roll", async () => {
-      interaction.command_options.name = "nope"
-
-      await saved_roll_command.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("does not exist")
-    })
-
-    it("warns on invalid", async () => {
+    it("requires valid roll", () => {
       saved_rolls.create({
         name: "test",
         description: "test",
@@ -34,14 +38,44 @@ describe("/saved roll", () => {
         },
         invalid: true,
       })
-      interaction.command_options.name = "test"
+      interaction.command_options = {
+        name: "test"
+      }
+      const cmd = new Roll(interaction)
 
-      await saved_roll_command.execute(interaction)
+      const result = cmd.validate()
 
-      expect(interaction.replyContent).toMatch("not valid")
+      expect(result).toMatch("are not valid")
     })
 
-    it("executes the roll", async () => {
+    describe("with a change target", () => {
+      it("requires change target to be allowed by command", () => {
+        saved_rolls.create({
+          name: "test",
+          description: "test",
+          command: "roll",
+          options: {
+            pool: 0,
+            sides: 6,
+          },
+          invalid: false,
+        })
+        interaction.command_options = {
+          name: "test",
+          change: "sides",
+          bonus: 2,
+        }
+        const cmd = new Roll(interaction)
+
+        const result = cmd.validate()
+
+        expect(result).toMatch("Cannot change option")
+      })
+    })
+  })
+
+  describe("perform", () => {
+    beforeEach(() => {
       saved_rolls.create({
         name: "test",
         description: "test",
@@ -49,18 +83,33 @@ describe("/saved roll", () => {
         options: {
           pool: 1,
           sides: 6,
+          modifier: 1,
         },
       })
-      interaction.command_options.name = "test"
+      interaction.command_options = {
+        name: "test",
+      }
+    })
+    it("does the roll", async () => {
+      const cmd = new Roll(interaction)
 
-      await saved_roll_command.execute(interaction)
+      const result = await cmd.perform()
 
-      expect(interaction.replyContent).toMatch("rolled")
+      expect(result).toMatch("rolled")
+    })
+
+    it("prioritizes new rolls number", async () => {
+      interaction.command_options.rolls = 2
+      const cmd = new Roll(interaction)
+
+      const result = await cmd.perform()
+
+      expect(result).toMatch("2 times")
     })
 
     it("warns and marks the saved roll invalid if saved options are bad", async () => {
       saved_rolls.create({
-        name: "test",
+        name: "test2",
         description: "test",
         command: "roll",
         options: {
@@ -68,114 +117,54 @@ describe("/saved roll", () => {
           sides: 6,
         },
       })
-      interaction.command_options.name = "test"
+      interaction.command_options.name = "test2"
+      const cmd = new Roll(interaction)
 
-      await saved_roll_command.execute(interaction)
+      const result = await cmd.perform()
 
-      expect(interaction.replyContent).toMatch("no longer valid")
-      const detail = saved_rolls.detail(undefined, "test")
+      expect(result).toMatch("no longer valid")
+      const detail = saved_rolls.detail(undefined, "test2")
       expect(detail.invalid).toBeTruthy()
     })
 
     describe("with a bonus", () => {
-      it("adds the bonus to the automatic option", async () => {
-        saved_rolls.create({
-          name: "test",
-          description: "test",
-          command: "roll",
-          options: {
-            pool: 1,
-            sides: 6,
-            modifier: 6,
-          },
-        })
-        interaction.command_options.name = "test"
-        interaction.command_options.bonus = 2
-
-        await saved_roll_command.execute(interaction)
-
-        expect(interaction.replyContent).toMatch("+ 8")
+      beforeEach(() => {
+        interaction.command_options.bonus = 3
       })
 
-      it("shows the bonus in the description", async () => {
-        saved_rolls.create({
-          name: "test",
-          description: "test",
-          command: "roll",
-          options: {
-            pool: 1,
-            sides: 6,
-            modifier: 6,
-          },
-        })
-        interaction.command_options.name = "test"
-        interaction.command_options.bonus = 2
+      it("defaults to first change target", async () => {
+        const cmd = new Roll(interaction)
 
-        await saved_roll_command.execute(interaction)
+        const result = await cmd.perform()
 
-        expect(interaction.replyContent).toMatch("test + 2")
+        expect(result).toMatch("+ 4")
       })
 
-      it("adds the bonus to the chosen option", async () => {
-        saved_rolls.create({
-          name: "test",
-          description: "test",
-          command: "roll",
-          options: {
-            pool: 1,
-            sides: 6,
-            modifier: 6,
-          },
-        })
-        interaction.command_options.name = "test"
-        interaction.command_options.bonus = 2
-        interaction.command_options.change = "pool"
+      it("shows bonus", async () => {
+        const cmd = new Roll(interaction)
 
-        await saved_roll_command.execute(interaction)
+        const result = await cmd.perform()
 
-        expect(interaction.replyContent).toMatch("3d6")
+        expect(result).toMatch("+ 3")
       })
 
-      it("validates the modified options", async () => {
-        saved_rolls.create({
-          name: "test",
-          description: "test",
-          command: "roll",
-          options: {
-            pool: 1,
-            sides: 6,
-            modifier: 6,
-          },
-        })
-        interaction.command_options.name = "test"
+      it("validates against modified option", async () => {
         interaction.command_options.bonus = -1
         interaction.command_options.change = "pool"
+        const cmd = new Roll(interaction)
 
-        await saved_roll_command.execute(interaction)
+        const result = await cmd.perform()
 
-        expect(interaction.replyContent).toMatch("can no longer")
+        expect(result).toMatch("can no longer")
       })
-    })
 
-    describe("with rolls", () => {
-      it("overrides the saved rolls number", async () => {
-        saved_rolls.create({
-          name: "test",
-          description: "test",
-          command: "roll",
-          options: {
-            pool: 1,
-            sides: 6,
-            modifier: 6,
-            rolls: 3,
-          },
-        })
-        interaction.command_options.name = "test"
-        interaction.command_options.rolls = 2
+      it("adds to the named option if given", async () => {
+        interaction.command_options.change = "pool"
+        const cmd = new Roll(interaction)
 
-        await saved_roll_command.execute(interaction)
+        const result = await cmd.perform()
 
-        expect(interaction.replyContent).toMatch("2 times")
+        expect(result).toMatch("4d6")
       })
     })
   })

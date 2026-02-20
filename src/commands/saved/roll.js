@@ -7,6 +7,7 @@ import { secretOption } from "../../util/common-options.js"
 import { savable } from "../index.js"
 import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
+import { CommandOptions } from "../abstract/command-options.js"
 
 /**
  * Base class for the saved roll command
@@ -18,7 +19,6 @@ class BaseRoll extends Command {
 
   rolls_db
   saved_roll
-  command_options
   name = ""
   description = ""
   bonus = 0
@@ -45,31 +45,34 @@ class BaseRoll extends Command {
     this.rolls_db = new UserSavedRolls(this.interaction.guildId, this.interaction.user.id)
     const roll_id = parseInt(this.name)
     this.saved_roll = this.rolls_db.detail(roll_id, this.name)
-    this.command_options = this.saved_roll.options
-    this.description = this.saved_roll.description
+    this.description = this.saved_roll?.description
 
     this.saveOption("bonus")
     this.saveOption("change")
     this.saveOption("rolls")
     this.saveOption("description")
 
-    this.kommand = savable.get(this.saved_roll.command)
-    this.change_target = saved_bonus_target(this.bonus, this.change, this.kommand)
+    this.kommand = savable.get(this.saved_roll?.command)
+    this.change_target = saved_bonus_target(this.bonus, this.change, this.kommand?.changeable)
+  }
+
+  get command_options() {
+    return this.saved_roll.options
   }
 
   perform() {
     this.command_options.description = this.description
-    this.command_options.secret = this.secret
 
     if (this.change_target) {
-      const old_number = this.saved_roll.options[target] ?? 0
-      this.command_options[target] = old_number + this.bonus
+      const old_number = this.saved_roll.options[this.change_target] ?? 0
+      this.command_options[this.change_target] = old_number + this.bonus
       this.command_options.description += operator(this.bonus)
     }
 
     if (this.rolls) this.command_options.rolls = this.rolls
 
     const schema_result = this.kommand.schema.validate(this.command_options)
+    console.log(schema_result)
     if (schema_result.error) {
       if (this.change_target) {
         return this.t("validation.invalidated", { target: this.change_target, message: schema_result.error.details[0].message })
@@ -79,8 +82,8 @@ class BaseRoll extends Command {
       }
     }
 
-    const command = new this.kommand(this.interaction, this.command_options)
-    this.secret = this.command_options.secret
+    this.command_options.secret = this.secret || this.command_options.secret
+    const command = new this.kommand(this.interaction, new CommandOptions(this.command_options))
     return command.perform()
   }
 
@@ -90,8 +93,8 @@ class BaseRoll extends Command {
 
     if (this.change_target && !this.kommand.changeable.includes(this.change_target)) {
         return this.t("options.change.validation.missing", {
-          target: change_target,
-          command: present(kommand, interaction.locale),
+          target: this.change_target,
+          command: present(this.kommand, this.locale),
         })
     }
   }
