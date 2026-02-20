@@ -36,7 +36,7 @@ export function messageData(challenge_id) {
  */
 export async function onReply(interaction) {
   const opposed_db = new Opposed()
-  const test = opposed_db.findTestByMessage(interaction.reference.messageId)
+  const test = opposed_db.findTestByMessage(interaction.message.reference.messageId)
 
   const t = i18n.getFixedT(interaction.guild.locale ?? "en-US", "opposed", "bidding")
 

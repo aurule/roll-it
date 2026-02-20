@@ -27,7 +27,7 @@ export function registerAfterRetry(messageExports) {
 }
 
 export function registerOnReplyHook(messageExports) {
-  afterRetryIndex.set(messageExports.challengeState, messageExports.onReply)
+  onReplyIndex.set(messageExports.challengeState, messageExports.onReply)
 }
 
 // Register all messages and their special handlers, if needed

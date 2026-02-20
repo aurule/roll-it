@@ -61,7 +61,8 @@ export function messageData(challenge_id) {
  */
 export async function afterRetry(message) {
   const opposed_db = new Opposed()
-  const test = opposed_db.findTestByMessage(message.id)
+  const message_uid = message?.resource?.message?.id ?? message.id
+  const test = opposed_db.findTestByMessage(message_uid)
 
   if (opposed_db.didParticipantChop(test.attacker.id, test.id)) {
     await message.react("🗡️").catch((err) => {

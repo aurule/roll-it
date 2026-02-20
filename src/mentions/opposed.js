@@ -56,7 +56,7 @@ export class OpposedMentionHandler extends MentionHandler {
     const replyMessage = messageIndex.get(challenge.state)
 
     if (this.isRetry) {
-      return this.message.ensure("reply", replyMessage(challenge.id), {
+      return this.message.interaction.ensure("reply", replyMessage(challenge.id), {
         challenge_id: challenge.id,
         channel_id: this.message.channelId,
         detail: `failed to retry message for state "${challenge.state}"`,
@@ -67,7 +67,7 @@ export class OpposedMentionHandler extends MentionHandler {
         const message_props = {
           challenge_id: challenge.id,
           message_uid,
-          test_id: this.db.findTestByMessage(this.mention_message_uuid)?.id ?? null,
+          test_id: this.db.findTestByMessage(this.referenced_message_uuid)?.id ?? null,
         }
         this.db.addMessage(message_props)
         const afterRetry = afterRetryIndex.get(challenge.state)
@@ -80,33 +80,33 @@ export class OpposedMentionHandler extends MentionHandler {
     const onReply = onReplyIndex.get(challenge.state)
     if (onReply !== undefined) {
       try {
-        return onReply(message)
+        return onReply(this.message.interaction)
       } catch (err) {
         if (err instanceof UnauthorizedError) {
           logger.info({
-            user: message.user,
+            user: this.message.user,
             challenge,
             detail: "unauthorized message reply interaction",
           })
-          return message.ensure(
+          return this.message.interaction.ensure(
             "whisper",
             this.t("unauthorized", {
               context: "mention",
               participants: err.allowed_uids.map(userMention),
             }),
             {
-              user: message.user,
-              message: message.message,
+              user: this.message.user,
+              message: this.message.message,
             },
           )
         } else {
           sendError(err, {
-            user: message.user,
+            user: this.message.user,
             challenge,
           })
           logger.error({
             err,
-            user: message.user,
+            user: this.message.user,
             challenge,
           })
         }
