@@ -23,10 +23,10 @@ describe("saved roll bonus field selector", () => {
         expect(result).toEqual("modifier")
       })
 
-      it("returns default when not found", () => {
+      it("returns change when not found", () => {
         const result = saved_bonus_target(1, "leaf", ["modifier"])
 
-        expect(result).toEqual("modifier")
+        expect(result).toEqual("leaf")
       })
     })
 

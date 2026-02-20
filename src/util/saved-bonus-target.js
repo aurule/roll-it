@@ -8,6 +8,6 @@
  */
 export function saved_bonus_target(bonus, change, changeable) {
   if (!bonus) return null
-  if (change && changeable.includes(change)) return change
+  if (change) return change
   return changeable[0]
 }
