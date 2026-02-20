@@ -1,5 +1,6 @@
 import { Interaction } from "../../../testing/interaction.js"
 import { Teamwork } from "../../db/teamwork.js"
+import "../../commands/nwod.js"
 
 import rollButton from "./roll-button.js"
 
@@ -31,22 +32,7 @@ describe("teamwork roll button", () => {
       teamwork_db = new Teamwork()
       teamwork_test_id = teamwork_db.addTeamwork({
         command: "nwod",
-        options: {
-          roller: {
-            explode: 10,
-            rote: false,
-            threshold: 8,
-          },
-          summer: {
-            threshold: 8,
-          },
-          presenter: {
-            explode: 10,
-            rote: false,
-            threshold: 8,
-            description: "",
-          },
-        },
+        options: {},
         leader: "test_leader",
         locale: "en-US",
         channelId: "test_channel",
@@ -71,6 +57,18 @@ describe("teamwork roll button", () => {
       } catch (e) {
         expect(e.message).toMatch("not allowed")
       }
+    })
+
+    it("shows the command's final result", async () => {
+      await rollButton.execute(interaction)
+
+      expect(interaction.replyContent).toMatch("rolled **")
+    })
+
+    it("shows the helpers embed", async () => {
+      await rollButton.execute(interaction)
+
+      expect(interaction.replies[0].embeds).toBeTruthy()
     })
 
     describe("with an unknown command", () => {
@@ -117,18 +115,6 @@ describe("teamwork roll button", () => {
 
         expect(interaction.replyContent).toMatch("cannot be rolled")
       })
-    })
-
-    it("shows the command's final result", async () => {
-      await rollButton.execute(interaction)
-
-      expect(interaction.replyContent).toMatch("rolled **")
-    })
-
-    it("shows the helpers embed", async () => {
-      await rollButton.execute(interaction)
-
-      expect(interaction.replies[0].embeds).toBeTruthy()
     })
   })
 })

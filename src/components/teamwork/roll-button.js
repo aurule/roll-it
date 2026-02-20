@@ -7,9 +7,10 @@ import { logger } from "../../util/logger.js"
 import { commands } from "../../commands/index.js"
 import { cleanup } from "../../interactive/teamwork.js"
 import { Component } from "../component.js"
+import { CommandOptions } from "../../commands/abstract/command-options.js"
 
 export function data(locale) {
-  new ButtonBuilder()
+  return new ButtonBuilder()
     .setCustomId("teamwork_roll")
     .setLabel(i18n.t("prompt.components.roll", { ns: "teamwork", lng: locale }))
     .setStyle(ButtonStyle.Success)
@@ -41,7 +42,8 @@ export async function execute(interaction) {
     })
   }
 
-  const command = new kommand(interaction, test.options)
+  const options = new CommandOptions(test.options)
+  const command = new kommand(interaction, options)
   const partial_message = command.performTeamwork(final_pool)
 
   const presented = injectMention(partial_message, test.leader)
@@ -61,8 +63,6 @@ export async function execute(interaction) {
     },
     {
       test: test.id,
-      raw: raw_results,
-      summed: summed_results,
       presented,
       detail: "Unable to reply with final teamwork roll",
     },
