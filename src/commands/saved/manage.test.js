@@ -2,6 +2,8 @@ vitest.mock("../../util/message-builders")
 
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { CommandInteraction } from "../../../testing/command-interaction.js"
+import "../roll.js"
+
 import { Manage } from "./manage.js"
 
 describe("/saved manage", () => {
@@ -28,14 +30,17 @@ describe("/saved manage", () => {
 
     it("warns on missing saved roll", async () => {
       interaction.setOption("name", "sir not appearing in this database")
+      const saved_manage_command = new Manage(interaction)
 
-      await saved_manage_command.execute(interaction)
+      await saved_manage_command.execute()
 
       expect(prompt.content).toMatch("does not exist")
     })
 
     it("shows roll info", async () => {
-      await saved_manage_command.execute(interaction)
+      const saved_manage_command = new Manage(interaction)
+
+      await saved_manage_command.execute()
       await prompt.componentEvents.timeout()
 
       expect(interaction.replyContent).toMatch("test")
@@ -43,7 +48,9 @@ describe("/saved manage", () => {
     })
 
     it("prompts the user with actions", async () => {
-      await saved_manage_command.execute(interaction)
+      const saved_manage_command = new Manage(interaction)
+
+      await saved_manage_command.execute()
 
       expect(prompt.components).toBeTruthy()
       await prompt.componentEvents.timeout()
@@ -51,7 +58,9 @@ describe("/saved manage", () => {
 
     describe("cancel button", () => {
       it("deletes the message", async () => {
-        await saved_manage_command.execute(interaction)
+        const saved_manage_command = new Manage(interaction)
+
+        await saved_manage_command.execute()
 
         await prompt.click("cancel")
 
@@ -61,7 +70,9 @@ describe("/saved manage", () => {
 
     describe("edit button", () => {
       it("shows a modal", async () => {
-        await saved_manage_command.execute(interaction)
+        const saved_manage_command = new Manage(interaction)
+
+        await saved_manage_command.execute()
 
         const sent = await prompt.click("edit")
 
@@ -71,7 +82,9 @@ describe("/saved manage", () => {
 
     describe("remove button", () => {
       it("shows a chicken switch", async () => {
-        await saved_manage_command.execute(interaction)
+        const saved_manage_command = new Manage(interaction)
+
+        await saved_manage_command.execute()
 
         await prompt.click("remove")
 
@@ -80,7 +93,9 @@ describe("/saved manage", () => {
 
       describe("user cancels removal", () => {
         it("shows an acknowledgement", async () => {
-          await saved_manage_command.execute(interaction)
+          const saved_manage_command = new Manage(interaction)
+
+          await saved_manage_command.execute()
           await prompt.click("remove")
 
           await prompt.click("remove_cancel")
@@ -89,7 +104,9 @@ describe("/saved manage", () => {
         })
 
         it("does not change the db", async () => {
-          await saved_manage_command.execute(interaction)
+          const saved_manage_command = new Manage(interaction)
+
+          await saved_manage_command.execute()
           await prompt.click("remove")
 
           await prompt.click("remove_cancel")
@@ -100,7 +117,9 @@ describe("/saved manage", () => {
 
       describe("user confirms removal", () => {
         it("shows acknowledgement", async () => {
-          await saved_manage_command.execute(interaction)
+          const saved_manage_command = new Manage(interaction)
+
+          await saved_manage_command.execute()
           await prompt.click("remove")
 
           await prompt.click("remove_confirm")
@@ -109,7 +128,9 @@ describe("/saved manage", () => {
         })
 
         it("deletes the roll", async () => {
-          await saved_manage_command.execute(interaction)
+          const saved_manage_command = new Manage(interaction)
+
+          await saved_manage_command.execute()
           await prompt.click("remove")
 
           await prompt.click("remove_confirm")

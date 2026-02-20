@@ -46,19 +46,19 @@ class BaseManage extends Command {
 
     let manage_text = present(this.saved_roll, this.locale)
     manage_text += "\n\n"
-    manage_text += t("state.initial.prompt")
+    manage_text += this.t("state.initial.prompt")
 
     const edit_button = new ButtonBuilder()
       .setCustomId("edit")
-      .setLabel(t("state.initial.buttons.edit"))
+      .setLabel(this.t("state.initial.buttons.edit"))
       .setStyle(ButtonStyle.Primary)
     const cancel_button = new ButtonBuilder()
       .setCustomId("cancel")
-      .setLabel(t("state.initial.buttons.cancel"))
+      .setLabel(this.t("state.initial.buttons.cancel"))
       .setStyle(ButtonStyle.Secondary)
     const remove_button = new ButtonBuilder()
       .setCustomId("remove")
-      .setLabel(t("state.initial.buttons.remove"))
+      .setLabel(this.t("state.initial.buttons.remove"))
       .setStyle(ButtonStyle.Danger)
 
     const prompt_components = [
@@ -83,7 +83,7 @@ class BaseManage extends Command {
             changeable: command.changeable,
           })
           await comp_interaction.showModal(modal)
-          return comp_interaction.editReply(build.textMessage(t("state.edit.response")))
+          return comp_interaction.editReply(build.textMessage(this.t("state.edit.response")))
         case "remove":
           const remove_cancel = new ButtonBuilder()
             .setCustomId("remove_cancel")
