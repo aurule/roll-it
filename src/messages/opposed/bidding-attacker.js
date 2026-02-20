@@ -35,8 +35,10 @@ export function messageData(challenge_id) {
  * @return {Promise}                 Message reply promise
  */
 export async function onReply(interaction) {
+  console.log(interaction)
   const opposed_db = new Opposed()
   const test = opposed_db.findTestByMessage(interaction.message.reference.messageId)
+  console.log(test)
 
   const t = i18n.getFixedT(interaction.guild.locale ?? "en-US", "opposed", "bidding")
 
@@ -48,7 +50,7 @@ export async function onReply(interaction) {
       logger.error(
         {
           err: error,
-          reply_to: interaction.reference.messageId,
+          reply_to: interaction.message.reference.messageId,
           message: interaction.id,
           content: traits_content,
         },
@@ -72,9 +74,11 @@ export async function onReply(interaction) {
   }
 
   const chops = opposed_db.getChopsForTest(test.id)
+  console.log(chops)
   const user_chop = chops.find((c) => c.participant_id === test.attacker.id)
 
   opposed_db.setChopTraits(user_chop.id, matched_number)
+  console.log(matched_number)
   opposed_db.setChallengeState(test.challenge_id, Challenge.States.BiddingDefender)
   return interaction
     .ensure("reply", biddingDefender(test.challenge_id), {
@@ -87,6 +91,7 @@ export async function onReply(interaction) {
     .then((reply_result) => {
       const message_uid = reply_result.id
 
+      console.log(test)
       opposed_db.addMessage({
         challenge_id: test.challenge_id,
         message_uid,

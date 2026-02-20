@@ -2,6 +2,7 @@ vitest.mock("../../util/message-builders")
 
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Interaction } from "../../../testing/interaction.js"
+import { Message } from "../../../testing/message.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { UnauthorizedError } from "../../errors/unauthorized-error.js"
 
@@ -35,11 +36,16 @@ describe("opposed defender advantages message", () => {
   describe("onReply", () => {
     let interaction
     let bidding_test
+    let bot_message
 
     beforeEach(() => {
+      bot_message = new Message()
       interaction = new Interaction()
       interaction.author.id = "atk"
-      bidding_test = challenge.addTest().attachMessage(interaction.reference.messageId)
+      interaction.message.reference = {
+        messageId: bot_message.id
+      }
+      bidding_test = challenge.addTest().attachMessage(interaction.message.reference.messageId)
       bidding_test.attackerChop("rock")
       bidding_test.defenderChop("rock")
     })
