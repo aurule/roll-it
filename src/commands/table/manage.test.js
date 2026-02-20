@@ -19,17 +19,19 @@ describe("/table manage", () => {
     })
 
     it("warns on missing table", async () => {
-      interaction.command_options.table = 0
+      interaction.command_options.table = -8
+      const table_manage_command = new Manage(interaction)
 
-      await table_manage_command.execute(interaction)
+      await table_manage_command.execute()
 
       expect(interaction.replyContent).toMatch("does not exist")
     })
 
     it("shows table info", async () => {
       interaction.command_options.table = table_id
+      const table_manage_command = new Manage(interaction)
 
-      await table_manage_command.execute(interaction)
+      await table_manage_command.execute()
 
       expect(interaction.replyContent).toMatch("*Name:* test")
       expect(interaction.replyContent).toMatch("1")
@@ -37,8 +39,9 @@ describe("/table manage", () => {
 
     it("prompts the user with actions", async () => {
       interaction.command_options.table = table_id
+      const table_manage_command = new Manage(interaction)
 
-      await table_manage_command.execute(interaction)
+      await table_manage_command.execute()
 
       expect(interaction.replies[0].components).toBeTruthy()
     })

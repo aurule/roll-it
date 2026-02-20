@@ -62,7 +62,7 @@ class BaseManage extends Command {
       remove_button,
     )
     const manage_prompt = await this.interaction.reply({
-      content: [t("state.initial.details", { table: detail }), t("state.initial.prompt")].join(
+      content: [this.t("state.initial.details", { table: detail }), this.t("state.initial.prompt")].join(
         "\n",
       ),
       components: [manage_actions],
