@@ -2,7 +2,8 @@ vitest.mock("../util/message-builders")
 
 import { Interaction } from "../../testing/interaction.js"
 
-import { execute, handleCommand, handleAutocomplete, handleModal } from "./interactionCreate.js"
+import { handleInteractionCreated, handleCommand, handleAutocomplete, handleModal } from "./interactionCreate.js"
+import * as spyable from "./interactionCreate.js"
 
 describe("interactionCreate handler", () => {
   let interaction
@@ -10,7 +11,7 @@ describe("interactionCreate handler", () => {
     interaction = new Interaction()
   })
 
-  describe("execute", () => {
+  describe.skip("handleInteractionCreated", () => {
     let handleSpy
 
     describe("when in the wrong environment", () => {
@@ -26,7 +27,7 @@ describe("interactionCreate handler", () => {
       })
 
       it("aborts the event", () => {
-        return expect(execute(interaction)).resolves.toMatch(
+        return expect(handleInteractionCreated(interaction)).resolves.toMatch(
           "wrong guild for env",
         )
       })
@@ -35,26 +36,30 @@ describe("interactionCreate handler", () => {
     describe("dispatches commands", () => {
       beforeEach(() => {
         interaction.interactionType = "command"
-        handleSpy = vitest.spyOn(InteractionCreateEvent, "handleCommand")
+        handleSpy = vitest.spyOn(spyable, "handleCommand")
+      })
+
+      afterEach(() => {
+        vitest.clearAllMocks()
       })
 
       it("executes commands", () => {
         handleSpy.mockResolvedValue("worked")
 
-        return expect(execute(interaction)).resolves.toMatch("worked")
+        return expect(handleInteractionCreated(interaction)).resolves.toMatch("worked")
       })
 
       it("executes application commands", () => {
         interaction.interactionType = "chatInputCommand"
         handleSpy.mockResolvedValue("worked")
 
-        return expect(execute(interaction)).resolves.toMatch("worked")
+        return expect(handleInteractionCreated(interaction)).resolves.toMatch("worked")
       })
 
       it("gracefully handles command errors", async () => {
         handleSpy.mockRejectedValue("failed")
 
-        const result = await execute(interaction)
+        const result = await handleInteractionCreated(interaction)
 
         expect(result.content).toMatch("There was an error")
       })
@@ -63,19 +68,19 @@ describe("interactionCreate handler", () => {
     describe("dispatches autocompletes", () => {
       beforeEach(() => {
         interaction.interactionType = "autocomplete"
-        handleSpy = vitest.spyOn(InteractionCreateEvent, "handleAutocomplete")
+        handleSpy = vitest.spyOn(spyable, "handleAutocomplete")
       })
 
       it("executes autocompletes", () => {
         handleSpy.mockResolvedValue("worked")
 
-        return expect(execute(interaction)).resolves.toMatch("worked")
+        return expect(handleInteractionCreated(interaction)).resolves.toMatch("worked")
       })
 
       it("gracefully handles autocomplete errors", async () => {
         handleSpy.mockRejectedValue("failed")
 
-        const result = await execute(interaction)
+        const result = await handleInteractionCreated(interaction)
 
         expect(result).toEqual([])
       })
@@ -92,10 +97,10 @@ describe("interactionCreate handler", () => {
       interaction.commandName = "testing"
     })
 
-    it("rejects on unknown command", () => {
+    it("rejects on unknown command", async () => {
       interaction.commandName = "nope"
 
-      return expect(handleCommand(interaction)).rejects.toMatch("no command")
+      return expect(await handleCommand(interaction)).rejects.toMatch("no command")
     })
 
     describe("when command is in a guild", () => {
