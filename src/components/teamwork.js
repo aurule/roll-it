@@ -60,7 +60,7 @@ export async function handle(interaction) {
     )
   }
 
-  const component = components.get(interaction.customId)
+  const component = this.components.get(interaction.customId)
   return component.execute(interaction).catch((err) => {
     if (err instanceof UnauthorizedError) {
       logger.info({

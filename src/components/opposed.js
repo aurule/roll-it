@@ -72,9 +72,9 @@ export function sanitize_id(customId) {
 export async function handle(interaction) {
   const opposed_db = new Opposed()
   const message_id = interaction.message.id
-  const component_name = interaction.customId
+  const component_name = sanitize_id(interaction.customId)
 
-  const component = components.get(sanitize_id(component_name))
+  const component = this.components.get(component_name)
   const challenge = opposed_db.findChallengeByMessage(message_id)
 
   // fail unless challenge exists, is current, and is not finalized
@@ -94,7 +94,7 @@ export async function handle(interaction) {
   // fail unless component is valid for current state, or message is for an old test
   if (
     !(
-      component.valid_states.includes(challenge.state) &&
+      component.states.includes(challenge.state) &&
       opposed_db.messageIsForLatestTest(message_id)
     )
   ) {

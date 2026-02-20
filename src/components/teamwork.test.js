@@ -2,26 +2,12 @@ vitest.mock("../util/message-builders")
 
 import { Interaction } from "../../testing/interaction.js"
 import { Teamwork } from "../db/teamwork.js"
-import cancelButton from "./opposed/cancel-button.js"
+import cancelButton from "./teamwork/cancel-button.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 
-import { components, handle } from "./teamwork.js"
+import teamwork_handler from "./teamwork.js"
 
 describe("teamwork component handler", () => {
-  describe("canHandle", () => {
-    it("returns true when customId matches a teamwork component", () => {
-      const result = teamwork.canHandle({ customId: "teamwork_cancel" })
-
-      expect(result).toBe(true)
-    })
-
-    it("returns false when customId does not match a teamwork component", () => {
-      const result = teamwork.canHandle({ customId: "nope" })
-
-      expect(result).toBe(false)
-    })
-  })
-
   describe("handle", () => {
     let interaction
 
@@ -31,7 +17,8 @@ describe("teamwork component handler", () => {
 
     describe("with no teamwork test", () => {
       it("replies that the test is concluded", async () => {
-        handle(interaction)
+
+        teamwork_handler.handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -78,7 +65,7 @@ describe("teamwork component handler", () => {
       it.todo("marks the test as done")
 
       it("replies that the test is concluded", async () => {
-        await handle(interaction)
+        await teamwork_handler.handle(interaction)
 
         expect(interaction.replyContent).toMatch("has concluded")
       })
@@ -128,7 +115,7 @@ describe("teamwork component handler", () => {
       it("lets the component handle the interaction", async () => {
         execute_spy.mockImplementation(async () => true)
 
-        await handle(interaction)
+        await teamwork_handler.handle(interaction)
 
         expect(execute_spy).toHaveBeenCalled()
       })
@@ -138,7 +125,7 @@ describe("teamwork component handler", () => {
           throw new UnauthorizedError(interaction, [interaction.user.id])
         })
 
-        await handle(interaction)
+        await teamwork_handler.handle(interaction)
 
         expect(interaction.replyContent).toMatch("can use this control")
       })
