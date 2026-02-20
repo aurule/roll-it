@@ -1994,7 +1994,7 @@ table:
         description: Unique name for the table
         validation:
           taken: >-
-            You already have a table named {{name}} on this server. You can pick
+            You already have a table named "{{name}}" on this server. You can pick
             a different name, or use `/table manage` to remove the existing table.
       description:
         name: description
@@ -2009,7 +2009,7 @@ table:
             file by saving as `.txt` with one result per line break.
           size: >-
             The file you uploaded is too large. Make sure your file is under
-            5 MB.
+            {{size}} MB.
           entry:
             length: >-
               At least one of the table entries is too long. Keep each one below
