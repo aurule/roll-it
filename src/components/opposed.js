@@ -43,6 +43,24 @@ export const components = [
 export default new ComponentHandler(handle, components)
 
 /**
+ * Regex matching an underscore followed by one or more digits
+ * @type {RegExp}
+ */
+const num_regex = new RegExp(/_\d+/, "gi")
+
+/**
+ * Sanitize a component ID
+ *
+ * This removes any trailing database ID.
+ *
+ * @param  {str} customId ID to sanitize
+ * @return {str}          Sanitized ID
+ */
+export function sanitize_id(customId) {
+  return customId.replaceAll(num_regex, "")
+}
+
+/**
  * Handle an interaction
  *
  * This ensures the challenge (and possibly test) is active and then dispatches handling to the appropriate
