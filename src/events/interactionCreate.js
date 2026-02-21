@@ -18,7 +18,7 @@ import { sendError, sendEvent } from "../services/metrics.js"
  *                                    interaction. Rejects if command not found.
  */
 export async function handleCommand(interaction) {
-  const command_key = interaction.hasSubcommand() ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
+  const command_key = interaction.options._subcommand ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
   const kommand = interaction.client.commands.get(command_key)
 
   if (!kommand) return Promise.reject(`no command ${interaction.commandName}`)
