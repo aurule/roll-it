@@ -72,7 +72,6 @@ class BaseRoll extends Command {
     if (this.rolls) this.command_options.rolls = this.rolls
 
     const schema_result = this.kommand.schema.validate(this.command_options)
-    console.log(schema_result)
     if (schema_result.error) {
       if (this.change_target) {
         return this.t("validation.invalidated", { target: this.change_target, message: schema_result.error.details[0].message })
