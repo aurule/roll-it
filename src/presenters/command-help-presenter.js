@@ -1,4 +1,4 @@
-import { present as presentCommandName } from "./command-name-presenter"
+import { present as presentCommandName } from "./command-name-presenter.js"
 import { inlineCode } from "discord.js"
 import { i18n } from "../locales/index.js"
 

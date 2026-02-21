@@ -1,7 +1,7 @@
 import { Collection } from "discord.js"
 
-import { present, list } from "../presenters/command-name-presenter"
-import { sorted, commands, sortedCommands } from "../commands/index.js"
+import { present, list } from "../presenters/command-name-presenter.js"
+import { commands, sortedCommands } from "../commands/index.js"
 import { systems } from "./systems.js"
 import { i18n } from "../locales/index.js"
 import { data as changesData } from "./help/changes.js"
