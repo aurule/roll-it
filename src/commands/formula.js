@@ -3,7 +3,7 @@ import Joi from "joi"
 import { roll } from "../services/base-roller.js"
 import { sum } from "../services/tally.js"
 import { present } from "../presenters/results/formula-results-presenter.js"
-import { modifierOption, descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
+import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { modifierSchema, rollsSchema, descriptionSchema } from "../util/common-schemas.js"
 import { operator } from "../util/formatters/signed.js"
 import { SavableCommand } from "./abstract/savable-command.js"
@@ -27,7 +27,7 @@ export class Formula extends SavableCommand {
         option.setMinLength(3).setMaxLength(1500).setRequired(true),
       )
       .addStringOption(descriptionOption)
-      .addIntegerOption(modifierOption)
+      .addLocalizedIntegerOption("modifier")
       .addIntegerOption(rollsOption)
       .addBooleanOption(secretOption)
   }
