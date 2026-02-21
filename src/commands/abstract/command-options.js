@@ -24,9 +24,15 @@ export class CommandOptions {
 
     if (Array.isArray(options.data)) {
       // We have an interaction options object.
-      // Format of `data` is [ { name: 'modifier', type: 4, value: 2 } ]
+      // Format of `data` is [ { name: 'modifier', type: 4, value: 2 } ] or
+      // [ { name: 'topic', type: 3, options: [ { name: 'topic', type: 3, value: 'about' } ] }]
       for (const raw of options.data) {
-        this.data.set(raw.name, raw.value)
+        if (raw.options) {
+          if (raw.options.length > 1) throw new Error(`Too many options!`)
+          this.data.set(raw.name, raw.options[0].value)
+        } else {
+          this.data.set(raw.name, raw.value)
+        }
       }
     } else {
       // We have an internal saved options object
