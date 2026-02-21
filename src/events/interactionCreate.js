@@ -7,6 +7,9 @@ import { i18n } from "../locales/index.js"
 import { envAllowsGuild } from "../util/env-allows-guild.js"
 import { handleComponentInteraction } from "../components/index.js"
 import { sendError, sendEvent } from "../services/metrics.js"
+import { commands } from "../commands/index.js"
+import { modals } from "../modals/index.js"
+
 
 /**
  * Handle command interactions
@@ -19,7 +22,7 @@ import { sendError, sendEvent } from "../services/metrics.js"
  */
 export async function handleCommand(interaction) {
   const command_key = interaction.options._subcommand ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
-  const kommand = interaction.client.commands.get(command_key)
+  const kommand = commands.get(command_key)
 
   if (!kommand) return Promise.reject(`no command ${interaction.commandName}`)
 
@@ -51,7 +54,7 @@ export async function handleCommand(interaction) {
  */
 export async function handleAutocomplete(interaction) {
   const command_key = interaction.hasSubcommand() ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
-  const kommand = interaction.client.commands.get(command_key)
+  const kommand = commands.get(command_key)
   if (!kommand) return Promise.reject(`no command ${interaction.commandName} (autocomplete)`)
 
   const command = new kommand(interaction)
@@ -68,7 +71,7 @@ export async function handleAutocomplete(interaction) {
 export async function handleModal(interaction) {
   const [modal_name, modal_id] = interaction.customId.split("_")
 
-  const modal = interaction.client.modals.get(modal_name)
+  const modal = modals.get(modal_name)
   if (!modal) return Promise.reject(`no modal ${interaction.customId}`)
 
   logger.info(

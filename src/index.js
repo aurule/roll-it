@@ -83,13 +83,6 @@ import "./commands/swn.js"
 import "./commands/table.js"
 import "./commands/wod20.js"
 
-import { commands } from "./commands/index.js"
-client.commands = commands
-
-// Store modals
-import { modals } from "./modals/index.js"
-client.modals = modals
-
 // Register event listeners
 import { register as registerEvents } from "./events/index.js"
 registerEvents(client)
