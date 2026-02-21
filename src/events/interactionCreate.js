@@ -16,13 +16,14 @@ import { modals } from "../modals/index.js"
  *
  * We first apply the command's policy, then execute the actual command
  *
- * @param  {Interaction} interaction  Discord interaction object
- * @return {Promise}                  Promise, probably from replying to the
- *                                    interaction. Rejects if command not found.
+ * @param  {Interaction}          interaction Discord interaction object
+ * @param  {Map<string, Command>} override    Optional map of command objects to dispatch
+ * @return {Promise}              Promise, probably from replying to the interaction. Rejects if command not found.
  */
-export async function handleCommand(interaction) {
+export async function handleCommand(interaction, override) {
   const command_key = interaction.options._subcommand ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
-  const kommand = commands.get(command_key)
+  const registry = override ?? commands
+  const kommand = registry.get(command_key)
 
   if (!kommand) return Promise.reject(`no command ${interaction.commandName}`)
 
@@ -47,14 +48,14 @@ export async function handleCommand(interaction) {
 /**
  * Handle autocomplete interactions
  *
- * @param  {Interaction} interaction  Discord interaction object
- * @return {Promise}                  Promise, probably from responding to the
- *                                    interaction. Rejects if command or
- *                                    completer isn't found.
+ * @param  {Interaction}          interaction Discord interaction object
+ * @param  {Map<string, Command>} override    Optional map of command objects to dispatch
+ * @return {Promise}              Promise, probably from responding to the interaction. Rejects if command or completer isn't defined.
  */
-export async function handleAutocomplete(interaction) {
-  const command_key = interaction.hasSubcommand() ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
-  const kommand = commands.get(command_key)
+export async function handleAutocomplete(interaction, override) {
+  const command_key = interaction.options._subcommand ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
+  const registry = override ?? commands
+  const kommand = registry.get(command_key)
   if (!kommand) return Promise.reject(`no command ${interaction.commandName} (autocomplete)`)
 
   const command = new kommand(interaction)
@@ -64,14 +65,15 @@ export async function handleAutocomplete(interaction) {
 /**
  * Handle modal submission interactions
  *
- * @param  {Interaction} interaction  Discord interaction object
- * @return {Promise}                  Promise, probably from replying to the
- *                                    interaction. Rejects if modal not found.
+ * @param  {Interaction}        interaction Discord interaction object
+ * @param  {Map<string, Modal>} override    Optional map of modal objects to dispatch
+ * @return {Promise}            Promise, probably from replying to the interaction. Rejects if modal not found.
  */
-export async function handleModal(interaction) {
+export async function handleModal(interaction, override) {
   const [modal_name, modal_id] = interaction.customId.split("_")
 
-  const modal = modals.get(modal_name)
+  const registry = override ?? modals
+  const modal = registry.get(modal_name)
   if (!modal) return Promise.reject(`no modal ${interaction.customId}`)
 
   logger.info(
@@ -84,6 +86,12 @@ export async function handleModal(interaction) {
   return new modal(interaction, modal_id).submit()
 }
 
+/**
+ * Handle component usage interactions
+ * @param  {Interaction} interaction  Discord interaction object
+ * @return {Promise}                  Promise, probably from replying to the
+ *                                    interaction.
+ */
 export async function handleComponent(interaction) {
   logger.info(
     {

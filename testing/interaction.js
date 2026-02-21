@@ -40,6 +40,10 @@ class MockOptions {
     }
   }
 
+  get _subcommand() {
+    return this.interaction.command_options.subcommand_name
+  }
+
   getString(key) {
     return this.interaction.command_options[key]?.toString()
   }
