@@ -1,6 +1,6 @@
 import { all as suggestCommands } from "../../completers/command-completers.js"
 import { UserBans } from "../../db/bans.js"
-import { Feedback } from "../../db/feedback.js"
+import { Feedback as FeedbackDB } from "../../db/feedback.js"
 import { Command } from "../abstract/command.js"
 import { Child } from "../abstract/child-command.js"
 
@@ -36,7 +36,7 @@ class BaseFeedback extends Command {
   }
 
   perform() {
-    const feedback = new Feedback()
+    const feedback = new FeedbackDB()
     feedback.create({
       userId: this.interaction.user.id,
       content: this.message,
