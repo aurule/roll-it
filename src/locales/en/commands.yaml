@@ -881,6 +881,9 @@ formula:
     formula:
       name: formula
       description: The formula of dice to roll and operations to apply
+    modifier:
+      name: modifier
+      description: A number to add to the formula's result
   response:
     disabled: "Error: The function `{{fnName}}` is disabled"
     error: "Math error: {{err.message}}"
