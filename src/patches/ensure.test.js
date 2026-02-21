@@ -11,6 +11,9 @@ vitest.mock("../services/api")
 
 import { patch, patchDiscord } from "./ensure.js"
 
+/**
+ * Dummy class to test ensure helper
+ */
 class PatchMeEnsure {
   channel = {
     id: "testchan",
