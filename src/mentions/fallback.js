@@ -49,6 +49,10 @@ export class FallbackMentionHandler extends MentionHandler {
    * @return {Promise} Message react or response promise
    */
   async handle() {
+    if (this.message.author.id === process.env.CLIENT_ID) {
+      return
+    }
+
     if (this.message.mentions.users.size > 1) {
       return this.message.react("<:rolliteye:1362168653348470975>")
     }
