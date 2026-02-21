@@ -66,13 +66,13 @@ describe("teamwork helper picker", () => {
       expect(interaction.replyContent).toMatch("did not change")
     })
 
-    it("forces bot contribution to zero", async () => {
+    it("removes bot from helpers list", async () => {
       interaction.values = [process.env.CLIENT_ID]
 
       await helperPicker.execute(interaction)
 
       const bot_helper = teamwork_db.getHelperDetails(teamwork_test_id, process.env.CLIENT_ID)
-      expect(bot_helper.dice).toEqual(0)
+      expect(bot_helper).toBeUndefined()
     })
 
     it("sets the helpers on the teamwork test", async () => {

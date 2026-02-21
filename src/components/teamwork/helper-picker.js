@@ -25,7 +25,7 @@ export async function execute(interaction) {
   const t = i18n.getFixedT(test.locale, "teamwork")
 
   const original = teamwork_db.getRequestedHelpers(test.id).map((h) => h.user_uid)
-  const current = interaction.values
+  const current = interaction.values.filter(v => v != process.env.CLIENT_ID)
 
   if (arrayEq(original, current)) {
     return interaction
@@ -39,14 +39,6 @@ export async function execute(interaction) {
   }
 
   teamwork_db.setRequestedHelpers(test.id, current)
-
-  if (current.includes(process.env.CLIENT_ID)) {
-    /*
-     * Since discord lets the leader select any user, and there is no way to add a filter, Roll It could be
-     * picked. In that case, we need to set a contribution manually that will not affect the outcome.
-     */
-    teamwork_db.setDice(test.id, process.env.CLIENT_ID, 0)
-  }
 
   const diff = current.filter((h) => !(h === test.leader || original.includes(h)))
 
