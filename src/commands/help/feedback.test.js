@@ -19,11 +19,12 @@ describe("/help feedback", () => {
         message: "yeehaw"
       }
       const cmd = new Feedback(interaction)
+      const feedbacks = new FeedbackDB()
+      const old_total = feedbacks.count()
 
       cmd.perform()
 
-      const feedbacks = new FeedbackDB()
-      expect(feedbacks.count()).toEqual(1)
+      expect(feedbacks.count()).toBeGreaterThan(old_total)
     })
   })
 
