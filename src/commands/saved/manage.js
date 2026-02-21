@@ -16,7 +16,7 @@ import { savable } from "../index.js"
 class BaseManage extends Command {
   static name = "manage"
 
-  static secret = true
+  secret = true
 
   rolls_db
   saved_roll

@@ -15,7 +15,7 @@ import { CommandOptions } from "../abstract/command-options.js"
 class BaseRoll extends Command {
   static name = "roll"
 
-  static secret = true
+  secret = true
 
   rolls_db
   saved_roll

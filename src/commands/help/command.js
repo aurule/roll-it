@@ -15,7 +15,7 @@ class BaseCommandHelp extends Command {
    * The response from `/help command` is always ephemeral
    * @type {boolean}
    */
-  static secret = true
+  secret = true
 
   command
 

@@ -14,7 +14,7 @@ class BaseTopic extends Command {
    * The response from `/help topic` is always ephemeral
    * @type {boolean}
    */
-  static secret = true
+  secret = true
 
   topic = ""
 

@@ -14,7 +14,7 @@ class BaseFeedback extends Command {
    * The response from `/help feedback` is always ephemeral
    * @type {boolean}
    */
-  static secret = true
+  secret = true
 
   message = ""
   command = ""

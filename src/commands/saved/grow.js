@@ -12,7 +12,7 @@ import { savable } from "../index.js"
 class GrowBase extends Command {
   static name = "grow"
 
-  static secret = true
+  secret = true
 
   rolls_db
   saved_roll
