@@ -29,9 +29,9 @@ export async function handleCommand(interaction, override) {
 
   logger.info(
     {
-      command: kommand.name,
+      command: command_key,
     },
-    `command ${kommand.name} called`,
+    `command ${command_key} called`,
   )
 
   const policyResult = await checkPolicy(kommand.policy, interaction)
