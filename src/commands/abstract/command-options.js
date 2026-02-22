@@ -1,5 +1,13 @@
 import { Collection } from "discord.js"
 
+export function digOptions(options) {
+  if (options.data.length > 0) {
+    if (options.data[0].options) return options.data[0].options
+    return options.data
+  }
+  return []
+}
+
 /**
  * Class for handling command options
  */
@@ -23,20 +31,24 @@ export class CommandOptions {
     this.data = new Collection()
 
     if (Array.isArray(options.data)) {
-      // We have an interaction options object.
-      // Format of `data` is [ { name: 'modifier', type: 4, value: 2 } ] or
-      // [ { name: 'topic', type: 3, options: [ { name: 'topic', type: 3, value: 'about' } ] }]
-      for (const raw of options.data) {
-        if (raw.options) {
-          if (raw.options.length > 1) throw new Error(`Too many options!`)
-          this.data.set(raw.name, raw.options[0].value)
-        } else {
-          this.data.set(raw.name, raw.value)
-        }
+      /*
+       * We have an interaction options object.
+       * Options data for a top-level command look like [ { name: 'modifier', type: 4, value: 2 }]
+       * For a direct subcommand, they're nested like
+       * [ { name: 'attack', type: 3, options: [ { name: 'modifier', type: 4, value: 2 } ] }]
+       * Subcommand groups _probably_ look similar.
+       */
+      const found_options = digOptions(options)
+      for (const raw of found_options) {
+        // if data[0] has options, we need to examine those
+        // otherwise, we need to examine options.data
+        this.data.set(raw.name, raw.value)
       }
     } else {
-      // We have an internal saved options object
-      // Format is { modifier: 2 }
+      /*
+       * We have an internal, simple saved options object.
+       * Format is { modifier: 2 }
+       */
       for (const name in options) {
         this.data.set(name, options[name])
       }
