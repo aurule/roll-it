@@ -49,25 +49,25 @@ describe("DrhPool rolled dice class", () => {
 
   describe("fromPool", () => {
     it("returns undefined with no dice", () => {
-      const result = DrhPool.fromPool("test", 0)
+      const result = DrhPool.fromPool(0, "test")
 
       expect(result).toBeUndefined()
     })
 
     it("includes pool name", () => {
-      const result = DrhPool.fromPool("test", 1)
+      const result = DrhPool.fromPool(1, "test")
 
       expect(result.name).toEqual("test")
     })
 
     it("includes raw results", () => {
-      const result = DrhPool.fromPool("test", 1)
+      const result = DrhPool.fromPool(1, "test")
 
       expect(result.raw.length).toEqual(1)
     })
 
     it("includes summed results", () => {
-      const result = DrhPool.fromPool("test", 1)
+      const result = DrhPool.fromPool(1, "test")
 
       expect(result.summed.length).toEqual(1)
     })

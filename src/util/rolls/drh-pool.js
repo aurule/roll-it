@@ -80,11 +80,11 @@ export class DrhPool {
   /**
    * Create a new DrhPool using the given number of dice
    *
-   * @param  {string} name       Name of the pool
    * @param  {number} dice       Number of dice for the pool
+   * @param  {string} name       Name of the pool
    * @return {DrhPool|undefined} New pool object, or undefined if no dice
    */
-  static fromPool(name, dice) {
+  static fromPool(dice, name) {
     if (!dice) return undefined
 
     const raw = roll(dice, 6)
