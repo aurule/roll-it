@@ -41,7 +41,7 @@ class BaseCommandHelp extends Command {
     if (!commands.has(this.command)) return this.t("options.command.validation.unavailable", { command_name: this.command })
   }
 
-  autocomplete() {
+  async autocomplete() {
     const focusedOption = this.interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 

@@ -54,7 +54,7 @@ class BaseFeedback extends Command {
     if (bans.is_banned()) return this.t("response.banned")
   }
 
-  autocomplete() {
+  async autocomplete() {
     const focusedOption = interaction.options.getFocused(true)
     const partialText = focusedOption.value ?? ""
 
