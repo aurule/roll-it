@@ -116,4 +116,4 @@ export class Swn extends SavableCommand {
   }
 }
 
-registerCommand(SavableCommand)
+registerCommand(Swn)
