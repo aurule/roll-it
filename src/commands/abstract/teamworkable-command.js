@@ -1,5 +1,6 @@
 import { teamworkBegin } from "../../interactive/teamwork.js"
 import { SavableCommand } from "./savable-command.js"
+import { injectMention } from "../../util/formatters/inject-user.js"
 
 /**
  * Base class for rollers which support interactive teamwork
