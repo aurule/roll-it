@@ -4,6 +4,8 @@ import path from "node:path"
 import changes from "../changes/index.js"
 import package_data from "../package.json" with { type: "json" }
 
+const __dirname = meta.import.dirname
+
 function buildSection(bucket) {
   return bucket.map((item) => `* ${item}`).join("\n")
 }
@@ -40,7 +42,10 @@ function buildSection(bucket) {
 
   lines.push("") // end with a newline
 
-  await fs.writeFile(path.join(__dirname, "../changelog", `${package_data.version}.md`), lines.join("\n"))
+  const text = lines.join("\n")
+
+  await fs.writeFile(path.join(__dirname, "../changelog", `${package_data.version}.md`), text)
+  await fs.writeFile(path.join(__dirname, "../src", `changes.js`), `export default \`${text.replace("`", '\`')}\``)
 
   for (const file of changes.files) {
     fs.rm(file)

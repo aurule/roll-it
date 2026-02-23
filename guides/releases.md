@@ -6,7 +6,10 @@ Steps to do:
     * this creates the branch `release/<version>`
     * then runs `npm --no-git-tag-version version <version>` to update the version in package.json and package-lock.json
     * then runs `npm run changelog:build` to generate the new version's changelog
-2. edit the changelog and duplicate it to `docs/versions.md`
+2. edit the changelog files
+    * `changes/version.md`
+    * `src/changes.js`
+    * duplicate it to `docs/versions.md`
 3. commit!
     * snippet deletions
     * changelog

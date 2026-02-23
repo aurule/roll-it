@@ -55,7 +55,6 @@ changes:
     - >-
       Older change logs can be found on [Roll It's website](<https://aurule.github.io/roll-it/#/versions>) or
       on [github](<https://github.com/aurule/roll-it/tree/master/changelog>).
-  missing: No changelog available for {{version}}.
 saved:
   title: Saved Rolls
   description: How to save rolls and use them later
