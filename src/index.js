@@ -29,7 +29,7 @@ import {
   Partials,
 } from "discord.js"
 
-import package_data from "../package.json" with { type: "json" }
+import version from "./version.js"
 
 /**
  * Discord.js client instance
@@ -41,7 +41,7 @@ const client = new Client({
   presence: {
     activities: [
       {
-        name: `Roll some dice! Or try /help | v${package_data.version}`,
+        name: `Roll some dice! Or try /help | v${version}`,
         type: ActivityType.Custom,
       },
     ],
