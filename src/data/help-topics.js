@@ -5,7 +5,7 @@ import { commands, globals, sortedCommands } from "../commands/index.js"
 import { systems } from "./systems.js"
 import { i18n } from "../locales/index.js"
 import { data as changesData } from "./help/changes.js"
-import { api } from "../services/api.js"
+import { getGuildCommands } from "../services/api.js"
 import { findByCommands as findSystems } from "../services/system-helpers.js"
 
 /**
@@ -32,7 +32,7 @@ register("about", (_locale, _guildId) => { return {} })
 register("changes", changesData)
 
 register("commands", async (locale, guildId) => {
-  const installed = new Set(api.getGuildCommands(guildId).map(c => c.name))
+  const installed = new Set(getGuildCommands(guildId).map(c => c.name))
   for (const global_command of globals) {
     installed.add(global_command.name)
   }
@@ -42,7 +42,7 @@ register("commands", async (locale, guildId) => {
 })
 
 register("saved", (locale, guildId) => {
-  const installed = new Set(api.getGuildCommands(guildId).map(c => c.name))
+  const installed = new Set(getGuildCommands(guildId).map(c => c.name))
   for (const global_command of globals) {
     installed.add(global_command.name)
   }
@@ -53,7 +53,7 @@ register("saved", (locale, guildId) => {
 
 register("systems", (locale, guildId) => {
   const t = i18n.getFixedT(locale, "translation", "systems")
-  const installed_commands = api.getGuildCommands(guildId).map(c => c.name)
+  const installed_commands = getGuildCommands(guildId).map(c => c.name)
   const installed_systems = new Set(findSystems(...installed_commands).map((s) => s.name))
 
   return {
@@ -70,7 +70,7 @@ register("systems", (locale, guildId) => {
 })
 
 register("teamwork", (locale, guildId) => {
-  const installed = new Set(api.getGuildCommands(guildId).map(c => c.name))
+  const installed = new Set(getGuildCommands(guildId).map(c => c.name))
   for (const global_command of globals) {
     installed.add(global_command.name)
   }
