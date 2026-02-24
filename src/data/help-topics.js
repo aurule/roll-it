@@ -16,7 +16,7 @@ export function register(name, data) {
   helpTopics.set(name, data)
 }
 
-register("about", (_locale) => {})
+register("about", (_locale) => { return {} })
 
 register("changes", changesData)
 
