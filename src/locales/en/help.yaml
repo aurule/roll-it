@@ -41,7 +41,7 @@ commands:
       Server managers can set which Roll It commands are available. See the help for the `/setup-roll-it`
       command to learn more.
     - >-
-      Here are all of the commands that Roll It knows:
+      Here are all of the commands that Roll It knows. Commands available on this server are **`bold`**:
     - >-
       {{commands, ul}}
 changes:
@@ -94,7 +94,8 @@ saved:
     - >-
       Not all commands can be saved. Some do not roll actual dice (like `/table roll` or `/help`), don't have
       re-usable options (like `/coin`), or are so simple that it's more effort to use a saved roll than to
-      just use the options. Here are the commands that can be saved:
+      just use the options. Here are the commands that can be saved. Commands available on this server are
+      **`bold`**:
     - >
       {{savable, ul}}
     - >-
@@ -126,8 +127,9 @@ systems:
       handled for you, which is where Roll It's game-specific commands come to the rescue.
     - >
       Here's the list of game systems whose dice mechanics have a command in Roll It, along with any caveats.
-      As always, the help info for a specific command will have more info than what's here. To read in more
-      detail, see the [Systems page](<https://aurule.github.io/roll-it/#/systems>) on Roll It's website.
+      Systems whose commands are available on this server are marked with a check ☑️. As always, the help info
+      for a specific command will have more info than what's here. To read in more detail, see the
+      [Systems page](<https://aurule.github.io/roll-it/#/systems>) on Roll It's website.
     - >-
       {{systems, ul}}
 teamwork:
@@ -151,7 +153,8 @@ teamwork:
       a ❌, depending on whether they've added dice yet.
     - >-
       Most dice systems do not use this particular kind of teamwork test, so it's only supported by the
-      rollers that need it. Here are the commands that allow teamwork tests:
+      rollers that need it. Here are the commands that allow teamwork tests. Commands available on this server
+      are **`bold`**:
     - >
       {{teamworkable, ul}}
     - >-

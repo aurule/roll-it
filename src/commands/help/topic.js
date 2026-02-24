@@ -31,17 +31,15 @@ class BaseTopic extends Command {
     this.saveOption("topic")
   }
 
-  perform() {
+  async perform() {
     /**
      * Registered function to get values for help string interpolation
      * @type Function
      */
     const topicHelpData = helpTopics.get(this.topic)
 
-    const data = {
-      returnObjects: true,
-    }
-    Object.assign(data, topicHelpData(this.locale))
+    const data = await topicHelpData(this.locale, this.interaction.guildId)
+    data.returnObjects = true
 
     const help_t = i18n.getFixedT(this.locale, "help")
 

@@ -1,4 +1,5 @@
 vitest.mock("../../util/message-builders")
+vitest.mock("../../services/api")
 
 import { Topic } from "./topic.js"
 
@@ -12,13 +13,13 @@ describe("/help topic", () => {
   })
 
   describe("perform", () => {
-    it("shows the named topic's help text", () => {
+    it("shows the named topic's help text", async () => {
       interaction.command_options = {
         topic: "about"
       }
       const cmd = new Topic(interaction)
 
-      const result = cmd.perform()
+      const result = await cmd.perform()
 
       expect(result).toMatch("About Roll It")
     })

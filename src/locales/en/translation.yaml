@@ -36,6 +36,9 @@ systems:
   listing: |-
     **{{title}}**: {{commands, list}}. {{description}}
       {{extended}}
+  listing_installed: |-
+    **{{title}}**☑️: {{commands, list}}. {{description}}
+      {{extended}}
   curv:
     title: D&D 5e on a Curve
     description: High fantasy with a pool of 3d6 in place of d20s.
