@@ -148,22 +148,6 @@ export class Installation extends CachedDb {
   }
 
   /**
-   * Remove an installation
-   *
-   * @param  {number} id Internal ID of the installation record
-   * @return {Info}      Query info object with `changes` and `lastInsertRowid` properties
-   */
-  destroy(id) {
-    const destroy = this.prepared(
-      "destroy",
-      oneLine`
-      DELETE FROM interactive.installation_processes WHERE id = ?
-    `,
-    )
-    return destroy.run(id)
-  }
-
-  /**
    * Set the new_deets field
    *
    * @param {number} id        Internal ID of the installation record
