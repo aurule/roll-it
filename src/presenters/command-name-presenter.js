@@ -16,10 +16,10 @@ import { i18n } from "../locales/index.js"
  * ```
  *
  * @param  {Command} command              The command object to present
- * @param  {str}     locale               Locale name for the command string
+ * @param  {string}  locale               Locale name for the command string
  * @param  {object}  options              Optional options object
  * @param  {boolean} options.unformatted  Omit all markdown formatting
- * @return {String}                       Markdown-formatted string of the command's name
+ * @return {string}                       Markdown-formatted string of the command's name
  */
 export function present(command, locale, options = {}) {
   const t = i18n.getFixedT(locale)
@@ -49,17 +49,19 @@ export function present(command, locale, options = {}) {
  *
  * This list is intended to be formatted using the discord.js `ul` function.
  *
- * @param  {Collection}       all_commands Collection of Command objects, ideally sorted
- * @param  {str}              locale       Locale name for the command string
- * @return {Array<str|str[]>}              List of markdown-formatted command names, including subcommands
+ * @param  {Collection<string, Command>} all_commands Collection of Command objects, ideally sorted
+ * @param  {string}                      locale       Locale name for the command string
+ * @param  {Set<string>}                 installed    Set of command names which should be marked as installed
+ * @return {string[]}                                 List of markdown-formatted command names, including subcommands
  */
-export function list(all_commands, locale) {
+export function list(all_commands, locale, installed) {
   const t = i18n.getFixedT(locale, "commands")
   return all_commands.map((cmd) => {
     const command_id = cmd.i18nId ?? cmd.name
     const description = cmd.parent
       ? t(`${cmd.parent}.${command_id}.description`)
       : t(`${command_id}.description`)
-    return `${present(cmd, locale)} - ${description}`
+    const name = installed?.has(cmd.name) ? `**${present(cmd, locale)}**` : present(cmd, locale)
+    return `${name} - ${description}`
   })
 }
