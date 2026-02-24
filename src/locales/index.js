@@ -12,6 +12,7 @@ const __dirname = import.meta.dirname;
  */
 i18next.use(fs_backend).init({
   debug: false,
+  showSupportNotice: false,
   fallbackLng: {
     default: ["en"],
   },
