@@ -27,9 +27,20 @@ export class SetupRollIt extends Command {
   }
 
   async execute() {
+    /**
+     * @type string[]
+     */
     const old_commands = await getGuildCommands(this.interaction.guildId)
       .then((res) => res.map((c) => c.name))
+
+    /**
+     * @type string[]
+     */
     const old_systems = findSystems(...old_commands).map((s) => s.name)
+
+    /**
+     * @type string[]
+     */
     const old_features = findFeatures(...old_commands).map((f) => f.name)
 
     const install_db = new Installation()
