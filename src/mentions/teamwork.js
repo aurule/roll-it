@@ -86,7 +86,7 @@ export class TeamworkMentionHandler extends MentionHandler {
       )
     }
 
-    if (matched_number === NaN) {
+    if (Number.isNaN(matched_number)) {
       return this.whisper(t("help_given.invalid")).catch((error) =>
         logger.error(
           {

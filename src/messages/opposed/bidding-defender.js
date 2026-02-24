@@ -90,7 +90,7 @@ export async function onReply(msg_interaction) {
   }
 
   const num = parseInt(match[0])
-  if (num === NaN) {
+  if (Number.isNaN(num)) {
     return msg_interaction.whisper(t("bidding.invalid")).catch((error) =>
       logger.error(
         {

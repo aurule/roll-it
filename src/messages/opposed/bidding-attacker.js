@@ -57,7 +57,7 @@ export async function onReply(interaction) {
     )
   }
 
-  if (matched_number === NaN) {
+  if (Number.isNaN(matched_number)) {
     return interaction.whisper(t("invalid")).catch((error) =>
       logger.error(
         {
