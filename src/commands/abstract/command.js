@@ -150,7 +150,7 @@ export class Command {
       return this.interaction.whisper(error_message)
     }
 
-    const partial_message = this.perform()
+    const partial_message = await this.perform()
 
     const full_text = injectMention(partial_message, this.interaction.user.id)
     return this.interaction.paginate({
@@ -197,7 +197,7 @@ export class Command {
    *
    * @return {string} Response string with user placeholder
    */
-  perform() {
+  async perform() {
     throw new Error("The function `perform` is not implemented")
   }
 
