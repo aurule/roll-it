@@ -5,7 +5,7 @@
 import version from "../../version.js"
 import current_changes from "../../changes.js"
 
-export function data(locale) {
+export function data(_locale) {
   return {
     version,
     changelog: current_changes,
