@@ -16,4 +16,12 @@ describe("inject-user helper", () => {
 
     expect(result.match(/testflake/g).length).toEqual(2)
   })
+
+  it("returns empty string for falsy initial string", () => {
+    const template = undefined
+
+    const result = injectMention(template, "testflake")
+
+    expect(result).toEqual("")
+  })
 })

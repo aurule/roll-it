@@ -8,5 +8,6 @@ import { userMention } from "discord.js"
  * @return {str}           String with the placeholder replaced by a user reference link
  */
 export function injectMention(initial, userFlake) {
+  if (!initial) return ""
   return initial.replaceAll("{{userMention}}", userMention(userFlake))
 }
