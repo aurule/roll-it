@@ -82,7 +82,7 @@ export function registerCommand(kommand) {
     commands.set(subc_key, subc)
     all_choices.push({
       name: subc_key,
-      value: subc.name,
+      value: subc_key,
     })
     if (subc.savable) savable.set(subc_key, kommand)
     if (subc.teamworkable) teamworkable.set(subc_key, kommand)
