@@ -47,7 +47,8 @@
   "scripts": {
     "test": "vitest",
     "test:once": "vitest --run",
-    "coverage": "vitest --run --coverage.enabled",
+    "coverage": "vitest --coverage.enabled",
+    "coverage:once": "vitest --run --coverage.enabled",
     "changelog:build": "node scripts/build-changelog.js",
     "changelog:add": "node scripts/add-changelog-snippet.js",
     "start": "node src/index.js",
