@@ -37,7 +37,7 @@ systems:
     **{{title}}**: {{commands, list}}. {{description}}
       {{extended}}
   listing_installed: |-
-    **{{title}}**☑️: {{commands, list}}. {{description}}
+    **{{title}}** ☑️: {{commands, list}}. {{description}}
       {{extended}}
   curv:
     title: D&D 5e on a Curve
