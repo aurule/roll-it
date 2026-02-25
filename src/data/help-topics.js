@@ -32,29 +32,31 @@ register("about", (_locale, _guildId) => { return {} })
 register("changes", changesData)
 
 register("commands", async (locale, guildId) => {
-  const installed = new Set(getGuildCommands(guildId).map(c => c.name))
-  for (const global_command of globals) {
-    installed.add(global_command.name)
+  const guild_commands = await getGuildCommands(guildId).then(gcs => gcs.map(c => c.name))
+  const installed = new Set(guild_commands)
+  for (const global_command of globals.keys()) {
+    installed.add(global_command)
   }
   return {
     commands: list(sortedCommands(locale).commands, locale, installed)
   }
 })
 
-register("saved", (locale, guildId) => {
-  const installed = new Set(getGuildCommands(guildId).map(c => c.name))
-  for (const global_command of globals) {
-    installed.add(global_command.name)
+register("saved", async (locale, guildId) => {
+  const guild_commands = await getGuildCommands(guildId).then(gcs => gcs.map(c => c.name))
+  const installed = new Set(guild_commands)
+  for (const global_command of globals.keys()) {
+    installed.add(global_command)
   }
   return {
     savable: list(sortedCommands(locale).savable, locale, installed)
   }
 })
 
-register("systems", (locale, guildId) => {
+register("systems", async (locale, guildId) => {
   const t = i18n.getFixedT(locale, "translation", "systems")
-  const installed_commands = getGuildCommands(guildId).map(c => c.name)
-  const installed_systems = new Set(findSystems(...installed_commands).map((s) => s.name))
+  const guild_commands = await getGuildCommands(guildId).then(gcs => gcs.map(c => c.name))
+  const installed_systems = new Set(findSystems(...guild_commands).map((s) => s.name))
 
   return {
     systems: systems.map((system) => {
@@ -69,10 +71,11 @@ register("systems", (locale, guildId) => {
   }
 })
 
-register("teamwork", (locale, guildId) => {
-  const installed = new Set(getGuildCommands(guildId).map(c => c.name))
-  for (const global_command of globals) {
-    installed.add(global_command.name)
+register("teamwork", async (locale, guildId) => {
+  const guild_commands = await getGuildCommands(guildId).then(gcs => gcs.map(c => c.name))
+  const installed = new Set(guild_commands)
+  for (const global_command of globals.keys()) {
+    installed.add(global_command)
   }
   return {
     teamworkable: list(sortedCommands(locale).teamworkable, locale, installed)
