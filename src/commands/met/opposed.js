@@ -37,7 +37,7 @@ class OpposedBase extends Command {
 
   perform() {
     return opposedBegin({
-      interaction,
+      interaction: this.interaction,
       attackerId: this.attacker,
       defenderId: this.defender,
       attribute: this.attribute,
