@@ -6,7 +6,7 @@ import { i18n } from "../locales/index.js"
 import cancel_button from "../components/teamwork/cancel-button.js"
 import roll_button from "../components/teamwork/roll-button.js"
 import helper_picker from "../components/teamwork/helper-picker.js"
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 import { relativeTimestamp } from "../util/timestamps.js"
 
 /**

@@ -17,21 +17,9 @@ export function pickStream(env_name = process.env.NODE_ENV) {
     })
   }
   if (env_name == "production") {
-    // makes use of these envvars:
-    // OTEL_EXPORTER_OTLP_LOGS_PROTOCOL
-    // OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
-    // OTEL_RESOURCE_ATTRIBUTES
     return pino.transport({
-      target: "pino-opentelemetry-transport",
+      target: "./opentelemetry-transport.js",
     })
-    // NOTE: Leaving the file config here for ease of reference
-    // return pino.transport({
-    //   target: "pino/file",
-    //   options: {
-    //     destination: "/home/qyf/qyf-bot/logs/qyf-bot.log",
-    //     mkdir: true,
-    //   }
-    // })
   }
   throw new Error(`unknown environment "${env_name}"`)
 }

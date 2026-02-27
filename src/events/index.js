@@ -1,5 +1,5 @@
 import { Events } from "discord.js"
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 import { handle as mentionDispatch } from "../mentions/index.js"
 import { sendError } from "../services/metrics.js"
 

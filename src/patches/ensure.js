@@ -13,7 +13,7 @@ import {
 
 import { sendMessage } from "../services/api.js"
 import { sendError } from "../services/metrics.js"
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 
 /**
  * Create the ensure method

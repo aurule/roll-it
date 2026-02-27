@@ -1,7 +1,6 @@
 import 'dotenv/config'
-
 import process from "node:process"
-import { logger } from "./util/logger.js"
+import { logger } from "./util/logging/setup.js"
 import { sendError } from "./services/metrics.js"
 
 process.on("unhandledRejection", (error) => {

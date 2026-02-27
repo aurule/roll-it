@@ -10,7 +10,7 @@ import {
   ActionRowBuilder,
 } from "discord.js"
 
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 import rollCache from "../services/roll-cache.js"
 import { i18n } from "../locales/index.js"
 import { UserSavedRolls } from "../db/saved_rolls.js"

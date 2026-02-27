@@ -1,7 +1,7 @@
 import { userMention, Collection } from "discord.js"
 import { ComponentHandler } from "./component-handler.js"
 import { Installation } from "../db/installation.js"
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 import { i18n } from "../locales/index.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 import { sendError } from "../services/metrics.js"

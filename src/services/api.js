@@ -3,7 +3,7 @@
  */
 
 import { REST, Routes } from "discord.js"
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 import { globals, guild as guild_commands } from "../commands/index.js"
 
 export const client = new REST().setToken(process.env.BOT_TOKEN)

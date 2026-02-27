@@ -3,7 +3,7 @@ import { i18n } from "../../locales/index.js"
 import { Teamwork, MessageType } from "../../db/teamwork.js"
 import { TeamworkChangeEmbed } from "../../embeds/teamwork-change.js"
 import { arrayEq } from "../../util/array-eq.js"
-import { logger } from "../../util/logger.js"
+import { logger } from "../../util/logging/setup.js"
 import { messageLink } from "../../util/formatters/message-link.js"
 import { Component } from "../component.js"
 

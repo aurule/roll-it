@@ -1,5 +1,5 @@
 import { MessageFlags } from "discord.js"
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 import { getReplyFn } from "../util/getReplyFn.js"
 import { check as checkPolicy } from "../services/policy-checker.js"
 import interactionCache from "../services/interaction-cache.js"

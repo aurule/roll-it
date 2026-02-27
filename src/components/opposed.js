@@ -1,6 +1,6 @@
 import { userMention } from "discord.js"
 import { Opposed } from "../db/opposed.js"
-import { logger } from "../util/logger.js"
+import { logger } from "../util/logging/setup.js"
 import { i18n } from "../locales/index.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
 import { sendError } from "../services/metrics.js"
