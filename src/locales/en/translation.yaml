@@ -103,7 +103,7 @@ systems:
     title: Stars Without Number
     description: Summed 2d6 for skills
     extended: >-
-      Works for Stars, Worlds, and Cities Without Number. Uses `/d20` for combat and `/swn` for skills, which
+      Works for Stars, Worlds, Cities, and Ashes Without Number. Uses `/d20` for combat and `/swn` for skills, which
       handles dropping the lowest dice when you have more than two for a skill roll.
   wod20:
     title: World of Darkness 20th Anniversary Edition
