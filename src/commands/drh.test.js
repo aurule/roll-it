@@ -299,7 +299,7 @@ describe("/drh command", () => {
     describe("with pain zero", () => {
       beforeEach(() => {
         interaction.command_options = {
-          pain: 0
+          pain: 0,
         }
       })
 

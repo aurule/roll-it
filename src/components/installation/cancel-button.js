@@ -1,7 +1,7 @@
 import { ButtonBuilder, ButtonStyle } from "discord.js"
 import { i18n } from "../../locales/index.js"
 import { Installation } from "../../db/installation.js"
-import { messageData as cancelledMessage} from "../../messages/installation/cancelled.js"
+import { messageData as cancelledMessage } from "../../messages/installation/cancelled.js"
 import { Component } from "../component.js"
 
 export function data(locale) {

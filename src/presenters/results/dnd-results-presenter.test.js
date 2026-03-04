@@ -1,7 +1,19 @@
 import { DndAttack } from "../../util/rolls/dnd-attack.js"
 import { i18n } from "../../locales/index.js"
 
-import { detail, skillKey, presentSkill, saveKey, presentSave, describeDie, describeCrit, resolveAC, resolveAmbiguous, presentAttack, presentFullAttack } from "./dnd-results-presenter.js"
+import {
+  detail,
+  skillKey,
+  presentSkill,
+  saveKey,
+  presentSave,
+  describeDie,
+  describeCrit,
+  resolveAC,
+  resolveAmbiguous,
+  presentAttack,
+  presentFullAttack,
+} from "./dnd-results-presenter.js"
 
 describe("D&D 3.5 results presenter", () => {
   describe("detail", () => {

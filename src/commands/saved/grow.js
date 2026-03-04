@@ -1,4 +1,7 @@
-import { saved_roll as suggestSavedRoll, changeable_choices as suggestChangeableOption } from "../../completers/saved-roll-completers.js"
+import {
+  saved_roll as suggestSavedRoll,
+  changeable_choices as suggestChangeableOption,
+} from "../../completers/saved-roll-completers.js"
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { present } from "../../presenters/command-name-presenter.js"
 import { saved_bonus_target } from "../../util/saved-bonus-target.js"
@@ -52,12 +55,21 @@ class GrowBase extends Command {
 
     const schema_result = this.kommand.schema.validate(command_options)
     if (schema_result.error) {
-      return this.t("validation.invalid", { adjustment: this.adjustment, target: change_target, message: schema_result.error.details[0].message })
+      return this.t("validation.invalid", {
+        adjustment: this.adjustment,
+        target: change_target,
+        message: schema_result.error.details[0].message,
+      })
     }
 
     this.rolls_db.update(this.saved_roll.id, { options: command_options })
 
-    return this.t("response.success", { target: change_target, name: command_options.name, old: old_number, new: new_number })
+    return this.t("response.success", {
+      target: change_target,
+      name: command_options.name,
+      old: old_number,
+      new: new_number,
+    })
   }
 
   validate() {
@@ -66,10 +78,10 @@ class GrowBase extends Command {
     if (this.adjustment === 0) return this.t("options.adjustment.validation.zero")
 
     if (!this.kommand.changeable.includes(this.change)) {
-        return this.t("options.change.validation.missing", {
-          target: this.change,
-          command: present(this.kommand, this.locale),
-        })
+      return this.t("options.change.validation.missing", {
+        target: this.change,
+        command: present(this.kommand, this.locale),
+      })
     }
   }
 

@@ -1,4 +1,11 @@
-import { descriptionSchema, rollsSchema, modifierSchema, utilSchema, poolSchema, untilSchema } from "../util/common-schemas.js"
+import {
+  descriptionSchema,
+  rollsSchema,
+  modifierSchema,
+  utilSchema,
+  poolSchema,
+  untilSchema,
+} from "../util/common-schemas.js"
 
 import { schemaMessages } from "../../testing/schema-messages.js"
 

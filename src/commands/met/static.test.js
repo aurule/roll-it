@@ -12,7 +12,7 @@ describe("/met static", () => {
   describe("perform", () => {
     it("shows the sacrifice easter egg if triggered", () => {
       interaction.command_options = {
-        description: "sacrifice"
+        description: "sacrifice",
       }
       const cmd = new MetStatic(interaction)
 

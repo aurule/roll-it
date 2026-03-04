@@ -27,12 +27,7 @@ export const MAX_ENTRY_LENGTH = 1500
  * @type {Joi.array}
  */
 export const fileContentSchema = Joi.array()
-  .items(
-    Joi.string()
-      .max(MAX_ENTRY_LENGTH)
-      .message("options.file.validation.entry.length")
-      .trim(),
-  )
+  .items(Joi.string().max(MAX_ENTRY_LENGTH).message("options.file.validation.entry.length").trim())
   .min(2)
   .message("options.file.validation.lines.min")
   .required()
@@ -82,7 +77,10 @@ class AddBase extends Command {
 
     this.table_db.create(this.name, this.description, this.contents)
     return this.interaction.reply({
-      content: this.t("response.success", { user: userMention(this.interaction.user.id), name: this.name }),
+      content: this.t("response.success", {
+        user: userMention(this.interaction.user.id),
+        name: this.name,
+      }),
       ephemeral: this.secret,
     })
   }
@@ -92,9 +90,12 @@ class AddBase extends Command {
    * @return {string?} An error string, or void if validation passes
    */
   validate_options() {
-    if (this.table_db.taken(this.name)) return this.t("options.name.validation.taken", { name: this.name })
-    if (this.file.contentType != "text/plain") return this.t("options.file.validation.type", { type: this.file.contentType })
-    if (this.file.size > MAX_UPLOAD_SIZE) return this.t("options.file.validation.size", { size: MAX_UPLOAD_SIZE / 1_048_576 })
+    if (this.table_db.taken(this.name))
+      return this.t("options.name.validation.taken", { name: this.name })
+    if (this.file.contentType != "text/plain")
+      return this.t("options.file.validation.type", { type: this.file.contentType })
+    if (this.file.size > MAX_UPLOAD_SIZE)
+      return this.t("options.file.validation.size", { size: MAX_UPLOAD_SIZE / 1_048_576 })
   }
 
   /**

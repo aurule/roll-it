@@ -10,7 +10,12 @@ import { OpposedComponent } from "../opposed-component.js"
  *
  * Shown on the initial attacker advantages and challenge conditions message.
  */
-export default new OpposedComponent("opposed_withdraw_challenge", data, execute, Challenge.States.AdvantagesAttacker)
+export default new OpposedComponent(
+  "opposed_withdraw_challenge",
+  data,
+  execute,
+  Challenge.States.AdvantagesAttacker,
+)
 
 export function data(locale) {
   return new ButtonBuilder()

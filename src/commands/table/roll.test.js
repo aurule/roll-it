@@ -19,7 +19,7 @@ describe("/table roll", () => {
   describe("validate", () => {
     it("warns on missing table", () => {
       interaction.command_options = {
-        table: "nope"
+        table: "nope",
       }
       const cmd = new Roll(interaction)
 

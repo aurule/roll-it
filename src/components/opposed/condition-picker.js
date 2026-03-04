@@ -10,7 +10,12 @@ import { Challenge } from "../../db/opposed/challenge.js"
  * Selector to pick challenge conditions
  * @type OpposedComponent
  */
-export default new OpposedComponent("opposed_condition_select", data, execute, Challenge.States.AdvantagesAttacker)
+export default new OpposedComponent(
+  "opposed_condition_select",
+  data,
+  execute,
+  Challenge.States.AdvantagesAttacker,
+)
 
 /**
  * Build the data for this component

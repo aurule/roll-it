@@ -26,7 +26,11 @@ export function Child(kommand, parent_name) {
     constructor(interaction) {
       super(interaction)
 
-      this.t = i18n.getFixedT(this.locale, "commands", `${this.constructor.parent}.${this.constructor.name}`)
+      this.t = i18n.getFixedT(
+        this.locale,
+        "commands",
+        `${this.constructor.parent}.${this.constructor.name}`,
+      )
     }
   }
 }

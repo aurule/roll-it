@@ -41,17 +41,18 @@ export class TeamworkMentionHandler extends MentionHandler {
    */
   async handle() {
     if (this.test === undefined) {
-      return this.whisper(i18n.t("concluded", { ns: "teamwork", lng: this.locale }))
-      .catch((error) => {
-        return logger.warn(
-          {
-            err: error,
-            reply_to: this.referenced_message_uuid,
-            message: this.message.id,
-          },
-          "Could not whisper about unknown test",
-        )
-      })
+      return this.whisper(i18n.t("concluded", { ns: "teamwork", lng: this.locale })).catch(
+        (error) => {
+          return logger.warn(
+            {
+              err: error,
+              reply_to: this.referenced_message_uuid,
+              message: this.message.id,
+            },
+            "Could not whisper about unknown test",
+          )
+        },
+      )
     }
 
     const t = i18n.getFixedT(this.test.locale, "teamwork")

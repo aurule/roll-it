@@ -68,7 +68,7 @@ export class TeamworkSummaryEmbed {
       value: this.t("fields.leader.body", {
         leader: userMention(this.leader.user_uid),
         count: this.leader.dice,
-      })
+      }),
     }
   }
 
@@ -78,7 +78,9 @@ export class TeamworkSummaryEmbed {
    */
   get helpers() {
     if (!this._helpers) {
-      this._helpers = this.teamwork_db.realHelpers(this.test.id).filter((helper) => helper.user_uid !== this.test.leader)
+      this._helpers = this.teamwork_db
+        .realHelpers(this.test.id)
+        .filter((helper) => helper.user_uid !== this.test.leader)
     }
     return this._helpers
   }

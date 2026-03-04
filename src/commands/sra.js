@@ -6,9 +6,7 @@ import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { roll } from "../services/base-roller.js"
 import { rollUntil } from "../services/until-roller.js"
 import { riskSuccesses } from "../services/tally.js"
-import {
-  ShadowrunAnarchyPresenter,
-} from "../presenters/results/shadowrun-anarchy-results-presenter.js"
+import { ShadowrunAnarchyPresenter } from "../presenters/results/shadowrun-anarchy-results-presenter.js"
 import { SavableCommand } from "./abstract/savable-command.js"
 import { registerCommand } from "./index.js"
 

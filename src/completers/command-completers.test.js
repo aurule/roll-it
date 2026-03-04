@@ -9,7 +9,7 @@ describe("command name completers", () => {
       const actual = await importOriginal()
       return {
         ...actual,
-        all_choices
+        all_choices,
       }
     })
   })

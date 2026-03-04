@@ -19,9 +19,8 @@ class BaseTopic extends Command {
   topic = ""
 
   static data() {
-    return this.builder.addLocalizedStringOption(
-      "topic",
-      (option) => option.setLocalizedChoices("about", "changes", "commands", "saved", "systems"),
+    return this.builder.addLocalizedStringOption("topic", (option) =>
+      option.setLocalizedChoices("about", "changes", "commands", "saved", "systems"),
     )
   }
 
@@ -55,7 +54,7 @@ class BaseTopic extends Command {
 
   static help_data(opts) {
     return {
-      topics: listTopics(opts.locale)
+      topics: listTopics(opts.locale),
     }
   }
 }

@@ -30,8 +30,9 @@ export class SetupRollIt extends Command {
     /**
      * @type string[]
      */
-    const old_commands = await getGuildCommands(this.interaction.guildId)
-      .then((res) => res.map((c) => c.name))
+    const old_commands = await getGuildCommands(this.interaction.guildId).then((res) =>
+      res.map((c) => c.name),
+    )
 
     /**
      * @type string[]

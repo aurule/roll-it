@@ -197,7 +197,7 @@ describe("/ffrpg command", () => {
     describe("with a flat roll", () => {
       beforeEach(() => {
         interaction.command_options = {
-          flat: true
+          flat: true,
         }
       })
 

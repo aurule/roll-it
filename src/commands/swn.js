@@ -3,7 +3,12 @@ import Joi from "joi"
 import { roll } from "../services/swn-roller.js"
 import { present } from "../presenters/results/swn-results-presenter.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
-import { poolSchema, descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
+import {
+  poolSchema,
+  descriptionSchema,
+  modifierSchema,
+  rollsSchema,
+} from "../util/common-schemas.js"
 import { pickDice } from "../services/pick.js"
 import { pickedSum } from "../services/tally.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"

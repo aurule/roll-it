@@ -57,7 +57,7 @@ describe("TeamworkChangeEmbed class", () => {
 
       const helpers = embed.helpers
 
-      const helper_uids = helpers.map(h => h.user_uid)
+      const helper_uids = helpers.map((h) => h.user_uid)
       expect(helper_uids).not.toContain("cap")
     })
 
@@ -66,7 +66,7 @@ describe("TeamworkChangeEmbed class", () => {
 
       const helpers = embed.helpers
 
-      const helper_uids = helpers.map(h => h.user_uid)
+      const helper_uids = helpers.map((h) => h.user_uid)
       expect(helper_uids).toContain("helper1")
     })
 
@@ -75,7 +75,7 @@ describe("TeamworkChangeEmbed class", () => {
 
       const helpers = embed.helpers
 
-      const helper_uids = helpers.map(h => h.user_uid)
+      const helper_uids = helpers.map((h) => h.user_uid)
       expect(helper_uids).toContain("helper2")
     })
   })

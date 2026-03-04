@@ -9,7 +9,7 @@ describe("/met opposed", () => {
     it("errors when challenging yourself", () => {
       const interaction = new Interaction()
       interaction.command_options = {
-        opponent: interaction.user
+        opponent: interaction.user,
       }
       const cmd = new Opposed(interaction)
 

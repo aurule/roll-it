@@ -9,7 +9,7 @@ export const DEFAULT_SEVERITY_NUMBER_MAP = {
   30: 9, // INFO
   40: 13, // WARN
   50: 17, // ERROR
-  60: 21 // FATAL
+  60: 21, // FATAL
 }
 
 /**
@@ -36,15 +36,8 @@ export const DEFAULT_SEVERITY_NUMBER_MAP = {
  * @param {MapperOptions} mapperOptions
  * @returns {import('@opentelemetry/api-logs').LogRecord}
  */
-export function toOpenTelemetry (sourceObject, { messageKey, levels, severityNumberMap = {} }) {
-  const {
-    time,
-    level,
-    hostname,
-    pid,
-    [messageKey]: msg,
-    ...attributes
-  } = sourceObject
+export function toOpenTelemetry(sourceObject, { messageKey, levels, severityNumberMap = {} }) {
+  const { time, level, hostname, pid, [messageKey]: msg, ...attributes } = sourceObject
 
   const severityNumber =
     severityNumberMap[sourceObject.level] ?? DEFAULT_SEVERITY_NUMBER_MAP[sourceObject.level] ?? 0
@@ -55,6 +48,6 @@ export function toOpenTelemetry (sourceObject, { messageKey, levels, severityNum
     body: msg,
     severityNumber,
     attributes,
-    severityText
+    severityText,
   }
 }

@@ -15,7 +15,7 @@ describe("/help topic", () => {
   describe("perform", () => {
     it("shows the named topic's help text", async () => {
       interaction.command_options = {
-        topic: "about"
+        topic: "about",
       }
       const cmd = new Topic(interaction)
 
@@ -28,7 +28,7 @@ describe("/help topic", () => {
   describe("validate", () => {
     it("returns error with unknown topic", () => {
       interaction.command_options = {
-        topic: "thingie"
+        topic: "thingie",
       }
       const cmd = new Topic(interaction)
 
@@ -40,9 +40,9 @@ describe("/help topic", () => {
 
   describe("help_data", () => {
     it("includes topic list", () => {
-      const result = Topic.help_data({locale: "en-US"})
+      const result = Topic.help_data({ locale: "en-US" })
 
-      expect(result.topics.some(t => t.includes("About Roll It"))).toBeTruthy()
+      expect(result.topics.some((t) => t.includes("About Roll It"))).toBeTruthy()
     })
   })
 })

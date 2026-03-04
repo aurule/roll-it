@@ -12,7 +12,12 @@ import { messageData as tyingMessage } from "../../messages/opposed/tying.js"
 /**
  * Button to walk back a retest while the other participant has the option to cancel it
  */
-export default new OpposedComponent("opposed_withdraw_retest", data, execute, Challenge.States.Cancelling)
+export default new OpposedComponent(
+  "opposed_withdraw_retest",
+  data,
+  execute,
+  Challenge.States.Cancelling,
+)
 
 export function data(locale) {
   return new ButtonBuilder()

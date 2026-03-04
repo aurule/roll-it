@@ -173,7 +173,7 @@ describe("/wod20 command", () => {
 
     it("shows the sacrifice easter egg if triggered", () => {
       interaction.command_options = {
-        description: "sacrificing"
+        description: "sacrificing",
       }
       const cmd = new Wod20(interaction)
 

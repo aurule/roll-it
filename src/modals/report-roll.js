@@ -31,7 +31,6 @@ export class ReportRollModal extends Modal {
       .setRequired(false)
       .setMaxLength(4000)
 
-
     const consent_length = t("inputs.consent.keyword").length
     const consent_input = new TextInputBuilder()
       .setCustomId("consent")

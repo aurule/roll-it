@@ -44,7 +44,7 @@ describe("/dnd skill", () => {
 
     it("rolls a single result", () => {
       interaction.command_options = {
-        rolls: 1
+        rolls: 1,
       }
       const cmd = new Skill(interaction)
 
@@ -55,7 +55,7 @@ describe("/dnd skill", () => {
 
     it("rolls multiple results", () => {
       interaction.command_options = {
-        rolls: 2
+        rolls: 2,
       }
       const cmd = new Skill(interaction)
 

@@ -4,8 +4,18 @@ import { present } from "../../presenters/results/roll-results-presenter.js"
 import { roll } from "../../services/base-roller.js"
 import { sum } from "../../services/tally.js"
 import { SavableCommand } from "./savable-command.js"
-import { descriptionOption, poolOption, rollsOption, secretOption } from "../../util/common-options.js"
-import { descriptionSchema, modifierSchema, poolSchema, rollsSchema } from "../../util/common-schemas.js"
+import {
+  descriptionOption,
+  poolOption,
+  rollsOption,
+  secretOption,
+} from "../../util/common-options.js"
+import {
+  descriptionSchema,
+  modifierSchema,
+  poolSchema,
+  rollsSchema,
+} from "../../util/common-schemas.js"
 
 /**
  * Specialized parent class for single die commands: d4, d6, etc.

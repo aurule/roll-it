@@ -1,4 +1,7 @@
-import { saved_roll as suggestSavedRoll, changeable_choices as suggestChangeableOption } from "../../completers/saved-roll-completers.js"
+import {
+  saved_roll as suggestSavedRoll,
+  changeable_choices as suggestChangeableOption,
+} from "../../completers/saved-roll-completers.js"
 import { operator } from "../../util/formatters/signed.js"
 import { UserSavedRolls } from "../../db/saved_rolls.js"
 import { present } from "../../presenters/command-name-presenter.js"
@@ -74,7 +77,10 @@ class BaseRoll extends Command {
     const schema_result = this.kommand.schema.validate(this.command_options)
     if (schema_result.error) {
       if (this.change_target) {
-        return this.t("validation.invalidated", { target: this.change_target, message: schema_result.error.details[0].message })
+        return this.t("validation.invalidated", {
+          target: this.change_target,
+          message: schema_result.error.details[0].message,
+        })
       } else {
         this.rolls_db.update(this.saved_roll.id, { invalid: true })
         return this.t("validation.invalid")
@@ -91,10 +97,10 @@ class BaseRoll extends Command {
     if (this.saved_roll.invalid) return this.t("options.name.validation.invalid")
 
     if (this.change_target && !this.kommand.changeable.includes(this.change_target)) {
-        return this.t("options.change.validation.missing", {
-          target: this.change_target,
-          command: present(this.kommand, this.locale),
-        })
+      return this.t("options.change.validation.missing", {
+        target: this.change_target,
+        command: present(this.kommand, this.locale),
+      })
     }
   }
 

@@ -1,6 +1,6 @@
 import { i18n } from "../../locales/index.js"
 
-  /**
+/**
  * Create a string describing the results of a coin flip
  *
  * @param  {int}          options.call        The side the user chose before rolling

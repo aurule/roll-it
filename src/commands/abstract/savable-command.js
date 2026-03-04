@@ -1,4 +1,4 @@
-import { Command } from "./command.js";
+import { Command } from "./command.js"
 
 /**
  * Class for commands which can be saved

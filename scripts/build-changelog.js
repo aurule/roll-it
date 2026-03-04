@@ -45,7 +45,10 @@ function buildSection(bucket) {
   const text = lines.join("\n")
 
   await fs.writeFile(path.join(__dirname, "../changelog", `${package_data.version}.md`), text)
-  await fs.writeFile(path.join(__dirname, "../src", `changes.js`), `export default \`${text.replace("`", '\`')}\``)
+  await fs.writeFile(
+    path.join(__dirname, "../src", `changes.js`),
+    `export default \`${text.replace("`", "\`")}\``,
+  )
 
   for (const file of changes.files) {
     fs.rm(file)

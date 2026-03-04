@@ -15,7 +15,7 @@ describe("/help command", () => {
   describe("perform", () => {
     it("with a real command, it returns the help text", () => {
       interaction.command_options = {
-        command: "8ball"
+        command: "8ball",
       }
       const cmd = new CommandHelp(interaction)
 
@@ -28,7 +28,7 @@ describe("/help command", () => {
   describe("validation", () => {
     it("with a fake command, it returns no help available message", () => {
       interaction.command_options = {
-        command: "lollery"
+        command: "lollery",
       }
       const cmd = new CommandHelp(interaction)
 
@@ -37,9 +37,9 @@ describe("/help command", () => {
       expect(result).toMatch("No help is available")
     })
 
-    it("with no command, it returns now help available message", () => {
+    it("with no command, it returns no help available message", () => {
       interaction.command_options = {
-        command: ""
+        command: "",
       }
       const cmd = new CommandHelp(interaction)
 
@@ -51,9 +51,9 @@ describe("/help command", () => {
 
   describe("help_data", () => {
     it("gets command names", () => {
-      const result = CommandHelp.help_data({locale: "en-US"})
+      const result = CommandHelp.help_data({ locale: "en-US" })
 
-      expect(result.commands.some(c => c.includes("8ball"))).toBeTruthy()
+      expect(result.commands.some((c) => c.includes("8ball"))).toBeTruthy()
     })
   })
 })

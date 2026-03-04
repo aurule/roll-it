@@ -4,7 +4,12 @@ import { roll, NwodRollOptions } from "../services/nwod-roller.js"
 import { rollUntil } from "../services/until-roller.js"
 import { successes } from "../services/tally.js"
 import { NwodPresenter } from "../presenters/results/nwod-results-presenter.js"
-import { descriptionOption, rollsOption, teamworkOption, secretOption } from "../util/common-options.js"
+import {
+  descriptionOption,
+  rollsOption,
+  teamworkOption,
+  secretOption,
+} from "../util/common-options.js"
 import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
 import * as hummingbird from "../services/easter-eggs/hummingbird.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
@@ -225,7 +230,10 @@ export class Nwod extends TeamworkableCommand {
       result_lines.push(`-# ${sacrifice_message}`)
     }
 
-    if (hummingbird.hasTrigger(this.description, this.locale) && summed_results.some(hummingbird.qualified)) {
+    if (
+      hummingbird.hasTrigger(this.description, this.locale) &&
+      summed_results.some(hummingbird.qualified)
+    ) {
       const hummingbird_message = hummingbird.spotted(this.locale)
       result_lines.push(`-# ${hummingbird_message}`)
     }

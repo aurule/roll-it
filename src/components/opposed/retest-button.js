@@ -27,7 +27,13 @@ export function canCancel(test) {
 /**
  * Button to retest a resolved test
  */
-export default new OpposedComponent("opposed_retest", data, execute, Challenge.States.Winning, Challenge.States.Tying)
+export default new OpposedComponent(
+  "opposed_retest",
+  data,
+  execute,
+  Challenge.States.Winning,
+  Challenge.States.Tying,
+)
 
 export function data(locale) {
   const t = i18n.getFixedT(locale, "opposed", "shared.retest.button")
@@ -67,7 +73,8 @@ export async function execute(interaction) {
     })
   }
 
-  const inertPrompt = challenge.state === Challenge.States.Winning ? innertWinningMessage : innertTyingMessage
+  const inertPrompt =
+    challenge.state === Challenge.States.Winning ? innertWinningMessage : innertTyingMessage
 
   await interaction.message.edit(inertPrompt(challenge.id)).catch(() => {
     // suppress all errors so we can send other messages

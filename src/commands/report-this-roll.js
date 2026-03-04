@@ -17,8 +17,7 @@ export class ReportThisRoll extends ContextCommand {
   static global = true
 
   static data() {
-    return this.builder
-      .setType(ApplicationCommandType.Message)
+    return this.builder.setType(ApplicationCommandType.Message)
   }
 
   /**

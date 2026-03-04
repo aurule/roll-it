@@ -12,7 +12,14 @@ import { i18n } from "../../locales/index.js"
  * @param  {str}       opts.locale      Name of the locale to get strings for
  * @return {str}                        String detailling the roll and its results
  */
-export function present({ userFlake, rolls, tableName, results, description, locale = "en-US" } = {}) {
+export function present({
+  userFlake,
+  rolls,
+  tableName,
+  results,
+  description,
+  locale = "en-US",
+} = {}) {
   const t = i18n.getFixedT(locale, "commands", "table.roll")
   const t_args = {
     count: rolls,

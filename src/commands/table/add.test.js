@@ -26,7 +26,7 @@ describe("/table add", () => {
       const actual = await importOriginal()
       return {
         ...actual,
-        fetchLines: (attachment) => attachment.contents.split(/\n/)
+        fetchLines: (attachment) => attachment.contents.split(/\n/),
       }
     })
   })
@@ -56,7 +56,7 @@ describe("/table add", () => {
         file: new Attachment({
           contentType: "nope/alope",
           contents: "",
-        })
+        }),
       }
       const table_add_command = new Add(interaction)
 
@@ -73,7 +73,7 @@ describe("/table add", () => {
           contentType: "text/plain",
           contents: "first\nsecond",
           size: 25_000_000,
-        })
+        }),
       }
       const table_add_command = new Add(interaction)
 
@@ -133,7 +133,7 @@ describe("/table add", () => {
         file: new Attachment({
           contentType: "text/plain",
           contents: "first\nsecond\nthird",
-        })
+        }),
       }
     })
 

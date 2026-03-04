@@ -54,7 +54,9 @@ export class TeamworkChangeEmbed {
    */
   get helpers() {
     if (!this._helpers) {
-      this._helpers = this.teamwork_db.allHelpers(this.test.id).filter((helper) => helper.user_uid !== this.test.leader)
+      this._helpers = this.teamwork_db
+        .allHelpers(this.test.id)
+        .filter((helper) => helper.user_uid !== this.test.leader)
     }
     return this._helpers
   }

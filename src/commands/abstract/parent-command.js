@@ -29,6 +29,8 @@ export class ParentCommand extends Command {
    * @throws Error
    */
   async execute() {
-    throw new Error(`The command ${this.constructor.name} is a parent command and should never be invoked on its own.`)
+    throw new Error(
+      `The command ${this.constructor.name} is a parent command and should never be invoked on its own.`,
+    )
   }
 }

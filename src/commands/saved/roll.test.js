@@ -18,7 +18,7 @@ describe("/saved roll", () => {
   describe("validate", () => {
     it("requires roll to exist", () => {
       interaction.command_options = {
-        name: "nope"
+        name: "nope",
       }
       const cmd = new Roll(interaction)
 
@@ -39,7 +39,7 @@ describe("/saved roll", () => {
         invalid: true,
       })
       interaction.command_options = {
-        name: "test"
+        name: "test",
       }
       const cmd = new Roll(interaction)
 

@@ -43,7 +43,7 @@ describe("opposed defender advantages message", () => {
       interaction = new Interaction()
       interaction.author.id = "atk"
       interaction.message.reference = {
-        messageId: bot_message.id
+        messageId: bot_message.id,
       }
       bidding_test = challenge.addTest().attachMessage(interaction.message.reference.messageId)
       bidding_test.attackerChop("rock")

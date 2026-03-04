@@ -77,7 +77,7 @@ describe("TeamworkSummaryEmbed class", () => {
 
       const helpers = embed.helpers
 
-      const ids = helpers.map(h => h.user_uid)
+      const ids = helpers.map((h) => h.user_uid)
       expect(ids).not.toContain("cap")
     })
 
@@ -86,7 +86,7 @@ describe("TeamworkSummaryEmbed class", () => {
 
       const helpers = embed.helpers
 
-      const ids = helpers.map(h => h.user_uid)
+      const ids = helpers.map((h) => h.user_uid)
       expect(ids).toContain("helper1")
     })
 
@@ -95,7 +95,7 @@ describe("TeamworkSummaryEmbed class", () => {
 
       const helpers = embed.helpers
 
-      const ids = helpers.map(h => h.user_uid)
+      const ids = helpers.map((h) => h.user_uid)
       expect(ids).toContain("helper2")
     })
 
@@ -104,7 +104,7 @@ describe("TeamworkSummaryEmbed class", () => {
 
       const helpers = embed.helpers
 
-      const ids = helpers.map(h => h.user_uid)
+      const ids = helpers.map((h) => h.user_uid)
       expect(ids).not.toContain("helper3")
     })
   })

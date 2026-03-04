@@ -4,7 +4,12 @@ import { rollUntil } from "../services/until-roller.js"
 import { roll } from "../services/base-roller.js"
 import { wod20 } from "../services/tally.js"
 import { present } from "../presenters/results/wod20-results-presenter.js"
-import { descriptionOption, rollsOption, teamworkOption, secretOption } from "../util/common-options.js"
+import {
+  descriptionOption,
+  rollsOption,
+  teamworkOption,
+  secretOption,
+} from "../util/common-options.js"
 import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
 import * as hummingbird from "../services/easter-eggs/hummingbird.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"

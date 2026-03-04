@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config"
 import process from "node:process"
 import { logger } from "./util/logging/setup.js"
 import { sendError } from "./services/metrics.js"
@@ -20,13 +20,7 @@ patchPaginate()
 patchRollReply()
 patchAuthorize()
 
-import {
-  Client,
-  GatewayIntentBits,
-  ActivityType,
-  PresenceUpdateStatus,
-  Partials,
-} from "discord.js"
+import { Client, GatewayIntentBits, ActivityType, PresenceUpdateStatus, Partials } from "discord.js"
 
 import version from "./version.js"
 

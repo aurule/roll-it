@@ -3,7 +3,6 @@ import { MentionHandler } from "./mention-handler.js"
 
 import { handle } from "./index.js"
 
-
 class Handler1 extends MentionHandler {
   static canHandle(_message) {
     return false

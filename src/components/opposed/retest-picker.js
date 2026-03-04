@@ -7,7 +7,13 @@ import { Challenge } from "../../db/opposed/challenge.js"
 /**
  * Select control to pick the retest reason
  */
-export default new OpposedComponent("opposed_retest_select", data, execute, Challenge.States.Winning, Challenge.States.Tying)
+export default new OpposedComponent(
+  "opposed_retest_select",
+  data,
+  execute,
+  Challenge.States.Winning,
+  Challenge.States.Tying,
+)
 
 export function data(locale, retest_ability) {
   const t = i18n.getFixedT(locale, "opposed", "shared.retest.picker")

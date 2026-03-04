@@ -9,10 +9,7 @@ import { TeamworkMentionHandler } from "./teamwork.js"
  *
  * @type {MentionHandler[]}
  */
-export const handlers = [
-  OpposedMentionHandler,
-  TeamworkMentionHandler,
-]
+export const handlers = [OpposedMentionHandler, TeamworkMentionHandler]
 
 /**
  * Handle a message mention

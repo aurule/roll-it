@@ -26,7 +26,14 @@ export const MAX_DURATION = 7_200 // 2 hours
  * @param  {string}      options.retest      Name of the ability for retesting chop results
  * @return {Promise}                         Promise
  */
-export async function opposedBegin({ interaction, description, attackerId, defenderId, attribute, retest } = {}) {
+export async function opposedBegin({
+  interaction,
+  description,
+  attackerId,
+  defenderId,
+  attribute,
+  retest,
+} = {}) {
   const locale = interaction.guild.locale ?? "en-US"
 
   const opposed_db = new Opposed()

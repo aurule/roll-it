@@ -1,4 +1,4 @@
-import { expect } from 'vitest'
+import { expect } from "vitest"
 
 import { toMatchSchema } from "./matchers/match-schema.js"
 import { toHaveComponent } from "./matchers/have-component.js"

@@ -57,7 +57,10 @@ class BaseAttack extends SavableCommand {
   }
 
   perform() {
-    const attacks = Array.from({ length: this.rolls }, () => new DndAttack(this.modifier, this.crit))
+    const attacks = Array.from(
+      { length: this.rolls },
+      () => new DndAttack(this.modifier, this.crit),
+    )
 
     const presented_results = presentAttack({
       attacks,

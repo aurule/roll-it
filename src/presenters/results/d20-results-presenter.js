@@ -133,7 +133,6 @@ export function detail(result, indexes, modifier) {
   return selection
 }
 
-
 /**
  * Present one or more results from the d20 command
  *

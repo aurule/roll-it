@@ -10,7 +10,6 @@ import { sendError, sendEvent } from "../services/metrics.js"
 import { commands } from "../commands/index.js"
 import { modals } from "../modals/index.js"
 
-
 /**
  * Handle command interactions
  *
@@ -21,7 +20,9 @@ import { modals } from "../modals/index.js"
  * @return {Promise}              Promise, probably from replying to the interaction. Rejects if command not found.
  */
 export async function handleCommand(interaction, override) {
-  const command_key = interaction.options._subcommand ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
+  const command_key = interaction.options._subcommand
+    ? `${interaction.commandName} ${interaction.options.getSubcommand()}`
+    : interaction.commandName
   const registry = override ?? commands
   const kommand = registry.get(command_key)
 
@@ -53,7 +54,9 @@ export async function handleCommand(interaction, override) {
  * @return {Promise}              Promise, probably from responding to the interaction. Rejects if command or completer isn't defined.
  */
 export async function handleAutocomplete(interaction, override) {
-  const command_key = interaction.options._subcommand ? `${interaction.commandName} ${interaction.options.getSubcommand()}` : interaction.commandName
+  const command_key = interaction.options._subcommand
+    ? `${interaction.commandName} ${interaction.options.getSubcommand()}`
+    : interaction.commandName
   const registry = override ?? commands
   const kommand = registry.get(command_key)
   if (!kommand) return Promise.reject(`no command ${interaction.commandName} (autocomplete)`)

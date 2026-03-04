@@ -4,7 +4,7 @@ import fs_backend from "i18next-fs-backend"
 
 import * as own_formatters from "../util/formatters/i18n.js"
 
-const __dirname = import.meta.dirname;
+const __dirname = import.meta.dirname
 
 /**
  * Initialized i18next module

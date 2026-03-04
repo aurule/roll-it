@@ -43,7 +43,7 @@ describe("/fate command", () => {
     it("displays the sacrifice easter egg if present", () => {
       const description_text = "sacrificing a goat"
       interaction.command_options = {
-        description: description_text
+        description: description_text,
       }
       const cmd = new Fate(interaction)
 

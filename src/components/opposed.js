@@ -93,10 +93,7 @@ export async function handle(interaction) {
 
   // fail unless component is valid for current state, or message is for an old test
   if (
-    !(
-      component.states.includes(challenge.state) &&
-      opposed_db.messageIsForLatestTest(message_id)
-    )
+    !(component.states.includes(challenge.state) && opposed_db.messageIsForLatestTest(message_id))
   ) {
     return interaction.ensure(
       "whisper",

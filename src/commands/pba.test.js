@@ -45,7 +45,7 @@ describe("/pba command", () => {
     describe("perform", () => {
       it("shows the sacrifice easter egg if triggered", () => {
         interaction.command_options = {
-          description: "sacrificing"
+          description: "sacrificing",
         }
         const pba_command = new Pba(interaction)
 

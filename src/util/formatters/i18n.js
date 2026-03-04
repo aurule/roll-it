@@ -26,7 +26,9 @@ export { signed } from "./signed.js"
  * @param  {any[]}  value Array to transform
  * @return {string}       String of the markdown list
  */
-export function ul(value) { return unorderedList(value) }
+export function ul(value) {
+  return unorderedList(value)
+}
 
 /**
  * Turn an array into a markdown ordered list
@@ -49,7 +51,9 @@ export function ul(value) { return unorderedList(value) }
  * @param  {any[]}  value Array to transform
  * @return {string}       String of the markdown list
  */
-export function ol(value){ return value.map((val, idx) => `${idx + 1}. ${val}`).join("\n") }
+export function ol(value) {
+  return value.map((val, idx) => `${idx + 1}. ${val}`).join("\n")
+}
 
 /**
  * Turn an array into a series of indented lines
@@ -69,7 +73,9 @@ export function ol(value){ return value.map((val, idx) => `${idx + 1}. ${val}`).
  * @param  {any[]}  value Array to transform
  * @return {string}       String of the indented text
  */
-export function indented(value) { return `\t${value.join("\n\t")}` }
+export function indented(value) {
+  return `\t${value.join("\n\t")}`
+}
 
 /**
  * Turn an array into a space-separated inline list
@@ -88,7 +94,9 @@ export function indented(value) { return `\t${value.join("\n\t")}` }
  * @param  {any[]} value Array to transform
  * @return {string}      String of the joined text
  */
-export function spaced(value) { return value.join(" ") }
+export function spaced(value) {
+  return value.join(" ")
+}
 
 /**
  * Convert an array of numbers to an arithmetic string

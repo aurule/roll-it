@@ -1,5 +1,15 @@
 import { Collection } from "discord.js"
 
+/**
+ * Surface potentially nested interaction options
+ *
+ * When the interaction is for a subcommand, the subcommand is treated as the
+ * top-level option. Its own options are nested within. This extracts them for
+ * easier handling.
+ *
+ * @param  {object}   options Interaction options object
+ * @return {object[]}         Array of user option data
+ */
 export function digOptions(options) {
   if (options.data.length > 0) {
     if (options.data[0].options) return options.data[0].options
@@ -65,7 +75,7 @@ export class CommandOptions {
   }
 
   /**
-   * Serialize our data to a json-save object
+   * Serialize our data to a json-safe object
    *
    * The internal options data is converted into an object which can be passed
    * to our constructor. Data keys become object property names and values are

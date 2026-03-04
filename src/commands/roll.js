@@ -4,7 +4,12 @@ import { roll } from "../services/base-roller.js"
 import { sum } from "../services/tally.js"
 import { present } from "../presenters/results/roll-results-presenter.js"
 import { poolOption, descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
-import { poolSchema, descriptionSchema, modifierSchema, rollsSchema } from "../util/common-schemas.js"
+import {
+  poolSchema,
+  descriptionSchema,
+  modifierSchema,
+  rollsSchema,
+} from "../util/common-schemas.js"
 import { SavableCommand } from "./abstract/savable-command.js"
 import { registerCommand } from "./index.js"
 

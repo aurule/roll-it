@@ -11,7 +11,5 @@ export function all(partialText, override) {
   const choices = override ?? all_choices
   const search = partialText.normalize().toLowerCase()
 
-  return choices
-    .filter((c) => c.name.normalize().toLowerCase().startsWith(search))
-    .slice(0, 25)
+  return choices.filter((c) => c.name.normalize().toLowerCase().startsWith(search)).slice(0, 25)
 }

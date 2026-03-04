@@ -5,7 +5,6 @@ import { CommandInteraction, MessageFlags } from "discord.js"
 import { patch as patchEnsure } from "./ensure.js"
 import { patch, patchDiscord } from "./roll-reply.js"
 
-
 class PatchMeRollReply {
   async reply(args) {
     return args

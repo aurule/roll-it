@@ -73,12 +73,14 @@ export class SavedRollModal extends Modal {
     if (description) desc_input.setValue(description)
 
     const components = [
-      build.text(t("info", {
-        invocation: presentInvocation(saved, locale),
-        changeable: changeable.map((c) => `\`${c}\``),
-      })),
+      build.text(
+        t("info", {
+          invocation: presentInvocation(saved, locale),
+          changeable: changeable.map((c) => `\`${c}\``),
+        }),
+      ),
       build.label(name_input, t("inputs.name.label")),
-      build.label(desc_input, t("inputs.description.label"))
+      build.label(desc_input, t("inputs.description.label")),
     ]
 
     return build.modal(SavedRollModal.name, t("title"), components)

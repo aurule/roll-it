@@ -16,11 +16,13 @@ export function toMatchSchema(actual, schema) {
     return {
       actual: schema,
       message: () => {
-        return this.utils.matcherHint("toMatchSchema", undefined, undefined, hint_options) +
-        "\n\n" +
-        "Schema does not support `validate`"
+        return (
+          this.utils.matcherHint("toMatchSchema", undefined, undefined, hint_options) +
+          "\n\n" +
+          "Schema does not support `validate`"
+        )
       },
-      pass: false
+      pass: false,
     }
   }
 

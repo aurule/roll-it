@@ -8,7 +8,13 @@ import { Challenge } from "../../db/opposed/challenge.js"
 /**
  * Select control for selecting a participant's advantages
  */
-export default new OpposedComponent("opposed_advantage_select", data, execute, Challenge.States.AdvantagesAttacker, Challenge.States.AdvantagesDefender)
+export default new OpposedComponent(
+  "opposed_advantage_select",
+  data,
+  execute,
+  Challenge.States.AdvantagesAttacker,
+  Challenge.States.AdvantagesDefender,
+)
 
 export function data(locale, participant) {
   const t = i18n.getFixedT(locale, "opposed", "shared.advantages-picker")

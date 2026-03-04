@@ -17,7 +17,7 @@ export class Magic8Ball extends Command {
       .required()
       .max(1500)
       .message("The question is too long. Keep it under 1500 characters."),
-    doit: Joi.boolean().optional()
+    doit: Joi.boolean().optional(),
   })
 
   /**

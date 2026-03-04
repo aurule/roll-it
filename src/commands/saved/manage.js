@@ -23,9 +23,8 @@ class BaseManage extends Command {
   name = ""
 
   static data() {
-    return this.builder.addLocalizedStringOption(
-      "name",
-      (option) => option.setRequired(true).setAutocomplete(true),
+    return this.builder.addLocalizedStringOption("name", (option) =>
+      option.setRequired(true).setAutocomplete(true),
     )
   }
 
@@ -111,7 +110,9 @@ class BaseManage extends Command {
               remove_interaction.deferUpdate()
               if (remove_interaction.customId == "remove_cancel") {
                 manage_prompt.edit(
-                  build.textMessage(this.t("state.remove.response.cancel"), { secret: this.secret }),
+                  build.textMessage(this.t("state.remove.response.cancel"), {
+                    secret: this.secret,
+                  }),
                 )
                 return this.interaction
               }
@@ -119,9 +120,12 @@ class BaseManage extends Command {
               this.rolls_db.destroy(this.saved_roll.id)
 
               return manage_prompt.edit(
-                build.textMessage(this.t("state.remove.response.success", { name: this.saved_roll.name }), {
-                  secret: this.secret,
-                }),
+                build.textMessage(
+                  this.t("state.remove.response.success", { name: this.saved_roll.name }),
+                  {
+                    secret: this.secret,
+                  },
+                ),
               )
             })
             .catch(() => {

@@ -22,9 +22,8 @@ class BaseManage extends Command {
   table_db
 
   static data() {
-    return this.builder.addLocalizedStringOption(
-      "table",
-      (option) => option.setRequired(true).setAutocomplete(true),
+    return this.builder.addLocalizedStringOption("table", (option) =>
+      option.setRequired(true).setAutocomplete(true),
     )
   }
 
@@ -62,9 +61,10 @@ class BaseManage extends Command {
       remove_button,
     )
     const manage_prompt = await this.interaction.reply({
-      content: [this.t("state.initial.details", { table: detail }), this.t("state.initial.prompt")].join(
-        "\n",
-      ),
+      content: [
+        this.t("state.initial.details", { table: detail }),
+        this.t("state.initial.prompt"),
+      ].join("\n"),
       components: [manage_actions],
       flags: MessageFlags.Ephemeral,
     })

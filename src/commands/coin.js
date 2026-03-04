@@ -2,7 +2,7 @@ import Joi from "joi"
 
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { Command } from "./abstract/command.js"
-import { descriptionOption, secretOption} from "../util/common-options.js"
+import { descriptionOption, secretOption } from "../util/common-options.js"
 import { descriptionSchema } from "../util/common-schemas.js"
 import { present } from "../presenters/results/coin-results-presenter.js"
 import { roll } from "../services/base-roller.js"

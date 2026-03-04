@@ -1,6 +1,6 @@
 import { ContextMenuCommandBuilder } from "discord.js"
 
-import { Command } from "./command.js";
+import { Command } from "./command.js"
 import { mapped } from "../../locales/helpers.js"
 
 /**

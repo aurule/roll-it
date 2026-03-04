@@ -3,7 +3,7 @@ vitest.mock("../../util/message-builders")
 import { ChallengeFixture } from "../../../testing/challenge-fixture.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 
- import { inertMessageData, messageData } from "./tying.js"
+import { inertMessageData, messageData } from "./tying.js"
 
 describe("opposed tying summary message", () => {
   let challenge

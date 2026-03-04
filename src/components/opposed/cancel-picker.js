@@ -7,7 +7,12 @@ import { Challenge } from "../../db/opposed/challenge.js"
 /**
  * Select control for picking the retest cancel reason
  */
-export default new OpposedComponent("opposed_cancel_select", data, execute, Challenge.States.Cancelling)
+export default new OpposedComponent(
+  "opposed_cancel_select",
+  data,
+  execute,
+  Challenge.States.Cancelling,
+)
 
 export function data(challenge) {
   const t = i18n.getFixedT(challenge.locale, "opposed", "cancelling.components.picker")

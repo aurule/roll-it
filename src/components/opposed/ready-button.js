@@ -5,7 +5,10 @@ import { Challenge } from "../../db/opposed/challenge.js"
 import { messageData as throwingMessage } from "../../messages/opposed/throwing.js"
 import { OpposedComponent } from "../opposed-component.js"
 import { inertMessageData as inertAdvantagesAttacker } from "../../messages/opposed/advantages-attacker.js"
-import { messageData as advantagesDefender, inertMessageData as inertAdvantagesDefender } from "../../messages/opposed/advantages-defender.js"
+import {
+  messageData as advantagesDefender,
+  inertMessageData as inertAdvantagesDefender,
+} from "../../messages/opposed/advantages-defender.js"
 
 /**
  * Determine which participant wins on a tied result
@@ -28,7 +31,13 @@ export function tieWinnerId(attacker, defender) {
  *
  * For the attacker, this also finalizes the challenge conditions.
  */
-export default new OpposedComponent("opposed_ready", data, execute, Challenge.States.AdvantagesAttacker, Challenge.States.AdvantagesDefender)
+export default new OpposedComponent(
+  "opposed_ready",
+  data,
+  execute,
+  Challenge.States.AdvantagesAttacker,
+  Challenge.States.AdvantagesDefender,
+)
 
 export function data(locale, participant) {
   return new ButtonBuilder()

@@ -1,14 +1,16 @@
+vitest.mock("../../services/api")
+
 import { Interaction } from "../../../testing/interaction.js"
 import { Installation } from "../../db/installation.js"
 
-import { data, execute } from "./change-button.js"
+import { data, execute } from "./save-button"
 
-describe("installation change button", () => {
+describe("installation save button", () => {
   describe("data", () => {
-    it("has the change label", () => {
+    it("has Install label", () => {
       const result = data("en-US")
 
-      expect(result.data.label).toMatch("Change Systems")
+      expect(result.data.label).toMatch("Install")
     })
   })
 

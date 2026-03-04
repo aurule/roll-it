@@ -175,7 +175,6 @@ export class FfrpgPresenter {
   }
 }
 
-
 /**
  * Present one or more results from the ffrpg command
  *

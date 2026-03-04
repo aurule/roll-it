@@ -20,9 +20,8 @@ class BaseCommandHelp extends Command {
   command
 
   static data() {
-    return this.builder.addLocalizedStringOption(
-      "command",
-      (option) => option.setAutocomplete(true).setRequired(true),
+    return this.builder.addLocalizedStringOption("command", (option) =>
+      option.setAutocomplete(true).setRequired(true),
     )
   }
 
@@ -38,7 +37,8 @@ class BaseCommandHelp extends Command {
   }
 
   validate() {
-    if (!commands.has(this.command)) return this.t("options.command.validation.unavailable", { command_name: this.command })
+    if (!commands.has(this.command))
+      return this.t("options.command.validation.unavailable", { command_name: this.command })
   }
 
   async autocomplete() {

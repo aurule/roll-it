@@ -197,7 +197,7 @@ describe("/sra command", () => {
     it("shows sacrifice easter egg if triggered", () => {
       interaction.command_options = {
         pool: 5,
-        description: "sacrifice"
+        description: "sacrifice",
       }
       const cmd = new Sra(interaction)
 

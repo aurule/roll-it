@@ -28,7 +28,7 @@ class MockOptions {
     for (const key in this.interaction.command_options) {
       option_objects.push({
         name: key,
-        value: this.interaction.command_options[key]
+        value: this.interaction.command_options[key],
       })
     }
     return option_objects

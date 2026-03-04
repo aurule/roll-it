@@ -5,7 +5,12 @@ import { Interaction } from "../../testing/interaction.js"
 import { Command } from "../commands/abstract/command.js"
 import interactionCache from "../services/interaction-cache.js"
 
-import { handleInteractionCreated, handleCommand, handleAutocomplete, handleModal } from "./interactionCreate.js"
+import {
+  handleInteractionCreated,
+  handleCommand,
+  handleAutocomplete,
+  handleModal,
+} from "./interactionCreate.js"
 import { Modal } from "../modals/modal.js"
 
 /**
@@ -51,8 +56,8 @@ describe("interactionCreate handler", () => {
 
   describe("handleCommand", () => {
     const testCommands = new Collection([
-      ["test", TestCommand ],
-      ["test fine", TestCommand ],
+      ["test", TestCommand],
+      ["test fine", TestCommand],
     ])
 
     it("with normal command, uses 'command' key", async () => {
@@ -90,8 +95,8 @@ describe("interactionCreate handler", () => {
 
   describe("handleAutocomplete", () => {
     const testCommands = new Collection([
-      ["test", TestCommand ],
-      ["test fine", TestCommand ],
+      ["test", TestCommand],
+      ["test fine", TestCommand],
     ])
 
     it("with normal command, uses 'command' key", async () => {
@@ -119,9 +124,7 @@ describe("interactionCreate handler", () => {
   })
 
   describe("handleModal", () => {
-    const testModals = new Collection([
-      ["test", TestModal ],
-    ])
+    const testModals = new Collection([["test", TestModal]])
 
     it("looks up by name without id", async () => {
       interaction.customId = "test_5"

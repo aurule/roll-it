@@ -77,7 +77,7 @@ describe("/coin command", () => {
     it("displays sacrifice easter egg", () => {
       interaction.command_options = {
         description: "sacrificing a chicken",
-        call: "1"
+        call: "1",
       }
       const coin_command = new Coin(interaction)
 

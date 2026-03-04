@@ -37,7 +37,9 @@ class BaseRoll extends Command {
   }
 
   perform() {
-    const results = Array.from({ length: this.rolls }, () => this.table_db.random(this.table_id, this.table))
+    const results = Array.from({ length: this.rolls }, () =>
+      this.table_db.random(this.table_id, this.table),
+    )
 
     const detail = this.table_db.detail(this.table_id, this.table)
 

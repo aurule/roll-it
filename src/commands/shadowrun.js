@@ -4,7 +4,12 @@ import { rollUntil } from "../services/until-roller.js"
 import { rollExplode } from "../services/base-roller.js"
 import { successes } from "../services/tally.js"
 import { ShadowrunPresenter, present } from "../presenters/results/shadowrun-results-presenter.js"
-import { descriptionOption, rollsOption, teamworkOption, secretOption } from "../util/common-options.js"
+import {
+  descriptionOption,
+  rollsOption,
+  teamworkOption,
+  secretOption,
+} from "../util/common-options.js"
 import { poolSchema, rollsSchema, untilSchema, descriptionSchema } from "../util/common-schemas.js"
 import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { TeamworkableCommand } from "./abstract/teamworkable-command.js"

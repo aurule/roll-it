@@ -4,7 +4,6 @@ import { CommandInteraction, MessageFlags } from "discord.js"
 
 import { Paginator, patch, patchDiscord } from "./paginate"
 
-
 class PatchMePaginate {
   messages = []
   replied = false

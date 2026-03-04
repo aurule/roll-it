@@ -61,7 +61,7 @@ export class Chop extends Command {
       vs: vs_symbols,
       compared,
       description: this.description,
-      locale: this.locale
+      locale: this.locale,
     })
 
     return `${presented}\n${subtext(this.t("response.shortcut"))}`

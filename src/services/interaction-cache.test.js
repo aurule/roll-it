@@ -18,7 +18,7 @@ describe("interaction cache", () => {
       const interaction = new Interaction()
       interaction.commandName = "d10"
       interaction.command_options = {
-        modifier: 3
+        modifier: 3,
       }
 
       await interactionCache.set(interaction)

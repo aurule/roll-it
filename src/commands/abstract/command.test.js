@@ -1,13 +1,21 @@
+vitest.mock("../util/message-builders")
+
 import { MessageFlags } from "discord.js"
 import { Interaction } from "../../../testing/interaction.js"
 import { LocalizedSlashCommandBuilder } from "../../util/localized-command.js"
+
 import { Command } from "./command.js"
 
 class TestCommand extends Command {
   static name = "roll"
+  validation = undefined
 
   perform() {
     return "test"
+  }
+
+  validate() {
+    return this.validation
   }
 }
 
@@ -48,7 +56,7 @@ describe("Command base class", () => {
 
       it("accepts true", () => {
         interaction.command_options = {
-          secret: true
+          secret: true,
         }
 
         const cmd = new TestCommand(interaction)
@@ -58,7 +66,7 @@ describe("Command base class", () => {
 
       it("false makes response non-ephemeral", async () => {
         interaction.command_options = {
-          secret: false
+          secret: false,
         }
         const cmd = new TestCommand(interaction)
 
@@ -69,13 +77,32 @@ describe("Command base class", () => {
 
       it("true makes response ephemeral", async () => {
         interaction.command_options = {
-          secret: true
+          secret: true,
         }
         const cmd = new TestCommand(interaction)
 
         const result = await cmd.execute()
 
         expect(result.message.flags).toHaveFlag(MessageFlags.Ephemeral)
+      })
+    })
+  })
+
+  describe("execute", () => {
+    let interaction
+
+    beforeEach(() => {
+      interaction = new Interaction()
+    })
+
+    describe("with validation error", () => {
+      it("responds with the validation message", async () => {
+        const cmd = new TestCommand(interaction)
+        cmd.validation = "nope"
+
+        const result = await cmd.execute()
+
+        expect(result.components[0].data.content).toMatch("nope")
       })
     })
   })

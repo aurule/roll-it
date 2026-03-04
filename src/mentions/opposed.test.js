@@ -69,7 +69,7 @@ describe("opposed reply handler", () => {
       interaction = new Interaction()
       bot_message = new Message()
       interaction.message.reference = {
-        messageId: bot_message.id
+        messageId: bot_message.id,
       }
 
       opposed_db = new Opposed()

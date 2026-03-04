@@ -16,7 +16,7 @@ describe("/help feedback", () => {
   describe("perform", () => {
     it("creates a feedback record", () => {
       interaction.command_options = {
-        message: "yeehaw"
+        message: "yeehaw",
       }
       const cmd = new Feedback(interaction)
       const feedbacks = new FeedbackDB()

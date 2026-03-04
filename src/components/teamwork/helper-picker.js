@@ -25,7 +25,7 @@ export async function execute(interaction) {
   const t = i18n.getFixedT(test.locale, "teamwork")
 
   const original = teamwork_db.getRequestedHelpers(test.id).map((h) => h.user_uid)
-  const current = interaction.values.filter(v => v != process.env.CLIENT_ID)
+  const current = interaction.values.filter((v) => v != process.env.CLIENT_ID)
 
   if (arrayEq(original, current)) {
     return interaction

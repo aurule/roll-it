@@ -30,7 +30,7 @@ export class ComponentHandler {
    */
   constructor(handleFunction, components) {
     this._handle = handleFunction
-    this.components = new Collection(components.map(c => [c.name, c]))
+    this.components = new Collection(components.map((c) => [c.name, c]))
   }
 
   /**

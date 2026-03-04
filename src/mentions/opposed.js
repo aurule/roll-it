@@ -56,25 +56,26 @@ export class OpposedMentionHandler extends MentionHandler {
     const replyMessage = messageIndex.get(challenge.state)
 
     if (this.isRetry) {
-      return this.message.interaction.ensure("reply", replyMessage(challenge.id), {
-        challenge_id: challenge.id,
-        channel_id: this.message.channelId,
-        detail: `failed to retry message for state "${challenge.state}"`,
-      })
-      .then(reply_response => {
-        const message_uid = reply_response?.resource?.message?.id ?? reply_response.id
-
-        const message_props = {
+      return this.message.interaction
+        .ensure("reply", replyMessage(challenge.id), {
           challenge_id: challenge.id,
-          message_uid,
-          test_id: this.db.findTestByMessage(this.referenced_message_uuid)?.id ?? null,
-        }
-        this.db.addMessage(message_props)
-        const afterRetry = afterRetryIndex.get(challenge.state)
-        if (afterRetry !== undefined) {
-          afterRetry(reply_response)
-        }
-      })
+          channel_id: this.message.channelId,
+          detail: `failed to retry message for state "${challenge.state}"`,
+        })
+        .then((reply_response) => {
+          const message_uid = reply_response?.resource?.message?.id ?? reply_response.id
+
+          const message_props = {
+            challenge_id: challenge.id,
+            message_uid,
+            test_id: this.db.findTestByMessage(this.referenced_message_uuid)?.id ?? null,
+          }
+          this.db.addMessage(message_props)
+          const afterRetry = afterRetryIndex.get(challenge.state)
+          if (afterRetry !== undefined) {
+            afterRetry(reply_response)
+          }
+        })
     }
 
     const onReply = onReplyIndex.get(challenge.state)
@@ -113,9 +114,7 @@ export class OpposedMentionHandler extends MentionHandler {
       }
     }
 
-    return this.whisper(
-      this.t("unknown"),
-    )
+    return this.whisper(this.t("unknown"))
   }
 
   /**

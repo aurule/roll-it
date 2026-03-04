@@ -52,7 +52,7 @@ export class Command {
    * Command type code
    *
    * One of "menu" or "slash"
-   * 
+   *
    * @type {string}
    */
   static type = "slash"
@@ -145,9 +145,9 @@ export class Command {
    * @return {Promise} Message reply promise
    */
   async execute() {
-    const error_message = this.validate()
-    if (error_message) {
-      return this.interaction.whisper(error_message)
+    const validation_message = this.validate()
+    if (validation_message) {
+      return this.interaction.whisper(validation_message)
     }
 
     const partial_message = await this.perform()

@@ -54,7 +54,7 @@ describe("/8ball command", () => {
       const question_text = "this is a test"
       const interaction = new Interaction()
       interaction.command_options = {
-        question: question_text
+        question: question_text,
       }
       const cmd = new Magic8Ball(interaction)
 

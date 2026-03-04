@@ -135,7 +135,7 @@ describe("command sorter", () => {
       })
 
       it("help before help topic", () => {
-        const result = compare({name: "help"}, { name: "topic", parent: "help"})
+        const result = compare({ name: "help" }, { name: "topic", parent: "help" })
 
         expect(result).toEqual(-1)
       })

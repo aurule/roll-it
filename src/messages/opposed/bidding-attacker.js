@@ -1,7 +1,7 @@
 import { Opposed } from "../../db/opposed.js"
 import { Challenge } from "../../db/opposed/challenge.js"
 import { i18n } from "../../locales/index.js"
-import { messageData as biddingDefender} from "./bidding-defender.js"
+import { messageData as biddingDefender } from "./bidding-defender.js"
 import * as build from "../../util/message-builders.js"
 import { extractNumber } from "../../util/extract-number.js"
 

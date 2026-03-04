@@ -22,7 +22,7 @@ describe("/saved grow", () => {
   describe("validate", () => {
     it("errors on bad saved roll name", () => {
       interaction.command_options = {
-        name: "nope"
+        name: "nope",
       }
       const cmd = new Grow(interaction)
 
@@ -43,7 +43,7 @@ describe("/saved grow", () => {
         invalid: true,
       })
       interaction.command_options = {
-        name: "test"
+        name: "test",
       }
       const cmd = new Grow(interaction)
 

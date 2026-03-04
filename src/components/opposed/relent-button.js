@@ -10,7 +10,12 @@ import { OpposedComponent } from "../opposed-component.js"
  *
  * Shown on the defender's advantages message.
  */
-export default new OpposedComponent("opposed_relent", data, execute, Challenge.States.AdvantagesDefender)
+export default new OpposedComponent(
+  "opposed_relent",
+  data,
+  execute,
+  Challenge.States.AdvantagesDefender,
+)
 
 export function data(locale) {
   return new ButtonBuilder()
@@ -44,4 +49,3 @@ export async function execute(interaction) {
       })
     })
 }
-
