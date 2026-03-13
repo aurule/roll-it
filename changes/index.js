@@ -3,6 +3,9 @@ import path from "node:path"
 
 import { noTests, noDotFiles } from "../src/util/filters.js"
 
+const __filename = import.meta.filename
+const __dirname = import.meta.dirname
+
 const basename = path.basename(__filename)
 const buckets = {
   added: [],
