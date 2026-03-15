@@ -4,7 +4,7 @@ import path from "node:path"
 import changes from "../changes/index.js"
 import package_data from "../package.json" with { type: "json" }
 
-const __dirname = meta.import.dirname
+const __dirname = import.meta.dirname
 
 function buildSection(bucket) {
   return bucket.map((item) => `* ${item}`).join("\n")
