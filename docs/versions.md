@@ -2,6 +2,28 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+# v2.0.0 <small>Released Mar 15, 2026</small>
+
+New setup process? Yes! And it's pretty! This and other improvements come alongside a complete refactor of Roll It to use modern ESM syntax. This ensures it'll keep on working as more systems and commands are added.
+
+### Added
+
+* New `/sra` roller for Shadowrun Anarchy 2.0
+* Help topics that show commands now indicate which ones are available on the server
+* Sacrifices are now accepted during group rituals (teamwork tests)
+* The throwing message for `/met opposed` now shows the retest state
+
+### Changed
+
+* The `/setup-roll-it` command has a brand new workflow
+* Moved curv to its own system
+* Moved current winner below challenge history in `/met opposed`
+* The `quiet` option for `/table add` has been renamed to `secret`
+
+### Fixed
+
+* Sacrifices were ignored by `/pba`
+
 ## v1.14.0 <small>Released Nov 23, 2025</small>
 
 ### Added
