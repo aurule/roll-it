@@ -1,7 +1,7 @@
 import { Events } from "discord.js"
 import { logger } from "../util/logging/setup.js"
 import { handle as mentionDispatch } from "../mentions/index.js"
-import { sendError } from "../services/metrics.js"
+import { sendError, sendUser } from "../services/metrics.js"
 
 import { handleInteractionCreated } from "./interactionCreate.js"
 
@@ -10,6 +10,8 @@ export function handleMessageCreate(message) {
   if (!message.mentions.users.has(process.env.CLIENT_ID))
     return Promise.resolve("does not mention bot")
   if (!envAllowsGuild(message.guildId)) return Promise.resolve("wrong guild for env")
+
+  sendUser(message.author.id)
 
   return mentionDispatch(message)
 }
