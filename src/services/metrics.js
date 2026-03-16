@@ -31,7 +31,23 @@ process.on("beforeExit", async (_code) => {
 })
 
 /**
- * Capture a user event
+ * Capture user info
+ * @param  {User} user Discord user object
+ */
+export function sendUser(user) {
+  return client.capture({
+    distinctId: user.id.toString(),
+    event: "$set",
+    properties: {
+      $set: {
+        name: user.username
+      }
+    }
+  })
+}
+
+/**
+ * Capture an analytics event
  * @param  {string}    event             Event name
  * @param  {Snowflake} userId            User's Discord ID
  * @param  {object}    custom_properties Additional data to store about the event
@@ -40,9 +56,7 @@ export function sendEvent(event, userId, custom_properties = {}) {
   return client.capture({
     distinctId: userId.toString(),
     event,
-    properties: {
-      $set: custom_properties,
-    },
+    properties: custom_properties,
   })
 }
 

@@ -2,6 +2,7 @@ import { i18n } from "../../locales/index.js"
 import { LocalizedSlashCommandBuilder } from "../../util/localized-command.js"
 import { injectMention } from "../../util/formatters/inject-user.js"
 import { CommandOptions } from "./command-options.js"
+import { sendEvent } from "../../services/metrics.js"
 
 /**
  * Basic class to handle Discord slash commands
@@ -135,6 +136,11 @@ export class Command {
     this.t = i18n.getFixedT(this.locale, "commands", t_name)
 
     this.saveOption("secret")
+    sendEvent("command used", this.interaction.user.id, {
+      command: this.constructor.name,
+      options: this.options,
+      locale: this.locale,
+    })
   }
 
   /**

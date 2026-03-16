@@ -6,7 +6,7 @@ import interactionCache from "../services/interaction-cache.js"
 import { i18n } from "../locales/index.js"
 import { envAllowsGuild } from "../util/env-allows-guild.js"
 import { handleComponentInteraction } from "../components/index.js"
-import { sendError, sendEvent } from "../services/metrics.js"
+import { sendError, sendUser } from "../services/metrics.js"
 import { commands } from "../commands/index.js"
 import { modals } from "../modals/index.js"
 
@@ -117,9 +117,10 @@ export async function handleComponent(interaction) {
 export async function handleInteractionCreated(interaction) {
   if (!envAllowsGuild(interaction.guildId)) return Promise.resolve("wrong guild for env")
 
+  sendUser(interaction.user)
+
   // handle command invocations
   if (interaction.isCommand() || interaction.isChatInputCommand()) {
-    sendEvent("command used", interaction.user.id, { name: interaction.user.username })
     return handleCommand(interaction).catch((err) => {
       sendError(err, {
         guildId: interaction.guildId,
