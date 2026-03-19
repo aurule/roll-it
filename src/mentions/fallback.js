@@ -1,5 +1,6 @@
 import { randomInt } from "mathjs"
 
+import { sendEvent } from "../services/metrics.js"
 import { MentionHandler } from "./mention-handler.js"
 import { i18n } from "../locales/index.js"
 import { hasTrigger } from "../services/easter-eggs/sacrifice.js"
@@ -52,6 +53,10 @@ export class FallbackMentionHandler extends MentionHandler {
     if (this.message.author.id === process.env.CLIENT_ID) {
       return
     }
+
+    sendEvent("message mention", this.message.author.id, {
+      handler: this.constructor.name
+    })
 
     if (this.message.mentions.users.size > 1) {
       return this.message.react("<:rolliteye:1362168653348470975>")

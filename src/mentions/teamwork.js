@@ -7,6 +7,7 @@ import { logger } from "../util/logging/setup.js"
 import { messageLink } from "../util/formatters/message-link.js"
 import { extractNumber } from "../util/extract-number.js"
 import { MentionHandler } from "./mention-handler.js"
+import { sendEvent } from "../services/metrics.js"
 
 export class TeamworkMentionHandler extends MentionHandler {
   db
@@ -40,6 +41,9 @@ export class TeamworkMentionHandler extends MentionHandler {
    * helper record and shows a new summary of the test.
    */
   async handle() {
+    sendEvent("message mention", this.message.author.id, {
+      handler: this.constructor.name
+    })
     if (this.test === undefined) {
       return this.whisper(i18n.t("concluded", { ns: "teamwork", lng: this.locale })).catch(
         (error) => {

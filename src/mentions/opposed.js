@@ -5,7 +5,7 @@ import { i18n, available_locales } from "../locales/index.js"
 import { logger } from "../util/logging/setup.js"
 import { afterRetryIndex, messageIndex, onReplyIndex } from "../messages/opposed/index.js"
 import { UnauthorizedError } from "../errors/unauthorized-error.js"
-import { sendError } from "../services/metrics.js"
+import { sendError, sendEvent } from "../services/metrics.js"
 
 /**
  * Basic list of retry trigger words across all locales
@@ -52,6 +52,9 @@ export class OpposedMentionHandler extends MentionHandler {
    * Otherwise, any message file with a `onReply` function will have it called with the interaction.
    */
   async handle() {
+    sendEvent("message mention", this.message.author.id, {
+      handler: this.constructor.name
+    })
     const challenge = this.db.findChallengeByMessage(this.referenced_message_uuid)
     const replyMessage = messageIndex.get(challenge.state)
 
