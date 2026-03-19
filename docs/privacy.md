@@ -12,7 +12,7 @@ We use your information to operate and improve Roll It, including to provide sup
 
 ## Sharing Your Information
 
-We do not sell or share your personal information with third parties. However, we may disclose your information in response to legal process or a request from a law enforcement agency or regulatory authority.
+We do not sell nor share your personal information with third parties. However, we may disclose your information in response to legal process or a request from a law enforcement agency or regulatory authority.
 
 ## Data Retention
 
