@@ -40,9 +40,9 @@ export function sendUser(user) {
     event: "$set",
     properties: {
       $set: {
-        name: user.username
-      }
-    }
+        name: user.username,
+      },
+    },
   })
 }
 

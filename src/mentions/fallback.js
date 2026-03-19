@@ -55,7 +55,7 @@ export class FallbackMentionHandler extends MentionHandler {
     }
 
     sendEvent("message mention", this.message.author.id, {
-      handler: this.constructor.name
+      handler: this.constructor.name,
     })
 
     if (this.message.mentions.users.size > 1) {

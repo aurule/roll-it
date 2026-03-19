@@ -53,7 +53,7 @@ export class OpposedMentionHandler extends MentionHandler {
    */
   async handle() {
     sendEvent("message mention", this.message.author.id, {
-      handler: this.constructor.name
+      handler: this.constructor.name,
     })
     const challenge = this.db.findChallengeByMessage(this.referenced_message_uuid)
     const replyMessage = messageIndex.get(challenge.state)

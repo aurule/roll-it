@@ -42,7 +42,7 @@ export class TeamworkMentionHandler extends MentionHandler {
    */
   async handle() {
     sendEvent("message mention", this.message.author.id, {
-      handler: this.constructor.name
+      handler: this.constructor.name,
     })
     if (this.test === undefined) {
       return this.whisper(i18n.t("concluded", { ns: "teamwork", lng: this.locale })).catch(
