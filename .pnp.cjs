@@ -28,7 +28,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.4.7"],\
+          ["@biomejs/biome", "npm:2.4.8"],\
           ["@discordjs/collection", "npm:2.1.1"],\
           ["@opentelemetry/api", "npm:1.9.0"],\
           ["@opentelemetry/api-logs", "npm:0.213.0"],\
@@ -44,7 +44,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.25.1"],\
-          ["docsify-cli", "npm:5.0.0-rc.1"],\
+          ["docsify-cli", "npm:5.0.0-rc.4"],\
           ["dotenv", "npm:17.3.1"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.8.18"],\
           ["i18next-fs-backend", "npm:2.6.1"],\
@@ -55,7 +55,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:10.3.1"],\
           ["pino-abstract-transport", "npm:3.0.0"],\
           ["pino-pretty", "npm:13.1.3"],\
-          ["posthog-node", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.2"],\
+          ["posthog-node", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.4"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["semver", "npm:7.7.4"],\
@@ -124,90 +124,90 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@biomejs/biome", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/cache/@biomejs-biome-npm-2.4.7-2bed5bb23a-c073da6f08.zip/node_modules/@biomejs/biome/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/cache/@biomejs-biome-npm-2.4.8-e8b8837401-aa77037ee9.zip/node_modules/@biomejs/biome/",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.4.7"],\
-          ["@biomejs/cli-darwin-arm64", "npm:2.4.7"],\
-          ["@biomejs/cli-darwin-x64", "npm:2.4.7"],\
-          ["@biomejs/cli-linux-arm64", "npm:2.4.7"],\
-          ["@biomejs/cli-linux-arm64-musl", "npm:2.4.7"],\
-          ["@biomejs/cli-linux-x64", "npm:2.4.7"],\
-          ["@biomejs/cli-linux-x64-musl", "npm:2.4.7"],\
-          ["@biomejs/cli-win32-arm64", "npm:2.4.7"],\
-          ["@biomejs/cli-win32-x64", "npm:2.4.7"]\
+          ["@biomejs/biome", "npm:2.4.8"],\
+          ["@biomejs/cli-darwin-arm64", "npm:2.4.8"],\
+          ["@biomejs/cli-darwin-x64", "npm:2.4.8"],\
+          ["@biomejs/cli-linux-arm64", "npm:2.4.8"],\
+          ["@biomejs/cli-linux-arm64-musl", "npm:2.4.8"],\
+          ["@biomejs/cli-linux-x64", "npm:2.4.8"],\
+          ["@biomejs/cli-linux-x64-musl", "npm:2.4.8"],\
+          ["@biomejs/cli-win32-arm64", "npm:2.4.8"],\
+          ["@biomejs/cli-win32-x64", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-darwin-arm64", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-arm64-npm-2.4.7-3b6f2e7f2c/node_modules/@biomejs/cli-darwin-arm64/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-arm64-npm-2.4.8-fd04378f41/node_modules/@biomejs/cli-darwin-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-darwin-arm64", "npm:2.4.7"]\
+          ["@biomejs/cli-darwin-arm64", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-darwin-x64", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-x64-npm-2.4.7-2d492aa065/node_modules/@biomejs/cli-darwin-x64/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-darwin-x64-npm-2.4.8-105473edf6/node_modules/@biomejs/cli-darwin-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-darwin-x64", "npm:2.4.7"]\
+          ["@biomejs/cli-darwin-x64", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-arm64", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-npm-2.4.7-9dbc4be3b1/node_modules/@biomejs/cli-linux-arm64/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-npm-2.4.8-ea64cae6ca/node_modules/@biomejs/cli-linux-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-arm64", "npm:2.4.7"]\
+          ["@biomejs/cli-linux-arm64", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-arm64-musl", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-musl-npm-2.4.7-56b5811183/node_modules/@biomejs/cli-linux-arm64-musl/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-arm64-musl-npm-2.4.8-af1b26febf/node_modules/@biomejs/cli-linux-arm64-musl/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-arm64-musl", "npm:2.4.7"]\
+          ["@biomejs/cli-linux-arm64-musl", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-x64", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-npm-2.4.7-715a6028d4/node_modules/@biomejs/cli-linux-x64/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-npm-2.4.8-3fc66b51ae/node_modules/@biomejs/cli-linux-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-x64", "npm:2.4.7"]\
+          ["@biomejs/cli-linux-x64", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-linux-x64-musl", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-musl-npm-2.4.7-62774426e6/node_modules/@biomejs/cli-linux-x64-musl/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-linux-x64-musl-npm-2.4.8-67518914cb/node_modules/@biomejs/cli-linux-x64-musl/",\
         "packageDependencies": [\
-          ["@biomejs/cli-linux-x64-musl", "npm:2.4.7"]\
+          ["@biomejs/cli-linux-x64-musl", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-win32-arm64", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-arm64-npm-2.4.7-aba35e0707/node_modules/@biomejs/cli-win32-arm64/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-arm64-npm-2.4.8-eb3dd04241/node_modules/@biomejs/cli-win32-arm64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-win32-arm64", "npm:2.4.7"]\
+          ["@biomejs/cli-win32-arm64", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@biomejs/cli-win32-x64", [\
-      ["npm:2.4.7", {\
-        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-x64-npm-2.4.7-dd372d40e3/node_modules/@biomejs/cli-win32-x64/",\
+      ["npm:2.4.8", {\
+        "packageLocation": "./.yarn/unplugged/@biomejs-cli-win32-x64-npm-2.4.8-625983bb93/node_modules/@biomejs/cli-win32-x64/",\
         "packageDependencies": [\
-          ["@biomejs/cli-win32-x64", "npm:2.4.7"]\
+          ["@biomejs/cli-win32-x64", "npm:2.4.8"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1276,10 +1276,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@posthog/core", [\
-      ["npm:1.23.4", {\
-        "packageLocation": "./.yarn/cache/@posthog-core-npm-1.23.4-0cfa98b59f-a6d867093b.zip/node_modules/@posthog/core/",\
+      ["npm:1.24.0", {\
+        "packageLocation": "./.yarn/cache/@posthog-core-npm-1.24.0-835318ba37-0d3f5aca6c.zip/node_modules/@posthog/core/",\
         "packageDependencies": [\
-          ["@posthog/core", "npm:1.23.4"],\
+          ["@posthog/core", "npm:1.24.0"],\
           ["cross-spawn", "npm:7.0.6"]\
         ],\
         "linkType": "HARD"\
@@ -2498,11 +2498,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["docsify", [\
-      ["npm:5.0.0-rc.3", {\
-        "packageLocation": "./.yarn/unplugged/docsify-npm-5.0.0-rc.3-6bd79965a9/node_modules/docsify/",\
+      ["npm:5.0.0-rc.4", {\
+        "packageLocation": "./.yarn/unplugged/docsify-npm-5.0.0-rc.4-67a0239690/node_modules/docsify/",\
         "packageDependencies": [\
+          ["common-tags", "npm:1.8.2"],\
           ["dexie", "npm:4.2.1"],\
-          ["docsify", "npm:5.0.0-rc.3"],\
+          ["docsify", "npm:5.0.0-rc.4"],\
+          ["marked", "npm:17.0.4"],\
           ["medium-zoom", "npm:1.1.0"],\
           ["opencollective-postinstall", "npm:2.0.3"],\
           ["prismjs", "npm:1.30.0"],\
@@ -2512,16 +2514,16 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["docsify-cli", [\
-      ["npm:5.0.0-rc.1", {\
-        "packageLocation": "./.yarn/cache/docsify-cli-npm-5.0.0-rc.1-fa60945715-10d89bcd7f.zip/node_modules/docsify-cli/",\
+      ["npm:5.0.0-rc.4", {\
+        "packageLocation": "./.yarn/cache/docsify-cli-npm-5.0.0-rc.4-e7495b073e-d4e4a8d1f9.zip/node_modules/docsify-cli/",\
         "packageDependencies": [\
           ["chalk", "npm:2.4.2"],\
           ["connect", "npm:3.7.0"],\
           ["connect-history-api-fallback", "npm:1.6.0"],\
           ["connect-livereload", "npm:0.6.1"],\
           ["cp-file", "npm:7.0.0"],\
-          ["docsify", "npm:5.0.0-rc.3"],\
-          ["docsify-cli", "npm:5.0.0-rc.1"],\
+          ["docsify", "npm:5.0.0-rc.4"],\
+          ["docsify-cli", "npm:5.0.0-rc.4"],\
           ["enquirer", "npm:2.4.1"],\
           ["fs-extra", "npm:8.1.0"],\
           ["get-port", "npm:5.1.1"],\
@@ -3666,6 +3668,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["marked", [\
+      ["npm:17.0.4", {\
+        "packageLocation": "./.yarn/cache/marked-npm-17.0.4-19e974b919-a6f6a2df81.zip/node_modules/marked/",\
+        "packageDependencies": [\
+          ["marked", "npm:17.0.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["mathjs", [\
       ["npm:15.1.1", {\
         "packageLocation": "./.yarn/cache/mathjs-npm-15.1.1-141aaf9cc4-532298d979.zip/node_modules/mathjs/",\
@@ -4269,19 +4280,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["posthog-node", [\
-      ["npm:5.28.2", {\
-        "packageLocation": "./.yarn/cache/posthog-node-npm-5.28.2-bef6237b80-cc5d061935.zip/node_modules/posthog-node/",\
+      ["npm:5.28.4", {\
+        "packageLocation": "./.yarn/cache/posthog-node-npm-5.28.4-60c68c28b7-93eee3473d.zip/node_modules/posthog-node/",\
         "packageDependencies": [\
-          ["posthog-node", "npm:5.28.2"]\
+          ["posthog-node", "npm:5.28.4"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.2", {\
-        "packageLocation": "./.yarn/__virtual__/posthog-node-virtual-c26ae75c63/0/cache/posthog-node-npm-5.28.2-bef6237b80-cc5d061935.zip/node_modules/posthog-node/",\
+      ["virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.4", {\
+        "packageLocation": "./.yarn/__virtual__/posthog-node-virtual-528583ead7/0/cache/posthog-node-npm-5.28.4-60c68c28b7-93eee3473d.zip/node_modules/posthog-node/",\
         "packageDependencies": [\
-          ["@posthog/core", "npm:1.23.4"],\
+          ["@posthog/core", "npm:1.24.0"],\
           ["@types/rxjs", null],\
-          ["posthog-node", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.2"],\
+          ["posthog-node", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.4"],\
           ["rxjs", null]\
         ],\
         "packagePeers": [\
@@ -4513,7 +4524,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:.", {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@biomejs/biome", "npm:2.4.7"],\
+          ["@biomejs/biome", "npm:2.4.8"],\
           ["@discordjs/collection", "npm:2.1.1"],\
           ["@opentelemetry/api", "npm:1.9.0"],\
           ["@opentelemetry/api-logs", "npm:0.213.0"],\
@@ -4529,7 +4540,7 @@ const RAW_RUNTIME_STATE =
           ["common-tags", "npm:1.8.2"],\
           ["dev-null", "npm:0.1.1"],\
           ["discord.js", "npm:14.25.1"],\
-          ["docsify-cli", "npm:5.0.0-rc.1"],\
+          ["docsify-cli", "npm:5.0.0-rc.4"],\
           ["dotenv", "npm:17.3.1"],\
           ["i18next", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:25.8.18"],\
           ["i18next-fs-backend", "npm:2.6.1"],\
@@ -4540,7 +4551,7 @@ const RAW_RUNTIME_STATE =
           ["pino", "npm:10.3.1"],\
           ["pino-abstract-transport", "npm:3.0.0"],\
           ["pino-pretty", "npm:13.1.3"],\
-          ["posthog-node", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.2"],\
+          ["posthog-node", "virtual:ce45051fd3e3791dc180230e444b85724d428a8a6660ba3d25579a6bb42e89c5efe7417d74705ddd6529230699b488d0c98ebef802fbdb1a11da038e6132089b#npm:5.28.4"],\
           ["prompts", "npm:2.4.2"],\
           ["roll-it", "workspace:."],\
           ["semver", "npm:7.7.4"],\

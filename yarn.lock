@@ -54,18 +54,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/biome@npm:2.4.7"
+"@biomejs/biome@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/biome@npm:2.4.8"
   dependencies:
-    "@biomejs/cli-darwin-arm64": "npm:2.4.7"
-    "@biomejs/cli-darwin-x64": "npm:2.4.7"
-    "@biomejs/cli-linux-arm64": "npm:2.4.7"
-    "@biomejs/cli-linux-arm64-musl": "npm:2.4.7"
-    "@biomejs/cli-linux-x64": "npm:2.4.7"
-    "@biomejs/cli-linux-x64-musl": "npm:2.4.7"
-    "@biomejs/cli-win32-arm64": "npm:2.4.7"
-    "@biomejs/cli-win32-x64": "npm:2.4.7"
+    "@biomejs/cli-darwin-arm64": "npm:2.4.8"
+    "@biomejs/cli-darwin-x64": "npm:2.4.8"
+    "@biomejs/cli-linux-arm64": "npm:2.4.8"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.4.8"
+    "@biomejs/cli-linux-x64": "npm:2.4.8"
+    "@biomejs/cli-linux-x64-musl": "npm:2.4.8"
+    "@biomejs/cli-win32-arm64": "npm:2.4.8"
+    "@biomejs/cli-win32-x64": "npm:2.4.8"
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -85,62 +85,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/c073da6f081b72e061e471f6bc6d8680978dceb84a3528cb58117466d38ecb7cef075d949875d2371a268af030c2afece0fb6dd593d124fc8706c9307909f244
+  checksum: 10c0/aa77037ee9e49d3ee8d3efcbe11750a84a3536f9ef05457c77ce34dfb5f06da23630cd701ef98b06abf7c691b64ebebcde9fbfb32abadf6b55bdc825ee600662
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-darwin-arm64@npm:2.4.7"
+"@biomejs/cli-darwin-arm64@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.4.8"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-darwin-x64@npm:2.4.7"
+"@biomejs/cli-darwin-x64@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-darwin-x64@npm:2.4.8"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.4.7"
+"@biomejs/cli-linux-arm64-musl@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.4.8"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-linux-arm64@npm:2.4.7"
+"@biomejs/cli-linux-arm64@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-linux-arm64@npm:2.4.8"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-linux-x64-musl@npm:2.4.7"
+"@biomejs/cli-linux-x64-musl@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.4.8"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-linux-x64@npm:2.4.7"
+"@biomejs/cli-linux-x64@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-linux-x64@npm:2.4.8"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-win32-arm64@npm:2.4.7"
+"@biomejs/cli-win32-arm64@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-win32-arm64@npm:2.4.8"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:2.4.7":
-  version: 2.4.7
-  resolution: "@biomejs/cli-win32-x64@npm:2.4.7"
+"@biomejs/cli-win32-x64@npm:2.4.8":
+  version: 2.4.8
+  resolution: "@biomejs/cli-win32-x64@npm:2.4.8"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -840,12 +840,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@posthog/core@npm:1.23.4":
-  version: 1.23.4
-  resolution: "@posthog/core@npm:1.23.4"
+"@posthog/core@npm:1.24.0":
+  version: 1.24.0
+  resolution: "@posthog/core@npm:1.24.0"
   dependencies:
     cross-spawn: "npm:^7.0.6"
-  checksum: 10c0/a6d867093bc8fde11a9d4db0fadf06fd7130285a9da46cf681652fbb15b74ded8f26236423d756c61252e634d215dd8635348641469c714892b8b7c49f816485
+  checksum: 10c0/0d3f5aca6cdfe36f7abf4cdfacca5cf79ad242274d92f90204e298960d2d0d9744605d273829b84076268f562455f39316647abb839138b8a1e2f8be0144caf0
   languageName: node
   linkType: hard
 
@@ -1648,7 +1648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"common-tags@npm:^1.8.2":
+"common-tags@npm:^1.8.0, common-tags@npm:^1.8.2":
   version: 1.8.2
   resolution: "common-tags@npm:1.8.2"
   checksum: 10c0/23efe47ff0a1a7c91489271b3a1e1d2a171c12ec7f9b35b29b2fce51270124aff0ec890087e2bc2182c1cb746e232ab7561aaafe05f1e7452aea733d2bfe3f63
@@ -1839,16 +1839,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docsify-cli@npm:^5.0.0-rc.1":
-  version: 5.0.0-rc.1
-  resolution: "docsify-cli@npm:5.0.0-rc.1"
+"docsify-cli@npm:^5.0.0-rc.4":
+  version: 5.0.0-rc.4
+  resolution: "docsify-cli@npm:5.0.0-rc.4"
   dependencies:
     chalk: "npm:^2.4.2"
     connect: "npm:^3.6.0"
     connect-history-api-fallback: "npm:^1.6.0"
     connect-livereload: "npm:^0.6.0"
     cp-file: "npm:^7.0.0"
-    docsify: "npm:^v5.0.0-rc.1"
+    docsify: "npm:^v5.0.0-rc.4"
     enquirer: "npm:^2.3.6"
     fs-extra: "npm:^8.1.0"
     get-port: "npm:^5.0.0"
@@ -1860,20 +1860,22 @@ __metadata:
     yargs: "npm:^15.3.0"
   bin:
     docsify: bin/docsify
-  checksum: 10c0/10d89bcd7f8a5a6119759d49f2e50ea68c71b5e535d1821195d7e373c6576ac7bebd3dc81bc1af82b8ce5dc0615b53e22a560d603fda003d642adefc466ce3b2
+  checksum: 10c0/d4e4a8d1f9b12d21af2b445ed5ec4caadb21267ec922a3f66cb68199be795f23be70abff6bf7a2f2dd91ceae1f476d495799a82c167e99a17af052524a263f28
   languageName: node
   linkType: hard
 
-"docsify@npm:^v5.0.0-rc.1":
-  version: 5.0.0-rc.3
-  resolution: "docsify@npm:5.0.0-rc.3"
+"docsify@npm:^v5.0.0-rc.4":
+  version: 5.0.0-rc.4
+  resolution: "docsify@npm:5.0.0-rc.4"
   dependencies:
+    common-tags: "npm:^1.8.0"
     dexie: "npm:^4.0.11"
+    marked: "npm:^17.0.1"
     medium-zoom: "npm:^1.1.0"
     opencollective-postinstall: "npm:^2.0.2"
     prismjs: "npm:^1.29.0"
     tinydate: "npm:^1.3.0"
-  checksum: 10c0/e040e31fa33906b4e03976f5a381b1c7326f0867caaa5b4982e739f54b6a05efd6c51c93ab7f82f1567b928da8ce52f71448d29fc3c11df08a78f8c0690efbe5
+  checksum: 10c0/1498ef3afc997619f84d9101bfb840f8a568969b0cd56884bae9a3c1a6634b885155f1fe7b72662593fdc944542a5cbd48797270e83b2cd00ae92c01abad1fb9
   languageName: node
   linkType: hard
 
@@ -2865,6 +2867,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked@npm:^17.0.1":
+  version: 17.0.4
+  resolution: "marked@npm:17.0.4"
+  bin:
+    marked: bin/marked.js
+  checksum: 10c0/a6f6a2df8157835bc23b2bede31f1cae7af75af7a2cd2e070d640c5a490e6cfe5eb63309cf353d7b373f7aef04ead4f2de51a59905bb829c462d802484468cd9
+  languageName: node
+  linkType: hard
+
 "mathjs@npm:^15.1.1":
   version: 15.1.1
   resolution: "mathjs@npm:15.1.1"
@@ -3412,17 +3423,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-node@npm:^5.28.2":
-  version: 5.28.2
-  resolution: "posthog-node@npm:5.28.2"
+"posthog-node@npm:^5.28.4":
+  version: 5.28.4
+  resolution: "posthog-node@npm:5.28.4"
   dependencies:
-    "@posthog/core": "npm:1.23.4"
+    "@posthog/core": "npm:1.24.0"
   peerDependencies:
     rxjs: ^7.0.0
   peerDependenciesMeta:
     rxjs:
       optional: true
-  checksum: 10c0/cc5d0619358f4f1b16348f6f76464032d81eaaff5599c7a75bb9c7c237e91479c96d84f759e176489228151c8fbd14ad5de2fb239f27bd0e6d6ca6131b0d6bbd
+  checksum: 10c0/93eee3473d4daa224388dfe0c669dcece864be3c22eccc92e332783ef54b833d74a0e44d23db6c22be5828c6e3bcb51971e55a54ce059f89c60df54d5af7d969
   languageName: node
   linkType: hard
 
@@ -3623,7 +3634,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "roll-it@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:2.4.7"
+    "@biomejs/biome": "npm:2.4.8"
     "@discordjs/collection": "npm:^2.1.1"
     "@opentelemetry/api": "npm:^1.9.0"
     "@opentelemetry/api-logs": "npm:^0.213.0"
@@ -3639,7 +3650,7 @@ __metadata:
     common-tags: "npm:^1.8.2"
     dev-null: "npm:^0.1.1"
     discord.js: "npm:^14.25.1"
-    docsify-cli: "npm:^5.0.0-rc.1"
+    docsify-cli: "npm:^5.0.0-rc.4"
     dotenv: "npm:^17.3.1"
     i18next: "npm:^25.8.18"
     i18next-fs-backend: "npm:^2.6.1"
@@ -3650,7 +3661,7 @@ __metadata:
     pino: "npm:^10.3.1"
     pino-abstract-transport: "npm:^3.0.0"
     pino-pretty: "npm:^13.1.3"
-    posthog-node: "npm:^5.28.2"
+    posthog-node: "npm:^5.28.4"
     prompts: "npm:^2.4.2"
     semver: "npm:^7.7.4"
     simpleflakes: "npm:^4.0.0"
