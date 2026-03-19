@@ -2,6 +2,12 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v2.0.1 <small>Released Mar 18, 2026</small>
+
+### Changed
+
+* Tweaked how command usage stats are saved
+
 # v2.0.0 <small>Released Mar 15, 2026</small>
 
 New setup process? Yes! And it's pretty! This and other improvements come alongside a complete refactor of Roll It to use modern ESM syntax. This ensures it'll keep on working as more systems and commands are added.

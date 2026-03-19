@@ -1,4 +1,4 @@
-export default `# Changelog for Roll It v2.0.0
+export default `# Changelog for Roll It v2.0.0 + 2.0.1
 
 New setup process? Yes! And it's pretty! This and other improvements come alongside a complete refactor of Roll It to use modern ESM syntax. This ensures it'll keep on working as more systems and commands are added.
 
@@ -19,4 +19,10 @@ New setup process? Yes! And it's pretty! This and other improvements come alongs
 ## Fixed
 
 * Sacrifices were ignored by \`/pba\`
+
+# v2.0.1
+
+## Changed
+
+* Tweaked how command usage stats are saved
 `
