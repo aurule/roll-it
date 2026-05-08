@@ -5,6 +5,7 @@ import { present } from "../presenters/results/curv-results-presenter.js"
 import { keepFromArray, strategies } from "../services/pick.js"
 import { descriptionOption, rollsOption, secretOption } from "../util/common-options.js"
 import { modifierSchema, rollsSchema, descriptionSchema } from "../util/common-schemas.js"
+import * as sacrifice from "../services/easter-eggs/sacrifice.js"
 import { with_to_keep } from "../util/with-to-keep.js"
 import { SavableCommand } from "./abstract/savable-command.js"
 import { registerCommand } from "./index.js"
@@ -55,6 +56,39 @@ export class Curv extends SavableCommand {
     this.keep = with_to_keep(this.interaction.options.getString("with"))
   }
 
+  /**
+   * Judge a result for the sacrifice easter egg
+   * @param  {object[]} picked Array of pick data
+   * @return {string}          Sacrifice string
+   */
+  judge(picked) {
+    const buckets = picked
+      .reduce(
+        (acc, cur) => {
+          const bucket = Math.ceil(cur.results[0] / 4) - 1
+          acc[bucket]++
+          return acc
+        },
+        [0, 0, 0, 0, 0],
+      )
+      .reverse()
+
+    const dominating = buckets.findIndex((b) => b >= picked.length / 2)
+    switch (dominating) {
+      case 0:
+        return sacrifice.great(this.locale)
+      case 1:
+        return sacrifice.good(this.locale)
+      case 2:
+      default:
+        return sacrifice.neutral(this.locale)
+      case 3:
+        return sacrifice.bad(this.locale)
+      case 4:
+        return sacrifice.awful(this.locale)
+    }
+  }
+
   perform() {
     const advantage_rolls = this.keep == "all" ? 1 : 2
     const raw_results = Array.from({ length: this.rolls }, () => roll(3, 6, advantage_rolls))
@@ -65,7 +99,7 @@ export class Curv extends SavableCommand {
     })
     const picked_results = sums.map((sum) => keepFromArray(sum, 1, this.keep).indexes[0])
 
-    return present({
+    const presented_result = present({
       rolls: this.rolls,
       picked: picked_results,
       sums,
@@ -75,6 +109,13 @@ export class Curv extends SavableCommand {
       raw: raw_results,
       locale: this.locale,
     })
+
+    if (sacrifice.hasTrigger(this.description, this.locale)) {
+      const sacrifice_message = this.judge(picked_results)
+      return `${presented_result}\n-# ${sacrifice_message}`
+    }
+
+    return presented_result
   }
 }
 

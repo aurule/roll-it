@@ -88,6 +88,50 @@ describe("/curv command", () => {
     })
   })
 
+  describe("judge", () => {
+    describe("with a dominant outcome", () => {
+      it.concurrent.each([
+        [18, "pleases"],
+        [15, "accepted"],
+        [10, "noted"],
+        [5, "inadequate"],
+        [3, "angers"],
+      ])("returns correct text for %i", async (die, text) => {
+        const curv_command = new Curv(interaction)
+        const picked = [
+          {
+            results: [die],
+          },
+        ]
+
+        const result = curv_command.judge(picked)
+
+        expect(result).toMatch(text)
+      })
+    })
+
+    describe("with no dominant outcome", () => {
+      it("returns the neutral message", () => {
+        const curv_command = new Curv(interaction)
+        const picked = [
+          {
+            results: [20],
+          },
+          {
+            results: [10],
+          },
+          {
+            results: [1],
+          },
+        ]
+
+        const result = curv_command.judge(picked)
+
+        expect(result).toMatch("noted")
+      })
+    })
+  })
+
   describe("perform", () => {
     it("displays the description if present", () => {
       interaction.command_options = {
@@ -112,6 +156,18 @@ describe("/curv command", () => {
       const result = curv_command.perform()
 
       expect(result).toMatch("advantage")
+    })
+
+    it("displays the sacrifice easter egg if present", () => {
+      interaction.command_options = {
+        description: "sacrificing a chicken",
+        rolls: 1,
+      }
+      const curv_command = new Curv(interaction)
+
+      const result = curv_command.perform()
+
+      expect(result).toMatch("Your sacrifice")
     })
 
     it("allows disadvantage", () => {
