@@ -4,6 +4,18 @@ import { Attachment } from "../../../testing/attachment.js"
 
 import { Add, MAX_ENTRY_LENGTH } from "./add.js"
 
+vitest.mock(import("../../util/attachment-lines.js"), async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    fetchLines: (attachment) => attachment.contents.split(/\n/),
+  }
+})
+
+afterAll(() => {
+  vitest.restoreAllMocks()
+})
+
 describe("/table add", () => {
   /**
    * @type Interaction
@@ -21,19 +33,8 @@ describe("/table add", () => {
     rollables = new GuildRollables(interaction.guildId)
   })
 
-  beforeAll(() => {
-    vitest.mock(import("../../util/attachment-lines.js"), async (importOriginal) => {
-      const actual = await importOriginal()
-      return {
-        ...actual,
-        fetchLines: (attachment) => attachment.contents.split(/\n/),
-      }
-    })
-  })
 
-  afterAll(() => {
-    vitest.restoreAllMocks()
-  })
+
 
   describe("validate_options", () => {
     it("requires unique name", () => {
