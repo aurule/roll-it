@@ -97,7 +97,8 @@ export class Curv extends SavableCommand {
         return result.reduce((acc, curr) => acc + curr, 0)
       })
     })
-    const picked_results = sums.map((sum) => keepFromArray(sum, 1, this.keep).indexes[0])
+    const picks = sums.map((sum) => keepFromArray(sum, 1, this.keep))
+    const picked_results = picks.map(pick => pick.indexes[0])
 
     const presented_result = present({
       rolls: this.rolls,
@@ -111,7 +112,7 @@ export class Curv extends SavableCommand {
     })
 
     if (sacrifice.hasTrigger(this.description, this.locale)) {
-      const sacrifice_message = this.judge(picked_results)
+      const sacrifice_message = this.judge(picks)
       return `${presented_result}\n-# ${sacrifice_message}`
     }
 
