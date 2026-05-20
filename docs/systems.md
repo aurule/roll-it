@@ -6,6 +6,7 @@ Since Roll It has commands for so many dice systems, you should use the `/setup-
 
 Here are the supported systems:
 
+* [Blades in the Dark](/systems/blades) with `/blades`
 * [Chronicles of Darkness](/systems/nwod) (2e and 1e, aka New World of Darkness) d10s with `/nwod`
 * [Don't Rest Your Head](/systems/drh) with `/drh`
 * [Dungeons & Dragons 35](/systems/dnd35) with `/dnd attack`, `/dnd full-attack`, `/dnd save`, and `/dnd skill`

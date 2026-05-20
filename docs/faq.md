@@ -31,6 +31,7 @@ This is because blocking someone on Discord does not stop them from using server
 Yes, yes there is.
 
 * `/8ball` - Get an answer from the Magic 8 Ball
+* `/blades` - Roll a pool of d6s for Forged in the Dark games
 * `/chop` - Make a rock-paper-scissors roll
 * `/coin` - Flip a coin
 * `/curv` - Roll 3d6 for D&D 5e
