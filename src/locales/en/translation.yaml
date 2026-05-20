@@ -39,6 +39,12 @@ systems:
   listing_installed: |-
     **{{title}}** ☑️: {{commands, list}}. {{description}}
       {{extended}}
+  blades:
+    title: Blades in the Dark
+    description: Pools of d6s for Blades in the Dark and its syster systems
+    extended: >-
+      Streamlines picking out the highest roll in a pool. Handles crits and pools of zero dice. Great for any
+      game using the Forged in the Dark system.
   curv:
     title: D&D 5e on a Curve
     description: High fantasy with a pool of 3d6 in place of d20s.

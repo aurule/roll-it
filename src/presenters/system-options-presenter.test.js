@@ -18,12 +18,12 @@ describe("systems options presenter", () => {
   it("correctly shows labels", () => {
     const options = systemOptions("en-US")
 
-    expect(options[0].label).toMatch("Curve")
+    expect(options[1].label).toMatch("Curve")
   })
 
   it("correctly shows descriptions", () => {
     const options = systemOptions("en-US")
 
-    expect(options[0].description).toMatch("3d6")
+    expect(options[1].description).toMatch("3d6")
   })
 })

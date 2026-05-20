@@ -36,6 +36,36 @@
   doit: Do it
   response: |-
     {{userMention}} asked "{{question}}" :8ball: *{{result}}*
+blades:
+  name: blades
+  description: Roll a pool of d6s for Forged in the Dark games
+  help-lines:
+    - tbd
+  help: |-
+    $t(blades.help-lines, { "joinArrays": "\n" })
+  options:
+    pool:
+      name: pool
+      description: The number of dice to roll
+  result:
+    crit: "critical success"
+    full: "full success"
+    part: "partial success"
+    bad: "bad outcome"
+  response:
+    withoutDescription_one: >-
+      {{userMention}} rolled **{{result}}** ({{described_pool}}: [{{detail}}])
+    withoutDescription_other: |-
+      {{userMention}} rolled {{count}} times with {{described_pool}}:
+      {{outcomes, indented}}
+    withDescription_one: >-
+      {{userMention}} rolled **{{result}}** for "{{description}}" ({{described_pool}}, {{detail}})
+    withDescription_other: |-
+      {{userMention}} rolled for "{{description}}" {{count}} times with {{described_pool}}:
+      {{outcomes, indented}}
+    outcome: >-
+      **{{result}}** ({{described_pool}}: [{{detail}}])
+    pool_chance: 0 dice (2d6 keep lowest)
 chop:
   name: chop
   description: Make a rock-paper-scissors roll

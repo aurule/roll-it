@@ -77,6 +77,7 @@ export class System {
  */
 export const systems = new Collection()
 
+register(new System("blades").require("blades", "d6"))
 register(
   new System("curv")
     .require("curv")
