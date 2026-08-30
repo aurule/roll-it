@@ -2,6 +2,13 @@
 
 These are the change logs for Roll It, from newest to oldest. You can also find these in the bot itself using [`/help topic:changes` invocation].
 
+## v2.0.2 <small>Released Aug 30, 2026</small>
+
+### Added
+
+* Support for Blades in the Dark using `/blades`
+* You can now make sacrifices to `/curv`
+
 ## v2.0.1 <small>Released Mar 18, 2026</small>
 
 ### Changed
